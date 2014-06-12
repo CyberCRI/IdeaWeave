@@ -20,21 +20,14 @@
                     <a ui-sref="projects">{{ 'HEAD_PROJECT' | translate }}</a>
                 </li>
                 <!-- <li ng-class="{active:isActive('/project/')}" >  <a   ng-href="project/"   >{{ 'HEAD_PROJECT' | translate }}</a></li>-->
-                <li class="ptm mlm" style="width:200px;" >
-                    <!--<div class="input-group">-->
-                        <!--<label class="sr-only" for="searchField">search</label>-->
-                        <!--<form ng-submit="search()">-->
-                            <!--<input type="search" class="form-control" ng-model="searchTag" id="searchField" placeholder="Find" />-->
-                        <!--</form>-->
-                        <!--<a ng-click="search(searchTag)" class="input-group-addon" style="background: #3c3c3c;border: 0px;color: #fff;"><span ><i class="icon-search"></i></span></a>-->
-                    <!--</div>-->
+                <li class="ptm mlm" style="width:400px;" >
                     <ui-select ng-model="address.selected"
                                theme="bootstrap"
                                ng-disabled="disabled"
                                ng-init="width = '300px'"
                                select-focus
                                reset-search-input="false"
-                               style="width: {{ width }}">
+                               style="width: 100%">
                         <ui-select-match placeholder="Search...">
                             {{$select.selected.title || $select.selected.username}}
                         </ui-select-match>

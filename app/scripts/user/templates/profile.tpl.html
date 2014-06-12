@@ -104,6 +104,11 @@
                             {{'PROFILE_RELATION'|translate}}
                         </a>
                     </li>
+                    <li ui-route="/user/{{ profile.id }}/recomandation" ng-class="{active: $uiRoute}" >
+                        <a ui-sref="profile.recomandation">
+                            {{'PROFILE_RECOMMANDATION'|translate}}
+                        </a>
+                    </li>
                 </ul>
                 <div ui-view="profileView">
                 </div>

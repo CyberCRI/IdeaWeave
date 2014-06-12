@@ -40,6 +40,7 @@ angular.module('cri.account',[])
 
         $scope.registerUser = function () {
             //$scope.isSending = true;
+            console.log($scope)
             if ($scope.check.password !== $scope.rgform.password) {
                 $scope.notMatch = true;
             } else {

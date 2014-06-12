@@ -13,7 +13,9 @@ this.createDate = new Date().getTime();
 this.notify = true;
 this.admin = false;
 this.language = "en";
-this.tags = [];
+if(!this.tags){
+ this.tags = [];   
+}
 if (!this.meta) {
   this.meta = {};
 }

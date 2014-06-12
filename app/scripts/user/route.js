@@ -100,9 +100,6 @@ angular.module('cri.user')
                     },
                     followedChallenges : function(Challenge,$stateParams){
                         return Challenge.getFollowing($stateParams.uid)
-                    },
-                    recommendChallenge : function(Recommend,$stateParams){
-                        return Recommend.fetchProject($stateParams.uid);
                     }
                 }
             })
@@ -125,9 +122,6 @@ angular.module('cri.user')
                     },
                     followedProject : function(Project,$stateParams){
                         return Project.getFollowing($stateParams.uid);
-                    },
-                    recommendProjects : function(Recommend,$stateParams){
-                        return Recommend.fetchProject($stateParams.uid);
                     }
                 }
             })
@@ -148,6 +142,32 @@ angular.module('cri.user')
                         console.log(2)
                         return Recommend.fetchFriendsUser($stateParams.uid);
                     }
+                }
+            })
+            .state('profile.recomandation',{
+                url : '/recomandation',
+                views : {
+                    profileView: {
+                        templateUrl: 'scripts/user/templates/profile/recomandation.tpl.html',
+                        controller : 'ProfileRecommandationCtrl'
+                    }
+                },
+                resolve : {
+                    recommendUser : function(Recommend,$stateParams){
+                        console.log(1,$stateParams.uid)
+                        return Recommend.fetchUser($stateParams.uid);
+                    },
+                    recommendFriendUser : function(Recommend,$stateParams) {
+                        console.log(2)
+                        return Recommend.fetchFriendsUser($stateParams.uid);
+                    },
+                    recommendProjects : function(Recommend,$stateParams){
+                        return Recommend.fetchProject($stateParams.uid);
+                    },
+                    recommendChallenge : function(Recommend,$stateParams){
+                        return Recommend.fetchProject($stateParams.uid);
+                    }
+
                 }
             })
     }]);

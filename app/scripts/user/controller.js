@@ -1,18 +1,26 @@
 angular.module('cri.user',[])
-    .controller('ProfileChallengeCtrl',function($scope, contributedChallenges, followedChallenges, recommendChallenge){
-        $scope.conChallenges=contributedChallenges;
-        $scope.fChallenges=followedChallenges;
+    .controller('ProfileRecommandationCtrl',function($scope,recommendChallenge,recommendProjects,recommendUser,recommendFriendUser){
         if(recommendChallenge.length>0){
             $scope.stagCs=recommendChallenge;
         }
-    })
-    .controller('ProfileProjectCtrl',function($scope,createdProject,contributedProject,followedProject,recommendProjects){
-        $scope.popprojects=createdProject;
-        $scope.cprojects=contributedProject;
-        $scope.fprojects=followedProject;
         if(recommendProjects.length>0){
             $scope.stagPs=recommendProjects;
         }
+        if(recommendUser.length>0){
+            $scope.recUsers=recommendUser;
+        }
+        if(recommendFriendUser.length>0){
+            $scope.ffollwers=recommendFriendUser;
+        }
+    })
+    .controller('ProfileChallengeCtrl',function($scope, contributedChallenges, followedChallenges ){
+        $scope.conChallenges=contributedChallenges;
+        $scope.fChallenges=followedChallenges;
+    })
+    .controller('ProfileProjectCtrl',function($scope,createdProject,contributedProject,followedProject){
+        $scope.popprojects=createdProject;
+        $scope.cprojects=contributedProject;
+        $scope.fprojects=followedProject;
     })
     .controller('ProfileActivityCtrl',function($scope,activity,$stateParams,users){
         console.log(activity)
@@ -36,15 +44,9 @@ angular.module('cri.user',[])
             }
         }
     })
-    .controller('ProfileRelationCtrl',function($scope,recommendUser,recommendFriendUser,loggedUser){
-        console.log('recommendFriendUser',recommendFriendUser);
+    .controller('ProfileRelationCtrl',function($scope,loggedUser){
         $scope.me = loggedUser.profile;
-        if(recommendUser.length>0){
-            $scope.recUsers=recommendUser;
-        }
-        if(recommendFriendUser.length>0){
-            $scope.ffollwers=recommendFriendUser;
-        }
+
     })
     .controller('ProfileCtrl',['$scope','$stateParams','toaster','loggedUser','profile','followers','following','users', function ($scope,$stateParams,toaster,loggedUser, profile, followers, following,users) {
 

@@ -43,27 +43,3 @@
     </div>
 </div>
 
-<div class="panel panel-default">
-    <div class="panel-heading">
-        {{'PROFILE_CHALLENGE_REC'|translate}}
-    </div>
-    <div class="panel-body">
-        <h3 class="dashed pbm">
-            {{'PROFILE_CHALLENGE_REC_SIMILAR'|translate}}
-        </h3>
-        <div ng-hide="stagCs">
-            {{'PROFILE_CHALLENGE_REC_SIMILAR_INFO'|translate}}
-            <a href="user/setting/basic">
-                {{'PROFILE_CHALLENGE_REC_SIMILAR_CHANGE'|translate}}
-            </a>
-        </div>
-        <div class="row">
-            <ul ng-show="stagCs" class="list-unstyled">
-                <li ng-repeat="stagC in stagCs track by $index" class="col-md-6 col-sm-6 col-xs-12" >
-                    <div challenge-block="stagC" ></div>
-                </li>
-            </ul>
-        </div>
-        <div class="clearfix"></div>
-    </div>
-</div>

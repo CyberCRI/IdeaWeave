@@ -31,14 +31,15 @@ angular.module('cri.user')
 
             //Profile page
             'PROFILE_ACTIVITY':'News Feed',
-            'PROFILE_IDEA':'Ideas',
+            'PROFILE_IDEA':'Project',
             'PROFILE_CHALLENGE':'Challenges',
             'PROFILE_RELATION':'Relationship',
+            'PROFILE_RECOMMANDATION':'Recommandation',
             // idea
-            'PROFILE_IDEA_CON':'Contributed Idea',
-            'PROFILE_IDEA_FOLLOW':'Followed Idea',
-            'PROFILE_IDEA_OWNER':'Created Idea',
-            'PROFILE_IDEA_REC':'Recommened Idea',
+            'PROFILE_IDEA_CON':'Contributed Project',
+            'PROFILE_IDEA_FOLLOW':'Followed Project',
+            'PROFILE_IDEA_OWNER':'Created Project',
+            'PROFILE_IDEA_REC':'Recommended Project',
             'PROFILE_IDEA_REC_SIMILAR':'Idea with similar tags',
             'PROFILE_IDEA_REC_SIMILAR_INFO':'No Recommened yet,please follow some ideas or add more tags.',
             'PROFILE_IDEA_REC_SIMILAR_CHANGE':'Add Tag Now',

@@ -20,7 +20,8 @@
         "ichuan-bower-tagcanvas" : "*",
         "pdfjs" : "*",
         "angular-google-maps":"*",
-        "underscore" : "*"
+        "underscore" : "*",
+        "animatecss" : "https://github.com/daneden/animate.css.git"
     },
     "devDependencies": {},
     "resolutions": {

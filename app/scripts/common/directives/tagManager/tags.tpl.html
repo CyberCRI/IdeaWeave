@@ -1,7 +1,7 @@
 <div>
     <div class="form-inline" >
         <ul class="list-unstyled" >
-            <li ng-repeat="(idx, tag) in entity.tags" class="inline mas text-muted">#{{tag}}<a href="" class="muted pull-right mls" ng-click="remove(idx)">X</a></li>
+            <li ng-repeat="(idx, tag) in entity.tags" class="inline mas text-muted tag-list">#{{tag}}<a href="" class="muted pull-right mls" ng-click="remove(idx)">X</a></li>
         </ul>
         <div class="input-group">
             <input type="text" class="form-control" ng-model="myTag"  typeahead="tag.title for tag in tags | filter:$viewValue | limitTo:8">
