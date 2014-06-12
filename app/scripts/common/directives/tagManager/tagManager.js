@@ -1,5 +1,5 @@
 angular.module('cri.common')
-    .directive('tagManager',['$http','CONFIG',function($http,CONFIG){
+    .directive('tagManager',['$http','CONFIG','Tag',function($http,CONFIG,Tag){
         return {
             restrict:'EAC',
             scope:{entity:'='},
@@ -19,8 +19,10 @@ angular.module('cri.common')
                 }
                 // get tags
 
-                $http.get(CONFIG.apiServer+'/tags/getTags?'+JSON.stringify({$limit:5})).success(function(result){
+                Tag.fetch().then(function(result){
                     $scope.toptags=result;
+                }).catch(function(err){
+                    console.log(err);
                 })
 
 
@@ -29,7 +31,6 @@ angular.module('cri.common')
                     $scope.add();
                 }
 
-                console.log($scope.entity)
                 if($scope.entity.tags===undefined){
                     $scope.entity.tags=[];
                 }
@@ -44,7 +45,6 @@ angular.module('cri.common')
                     }else{
                         $scope.newValue ='';
                     }
-                    console.log($scope.entity.tags)
 
                 };
                 // This is the ng-click handler to remove an item
@@ -52,14 +52,14 @@ angular.module('cri.common')
                     $scope.entity.tags.splice( idx, 1 );
                 };
                 // Capture all keypresses
-                /*
-                 var input=angular.element($element.children()[1]);
+
+                 var input= $element.find('input');
                  input.bind('keypress',function (event){
-                 if(event.keyCode===32){
-                 $scope.$apply($scope.add);
-                 }
+                    if(event.charCode===13){
+                        $scope.$apply($scope.add);
+                    }
                  });
-                 */
+
             }
         };
     }])
@@ -70,4 +70,10 @@ angular.module('cri.common')
             template:'<ul class="list-unstyled">'+'<li ng-repeat="tag in entity.tags track by $index" class="inline mas"><a ng-href="tag/{{tag}}" class="text-muted" target="_self">#{{tag}}</a></li>'+
                 '</ul>'
         };
-    });
+    })
+    .directive('tagSugestion',function(){
+        return {
+            restrict : 'EA',
+            templateUrl : ''
+        }
+    })

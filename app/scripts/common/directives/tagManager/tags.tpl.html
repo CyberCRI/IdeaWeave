@@ -3,8 +3,12 @@
         <ul class="list-unstyled" >
             <li ng-repeat="(idx, tag) in entity.tags" class="inline mas text-muted">#{{tag}}<a href="" class="muted pull-right mls" ng-click="remove(idx)">X</a></li>
         </ul>
-        <input type="text" data-toggle="dropdown" class="dropdown dropdown-toggle form-control"  style="width:70%"  ng-model="newValue" ng-change="filterTag()" >
-        <a  ng-href="" class="btn btn-default mlm mbm" ng-click="add()">{{"BTN_ADD"| translate }}</a>
+        <div class="input-group">
+            <input type="text" data-toggle="dropdown"  class="form-control" ng-model="newValue" ng-change="filterTag()" >
+            <span class="input-group-btn">
+                <button class="btn btn-default" ng-click="add()" type="button">{{"BTN_ADD"| translate }}</button>
+            </span>
+        </div>
         <ul class="dropdown-menu unstyled pam"  style="position:relative;width:70%" ng-show="stags" >
             <li ng-repeat="stag in stags" class="ptm"><a ng-click="addRecTag(stag.id)" href="">#{{stag.id}}</a></li>
         </ul>
