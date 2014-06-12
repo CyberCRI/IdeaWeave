@@ -1,0 +1,45 @@
+{
+	"type": "Collection",
+	"properties": {
+		"owner": {
+			"name": "owner",
+			"type": "string",
+			"typeLabel": "string",
+			"required": false,
+			"id": "owner",
+			"order": 0
+		},
+		"action": {
+			"name": "action",
+			"type": "string",
+			"typeLabel": "string",
+			"required": false,
+			"id": "action",
+			"order": 1
+		},
+		"entity": {
+			"name": "entity",
+			"type": "string",
+			"typeLabel": "string",
+			"required": false,
+			"id": "entity",
+			"order": 2
+		},
+		"createDate": {
+			"name": "createDate",
+			"type": "number",
+			"typeLabel": "number",
+			"required": false,
+			"id": "createDate",
+			"order": 3
+		},
+		"container": {
+			"name": "container",
+			"type": "string",
+			"typeLabel": "string",
+			"required": false,
+			"id": "container",
+			"order": 4
+		}
+	}
+}

@@ -1,0 +1,125 @@
+{
+	"type": "UserCollection",
+	"properties": {
+		"email": {
+			"name": "email",
+			"type": "string",
+			"typeLabel": "string",
+			"required": true,
+			"id": "email",
+			"order": 0
+		},
+		"emailValidated": {
+			"name": "emailValidated",
+			"type": "boolean",
+			"typeLabel": "boolean",
+			"required": false,
+			"id": "emailValidated",
+			"order": 1
+		},
+		"createDate": {
+			"name": "createDate",
+			"type": "number",
+			"typeLabel": "number",
+			"required": false,
+			"id": "createDate",
+			"order": 2
+		},
+		"notify": {
+			"name": "notify",
+			"type": "boolean",
+			"typeLabel": "boolean",
+			"required": false,
+			"id": "notify",
+			"order": 3
+		},
+		"admin": {
+			"name": "admin",
+			"type": "boolean",
+			"typeLabel": "boolean",
+			"required": false,
+			"id": "admin",
+			"order": 4
+		},
+		"language": {
+			"name": "language",
+			"type": "string",
+			"typeLabel": "string",
+			"required": false,
+			"id": "language",
+			"order": 5
+		},
+		"fileId": {
+			"name": "fileId",
+			"type": "string",
+			"typeLabel": "string",
+			"required": false,
+			"id": "fileId",
+			"order": 6
+		},
+		"realname": {
+			"name": "realname",
+			"type": "string",
+			"typeLabel": "string",
+			"required": false,
+			"id": "realname",
+			"order": 7
+		},
+		"tags": {
+			"name": "tags",
+			"type": "array",
+			"typeLabel": "array",
+			"required": false,
+			"id": "tags",
+			"order": 8
+		},
+		"meta": {
+			"name": "meta",
+			"type": "object",
+			"typeLabel": "object",
+			"required": false,
+			"id": "meta",
+			"order": 9
+		},
+		"score": {
+			"name": "score",
+			"type": "number",
+			"typeLabel": "number",
+			"required": false,
+			"id": "score",
+			"order": 10
+		},
+		"sex": {
+			"name": "sex",
+			"type": "number",
+			"typeLabel": "number",
+			"required": false,
+			"id": "sex",
+			"order": 11
+		},
+		"poster": {
+			"name": "poster",
+			"type": "string",
+			"typeLabel": "string",
+			"required": false,
+			"id": "poster",
+			"order": 12
+		},
+		"brief": {
+			"name": "brief",
+			"type": "string",
+			"typeLabel": "string",
+			"required": false,
+			"id": "brief",
+			"order": 13
+		},
+		"localisation": {
+			"name": "localisation",
+			"type": "object",
+			"typeLabel": "object",
+			"required": false,
+			"id": "localisation",
+			"order": 14
+		}
+	}
+}

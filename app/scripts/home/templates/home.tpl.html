@@ -1,0 +1,87 @@
+<!-- first section - Home -->
+<div id="home" class="home">
+    <div class="text-vcenter">
+        <h1>IdeaStorm</h1>
+        <h3>This is bootstrap-based layout</h3>
+    </div>
+</div>
+<!-- /first section -->
+<!-- second section - About -->
+<div id="about" class="pad-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6">
+                <img src="images/brain.png" alt="" />
+            </div>
+            <div class="col-sm-6 text-center">
+                <h2>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec in sem cras amet.</h2>
+                <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed interdum metus et ligula venenatis, at rhoncus nisi molestie. Pellentesque porttitor elit suscipit massa laoreet metus.</p>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /third section -->
+<!-- fourth section - Information -->
+<div id="tags">
+    <ul>
+        <li ng-repeat="tag in tags">
+            <a ui-sref="tag({ title : tag.title })" target="_blank" ng-bind="tag.title"></a>
+        </li>
+    </ul>
+</div>
+<div id="information" class="pad-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h2 class="panel-title">Tag Cloud</h2>
+                    </div>
+                    <div class="panel-body lead">
+                        <div id="myCanvasContainer">
+                            <canvas width="300" height="300" id="myCanvas">
+                                <p>Anything in here will be replaced on browsers that support the canvas element</p>
+                            </canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h2 class="panel-title">Project description</h2>
+                    </div>
+                    <div class="panel-body lead" ng-bind="project.brief">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /second section -->
+<!-- third section - Services -->
+<div id="services" class="pad-section">
+    <div class="container">
+        <p ng-bind="project.presentation"></p>
+    </div>
+</div>
+<!-- /fourth section -->
+<!-- fifth section -->
+<div id="services" class="pad-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 text-center">
+                <!--<h3>Parallax scrolling effect is in action</h3>-->
+                <!--<h4>The next is the address on Google maps</h4>-->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /fifth section -->
+
+<!-- google map -->
+<div class="col-md-6 col-md-offset-3">
+    <google-map center="{ latitude : 10,longitude : 0 }"  zoom="2" class="home-map">
+        <marker coords="location"  ng-repeat="location in locations"></marker>
+    </google-map>
+</div>

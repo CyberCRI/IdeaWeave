@@ -1,0 +1,29 @@
+{
+    "name": "stormIdea",
+    "description": "a CRI app !!!",
+    "version": "0.0.1",
+    "dependencies": {
+        "angular-translate": "1.1.1",
+        "ng-file-upload ": "*",
+        "Font-Awesome": "4.1",
+        "socket.io-client": "1.0.0-pre2",
+        "angular-sanitize": "~1.2.16",
+        "bootstrap": "3.1.1",
+        "angular-bootstrap": "*",
+        "angular-ui-router": "*",
+        "angular-ui-utils" : "*",
+        "textAngular" : "*",
+        "angular-ui-ace" : "#bower",
+        "AngularJS-Toaster" : "*",
+        "angular-socket-io" : "*",
+        "angular-ui-select" : "*",
+        "ichuan-bower-tagcanvas" : "*",
+        "pdfjs" : "*",
+        "angular-google-maps":"*",
+        "underscore" : "*"
+    },
+    "devDependencies": {},
+    "resolutions": {
+        "angular": "1.2.16"
+    }
+}

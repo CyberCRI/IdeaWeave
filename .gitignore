@@ -1,0 +1,13 @@
+node_modules
+dist
+.tmp
+.sass-cache
+server/upload/node_modules
+server/resources_min
+server/.dpd
+server/public/
+server/cron
+.DS_Store
+deployConfig.js
+
+.idea

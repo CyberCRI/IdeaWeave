@@ -1,0 +1,64 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        {{'FOLLOWER'|translate}}
+    </div>
+    <div class="panel-body">
+        <div class="text-muted" ng-hide="followers">
+            {{'PROFILE_NO_FAN'|translate}}
+        </div>
+        <ul class="list-unstyled" ng-show="followers">
+            <li ng-animate="'animate'" ng-repeat="follower in followers" >
+                <div user-block="follower" ></div>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        {{'FOLLOWING'|translate}}
+    </div>
+    <div class="panel-body">
+        <div class="text-muted" ng-hide="followings">
+            {{'PROFILE_NO_FAN'|translate}}
+        </div>
+        <ul class="list-unstyled" ng-show="followings">
+            <li ng-animate="'animate'" ng-repeat="following in followings"  >
+                <div user-block="following.eid" ></div>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="panel panel-default" ng-show="isOwner">
+    <div class="panel-heading">
+        {{'PROJECT_USER_REC'|translate}}
+    </div>
+    <div class="panel-body">
+        <h3 class="dashed pbm">
+            {{'PROJECT_USER_REC_FOLLOW'|translate}}
+        </h3>
+        <div ng-hide="ffollwers">
+            walou
+        </div>
+        <ul ng-show="ffollwers" class="list-unstyled">
+            <li ng-repeat="ffollower in ffollwers track by $index"  >
+                <div user-block="ffollower" ></div>
+            </li>
+        </ul>
+        <div class="clearfix"></div>
+        <h3 class="dashed pbm mtm">
+            {{'PROJECT_USER_REC_TAG'|translate}}
+        </h3>
+        <div ng-hide="recUsers">
+            no recommendation, please add some tag to your profile
+            <a href="user/setting/basic" ui-sref="profile.basic({ uid : me.id })">
+                do It now ?
+            </a>
+        </div>
+        <ul ng-show="recUsers" class="list-unstyled">
+            <li ng-repeat="stagUser in recUsers track by $index"  >
+                <div user-block="stagUser" ></div>
+            </li>
+        </ul>
+        <div class="clearfix"></div>
+    </div>
+</div>

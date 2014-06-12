@@ -1,0 +1,115 @@
+<div class="container">
+        <div class="row">
+            <div class="col-md-3 col-sm-4 col-xs-12">
+                <!--Profile basic-->
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="center">
+                            <img ng-src="{{profile.poster}}" ng-show="profile.poster" class="img-rounded p" width="120px" style="height:120px">
+                            <img ng-src="images/avater.jpg" ng-hide="profile.poster" class="img-rounded" width="120px" style="height:120px">
+                        </div>
+                        <div class="clearfix">
+                        </div>
+                        <h2 class="center solid pbm" >
+                            <span ng-hide="profile.realname">
+                                {{profile.username}}
+                            </span>
+                            <span ng-show="profile.realname">
+                                {{profile.realname}}
+                            </span>
+                            <small ng-show="profile.sex>0">
+                                <span ng-if="profile.sex == 1" class="text-muted">♂ </span>
+                                <span ng-if="profile.sex == 2" class="text-muted" >♀</span>
+                            </small>
+                        </h2>
+                        <div class="solid center pbm ">
+                            <h3 >
+                                <span>
+                                    {{followers.length}}<br>
+                                    <small class="text-muted">
+                                        {{'FOLLOWER'|translate}}
+                                    </small>
+                                </span>
+                            </h3>
+                            <h3>
+                                <span>
+                                    {{followings.length}}<br>
+                                    <small class="text-muted">
+                                        {{'FOLLOWING'|translate}}
+                                    </small>
+                                </span>
+                            </h3>
+                            <h3>
+                                {{profile.score}}<br>
+                                <small class="text-muted">
+                                    {{'SCORE'|translate}}
+                                </small>
+                            </h3>
+                            <div class="mbm">
+                                {{profile.rule}}
+                                <span class="text-muted">
+                                    ({{profile.score}}/{{profile.next}})
+                                </span>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="{{profile.ugProgress}}" aria-valuemin="0" aria-valuemax="100" style="width: {{profile.ugProgress}}%" tooltip="{{profile.ugProgress}}%">
+                                    <span class="sr-only">{{profile.ugProgress}}% 完成</span>
+                                </div>
+                            </div>
+                            <google-map center="map.center" zoom="map.zoom" ng-if="map" class="profile-map">
+                                <marker coords="map.center"></marker>
+                            </google-map>
+                        </div>
+                        <div class="pbm mtl mbl">
+                            <div class="text-muted">
+                                Join date:{{profile.createDate|date}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9 col-sm-8 col-xs-12">
+                <a ng-href="message/new?to={{profile.id}}"  ng-hide="isOwner" class="btn btn-success pull-right">
+                    {{'BTN_MSG'|translate}}
+                </a>
+                <div ng-hide="isOwner">
+                    <button  ng-hide="isFollowUser" ng-click="followUser(profile.id)" class="btn btn-info pull-right mrm">
+                        {{'BTN_FOLLOW'|translate}} ({{followers.length}})
+                    </button>
+                    <button  ng-show="isFollowUser" ng-click="unfollowUser(profile.id)" class="btn btn-info pull-right mrm">
+                        Unfollow
+                    </button>
+                </div>
+                <a ui-sref="userSettings.basic({ uid : profile.id })" ng-show="isOwner" class="btn btn-default pull-right ">
+                    <i class="icon-edit"></i>{{'PROFILE_EDIT'|translate}}
+                </a>
+                <ul class="nav nav-tabs mbm">
+                    <li ui-route="/user/{{ profile.id }}/activity" ng-class="{active: $uiRoute}" ng-show="isOwner">
+                        <a ui-sref="profile.activity">
+                            {{'PROFILE_ACTIVITY'|translate}}
+                        </a>
+                    </li>
+                    <li ui-route="/user/{{ profile.id }}/ideas" ng-class="{active: $uiRoute}">
+                        <a ui-sref="profile.ideas">
+                            {{'PROFILE_IDEA'|translate}}
+                        </a>
+                    </li>
+                    <li ui-route="/user/{{ profile.id }}/challenges" ng-class="{active: $uiRoute}">
+                        <a ui-sref="profile.challenges">
+                            {{'PROFILE_CHALLENGE'|translate}}
+                        </a>
+                    </li>
+                    <li ui-route="/user/{{ profile.id }}/relations" ng-class="{active: $uiRoute}" >
+                        <a ui-sref="profile.relations">
+                            {{'PROFILE_RELATION'|translate}}
+                        </a>
+                    </li>
+                </ul>
+                <div ui-view="profileView">
+                </div>
+                <div class="clearfix mbm">
+                </div>
+
+            </div>
+    </div>
+</div>

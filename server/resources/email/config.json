@@ -1,0 +1,12 @@
+{
+	"type": "Email",
+	"host": "smtp.gmail.com",
+	"port": "465",
+	"ssl": true,
+	"username": "charles.jacquin@gmail.com",
+	"password": "gmail4tw",
+	"defaultTemplate": "",
+	"internalOnly": true,
+	"productionOnly": false,
+	"defaultFromAddress": ""
+}

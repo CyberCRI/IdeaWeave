@@ -1,0 +1,22 @@
+<div class="container">
+    <div class="row">
+        <ul class="nav nav-tabs">
+            <li ui-route="/user/{{ profile.id }}/settings/basic" ng-class="{active: $uiRoute}">
+                <a ui-sref="userSettings.basic">{{'USERSET_TPL_BASIC'|translate}}</a>
+            </li>
+            <li ui-route="/user/{{ profile.id }}/settings/password" ng-class="{active: $uiRoute}">
+                <a ui-sref="userSettings.pass">{{'USERSET_TPL_PASS'|translate}}</a>
+            </li>
+            <li ui-route="/user/{{ profile.id }}/settings/avatar" ng-class="{active: $uiRoute}">
+                <a ui-sref="userSettings.avatar">{{'USERSET_TPL_AVATER'|translate}}</a>
+            </li>
+            <li ui-route="/user/{{ profile.id }}/settings/notify" ng-class="{active: $uiRoute}">
+                <a ui-sref="userSettings.notify">{{'USERSET_TPL_NOTIFY'|translate}}
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="row" ui-view="settingView">
+
+    </div>
+</div>

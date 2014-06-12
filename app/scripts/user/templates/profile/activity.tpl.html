@@ -1,0 +1,72 @@
+<ul ng-show="activities" class="list-unstyled">
+    <li ng-repeat="activity in activities" class="solid pam">
+        <div ng-switch="activity.action">
+            <div ng-switch-when="createProject">
+                <div owner-block="activity.owner" class="inline">
+                </div>
+                    <span class="mlm">
+                        {{user[activity.owner].username}}
+                    </span>
+                {{activity.createDate|timeago}} Idea proposed：
+                <div project-info='activity.entity'></div>
+            </div>
+            <div ng-switch-when="createPtopic">
+                <div owner-block="activity.owner" class="inline"></div>
+                    <span class="mlm">
+                        {{user[activity.owner].username}}
+                    </span> {{activity.createDate|timeago}} Idea：
+                <div project-info='activity.container'></div>
+                Add a topic：
+                <a href="/project/{{activity.container}}" target="_blank">
+                    {{activity.entity.title}}
+                </a>
+            </div>
+            <div ng-switch-when="createPlink">
+                <div owner-block="activity.owner" class="inline"></div>
+                    <span class="mlm">
+                        {{user[activity.owner].username}}
+                    </span>
+                {{activity.createDate|timeago}} Idea：
+                <div project-info='activity.container'></div>
+                Add a link to participate：
+                <a href="{{activity.entity.link}}" target="_blank">
+                    {{activity.entity.title}}
+                </a>
+            </div>
+            <div ng-switch-when="commentPtopic">
+                <div owner-block="activity.owner" class="inline"></div>
+                    <span class="mlm">
+                        {{user[activity.owner].username}}
+                    </span>
+                {{activity.createDate|timeago}} Idea：
+                <div project-info='activity.container.container'></div>
+                The topic：
+                <a href="/project/{{activity.container.container}}" target="_blank">
+                    {{activity.container.title}}</a>Add a comment：
+                <span>{{activity.entity.text}}</span>
+            </div>
+            <div ng-switch-when="followProject">
+                <div owner-block="activity.owner" class="inline"></div>
+                    <span class="mlm">
+                        {{user[activity.owner].username}}
+                    </span>
+                {{activity.createDate|timeago}} Concerned about the Idea：
+                <div project-info='activity.entity' class="inline"></div>
+            </div>
+            <div ng-switch-when="followChallenge">
+                <div owner-block="activity.owner" class="inline"></div>
+                    <span class="mlm">
+                        {{user[activity.owner].username}}
+                    </span>
+                {{activity.createDate|timeago}} Concerned about the challenge：
+                <div challenge-info='activity.entity' class="inline"></div>
+            </div>
+        </div>
+    </li>
+    <li>
+        <button ng-show="activities.length>=10&&!isEnd" ng-click="loadMoreActivities(noPage)" class="btn  btn-default col-xs-12">
+            Load More
+        </button>
+        <div ng-hide="activities" class="alert alert-info">Noting yet</div>
+        <div ng-show="isEnd&&activities.length>=10"  class="alert alert-info">The end !</div> </li>
+</ul>

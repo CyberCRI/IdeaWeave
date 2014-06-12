@@ -1,0 +1,8 @@
+<div class="btn-group  btn-group-lg menu-project my-opacity">
+    <a ng-href="/project/{{ project.accessUrl }}/#home" class="btn btn-default">{{'BTN_HOME'|translate}}</a>
+    <a ng-href="/project/{{ project.accessUrl }}/#description" class="btn btn-default" ng-if="project.description">{{'BTN_DESC'|translate}}</a>
+    <a ng-href="/project/{{ project.accessUrl }}/#about" class="btn btn-default">{{'BTN_INFO'|translate}} </a>
+    <a ng-href="/project/{{ project.accessUrl }}/#team" class="btn btn-default">{{'BTN_TEAM'|translate}}</a>
+    <a ng-href="/project/{{ project.accessUrl }}/settings/basic"  class="btn btn-default" ng-if="isLoggedIn">{{'BTN_EDIT'|translate}}</a>
+    <a ng-href="/project/{{ project.accessUrl }}/topic" class="btn btn-default" ng-if="isLoggedIn">{{'BTN_TOPIC'|translate}}</a>
+</div>

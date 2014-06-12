@@ -1,0 +1,14 @@
+{
+  "name": "pdfjs",
+  "homepage": "https://github.com/mozilla/pdf.js",
+  "version": "1.0.277",
+  "_release": "1.0.277",
+  "_resolution": {
+    "type": "version",
+    "tag": "v1.0.277",
+    "commit": "250d394e47ff5450844378bb6348a7b80499f627"
+  },
+  "_source": "git://github.com/mozilla/pdf.js.git",
+  "_target": "*",
+  "_originalSource": "pdfjs"
+}

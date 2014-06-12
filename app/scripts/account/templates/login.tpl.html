@@ -1,0 +1,31 @@
+<div class="container" style="max-width:970px!important;">
+    <div class="row">
+        <div class="col-sm-4 col-xs-12">
+            <form class="form-horizontal pal" role="form">
+                <div class="form-group">
+                    <legend>{{ 'LOGIN_TITLE' | translate }}</legend>
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                        <input type="text" class="form-control" ng-model="form.username" placeholder="{{ 'LOGIN_USERNAME' | translate }}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-unlock-alt"></i></span>
+                        <input type="password" class="form-control" id="inputPassword" ng-model="form.password" placeholder="{{ 'LOGIN_PASSWORD' | translate }}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success" ng-click="login()">{{ 'LOGIN_BUTTON' | translate }}</button> <a ng-href="resetPassword" class="text-muted mlm"  >{{ 'LOGIN_RESETPASS' | translate }}</a>
+                </div>
+            </form>
+            <div class="mtl">{{ 'LOGIN_REGISTER_INFO' | translate }}
+                <a ng-href="register" ng-hide="ref">{{ 'LOGIN_REGISTER_BTN' | translate }}</a>
+                <a ng-href="register?ref={{ref}}" ng-show="ref">{{ 'LOGIN_REGISTER_BTN' | translate }}</a>
+            </div><!--end of logout-->
+
+        </div>
+
+    </div>
+</div>
+

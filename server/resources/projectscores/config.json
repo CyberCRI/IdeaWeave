@@ -1,0 +1,61 @@
+{
+	"type": "Collection",
+	"properties": {
+		"pid": {
+			"name": "pid",
+			"type": "string",
+			"typeLabel": "string",
+			"required": true,
+			"id": "pid",
+			"order": 0
+		},
+		"topicNum": {
+			"name": "topicNum",
+			"type": "number",
+			"typeLabel": "number",
+			"required": false,
+			"id": "topicNum",
+			"order": 1
+		},
+		"linkNum": {
+			"name": "linkNum",
+			"type": "number",
+			"typeLabel": "number",
+			"required": false,
+			"id": "linkNum",
+			"order": 2
+		},
+		"commentNum": {
+			"name": "commentNum",
+			"type": "number",
+			"typeLabel": "number",
+			"required": false,
+			"id": "commentNum",
+			"order": 3
+		},
+		"applyTeamNum": {
+			"name": "applyTeamNum",
+			"type": "number",
+			"typeLabel": "number",
+			"required": false,
+			"id": "applyTeamNum",
+			"order": 4
+		},
+		"followerNum": {
+			"name": "followerNum",
+			"type": "number",
+			"typeLabel": "number",
+			"required": false,
+			"id": "followerNum",
+			"order": 5
+		},
+		"teamNum": {
+			"name": "teamNum",
+			"type": "number",
+			"typeLabel": "number",
+			"required": false,
+			"id": "teamNum",
+			"order": 6
+		}
+	}
+}

@@ -1,0 +1,48 @@
+{
+	"type": "Collection",
+	"typeLabel": "Collection",
+	"order": 10,
+	"properties": {
+		"text": {
+			"type": "string",
+			"typeLabel": "string",
+			"id": "text",
+			"name": "text",
+			"required": false,
+			"order": 0
+		},
+		"archive": {
+			"type": "boolean",
+			"typeLabel": "boolean",
+			"id": "archive",
+			"name": "archive",
+			"required": false,
+			"order": 1
+		},
+		"sender": {
+			"type": "string",
+			"typeLabel": "string",
+			"id": "sender",
+			"name": "sender",
+			"required": false,
+			"order": 2
+		},
+		"createDate": {
+			"type": "number",
+			"typeLabel": "number",
+			"id": "createDate",
+			"name": "createDate",
+			"required": false,
+			"order": 3
+		},
+		"address": {
+			"name": "address",
+			"type": "string",
+			"typeLabel": "string",
+			"required": false,
+			"id": "address",
+			"order": 4
+		}
+	},
+	"path": "/feedbacks"
+}

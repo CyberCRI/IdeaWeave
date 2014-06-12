@@ -1,0 +1,45 @@
+{
+	"type": "Collection",
+	"properties": {
+		"owner": {
+			"name": "owner",
+			"type": "string",
+			"typeLabel": "string",
+			"required": false,
+			"id": "owner",
+			"order": 0
+		},
+		"container": {
+			"name": "container",
+			"type": "string",
+			"typeLabel": "string",
+			"required": true,
+			"id": "container",
+			"order": 1
+		},
+		"createDate": {
+			"name": "createDate",
+			"type": "number",
+			"typeLabel": "number",
+			"required": false,
+			"id": "createDate",
+			"order": 2
+		},
+		"message": {
+			"name": "message",
+			"type": "string",
+			"typeLabel": "string",
+			"required": false,
+			"id": "message",
+			"order": 3
+		},
+		"status": {
+			"name": "status",
+			"type": "boolean",
+			"typeLabel": "boolean",
+			"required": false,
+			"id": "status",
+			"order": 4
+		}
+	}
+}

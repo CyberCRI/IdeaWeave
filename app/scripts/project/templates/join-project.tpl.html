@@ -1,0 +1,15 @@
+<div class="container mtl row">
+    <div class="panel panel-info col-md-8 col-md-offset-2">
+		<div class="panel-body ">
+			<div ng-if="user.isLoggedIn()">
+			    <h3 class="text-muted">Join Our Project: {{project.title}}</h3>
+				<blockquote ng-bind-html="project.brief">{{project.brief}}</blockquote>
+				<button class="btn btn-primary btn-lg" ng-click="joinTeam()">Confirm Join</button>
+			</div>
+			<div ng-if="!user.isLoggedIn()">
+                <div class="mbm text-muted">You are not Login yet.<a ng-href="account/login?ref={{ref}}" target="_self" class="btn btn-success mlm">Login Now</a></div>
+                <div class="text-muted">Do not have account yet?<a ng-href="account/register?ref={{ref}}" target="_self" class="btn btn-warning mlm">Register right now</a></div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,26 @@
+<div class="container mtl">
+    <div class="row">
+        <div class="pal">
+            <div class="col-sm-5 col-sm-offset-1 col-xs-10 col-xs-offset-2">
+                <h1 class="text-muted">	{{challenge.title}}</h1>
+                <blockquote ng-bind-html="challenge.brief"></blockquote>
+                <div ng-bind-html="challenge.presentationDisplay" ng-if="challenge.presentation"></div>
+                <div ng-show="user.isLoggedIn()">
+                    <a class="btn btn-primary btn-lg" ng-if="!isFollow" tooltip="{{'CHALLENGE_VIEW_FOLLOW_INFO'|translate}}"  ng-click="followChallenge()">{{'CHALLENGE_VIEW_FOLLOW'|translate}}({{challenge.follow}}) </a>
+                    <a class="btn btn-warning" ng-if="isFollow" ng-click="unfollow(challenge.id)">{{'CHALLENGE_VIEW_UNFOLLOW'|translate}}</a>
+                </div>
+            </div>
+            <div class="col-sm-5 col-xs-10">
+                <!-- todo: add slide or video-->
+                <img ng-src="{{challenge.poster}}" ng-show="challenge.poster" class="img-rounded mtm" style="width:100%">
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="row" ng-if="map">
+        <google-map center="map.center" zoom="map.zoom" class="challenge-map">
+            <marker coords="map.center"></marker>
+        </google-map>
+    </div>
+</div>
+

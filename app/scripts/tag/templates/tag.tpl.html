@@ -1,0 +1,78 @@
+<div class="container">
+    <!-- search  box-->
+    <div class="row">
+        <div class="col-xs-6">
+            <div class="input-group">
+                <label class="sr-only" for="searchField">search</label>
+                <input type="search" class="form-control" ng-model="searchTag" id="searchField" placeholder="user/challenge/project">
+                <span class="input-group-addon" ng-click="queryTag(searchTag)"><i class="icon-search"></i></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- list users-->
+    <h3 class="solid pbm">{{ 'TAG_USER' | translate }}</h3>
+    <div ng-hide="tagdatas.users">
+        <div class="alert alert-info">{{ 'TAG_NOT_MATCH' | translate }}</div>
+    </div>
+    <div ng-show="tagdatas.users">
+        <ul class="list-unstyled">
+            <li ng-repeat="user in tagdatas.users" >
+                <div class="media">
+                    <div owner-block="user.id" class="pull-left" ></div>
+                    <div class="media-body">
+                        <blockquote class="pam">
+                            <div><a ng-init="isCollapsed=true" ng-click="isCollapsed = !isCollapsed">{{user.username}}</a></div>
+                            <div class="text-muted" ng-bind-html="user.brief" collapse="isCollapsed" ></div>
+                        </blockquote>
+                    </div>
+                <!--<div owner-block='user.id' class="inline"></div><span class="pts mlm"><b>{{user.username}}</b></span>-->
+
+            </li>
+        </ul>
+    </div>
+
+    <!-- list Challenge-->
+    <h3 class="solid pbm">{{ 'TAG_CHALLENGE' | translate }}</h3>
+    <div ng-hide="tagdatas.challenges">
+        <div class="alert alert-info">{{ 'TAG_NOT_MATCH' | translate }}</div>
+    </div>
+    <div ng-show="tagdatas.challenges">
+
+        <ul class="list-unstyled">
+            <li ng-repeat="challenge in tagdatas.challenges" class="col-md-4 col-sm-6 col-xs-12">
+                <div class="jzbox">
+                    <h3 class="solid"><a ui-sref="challenge({ pid : challenge.id })" target="_self">{{challenge.title}}</a></h3>
+                    <blockquote class="pam" ng-bind-html="challenge.brief">
+                    </blockquote>
+                </div>
+            </li>
+        </ul>
+        <div class="clearfix"></div>
+    </div>
+
+    <!-- list projects-->
+    <h3 class="solid pbm">{{ 'TAG_PROJECT' | translate }}</h3>
+    <div ng-hide="tagdatas.projects">
+        <div class="alert alert-info">
+            {{ 'TAG_NOT_MATCH' | translate }}
+        </div>
+    </div>
+    <div ng-show="tagdatas.projects">
+        <ul class="list-unstyled">
+            <li ng-repeat="project in tagdatas.projects">
+                <div class="media">
+                    <div owner-block="project.owner" class="pull-left" ></div>
+                    <div class="media-body">
+                        <blockquote class="pam">
+                            <div>
+                                <a ng-init="isCollapsed=true" ng-click="isCollapsed = !isCollapsed">{{project.title}}</a>
+                            </div>
+                            <div class="text-muted" ng-bind-html="project.brief" collapse="isCollapsed"></div>
+                        </blockquote>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>

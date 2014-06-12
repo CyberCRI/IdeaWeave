@@ -1,0 +1,56 @@
+{
+	"type": "Collection",
+	"typeLabel": "Collection",
+	"order": 6,
+	"properties": {
+		"owner": {
+			"type": "string",
+			"typeLabel": "string",
+			"id": "owner",
+			"name": "owner",
+			"required": false,
+			"order": 0
+		},
+		"text": {
+			"type": "string",
+			"typeLabel": "string",
+			"id": "text",
+			"name": "text",
+			"required": false,
+			"order": 1
+		},
+		"container": {
+			"type": "string",
+			"typeLabel": "string",
+			"id": "container",
+			"name": "container",
+			"required": false,
+			"order": 2
+		},
+		"type": {
+			"type": "string",
+			"typeLabel": "string",
+			"id": "type",
+			"name": "type",
+			"required": false,
+			"order": 3
+		},
+		"createDate": {
+			"type": "number",
+			"typeLabel": "number",
+			"id": "createDate",
+			"name": "createDate",
+			"required": false,
+			"order": 4
+		},
+		"parent": {
+			"type": "string",
+			"typeLabel": "string",
+			"id": "parent",
+			"name": "parent",
+			"required": false,
+			"order": 5
+		}
+	},
+	"path": "/comments"
+}

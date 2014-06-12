@@ -1,0 +1,128 @@
+{
+	"type": "Collection",
+	"typeLabel": "Collection",
+	"order": 2,
+	"properties": {
+		"createDate": {
+			"type": "number",
+			"typeLabel": "number",
+			"id": "createDate",
+			"name": "createDate",
+			"required": false,
+			"order": 0
+		},
+		"detail": {
+			"type": "string",
+			"typeLabel": "string",
+			"id": "detail",
+			"name": "detail",
+			"required": false,
+			"order": 1
+		},
+		"brief": {
+			"type": "string",
+			"typeLabel": "string",
+			"id": "brief",
+			"name": "brief",
+			"required": false,
+			"order": 2
+		},
+		"owner": {
+			"type": "string",
+			"typeLabel": "string",
+			"id": "owner",
+			"name": "owner",
+			"required": false,
+			"order": 3
+		},
+		"tags": {
+			"type": "array",
+			"typeLabel": "array",
+			"id": "tags",
+			"name": "tags",
+			"required": false,
+			"order": 4
+		},
+		"title": {
+			"type": "string",
+			"typeLabel": "string",
+			"id": "title",
+			"name": "title",
+			"required": true,
+			"order": 5
+		},
+		"updateDate": {
+			"type": "number",
+			"typeLabel": "number",
+			"id": "updateDate",
+			"name": "updateDate",
+			"required": false,
+			"order": 6
+		},
+		"visit": {
+			"type": "number",
+			"typeLabel": "number",
+			"id": "visit",
+			"name": "visit",
+			"required": false,
+			"order": 7
+		},
+		"member": {
+			"type": "array",
+			"typeLabel": "array",
+			"id": "member",
+			"name": "member",
+			"required": false,
+			"order": 8
+		},
+		"container": {
+			"name": "container",
+			"type": "string",
+			"typeLabel": "string",
+			"required": true,
+			"id": "container",
+			"order": 9
+		},
+		"score": {
+			"name": "score",
+			"type": "number",
+			"typeLabel": "number",
+			"required": false,
+			"id": "score",
+			"order": 10
+		},
+		"accessUrl": {
+			"name": "accessUrl",
+			"type": "string",
+			"typeLabel": "string",
+			"required": false,
+			"id": "accessUrl",
+			"order": 11
+		},
+		"poster": {
+			"name": "poster",
+			"type": "string",
+			"typeLabel": "string",
+			"required": false,
+			"id": "poster",
+			"order": 12
+		},
+		"presentation": {
+			"name": "presentation",
+			"type": "string",
+			"typeLabel": "string",
+			"required": false,
+			"id": "presentation",
+			"order": 13
+		},
+		"localisation": {
+			"name": "localisation",
+			"type": "object",
+			"typeLabel": "object",
+			"required": false,
+			"id": "localisation",
+			"order": 14
+		}
+	},
+	"path": "/projects"
+}

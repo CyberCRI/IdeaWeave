@@ -1,0 +1,69 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        {{'PROFILE_CHALLENGE_CON'|translate}}
+    </div>
+    <div class="panel-body">
+        <div class="text-muted" ng-hide="conChallenges">
+            No challenge yet.
+        </div>
+        <ul class="list-unstyled" ng-show="conChallenges" >
+            <li ng-animate="'animate'" ng-repeat="challenge in conChallenges track by $index" class="solid">
+                <a  ng-init="isCollapsed=true" ng-click="isCollapsed = !isCollapsed">
+                    <div class="text-muted pull-right">
+                        {{challenge.follow}}
+                        <i class="icon-star"></i>
+                    </div>
+                    <h4>{{challenge.title}}</h4>
+                </a>
+                <div class="text-muted" ng-bind-html="challenge.brief" collapse="isCollapsed" ui-sref="challenge({ pid : challenge.accessUrl })">
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<!--challenge that i follow-->
+<div class="panel panel-default">
+    <div class="panel-heading">
+        {{'PROFILE_CHALLENGE_FOLLOW'|translate}}
+    </div>
+    <div class="panel-body">
+        <ul class="list-unstyled" >
+            <li ng-animate="'animate'" ng-repeat="fchallenge in fChallenges track by $index" class="solid">
+                <a ng-init="isCollapsed=true" ng-click="isCollapsed = !isCollapsed">
+                    <div class="text-muted pull-right">
+                        {{fchallenge.follow}}
+                        <i class="icon-star"></i>
+                    </div>
+                    <h4>{{fchallenge.title}}</h4>
+                </a>
+                <div class="text-muted" ng-bind-html="fchallenge.brief" collapse="isCollapsed" ui-sref="challenge({ pid : fchallenge.accessUrl })"></div>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        {{'PROFILE_CHALLENGE_REC'|translate}}
+    </div>
+    <div class="panel-body">
+        <h3 class="dashed pbm">
+            {{'PROFILE_CHALLENGE_REC_SIMILAR'|translate}}
+        </h3>
+        <div ng-hide="stagCs">
+            {{'PROFILE_CHALLENGE_REC_SIMILAR_INFO'|translate}}
+            <a href="user/setting/basic">
+                {{'PROFILE_CHALLENGE_REC_SIMILAR_CHANGE'|translate}}
+            </a>
+        </div>
+        <div class="row">
+            <ul ng-show="stagCs" class="list-unstyled">
+                <li ng-repeat="stagC in stagCs track by $index" class="col-md-6 col-sm-6 col-xs-12" >
+                    <div challenge-block="stagC" ></div>
+                </li>
+            </ul>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>

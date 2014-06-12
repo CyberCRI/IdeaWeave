@@ -1,0 +1,64 @@
+{
+	"type": "Collection",
+	"typeLabel": "Collection",
+	"order": 12,
+	"properties": {
+		"text": {
+			"type": "string",
+			"typeLabel": "string",
+			"id": "text",
+			"name": "text",
+			"required": false,
+			"order": 0
+		},
+		"container": {
+			"type": "string",
+			"typeLabel": "string",
+			"id": "container",
+			"name": "container",
+			"required": false,
+			"order": 1
+		},
+		"owner": {
+			"type": "string",
+			"typeLabel": "string",
+			"id": "owner",
+			"name": "owner",
+			"required": false,
+			"order": 2
+		},
+		"createDate": {
+			"type": "number",
+			"typeLabel": "number",
+			"id": "createDate",
+			"name": "createDate",
+			"required": false,
+			"order": 3
+		},
+		"title": {
+			"name": "title",
+			"type": "string",
+			"typeLabel": "string",
+			"required": true,
+			"id": "title",
+			"order": 4
+		},
+		"files": {
+			"name": "files",
+			"type": "array",
+			"typeLabel": "array",
+			"required": false,
+			"id": "files",
+			"order": 5
+		},
+		"urls": {
+			"name": "urls",
+			"type": "array",
+			"typeLabel": "array",
+			"required": false,
+			"id": "urls",
+			"order": 6
+		}
+	},
+	"path": "/pinfos"
+}

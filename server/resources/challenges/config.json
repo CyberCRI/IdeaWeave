@@ -1,0 +1,85 @@
+{
+	"type": "Collection",
+	"properties": {
+		"title": {
+			"name": "title",
+			"type": "string",
+			"typeLabel": "string",
+			"required": true,
+			"id": "title",
+			"order": 0
+		},
+		"content": {
+			"name": "content",
+			"type": "string",
+			"typeLabel": "string",
+			"required": false,
+			"id": "content",
+			"order": 1
+		},
+		"tags": {
+			"name": "tags",
+			"type": "array",
+			"typeLabel": "array",
+			"required": false,
+			"id": "tags",
+			"order": 2
+		},
+		"brief": {
+			"name": "brief",
+			"type": "string",
+			"typeLabel": "string",
+			"required": false,
+			"id": "brief",
+			"order": 3
+		},
+		"poster": {
+			"name": "poster",
+			"type": "string",
+			"typeLabel": "string",
+			"required": false,
+			"id": "poster",
+			"order": 4
+		},
+		"follow": {
+			"name": "follow",
+			"type": "number",
+			"typeLabel": "number",
+			"required": false,
+			"id": "follow",
+			"order": 5
+		},
+		"accessUrl": {
+			"name": "accessUrl",
+			"type": "string",
+			"typeLabel": "string",
+			"required": true,
+			"id": "accessUrl",
+			"order": 6
+		},
+		"owner": {
+			"name": "owner",
+			"type": "string",
+			"typeLabel": "string",
+			"required": false,
+			"id": "owner",
+			"order": 7
+		},
+		"presentation": {
+			"name": "presentation",
+			"type": "string",
+			"typeLabel": "string",
+			"required": false,
+			"id": "presentation",
+			"order": 8
+		},
+		"localisation": {
+			"name": "localisation",
+			"type": "object",
+			"typeLabel": "object",
+			"required": false,
+			"id": "localisation",
+			"order": 9
+		}
+	}
+}

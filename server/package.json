@@ -1,0 +1,15 @@
+{
+    "name": "Jizhi",
+    "version": "0.0.1",
+    "private": true,
+
+    "dependencies": {
+        "deployd":"0.6.10",
+        "dpd-email":"0.0.3",
+        "dpd-event":"0.0.2",
+        "dpd-fileupload":"CyberCRI/dpd-fileupload",
+        "jz-json":"0.0.1",
+        "jz-recommend":"0.0.1",
+        "jz-tags":"0.0.1"
+    }
+}
