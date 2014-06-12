@@ -15,7 +15,7 @@ angular.module('cri.account',[])
                 });
         };
     }])
-    .controller('RegisterCtrl', ['$scope','users','$state','toaster','Gmap',  function ($scope, users, $state, toaster,Gmap) {
+    .controller('RegisterCtrl', ['$scope','users','$state','toaster','Gmap','Files','loggedUser',  function ($scope, users, $state, toaster,Gmap,Files,loggedUser) {
 
         $scope.user = users;
 
@@ -74,12 +74,12 @@ angular.module('cri.account',[])
         }
 
         $scope.upload = function(topic,file,description){
-            Project.uploadPoster(file).then(function(data){
+            users.uploadPoster(file).then(function(data){
                 toaster.pop('success','upload success','your file has been uploaded !!!');
                 $scope.file = null;
                 $scope.fileUrl = null;
                 $scope.dropBoxHeight = "100px";
-                $state.go('project',{ pid : Project.data.accessUrl });
+                $state.go('userSettings.basic',{ uid : loggedUser.profile.id });
             }).catch(function(err){
                 toaster.pop('error',err.status,err.message);
             })

@@ -20,7 +20,8 @@ angular.module('cri.common')
                 // get tags
 
                 Tag.fetch().then(function(result){
-                    $scope.toptags=result;
+                    $scope.tags=result;
+                    console.log(result)
                 }).catch(function(err){
                     console.log(err);
                 })
@@ -36,14 +37,28 @@ angular.module('cri.common')
                 }
 
                 // This adds the new tag to the tags array
-                $scope.add = function(){
+                $scope.add = function(tag){
+                    console.log(tag)
+                    var exist = false;
+                    for(var i in $scope.tags){
+                        if($scope.tags[i].title == tag){
+                            exist = true;
+                            break;
+                        }
+                    }
+                    if(!exist){
+                        Tag.create({title : tag}).catch(function(err){
+                            console.log(err)
+                        })
+                    }
 
                     // fix dulplicate
-                    if(!inArray($scope.newValue,$scope.entity.tags)){
-                        $scope.entity.tags.push( $scope.newValue );
-                        $scope.newValue ='';
+                    if(!inArray(tag,$scope.entity.tags)){
+                        console.log(tag)
+                        $scope.entity.tags.push( tag );
+                        $scope.myTag ='';
                     }else{
-                        $scope.newValue ='';
+                        $scope.myTag ='';
                     }
 
                 };
@@ -56,7 +71,7 @@ angular.module('cri.common')
                  var input= $element.find('input');
                  input.bind('keypress',function (event){
                     if(event.charCode===13){
-                        $scope.$apply($scope.add);
+                        $scope.$apply($scope.add($scope.myTag));
                     }
                  });
 
