@@ -15,6 +15,9 @@ angular.module('cri.home')
                     },
                     positions : function(Gmap){
                         return Gmap.getAllPositions()
+                    },
+                    challenges : function(Challenge){
+                        return Challenge.fetch({$limit : 10})
                     }
                 }
             })

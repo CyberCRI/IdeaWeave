@@ -25,10 +25,11 @@
 <div id="tags">
     <ul>
         <li ng-repeat="tag in tags">
-            <a ui-sref="tag({ title : tag.title })" target="_blank" ng-bind="tag.title"></a>
+            <a ui-sref="tag({ title : tag.title })" ng-bind="tag.title"></a>
         </li>
     </ul>
 </div>
+
 <div id="information" class="pad-section">
     <div class="container">
         <div class="row">
@@ -37,21 +38,22 @@
                     <div class="panel-heading">
                         <h2 class="panel-title">Tag Cloud</h2>
                     </div>
-                    <div class="panel-body lead">
-                        <div id="myCanvasContainer">
-                            <canvas width="300" height="300" id="myCanvas">
-                                <p>Anything in here will be replaced on browsers that support the canvas element</p>
-                            </canvas>
-                        </div>
+                    <div class="panel-body lead center">
+                        <canvas width="400" height="300" id="myCanvas">
+                            <p>Anything in here will be replaced on browsers that support the canvas element</p>
+                        </canvas>
                     </div>
                 </div>
             </div>
             <div class="col-sm-6">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h2 class="panel-title">Project description</h2>
+                        <h2 class="panel-title">Last challenges</h2>
                     </div>
-                    <div class="panel-body lead" ng-bind="project.brief">
+                    <div class="panel-body lead">
+                        <div class="list-group">
+                            <a ng-repeat="myChallenge in challenges" class="list-group-item" ui-sref="challenge.details({ pid : myChallenge.accessUrl })" ng-bind="myChallenge.title"></a>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -81,7 +83,7 @@
 
 <!-- google map -->
 <div class="col-md-6 col-md-offset-3">
-    <google-map center="{ latitude : 10,longitude : 0 }"  zoom="2" class="home-map">
+    <google-map options="mapOptions" center="{ latitude : '10',longitude : '0' }"  zoom="2" class="home-map" draggable="false">
         <marker coords="location"  ng-repeat="location in locations"></marker>
     </google-map>
 </div>

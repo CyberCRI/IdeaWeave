@@ -90,10 +90,12 @@ angular.module('cri.user')
                 if(userId){
                     url += '/'+userId
                 }
-                if(param){
-                    url += '?'+ JSON.stringify(param);
-                }
-                $http.get(url)
+//                if(param){
+//                    url += '?'+ JSON.stringify(param);
+//                }
+                $http.get(url,{
+                    params : param
+                })
                     .success(function(data){
                         defered.resolve(data);
                     })

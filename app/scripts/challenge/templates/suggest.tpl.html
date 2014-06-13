@@ -14,7 +14,7 @@
             <div class="form-group">
                 <label class="col-sm-3 col-xs-12 control-label">{{'CHALLENGE_SUGGEST_BRIEF'|translate}}</label>
                 <div class="col-sm-9 col-xs-12">
-                    <text-angular ng-model="pform.brief"></text-angular>
+                    <textarea ui-tinymce="tinymceOption" ng-model="pform.brief"></textarea>
                     <!--<textarea rows="3" class="form-control" ng-trim="false" name="brief" ng-model="pform.brief" required="" ></textarea><br>-->
                 </div>
             </div>

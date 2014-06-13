@@ -9,7 +9,7 @@
         <div class="form-group">
             <label class="col-sm-3 col-xs-12 control-label">Brief Introduction:</label>
             <div class="col-md-6 col-sm-9 col-xs-12">
-                <text-angular ng-model="newProject.brief"></text-angular>
+                <textarea ui-tinymce="tinymceOption" ng-model="newProject.brief"></textarea>
                 <!--<textarea rows="3" placeholder="no more than 140 characters" class="form-control" ng-trim="false" name="brief" ng-model="newProject.brief" required="" ng-maxlength="140"></textarea><br>-->
                 <span class="help-block" ng-show="newProject.brief.length<=140">Remain {{140-newProject.brief.length}} characters。</span>
                     <span class="alert alert-error" ng-show="projectform.brief.$error.maxlength">

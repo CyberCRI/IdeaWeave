@@ -1,5 +1,15 @@
 angular.module('cri.project',[])
-    .controller('ProjectCtrl',function($scope,Project,project,$modal, loggedUser, toaster,users,$sce){
+    .controller('ProjectCtrl',function($scope,Project,project,$modal, loggedUser, toaster,users,$sce,CONFIG,$timeout){
+        $timeout(function(){
+            TagCanvas.Start('myCanvas','tags',{
+                textColour: 'black',
+                outlineColour: '#ff00ff',
+                reverse: true,
+                depth: 1,
+                maxSpeed: 0.2
+            });
+        },500)
+        $scope.mapOptions = CONFIG.mapOptions;
         $scope.project = Project.data = project[0];
         if($scope.project.localisation){
             $scope.map = {
@@ -272,7 +282,7 @@ angular.module('cri.project',[])
             })
         }
     }])
-    .controller('ProjectCreateCtrl',function($scope, Project, loggedUser, $state, Challenge, toaster, Gmap, Files){
+    .controller('ProjectCreateCtrl',function($scope, Project, loggedUser, $state, Challenge, toaster, Gmap, Files, CONFIG){
         $scope.newProject = {};
         $scope.titleChange = function(title){
             $scope.newProject.accessUrl = title.replace(/ /g,"_");
@@ -283,7 +293,7 @@ angular.module('cri.project',[])
                 $scope.addresses = adresses;
             })
         };
-
+        $scope.tinymceOption = CONFIG.tinymceOptions;
         $scope.createProject = function(){
             console.log($scope.newProject)
             $scope.newProject.owner = loggedUser.profile.id;

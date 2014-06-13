@@ -2,7 +2,6 @@ if ( !internal && !isMe(this.id) ) {
     hide('email');
     hide('notify');
     hide('language');
-    hide('notify');
 }
 
 if(query.type =='position'){

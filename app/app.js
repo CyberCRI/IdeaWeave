@@ -10,7 +10,7 @@ angular.module('cri', [
     'pascalprecht.translate',
     'btford.socket-io',
     'angularFileUpload',
-    'textAngular',
+    'ui.tinymce',
     'toaster',
     'google-maps',
     'cri.config',

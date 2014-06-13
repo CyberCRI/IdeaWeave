@@ -48,7 +48,9 @@ angular.module('cri.user',[])
         $scope.me = loggedUser.profile;
 
     })
-    .controller('ProfileCtrl',['$scope','$stateParams','toaster','loggedUser','profile','followers','following','users', function ($scope,$stateParams,toaster,loggedUser, profile, followers, following,users) {
+    .controller('ProfileCtrl',['$scope','$stateParams','toaster','loggedUser','profile','followers','following','users','CONFIG', function ($scope,$stateParams,toaster,loggedUser, profile, followers, following,users,CONFIG) {
+
+        $scope.mapOptions = CONFIG.mapOptions;
 
         $scope.user = users;
 
@@ -179,17 +181,26 @@ angular.module('cri.user',[])
     .controller('settingAvaterCtrl',['$scope','users','toaster',function ($scope,users,toaster) {
         var file;
         $scope.onFileSelect = function(files){
-            var fileReader = new FileReader();
-            file = files[0];
-            fileReader.onload = function(e){
-                $scope.$apply(function(){
-                    $scope.fileUrl = e.target.result;
+            $scope.file = $files[0];
+            console.log($scope.file)
+            if(Files.isImage($scope.file)){
+                Files.getDataUrl($scope.file).then(function(dataUrl){
+                    $scope.fileUrl = dataUrl;
                 })
+                $scope.dropBoxHeight = "300px";
+            }else{
+                toaster.pop('warning','warning','this file is not an image');
             }
-            fileReader.readAsDataURL(file);
         }
 
-        $scope.upload = function(){
+
+        $scope.cancelUpload = function(){
+            $scope.file = null;
+            $scope.fileUrl = null;
+            $scope.dropBoxHeight = "100px";
+        }
+
+        $scope.upload = function(topic,file){
             users.uploadPoster(file).then(function(){
                 toaster.pop('success','success','your avatar has been succesfully updated')
             }).catch(function(err){

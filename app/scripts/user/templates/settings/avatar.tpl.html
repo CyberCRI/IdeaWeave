@@ -1,11 +1,7 @@
 <div class="container">
     <div class="row">
         <div class="pal">
-            <input type="file" ng-file-select="onFileSelect($files)">
-            <div ng-file-drop="onFileSelect($files)" class="upload-box" ng-file-drag-over-class="upload-box-hover" style="background-image : url('{{ fileUrl }}')">
-                drop files here
-            </div>
-            <button class="btn" ng-click="upload()"></button>
+            <cri-uploader></cri-uploader>
         </div>
     </div>
 </div>

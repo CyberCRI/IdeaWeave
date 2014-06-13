@@ -6,6 +6,10 @@
   -webkit-animation: fadeOutLeft 0.5s;
   animation: fadeOutLeft 0.5s;
 }
+[ui-view="challengeView"].ng-enter {
+  -webkit-animation: slideInRight 0.5s;
+  animation: slideInRight 0.5s;
+}
 .tag-list.ng-leave {
   -webkit-animation: flipOutX 1s;
   animation: flipOutX 1s;

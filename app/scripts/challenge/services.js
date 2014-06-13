@@ -18,10 +18,12 @@ angular.module('cri.challenge')
                 if(id){
                     url += '/'+id;
                 }
-                if(param){
-                    url += '?'+JSON.stringify(param)
-                }
-                $http.get(url).success(function(data){
+//                if(param){
+//                    url += '?'+JSON.stringify(param)
+//                }
+                $http.get(url,{
+                    params : param
+                }).success(function(data){
                     defered.resolve(data);
                 }).error(function(err){
                     defered.reject(err);

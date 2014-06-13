@@ -56,7 +56,7 @@
                                     <span class="sr-only">{{profile.ugProgress}}% 完成</span>
                                 </div>
                             </div>
-                            <google-map center="map.center" zoom="map.zoom" ng-if="map" class="profile-map">
+                            <google-map center="map.center" zoom="map.zoom" ng-if="map" class="profile-map" options="mapOptions">
                                 <marker coords="map.center"></marker>
                             </google-map>
                         </div>

@@ -39,10 +39,12 @@ angular.module('cri.project')
         fetch :function(param){
             var defered = $q.defer();
             var url = CONFIG.apiServer+'/projects';
-            if(param){
-                url += '?'+ JSON.stringify(param);
-            }
-           $http.get(url)
+//            if(param){
+//                url += '?'+ JSON.stringify(param);
+//            }
+           $http.get(url,{
+               params : param
+           })
                 .success(function(data){
                     defered.resolve(data);
                 })

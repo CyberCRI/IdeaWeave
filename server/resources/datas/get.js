@@ -1,9 +1,9 @@
 
 function uniqueObject(arr){
-              var o={},i,j,r=[];
-              for(var i=0;i<arr.length;i++) o[arr[i]['id']]=arr[i];
-              for(var j in o) r.push(o[j])
-              return r
+      var o={},i,j,r=[];
+      for(var i=0;i<arr.length;i++) o[arr[i]['id']]=arr[i];
+      for(var j in o) r.push(o[j])
+      return r
 }
 console.log(parts[0])
 switch(parts[0]){

@@ -89,10 +89,10 @@ angular.module('cri.challenge', [])
         }
 
     }])
-    .controller('ChallengeSuggestCtrl', ['$scope', 'Challenge','loggedUser','$upload','$state','toaster','Gmap','Files', function ($scope, Challenge, loggedUser,$upload,$state,toaster,Gmap,Files) {
+    .controller('ChallengeSuggestCtrl', ['$scope', 'Challenge','loggedUser','$upload','$state','toaster','Gmap','Files','CONFIG', function ($scope, Challenge, loggedUser,$upload,$state,toaster,Gmap,Files,CONFIG) {
         $scope.pform = {};
         $scope.pform.tags = [];
-
+        $scope.tinymceOption = CONFIG.tinymceOptions;
         $scope.refreshAddresses = function(address) {
             Gmap.getAdress(address).then(function(adresses){
                 $scope.addresses = adresses;
@@ -104,7 +104,6 @@ angular.module('cri.challenge', [])
         }
 
         $scope.createChallenge = function (challenge) {
-            console.log('create',challenge)
             $scope.pform.owner = loggedUser.profile.id;
             Challenge.create(challenge).then(function(){
                 toaster.pop('info','success','Your challenge has been added. would you like to add a description picture to it ?');
@@ -153,24 +152,16 @@ angular.module('cri.challenge', [])
             })
         }
     }])
-    .controller('ChallengeViewCtrl', ['$scope', 'challenge','users', 'Challenge','Project','$sce','toaster','loggedUser',
-        function ($scope, challenge,users, Challenge, Project, $sce, toaster, loggedUser) {
+    .controller('ChallengeViewCtrl', ['$scope', 'challenge','users', 'Challenge','Project','$sce','toaster','loggedUser','CONFIG',
+        function ($scope, challenge,users, Challenge, Project, $sce, toaster, loggedUser, CONFIG) {
             $scope.user = users;
             $scope.isFollow = false;
             $scope.challenge = Challenge.data = challenge[0];
+            $scope.mapOptions = CONFIG.mapOptions;
             if($scope.challenge.presentation){
                 $scope.challenge.presentationDisplay = $sce.trustAsHtml($scope.challenge.presentation);
             }
-            if($scope.challenge.localisation){
-                console.log($scope.challenge.localisation)
-                $scope.map = {
-                    center: {
-                        latitude: $scope.challenge.localisation.geometry.location.lat,
-                        longitude: $scope.challenge.localisation.geometry.location.lng
-                    },
-                    zoom: 8
-                };
-            }
+
 
             $scope.noPage = 1;
             $scope.isEnd = false;
@@ -241,6 +232,16 @@ angular.module('cri.challenge', [])
             if(loggedUser.profile.id == $scope.challenge.owner){
                 $scope.isOwner = true;
             }
+        }
+        if($scope.challenge.localisation){
+            console.log($scope.challenge.localisation)
+            $scope.map = {
+                center: {
+                    latitude: $scope.challenge.localisation.geometry.location.lat,
+                    longitude: $scope.challenge.localisation.geometry.location.lng
+                },
+                zoom: 8
+            };
         }
     })
 

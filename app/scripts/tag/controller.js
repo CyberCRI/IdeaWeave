@@ -1,12 +1,14 @@
 angular.module('cri.tag',[])
-    .controller('TagCtrl',['$scope','tagDatas','$stateParams','Tag',function($scope,tagDatas,$stateParams,Tag){
-        $scope.tagdatas=tagDatas;
-        $scope.queryTag=function(tag){
-            Tag.fetch(tag).then(function(data){
-                $scope.tagdatas=data;
-            }).catch(function(err){
-                console.log('error',err);
-            })
-        }
+    .controller('TagCtrl',['$scope','$stateParams','Tag','users',function($scope,$stateParams,Tag,users){
+
+
+        Tag.search($stateParams.title).then(function(data){
+            console.log(data)
+            $scope.tagdatas=data;
+        }).catch(function(err){
+            console.log(err)
+        })
+
+
     }]);
   

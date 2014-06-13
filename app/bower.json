@@ -12,6 +12,7 @@
         "angular-bootstrap": "*",
         "angular-ui-router": "*",
         "angular-ui-utils" : "*",
+        "angular-ui-tinymce": "*",
         "textAngular" : "*",
         "angular-ui-ace" : "#bower",
         "AngularJS-Toaster" : "*",

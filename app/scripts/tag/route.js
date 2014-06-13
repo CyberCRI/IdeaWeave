@@ -2,16 +2,11 @@ angular.module('cri.tag')
     .config(['$stateProvider',function ($stateProvider) {
         $stateProvider
             .state('tag', {
-                url : '/tag/:name',
+                url : '/tag/:title',
                 views : {
                     mainView : {
                         templateUrl: 'scripts/tag/templates/tag.tpl.html',
                         controller: 'TagCtrl'
-                    }
-                },
-                resolve : {
-                    tagDatas : function(Tag,$stateParams){
-                        return Tag.fetch($stateParams.name)
                     }
                 }
             })
