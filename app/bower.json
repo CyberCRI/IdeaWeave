@@ -3,29 +3,26 @@
     "description": "a CRI app !!!",
     "version": "0.0.1",
     "dependencies": {
+        "angular": "1.2.16",
         "angular-translate": "1.1.1",
-        "ng-file-upload ": "*",
-        "Font-Awesome": "4.1",
-        "socket.io-client": "1.0.0-pre2",
+        "angular-google-maps":"*",
+        "AngularJS-Toaster" : "*",
+        "angular-socket-io" : "*",
         "angular-sanitize": "~1.2.16",
-        "bootstrap": "3.1.1",
         "angular-bootstrap": "*",
         "angular-ui-router": "*",
         "angular-ui-utils" : "*",
         "angular-ui-tinymce": "*",
-        "textAngular" : "*",
-        "angular-ui-ace" : "#bower",
-        "AngularJS-Toaster" : "*",
-        "angular-socket-io" : "*",
         "angular-ui-select" : "*",
+        "angular-ui-ace" : "#bower",
+        "ng-file-upload ": "*",
+        "underscore" : "*",
+        "socket.io-client": "1.0.0-pre2",
         "ichuan-bower-tagcanvas" : "*",
         "pdfjs" : "*",
-        "angular-google-maps":"*",
-        "underscore" : "*",
-        "animatecss" : "https://github.com/daneden/animate.css.git"
+        "bootstrap": "3.1.1",
+        "animatecss" : "https://github.com/daneden/animate.css.git",
+        "Font-Awesome": "4.1"
     },
-    "devDependencies": {},
-    "resolutions": {
-        "angular": "1.2.16"
-    }
+    "devDependencies": {}
 }

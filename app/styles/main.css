@@ -54,6 +54,10 @@
   -webkit-animation: flipInX 1s;
   animation: flipInX 1s;
 }
+.tag-detail {
+  -webkit-animation: flipInX 1s;
+  animation: flipInX 1s;
+}
 .profile-map .angular-google-map-container {
   height: 200px;
 }
@@ -376,4 +380,32 @@ body {
 .dropbox-dragover {
   border: 1.5px #828282 dashed;
   height: 300px;
+}
+.node {
+  stroke: #fff;
+  stroke-width: 5px;
+}
+.link-user {
+  stroke: #9ac674;
+  stroke-opacity: 1;
+}
+.link-project {
+  stroke: #9ad5ff;
+  stroke-opacity: 1;
+}
+.link-challenge {
+  stroke: #be964d;
+  stroke-opacity: 1;
+}
+.text-user {
+  stroke: #9ac674;
+  stroke-width: 1.5px;
+}
+.text-project {
+  stroke: #9ad5ff;
+  stroke-width: 1.5px;
+}
+.text-challenge {
+  stroke: #be964d;
+  stroke-width: 1.5px;
 }
