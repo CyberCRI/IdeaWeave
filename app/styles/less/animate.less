@@ -28,7 +28,12 @@
 }
 
 .tag-detail{
+  &.ng-enter{
     -webkit-animation: flipInX 1s;
     animation : flipInX 1s;
-
+  }
+  &.ng-leave{
+    -webkit-animation: flipOutX 1s;
+    animation : flipOutX 1s;
+  }
 }

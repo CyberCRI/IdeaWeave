@@ -3,7 +3,15 @@
 </section>
 <section class="col-md-6 tag-detail" ng-if="showDetailPanel">
     <h3 ng-bind="detailItem.name"></h3>
-    <img ng-src="{{ detailItem.poster }}" alt="" class="pull-left" style="width:30%"/>
+    <a ui-sref="profile({ cid : detailItem.id })" ng-if="detailItem.group == 2">
+        <img ng-src="{{ detailItem.poster }}" alt="" class="pull-left" style="width:30%"/>
+    </a>
+    <a ui-sref="project({ pid : detailItem.url })" ng-if="detailItem.group == 4">
+        <img ng-src="{{ detailItem.poster }}" alt="" class="pull-left" style="width:30%"/>
+    </a>
+    <a ui-sref="challenge({ pid : detailItem.url })" ng-if="detailItem.group == 3">
+        <img ng-src="{{ detailItem.poster }}" alt="" class="pull-left" style="width:30%"/>
+    </a>
     <p ng-bind-html="detailItem.secureBrief"></p>
 </section>
 

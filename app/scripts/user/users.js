@@ -9,7 +9,6 @@ angular.module('cri.user')
     })
 
     .service('users', ['$http', '$q', 'loggedUser','$upload','CONFIG', function ($http, $q, loggedUser, $upload,CONFIG) {
-        console.log(CONFIG)
         var service = {
             login: function (username, password) {
                 var deferred = $q.defer();

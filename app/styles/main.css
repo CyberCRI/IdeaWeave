@@ -54,9 +54,13 @@
   -webkit-animation: flipInX 1s;
   animation: flipInX 1s;
 }
-.tag-detail {
+.tag-detail.ng-enter {
   -webkit-animation: flipInX 1s;
   animation: flipInX 1s;
+}
+.tag-detail.ng-leave {
+  -webkit-animation: flipOutX 1s;
+  animation: flipOutX 1s;
 }
 .profile-map .angular-google-map-container {
   height: 200px;
@@ -387,25 +391,22 @@ body {
 }
 .link-user {
   stroke: #9ac674;
-  stroke-opacity: 1;
 }
 .link-project {
   stroke: #9ad5ff;
-  stroke-opacity: 1;
 }
 .link-challenge {
   stroke: #be964d;
-  stroke-opacity: 1;
 }
 .text-user {
   stroke: #9ac674;
-  stroke-width: 1.5px;
+  stroke-width: 0.5px;
 }
 .text-project {
   stroke: #9ad5ff;
-  stroke-width: 1.5px;
+  stroke-width: 0.5px;
 }
 .text-challenge {
   stroke: #be964d;
-  stroke-width: 1.5px;
+  stroke-width: 0.5px;
 }

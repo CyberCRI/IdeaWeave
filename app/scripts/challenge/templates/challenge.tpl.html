@@ -47,7 +47,8 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-9 col-sm-8 col-xs-12">
+        <article class="col-md-9 col-sm-8 col-xs-12">
+            <h1 ng-bind="challenge.title" class="center"></h1>
             <ul class="nav nav-pills">
                 <li ui-route="/challenge/{{ challenge.accessUrl }}/list" ng-class="{active: $uiRoute}">
                     <a ui-sref="challenge.list">List</a>
@@ -72,6 +73,6 @@
             </div>
             <div class="clearfix mbm">
             </div>
-        </div>
+        </article>
     </div>
 </div>
