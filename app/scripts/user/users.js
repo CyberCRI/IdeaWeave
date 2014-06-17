@@ -150,6 +150,20 @@ angular.module('cri.user')
                         defered.reject(err);
                     })
                 return defered.promise;
+            },getFollowing : function(param){
+                var defered = $q.defer();
+                var url = CONFIG.apiServer + '/following'
+                if (param){
+                    url = url + '?' + JSON.stringify(param);
+                }
+                $http.get(url)
+                    .success(function(data){
+                        defered.resolve(data);
+                    })
+                    .error(function(err){
+                        defered.reject(err);
+                    })
+                return defered.promise;
             },
             follow : function(uid){
                 var defered = $q.defer();

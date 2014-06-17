@@ -30,4 +30,16 @@ angular.module('cri.header',[])
             })
         };
 
+        $scope.goTo = function(result){
+            console.log(result)
+            if(result.username){
+                console.log(result)
+                $state.go('profile',{ uid : result.id })
+            }else if(result.container){
+                $state.go('project',{ pid : result.accessUrl })
+            }else{
+                $state.go('challenge',{ pid : result.accessUrl })
+            }
+            console.log(result)
+        }
     })

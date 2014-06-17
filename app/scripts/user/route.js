@@ -67,8 +67,8 @@ angular.module('cri.user')
                         return users.getFollower(options);
                     },
                     following : function($stateParams, users){
-                        var options = {type : 'users', value : 'following', uid : $stateParams.uid}
-                        return users.getFollower(options);
+                        var options = { value : 'following', uid : $stateParams.uid}
+                        return users.getFollowing(options);
                     }
                 }
             })

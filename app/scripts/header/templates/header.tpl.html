@@ -38,7 +38,7 @@
                                 <a class="pull-left">
                                     <img class="media-object" height="50px" ng-src="{{ result.poster }}">
                                 </a>
-                                <div class="media-body">
+                                <div class="media-body" ng-click="goTo(result)">
                                     <h4 class="media-heading" ng-if="result.title" ng-bind="result.title"></h4>
                                     <h4 class="media-heading" ng-if="result.username" ng-bind="result.username"></h4>
                                     <p  bind-html="result.brief"></p>

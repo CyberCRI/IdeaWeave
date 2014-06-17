@@ -72,7 +72,7 @@
                 <a ng-href="message/new?to={{profile.id}}"  ng-hide="isOwner" class="btn btn-success pull-right">
                     {{'BTN_MSG'|translate}}
                 </a>
-                <div ng-hide="isOwner">
+                <div ng-if="!isOwner && isLogged">
                     <button  ng-hide="isFollowUser" ng-click="followUser(profile.id)" class="btn btn-info pull-right mrm">
                         {{'BTN_FOLLOW'|translate}} ({{followers.length}})
                     </button>
@@ -99,12 +99,12 @@
                             {{'PROFILE_CHALLENGE'|translate}}
                         </a>
                     </li>
-                    <li ui-route="/user/{{ profile.id }}/relations" ng-class="{active: $uiRoute}" >
+                    <li ui-route="/user/{{ profile.id }}/relations" ng-class="{active: $uiRoute}" ng-if="isOwner">
                         <a ui-sref="profile.relations">
                             {{'PROFILE_RELATION'|translate}}
                         </a>
                     </li>
-                    <li ui-route="/user/{{ profile.id }}/recomandation" ng-class="{active: $uiRoute}" >
+                    <li ui-route="/user/{{ profile.id }}/recomandation" ng-class="{active: $uiRoute}" ng-if="isOwner">
                         <a ui-sref="profile.recomandation">
                             {{'PROFILE_RECOMMANDATION'|translate}}
                         </a>

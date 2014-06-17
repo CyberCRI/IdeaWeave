@@ -48,8 +48,11 @@ angular.module('cri.user',[])
         $scope.me = loggedUser.profile;
 
     })
-    .controller('ProfileCtrl',['$scope','$stateParams','toaster','loggedUser','profile','followers','following','users','CONFIG', function ($scope,$stateParams,toaster,loggedUser, profile, followers, following,users,CONFIG) {
+    .controller('ProfileCtrl',['$scope','$stateParams','toaster','loggedUser','profile','followers','following','users','CONFIG',
+        function ($scope,$stateParams,toaster,loggedUser, profile, followers, following,users,CONFIG) {
 
+        console.log('following : ',following);
+        console.log('followers : ',followers);
         $scope.mapOptions = CONFIG.mapOptions;
 
         $scope.user = users;
@@ -63,8 +66,9 @@ angular.module('cri.user',[])
                 zoom: 8
             };
         }
-
+        $scope.isLogged = false
         if(loggedUser.profile){
+            $scope.isLogged = true;
             if($stateParams.uid==loggedUser.profile.id){
                 $scope.isOwner=true;
             }
@@ -89,6 +93,7 @@ angular.module('cri.user',[])
                 $scope.isFollowUser=true;
             }
         }
+        console.log
         // caculate profile rule
         var score=$scope.profile.score;
         var name='';
