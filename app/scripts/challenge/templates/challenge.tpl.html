@@ -11,38 +11,45 @@
                     <div class="clearfix">
                     </div>
                     <h2 class="center solid pbm" >
-                            <span ng-show="challenge.title">
-                                {{challenge.title}}
-                            </span>
-
+                        <span ng-show="challenge.title">
+                            {{challenge.title}}
+                        </span>
                     </h2>
+                    <div ng-if="me">
+                        <a class="btn btn-primary btn-block" ng-if="!isFollow" tooltip="{{'CHALLENGE_VIEW_FOLLOW_INFO'|translate}}"  ng-click="followChallenge()">{{'CHALLENGE_VIEW_FOLLOW'|translate}}({{challenge.follow}}) </a>
+                        <a class="btn btn-warning btn-block" ng-if="isFollow" ng-click="unfollow(challenge.id)">{{'CHALLENGE_VIEW_UNFOLLOW'|translate}}</a>
+                    </div>
                     <div class="solid center pbm ">
-                        <h3 >
+                        <h3>
                             <span>
-                                {{followers.length}}<br>
                                 <small class="text-muted">
-                                    {{'FOLLOWER'|translate}}
+                                    Projects
                                 </small>
+                                <br>{{challenge.projectNumber}}
                             </span>
                         </h3>
                         <h3>
                             <span>
-                                {{followings.length}}<br>
                                 <small class="text-muted">
-                                    {{'FOLLOWING'|translate}}
+                                    {{'FOLLOWER'|translate}}
                                 </small>
+                                    <br>{{challenge.followers.length}}
                             </span>
                         </h3>
-
-
+                        <h3>
+                            <span>
+                                <small class="text-muted">
+                                    created by
+                                </small>
+                                    <br><div owner-block="challenge.owner"></div>
+                            </span>
+                        </h3>
                         <google-map center="map.center" zoom="map.zoom" ng-if="map" class="challenge-map" options="mapOptions">
                             <marker coords="map.center"></marker>
                         </google-map>
                     </div>
                     <div class="pbm mtl mbl">
-                        <div class="text-muted">
-                            Join date:{{challenge.createDate|date}}
-                        </div>
+                        <div showtags="" entity="challenge"></div>
                     </div>
                 </div>
             </div>
@@ -69,9 +76,8 @@
                     <a ui-sref="challenge.projectCreation">Create New Project</a>
                 </li>
             </ul>
+            <br>
             <div ui-view="challengeView">
-            </div>
-            <div class="clearfix mbm">
             </div>
         </article>
     </div>

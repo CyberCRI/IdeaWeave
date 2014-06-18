@@ -183,51 +183,15 @@ angular.module('cri.challenge', [])
                     })
                 }
             }
-
-            // follow challenge
-            if (loggedUser.profile) {
-                console.log()
-                if ($scope.challenge.followers.indexOf(loggedUser.profile.id) !== -1) {
-                    $scope.isFollow = true;
-                }
-            }
-
-            $scope.followChallenge = function () {
-                Challenge.follow($scope.challenge.id).then(function (result) {
-                    if (result.error) {
-                        alert(result.error)
-                    } else {
-                        toaster.pop('info','score','Concerned about the success! Cool increased by 2 points.');
-                        $scope.challenge.followers.push($scope.me.id);
-                        $scope.isFollow = true;
-                    }
-                }).catch(function(err){
-                    toaster.pop('error',err.status,err.message);
-                })
-            }
-
-            $scope.unfollow = function () {
-                Challenge.unfollow($scope.challenge.id).then(function (result) {
-                    if (result.error) {
-                        toaster.pop('error','error','an error occured sorry');
-                    } else {
-                        toaster.pop('info','score','Concerned about the success! Cool increased by 2 points.');
-                        $scope.challenge.followers.splice($scope.challenge.followers.indexOf($scope.me.id), 1);
-                        $scope.isFollow = false;
-                    }
-                }).catch(function(err){
-                    toaster.pop('error',err.status,err.message);
-
-                })
-            }
         }])
 .controller('ChallengeFollowerCtrl',function($scope,Challenge){
         $scope.followers = Challenge.data.followers;
     })
-.controller('ChallengeCtrl',function($scope,Challenge,challenge,loggedUser,$modal){
+.controller('ChallengeCtrl',function($scope,Challenge,challenge,loggedUser,toaster,loggedUser){
         $scope.me = loggedUser.profile;
 
         $scope.challenge = Challenge.data = challenge[0];
+        console.log($scope.challenge)
         if(loggedUser.profile){
             if(loggedUser.profile.id == $scope.challenge.owner){
                 $scope.isOwner = true;
@@ -243,6 +207,43 @@ angular.module('cri.challenge', [])
                 zoom: 8
             };
         }
+        // follow challenge
+        if (loggedUser.profile) {
+            console.log()
+            if ($scope.challenge.followers.indexOf(loggedUser.profile.id) !== -1) {
+                $scope.isFollow = true;
+            }
+        }
+
+        $scope.followChallenge = function () {
+            Challenge.follow($scope.challenge.id).then(function (result) {
+                if (result.error) {
+                    alert(result.error)
+                } else {
+                    toaster.pop('info','score','Concerned about the success! Cool increased by 2 points.');
+                    $scope.challenge.followers.push($scope.me.id);
+                    $scope.isFollow = true;
+                }
+            }).catch(function(err){
+                toaster.pop('error',err.status,err.message);
+            })
+        }
+
+        $scope.unfollow = function () {
+            Challenge.unfollow($scope.challenge.id).then(function (result) {
+                if (result.error) {
+                    toaster.pop('error','error','an error occured sorry');
+                } else {
+                    toaster.pop('info','score','Concerned about the success! Cool increased by 2 points.');
+                    $scope.challenge.followers.splice($scope.challenge.followers.indexOf($scope.me.id), 1);
+                    $scope.isFollow = false;
+                }
+            }).catch(function(err){
+                toaster.pop('error',err.status,err.message);
+
+            })
+        }
+
     })
 
 .controller('ChallengeSettingsCtrl',function($scope,Challenge,toaster){

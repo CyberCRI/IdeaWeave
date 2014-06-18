@@ -1,89 +1,75 @@
 <!-- first section - Home -->
-<div id="home" class="home">
+<div id="home" class="home" >
     <div class="text-vcenter">
         <h1>IdeaStorm</h1>
         <h3>This is bootstrap-based layout</h3>
     </div>
 </div>
-<!-- /first section -->
-<!-- second section - About -->
-<div id="about" class="pad-section">
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-6">
-                <img src="images/brain.png" alt="" />
+<div id="services" class="pad-section">
+    <div class="container"  du-parallax x="servicesParalax">
+        <h2 class="text-center">Our Services</h2> <hr />
+        <div class="row text-center">
+            <div class="col-sm-3 col-xs-6">
+                <i class="glyphicon glyphicon-cloud"> </i>
+                <h4>Service 1</h4>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec in sem cras amet. Donec in sem cras amet.</p>
             </div>
-            <div class="col-sm-6 text-center">
-                <h2>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec in sem cras amet.</h2>
-                <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed interdum metus et ligula venenatis, at rhoncus nisi molestie. Pellentesque porttitor elit suscipit massa laoreet metus.</p>
+            <div class="col-xs-6" style="position:relative;" >
+                <div class="map-wrapper">
+                    <google-map options="mapOptions" center="{ latitude : '10',longitude : '0' }"  zoom="1" class="home-map" draggable="false">
+                        <marker coords="location"  ng-repeat="location in locations"></marker>
+                    </google-map>
+                </div>
+            </div>
+            <div class="col-sm-3 col-xs-6">
+                <i class="glyphicon glyphicon-bullhorn"> </i>
+                <h4>Service 4</h4>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec in sem cras amet. Donec in sem cras amet.</p>
             </div>
         </div>
     </div>
-</div>
-<!-- /third section -->
-<!-- fourth section - Information -->
-<div id="tags">
-    <ul>
-        <li ng-repeat="tag in tags">
-            <a ui-sref="tag({ title : tag.title })" ng-bind="tag.title"></a>
-        </li>
-    </ul>
 </div>
 
 <div id="information" class="pad-section">
     <div class="container">
         <div class="row">
-            <div class="col-sm-6">
-                <div class="panel panel-default">
+            <div class="col-md-6">
+                <div class="panel panel-default" style="height:400px;">
                     <div class="panel-heading">
-                        <h2 class="panel-title">Tag Cloud</h2>
-                    </div>
-                    <div class="panel-body lead center">
-                        <canvas width="400" height="300" id="myCanvas">
-                            <p>Anything in here will be replaced on browsers that support the canvas element</p>
-                        </canvas>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h2 class="panel-title">Last challenges</h2>
+                        <h2 class="panel-title">Recent challenges</h2>
                     </div>
                     <div class="panel-body lead">
                         <div class="list-group">
                             <a ng-repeat="myChallenge in challenges" class="list-group-item" ui-sref="challenge.details({ pid : myChallenge.accessUrl })" ng-bind="myChallenge.title"></a>
-                        </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="panel panel-default" style="height:400px;" >
+                    <div class="panel-heading">
+                        <h2 class="panel-title">Recent Projects</h2>
+                    </div>
+                    <div class="panel-body lead">
+                        <div class="list-group">
+                            <a ng-repeat="myChallenge in challenges" class="list-group-item" ui-sref="challenge.details({ pid : myChallenge.accessUrl })" ng-bind="myChallenge.title"></a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<!-- /second section -->
-<!-- third section - Services -->
-<div id="services" class="pad-section">
-    <div class="container">
-        <p ng-bind="project.presentation"></p>
-    </div>
-</div>
-<!-- /fourth section -->
-<!-- fifth section -->
-<div id="services" class="pad-section">
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-12 text-center">
-                <!--<h3>Parallax scrolling effect is in action</h3>-->
-                <!--<h4>The next is the address on Google maps</h4>-->
+    <div class="row">
+        <div class="col-md-12" >
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div x="tagCloudParalax" du-parallax>
+                        <d3-tag-cloud tags="tags" on-click="showTag(item)" options="{ width : 1080,height : 400,center : true}" ></d3-tag-cloud>
+                    </div>
+                </div>
             </div>
         </div>
+
     </div>
 </div>
-<!-- /fifth section -->
 
-<!-- google map -->
-<div class="col-md-6 col-md-offset-3">
-    <google-map options="mapOptions" center="{ latitude : '10',longitude : '0' }"  zoom="2" class="home-map" draggable="false">
-        <marker coords="location"  ng-repeat="location in locations"></marker>
-    </google-map>
-</div>

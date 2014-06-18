@@ -1,6 +1,9 @@
 angular.module('cri.home',[])
-.controller('HomeCtrl',function($scope,tags,positions,challenges,$timeout,CONFIG){
-        console.log(positions)
+.controller('HomeCtrl',function($scope,tags,positions,challenges,$timeout,CONFIG,$state,parallaxHelper){
+
+        $scope.servicesParalax = parallaxHelper.createAnimator(-0.6);
+
+        $scope.tagCloudParalax = parallaxHelper.createAnimator(0.3);
 
         $scope.locations = positions[0].concat(positions[1])
         $scope.locations = $scope.locations.concat(positions[2])
@@ -20,14 +23,8 @@ angular.module('cri.home',[])
         })
 
         $scope.tags = tags;
-        $timeout(function(){
-            TagCanvas.Start('myCanvas','tags',{
-                textColour: 'black',
-                outlineColour: '#ff00ff',
-                reverse: true,
-                depth: 1,
-                maxSpeed: 0.2
-            });
-        },500)
+        $scope.showTag = function(e){
+            $state.go('tag',{title : e.text})
+        }
 
     })

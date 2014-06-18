@@ -13,6 +13,7 @@ angular.module('cri', [
     'ui.tinymce',
     'toaster',
     'google-maps',
+    'duParallax',
     'cri.config',
     'cri.home',
     'cri.header',

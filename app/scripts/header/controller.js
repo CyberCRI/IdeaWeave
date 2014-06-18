@@ -23,11 +23,13 @@ angular.module('cri.header',[])
         }
 
         $scope.refreshSearchBar = function(search) {
-            SearchBar.refresh(search).then(function(result){
-                $scope.searchResult = result;
-            }).catch(function(err){
-                toaster.pop('error',err.status,err.message);
-            })
+            if(search.length >=  2 ){
+                SearchBar.refresh(search).then(function(result){
+                    $scope.searchResult = result;
+                }).catch(function(err){
+                    toaster.pop('error',err.status,err.message);
+                })
+            }
         };
 
         $scope.goTo = function(result){

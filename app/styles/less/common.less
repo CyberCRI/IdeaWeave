@@ -1,5 +1,14 @@
 @import "variables";
 
+.map-wrapper{
+  width: 500px;
+  height: 300px;
+  border-radius: 500px;
+  overflow: hidden;
+  position: absolute; /* this breaks the overflow:hidden in Chrome/Opera */
+  -webkit-mask-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAA5JREFUeNpiYGBgAAgwAAAEAAGbA+oJAAAAAElFTkSuQmCC);
+}
+
 .wrapper{
   height: 100%;
 }

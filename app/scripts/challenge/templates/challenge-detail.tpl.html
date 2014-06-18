@@ -1,11 +1,6 @@
 <div class="row">
-    <h1 class="text-muted">	{{challenge.title}}</h1>
     <blockquote ng-bind-html="challenge.brief"></blockquote>
     <div ng-bind-html="challenge.presentationDisplay" ng-if="challenge.presentation"></div>
-    <div ng-show="user.isLoggedIn()">
-        <a class="btn btn-primary btn-lg" ng-if="!isFollow" tooltip="{{'CHALLENGE_VIEW_FOLLOW_INFO'|translate}}"  ng-click="followChallenge()">{{'CHALLENGE_VIEW_FOLLOW'|translate}}({{challenge.follow}}) </a>
-        <a class="btn btn-warning" ng-if="isFollow" ng-click="unfollow(challenge.id)">{{'CHALLENGE_VIEW_UNFOLLOW'|translate}}</a>
-    </div>
 </div>
 
 <div class="row" >

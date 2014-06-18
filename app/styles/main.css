@@ -62,6 +62,15 @@
   -webkit-animation: flipOutX 1s;
   animation: flipOutX 1s;
 }
+.profile-map {
+  width: 200px;
+  height: 200px;
+  border-radius: 500px;
+  overflow: hidden;
+  position: absolute;
+  /* this breaks the overflow:hidden in Chrome/Opera */
+  -webkit-mask-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAA5JREFUeNpiYGBgAAgwAAAEAAGbA+oJAAAAAElFTkSuQmCC);
+}
 .profile-map .angular-google-map-container {
   height: 200px;
 }
@@ -254,6 +263,15 @@
   -moz-border-radius: 20px;
   border-radius: 20px;
 }
+.map-wrapper {
+  width: 500px;
+  height: 300px;
+  border-radius: 500px;
+  overflow: hidden;
+  position: absolute;
+  /* this breaks the overflow:hidden in Chrome/Opera */
+  -webkit-mask-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAA5JREFUeNpiYGBgAAgwAAAEAAGbA+oJAAAAAElFTkSuQmCC);
+}
 .wrapper {
   height: 100%;
 }
@@ -368,7 +386,7 @@ body {
   opacity: 0.85;
 }
 .home-map .angular-google-map-container {
-  height: 700px;
+  height: 400px;
 }
 .dropbox {
   min-height: 70px;

@@ -26,7 +26,7 @@
                                ng-disabled="disabled"
                                ng-init="width = '300px'"
                                select-focus
-                               reset-search-input="false"
+                               reset-search-input="true"
                                style="width: 100%">
                         <ui-select-match placeholder="Search...">
                             {{$select.selected.title || $select.selected.username}}
@@ -34,19 +34,16 @@
                         <ui-select-choices repeat="result in searchResult track by $index"
                                  refresh="refreshSearchBar($select.search)"
                                  refresh-delay="0">
-                            <div class="media">
+                            <div class="media" ng-click="goTo(result)">
                                 <a class="pull-left">
                                     <img class="media-object" height="50px" ng-src="{{ result.poster }}">
                                 </a>
-                                <div class="media-body" ng-click="goTo(result)">
+                                <div class="media-body" >
                                     <h4 class="media-heading" ng-if="result.title" ng-bind="result.title"></h4>
                                     <h4 class="media-heading" ng-if="result.username" ng-bind="result.username"></h4>
-                                    <p  bind-html="result.brief"></p>
-                                    <span ng-repeat="tag in result.tags" ng-bind="tag"></span>
+                                    <span ng-repeat="tag in result.tags">#{{ tag }} </span>
                                 </div>
                             </div>
-
-                            <div ng-bind-html="result.brief | highlight: $select.search"></div>
                         </ui-select-choices>
                     </ui-select>
                 </li>

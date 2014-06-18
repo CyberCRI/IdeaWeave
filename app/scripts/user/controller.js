@@ -46,16 +46,27 @@ angular.module('cri.user',[])
     })
     .controller('ProfileRelationCtrl',function($scope,loggedUser){
         $scope.me = loggedUser.profile;
-
     })
-    .controller('ProfileCtrl',['$scope','$stateParams','toaster','loggedUser','profile','followers','following','users','CONFIG',
-        function ($scope,$stateParams,toaster,loggedUser, profile, followers, following,users,CONFIG) {
-
-        console.log('following : ',following);
-        console.log('followers : ',followers);
+    .controller('ProfileBriefCtrl',function($scope,$sce,loggedUser){
+        console.log(loggedUser.profile)
+        if(loggedUser.profile.brief){
+            $scope.profile.secureBrief = $sce.trustAsHtml(loggedUser.profile.brief);
+        }
+    })
+    .controller('ProfileCtrl',['$scope','$stateParams','toaster','loggedUser','profile','followers','following','users','CONFIG',function ($scope,$stateParams,toaster,loggedUser, profile, followers, following,users,CONFIG) {
         $scope.mapOptions = CONFIG.mapOptions;
 
         $scope.user = users;
+        $scope.isLogged = false;
+        $scope.profile=profile;
+        $scope.isFollowUser=false;
+        $scope.d3Tags = [];
+        angular.forEach($scope.profile.tags,function(v,k){
+            $scope.d3Tags.push({
+                title : v,
+                number : 3
+            })
+        });
 
         if(profile.localisation){
             $scope.map = {
@@ -66,7 +77,7 @@ angular.module('cri.user',[])
                 zoom: 8
             };
         }
-        $scope.isLogged = false
+
         if(loggedUser.profile){
             $scope.isLogged = true;
             if($stateParams.uid==loggedUser.profile.id){
@@ -83,9 +94,7 @@ angular.module('cri.user',[])
         }else{
             $scope.followings = [];
         }
-
-        $scope.profile=profile;
-        $scope.isFollowUser=false;
+;
         if($scope.followers.length>0){
             console.log(followers)
             if($scope.followers.indexOf(loggedUser.profile.id)!==-1){
@@ -93,7 +102,6 @@ angular.module('cri.user',[])
                 $scope.isFollowUser=true;
             }
         }
-        console.log
         // caculate profile rule
         var score=$scope.profile.score;
         var name='';
@@ -160,7 +168,7 @@ angular.module('cri.user',[])
         }
 
         $scope.updateProfile=function(user){
-            users.update(user).then(function(data){
+            users.update(user.id,user).then(function(data){
                 toaster.pop('success','Updated successfully');
             }).catch(function(err){
                 toaster.pop('error',err.status,err.message);
@@ -174,7 +182,7 @@ angular.module('cri.user',[])
                 $scope.notMatch=true;
             }else{
                 $scope.notMatch=false;
-                users.update($scope.profile).then(function(result){
+                users.update($scope.profile.id,$scope.profile).then(function(result){
                     toaster.pop('success','success','Updated successfully');
                 }).catch(function(err){
                     toaster.pop('error',err.status,err.message);
@@ -183,9 +191,9 @@ angular.module('cri.user',[])
             }
         }
     }])
-    .controller('settingAvaterCtrl',['$scope','users','toaster',function ($scope,users,toaster) {
+    .controller('settingAvatarCtrl',['$scope','users','toaster','Files',function ($scope,users,toaster,Files) {
         var file;
-        $scope.onFileSelect = function(files){
+        $scope.fileSelected = function($files){
             $scope.file = $files[0];
             console.log($scope.file)
             if(Files.isImage($scope.file)){
@@ -215,7 +223,7 @@ angular.module('cri.user',[])
     }])
     .controller('settingNotifyCtrl',['$scope','users','toaster',function ($scope,users,toaster) {
         $scope.updateNotify=function(){
-            users.update($scope.profile).then(function(result){
+            users.update($scope.profile.id,$scope.profile).then(function(result){
                 toaster.pop('success','success','Updated successfully')
             }).catch(function(err){
                 toaster.pop('error',err.status,err.message)

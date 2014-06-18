@@ -20,6 +20,15 @@ angular.module('cri.account')
                 }
 
             })
+            .state('activate',{
+                url : '/account/activate/:uid',
+                views : {
+                    mainView: {
+                        templateUrl: '/scripts/account/templates/activate.tpl.html',
+                        controller: 'ActivateCtrl'
+                    }
+                }
+            })
             .state('resetPassword',{
                 url : '/resetPassword',
                 views : {

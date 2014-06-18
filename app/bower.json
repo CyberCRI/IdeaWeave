@@ -16,10 +16,12 @@
         "angular-ui-select" : "*",
         "angular-ui-ace" : "#bower",
         "ng-file-upload ": "*",
+        "ng-parallax" : "*",
         "underscore" : "*",
         "socket.io-client": "1.0.0-pre2",
         "ichuan-bower-tagcanvas" : "*",
         "pdfjs" : "*",
+        "d3-cloud" : "https://github.com/jasondavies/d3-cloud.git",
         "bootstrap": "3.1.1",
         "animatecss" : "https://github.com/daneden/animate.css.git",
         "Font-Awesome": "4.1"

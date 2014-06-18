@@ -1,5 +1,5 @@
 angular.module('cri.account',[])
-    .controller('LoginCtrl', ['$scope', 'users','$state','toaster' ,function ($scope, users, $state,toaster) {
+    .controller('LoginCtrl', ['$scope', 'users','$state','toaster','loggedUser' ,function ($scope, users, $state,toaster, loggedUser) {
         console.log('loginCtrl')
         $scope.form = {};
         $scope.user = users;
@@ -7,7 +7,7 @@ angular.module('cri.account',[])
             users.login($scope.form.username, $scope.form.password)
                 .then(function () {
                     toaster.pop('success', 'Welcome', 'You are logged in !!!');
-                    $state.go('challenges');
+                    $state.go('userSettings.basic',{ uid : loggedUser.profile.id });
                 })
                 .catch(function (err) {
                     console.log(err)
@@ -46,8 +46,10 @@ angular.module('cri.account',[])
             } else {
                 $scope.notMatch = false;
                 users.register($scope.rgform).then( function (result) {
-                    $scope.fileUploadQuestion = true;
-                    toaster.pop('info','success','If you want you can set up a profile picture rigth now')
+//                    $scope.fileUploadQuestion = true;
+//                    toaster.pop('info','success','If you want you can set up a profile picture rigth now')
+                    toaster.pop('info','Activation','Check your email to activate your account')
+
                 },function(err){
                     toaster.pop('error',err.status, err.message);
                 })
@@ -127,5 +129,14 @@ angular.module('cri.account',[])
 //            })
         }
 
-    }]);
+    }])
+    .controller('ActivateCtrl',function($scope,users,$state,$stateParams,toaster){
+        $scope.activate = function(){
+            users.update($stateParams.uid,{ emailValidated : true }).then(function(){
+                $state.go('login')
+            }).catch(function(err){
+                toaster.pop('error',err.status,err.message)
+            })
+        }
+    })
  

@@ -1,3 +1,12 @@
+.profile-map {
+  width: 200px;
+  height: 200px;
+  border-radius: 500px;
+  overflow: hidden;
+  position: absolute;
+  /* this breaks the overflow:hidden in Chrome/Opera */
+  -webkit-mask-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAA5JREFUeNpiYGBgAAgwAAAEAAGbA+oJAAAAAElFTkSuQmCC);
+}
 .profile-map .angular-google-map-container {
   height: 200px;
 }

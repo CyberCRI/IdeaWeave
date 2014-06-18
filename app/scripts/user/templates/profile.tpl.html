@@ -53,12 +53,10 @@
                             </div>
                             <div class="progress">
                                 <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="{{profile.ugProgress}}" aria-valuemin="0" aria-valuemax="100" style="width: {{profile.ugProgress}}%" tooltip="{{profile.ugProgress}}%">
-                                    <span class="sr-only">{{profile.ugProgress}}% 完成</span>
+                                    <span class="sr-only">{{profile.ugProgress}}% </span>
                                 </div>
                             </div>
-                            <google-map center="map.center" zoom="map.zoom" ng-if="map" class="profile-map" options="mapOptions">
-                                <marker coords="map.center"></marker>
-                            </google-map>
+                            <d3-tag-cloud tags="d3Tags" on-click="showTag(item)" options="{ width : 150, height:200 }"></d3-tag-cloud>
                         </div>
                         <div class="pbm mtl mbl">
                             <div class="text-muted">
@@ -87,6 +85,11 @@
                     <li ui-route="/user/{{ profile.id }}/activity" ng-class="{active: $uiRoute}" ng-show="isOwner">
                         <a ui-sref="profile.activity">
                             {{'PROFILE_ACTIVITY'|translate}}
+                        </a>
+                    </li>
+                    <li ui-route="/user/{{ profile.id }}/brief" ng-class="{active: $uiRoute}">
+                        <a ui-sref="profile.brief">
+                            brief
                         </a>
                     </li>
                     <li ui-route="/user/{{ profile.id }}/ideas" ng-class="{active: $uiRoute}">

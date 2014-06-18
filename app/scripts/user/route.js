@@ -33,7 +33,7 @@ angular.module('cri.user')
                 views : {
                     settingView: {
                         templateUrl: 'scripts/user/templates/settings/avatar.tpl.html',
-                        controller: 'settingAvaterCtrl'
+                        controller: 'settingAvatarCtrl'
                     }
                 }
             })
@@ -168,6 +168,15 @@ angular.module('cri.user')
                         return Recommend.fetchProject($stateParams.uid);
                     }
 
+                }
+            })
+            .state('profile.brief',{
+                url : '/brief',
+                views : {
+                    profileView: {
+                        templateUrl: 'scripts/user/templates/profile/brief.tpl.html',
+                        controller : 'ProfileBriefCtrl'
+                    }
                 }
             })
     }]);

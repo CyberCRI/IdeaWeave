@@ -60,7 +60,6 @@ angular.module('cri.user')
                 var deferred = $q.defer();
                 $http.post(CONFIG.apiServer + '/users', user)
                     .success(function (me) {
-                        loggedUser.profile = me;
                         deferred.resolve(me);
                     })
                     .error(function (err) {
@@ -122,12 +121,12 @@ angular.module('cri.user')
                         .error(function(err){
                             defered.reject(err);
                         })
-                })
+                });
                 return defered.promise;
             },
-            update : function(user){
+            update : function(id,user){
                 var defered = $q.defer();
-                $http.put(CONFIG.apiServer+'/users/'+user.id,user)
+                $http.put(CONFIG.apiServer+'/users/'+id,user)
                     .success(function(data){
                         defered.resolve(data);
                     })
@@ -138,7 +137,7 @@ angular.module('cri.user')
             },
             getFollower : function(param){
                 var defered = $q.defer();
-                var url = CONFIG.apiServer + '/followers'
+                var url = CONFIG.apiServer + '/followers';
                 if (param){
                     url = url + '?' + JSON.stringify(param);
                 }
@@ -148,11 +147,11 @@ angular.module('cri.user')
                     })
                     .error(function(err){
                         defered.reject(err);
-                    })
+                    });
                 return defered.promise;
             },getFollowing : function(param){
                 var defered = $q.defer();
-                var url = CONFIG.apiServer + '/following'
+                var url = CONFIG.apiServer + '/following';
                 if (param){
                     url = url + '?' + JSON.stringify(param);
                 }
@@ -162,7 +161,7 @@ angular.module('cri.user')
                     })
                     .error(function(err){
                         defered.reject(err);
-                    })
+                    });
                 return defered.promise;
             },
             follow : function(uid){
@@ -173,7 +172,7 @@ angular.module('cri.user')
                     })
                     .error(function(err){
                         defered.reject(err);
-                    })
+                    });
                 return defered.promise;
             },
             unfollow : function(uid){
@@ -184,7 +183,7 @@ angular.module('cri.user')
                     })
                     .error(function(err){
                         defered.reject(err);
-                    })
+                    });
                 return defered.promise;
             },
             getActivity : function(uid,skip){
@@ -199,7 +198,7 @@ angular.module('cri.user')
                     })
                     .error(function(err){
                         defered.reject(err);
-                    })
+                    });
                 return defered.promise;
             },
             getResetPassToken : function(email){
@@ -210,7 +209,7 @@ angular.module('cri.user')
                     })
                     .error(function(err){
                         defered.reject(err);
-                    })
+                    });
                 return defered.promise;
             },
             resetPassword : function(resetF){
@@ -221,9 +220,9 @@ angular.module('cri.user')
                     })
                     .error(function(err){
                         defered.reject(err);
-                    })
+                    });
                 return defered.promise;
             }
         };
         return service;
-    }])
+    }]);

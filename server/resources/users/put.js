@@ -1,4 +1,3 @@
-
 protect('email');
 protect('createDate');
 

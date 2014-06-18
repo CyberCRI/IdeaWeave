@@ -8,6 +8,14 @@
 			"required": true,
 			"id": "title",
 			"order": 0
+		},
+		"number": {
+			"name": "number",
+			"type": "number",
+			"typeLabel": "number",
+			"required": false,
+			"id": "number",
+			"order": 1
 		}
 	}
 }

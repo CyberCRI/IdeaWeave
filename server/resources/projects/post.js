@@ -1,14 +1,18 @@
 if(!me){
     cancel('Must be logged in to create a project','401');
 }
-console.log('this',this)
 if(this.tags){
-    for(var tag in this.tags){
-        dpd.tags.post({title : this.tags[tag]},function(){
-        
-        })
-    }
-}
+   this.tags.forEach(function(v,k){
+    dpd.tags.get({title : v},function(data){
+        dpd.tags.put({
+            id : data[0].id,
+            number : { $inc : 1 }            
+        },function(data,err){
+            console.log(data,err);
+        });
+    });
+});
+
 // in case dulplicate
 dpd.projects.get({title:this.title},function(data,err){
     if(data.length>0) cancel('Already created',401);
