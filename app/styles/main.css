@@ -36,7 +36,7 @@
 }
 [ui-view="mainView"].ng-enter {
   -webkit-animation: fadeInRight 0.5s;
-  animation: fadeOutRight 0.5s;
+  animation: fadeInRight 0.5s;
 }
 [ui-view="mainView"].ng-leave {
   -webkit-animation: fadeOutLeft 0.5s;
@@ -73,6 +73,9 @@
 }
 .profile-map .angular-google-map-container {
   height: 200px;
+}
+.profile-brief {
+  min-height: 250px !important;
 }
 /*-- helper css--*/
 .dashed {

@@ -120,6 +120,14 @@
 			"required": false,
 			"id": "localisation",
 			"order": 14
+		},
+		"presentation": {
+			"name": "presentation",
+			"type": "string",
+			"typeLabel": "string",
+			"required": false,
+			"id": "presentation",
+			"order": 15
 		}
 	}
 }

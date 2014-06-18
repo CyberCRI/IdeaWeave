@@ -18,6 +18,9 @@ angular.module('cri.home')
                     },
                     challenges : function(Challenge){
                         return Challenge.fetch({$limit : 10})
+                    },
+                    projects : function(Project){
+                        return Project.fetch({$limit : 10})
                     }
                 }
             })

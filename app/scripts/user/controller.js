@@ -50,7 +50,10 @@ angular.module('cri.user',[])
     .controller('ProfileBriefCtrl',function($scope,$sce,loggedUser){
         console.log(loggedUser.profile)
         if(loggedUser.profile.brief){
-            $scope.profile.secureBrief = $sce.trustAsHtml(loggedUser.profile.brief);
+            $scope.secureBrief = $sce.trustAsHtml(loggedUser.profile.brief);
+        }
+        if(loggedUser.profile.presentation){
+            $scope.securePresentation = $sce.trustAsHtml(loggedUser.profile.presentation);
         }
     })
     .controller('ProfileCtrl',['$scope','$stateParams','toaster','loggedUser','profile','followers','following','users','CONFIG',function ($scope,$stateParams,toaster,loggedUser, profile, followers, following,users,CONFIG) {
@@ -64,7 +67,7 @@ angular.module('cri.user',[])
         angular.forEach($scope.profile.tags,function(v,k){
             $scope.d3Tags.push({
                 title : v,
-                number : 3
+                number : 1
             })
         });
 

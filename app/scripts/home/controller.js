@@ -1,5 +1,5 @@
 angular.module('cri.home',[])
-.controller('HomeCtrl',function($scope,tags,positions,challenges,$timeout,CONFIG,$state,parallaxHelper){
+.controller('HomeCtrl',function($scope,tags,positions,challenges,projects,CONFIG,$state,parallaxHelper){
 
         $scope.servicesParalax = parallaxHelper.createAnimator(-0.6);
 
@@ -9,6 +9,8 @@ angular.module('cri.home',[])
         $scope.locations = $scope.locations.concat(positions[2])
 
         $scope.challenges = challenges;
+        $scope.projects = projects;
+
 
         $scope.mapOptions = CONFIG.mapOptions;
         angular.forEach($scope.locations,function(v,k){

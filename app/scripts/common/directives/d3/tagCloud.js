@@ -23,7 +23,7 @@ angular.module('cri.common')
 
                     d3.layout.cloud().size([width, height])
                         .words(scope.tags.map(function(d) {
-                                return {text: d.title, size: 10 + d.number/10 * 90};
+                                return {text: d.title, size: 10 + d.number/10 * 120};
                             }))
                         .padding(5)
                         .rotate(function() { return ~~(Math.random() * 2) * 90; })

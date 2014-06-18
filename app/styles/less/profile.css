@@ -10,3 +10,6 @@
 .profile-map .angular-google-map-container {
   height: 200px;
 }
+.profile-brief {
+  min-height: 250px !important;
+}
