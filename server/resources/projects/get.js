@@ -1,3 +1,5 @@
+console.log('get projects !');
+
 function inArray(value,array){
     if(typeof value=="string"){
         var len=array.length;
