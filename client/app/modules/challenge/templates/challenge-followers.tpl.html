@@ -1,0 +1,16 @@
+<div class="row mtl"></div>
+<div class="text-muted" ng-hide="followers" >Nobody follow yet.</div>
+<ul class="list-unstyled" ng-show="followers">
+    <div ng-switch="user.isLoggedIn()">
+        <div ng-switch-when="true">
+            <li ng-repeat="follower in followers" class="col-md-6 col-sm-6 col-xs-12" >
+                <div user-block="follower"></div>
+            </li>
+        </div>
+        <div ng-switch-default>
+            <li ng-repeat="follower in followers" class="pas inline" >
+                <div owner-block="follower"></div>
+            </li>
+        </div>
+    </div>
+</ul>

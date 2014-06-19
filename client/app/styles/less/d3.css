@@ -1,0 +1,25 @@
+.node {
+  stroke: #fff;
+  stroke-width: 5px;
+}
+.link-user {
+  stroke: #9ac674;
+}
+.link-project {
+  stroke: #9ad5ff;
+}
+.link-challenge {
+  stroke: #be964d;
+}
+.text-user {
+  stroke: #9ac674;
+  stroke-width: 0.5px;
+}
+.text-project {
+  stroke: #9ad5ff;
+  stroke-width: 0.5px;
+}
+.text-challenge {
+  stroke: #be964d;
+  stroke-width: 0.5px;
+}

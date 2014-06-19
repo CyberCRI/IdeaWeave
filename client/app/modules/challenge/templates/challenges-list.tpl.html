@@ -1,0 +1,41 @@
+<div class="container mtl">
+    <a ui-sref="challengeSuggest" class="btn btn-default pull-right"  ng-if="isLogged" >{{'CHALLENGE_LIST_SUGGEST'|translate}}</a>
+    <div class="row">
+        <div class="col-xs-6">
+            <form class="form-inline" role="form">
+                <div class="row">
+                    <div class="input-group col-sm-10 col-xs-8">
+                    <input type="search" class="form-control" ng-model="searchChallenge" id="searchField">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default"ng-click="queryChallenge()"><i class="fa fa-search fa-fw"></i></button>
+                        </span>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="clearfix"></div>
+        <div class="solid ptm"></div>
+        <div class="row mtl" >
+            <ul class="list-unstyled">
+                <li ng-repeat="challenge in challenges | orderBy:orderProp:true track by $index" class="col-md-4 col-sm-6 col-xs-12">
+                    <div class="panel panel-default">
+                        <div class="panel-body center"  >
+                            <a ui-sref="challenge.details({ pid : challenge.accessUrl })">
+                                <img ng-src="{{challenge.poster}}" ng-show="challenge.poster" class="img-rounded" style="height:180px;max-width: 100%">
+                            </a>
+                        </div>
+                        <div class="panel-footer">
+                            <b class="lead"><a ui-sref="challenge.details({ pid : challenge.accessUrl })">{{challenge.title}}</a></b>
+                            <p class="muted" style="height:130px;overflow:hidden;" ><small ng-bind-html="challenge.brief"></small></p>
+                            <div showtags="" entity="challenge"></div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <div class="clearfix"></div>
+            <button ng-show="challenges.length>=4&&!isEnd" ng-click="loadMoreChallenges(noPage)" class="btn  btn-default col-xs-12">{{'BTN_MORE'|translate}}</button>
+        </div>
+        <div ng-hide="challenges" class="alert alert-info">{{'CHALLENGE_LIST_NORESULT'|translate}}</div>
+        <div ng-show="isEnd&&challenges.length>=4"  class="alert alert-info">{{'CHALLENGE_LIST_END'|translate}}</div>
+    </div>
+</div>        

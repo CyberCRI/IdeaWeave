@@ -1,0 +1,20 @@
+<div class="dropbox row"
+     ng-file-drop="fileSelected($files)"
+     ng-file-drag-over-class="dropbox-dragover"
+     style="background-image:url({{ fileUrl }});background-repeat:no-repeat;background-size:contain;background-position:right;">
+    <div>
+        <input ng-if="!file" type="file" ng-file-select="fileSelected($files)"/>
+    </div>
+    <div  ng-if="file">
+        <div class="btn-group">
+            <button  ng-click="upload(myTopic,file,file.description)" class="btn btn-default">
+                {{ 'Upload '+file.name }}
+            </button>
+            <button ng-click="cancelUpload()" class="btn btn-danger">
+                Cancel
+            </button>
+        </div>
+        <textarea style="width:100%;color: black; background-color: transparent;" autofocus="true" placeholder="file description..." rows="10" ng-model="file.description"></textarea>
+    </div>
+    <!--<img ng-src="{{ fileUrl }}"  ng-show="fileUrl" width="100%"/>-->
+</div>

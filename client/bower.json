@@ -1,0 +1,29 @@
+{
+    "name": "stormIdea",
+    "description": "a CRI app !!!",
+    "version": "0.0.1",
+    "dependencies": {
+        "angular": "1.2.16",
+        "angular-translate": "1.1.1",
+        "angular-google-maps":"*",
+        "AngularJS-Toaster" : "*",
+        "angular-socket-io" : "*",
+        "angular-sanitize": "~1.2.16",
+        "angular-bootstrap": "*",
+        "angular-ui-router": "*",
+        "angular-ui-utils" : "*",
+        "angular-ui-tinymce": "*",
+        "angular-ui-select" : "*",
+        "angular-ui-ace" : "#bower",
+        "angular-crop-image" : "https://github.com/andyshora/angular-image-crop.git#master",
+        "ng-file-upload ": "*",
+        "ng-parallax" : "*",
+        "underscore" : "*",
+        "socket.io-client": "1.0.0-pre2",
+        "pdfjs" : "*",
+        "bootstrap": "3.1.1",
+        "animatecss" : "https://github.com/daneden/animate.css.git",
+        "Font-Awesome": "4.1"
+    },
+    "devDependencies": {}
+}

@@ -1,0 +1,1 @@
+this.number = 0;
