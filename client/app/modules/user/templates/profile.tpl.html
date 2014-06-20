@@ -79,7 +79,7 @@
                     </button>
                 </div>
                 <a ui-sref="userSettings.basic({ uid : profile.id })" ng-show="isOwner" class="btn btn-default pull-right ">
-                    <i class="icon-edit"></i>{{'PROFILE_EDIT'|translate}}
+                    <i class="fa fa-edit"></i>{{'PROFILE_EDIT'|translate}}
                 </a>
                 <ul class="nav nav-tabs mbm">
                     <li ui-route="/user/{{ profile.id }}/activity" ng-class="{active: $uiRoute}" ng-show="isOwner">

@@ -44,18 +44,16 @@
                                     <br><div owner-block="challenge.owner"></div>
                             </span>
                         </h3>
-                        <google-map center="map.center" zoom="map.zoom" ng-if="map" class="challenge-map" options="mapOptions">
-                            <marker coords="map.center"></marker>
-                        </google-map>
-                    </div>
-                    <div class="pbm mtl mbl">
-                        <div showtags="" entity="challenge"></div>
+                        <d3-tag-cloud tags="d3Tags" on-click="showTag(item)" options="{ width : 150, height:200 }"></d3-tag-cloud>
                     </div>
                 </div>
             </div>
         </div>
         <article class="col-md-9 col-sm-8 col-xs-12">
             <h1 ng-bind="challenge.title" class="center"></h1>
+            <a ui-sref="challengeSettings.basic({ pid : challenge.accessUrl })" ng-show="isOwner" class="btn btn-default pull-right ">
+                <i class="fa fa-edit"></i>Edit
+            </a>
             <ul class="nav nav-pills">
                 <li ui-route="/challenge/{{ challenge.accessUrl }}/list" ng-class="{active: $uiRoute}">
                     <a ui-sref="challenge.list">List</a>
@@ -69,14 +67,12 @@
                 <li ui-route="/challenge/{{ challenge.accessUrl }}/followers" ng-class="{active: $uiRoute}">
                     <a ui-sref="challenge.followers">followers</a>
                 </li>
-                <li ui-route="/challenge/{{ challenge.accessUrl }}/settings" ng-class="{active: $uiRoute}" ng-if="isOwner">
-                    <a ui-sref="challenge.settings">Settings</a>
-                </li>
                 <li ng-if="me" ui-route="/challenge/{{ challenge.accessUrl }}/projectCreation" ng-class="{active: $uiRoute}">
                     <a ui-sref="challenge.projectCreation">Create New Project</a>
                 </li>
             </ul>
             <br>
+
             <div ui-view="challengeView">
             </div>
         </article>

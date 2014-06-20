@@ -120,37 +120,6 @@ angular.module('cri.challenge', [])
                 toaster.pop('error',err.status,err.message);
             })
         }
-
-        $scope.fileSelected = function($files){
-            $scope.file = $files[0];
-            if(Files.isImage($scope.file)){
-                Files.getDataUrl($scope.file).then(function(dataUrl){
-                    $scope.fileUrl = dataUrl;
-                })
-                $scope.dropBoxHeight = "300px";
-            }else{
-                toaster.pop('warning','warning','this file is not an image');
-            }
-        }
-
-
-        $scope.cancelUpload = function(){
-            $scope.file = null;
-            $scope.fileUrl = null;
-            $scope.dropBoxHeight = "100px";
-        }
-
-        $scope.upload = function(topic,file,description){
-            Challenge.uploadPoster(file).then(function(data){
-                toaster.pop('success','upload success','your file has been uploaded !!!');
-                $scope.file = null;
-                $scope.fileUrl = null;
-                $scope.dropBoxHeight = "100px";
-                $state.go('challenge.details',{ pid : Challenge.data.accessUrl });
-            }).catch(function(err){
-                toaster.pop('error',err.status,err.message);
-            })
-        }
     }])
     .controller('ChallengeViewCtrl', ['$scope', 'challenge','users', 'Challenge','Project','$sce','toaster','loggedUser','CONFIG',
         function ($scope, challenge,users, Challenge, Project, $sce, toaster, loggedUser, CONFIG) {
@@ -161,7 +130,6 @@ angular.module('cri.challenge', [])
             if($scope.challenge.presentation){
                 $scope.challenge.presentationDisplay = $sce.trustAsHtml($scope.challenge.presentation);
             }
-
 
             $scope.noPage = 1;
             $scope.isEnd = false;
@@ -207,6 +175,15 @@ angular.module('cri.challenge', [])
                 zoom: 8
             };
         }
+
+        $scope.d3Tags = [];
+        angular.forEach($scope.challenge.tags,function(v,k){
+            $scope.d3Tags.push({
+                title : v,
+                number : 1
+            })
+        });
+
         // follow challenge
         if (loggedUser.profile) {
             console.log()
