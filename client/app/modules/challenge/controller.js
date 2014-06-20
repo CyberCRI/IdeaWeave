@@ -155,7 +155,7 @@ angular.module('cri.challenge', [])
 .controller('ChallengeFollowerCtrl',['$scope','Challenge',function($scope,Challenge){
         $scope.followers = Challenge.data.followers;
     }])
-.controller('ChallengeCtrl',['$scope','Challenge','challenge','loggedUser','toaster','loggedUser',function($scope,Challenge,challenge,loggedUser,toaster,loggedUser){
+.controller('ChallengeCtrl',['$scope','Challenge','challenge','loggedUser','toaster','$state',function($scope,Challenge,challenge,loggedUser,toaster,$state){
         $scope.me = loggedUser.profile;
 
         $scope.challenge = Challenge.data = challenge[0];
@@ -183,6 +183,11 @@ angular.module('cri.challenge', [])
                 number : 1
             })
         });
+
+        $scope.showTag = function(e){
+            $state.go('tag',{title : e.text})
+        };
+
 
         // follow challenge
         if (loggedUser.profile) {

@@ -63,7 +63,7 @@ angular.module('cri.topic')
                         topic.files = new Array;
                     }
                     var myFile = data[0];
-                    Files.getPoster(myFile);
+                    Files.getPoster(file);
                     myFile.url = CONFIG.apiServer+'/fileUpload/topic/'+$stateParams.pid+'/'+myFile.filename;
                     topic.files.push(myFile);
                     $http.put(CONFIG.apiServer+'/pforums',topic).success(function(data){

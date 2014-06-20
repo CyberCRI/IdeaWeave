@@ -75,8 +75,10 @@ angular.module('cri.topic',[])
             })
         }
     }])
-    .controller('ProjectTopicCtrl',['$scope','Project','Topic','toaster','project','$stateParams',function($scope,Project,Topic,toaster,project,$stateParams){
+    .controller('ProjectTopicCtrl',['$scope','Project','Topic','toaster','project','CONFIG',function($scope,Project,Topic,toaster,project,CONFIG){
         $scope.topics = project[0].topics;
+
+        $scope.tinymceOptions = CONFIG.tinymceOptions;
 
         $scope.tf={};
         $scope.addTopic=function(){

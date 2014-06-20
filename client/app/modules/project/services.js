@@ -22,10 +22,9 @@ angular.module('cri.project')
                 })
             return defered.promise;
         },
-        update : function(param,id){
+        update : function(id,param){
             var defered = $q.defer(),
                 url = CONFIG.apiServer + '/projects';
-            console.log(param);
             if(id){
                 url += '/'+id;
             }

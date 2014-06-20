@@ -56,7 +56,7 @@ angular.module('cri.user',[])
             $scope.securePresentation = $sce.trustAsHtml(loggedUser.profile.presentation);
         }
     }])
-    .controller('ProfileCtrl',['$scope','$stateParams','toaster','loggedUser','profile','followers','following','users','CONFIG',function ($scope,$stateParams,toaster,loggedUser, profile, followers, following,users,CONFIG) {
+    .controller('ProfileCtrl',['$scope','$stateParams','toaster','loggedUser','profile','followers','following','users','CONFIG','$state',function ($scope,$stateParams,toaster,loggedUser, profile, followers, following,users,CONFIG,$state) {
         $scope.mapOptions = CONFIG.mapOptions;
 
         $scope.user = users;
@@ -70,6 +70,9 @@ angular.module('cri.user',[])
                 number : 1
             })
         });
+        $scope.showTag = function(e){
+            $state.go('tag',{title : e.text})
+        }
 
         if(profile.localisation){
             $scope.map = {

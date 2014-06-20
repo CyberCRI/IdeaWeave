@@ -1,5 +1,5 @@
 angular.module('cri.project',[])
-    .controller('ProjectCtrl',['$scope','Project','project','$modal', 'loggedUser', 'toaster','users','$sce','CONFIG',function($scope,Project,project,$modal, loggedUser, toaster,users,$sce,CONFIG){
+    .controller('ProjectCtrl',['$scope','Project','project','$modal', 'loggedUser', 'toaster','users','$sce','CONFIG','$state',function($scope,Project,project,$modal, loggedUser, toaster,users,$sce,CONFIG,$state){
 
         $scope.mapOptions = CONFIG.mapOptions;
         $scope.project = Project.data = project[0];
@@ -15,14 +15,28 @@ angular.module('cri.project',[])
         if($scope.project.presentation){
             $scope.project.presentationDisplay = $sce.trustAsHtml($scope.project.presentation);
         }
+
         $scope.user = loggedUser.profile
         $scope.isLoggedIn = users.isLoggedIn();
         $scope.project=project[0];
         $scope.proccess = ($scope.project.score/9).toFixed(2);
 
+
+        $scope.d3Tags = [];
+        angular.forEach($scope.project.tags,function(v,k){
+            $scope.d3Tags.push({
+                title : v,
+                number : 1
+            })
+        });
+
+        $scope.showTag = function(e){
+            $state.go('tag',{title : e.text})
+        }
+
         $scope.openRqteam = function () {
             $modal.open({
-                templateUrl:'/scripts/project/templates/projectRqteam.tpl.html',
+                templateUrl:'/modules/project/templates/projectRqteam.tpl.html',
                 controller: ['$scope','$modalInstance',function($scope,$modalInstance){
                     $scope.tmsg={};
                     $scope.applyTeamMsg=function(){
@@ -44,7 +58,7 @@ angular.module('cri.project',[])
 
         $scope.openShare = function () {
             $modal.open({
-                templateUrl:'/scripts/project/templates/projectShare.tpl.html',
+                templateUrl:'/modules/project/templates/projectShare.tpl.html',
                 controller: ['$scope','$modalInstance','$stateParams',function($scope,$modalInstance,$stateParams){
                     $scope.pid = $stateParams.pid;
                     $scope.cid = $stateParams.cid

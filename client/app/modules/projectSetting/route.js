@@ -15,6 +15,15 @@ angular.module('cri.projectSetting')
                     }]
                 }
             })
+            .state('projectSettings.poster',{
+                url : '/poster',
+                views :{
+                    settingView : {
+                        templateUrl:'modules/projectSetting/templates/poster.tpl.html',
+                        controller: 'ProjectPosterCtrl'
+                    }
+                }
+            })
             .state('projectSettings.basic',{
                 url : '/basic',
                 views :{

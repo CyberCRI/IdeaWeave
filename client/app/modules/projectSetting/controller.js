@@ -3,12 +3,26 @@ angular.module('cri.projectSetting',[])
         $scope.user = users;
         $scope.project = project[0];
     }])
-    .controller('ProjectBasicCtrl',['$scope','$stateParams','Project','$modal','$state','toaster',function ($scope,$stateParams,Project,$modal,$state,toaster) {
+    .controller('ProjectPosterCtrl',['$scope','Project','toaster',function($scope,Project,toaster){
+        $scope.$watch('imageCropResult', function(newVal) {
+            if (newVal) {
+                console.log($scope.challenge);
+                Project.update($scope.project.id, { poster: newVal }).then(function () {
+                    $scope.project.poster = newVal;
+                    toaster.pop('success', 'success', "Challenge's poster updated");
+                }).catch(function (err) {
+                    toaster.pop('error', err.status, err.message);
+                })
+            }
+        })
+    }])
+    .controller('ProjectBasicCtrl',['$scope','$stateParams','Project','$modal','$state','toaster','CONFIG',function ($scope,$stateParams,Project,$modal,$state,toaster,CONFIG) {
         $scope.options = {
             height: 200,
             focus: true
         }
 
+        $scope.tinymceOptions = CONFIG.tinymceOptions;
 //        $scope.project=project;
 
         //Update project

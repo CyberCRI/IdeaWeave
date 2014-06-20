@@ -1,7 +1,7 @@
-<div ng-include="'scripts/common/include/projectMenu.tpl.html'"></div>
+<div ng-include="'modules/common/include/projectMenu.tpl.html'"></div>
 
 <!-- first section - Home -->
-<div id="home" class="home" style="background-image : url({{ project.poster }}) !important; background-size: cover; background-repeat:no-repeat;background-attachment:fixed;">
+<div id="home" class="home" style="background-image : url({{ project.poster || 'images/lightBulb.jpg' }}) !important; background-size: cover; background-repeat:no-repeat;background-attachment:fixed;">
     <div class="text-vcenter">
         <h1 ng-bind="project.title" ></h1>
         <p class="lead" ng-bind-html="project.brief"></p>
@@ -36,18 +36,7 @@
         </div>
     </div>
 </div>
-<!-- /second section -->
-<!-- third section - Services -->
 
-<!-- /third section -->
-<!-- fourth section - Information -->
-<div id="tags">
-    <ul>
-        <li ng-repeat="tag in project.tags">
-            <a ui-sref="tag({ title : tag })" target="_blank" ng-bind="tag"></a>
-        </li>
-    </ul>
-</div>
 <div id="information" class="pad-section">
     <div class="container">
         <div class="row">
@@ -57,11 +46,7 @@
                         <h2 class="panel-title">Tag Cloud</h2>
                     </div>
                     <div class="panel-body lead">
-                        <div id="myCanvasContainer" style="height: 350px">
-                            <canvas width="300" height="300" id="myCanvas">
-                                <p>Anything in here will be replaced on browsers that support the canvas element</p>
-                            </canvas>
-                        </div>
+                        <d3-tag-cloud tags="d3Tags" on-click="showTag(item)" options="{ width : 300, height:300 }"></d3-tag-cloud>
                     </div>
                 </div>
             </div>
@@ -86,27 +71,16 @@
 <div id="team" class="pad-section">
     <div class="container">
         <div class="row">
-            <div class="col-sm-12 text-center">
-                <div class="col-lg-offset-3 col-lg-6">
+            <div class="col-sm-12 ">
+                <div class="col-sm-6">
                     <div class="panel panel-default">
                         <div class="panel-heading" ><b>{{'PROJECT_VIEW_OWNER'|translate}}</b></div>
                         <div class="panel-body">
-
-                            <div class="pas">
-                                <div owner-block="project.owner" class="inline mlm"></div>
-                            </div>
-                            <div class="text-muted pas">{{'CREATE_TIME'|translate}}{{project.createDate|timeago}}  </div>
-                            <div class="text-muted pas">{{'LAST_UPDATE'|translate}}{{project.updateDate|timeago}}</div>
-
-                            <div class="text-muted pas">{{'TAGS_LABEL'|translate}}
-                                <div showtags="" entity="project"></div>
-                            </div>
-
-                            <div class="clearfix"></div>
+                            <div owner-block="project.owner" class="inline mlm"></div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-12">
+                <div class="col-sm-6">
                     <div class="panel panel-default">
                         <div class="panel-heading" ><b>{{'PROJECT_VIEW_MEMBER'|translate}}</b></div>
                         <div class="panel-body">
