@@ -26,7 +26,7 @@
                 </div>
                 <br/>
                 <section class="row">
-                    <span ng-repeat="file in myTopic.files">
+                    <span ng-repeat="file in files">
                         <i class="fa {{ file.class }} fa-2x icon-file" ng-class="{ 'file-selected' : file.id == fileDetails.id  }" ng-click="showFileDetails($index)" style="display : inline-block" popover-trigger="mouseenter" popover-title="{{ file.filename }}" Popover-animation="true" popover="{{ file.ownerName }}"></i>
                     </span>
                 </section>
@@ -62,7 +62,6 @@
                 </div>
             </div>
             <div class="col-md-6">
-                {{ fileDetails.url }}
                 <img ng-src="{{ fileDetails.url }}" ng-if="isImage(fileDetails)"/>
                 <video ng-src="{{ fileDetails.url }}" ng-if="isVideo(fileDetails)"></video>
                 <pdf-js url="fileDetails.url" width="100%" height="400px" ng-if="isPdf(fileDetails)"></pdf-js>

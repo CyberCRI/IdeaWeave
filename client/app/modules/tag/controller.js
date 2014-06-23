@@ -1,5 +1,14 @@
 angular.module('cri.tag',[])
-    .controller('TagCtrl',['$scope','$stateParams','Tag','$timeout','$sce',function($scope,$stateParams,Tag,$timeout,$sce){
+    .controller('TagCtrl',['$scope','$stateParams','Tag','$timeout','$sce','toaster',function($scope,$stateParams,Tag,$timeout,$sce,toaster){
+
+        $scope.queryTag = function(query){
+            Tag.search(query).then(function(data){
+                $scope.tagdatas=data;
+                $scope.d3TagData = Tag.d3FormatData(data,$stateParams.title);
+            }).catch(function(err){
+                toaster.pop('error',err.status,err.message);
+            })
+        }
 
         $scope.d3OnClick = function(item) {
             $scope.$apply(function() {

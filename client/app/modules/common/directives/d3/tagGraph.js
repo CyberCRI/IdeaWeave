@@ -46,7 +46,7 @@ angular.module('cri.common')
                         force = d3.layout.force()
                             .charge(-300)
                             .linkDistance(200)
-                            .size([900, 500])
+                            .size([300, 500])
                             .nodes(data.nodes)
                             .links(data.links)
                             .start();

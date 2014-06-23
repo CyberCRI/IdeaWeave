@@ -73,6 +73,19 @@ angular.module('cri.topic')
                     })
                 });
                 return defered.promise;
+            },
+            fetchFile : function(id){
+                var defered = $q.defer();
+                $http.get(CONFIG.apiServer+'/upload',{
+                    params : {
+                        topic : id
+                    }
+                }).success(function(data){
+                   defered.resolve(data);
+                }).error(function(err){
+                    defered.reject(err);
+                });
+                return defered.promise;
             }
         }
         return service;

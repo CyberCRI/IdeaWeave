@@ -98,7 +98,7 @@ angular.module('cri.tag')
                         target : 0
                     };
                     d3TagData.links.push(link);
-                    parseTag(v.tags,d3TagData.nodes.indexOf(node))
+//                    parseTag(v.tags,d3TagData.nodes.indexOf(node))
                 })
                 angular.forEach(data.challenges,function(v,k){
                     var node = {

@@ -2,20 +2,12 @@
   height: 50px;
   overflow: auto;
 }
-.owner-topic {
-  background: #b2c9bc;
-}
-.follower-topic {
-  background: #faffc1;
-}
-.visitor-topic {
-  background: #fff4f4;
-}
-.member-topic {
-  background: #e0ffda;
-}
 .project-map .angular-google-map-container {
   height: 400px;
+}
+.project-panel {
+  height: 300px;
+  overflow: auto;
 }
 .challenge-map .angular-google-map-container {
   height: 200px;
@@ -376,6 +368,18 @@ body {
 }
 .home-map .angular-google-map-container {
   height: 400px;
+}
+.owner-topic {
+  background: #b2c9bc;
+}
+.follower-topic {
+  background: #faffc1;
+}
+.visitor-topic {
+  background: #fff4f4;
+}
+.member-topic {
+  background: #e0ffda;
 }
 .dropbox {
   min-height: 70px;

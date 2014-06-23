@@ -76,7 +76,7 @@
             <div ng-bind-html="project.presentationDisplay" ng-if="project.presentation" class="row"></div>
             <div class="row">
                 <div class="col-sm-6">
-                    <div class="panel panel-default">
+                    <div class="panel panel-default project-panel">
                         <div class="panel-heading" ><b>{{'PROJECT_VIEW_MEMBER'|translate}}</b></div>
                         <div class="panel-body">
                             <div class="pas" ng-repeat="member in project.member track by $index">
@@ -87,7 +87,7 @@
                     </div>
                 </div>
                 <div class="col-sm-6">
-                    <div class="panel panel-default">
+                    <div class="panel panel-default project-panel">
                         <div class="panel-heading" ><b>Followers</b></div>
                         <div class="panel-body">
                             <div class="pas" ng-repeat="follower in project.followers track by $index">

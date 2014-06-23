@@ -1,3 +1,15 @@
+.owner-topic {
+  background: #b2c9bc;
+}
+.follower-topic {
+  background: #faffc1;
+}
+.visitor-topic {
+  background: #fff4f4;
+}
+.member-topic {
+  background: #e0ffda;
+}
 .dropbox {
   min-height: 70px;
   max-height: 300px;

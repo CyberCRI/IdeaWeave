@@ -1,60 +1,66 @@
 angular.module('cri.topic',[])
     .controller('ProjectTopicDetailsCtrl',['$scope','$stateParams','Topic','toaster','Files','loggedUser',function($scope,$stateParams,Topic,toaster,Files,loggedUser){
-        $scope.myTopic = $scope.topics[$stateParams.tid]
+        $scope.myTopic = $scope.topics[$stateParams.tid];
         $scope.$parent.projectId = $stateParams.pid;
         $scope.$parent.topicId = $stateParams.tid;
         $scope.dropBoxHeight = "100px";
 
-        console.log($scope.myTopic)
+
+        Topic.fetchFile($scope.myTopic.id).then(function(data){
+            $scope.files = data;
+            angular.forEach($scope.files,function(file){
+                Files.getPoster(file);
+            })
+        }).catch(function(err){
+            toaster.pop(err.status,err.message);
+        });
+
 
         Topic.fetchUrl($scope.myTopic.id).then(function(data){
             $scope.myTopic.urls = data;
         }).catch(function(err){
-            toaster.pop(err.status,err.message)
-        })
+            toaster.pop(err.status,err.message);
+        });
 
-        angular.forEach($scope.myTopic.files,function(file){
-            Files.getPoster(file);
-        })
 
         $scope.isImage = function(file){
             return Files.isImage(file);
-        }
+        };
 
         $scope.isVideo = function(file){
             return Files.isVideo(file);
-        }
+        };
 
         $scope.isPdf = function(file){
             return Files.isPdf(file);
-        }
+        };
 
         $scope.isOfficeDoc = function(file){
             return Files.isOfficeDoc(file);
-        }
+        };
 
 
         $scope.showFileDetails = function(index){
             $scope.fileDetails = $scope.myTopic.files[index];
-        }
+        };
 
         $scope.fileSelected = function($files){
             $scope.file = $files[0];
-            console.log($scope.file)
+            console.log($scope.file);
             if(Files.isImage($scope.file)){
                 Files.getDataUrl($scope.file).then(function(dataUrl){
                     $scope.fileUrl = dataUrl;
-                })
+                });
                 $scope.dropBoxHeight = "300px";
             }
-        }
+        };
 
 
         $scope.cancelUpload = function(){
             $scope.file = null;
             $scope.fileUrl = null;
             $scope.dropBoxHeight = "100px";
-        }
+        };
 
         $scope.upload = function(topic,file,description){
             Topic.uploadFile(topic, file,description).then(function(data){
@@ -65,7 +71,7 @@ angular.module('cri.topic',[])
             }).catch(function(err){
                 toaster.pop('error',err.status,err.message);
             })
-        }
+        };
 
         $scope.addUrl = function(url){
             url.container = $scope.myTopic.id;
@@ -111,7 +117,7 @@ angular.module('cri.topic',[])
                     if(v.owner === vf){
                         $scope.topicsCss[k] = 'follower';
                     }
-                })
+                });
                 angular.forEach(project[0].member,function(vm,km){
                     if(v.owner === vm){
                         $scope.topicsCss[k] = 'member';
@@ -119,4 +125,4 @@ angular.module('cri.topic',[])
                 })
             }
         })
-    }])
+    }]);

@@ -1,108 +1,124 @@
-<section class="col-md-6">
-    <cri-d3-tag d3-tag-data="d3TagData" on-click="d3OnClick(item)"></cri-d3-tag>
+<!--<section class="col-md-6">-->
+    <!--<cri-d3-tag d3-tag-data="d3TagData" on-click="d3OnClick(item)"></cri-d3-tag>-->
+<!--</section>-->
+<!--<section class="col-md-6 tag-detail" ng-if="showDetailPanel">-->
+    <!--<h3 ng-bind="detailItem.name"></h3>-->
+    <!--<a ui-sref="profile({ cid : detailItem.id })" ng-if="detailItem.group == 2">-->
+        <!--<img ng-src="{{ detailItem.poster }}" alt="" class="pull-left" style="width:30%"/>-->
+    <!--</a>-->
+    <!--<a ui-sref="project({ pid : detailItem.url })" ng-if="detailItem.group == 4">-->
+        <!--<img ng-src="{{ detailItem.poster }}" alt="" class="pull-left" style="width:30%"/>-->
+    <!--</a>-->
+    <!--<a ui-sref="challenge({ pid : detailItem.url })" ng-if="detailItem.group == 3">-->
+        <!--<img ng-src="{{ detailItem.poster }}" alt="" class="pull-left" style="width:30%"/>-->
+    <!--</a>-->
+    <!--<p ng-bind-html="detailItem.secureBrief"></p>-->
+<!--</section>-->
+
+<section class="container">
+    <div class="row">
+        <div class="col-xs-6">
+            <div class="input-group">
+                <label class="sr-only" for="searchField">search</label>
+                <input type="search" class="form-control" ng-model="searchTag" id="searchField" placeholder="user/challenge/project">
+                <span class="input-group-addon" ng-click="queryTag(searchTag)"><i class="fa fa-search"></i></span>
+            </div>
+        </div>
+    </div>
+    <tabset>
+        <tab heading="List">
+            <!-- list users-->
+            <h3 class="solid pbm">{{ 'TAG_USER' | translate }}</h3>
+            <div ng-hide="tagdatas.users">
+                <div class="alert alert-info">{{ 'TAG_NOT_MATCH' | translate }}</div>
+            </div>
+            <div ng-show="tagdatas.users">
+                <ul class="list-unstyled">
+                    <li ng-repeat="user in tagdatas.users" >
+                        <div class="media">
+                            <div owner-block="user.id" class="pull-left" ></div>
+                            <div class="media-body">
+                                <blockquote class="pam">
+                                    <div>
+                                        <a ng-init="isCollapsed=true" ng-click="isCollapsed = !isCollapsed">{{user.username}}</a>
+                                        <a ui-sref="profile({ uid : user.id })" class="btn btn-default pull-right" target="_self">
+                                            <i class="fa fa-external-link"></i>
+                                        </a>
+                                    </div>
+                                    <div class="text-muted" ng-bind-html="user.brief" collapse="isCollapsed" ></div>
+                                </blockquote>
+                            </div>
+                            <!--<div owner-block='user.id' class="inline"></div><span class="pts mlm"><b>{{user.username}}</b></span>-->
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- list Challenge-->
+            <h3 class="solid pbm">{{ 'TAG_CHALLENGE' | translate }}</h3>
+            <div ng-hide="tagdatas.challenges">
+                <div class="alert alert-info">{{ 'TAG_NOT_MATCH' | translate }}</div>
+            </div>
+            <div ng-show="tagdatas.challenges">
+
+                <ul class="list-unstyled">
+                    <li ng-repeat="challenge in tagdatas.challenges">
+                        <div class="media">
+                            <div owner-block="challenge.owner" class="pull-left" ></div>
+                            <div class="media-body">
+                                <blockquote class="pam">
+                                    <div>
+                                        <a ng-init="isCollapsed=true" ng-click="isCollapsed = !isCollapsed">{{challenge.title}}</a>
+                                        <a ui-sref="challenge({ pid : challenge.accessUrl })" class="btn btn-default pull-right" target="_self">
+                                            <i class="fa fa-external-link"></i>
+                                        </a>
+                                    </div>
+                                    <div class="text-muted" ng-bind-html="challenge.brief" collapse="isCollapsed" ></div>
+                                </blockquote>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+
+            <!-- list projects-->
+            <h3 class="solid pbm">{{ 'TAG_PROJECT' | translate }}</h3>
+            <div ng-hide="tagdatas.projects">
+                <div class="alert alert-info">
+                    {{ 'TAG_NOT_MATCH' | translate }}
+                </div>
+            </div>
+            <div ng-show="tagdatas.projects">
+                <ul class="list-unstyled">
+                    <li ng-repeat="project in tagdatas.projects">
+                        <div class="media">
+                            <div owner-block="project.owner" class="pull-left" ></div>
+                            <div class="media-body">
+                                <blockquote class="pam">
+                                    <div>
+                                        <a ng-init="isCollapsed=true" ng-click="isCollapsed = !isCollapsed">{{project.title}}</a>
+                                        <a ui-sref="project({ pid : project.accessUrl })" class="btn btn-default pull-right" target="_self">
+                                            <i class="fa fa-external-link"></i>
+                                        </a>
+                                    </div>
+                                    <div class="text-muted" ng-bind-html="project.brief" collapse="isCollapsed"></div>
+                                </blockquote>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </tab>
+        <tab heading="graf">
+            <section class="col-md-6">
+                <cri-d3-tag d3-tag-data="d3TagData" on-click="d3OnClick(item)" options="{}"></cri-d3-tag>
+            </section>
+            <section class="col-md-6 tag-detail" ng-if="showDetailPanel">
+                <h3 ng-bind="detailItem.name"></h3>
+                <img ng-src="{{ detailItem.poster }}" alt="" class="pull-left" style="width:30%"/>
+                <p ng-bind-html="detailItem.secureBrief"></p>
+            </section>
+        </tab>
+    </tabset>
 </section>
-<section class="col-md-6 tag-detail" ng-if="showDetailPanel">
-    <h3 ng-bind="detailItem.name"></h3>
-    <a ui-sref="profile({ cid : detailItem.id })" ng-if="detailItem.group == 2">
-        <img ng-src="{{ detailItem.poster }}" alt="" class="pull-left" style="width:30%"/>
-    </a>
-    <a ui-sref="project({ pid : detailItem.url })" ng-if="detailItem.group == 4">
-        <img ng-src="{{ detailItem.poster }}" alt="" class="pull-left" style="width:30%"/>
-    </a>
-    <a ui-sref="challenge({ pid : detailItem.url })" ng-if="detailItem.group == 3">
-        <img ng-src="{{ detailItem.poster }}" alt="" class="pull-left" style="width:30%"/>
-    </a>
-    <p ng-bind-html="detailItem.secureBrief"></p>
-</section>
-
-<!--<tabset>-->
-    <!--<tab heading="List">-->
-        <!--&lt;!&ndash; search  box&ndash;&gt;-->
-        <!--<div class="row">-->
-            <!--<div class="col-xs-6">-->
-                <!--<div class="input-group">-->
-                    <!--<label class="sr-only" for="searchField">search</label>-->
-                    <!--<input type="search" class="form-control" ng-model="searchTag" id="searchField" placeholder="user/challenge/project">-->
-                    <!--<span class="input-group-addon" ng-click="queryTag(searchTag)"><i class="icon-search"></i></span>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
-
-        <!--&lt;!&ndash; list users&ndash;&gt;-->
-        <!--<h3 class="solid pbm">{{ 'TAG_USER' | translate }}</h3>-->
-        <!--<div ng-hide="tagdatas.users">-->
-            <!--<div class="alert alert-info">{{ 'TAG_NOT_MATCH' | translate }}</div>-->
-        <!--</div>-->
-        <!--<div ng-show="tagdatas.users">-->
-            <!--<ul class="list-unstyled">-->
-                <!--<li ng-repeat="user in tagdatas.users" >-->
-                    <!--<div class="media">-->
-                        <!--<div owner-block="user.id" class="pull-left" ></div>-->
-                        <!--<div class="media-body">-->
-                            <!--<blockquote class="pam">-->
-                                <!--<div><a ng-init="isCollapsed=true" ng-click="isCollapsed = !isCollapsed">{{user.username}}</a></div>-->
-                                <!--<div class="text-muted" ng-bind-html="user.brief" collapse="isCollapsed" ></div>-->
-                            <!--</blockquote>-->
-                        <!--</div>-->
-                        <!--&lt;!&ndash;<div owner-block='user.id' class="inline"></div><span class="pts mlm"><b>{{user.username}}</b></span>&ndash;&gt;-->
-
-                <!--</li>-->
-            <!--</ul>-->
-        <!--</div>-->
-
-        <!--&lt;!&ndash; list Challenge&ndash;&gt;-->
-        <!--<h3 class="solid pbm">{{ 'TAG_CHALLENGE' | translate }}</h3>-->
-        <!--<div ng-hide="tagdatas.challenges">-->
-            <!--<div class="alert alert-info">{{ 'TAG_NOT_MATCH' | translate }}</div>-->
-        <!--</div>-->
-        <!--<div ng-show="tagdatas.challenges">-->
-
-            <!--<ul class="list-unstyled">-->
-                <!--<li ng-repeat="challenge in tagdatas.challenges" class="col-md-4 col-sm-6 col-xs-12">-->
-                    <!--<div class="jzbox">-->
-                        <!--<h3 class="solid"><a ui-sref="challenge({ pid : challenge.id })" target="_self">{{challenge.title}}</a></h3>-->
-                        <!--<blockquote class="pam" ng-bind-html="challenge.brief">-->
-                        <!--</blockquote>-->
-                    <!--</div>-->
-                <!--</li>-->
-            <!--</ul>-->
-            <!--<div class="clearfix"></div>-->
-        <!--</div>-->
-
-        <!--&lt;!&ndash; list projects&ndash;&gt;-->
-        <!--<h3 class="solid pbm">{{ 'TAG_PROJECT' | translate }}</h3>-->
-        <!--<div ng-hide="tagdatas.projects">-->
-            <!--<div class="alert alert-info">-->
-                <!--{{ 'TAG_NOT_MATCH' | translate }}-->
-            <!--</div>-->
-        <!--</div>-->
-        <!--<div ng-show="tagdatas.projects">-->
-            <!--<ul class="list-unstyled">-->
-                <!--<li ng-repeat="project in tagdatas.projects">-->
-                    <!--<div class="media">-->
-                        <!--<div owner-block="project.owner" class="pull-left" ></div>-->
-                        <!--<div class="media-body">-->
-                            <!--<blockquote class="pam">-->
-                                <!--<div>-->
-                                    <!--<a ng-init="isCollapsed=true" ng-click="isCollapsed = !isCollapsed">{{project.title}}</a>-->
-                                <!--</div>-->
-                                <!--<div class="text-muted" ng-bind-html="project.brief" collapse="isCollapsed"></div>-->
-                            <!--</blockquote>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</li>-->
-            <!--</ul>-->
-        <!--</div>-->
-    <!--</tab>-->
-    <!--<tab heading="graf">-->
-        <!--<section class="col-md-6">-->
-            <!--<cri-d3-tag d3-tag-data="d3TagData" on-click="d3OnClick(item)"></cri-d3-tag>-->
-        <!--</section>-->
-        <!--<section class="col-md-6 tag-detail" ng-if="showDetailPanel">-->
-            <!--<h3 ng-bind="detailItem.name"></h3>-->
-            <!--<img ng-src="{{ detailItem.poster }}" alt="" class="pull-left" style="width:30%"/>-->
-            <!--<p ng-bind-html="detailItem.secureBrief"></p>-->
-        <!--</section>-->
-    <!--</tab>-->
-<!--</tabset>-->
-

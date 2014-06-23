@@ -27,7 +27,7 @@ angular.module('cri.projectSetting',[])
 
         //Update project
         $scope.updateProject=function(project) {
-            Project.update(project, project.id).then(function (result) {
+            Project.update(project.id,project).then(function (result) {
                 toaster.pop('success', 'success', 'Update Success!');
             }).catch(function (err) {
                 toaster.pop('error', err.status, err.message);
