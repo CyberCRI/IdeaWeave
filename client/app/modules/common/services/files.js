@@ -27,13 +27,13 @@ angular.module('cri.common')
                     return;
                 }
 
-                if (file.type.indexOf('javascript') > -1 || file.mimeType.indexOf('php') > -1 || file.mimeType.indexOf('java') > -1) {
+                if (file.type.indexOf('javascript') > -1 || file.type.indexOf('php') > -1 || file.type.indexOf('java') > -1) {
                     file.class = "fa-file-code-o";
                     return;
                 }
 
                 switch (file.type) {
-                    case 'application/vnd.ms-excel ':
+                    case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
                         file.class = 'fa-file-excel-o';
                         break;
                     case 'application/msword':
@@ -78,6 +78,13 @@ angular.module('cri.common')
                 if (file.type.indexOf('pdf') > -1) {
                     return true;
                 } else {
+                    return false;
+                }
+            },
+            isOfficeDoc : function(file){
+                if(file.type == 'application/vnd.ms-excel' || file.type == 'application/vnd.ms-excel' ||  file.type == 'application/vnd.ms-excel'){
+                    return true;
+                }else {
                     return false;
                 }
             },

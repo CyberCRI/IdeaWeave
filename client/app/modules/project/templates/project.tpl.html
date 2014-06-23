@@ -21,6 +21,7 @@
                         <button class="btn btn-warning btn-block" ng-if="isFollow && isLoggedIn"  ng-click="unfollow(project.id)" >{{'PROJECT_VIEW_UNFOLLOW'|translate}}</button>
                         <button  ng-click="openRqteam()" ng-if="user.id != project.owner && project.ismember != 1 && isLoggedIn" class="btn btn-success btn-block">{{'PROJECT_VIEW_JOIN'|translate}}</button>
                         <button ui-sref="projectSettings.basic({ pid : project.accessUrl })"  class="btn btn-default" ng-if="isLoggedIn">Admin</button>
+                        <button ui-sref="topic({ pid : project.accessUrl })" class="btn btn-default" ng-if="isLoggedIn">{{'BTN_TOPIC'|translate}}</button>
                     </div>
                     <div class="solid center pbm ">
                         <h3>

@@ -29,6 +29,11 @@ angular.module('cri.topic',[])
             return Files.isPdf(file);
         }
 
+        $scope.isOfficeDoc = function(file){
+            return Files.isOfficeDoc(file);
+        }
+
+
         $scope.showFileDetails = function(index){
             $scope.fileDetails = $scope.myTopic.files[index];
         }
