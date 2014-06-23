@@ -1,5 +1,23 @@
 angular.module('cri.user',[])
     .controller('ProfileRecommandationCtrl',['$scope','recommendChallenge','recommendProjects','recommendUser','recommendFriendUser',function($scope,recommendChallenge,recommendProjects,recommendUser,recommendFriendUser){
+        $scope.collapseC = function(collapsed){
+            $scope.$apply(function(){
+                $scope.collapsedC = collapsed;
+            })
+        };
+
+        $scope.collapseP = function(collapsed){
+            $scope.$apply(function(){
+                $scope.collapsedP = collapsed;
+            })
+        };
+
+        $scope.collapseU = function(collapsed){
+            $scope.$apply(function(){
+                $scope.collapsedU = collapsed;
+            })
+        };
+
         if(recommendChallenge.length>0){
             $scope.recommendedChallenges=recommendChallenge;
         }

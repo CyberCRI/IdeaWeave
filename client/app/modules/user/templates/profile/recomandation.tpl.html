@@ -1,8 +1,9 @@
-<div class="panel panel-default">
+<div class="panel panel-default panel-animated" >
     <div class="panel-heading">
         {{'PROFILE_CHALLENGE_REC'|translate}}
+        <utils-btn click-minus="collapseC(item)"></utils-btn>
     </div>
-    <div class="panel-body">
+    <div class="panel-body" ng-if="!collapsedC">
         <h3 class="dashed pbm">
             {{'PROFILE_CHALLENGE_REC_SIMILAR'|translate}}
         </h3>
@@ -39,11 +40,12 @@
         <div class="clearfix"></div>
     </div>
 </div>
-<div class="panel panel-default">
+<div class="panel panel-default panel-animated">
     <div class="panel-heading">
         {{'PROFILE_IDEA_REC'|translate}}
+        <utils-btn click-minus="collapseP(item)"></utils-btn>
     </div>
-    <div class="panel-body">
+    <div class="panel-body" ng-if="!collapsedP">
         <h3 class="dashed pbm">
             {{'PROFILE_IDEA_REC_SIMILAR'|translate}}
         </h3>
@@ -68,8 +70,9 @@
 <div class="panel panel-default" ng-show="isOwner">
     <div class="panel-heading">
         {{'PROJECT_USER_REC'|translate}}
+        <utils-btn click-minus="collapseU(item)"></utils-btn>
     </div>
-    <div class="panel-body">
+    <div class="panel-body" ng-if="!collapsedU">
         <!--<h3 class="dashed pbm">-->
             <!--{{'PROJECT_USER_REC_FOLLOW'|translate}}-->
         <!--</h3>-->

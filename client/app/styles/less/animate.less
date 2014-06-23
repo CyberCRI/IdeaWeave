@@ -37,3 +37,17 @@
     animation : flipOutX 1s;
   }
 }
+
+.panel-animated{
+  border: none;
+  .panel-body{
+    &.ng-enter{
+      -webkit-animation: flipInX 0.5s;
+      animation : flipInX 0.5s;
+    }
+    &.ng-leave{
+      -webkit-animation: flipOutX 0.5s;
+      animation : flipOutX 0.5s;
+    }
+  }
+}
