@@ -1,0 +1,104 @@
+<div ng-include="'modules/common/include/projectMenu.tpl.html'"></div>
+
+<!-- first section - Home -->
+<div id="home" class="home" style="background-image : url({{ project.poster || 'images/lightBulb.jpg' }}) !important; background-size: cover; background-repeat:no-repeat;background-attachment:fixed;">
+    <div class="text-vcenter">
+        <h1 ng-bind="project.title" ></h1>
+        <p class="lead" ng-bind-html="project.brief"></p>
+    </div>
+</div>
+<!-- /first section -->
+<div id="description" class="pad-section">
+    <div class="container">
+        <h2 class="text-center">Presentation</h2> <hr />
+        <div ng-bind-html="project.presentationDisplay" full-width></div>
+    </div>
+</div>
+<!-- second section - About -->
+<div id="about" class="pad-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 text-center">
+                <div class="progress" >
+                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{proccess}}" aria-valuemin="0" aria-valuemax="100" style="width: {{proccess}}%" tooltip="{{'PROJECT_VIEW_RELY'|translate}} {{proccess}}%">
+                        <span class="sr-only">{{proccess}}% Complete (success)</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-offset-1 col-xs-10 center">
+                <div class="btn-group  btn-group-lg ">
+                    <button ng-click="openShare()" class="btn btn-primary" >{{'PROJECT_VIEW_SHARE'|translate}}</button>
+                    <button class="btn btn-info" ng-if="!isFollow && isLoggedIn" tooltip="After the attention you will receive an update notification." ng-click="follow()" >{{'PROJECT_VIEW_FOLLOW'|translate}} </button>
+                    <button class="btn btn-warning" ng-if="isFollow && isLoggedIn"  ng-click="unfollow(project.id)" >{{'PROJECT_VIEW_UNFOLLOW'|translate}}</button>
+                    <button  ng-click="openRqteam()" ng-if="user.id != project.owner && project.ismember != 1 && isLoggedIn" class="btn btn-success">{{'PROJECT_VIEW_JOIN'|translate}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="information" class="pad-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h2 class="panel-title">Tag Cloud</h2>
+                    </div>
+                    <div class="panel-body lead">
+                        <d3-tag-cloud tags="d3Tags" on-click="showTag(item)" options="{ width : 300, height:300 }"></d3-tag-cloud>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h2 class="panel-title">Localisation</h2>
+                    </div>
+                    <div>
+                        <google-map center="map.center" zoom="map.zoom" class="project-map" ng-if="map" options="mapOptions">
+                            <marker coords="map.center"></marker>
+                        </google-map>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /fourth section -->
+<!-- fifth section -->
+<div id="team" class="pad-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 ">
+                <div class="col-sm-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" ><b>{{'PROJECT_VIEW_OWNER'|translate}}</b></div>
+                        <div class="panel-body">
+                            <div owner-block="project.owner" class="inline mlm"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" ><b>{{'PROJECT_VIEW_MEMBER'|translate}}</b></div>
+                        <div class="panel-body">
+                            <div class="pas" ng-repeat="member in project.member track by $index">
+                                <div user-block="member" class="inline mlm"></div>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /fifth section -->
+<div class="panel panel-default"  data-step="5" data-intro="Shown here belongs to the creative challenge, to see more creative you can click the blue title challenge。">
+    <div class="panel-heading" ><b class="panel-title">{{'PROJECT_VIEW_BELONGTO'|translate}}</b></div>
+    <div class="panel-body">
+        <div challenge-block="project.container"></div>
+    </div>
+</div>

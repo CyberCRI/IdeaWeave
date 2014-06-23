@@ -16,6 +16,7 @@ angular.module('cri.project',[])
             $scope.project.presentationDisplay = $sce.trustAsHtml($scope.project.presentation);
         }
 
+        console.log($scope.project)
         $scope.user = loggedUser.profile
         $scope.isLoggedIn = users.isLoggedIn();
         $scope.project=project[0];
@@ -36,7 +37,7 @@ angular.module('cri.project',[])
 
         $scope.openRqteam = function () {
             $modal.open({
-                templateUrl:'/modules/project/templates/projectRqteam.tpl.html',
+                templateUrl:'/modules/project/templates/modal/projectRqteam.tpl.html',
                 controller: ['$scope','$modalInstance',function($scope,$modalInstance){
                     $scope.tmsg={};
                     $scope.applyTeamMsg=function(){
@@ -58,7 +59,7 @@ angular.module('cri.project',[])
 
         $scope.openShare = function () {
             $modal.open({
-                templateUrl:'/modules/project/templates/projectShare.tpl.html',
+                templateUrl:'/modules/project/templates/modal/projectShare.tpl.html',
                 controller: ['$scope','$modalInstance','$stateParams',function($scope,$modalInstance,$stateParams){
                     $scope.pid = $stateParams.pid;
                     $scope.cid = $stateParams.cid

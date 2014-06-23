@@ -24,7 +24,7 @@ angular.module('cri.common')
     .directive('challengeInfo',['$http','CONFIG',function($http,CONFIG){
         return {
             restrict:'EA',
-            template:'<a ui-sref="challenge({ pid : challenge[cid].accessUrl })"  target="_blank">{{challenge[cid].title}}</a>',
+            template:'<a ui-sref="challenge.details({ pid : challenge[cid].accessUrl })"  target="_blank">{{challenge[cid].title}}</a>',
             link : function(scope,element,attrs){
                 scope.cid=scope.$eval(attrs.challengeInfo);
                 if(!scope.challenge){

@@ -1,4 +1,4 @@
-<div class="container">
+<section class="row">
     <div class="col-xs-6">
         <div class="input-group">
             <input type="search" class="form-control" ng-model="searchProject" id="searchField" placeholder="e.g:Innovation">
@@ -13,32 +13,80 @@
             <option value="2" >Created</option>
         </select>
     </div>
-    <div class="clearfix"></div>
-    <div class="solid ptm"></div>
-
-    <i ng-show="isLoading" class="icon-refresh icon-3x icon-spin"></i>
-
-    <div class="col-sm-6 col-md-4" ng-repeat="project in projects | orderBy:orderProp:true track by $index">
-        <div class="thumbnail" >
-            <a ui-sref="project({ pid : project.accessUrl })">
-                <img ng-src="{{project.poster}}" alt="..." class="img-rounded mbm" style="height:180px">
-                <div class="caption center">
-                    <h3>{{project.title}}</h3>
-                    <p ng-bind-html="project.brief" class="thumb-project-brief"></p>
-                    <div class="progress" >
-                        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{project.score}}" aria-valuemin="0" aria-valuemax="100" style="width: {{project.score}}%" tooltip="靠谱度：{{project.score}}%">
-                            <span class="sr-only">{{project.score}}% Complete (success)</span>
-                        </div>
-                    </div>
-                    <p>
-                        <small style="color:#666">Last Updated：{{project.updateDate|timeago}}</small>
-                    </p>
-                    <p>
-                        <small style="color:#666">Founded on：{{project.createDate|date}} </small>
-                    </p>
+</section>
+<section class="row" style="margin-top: 20px;">
+    <section class="col-xs-12">
+        <ul class="media-list">
+            <li class="media" ng-repeat="project in projects | orderBy:orderProp:true track by $index">
+                <a class="pull-left" ui-sref="project({ pid : project.accessUrl })">
+                    <img class="media-object" ng-src="{{ project.poster }}" alt="{{ project.title }}'s poster" height="100px">
+                </a>
+                <div class="media-body">
+                    <h4 class="media-heading" ng-bind="project.title"></h4>
+                    <ul class="list-unstyled">
+                        <li ng-repeat="tag in project.tags" class="inline mas">
+                            <a ui-sref="tag({ title : tag })" class="text-muted">
+                                #{{ tag }}
+                            </a>
+                        </li>
+                    </ul>
                 </div>
-            </a>
-        </div>
-    </div>
-    <button ng-show="projects.length>=4&&!isEnd" ng-click="loadMoreProjects(noPage)" class="btn  btn-default col-xs-12">Load more</button>
-</div>
+            </li>
+        </ul>
+        <button ng-show="projects.length>=4&&!isEnd" ng-click="loadMoreProjects(noPage)" class="btn  btn-default col-xs-12">Load more</button>
+    </section>
+</section>
+
+
+
+
+
+
+
+
+
+
+<!--<div class="container">-->
+    <!--<div class="col-xs-6">-->
+        <!--<div class="input-group">-->
+            <!--<input type="search" class="form-control" ng-model="searchProject" id="searchField" placeholder="e.g:Innovation">-->
+            <!--<span class="input-group-addon" ng-click="queryProject()"><i class="fa fa-search fa-fw"></i></span>-->
+        <!--</div>-->
+    <!--</div>-->
+    <!--<div class="col-xs-3">-->
+        <!--&lt;!&ndash; sort by&ndash;&gt;-->
+        <!--<select class="form-control" ng-model="sortBy" ng-change="changeSort()">-->
+            <!--<option value="0">Fly degrees</option>-->
+            <!--<option value="1" >Latest updates</option>-->
+            <!--<option value="2" >Created</option>-->
+        <!--</select>-->
+    <!--</div>-->
+    <!--<div class="clearfix"></div>-->
+    <!--<div class="solid ptm"></div>-->
+
+    <!--<i ng-show="isLoading" class="icon-refresh icon-3x icon-spin"></i>-->
+
+    <!--<div class="col-sm-6 col-md-4" ng-repeat="project in projects | orderBy:orderProp:true track by $index">-->
+        <!--<div class="thumbnail" >-->
+            <!--<a ui-sref="project({ pid : project.accessUrl })">-->
+                <!--<img ng-src="{{project.poster}}" alt="..." class="img-rounded mbm" style="height:180px">-->
+                <!--<div class="caption center">-->
+                    <!--<h3>{{project.title}}</h3>-->
+                    <!--<p ng-bind-html="project.brief" class="thumb-project-brief"></p>-->
+                    <!--<div class="progress" >-->
+                        <!--<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{project.score}}" aria-valuemin="0" aria-valuemax="100" style="width: {{project.score}}%" tooltip="靠谱度：{{project.score}}%">-->
+                            <!--<span class="sr-only">{{project.score}}% Complete (success)</span>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<p>-->
+                        <!--<small style="color:#666">Last Updated：{{project.updateDate|timeago}}</small>-->
+                    <!--</p>-->
+                    <!--<p>-->
+                        <!--<small style="color:#666">Founded on：{{project.createDate|date}} </small>-->
+                    <!--</p>-->
+                <!--</div>-->
+            <!--</a>-->
+        <!--</div>-->
+    <!--</div>-->
+    <!--<button ng-show="projects.length>=4&&!isEnd" ng-click="loadMoreProjects(noPage)" class="btn  btn-default col-xs-12">Load more</button>-->
+<!--</div>-->

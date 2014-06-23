@@ -2,7 +2,7 @@ module.exports = function(grunt) {
     require("load-grunt-tasks")(grunt);
     var deployConfig = {};
     try {
-        deployConfig = grunt.file.readJSON('server/deployConfig.json');
+        deployConfig = grunt.file.readJSON('./deployConfig.json');
     } catch(err) {
         console.warn("*** WARNING: Cannot load deployment config ***\n");
     }
