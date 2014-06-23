@@ -154,18 +154,16 @@ angular.module('cri.user')
                 },
                 resolve : {
                     recommendUser : ['Recommend','$stateParams',function(Recommend,$stateParams){
-                        console.log(1,$stateParams.uid)
                         return Recommend.fetchUser($stateParams.uid);
                     }],
                     recommendFriendUser : ['Recommend','$stateParams',function(Recommend,$stateParams) {
-                        console.log(2)
                         return Recommend.fetchFriendsUser($stateParams.uid);
                     }],
                     recommendProjects : ['Recommend','$stateParams',function(Recommend,$stateParams){
                         return Recommend.fetchProject($stateParams.uid);
                     }],
                     recommendChallenge : ['Recommend','$stateParams',function(Recommend,$stateParams){
-                        return Recommend.fetchProject($stateParams.uid);
+                        return Recommend.fetchChallenge($stateParams.uid);
                     }]
 
                 }

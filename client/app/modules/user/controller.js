@@ -1,7 +1,7 @@
 angular.module('cri.user',[])
     .controller('ProfileRecommandationCtrl',['$scope','recommendChallenge','recommendProjects','recommendUser','recommendFriendUser',function($scope,recommendChallenge,recommendProjects,recommendUser,recommendFriendUser){
         if(recommendChallenge.length>0){
-            $scope.stagCs=recommendChallenge;
+            $scope.recommendedChallenges=recommendChallenge;
         }
         if(recommendProjects.length>0){
             $scope.stagPs=recommendProjects;
@@ -63,6 +63,7 @@ angular.module('cri.user',[])
         $scope.isLogged = false;
         $scope.profile=profile;
         $scope.isFollowUser=false;
+        $scope.me = loggedUser.profile;
         $scope.d3Tags = [];
         angular.forEach($scope.profile.tags,function(v,k){
             $scope.d3Tags.push({

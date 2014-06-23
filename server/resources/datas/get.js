@@ -5,7 +5,6 @@ function uniqueObject(arr){
       for(var j in o) r.push(o[j])
       return r
 }
-console.log(parts[0])
 switch(parts[0]){
     case 'activity':
     var uid=parts[1]; 

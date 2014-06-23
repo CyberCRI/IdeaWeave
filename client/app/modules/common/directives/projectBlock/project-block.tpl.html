@@ -1,0 +1,18 @@
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="media">
+            <a class="pull-left" href="#">
+                <img class="media-object" ng-src="{{ project[pid].poster }}" ng-if="project[pid].poster" height="100px">
+            </a>
+            <div class="media-body">
+                <h4 class="media-heading">
+                    <a ng-href="project/{{pid}}" target="_blank">{{project[pid].title}}</a>
+                </h4>
+                <blockquote class="muted" style="height:80px; overflow:auto;" ng-bind-html="project[pid].brief"></blockquote>
+            </div>
+        </div>
+    </div>
+    <div class="panel-footer">
+        <div showtags="" entity="project[pid]"></div>
+    </div>
+</div>

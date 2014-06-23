@@ -2,9 +2,7 @@ angular.module('cri.common')
     .directive('projectBlock',['$http','CONFIG',function($http,CONFIG){
         return {
             restrict:'EA',
-            template:'<div class="panel panel-default"><div class="panel-body"><h4><a ng-href="project/{{pid}}" target="_blank">{{project[pid].title}}</a></h4>'+
-                '<blockquote class="muted" style="height:80px" >{{project[pid].brief}}</blockquote></div>'+
-                '<div class="panel-footer"><div showtags="" entity="project[pid]"></div></div></div>',
+            templateUrl:'modules/common/directives/projectBlock/project-block.tpl.html',
             link : function(scope,element,attrs){
                 scope.pid=scope.$eval(attrs.projectBlock);
 

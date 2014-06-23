@@ -13,9 +13,26 @@
             </a>
         </div>
         <div class="row">
-            <ul ng-show="stagCs" class="list-unstyled">
-                <li ng-repeat="stagC in stagCs track by $index" class="col-md-6 col-sm-6 col-xs-12" >
-                    <div challenge-block="stagC" ></div>
+            <ul class="list-unstyled">
+                <li ng-repeat="challenge in recommendedChallenges track by $index" class="col-sm-6 col-xs-12" >
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="media">
+                                <a class="pull-left" href="#">
+                                    <img class="media-object" ng-src="{{ challenge.poster }}" ng-if="challenge.poster" height="100px">
+                                </a>
+                                <div class="media-body">
+                                    <h4 class="media-heading">
+                                        <a ng-href="challenge/{{challenge.id}}" target="_blank">{{challenge.title}}</a>
+                                    </h4>
+                                    <blockquote  style="height:80px; overflow:auto;" ng-bind-html="challenge.brief"></blockquote>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-footer">
+                            <div showtags="" entity="challenge"></div>
+                        </div>
+                    </div>
                 </li>
             </ul>
         </div>
@@ -38,8 +55,8 @@
         </div>
         <div class="row">
             <ul ng-show="stagPs" class="list-unstyled">
-                <li ng-repeat="stagP in stagPs track by $index" class="col-md-6 col-sm-6 col-xs-12" >
-                    <div project-block="stagP" >
+                <li ng-repeat="stagP in stagPs track by $index" class="col-sm-6 col-xs-12" >
+                    <div project-block="stagP.id" >
                     </div>
                 </li>
             </ul>
@@ -53,18 +70,18 @@
         {{'PROJECT_USER_REC'|translate}}
     </div>
     <div class="panel-body">
-        <h3 class="dashed pbm">
-            {{'PROJECT_USER_REC_FOLLOW'|translate}}
-        </h3>
-        <div ng-hide="ffollwers">
-            walou
-        </div>
-        <ul ng-show="ffollwers" class="list-unstyled">
-            <li ng-repeat="ffollower in ffollwers track by $index"  >
-                <div user-block="ffollower" ></div>
-            </li>
-        </ul>
-        <div class="clearfix"></div>
+        <!--<h3 class="dashed pbm">-->
+            <!--{{'PROJECT_USER_REC_FOLLOW'|translate}}-->
+        <!--</h3>-->
+        <!--<div ng-hide="ffollwers">-->
+            <!--no recommendation, please add some tag to your profile-->
+        <!--</div>-->
+        <!--<ul ng-show="ffollwers" class="list-unstyled">-->
+            <!--<li ng-repeat="ffollower in ffollwers track by $index"  >-->
+                <!--<div user-block="ffollower" ></div>-->
+            <!--</li>-->
+        <!--</ul>-->
+        <!--<div class="clearfix"></div>-->
         <h3 class="dashed pbm mtm">
             {{'PROJECT_USER_REC_TAG'|translate}}
         </h3>
@@ -75,8 +92,8 @@
             </a>
         </div>
         <ul ng-show="recUsers" class="list-unstyled">
-            <li ng-repeat="stagUser in recUsers track by $index"  >
-                <div user-block="stagUser" ></div>
+            <li ng-repeat="stagUser in recUsers track by $index"  ng-if="stagUser.id != me.id" class="col-sm-6 col-xs-12">
+                <span user-block="stagUser.id" ></span>
             </li>
         </ul>
         <div class="clearfix"></div>

@@ -12,7 +12,7 @@ function inArray(value,array){
     return false;
 }
 var isMember=false;
-if(me){
+if(me && this.member){
     if(isMe(this.owner)||inArray(me.id,this.member)){
         isMember=true;
     }

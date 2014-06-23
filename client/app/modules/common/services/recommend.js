@@ -3,8 +3,9 @@ angular.module('cri.common')
         var service = {
             fetchUser : function(userId){
                 var defered = $q.defer();
-                $http.get(CONFIG.apiServer+'/recommends/stag/'+userId)
+                $http.get(CONFIG.apiServer+'/recommendations/user/'+userId)
                     .success(function(data){
+                        console.log('rec user',data)
                         defered.resolve(data);
                     })
                     .error(function(err){
@@ -14,7 +15,7 @@ angular.module('cri.common')
             },
             fetchFriendsUser : function(userId){
                 var defered = $q.defer();
-                $http.get(CONFIG.apiServer+'/recommends/ffollow/'+userId)
+                $http.get(CONFIG.apiServer+'/recommendations/friend/'+userId)
                     .success(function(data){
                         defered.resolve(data);
                     })
@@ -25,7 +26,7 @@ angular.module('cri.common')
             },
             fetchProject : function(userId){
                 var defered = $q.defer();
-                $http.get(CONFIG.apiServer+'/recommends/stagp/'+userId)
+                $http.get(CONFIG.apiServer+'/recommendations/project/'+userId)
                     .success(function(data){
                         defered.resolve(data);
                     })
@@ -36,7 +37,7 @@ angular.module('cri.common')
             },
             fetchChallenge : function(userId){
                 var defered = $q.defer();
-                $http.get(CONFIG.apiServer+'/recommends/stagc/'+userId)
+                $http.get(CONFIG.apiServer+'/recommendations/challenge/'+userId)
                     .success(function(data){
                         defered.resolve(data);
                     })
