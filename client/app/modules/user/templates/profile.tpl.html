@@ -4,9 +4,10 @@
                 <!--Profile basic-->
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        <div class="center">
+                        <div class="center" style="position: relative;" ng-mouseenter="enterPicture()" ng-mouseleave="leavePicture()">
                             <img ng-src="{{profile.poster}}" ng-show="profile.poster" class="img-rounded p" width="120px" style="height:120px">
                             <img ng-src="images/avater.jpg" ng-hide="profile.poster" class="img-rounded" width="120px" style="height:120px">
+                            <i class="fa fa-2x fa-edit my-btn-picture my-btn" ng-if="btnVisible" ng-click="editPicture()"></i>
                         </div>
                         <div class="clearfix">
                         </div>

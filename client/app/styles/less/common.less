@@ -60,3 +60,42 @@ footer{
   z-index : 1;
 }
 
+.my-btn{
+  z-index: 20;
+  cursor:pointer;
+  position: absolute;
+  -webkit-transition: -webkit-transform 0.1s;
+  transition: transform 0.1s;
+  &.ng-enter{
+    -webkit-animation : fadeInDown 0.5s;
+    animation : fadeInDown 0.5s;
+  }
+  &:active{
+    transform : scale(1.5);
+    -webkit-transform : scale(1.5);
+  }
+  &.ng-leave{
+//    -webkit-animation : fadeInUp 0.5s;
+//    animation : fadeInUp 0.5s;
+    visibility: hidden;
+  }
+  &.my-btn-first{
+    top : 50px;
+    right: 50px;
+  }
+  &.my-btn-second{
+    top : 50px;
+    right: 75px;
+  }
+  &my-btn-picture{
+    top : 10px;
+    right: 10px;
+  }
+}
+
+.modal-tansparent{
+  background-color: transparent;
+  border : none;
+  box-shadow: none;
+}
+

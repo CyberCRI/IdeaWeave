@@ -58,23 +58,54 @@ angular.module('cri.user',[])
                         $scope.isEnd=true;
                     }
                 })
-//                jzCommon.query(apiServer+'/datas/activity/'+$stateParams.uid+'/10/'+skip)
             }
         }
     }])
     .controller('ProfileRelationCtrl',['$scope','loggedUser',function($scope,loggedUser){
         $scope.me = loggedUser.profile;
     }])
-    .controller('ProfileBriefCtrl',['$scope','$sce','loggedUser',function($scope,$sce,loggedUser){
-        console.log(loggedUser.profile)
-        if(loggedUser.profile.brief){
-            $scope.secureBrief = $sce.trustAsHtml(loggedUser.profile.brief);
+    .controller('ProfileBriefCtrl',['$scope','$sce','loggedUser','users','toaster',function($scope,$sce,loggedUser,users,toaster){
+        if(loggedUser.profile){
+            if(loggedUser.profile.brief){
+                $scope.secureBrief = $sce.trustAsHtml($scope.profile.brief);
+            }
+            if(loggedUser.profile.presentation){
+                $scope.securePresentation = $sce.trustAsHtml($scope.profile.presentation);
+            }
         }
-        if(loggedUser.profile.presentation){
-            $scope.securePresentation = $sce.trustAsHtml(loggedUser.profile.presentation);
+
+        $scope.btnVisible = false;
+        $scope.enterBrief = function(){
+            if($scope.me.id == $scope.profile.id){
+                $scope.btnVisible = true;
+            }
         }
+        $scope.leaveBrief = function(){
+            if($scope.me.id == $scope.profile.id){
+                $scope.btnVisible = false;
+            }
+        }
+        $scope.briefEditable = false;
+        $scope.editBrief = function(){
+            if($scope.me.id == $scope.profile.id) {
+                $scope.briefEditable = !$scope.briefEditable;
+            }
+        }
+        $scope.updateBrief = function(brief){
+            users.update(loggedUser.profile.id,{ brief : brief }).then(function(){
+                toaster.pop('success','success','profile updated');
+                $scope.briefEditable = !$scope.briefEditable;
+                loggedUser.profile.brief = brief;
+                $scope.secureBrief = $sce.trustAsHtml(brief);
+            }).catch(function(err){
+                toaster.pop('error','error','profile updated');
+                $scope.briefEditable = !$scope.briefEditable;
+            })
+        }
+
+
     }])
-    .controller('ProfileCtrl',['$scope','$stateParams','toaster','loggedUser','profile','followers','following','users','CONFIG','$state',function ($scope,$stateParams,toaster,loggedUser, profile, followers, following,users,CONFIG,$state) {
+    .controller('ProfileCtrl',['$scope','$stateParams','toaster','loggedUser','profile','followers','following','users','CONFIG','$state','$modal',function ($scope,$stateParams,toaster,loggedUser, profile, followers, following,users,CONFIG,$state,$modal) {
         $scope.mapOptions = CONFIG.mapOptions;
 
         $scope.user = users;
@@ -89,6 +120,36 @@ angular.module('cri.user',[])
                 number : 1
             })
         });
+
+        $scope.enterPicture = function(){
+            if($scope.me.id == $scope.profile.id){
+                $scope.btnVisible = true;
+            }
+        }
+
+        $scope.leavePicture = function(){
+            if($scope.me.id == $scope.profile.id){
+                $scope.btnVisible = false;
+            }
+        }
+
+        $scope.editPicture = function() {
+            if ($scope.me.id == $scope.profile.id) {
+                var modalInstance = $modal.open({
+                    templateUrl: 'modules/user/templates/settings/avatar.tpl.html',
+                    controller: 'settingAvatarCtrl',
+                    size: 'lg',
+                    windowTemplateUrl : 'modules/common/modal/modal-transparent.tpl.html',
+                    backdrop : 'static'
+                });
+
+                modalInstance.result.then(function (picture) {
+                    $scope.profile.poster = picture;
+                }, function () {
+                });
+            };
+        }
+
         $scope.showTag = function(e){
             $state.go('tag',{title : e.text})
         }
@@ -103,12 +164,7 @@ angular.module('cri.user',[])
             };
         }
 
-        if(loggedUser.profile){
-            $scope.isLogged = true;
-            if($stateParams.uid==loggedUser.profile.id){
-                $scope.isOwner=true;
-            }
-        }
+
         if(followers[0]){
             $scope.followers = followers[0].users;
         }else{
@@ -120,13 +176,20 @@ angular.module('cri.user',[])
             $scope.followings = [];
         }
 ;
-        if($scope.followers.length>0){
-            console.log(followers)
-            if($scope.followers.indexOf(loggedUser.profile.id)!==-1){
-                console.log('follow !!!')
-                $scope.isFollowUser=true;
+        if(loggedUser.profile){
+            $scope.isLogged = true;
+            if($stateParams.uid==loggedUser.profile.id){
+                $scope.isOwner=true;
+            }
+            if($scope.followers.length>0){
+                console.log(followers)
+                if($scope.followers.indexOf(loggedUser.profile.id)!==-1){
+                    console.log('follow !!!')
+                    $scope.isFollowUser=true;
+                }
             }
         }
+
         // caculate profile rule
         var score=$scope.profile.score;
         var name='';
@@ -216,12 +279,14 @@ angular.module('cri.user',[])
             }
         }
     }])
-    .controller('settingAvatarCtrl',['$scope','users','toaster','loggedUser',function ($scope,users,toaster,loggedUser) {
-
-        $scope.$watch('imageCropResult', function(newVal) {
+    .controller('settingAvatarCtrl',['$scope','users','toaster','loggedUser','$modalInstance',function ($scope,users,toaster,loggedUser,$modalInstance) {
+    console.log($scope);
+    $scope.$watch('imageCropStep', function(newVal) {
+        console.log('sisi',newVal);
             if (newVal) {
                 users.update(loggedUser.profile.id,{ poster : newVal }).then(function(data){
                     loggedUser.profile.poster = newVal;
+                    $modalInstance.close(newVal);
                 }).catch(function(err){
                     toaster.pop('error',err.status,err.message);
                 })

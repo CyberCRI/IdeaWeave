@@ -1,11 +1,23 @@
-<div class="row profile-brief">
+<div class="row profile-brief"  ng-mouseenter="enterBrief()" ng-mouseleave="leaveBrief()" >
     <div style="position:relative;" class="col-xs-12 col-md-3">
-        <div class="profile-map">
+        <div class="profile-map edit-menu" ng-if="!briefEditable" >
             <google-map center="map.center" zoom="map.zoom" ng-if="map"  options="mapOptions">
                 <marker coords="map.center"></marker>
             </google-map>
         </div>
     </div>
-    <p ng-bind-html="secureBrief" class="col-xs-12 col-md-9"></p>
+    <p ng-bind-html="secureBrief" class="col-xs-12 col-md-9 edit-menu" ng-if="!briefEditable"></p>
+    <i class="fa fa-edit my-btn-first my-btn" ng-if="btnVisible && !briefEditable" ng-click="editBrief()"></i>
+    <i class="fa fa-save my-btn-first my-btn" ng-if="btnVisible && briefEditable" ng-click="updateBrief(profile.brief)"></i>
+    <i class="fa fa-times my-btn-second my-btn" ng-if="btnVisible && briefEditable" ng-click="editBrief()"></i>
+    <div ng-if="briefEditable" class="edit-menu">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <div class="col-md-12 ">
+                    <textarea ui-tinymce="" name='brief' class="form-control" ng-model="profile.brief"/></textarea>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>
 <div ng-bind-html="securePresentation" class="row"></div>

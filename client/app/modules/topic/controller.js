@@ -68,6 +68,8 @@ angular.module('cri.topic',[])
                 $scope.file = null;
                 $scope.fileUrl = null;
                 $scope.dropBoxHeight = "100px";
+                console.log(data)
+                $scope.files=data.files;
             }).catch(function(err){
                 toaster.pop('error',err.status,err.message);
             })

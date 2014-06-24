@@ -37,3 +37,7 @@
   -webkit-animation: flipOutX 0.5s;
   animation: flipOutX 0.5s;
 }
+.edit-menu.ng-enter {
+  -webkit-animation: fadeInDown 0.5s;
+  animation: fadeInDown 0.5s;
+}
