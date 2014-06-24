@@ -56,6 +56,14 @@ module.exports = function(grunt) {
                     src: [
                         '*'
                     ]
+                },{
+
+
+
+                    expand: true,
+                    dot : false,
+                    dest: 'dist/',
+                    src : 'app/vendors/tinymce/**'
                 }]
             }
         },

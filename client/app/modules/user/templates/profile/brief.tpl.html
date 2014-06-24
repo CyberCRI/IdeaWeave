@@ -7,9 +7,9 @@
         </div>
     </div>
     <p ng-bind-html="secureBrief" class="col-xs-12 col-md-9 edit-menu" ng-if="!briefEditable"></p>
-    <i class="fa fa-edit my-btn-first my-btn" ng-if="btnVisible && !briefEditable" ng-click="editBrief()"></i>
-    <i class="fa fa-save my-btn-first my-btn" ng-if="btnVisible && briefEditable" ng-click="updateBrief(profile.brief)"></i>
-    <i class="fa fa-times my-btn-second my-btn" ng-if="btnVisible && briefEditable" ng-click="editBrief()"></i>
+    <i class="fa fa-2x fa-edit my-btn-first my-btn" ng-if="btnVisible && !briefEditable" ng-click="editBrief()"></i>
+    <i class="fa fa-2x fa-save my-btn-first my-btn" ng-if="btnVisible && briefEditable" ng-click="updateBrief(profile.brief)"></i>
+    <i class="fa fa-2x fa-times my-btn-second my-btn" ng-if="btnVisible && briefEditable" ng-click="editBrief()"></i>
     <div ng-if="briefEditable" class="edit-menu">
         <form class="form-horizontal">
             <div class="form-group">

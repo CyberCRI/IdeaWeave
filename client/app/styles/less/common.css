@@ -69,16 +69,19 @@ footer p {
   visibility: hidden;
 }
 .my-btn.my-btn-first {
-  top: 50px;
-  right: 50px;
+  top: 60px;
+  right: 40px;
 }
 .my-btn.my-btn-second {
-  top: 50px;
-  right: 75px;
+  top: 60px;
+  right: 10px;
 }
 .my-btnmy-btn-picture {
   top: 10px;
   right: 10px;
+}
+.my-btn:hover {
+  color: #6c7e6d;
 }
 .modal-tansparent {
   background-color: transparent;

@@ -31,7 +31,6 @@ module.exports = function(grunt) {
                     config: "prod"
                 }
             },
-
             clean: {
                 command: "rm -r " + deployConfig.path + "/*",
                 options: {
@@ -83,6 +82,7 @@ module.exports = function(grunt) {
     grunt.registerTask('deploy', [
         'rsync:startStopScript',
         'sshexec:stop',
+        'sshexec:clean',
         'rsync:server',
         'sshexec:npm_install_server',
         'rsync:client',

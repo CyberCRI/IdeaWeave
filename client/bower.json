@@ -15,7 +15,7 @@
         "angular-ui-tinymce": "*",
         "angular-ui-select" : "*",
         "angular-ui-ace" : "#bower",
-        "angular-crop-image" : "https://github.com/andyshora/angular-image-crop.git#master",
+        "angular-crop-image" : "https://github.com/Charl---/angular-image-crop.git",
         "ng-file-upload ": "*",
         "ng-parallax" : "*",
         "underscore" : "*",

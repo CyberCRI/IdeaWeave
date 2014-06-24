@@ -144,6 +144,7 @@ angular.module('cri.user',[])
                 });
 
                 modalInstance.result.then(function (picture) {
+                    console.log(picture)
                     $scope.profile.poster = picture;
                 }, function () {
                 });
@@ -280,18 +281,14 @@ angular.module('cri.user',[])
         }
     }])
     .controller('settingAvatarCtrl',['$scope','users','toaster','loggedUser','$modalInstance',function ($scope,users,toaster,loggedUser,$modalInstance) {
-    console.log($scope);
-    $scope.$watch('imageCropStep', function(newVal) {
-        console.log('sisi',newVal);
-            if (newVal) {
-                users.update(loggedUser.profile.id,{ poster : newVal }).then(function(data){
-                    loggedUser.profile.poster = newVal;
-                    $modalInstance.close(newVal);
-                }).catch(function(err){
-                    toaster.pop('error',err.status,err.message);
-                })
-            }
-        });
+        $scope.$on('cropReady',function(e,data){
+            users.update(loggedUser.profile.id,{ poster : data }).then(function(){
+                loggedUser.profile.poster = data;
+                $modalInstance.close(data);
+            }).catch(function(err){
+                toaster.pop('error',err.status,err.message);
+            })
+        })
 
     }])
     .controller('settingNotifyCtrl',['$scope','users','toaster',function ($scope,users,toaster) {
