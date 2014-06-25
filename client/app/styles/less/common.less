@@ -1,5 +1,9 @@
 @import "variables";
 
+textarea{
+  resize: none;
+}
+
 .map-wrapper{
   width: 500px;
   height: 300px;
@@ -19,6 +23,7 @@
 }
 
 footer{
+  margin-top: 40px;
   background-color : @footerBg;
   position : fixed;
   bottom : 0;
@@ -63,7 +68,7 @@ footer{
 .my-btn{
   z-index: 20;
   cursor:pointer;
-  position: absolute;
+//  position: absolute;
   -webkit-transition: -webkit-transform 0.1s;
   transition: transform 0.1s;
   &.ng-enter{
@@ -80,12 +85,12 @@ footer{
     visibility: hidden;
   }
   &.my-btn-first{
-    top : 60px;
-    right: 40px;
+//    top : 60px;
+//    right: 40px;
   }
   &.my-btn-second{
-    top : 60px;
-    right: 10px;
+//    top : 60px;
+//    right: 10px;
   }
   &my-btn-picture{
     top : 10px;

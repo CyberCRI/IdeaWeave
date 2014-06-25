@@ -1,3 +1,6 @@
+textarea {
+  resize: none;
+}
 .map-wrapper {
   width: 500px;
   height: 300px;
@@ -14,6 +17,7 @@
   height: 100%;
 }
 footer {
+  margin-top: 40px;
   background-color: #000000;
   position: fixed;
   bottom: 0;
@@ -53,7 +57,6 @@ footer p {
 .my-btn {
   z-index: 20;
   cursor: pointer;
-  position: absolute;
   -webkit-transition: -webkit-transform 0.1s;
   transition: transform 0.1s;
 }
@@ -67,14 +70,6 @@ footer p {
 }
 .my-btn.ng-leave {
   visibility: hidden;
-}
-.my-btn.my-btn-first {
-  top: 60px;
-  right: 40px;
-}
-.my-btn.my-btn-second {
-  top: 60px;
-  right: 10px;
 }
 .my-btnmy-btn-picture {
   top: 10px;

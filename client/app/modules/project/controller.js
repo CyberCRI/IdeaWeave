@@ -289,7 +289,7 @@ angular.module('cri.project',[])
             })
         }
     }])
-    .controller('ProjectCreateCtrl',function($scope, Project, loggedUser, $state, Challenge, toaster, Gmap, Files, CONFIG){
+    .controller('ProjectCreateCtrl',['$scope', 'Project', 'loggedUser', '$state', 'Challenge', 'toaster', 'Gmap', 'Files', 'CONFIG',function($scope, Project, loggedUser, $state, Challenge, toaster, Gmap, Files, CONFIG){
         $scope.newProject = {};
         $scope.titleChange = function(title){
             $scope.newProject.accessUrl = title.replace(/ /g,"_");
@@ -306,59 +306,12 @@ angular.module('cri.project',[])
             $scope.newProject.owner = loggedUser.profile.id;
             $scope.newProject.container = Challenge.data.id;
             Project.create($scope.newProject).then(function(){
-                $scope.fileUploadQuestion = true;
-                $scope.ok = function(){
-                    $scope.showFileUploader = true;
-                    $scope.fileUploadQuestion = false;
-                }
-                $scope.cancel = function(){
-                    $state.go('project.details',{ pid : Project.data.accessUrl });
-                }
+                $state.go('project.details',{ pid : Project.data.accessUrl });
             }).catch(function(err){
                 console.log(err)
                 toaster.pop('error',err.status,err.message);
             })
         }
 
-        $scope.isImage = function(file){
-            return Files.isImage(file);
-        }
 
-
-        $scope.showFileDetails = function(index){
-            $scope.fileDetails = $scope.myTopic.files[index];
-        }
-
-        $scope.fileSelected = function($files){
-            $scope.file = $files[0];
-            console.log($scope.file)
-            if(Files.isImage($scope.file)){
-                Files.getDataUrl($scope.file).then(function(dataUrl){
-                    $scope.fileUrl = dataUrl;
-                })
-                $scope.dropBoxHeight = "300px";
-            }else{
-                toaster.pop('warning','warning','this file is not an image');
-            }
-        }
-
-
-        $scope.cancelUpload = function(){
-            $scope.file = null;
-            $scope.fileUrl = null;
-            $scope.dropBoxHeight = "100px";
-        }
-
-        $scope.upload = function(topic,file,description){
-            Project.uploadPoster(file).then(function(data){
-                toaster.pop('success','upload success','your file has been uploaded !!!');
-                $scope.file = null;
-                $scope.fileUrl = null;
-                $scope.dropBoxHeight = "100px";
-                $state.go('project',{ pid : Project.data.accessUrl });
-            }).catch(function(err){
-                toaster.pop('error',err.status,err.message);
-            })
-        }
-
-    })
+    }])

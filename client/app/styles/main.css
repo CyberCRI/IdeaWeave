@@ -270,6 +270,9 @@
   -moz-border-radius: 20px;
   border-radius: 20px;
 }
+textarea {
+  resize: none;
+}
 .map-wrapper {
   width: 500px;
   height: 300px;
@@ -286,6 +289,7 @@
   height: 100%;
 }
 footer {
+  margin-top: 40px;
   background-color: #000000;
   position: fixed;
   bottom: 0;
@@ -325,7 +329,6 @@ footer p {
 .my-btn {
   z-index: 20;
   cursor: pointer;
-  position: absolute;
   -webkit-transition: -webkit-transform 0.1s;
   transition: transform 0.1s;
 }
@@ -339,14 +342,6 @@ footer p {
 }
 .my-btn.ng-leave {
   visibility: hidden;
-}
-.my-btn.my-btn-first {
-  top: 60px;
-  right: 40px;
-}
-.my-btn.my-btn-second {
-  top: 60px;
-  right: 10px;
 }
 .my-btnmy-btn-picture {
   top: 10px;
@@ -463,9 +458,9 @@ body {
 .file-selected {
   transform: scale(1.5);
   -webkit-transform: scale(1.5);
-  text-shadow: 1px 1px 1px black;
 }
 .icon-file {
+  cursor: pointer;
   margin-right: 10px;
   -webkit-transition: -webkit-transform 0.5s;
   -moz-transition: -moz-transform 0.5s;
@@ -473,11 +468,7 @@ body {
   transition: transform 0.5s;
 }
 .icon-file:hover {
-  transform: scale(1.5);
-  -ms-transform: scale(1.5);
-  /* IE 9 */
-  -webkit-transform: scale(1.5);
-  /* Opera, Chrome, and Safari */
+  color: #6c7e6d;
 }
 .node {
   stroke: #fff;

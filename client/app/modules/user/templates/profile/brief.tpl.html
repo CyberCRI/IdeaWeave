@@ -1,4 +1,11 @@
-<div class="row profile-brief"  ng-mouseenter="enterBrief()" ng-mouseleave="leaveBrief()" >
+<section class="row profile-brief"  ng-mouseenter="enterBrief()" ng-mouseleave="leaveBrief()" >
+    <div class="row" style="height: 28px;">
+        <span class="pull-right" style="margin-right: 15px;">
+            <i class="fa fa-2x fa-edit my-btn-first my-btn" ng-show="btnVisible && !briefEditable" ng-click="editBrief()"></i>
+            <i class="fa fa-2x fa-save my-btn-first my-btn" ng-if="btnVisible && briefEditable" ng-click="updateBrief(profile.brief)"></i>
+            <i class="fa fa-2x fa-times my-btn-second my-btn" ng-if="btnVisible && briefEditable" ng-click="editBrief()"></i>
+        </span>
+    </div>
     <div style="position:relative;" class="col-xs-12 col-md-3">
         <div class="profile-map edit-menu" ng-if="!briefEditable" >
             <google-map center="map.center" zoom="map.zoom" ng-if="map"  options="mapOptions">
@@ -7,9 +14,7 @@
         </div>
     </div>
     <p ng-bind-html="secureBrief" class="col-xs-12 col-md-9 edit-menu" ng-if="!briefEditable"></p>
-    <i class="fa fa-2x fa-edit my-btn-first my-btn" ng-if="btnVisible && !briefEditable" ng-click="editBrief()"></i>
-    <i class="fa fa-2x fa-save my-btn-first my-btn" ng-if="btnVisible && briefEditable" ng-click="updateBrief(profile.brief)"></i>
-    <i class="fa fa-2x fa-times my-btn-second my-btn" ng-if="btnVisible && briefEditable" ng-click="editBrief()"></i>
+
     <div ng-if="briefEditable" class="edit-menu">
         <form class="form-horizontal">
             <div class="form-group">
@@ -19,5 +24,23 @@
             </div>
         </form>
     </div>
-</div>
-<div ng-bind-html="securePresentation" class="row"></div>
+</section>
+<section class="row" ng-mouseenter="enterPrez()" ng-mouseleave="leavePrez()" style="min-height: 300px">
+    <div class="row" style="height: 28px;">
+        <span class="pull-right" style="margin-right: 15px;">
+            <i class="fa fa-2x fa-edit my-btn-first my-btn" ng-show="btnPrezVisible && !prezEditable" ng-click="editPrez()"></i>
+            <i class="fa fa-2x fa-save my-btn-first my-btn" ng-if="btnPrezVisible && prezEditable" ng-click="updatePrez(profile.presentation)"></i>
+            <i class="fa fa-2x fa-times my-btn-second my-btn" ng-if="btnPrezVisible && prezEditable" ng-click="editPrez()"></i>
+        </span>
+    </div>
+    <div class="row">
+        <div ng-bind-html="securePresentation" ng-if="!prezEditable" class="edit-menu"></div>
+        <form class="form-horizontal" ng-if="prezEditable">
+            <div class="form-group">
+                <div class="col-xs-12">
+                    <div ui-ace="{mode : 'html'}" class="form-control" ng-model="profile.presentation" style="width:100%;height:100px"></div>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>

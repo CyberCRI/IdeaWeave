@@ -23,4 +23,5 @@ angular.module('cri.common')
                 })
             }
         }
-    }]);
+    }])
+

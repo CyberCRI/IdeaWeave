@@ -24,6 +24,7 @@ angular.module('cri.user',[])
         if(recommendProjects.length>0){
             $scope.stagPs=recommendProjects;
         }
+        console.log(recommendUser);
         if(recommendUser.length>0){
             $scope.recUsers=recommendUser;
         }
@@ -91,6 +92,36 @@ angular.module('cri.user',[])
                 $scope.briefEditable = !$scope.briefEditable;
             }
         }
+        $scope.btnPrezVisible = false
+        $scope.enterPrez = function(){
+            if($scope.me.id == $scope.profile.id){
+                $scope.btnPrezVisible = true;
+            }
+        }
+        $scope.leavePrez = function(){
+            if($scope.me.id == $scope.profile.id){
+                $scope.btnPrezVisible = false;
+            }
+        }
+        $scope.prezEditable = false;
+        $scope.editPrez = function(){
+            if($scope.me.id == $scope.profile.id) {
+                $scope.prezEditable = !$scope.prezEditable;
+            }
+        };
+
+
+        $scope.updatePrez = function(presentation) {
+            users.update(loggedUser.profile.id, { presentation: presentation }).then(function () {
+                toaster.pop('success', 'success', 'profile updated');
+                $scope.prezEditable = !$scope.prezEditable;
+                loggedUser.profile.presentation = presentation;
+                $scope.securePresentation = $sce.trustAsHtml(presentation);
+            }).catch(function (err) {
+                toaster.pop('error', 'error', 'profile updated');
+                $scope.prezEditable = !$scope.prezEditable;
+            })
+        };
         $scope.updateBrief = function(brief){
             users.update(loggedUser.profile.id,{ brief : brief }).then(function(){
                 toaster.pop('success','success','profile updated');
@@ -102,8 +133,6 @@ angular.module('cri.user',[])
                 $scope.briefEditable = !$scope.briefEditable;
             })
         }
-
-
     }])
     .controller('ProfileCtrl',['$scope','$stateParams','toaster','loggedUser','profile','followers','following','users','CONFIG','$state','$modal',function ($scope,$stateParams,toaster,loggedUser, profile, followers, following,users,CONFIG,$state,$modal) {
         $scope.mapOptions = CONFIG.mapOptions;
@@ -114,6 +143,38 @@ angular.module('cri.user',[])
         $scope.isFollowUser=false;
         $scope.me = loggedUser.profile;
         $scope.d3Tags = [];
+
+        $scope.btnInfoVisible = false
+        $scope.enterInfo = function(){
+            if($scope.me.id == $scope.profile.id){
+                $scope.btnInfoVisible = true;
+            }
+        }
+        $scope.leaveInfo = function(){
+            if($scope.me.id == $scope.profile.id){
+                $scope.btnInfoVisible = false;
+            }
+        }
+        $scope.infoEditable = false;
+        $scope.editInfo = function(){
+            if($scope.me.id == $scope.profile.id) {
+                $scope.infoEditable = !$scope.infoEditable;
+            }
+        };
+
+        $scope.updateInfo = function(username,sex) {
+            users.update(loggedUser.profile.id, { username: username,sex:sex }).then(function () {
+                toaster.pop('success', 'success', 'profile updated');
+                $scope.infoEditable = !$scope.infoEditable;
+                loggedUser.profile.sex = sex;
+                loggedUser.profile.username = username;
+            }).catch(function (err) {
+                toaster.pop('error', 'error', 'profile updated');
+                $scope.infoEditable = !$scope.infoEditable;
+            })
+        };
+
+
         angular.forEach($scope.profile.tags,function(v,k){
             $scope.d3Tags.push({
                 title : v,

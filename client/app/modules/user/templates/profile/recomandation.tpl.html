@@ -94,8 +94,8 @@
                 do It now ?
             </a>
         </div>
-        <ul ng-show="recUsers" class="list-unstyled">
-            <li ng-repeat="stagUser in recUsers track by $index"  ng-if="stagUser.id != me.id" class="col-sm-6 col-xs-12">
+        <ul  class="list-unstyled">
+            <li ng-repeat="stagUser in recUsers track by $index"   class="col-sm-6 col-xs-12">
                 <span user-block="stagUser.id" ></span>
             </li>
         </ul>

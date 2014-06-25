@@ -57,13 +57,11 @@ module.exports = function(grunt) {
                         '*'
                     ]
                 },{
-
-
-
                     expand: true,
                     dot : false,
+                    cwd : 'app/',
                     dest: 'dist/',
-                    src : 'app/vendors/tinymce/**'
+                    src : 'vendors/tinymce/**'
                 }]
             }
         },
@@ -111,7 +109,7 @@ module.exports = function(grunt) {
         'useminPrepare',
         'copy',
         'concat',
-//        'ngmin',
+        'ngmin',
         'uglify',
         'cssmin',
         'usemin',

@@ -12,7 +12,6 @@ angular.module('cri.common')
                 '</canvas>',
             link : function(scope,element,attrs){
                 PDFJS.disableWorker = true;
-                console.log('directove',scope)
                 PDFJS.getDocument(scope.url).then(function(pdf){
                     pdf.getPage(1).then(function getPageHelloWorld(page) {
                         var scale = 1;

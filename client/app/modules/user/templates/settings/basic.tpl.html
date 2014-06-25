@@ -12,22 +12,6 @@
         </div>
     </div>
     <div class="form-group">
-        <label  class="col-sm-2 control-label">{{'USERSET_BASIC_GENDER'|translate}}</label>
-        <div class="col-sm-6 col-mx-8">
-            <select ng-model="profile.sex" class="form-control" >
-                <option value='0'>{{'USERSET_BASIC_H'|translate}}</option>
-                <option value='1'>{{'USERSET_BASIC_M'|translate}}</option>
-                <option value='2'>{{'USERSET_BASIC_F'|translate}}</option>
-            </select>
-        </div>
-    </div>
-    <div class="form-group">
-        <label  class="col-sm-2 control-label">Presentation</label>
-        <div class="col-sm-6 col-mx-8">
-            <div ui-ace="{mode : 'html'}" class="form-control" ng-model="profile.presentation" style="width:100%;height:100px"/></div>
-        </div>
-    </div>
-    <div class="form-group">
         <div class="col-sm-6 col-mx-8 col-sm-offset-2">
             <button class="btn btn-success" ng-click="updateProfile(profile)">{{'BTN_SAVE'|translate}}</button>
         </div>

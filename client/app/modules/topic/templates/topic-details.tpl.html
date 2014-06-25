@@ -17,11 +17,6 @@
             <div class="col-md-6">
                 <h3 class="center">Files</h3>
                 <div class="list-group" >
-                    <a href="" class="list-group-item" ng-class="{ active : !hidefUpload }" ng-click="hidefUpload=!hidefUpload">
-                        {{'PROJECT_VIEW_ADD_FILE'|translate}}
-                    </a>
-                </div>
-                <div ng-init="hidefUpload=true" collapse="hidefUpload">
                     <cri-uploader></cri-uploader>
                 </div>
                 <br/>
@@ -33,13 +28,8 @@
             </div>
             <div class="col-md-6">
                 <h3 class="center">Links</h3>
-                <div class="list-group" >
-                    <a href="" class="list-group-item" ng-class="{ active : !hideurl }" ng-click="hideurl=!hideurl">
-                        {{'PROJECT_VIEW_ADD_LINK'|translate}}
-                    </a>
-                </div>
-                <div ng-init="hideurl=true" collapse="hideurl" >
-                    <textarea ng-model="url.description" placeholder="description"></textarea>
+                <div>
+                    <textarea ng-model="url.description" style="width:100%;" placeholder="description"></textarea>
                     <input type="text" class="form-control" placeholder="here you can enter the title of the resource" ng-model="url.title" required/>
                     <div class="input-group">
                         <input type="url" class="form-control" placeholder="here you can add a url resource" ng-model="url.text" required>
@@ -48,6 +38,7 @@
                         </span>
                     </div>
                 </div>
+                <br/>
                 <div class="list-group" ng-repeat="url in myTopic.urls">
                     <a ng-href="{{ url.text }}" class="list-group-item" ng-bind="url.title" target="_blank" popover-trigger="mouseenter" Popover-animation="true" popover="{{ url.description }}"></a>
                 </div>
@@ -62,10 +53,10 @@
                 </div>
             </div>
             <div class="col-md-6">
-                <img ng-src="{{ fileDetails.url }}" ng-if="isImage(fileDetails)"/>
+                <img ng-src="{{ fileDetails.url }}" width="100%" ng-if="isImage(fileDetails)"/>
                 <video ng-src="{{ fileDetails.url }}" ng-if="isVideo(fileDetails)"></video>
                 <pdf-js url="fileDetails.url" width="100%" height="400px" ng-if="isPdf(fileDetails)"></pdf-js>
-                <iframe ng-if="isOfficeDoc(fileDetails)" src="http://docs.google.com/gview?url={{ fileDetails.url }}&embedded=true" style="width:100%; height:500px;" frameborder="0"></iframe>
+                <g-doc-preview doc-url="fileDetails.url"></g-doc-preview>
             </div>
         </section>
     </tab>

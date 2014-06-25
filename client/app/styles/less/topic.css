@@ -28,9 +28,9 @@
 .file-selected {
   transform: scale(1.5);
   -webkit-transform: scale(1.5);
-  text-shadow: 1px 1px 1px black;
 }
 .icon-file {
+  cursor: pointer;
   margin-right: 10px;
   -webkit-transition: -webkit-transform 0.5s;
   -moz-transition: -moz-transform 0.5s;
@@ -38,9 +38,5 @@
   transition: transform 0.5s;
 }
 .icon-file:hover {
-  transform: scale(1.5);
-  -ms-transform: scale(1.5);
-  /* IE 9 */
-  -webkit-transform: scale(1.5);
-  /* Opera, Chrome, and Safari */
+  color: #6c7e6d;
 }

@@ -7,7 +7,8 @@ angular.module('cri.topic',[])
 
 
         Topic.fetchFile($scope.myTopic.id).then(function(data){
-            $scope.files = data;
+            console.log('files',data)
+            $scope.files = data || [];
             angular.forEach($scope.files,function(file){
                 Files.getPoster(file);
             })
@@ -68,8 +69,8 @@ angular.module('cri.topic',[])
                 $scope.file = null;
                 $scope.fileUrl = null;
                 $scope.dropBoxHeight = "100px";
-                console.log(data)
-                $scope.files=data.files;
+                Files.getPoster(data[0]);
+                $scope.files.push(data[0]);
             }).catch(function(err){
                 toaster.pop('error',err.status,err.message);
             })

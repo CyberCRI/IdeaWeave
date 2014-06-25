@@ -5,24 +5,54 @@
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <div class="center" style="position: relative;" ng-mouseenter="enterPicture()" ng-mouseleave="leavePicture()">
-                            <img ng-src="{{profile.poster}}" ng-show="profile.poster" class="img-rounded p" width="120px" style="height:120px">
-                            <img ng-src="images/avater.jpg" ng-hide="profile.poster" class="img-rounded" width="120px" style="height:120px">
-                            <i class="fa fa-2x fa-edit my-btn-picture my-btn" ng-if="btnVisible" ng-click="editPicture()"></i>
+                            <div class="row" style="height: 28px;">
+                                <span class="pull-right" style="margin-right: 15px;">
+                                   <i class="fa fa-2x fa-edit my-btn-picture my-btn" ng-if="btnVisible" ng-click="editPicture()"></i>
+                                </span>
+                            </div>
+                            <div class="row">
+                                <img ng-src="{{profile.poster}}" ng-show="profile.poster" class="img-rounded p" width="120px" style="height:120px">
+                                <img ng-src="images/avater.jpg" ng-hide="profile.poster" class="img-rounded" width="120px" style="height:120px">
+                            </div>
                         </div>
                         <div class="clearfix">
                         </div>
-                        <h2 class="center solid pbm" >
-                            <span ng-hide="profile.realname">
-                                {{profile.username}}
-                            </span>
-                            <span ng-show="profile.realname">
-                                {{profile.realname}}
-                            </span>
-                            <small ng-show="profile.sex>0">
-                                <span ng-if="profile.sex == 1" class="text-muted">♂ </span>
-                                <span ng-if="profile.sex == 2" class="text-muted" >♀</span>
-                            </small>
-                        </h2>
+                        <div ng-mouseenter="enterInfo()" ng-mouseleave="leaveInfo()">
+                            <div class="row" style="height: 28px;">
+                                <span class="pull-right" style="margin-right: 15px;">
+                                    <i class="fa fa-2x fa-edit my-btn" ng-show="btnInfoVisible && !infoEditable" ng-click="editInfo()"></i>
+                                    <i class="fa fa-2x fa-save my-btn" ng-if="btnInfoVisible && infoEditable" ng-click="updateInfo(profile.presentation)"></i>
+                                    <i class="fa fa-2x fa-times my-btn" ng-if="btnInfoVisible && infoEditable" ng-click="editInfo()"></i>
+                                </span>
+                            </div>
+                            <h2 class="center solid pbm" ng-if="!infoEditable">
+                                <span>
+                                    {{profile.username}}
+                                </span>
+                                <small ng-show="profile.sex>0">
+                                    <span ng-if="profile.sex == 1" class="text-muted">♂</span>
+                                    <span ng-if="profile.sex == 2" class="text-muted" >♀</span>
+                                </small>
+                            </h2>
+                            <form class="form-horizontal" role="form" ng-if="infoEditable">
+                                <div class="form-group">
+                                    <div class="col-xs-12">
+                                        <input type="text" class="form-control" ng-model="profile.username"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-xs-12">
+                                        <select ng-model="profile.sex" class="form-control" >
+                                            <option value='0'>{{'USERSET_BASIC_H'|translate}}</option>
+                                            <option value='1'>{{'USERSET_BASIC_M'|translate}}</option>
+                                            <option value='2'>{{'USERSET_BASIC_F'|translate}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+
                         <div class="solid center pbm ">
                             <h3 >
                                 <span>
@@ -118,7 +148,6 @@
                 </div>
                 <div class="clearfix mbm">
                 </div>
-
             </div>
     </div>
 </div>
