@@ -1,23 +1,4 @@
 <div class="container">
-    <div class="col-xs-6">
-        <div class="input-group">
-            <input type="search" class="form-control" ng-model="searchProject" id="searchField" placeholder="e.g:Innovation">
-            <span class="input-group-addon" ng-click="queryProject()"><i class="fa fa-search fa-fw"></i></span>
-        </div>
-    </div>
-    <div class="col-xs-3">
-        <!-- sort by-->
-        <select class="form-control" ng-model="sortBy" ng-change="changeSort()">
-            <option value="0">Fly degrees</option>
-            <option value="1" >Latest updates</option>
-            <option value="2" >Created</option>
-        </select>
-    </div>
-    <div class="clearfix"></div>
-    <div class="solid ptm"></div>
-
-    <i ng-show="isLoading" class="icon-refresh icon-3x icon-spin"></i>
-
     <div class="col-sm-6 col-md-4" ng-repeat="project in projects | orderBy:orderProp:true track by $index">
         <div class="thumbnail" >
             <a ui-sref="project({ pid : project.accessUrl })">

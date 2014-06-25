@@ -3,6 +3,9 @@ angular.module('cri.project',[])
 
         $scope.mapOptions = CONFIG.mapOptions;
         $scope.project = Project.data = project[0];
+
+        console.log($scope.project);
+
         if($scope.project.localisation){
             $scope.map = {
                 center: {

@@ -59,7 +59,7 @@
                 <ul class="nav navbar-nav navbar-right" >
                     <li ng-show="me.profile.admin"><a ui-sref="challenges" >{{ 'ADMIN_SCREEN' | translate }}</a></li>
                     <li>
-                        <a ui-sref="profile.activity({ uid : me.profile.id })" style="padding : 5px;">
+                        <a ui-sref="profile.brief({ uid : me.profile.id })" style="padding : 5px;">
                             <img ng-if="me.profile.poster" ng-src="{{ me.profile.poster }}" height="50" tooltip-animation="true" tooltip="{{ me.profile.username }} point" tooltip-placement="bottom"/>
                             <img ng-if="!me.profile.poster" src="images/avater.jpg" height="50" tooltip-animation="true" tooltip="{{ me.profile.username }}" tooltip-placement="bottom"/>
                         </a>

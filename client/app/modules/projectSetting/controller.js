@@ -93,7 +93,7 @@ angular.module('cri.projectSetting',[])
         }
         $scope.addToTeam=function(uid,idx){
             console.log('ctrl',uid,idx)
-            Project.update({member:{'$push':uid},'context':'team'},$scope.project.id).then(function(){
+            Project.update($scope.project.id,{member:{'$push':uid},'context':'team'}).then(function(){
 //            Project.update({uid : uid , context :'team'},$scope.project.id).then(function(){
                 $scope.finish(idx);
                 toaster.pop('success','success','Successfully added');

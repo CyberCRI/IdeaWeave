@@ -23,7 +23,7 @@
                                     <div ng-hide="applyteam.status">unfinish</div>
                                 </td>
                                 <td>
-                                    <a class="btn btn-success" ng-href="message/new/{{me.username}}?to={{applyteam.owner}}&&subject=Reply:Apply for joining project-{{project.title}}" target="_blank" ng-hide="applyteam.status" tooltip="Email he/she" >Email</a>
+                                    <!--<a class="btn btn-success" ng-href="message/new/{{me.username}}?to={{applyteam.owner}}&&subject=Reply:Apply for joining project-{{project.title}}" target="_blank" ng-hide="applyteam.status" tooltip="Email he/she" >Email</a>-->
                                     <div class="btn btn-primary" ng-hide="applyteam.status" tooltip="add he/she as member" ng-click="addToTeam(applyteam.owner,$index)">Add as Member</div>
                                     <div class="btn btn-default" ng-hide="applyteam.status" tooltip="Mark as finished" ng-click="finish($index)">Finished</div>
                                 </td>
