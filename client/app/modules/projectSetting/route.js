@@ -44,6 +44,9 @@ angular.module('cri.projectSetting')
                 resolve : {
                     files : ['Files', '$stateParams',function(Files, $stateParams){
                         return Files.fetch({projectUrl : $stateParams.pid});
+                    }],
+                    urls : ['Url','$stateParams',function(Url,$stateParams){
+                        return Url.fetch({ project : $stateParams.pid });
                     }]
                 }
             })

@@ -40,6 +40,14 @@
 			"required": true,
 			"id": "title",
 			"order": 4
+		},
+		"project": {
+			"name": "project",
+			"type": "string",
+			"typeLabel": "string",
+			"required": true,
+			"id": "project",
+			"order": 5
 		}
 	}
 }

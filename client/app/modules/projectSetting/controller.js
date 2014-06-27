@@ -58,7 +58,7 @@ angular.module('cri.projectSetting',[])
             })
         };
     }])
-    .controller('ProjectMediaCtrl',['$scope', 'toaster','Socket','files','Files',function ($scope, toaster,Socket,files,Files) {
+    .controller('ProjectMediaCtrl',['$scope', 'toaster','Socket','files','Files','urls','Url',function ($scope, toaster,Socket,files,Files,urls,Url) {
 
         $scope.removeFile = function(file){
             Files.remove(file.id).then(function(){
@@ -70,6 +70,17 @@ angular.module('cri.projectSetting',[])
         }
 
         $scope.files = files;
+
+
+        $scope.urls = urls;
+
+        $scope.updateUrl = function(url){
+            Url.update(url).then(function(data){
+                toaster.pop('success','success','url updated succesfully');
+            }).catch(function(err){
+                toaster.pop('error','error','update fail');
+            })
+        };
 
         Socket.on('file:create',function(data){
 //            jzCommon.query(apiServer+'/files',{id:data.id,container:$stateParams.pid,context:'list'}).then(function(result){

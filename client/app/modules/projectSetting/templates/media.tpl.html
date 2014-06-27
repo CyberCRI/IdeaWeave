@@ -9,16 +9,16 @@
                 <tr ng-repeat="file in files track by $index">
                     <td>{{file.originalFilename}}</td>
                     <td><a ng-href="user/{{file.ownerid}}" target="_self">{{file.ownerName}}</a></td>
-                    <td><a class="btn btn-danger" ng-show="file.owner.id==me.id" ng-click="removeFile(file)">Delete</a></td>
+                    <td><a class="btn btn-danger" ng-show="file.owner.id==me.id" ng-click="removeFile(file)" popover-trigger="mouseenter"  Popover-animation="true" popover="{{ file.description }}">Delete</a></td>
                 </tr>
             </table>
         </div>
         <div class="col-md-6">
             <h3>Url resources</h3>
             <div class="input-group" ng-repeat="url in urls track by $index">
-                <input type="text" class="form-control" placeholder="here you can add a url resource" ng-model="url">
+                <input type="text" class="form-control" placeholder="here you can add a url resource" ng-model="url.text" popover-trigger="mouseenter" popover-title="{{ url.title }}" Popover-animation="true" popover="{{ url.description }}">
                 <span class="input-group-btn">
-                    <button class="btn btn-default" type="button" ng-click="update(url.text)">Update</button>
+                    <button class="btn btn-default" type="button" ng-click="updateUrl(url)">Update</button>
                 </span>
             </div>
         </div>

@@ -78,6 +78,7 @@ angular.module('cri.topic',[])
         };
 
         $scope.addUrl = function(url){
+            url.project = $stateParams.pid;
             url.container = $scope.myTopic.id;
             url.owner = loggedUser.profile.id;
             Topic.addUrl(url).then(function(data){
