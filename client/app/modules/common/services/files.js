@@ -82,9 +82,10 @@ angular.module('cri.common')
                 }
             },
             isOfficeDoc : function(file){
-                if(file.type == 'application/vnd.ms-excel' || file.type == 'application/vnd.ms-excel' ||  file.type == 'application/vnd.ms-excel'){
+                var ext = file.filename.split('.');
+                if(ext[ext.length-1] == 'xslx' || ext[ext.length-1] == 'xslx' || ext[ext.length-1] == 'pptx'){
                     return true;
-                }else {
+                }else{
                     return false;
                 }
             },

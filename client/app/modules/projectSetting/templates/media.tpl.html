@@ -7,7 +7,7 @@
                     <th>Name</th><th>Uploader</th><th>Remove</th>
                 </thead>
                 <tr ng-repeat="file in files track by $index">
-                    <td>{{file.filename}}</td>
+                    <td>{{file.originalFilename}}</td>
                     <td><a ng-href="user/{{file.ownerid}}" target="_self">{{file.ownerName}}</a></td>
                     <td><a class="btn btn-danger" ng-show="file.owner.id==me.id" ng-click="removeFile(file)">Delete</a></td>
                 </tr>

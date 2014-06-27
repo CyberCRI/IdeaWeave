@@ -309,7 +309,7 @@ angular.module('cri.project',[])
             $scope.newProject.owner = loggedUser.profile.id;
             $scope.newProject.container = Challenge.data.id;
             Project.create($scope.newProject).then(function(){
-                $state.go('project.details',{ pid : Project.data.accessUrl });
+                $state.go('project',{ pid : Project.data.accessUrl });
             }).catch(function(err){
                 console.log(err)
                 toaster.pop('error',err.status,err.message);

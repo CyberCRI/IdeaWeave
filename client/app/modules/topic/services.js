@@ -59,18 +59,13 @@ angular.module('cri.topic')
                     method: 'POST',
                     file: file
                 }).success(function(data, status, headers, config) {
-                    if(!topic.files){
-                        topic.files = new Array;
-                    }
-                    var myFile = data[0];
-                    Files.getPoster(file);
-                    myFile.url = CONFIG.apiServer+'/fileUpload/topic/'+$stateParams.pid+'/'+myFile.filename;
-                    topic.files.push(myFile);
-                    $http.put(CONFIG.apiServer+'/pforums',topic).success(function(){
-                        defered.resolve(data);
-                    }).error(function(err){
-                        defered.reject(err);
-                    })
+
+                    defered.resolve(data);
+//                    $http.put(CONFIG.apiServer+'/pforums',topic).success(function(){
+//                        defered.resolve(data);
+//                    }).error(function(err){
+//                        defered.reject(err);
+//                    })
                 });
                 return defered.promise;
             },
@@ -81,6 +76,7 @@ angular.module('cri.topic')
                         topic : id
                     }
                 }).success(function(data){
+                    console.log(data)
                    defered.resolve(data);
                 }).error(function(err){
                     defered.reject(err);

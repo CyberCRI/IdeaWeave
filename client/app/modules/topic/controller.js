@@ -1,5 +1,5 @@
 angular.module('cri.topic',[])
-    .controller('ProjectTopicDetailsCtrl',['$scope','$stateParams','Topic','toaster','Files','loggedUser',function($scope,$stateParams,Topic,toaster,Files,loggedUser){
+    .controller('ProjectTopicDetailsCtrl',['$scope','$stateParams','Topic','toaster','Files','loggedUser','CONFIG',function($scope,$stateParams,Topic,toaster,Files,loggedUser,CONFIG){
         $scope.myTopic = $scope.topics[$stateParams.tid];
         $scope.$parent.projectId = $stateParams.pid;
         $scope.$parent.topicId = $stateParams.tid;
@@ -7,10 +7,10 @@ angular.module('cri.topic',[])
 
 
         Topic.fetchFile($scope.myTopic.id).then(function(data){
-            console.log('files',data)
             $scope.files = data || [];
             angular.forEach($scope.files,function(file){
                 Files.getPoster(file);
+                file.url = CONFIG.apiServer+'/fileUpload/topic/'+$stateParams.pid+'/'+file.filename;
             })
         }).catch(function(err){
             toaster.pop(err.status,err.message);
@@ -41,8 +41,8 @@ angular.module('cri.topic',[])
         };
 
 
-        $scope.showFileDetails = function(index){
-            $scope.fileDetails = $scope.myTopic.files[index];
+        $scope.showFileDetails = function(file){
+            $scope.fileDetails = file;
         };
 
         $scope.fileSelected = function($files){
@@ -70,6 +70,7 @@ angular.module('cri.topic',[])
                 $scope.fileUrl = null;
                 $scope.dropBoxHeight = "100px";
                 Files.getPoster(data[0]);
+                data[0].url = CONFIG.apiServer+'/fileUpload/topic/'+$stateParams.pid+'/'+file.filename;
                 $scope.files.push(data[0]);
             }).catch(function(err){
                 toaster.pop('error',err.status,err.message);
