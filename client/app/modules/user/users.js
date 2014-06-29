@@ -74,6 +74,17 @@ angular.module('cri.user')
                     });
                 return deferred.promise;
             },
+            oAuthLogin : function(type){
+                var defered = $q.defer();
+                $http.get(CONFIG.apiServer+'/auth/'+type).success(function(data){
+                    console.log(data);
+                    defered.resolve(data);
+                }).error(function(err){
+                    console.log(err);
+                    defered.reject(err);
+                })
+                return defered.promise
+            },
             validateEmail: function (userId) {
                 return $http.get(CONFIG.apiServer + '/users/' + userId)
                     .then(function (result) {

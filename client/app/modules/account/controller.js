@@ -14,6 +14,23 @@ angular.module('cri.account',[])
                     toaster.pop('error', err.status, err.message);
                 });
         };
+
+        $scope.logWithFb = function(){
+            users.oAuthLogin('facebook').then(function(err){
+
+            }).catch(function(err){
+
+            })
+        }
+
+        $scope.logWithGithub = function(){
+//            users.oAuthLogin('github').then(function(err){
+//
+//            }).catch(function(err){
+//
+//            })
+            window.location.href="http://ideastorm.io:5011/auth/github";
+       }
     }])
     .controller('RegisterCtrl', ['$scope','users','$state','toaster','Gmap','Files','loggedUser',  function ($scope, users, $state, toaster,Gmap,Files,loggedUser) {
 

@@ -59,13 +59,7 @@ angular.module('cri.topic')
                     method: 'POST',
                     file: file
                 }).success(function(data, status, headers, config) {
-
                     defered.resolve(data);
-//                    $http.put(CONFIG.apiServer+'/pforums',topic).success(function(){
-//                        defered.resolve(data);
-//                    }).error(function(err){
-//                        defered.reject(err);
-//                    })
                 });
                 return defered.promise;
             },

@@ -128,6 +128,38 @@
 			"required": false,
 			"id": "presentation",
 			"order": 15
-		}
+		},
+        "socialAccount": {
+            "name": "socialAccount",
+            "type": "string",
+            "typeLabel": "string",
+            "required": false,
+            "id": "socialAccount",
+            "order": 0
+        },
+        "socialAccountId": {
+            "name": "socialAccountId",
+            "type": "string",
+            "typeLabel": "string",
+            "required": false,
+            "id": "socialAccountId",
+            "order": 1
+        },
+        "profile": {
+            "name": "profile",
+            "type": "object",
+            "typeLabel": "object",
+            "required": false,
+            "id": "profile",
+            "order": 2
+        },
+        "name": {
+            "name": "name",
+            "type": "string",
+            "typeLabel": "string",
+            "required": false,
+            "id": "name",
+            "order": 3
+        }
 	}
 }

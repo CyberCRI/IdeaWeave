@@ -42,6 +42,24 @@ angular.module('cri.challenge')
                   }
                 }
             })
+            .state('challenge.topic',{
+                url : '/forum',
+                views : {
+                    challengeView: {
+                        templateUrl: 'modules/challenge/templates/challenge-forum.tpl.html',
+                        controller: 'cTopicCtrl'
+                    }
+                }
+            })
+            .state('challenge.topic.details',{
+                url : '/:tid',
+                views : {
+                    topicView: {
+                        templateUrl:'modules/challenge/templates/challenge-forum-detail.tpl.html',
+                        controller: 'cTopicDetailsCtrl'
+                    }
+                }
+            })
             .state('challenge.details',{
                 url : '/details',
                 views : {

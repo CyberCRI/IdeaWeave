@@ -17,5 +17,12 @@ if(query.type =='position'){
           this.followers=[];
         }
     });
+    dpd.cforums.get({ container : this.id },function(fData){
+        if(fData){                    
+            this.topics = fData;
+        }else{
+            this.topics = [];
+        }
+    });
 }
 

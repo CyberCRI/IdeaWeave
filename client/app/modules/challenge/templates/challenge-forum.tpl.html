@@ -1,0 +1,46 @@
+<h3 class="dashed pas"><i class="icon-comments-alt mrm"></i>
+    {{'PROJECT_VIEW_DISCUSS'|translate}}
+</h3>
+<blockquote class="text-muted" >
+    {{'PROJECT_VIEW_DISCUSS_INFO'|translate}}
+</blockquote>
+<section class="row">
+    <section class="col-md-2">
+
+        <div class="list-group" >
+            <a href="" class="list-group-item" ng-class="{ active : !hideTopic }" ng-click="hideTopic=!hideTopic">
+                {{'PROJECT_VIEW_ADD_DISCUSS'|translate}}
+            </a>
+        </div>
+        </div>
+        <div class="list-group" ng-repeat="topic in topics" ng-class="{ 'owner-topic' : topic.owner == project.owner, 'member-topic' : topicsCss[$index] ==  'member', 'follower-topic' : topicsCss[$index] ==  'follower', 'visitor-topic' : topicsCss[$index] ==  'visitor' }">
+            <a ui-sref="challenge.topic.details({ tid : $index })" class="list-group-item" ui-route="/project/{{ projectId }}/topic/{{ topicId }}"  ng-class="{ active : topicId == $index }" ng-bind="topic.title"></a>
+        </div>
+    </section>
+    <section class="col-md-10">
+        <div ng-init="hideTopic=true" collapse="hideTopic" >
+            <form class="form-horizontal pam" name="myTopicForm" role="form">
+                <div class="form-group">
+                    <label  class="col-sm-2 col-xs-12 control-label">{{'PROJECT_VIEW_DIS_TITLE'|translate}}</label>
+                    <div class="col-sm-10 col-xs-12">
+                        <input type="text"  name="title" ng-model="tf.title" class="form-control" required="">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label  class="col-sm-2 col-xs-12 control-label">{{'PROJECT_VIEW_DIS_CONTENT'|translate}}</label>
+                    <div class="col-sm-10 col-xs-12">
+                        <textarea ui-tinymce="tinymceOptions" ng-model="tf.text"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class=" col-sm-offset-2 col-sm-10 col-xs-12">
+                        <button type="submit" class="btn btn-success" ng-disabled="myTopicForm.$invalid"  ng-click="addTopic()">{{'PROJECT_VIEW_DIS_BTN'|translate}}</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div ui-view="topicView">
+
+        </div>
+    </section>
+</section>

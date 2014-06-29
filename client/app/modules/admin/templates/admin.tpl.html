@@ -1,0 +1,12 @@
+<section class="container">
+    <section class="col-sm-6">
+        <div class="list-group">
+            <a class="list-group-item" ng-repeat="challenge in challenges track by $index" ng-bind="challenge.title" ui-sref="admin.challenge({ pid : challenge.accessUrl })"></a>
+        </div>
+    </section>
+    <section class="col-sm-6">
+        <div class="list-group">
+            <a class="list-group-item" ng-repeat="project in projects track by $index" ng-bind="project.title" ui-sref="admin.project({ pid : project.accessUrl })"></a>
+        </div>
+    </section>
+</section>

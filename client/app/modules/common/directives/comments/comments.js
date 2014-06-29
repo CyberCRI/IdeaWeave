@@ -45,10 +45,12 @@ angular.module('cri.common')
                         parent:pid
                     };
                     Comment.post(option).then(function(result){
-                        scope.comments[idx] = option;
-                        scope.comments[idx].replyComment='';
-                        scope.comments[idx].isReply=true;
+                        result = option;
+                        result.replyComment='';
+                        result.isReply=true;
                         result.displayText = $sce.trustAsHtml(result.text);
+                        scope.comments.push(result)
+
                     }).catch(function(err){
                         console.log('error',err);
                     })

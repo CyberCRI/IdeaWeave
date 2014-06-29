@@ -1,4 +1,138 @@
 angular.module('cri.challenge', [])
+    .controller('cTopicCtrl',['$scope','CONFIG','toaster','Topic',function($scope,CONFIG,toaster,Topic){
+        console.log('ctopic',$scope)
+        $scope.topics = $scope.challenge.topics;
+
+        $scope.tinymceOptions = CONFIG.tinymceOptions;
+
+        $scope.tf={};
+        $scope.addTopic=function(){
+            $scope.tf.text = Topic.urlify($scope.tf.text);
+            $scope.tf.urls = Topic.getUrl($scope.tf.text);
+            $scope.tf.container=$scope.challenge.id;
+            $scope.tf.owner=$scope.me.id
+            Topic.createPost($scope.tf,'challenge').then(function(result){
+                toaster.pop('success','you earn points !!!', 'Add a topic ! Cool for 10 points.');
+                $scope.hideTopic=true;
+                $scope.tf={};
+                $scope.topics.push(result);
+            }).catch(function(err){
+                toaster.pop('error',err.status,err.message);
+            })
+        }
+
+        //topic css classes
+        $scope.topicsCss = [];
+        angular.forEach($scope.topics,function(v,k){
+            if(v.owner === $scope.challenge.owner ){
+                $scope.topicsCss[k] = 'owner'
+            }else{
+                $scope.topicsCss[k] = 'visitor';
+                angular.forEach($scope.challenge.followers,function(vf,kf){
+                    if(v.owner === vf){
+                        $scope.topicsCss[k] = 'follower';
+                    }
+                });
+                angular.forEach($scope.challenge.member,function(vm,km){
+                    if(v.owner === vm){
+                        $scope.topicsCss[k] = 'member';
+                    }
+                })
+            }
+        })
+    }])
+    .controller('cTopicDetailsCtrl',['$scope','$stateParams','Topic','toaster','Files','loggedUser','CONFIG',function($scope,$stateParams,Topic,toaster,Files,loggedUser,CONFIG){
+        $scope.myTopic = $scope.topics[$stateParams.tid];
+        $scope.$parent.projectId = $stateParams.pid;
+        $scope.$parent.topicId = $stateParams.tid;
+        $scope.dropBoxHeight = "100px";
+
+
+        Topic.fetchFile($scope.myTopic.id).then(function(data){
+            $scope.files = data || [];
+            angular.forEach($scope.files,function(file){
+                Files.getPoster(file);
+                file.url = CONFIG.apiServer+'/fileUpload/topic/'+$stateParams.pid+'/'+file.filename;
+            })
+        }).catch(function(err){
+            toaster.pop(err.status,err.message);
+        });
+
+
+        Topic.fetchUrl($scope.myTopic.id).then(function(data){
+            $scope.myTopic.urls = data;
+        }).catch(function(err){
+            toaster.pop(err.status,err.message);
+        });
+
+
+        $scope.isImage = function(file){
+            return Files.isImage(file);
+        };
+
+        $scope.isVideo = function(file){
+            return Files.isVideo(file);
+        };
+
+        $scope.isPdf = function(file){
+            return Files.isPdf(file);
+        };
+
+        $scope.isOfficeDoc = function(file){
+            return Files.isOfficeDoc(file);
+        };
+
+
+        $scope.showFileDetails = function(file){
+            $scope.fileDetails = file;
+        };
+
+        $scope.fileSelected = function($files){
+            $scope.file = $files[0];
+            console.log($scope.file);
+            if(Files.isImage($scope.file)){
+                Files.getDataUrl($scope.file).then(function(dataUrl){
+                    $scope.fileUrl = dataUrl;
+                });
+                $scope.dropBoxHeight = "300px";
+            }
+        };
+
+
+        $scope.cancelUpload = function(){
+            $scope.file = null;
+            $scope.fileUrl = null;
+            $scope.dropBoxHeight = "100px";
+        };
+
+        $scope.upload = function(topic,file,description){
+            Topic.uploadFile(topic, file,description).then(function(data){
+                toaster.pop('success','upload success','your file has been uploaded !!!');
+                $scope.file = null;
+                $scope.fileUrl = null;
+                $scope.dropBoxHeight = "100px";
+                Files.getPoster(data[0]);
+                data[0].url = CONFIG.apiServer+'/fileUpload/topic/'+$stateParams.pid+'/'+file.filename;
+                $scope.files.push(data[0]);
+            }).catch(function(err){
+                toaster.pop('error',err.status,err.message);
+            })
+        };
+
+        $scope.addUrl = function(url){
+            url.project = $stateParams.pid;
+            url.container = $scope.myTopic.id;
+            url.owner = loggedUser.profile.id;
+            Topic.addUrl(url).then(function(data){
+                if(!$scope.myTopic.urls){
+                    $scope.myTopic.urls = [];
+                }
+                $scope.myTopic.urls.push(url);
+            }).catch(function(err){
+                toaster.pop('error',err.status,err.message);
+            })
+        }
+    }])
     .controller('ChallengeExploreCtrl', ['$scope', 'challenges','users','Challenge','toaster', function ($scope, challenges, users, Challenge, toaster) {
         $scope.isLogged = users.isLoggedIn();
         $scope.challenges = challenges;
