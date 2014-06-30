@@ -96,15 +96,15 @@ angular.module('cri.challenge')
                     }
                 }
             })
-            .state('challenge.settings',{
-                url : '/settings',
-                views : {
-                    challengeView: {
-                        templateUrl: 'modules/challenge/templates/challenge-settings.tpl.html',
-                        controller: 'ChallengeSettingsCtrl'
-                    }
-                }
-            })
+//            .state('challenge.settings',{
+//                url : '/settings',
+//                views : {
+//                    challengeView: {
+//                        templateUrl: 'modules/challenge/templates/challenge-settings.tpl.html',
+//                        controller: 'ChallengeSettingsCtrl'
+//                    }
+//                }
+//            })
             .state('challenge.projectCreation',{
                 url : '/projectCreation',
                 views : {

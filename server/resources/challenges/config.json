@@ -80,6 +80,22 @@
 			"required": false,
 			"id": "localisation",
 			"order": 9
+		},
+		"startDate": {
+			"name": "startDate",
+			"type": "number",
+			"typeLabel": "number",
+			"required": false,
+			"id": "startDate",
+			"order": 10
+		},
+		"endDate": {
+			"name": "endDate",
+			"type": "number",
+			"typeLabel": "number",
+			"required": false,
+			"id": "endDate",
+			"order": 11
 		}
 	}
 }

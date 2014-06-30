@@ -83,6 +83,18 @@ angular.module('cri.user')
                 resolve : {
                     activity : ['users','$stateParams',function(users,$stateParams){
                         return users.getActivity($stateParams.uid)
+                    }],
+                    recommendUser : ['Recommend','$stateParams',function(Recommend,$stateParams){
+                        return Recommend.fetchUser($stateParams.uid);
+                    }],
+                    recommendFriendUser : ['Recommend','$stateParams',function(Recommend,$stateParams) {
+                        return Recommend.fetchFriendsUser($stateParams.uid);
+                    }],
+                    recommendProjects : ['Recommend','$stateParams',function(Recommend,$stateParams){
+                        return Recommend.fetchProject($stateParams.uid);
+                    }],
+                    recommendChallenge : ['Recommend','$stateParams',function(Recommend,$stateParams){
+                        return Recommend.fetchChallenge($stateParams.uid);
                     }]
                 }
             })
@@ -142,30 +154,6 @@ angular.module('cri.user')
                         console.log(2)
                         return Recommend.fetchFriendsUser($stateParams.uid);
                     }]
-                }
-            })
-            .state('profile.recomandation',{
-                url : '/recomandation',
-                views : {
-                    profileView: {
-                        templateUrl: 'modules/user/templates/profile/recomandation.tpl.html',
-                        controller : 'ProfileRecommandationCtrl'
-                    }
-                },
-                resolve : {
-                    recommendUser : ['Recommend','$stateParams',function(Recommend,$stateParams){
-                        return Recommend.fetchUser($stateParams.uid);
-                    }],
-                    recommendFriendUser : ['Recommend','$stateParams',function(Recommend,$stateParams) {
-                        return Recommend.fetchFriendsUser($stateParams.uid);
-                    }],
-                    recommendProjects : ['Recommend','$stateParams',function(Recommend,$stateParams){
-                        return Recommend.fetchProject($stateParams.uid);
-                    }],
-                    recommendChallenge : ['Recommend','$stateParams',function(Recommend,$stateParams){
-                        return Recommend.fetchChallenge($stateParams.uid);
-                    }]
-
                 }
             })
             .state('profile.brief',{

@@ -1,7 +1,7 @@
 <div class="">
     <!--<a ng-href="message/new?to={{uid}}"  class="btn btn-success pull-right">{{'BTN_MSG'|translate}}</a>-->
 
-    <a ui-sref="user.brief({ uid : uid })" class="pull-left" >
+    <a ui-sref="profile.brief({ uid : uid })" class="pull-left" >
         <img ng-src="{{user[uid].poster}}" ng-show="user[uid].poster" width="45px" class="img-rounded"  >
         <img ng-src="images/avater.jpg" ng-hide="user[uid].poster" width="45px"  class="img-rounded" >
     </a>

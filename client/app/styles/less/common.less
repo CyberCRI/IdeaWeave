@@ -1,5 +1,9 @@
 @import "variables";
 
+body{
+  font-family: 'Abel', sans-serif;
+}
+
 textarea{
   resize: none;
 }
@@ -9,7 +13,7 @@ textarea{
   height: 300px;
   border-radius: 500px;
   overflow: hidden;
-  position: absolute; /* this breaks the overflow:hidden in Chrome/Opera */
+//  position: absolute; /* this breaks the overflow:hidden in Chrome/Opera */
   -webkit-mask-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAA5JREFUeNpiYGBgAAgwAAAEAAGbA+oJAAAAAElFTkSuQmCC);
 }
 
@@ -68,31 +72,36 @@ footer{
 .my-btn{
   z-index: 20;
   cursor:pointer;
-//  position: absolute;
+  line-height: 40px;
+  text-align: center;
+  vertical-align: middle;
+  width: 40px;
+  display: inline-block;
+  height: 40px;
+
+
+  //  position: absolute;
   -webkit-transition: -webkit-transform 0.1s;
   transition: transform 0.1s;
-  &.ng-enter{
-    -webkit-animation : fadeInDown 0.5s;
-    animation : fadeInDown 0.5s;
-  }
+//  &.ng-enter{
+//    -webkit-animation : fadeInDown 0.5s;
+//    animation : fadeInDown 0.5s;
+//  }
   &:active{
-    transform : scale(1.5);
-    -webkit-transform : scale(1.5);
+    transform : scale(1.3);
+    -webkit-transform : scale(1.3);
   }
   &.ng-leave{
 //    -webkit-animation : fadeInUp 0.5s;
 //    animation : fadeInUp 0.5s;
     visibility: hidden;
   }
-  &.my-btn-first{
-//    top : 60px;
-//    right: 40px;
+  &.active{
+    border: 1px solid black;
+    border-radius: 50%;
+
   }
-  &.my-btn-second{
-//    top : 60px;
-//    right: 10px;
-  }
-  &my-btn-picture{
+  &.my-btn-picture{
     top : 10px;
     right: 10px;
   }
@@ -107,3 +116,9 @@ footer{
   box-shadow: none;
 }
 
+.img-rounded{
+  border-radius : 50%;
+//  border : solid 1px black;
+//  background-color : white;
+//  padding : 5px;
+}

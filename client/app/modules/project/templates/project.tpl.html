@@ -4,24 +4,53 @@
             <!--Profile basic-->
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <div class="center">
-                        <img ng-src="{{project.poster}}" ng-show="project.poster" class="img-rounded p" width="120px" style="height:120px">
-                        <img ng-src="images/avater.jpg" ng-hide="project.poster" class="img-rounded" width="120px" style="height:120px">
+                    <div class="center" style="position: relative;" ng-mouseenter="enterPicture()" ng-mouseleave="leavePicture()">
+                        <div class="row" style="height: 28px;">
+                            <span class="col-xs-offset-10 col-xs-1" style="height: 28px;">
+                               <i class="fa fa-2x fa-edit my-btn-picture my-btn" ng-if="btnImgVisible" ng-click="editPicture()"></i>
+                            </span>
+                        </div>
+                        <div class="row">
+                            <img ng-src="{{project.poster}}" ng-show="project.poster" class="img-rounded" width="80%">
+                            <img ng-src="images/avater.jpg" ng-hide="project.poster" class="img-rounded" width="80%">
+                        </div>
                     </div>
                     <div class="clearfix">
                     </div>
-                    <h2 class="center solid pbm" >
-                        <span ng-show="project.title">
-                            {{project.title}}
-                        </span>
-                    </h2>
+                    <div ng-mouseenter="enterInfo()" ng-mouseleave="leaveInfo()">
+                        <div class="row" style="height: 28px;">
+                                <span class="col-xs-offset-10 col-xs-2" ng-show="btnInfoVisible && !infoEditable" style="height: 28px;">
+                                    <i class="fa fa-2x fa-edit my-btn"  ng-click="editInfo()"></i>
+                                </span>
+                                <span class="col-xs-offset-6 col-xs-6" ng-show="btnInfoVisible && infoEditable" style="height: 28px;">
+                                    <i class="fa fa-2x fa-save my-btn"  ng-click="updateInfo(profile.presentation)"></i>
+                                    <i class="fa fa-2x fa-times my-btn"  ng-click="editInfo()"></i>
+                                </span>
+                        </div>
+                        <h2 class="center solid pbm" ng-if="!infoEditable">
+                            <span ng-show="project.title">
+                                {{project.title}}
+                            </span>
+                        </h2>
+                        <form class="form-horizontal solid pbm" role="form" ng-if="infoEditable">
+                            <div class="form-group">
+                                <div class="col-xs-12">
+                                    <input type="text" class="form-control" ng-model="project.title"/>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
                     <div class="btn-group-vertical btn-block">
-                        <button ng-click="openShare()" class="btn btn-primary btn-block" >{{'PROJECT_VIEW_SHARE'|translate}}</button>
-                        <button class="btn btn-info btn-block" ng-if="!isFollow && isLoggedIn" tooltip="After the attention you will receive an update notification." ng-click="follow()" >{{'PROJECT_VIEW_FOLLOW'|translate}} </button>
-                        <button class="btn btn-warning btn-block" ng-if="isFollow && isLoggedIn"  ng-click="unfollow(project.id)" >{{'PROJECT_VIEW_UNFOLLOW'|translate}}</button>
                         <button  ng-click="openRqteam()" ng-if="user.id != project.owner && project.ismember != 1 && isLoggedIn" class="btn btn-success btn-block">{{'PROJECT_VIEW_JOIN'|translate}}</button>
-                        <button ui-sref="projectSettings.basic({ pid : project.accessUrl })"  class="btn btn-default" ng-if="project.isMember == 1 || user.id == project.owner">Admin</button>
-                        <button ui-sref="topic({ pid : project.accessUrl })" class="btn btn-default" ng-if="project.isMember == 1 || user.id == project.owner">{{'BTN_TOPIC'|translate}}</button>
+                    </div>
+                    <div class="center solid pbm">
+                        <i class="fa fa-home fa-2x my-btn" ui-route="/project/{{ project.accessUrl }}/details" ng-class="{active: $uiRoute}" ui-sref="project.details({ pid : project.accessUrl })"></i>
+                        <i class="fa fa-cogs fa-2x my-btn" ui-route="/project/{{ project.accessUrl }}/settings/team" ng-class="{active: $uiRoute}" ui-sref="project.settings.team({ pid : project.accessUrl })" tooltip="project's administration" ng-if="project.isMember == 1 || user.id == project.owner"></i>
+                        <i class="fa fa-comments fa-2x my-btn" ui-route="/project/{{ project.accessUrl }}/forum" ng-class="{active: $uiRoute}" ui-sref="project.topic({ pid : project.accessUrl })" tooltip="project's forum"  ng-if="project.isMember == 1 || user.id == project.owner"></i>
+                        <i class="fa fa-star-o fa-2x " ng-if="!isFollow && isLoggedIn" tooltip="Follow this project" ng-click="follow()"></i>
+                        <i class="fa fa-2x fa-star " ng-if="isFollow && isLoggedIn" tooltip="Unfollow this project"  ng-click="unfollow(project.id)"></i>
+                        <i class="fa fa-2x fa-bullhorn my-btn" ng-click="openShare()" tooltip="Promote this project"></i>
                     </div>
                     <div class="solid center pbm ">
                         <h3>
@@ -62,42 +91,10 @@
             </div>
         </div>
         <article class="col-md-9 col-sm-8 col-xs-12">
-            <h1 ng-bind="project.title" class="center"></h1>
-            <div class="row profile-brief">
-                <div style="position:relative;" class="col-xs-12 col-md-3">
-                    <div class="profile-map">
-                        <google-map center="map.center" zoom="map.zoom" ng-if="map"  options="mapOptions">
-                            <marker coords="map.center"></marker>
-                        </google-map>
-                    </div>
-                </div>
-                <p ng-bind-html="project.brief" class="col-xs-12 col-md-9"></p>
+            <div ui-view="projectView">
+
             </div>
-            <div ng-bind-html="project.presentationDisplay" ng-if="project.presentation" class="row"></div>
-            <div class="row">
-                <div class="col-sm-6">
-                    <div class="panel panel-default project-panel">
-                        <div class="panel-heading" ><b>{{'PROJECT_VIEW_MEMBER'|translate}}</b></div>
-                        <div class="panel-body">
-                            <div class="col-sm-6" ng-repeat="member in project.member track by $index">
-                                <div user-block="member" class="inline mlm"></div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="panel panel-default project-panel">
-                        <div class="panel-heading" ><b>Followers</b></div>
-                        <div class="panel-body">
-                            <div class="col-sm-6" ng-repeat="follower in project.followers track by $index">
-                                <div user-block="follower" class="inline mlm"></div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
         </article>
     </div>
 </div>

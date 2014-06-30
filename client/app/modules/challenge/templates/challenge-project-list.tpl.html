@@ -17,8 +17,8 @@
 <section class="row" style="margin-top: 20px;">
     <section class="col-xs-12">
         <ul class="media-list">
-            <li class="media" ng-repeat="project in projects | orderBy:orderProp:true track by $index">
-                <a class="pull-left" ui-sref="project({ pid : project.accessUrl })">
+            <li class="media edit-menu" ng-repeat="project in projects | orderBy:orderProp:true track by $index">
+                <a class="pull-left" ui-sref="project.details({ pid : project.accessUrl })">
                     <img class="media-object" ng-src="{{ project.poster }}" alt="{{ project.title }}'s poster" height="100px">
                 </a>
                 <div class="media-body">

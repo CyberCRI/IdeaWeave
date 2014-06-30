@@ -1,12 +1,31 @@
 <section class="container">
     <section class="col-sm-6">
         <div class="list-group">
-            <a class="list-group-item" ng-repeat="challenge in challenges track by $index" ng-bind="challenge.title" ui-sref="admin.challenge({ pid : challenge.accessUrl })"></a>
+            <span class="list-group-item" ng-repeat="challenge in challenges track by $index">
+                <span ng-bind="challenge.title">
+                </span>
+                <span class="pull-right">
+                    <i class="fa fa-dashboard my-btn" ui-sref="admin.challenge({ pid : challenge.accessUrl })">
+                    </i>
+                    <i class="fa fa-ban my-btn" ng-click="removeChallenge()">
+                    </i>
+                </span>
+            </span>
         </div>
     </section>
     <section class="col-sm-6">
         <div class="list-group">
-            <a class="list-group-item" ng-repeat="project in projects track by $index" ng-bind="project.title" ui-sref="admin.project({ pid : project.accessUrl })"></a>
+
+            <span class="list-group-item" ng-repeat="project in projects track by $index">
+                <span ng-bind="project.title">
+                </span>
+                <span class="pull-right">
+                    <i class="fa fa-dashboard my-btn" ui-sref="admin.project({ pid : project.accessUrl })">
+                    </i>
+                    <i class="fa fa-ban my-btn" ng-click="removeProject()">
+                    </i>
+                </span>
+            </span>
         </div>
     </section>
 </section>

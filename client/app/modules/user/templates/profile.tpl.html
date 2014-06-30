@@ -6,13 +6,13 @@
                     <div class="panel-body">
                         <div class="center" style="position: relative;" ng-mouseenter="enterPicture()" ng-mouseleave="leavePicture()">
                             <div class="row" style="height: 28px;">
-                                <span class="pull-right" style="margin-right: 15px;">
+                                <span class="col-xs-offset-10 col-xs-1" style="height: 28px;">
                                    <i class="fa fa-2x fa-edit my-btn-picture my-btn" ng-if="btnVisible" ng-click="editPicture()"></i>
                                 </span>
                             </div>
                             <div class="row">
-                                <img ng-src="{{profile.poster}}" ng-show="profile.poster" class="img-rounded p" width="120px" style="height:120px">
-                                <img ng-src="images/avater.jpg" ng-hide="profile.poster" class="img-rounded" width="120px" style="height:120px">
+                                <img ng-src="{{profile.poster}}" ng-show="profile.poster" class="img-rounded p" width="80%">
+                                <img ng-src="images/avater.jpg" ng-hide="profile.poster" class="img-rounded" width="80%">
                             </div>
                         </div>
                         <div class="clearfix">
@@ -34,7 +34,7 @@
                                     <span ng-if="profile.sex == 2" class="text-muted" >♀</span>
                                 </small>
                             </h2>
-                            <form class="form-horizontal" role="form" ng-if="infoEditable">
+                            <form class="form-horizontal solid pbm" role="form" ng-if="infoEditable">
                                 <div class="form-group">
                                     <div class="col-xs-12">
                                         <input type="text" class="form-control" ng-model="profile.username"/>
@@ -52,7 +52,15 @@
 
                             </form>
                         </div>
-
+                        <div class="center solid pbm">
+                            <i class="fa fa-2x fa-star-o" ng-if="!isFollowUser && !isOwner" ng-click="followUser(profile.id)"></i>
+                            <i class="fa fa-2x fa-star" ng-if="isFollowUser && !isOwner" ng-click="unfollowUser(profile.id)"></i>
+                            <i class="fa- fa-2x fa-envelope" ng-click="sendMessage()"  ng-if="!isOwner && isLogged"></i>
+                            <i class="fa fa-2x my-btn fa-home" ui-route="/user/{{ profile.id }}/brief" ng-class="{active: $uiRoute}" ui-sref="profile.brief"></i>
+                            <i class="fa fa-2x my-btn fa-users" ui-route="/user/{{ profile.id }}/relations" ng-class="{active: $uiRoute}" ng-if="isOwner" ui-sref="profile.relations"></i>
+                            <i class="fa fa-2x my-btn fa-lightbulb-o" ui-route="/user/{{ profile.id }}/ideas" ng-class="{active: $uiRoute}" ui-sref="profile.ideas"></i>
+                            <i class="fa fa-2x fa-trophy my-btn" ui-route="/user/{{ profile.id }}/challenges" ng-class="{active: $uiRoute}" ui-sref="profile.challenges"></i>
+                        </div>
                         <div class="solid center pbm ">
                             <h3 >
                                 <span>
@@ -98,51 +106,37 @@
                 </div>
             </div>
             <div class="col-md-9 col-sm-8 col-xs-12">
-                <a ng-href="message/new?to={{profile.id}}"  ng-hide="isOwner" class="btn btn-success pull-right">
-                    {{'BTN_MSG'|translate}}
-                </a>
-                <div ng-if="!isOwner && isLogged">
-                    <button  ng-hide="isFollowUser" ng-click="followUser(profile.id)" class="btn btn-info pull-right mrm">
-                        {{'BTN_FOLLOW'|translate}} ({{followers.length}})
-                    </button>
-                    <button  ng-show="isFollowUser" ng-click="unfollowUser(profile.id)" class="btn btn-info pull-right mrm">
-                        Unfollow
-                    </button>
-                </div>
-                <!--<a ui-sref="userSettings.basic({ uid : profile.id })" ng-show="isOwner" class="btn btn-default pull-right ">-->
-                    <!--<i class="fa fa-edit"></i>{{'PROFILE_EDIT'|translate}}-->
-                <!--</a>-->
                 <ul class="nav nav-tabs mbm">
-                    <li ui-route="/user/{{ profile.id }}/activity" ng-class="{active: $uiRoute}" ng-show="isOwner">
-                        <a ui-sref="profile.activity">
-                            {{'PROFILE_ACTIVITY'|translate}}
-                        </a>
-                    </li>
-                    <li ui-route="/user/{{ profile.id }}/brief" ng-class="{active: $uiRoute}">
-                        <a ui-sref="profile.brief">
-                            brief
-                        </a>
-                    </li>
-                    <li ui-route="/user/{{ profile.id }}/ideas" ng-class="{active: $uiRoute}">
-                        <a ui-sref="profile.ideas">
-                            {{'PROFILE_IDEA'|translate}}
-                        </a>
-                    </li>
-                    <li ui-route="/user/{{ profile.id }}/challenges" ng-class="{active: $uiRoute}">
-                        <a ui-sref="profile.challenges">
-                            {{'PROFILE_CHALLENGE'|translate}}
-                        </a>
-                    </li>
-                    <li ui-route="/user/{{ profile.id }}/relations" ng-class="{active: $uiRoute}" ng-if="isOwner">
-                        <a ui-sref="profile.relations">
-                            {{'PROFILE_RELATION'|translate}}
-                        </a>
-                    </li>
-                    <li ui-route="/user/{{ profile.id }}/recomandation" ng-class="{active: $uiRoute}" ng-if="isOwner">
-                        <a ui-sref="profile.recomandation">
-                            {{'PROFILE_RECOMMANDATION'|translate}}
-                        </a>
-                    </li>
+                    <!--<li ui-route="/user/{{ profile.id }}/activity" ng-class="{active: $uiRoute}" ng-show="isOwner">-->
+                        <!--<a ui-sref="profile.activity">-->
+                            <!--{{'PROFILE_ACTIVITY'|translate}}-->
+                        <!--</a>-->
+                    <!--</li>-->
+                    <!--<li ui-route="/user/{{ profile.id }}/brief" ng-class="{active: $uiRoute}">-->
+                        <!--<a ui-sref="profile.brief">-->
+                            <!--brief-->
+                        <!--</a>-->
+                    <!--</li>-->
+                    <!--<li ui-route="/user/{{ profile.id }}/ideas" ng-class="{active: $uiRoute}">-->
+                        <!--<a ui-sref="profile.ideas">-->
+                            <!--{{'PROFILE_IDEA'|translate}}-->
+                        <!--</a>-->
+                    <!--</li>-->
+                    <!--<li ui-route="/user/{{ profile.id }}/challenges" ng-class="{active: $uiRoute}">-->
+                        <!--<a ui-sref="profile.challenges">-->
+                            <!--{{'PROFILE_CHALLENGE'|translate}}-->
+                        <!--</a>-->
+                    <!--</li>-->
+                    <!--<li ui-route="/user/{{ profile.id }}/relations" ng-class="{active: $uiRoute}" ng-if="isOwner">-->
+                        <!--<a ui-sref="profile.relations">-->
+                            <!--{{'PROFILE_RELATION'|translate}}-->
+                        <!--</a>-->
+                    <!--</li>-->
+                    <!--<li ui-route="/user/{{ profile.id }}/recomandation" ng-class="{active: $uiRoute}" ng-if="isOwner">-->
+                        <!--<a ui-sref="profile.recomandation">-->
+                            <!--{{'PROFILE_RECOMMANDATION'|translate}}-->
+                        <!--</a>-->
+                    <!--</li>-->
                 </ul>
                 <div ui-view="profileView">
                 </div>

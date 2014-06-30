@@ -14,19 +14,32 @@
     </tab>
     <tab heading="Resources">
         <section class="row">
-            <div class="col-md-6">
-                <h3 class="center">Files</h3>
-                <div class="list-group" >
-                    <cri-uploader></cri-uploader>
-                </div>
-                <br/>
+            <section class="col-md-6">
                 <section class="row">
-                    <span ng-repeat="file in files">
-                        <i class="fa {{ file.class }} fa-2x icon-file" ng-class="{ 'file-selected' : file.id == fileDetails.id  }" ng-click="showFileDetails(file)" style="display : inline-block" popover-trigger="mouseenter" popover-title="{{ file.originalFilename }}" Popover-animation="true" popover="{{ file.ownerName }}"></i>
-                    </span>
+                    <h3 class="center">Files</h3>
+                    <div class="list-group" >
+                        <cri-uploader></cri-uploader>
+                    </div>
+                    <br/>
+                    <section class="row">
+                        <span ng-repeat="file in files">
+                            <i class="fa {{ file.class }} fa-2x icon-file" ng-class="{ 'file-selected' : file.id == fileDetails.id  }" ng-click="showFileDetails(file)" style="display : inline-block" popover-trigger="mouseenter" popover-title="{{ file.originalFilename }}" Popover-animation="true" popover="{{ file.ownerName }}"></i>
+                        </span>
+                    </section>
                 </section>
-            </div>
-            <div class="col-md-6">
+                <section class="row center" ng-if="fileDetails">
+                    <a ng-href="{{ fileDetails.url }}" class="pull-right" target="_blank" tooltip="download file">
+                        <i class="my-btn fa fa-cloud-download fa-2x"></i>
+                    </a>
+                    <p ng-bind="fileDetails.description"></p>
+                        <!--<button href="" class="btn btn-default">open in Google Docs</button>-->
+                    <img ng-src="{{ fileDetails.url }}" width="100%" ng-if="isImage(fileDetails)"/>
+                    <video ng-src="{{ fileDetails.url }}" ng-if="isVideo(fileDetails)"></video>
+                    <pdf-js url="fileDetails.url" width="100%" height="400px" ng-if="isPdf(fileDetails)"></pdf-js>
+                    <g-doc-preview ng-if="isOfficeDoc(fileDetails)" doc-url="fileDetails.url"></g-doc-preview>
+                </section>
+            </section>
+            <section class="col-md-6">
                 <h3 class="center">Links</h3>
                 <div>
                     <textarea ng-model="url.description" style="width:100%;" placeholder="description"></textarea>
@@ -42,22 +55,7 @@
                 <div class="list-group" ng-repeat="url in myTopic.urls">
                     <a ng-href="{{ url.text }}" class="list-group-item" ng-bind="url.title" target="_blank" popover-trigger="mouseenter" Popover-animation="true" popover="{{ url.description }}"></a>
                 </div>
-            </div>
-        </section>
-        <section ng-if="fileDetails" class="row center">
-            <div class="col-md-6 ">
-                <p ng-bind="fileDetails.description"></p>
-                <div class="btn-group">
-                    <a ng-href="{{ fileDetails.url }}" class="btn btn-default" target="_blank">Download</a>
-                    <!--<button href="" class="btn btn-default">open in Google Docs</button>-->
-                </div>
-            </div>
-            <div class="col-md-6">
-                <img ng-src="{{ fileDetails.url }}" width="100%" ng-if="isImage(fileDetails)"/>
-                <video ng-src="{{ fileDetails.url }}" ng-if="isVideo(fileDetails)"></video>
-                <pdf-js url="fileDetails.url" width="100%" height="400px" ng-if="isPdf(fileDetails)"></pdf-js>
-                <g-doc-preview ng-if="isOfficeDoc(fileDetails)" doc-url="fileDetails.url"></g-doc-preview>
-            </div>
+            </section>
         </section>
     </tab>
 </tabset>

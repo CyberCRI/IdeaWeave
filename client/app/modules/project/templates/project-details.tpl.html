@@ -1,0 +1,71 @@
+<h1 ng-bind="project.title" class="center"></h1>
+<section class="row profile-brief" ng-mouseenter="enterBrief()" ng-mouseleave="leaveBrief()">
+    <div class="row" style="height: 28px;">
+        <span class="col-xs-offset-10 col-xs-col-2" style="margin-right: 15px; height: 28px;">
+            <i class="fa fa-2x fa-edit my-btn-first my-btn" ng-show="btnVisible && !briefEditable" ng-click="editBrief()"></i>
+            <i class="fa fa-2x fa-save my-btn-first my-btn" ng-if="btnVisible && briefEditable" ng-click="updateBrief(project.brief)"></i>
+            <i class="fa fa-2x fa-times my-btn-second my-btn" ng-if="btnVisible && briefEditable" ng-click="editBrief()"></i>
+        </span>
+    </div>
+    <div style="position:relative;" class="col-xs-12 col-md-3">
+        <div class="profile-map" ng-if="!briefEditable">
+            <google-map center="map.center" zoom="map.zoom" ng-if="map"  options="mapOptions">
+                <marker coords="map.center"></marker>
+            </google-map>
+        </div>
+    </div>
+    <p ng-bind-html="project.brief" ng-if="!briefEditable" class="col-xs-12 col-md-9"></p>
+    <div ng-if="briefEditable" class="edit-menu">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <div class="col-md-12 ">
+                    <textarea ui-tinymce="" name='brief' class="form-control" ng-model="project.brief"/></textarea>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
+<section class="row" ng-mouseenter="enterPrez()" ng-mouseleave="leavePrez()" style="min-height: 300px">
+    <div class="row" style="height: 28px;">
+        <span class="col-xs-offset-10 col-xs-col-2" style=" height: 28px;">
+            <i class="fa fa-2x fa-edit my-btn-first my-btn" ng-show="btnPrezVisible && !prezEditable" ng-click="editPrez()"></i>
+            <i class="fa fa-2x fa-save my-btn-first my-btn" ng-if="btnPrezVisible && prezEditable" ng-click="updatePrez(project.presentation)"></i>
+            <i class="fa fa-2x fa-times my-btn-second my-btn" ng-if="btnPrezVisible && prezEditable" ng-click="editPrez()"></i>
+        </span>
+    </div>
+    <div class="row" >
+        <div ng-bind-html="project.presentationDisplay" ng-if="!prezEditable" class="edit-menu"></div>
+        <form class="form-horizontal edit-menu" ng-if="prezEditable">
+            <div class="form-group">
+                <div class="col-xs-12">
+                    <div ui-ace="{mode : 'html'}" class="form-control" ng-model="project.presentation" style="width:100%;height:100px"></div>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+<div class="row">
+    <div class="col-sm-6">
+        <div class="panel panel-default project-panel">
+            <div class="panel-heading" ><b>{{'PROJECT_VIEW_MEMBER'|translate}}</b></div>
+            <div class="panel-body">
+                <div class="col-sm-6" ng-repeat="member in project.member track by $index">
+                    <div user-block="member" class="inline mlm"></div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="panel panel-default project-panel">
+            <div class="panel-heading" ><b>Followers</b></div>
+            <div class="panel-body">
+                <div class="col-sm-6" ng-repeat="follower in project.followers track by $index">
+                    <div user-block="follower" class="inline mlm"></div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -70,7 +70,7 @@ angular.module('cri.topic',[])
                 $scope.fileUrl = null;
                 $scope.dropBoxHeight = "100px";
                 Files.getPoster(data[0]);
-                data[0].url = CONFIG.apiServer+'/fileUpload/topic/'+$stateParams.pid+'/'+file.filename;
+                data[0].url = CONFIG.apiServer+'/fileUpload/topic/'+$stateParams.pid+'/'+data[0].filename;
                 $scope.files.push(data[0]);
             }).catch(function(err){
                 toaster.pop('error',err.status,err.message);

@@ -1,5 +1,35 @@
 angular.module('cri.user',[])
-    .controller('ProfileRecommandationCtrl',['$scope','recommendChallenge','recommendProjects','recommendUser','recommendFriendUser',function($scope,recommendChallenge,recommendProjects,recommendUser,recommendFriendUser){
+    .controller('ProfileChallengeCtrl',['$scope', 'contributedChallenges', 'followedChallenges',function($scope, contributedChallenges, followedChallenges ){
+        $scope.conChallenges=contributedChallenges;
+        $scope.fChallenges=followedChallenges;
+    }])
+    .controller('ProfileProjectCtrl',['$scope','createdProject','contributedProject','followedProject',function($scope,createdProject,contributedProject,followedProject){
+        $scope.popprojects=createdProject;
+        $scope.cprojects=contributedProject;
+        $scope.fprojects=followedProject;
+    }])
+    .controller('ProfileActivityCtrl',['$scope','activity','$stateParams','users','recommendChallenge','recommendProjects','recommendUser','recommendFriendUser',function($scope,activity,$stateParams,users,recommendChallenge,recommendProjects,recommendUser,recommendFriendUser){
+        console.log(activity)
+        $scope.activities=activity;
+        $scope.noPage=1;
+        $scope.isEnd=false;
+        $scope.loadMoreActivities=function(num){
+            $scope.noPage=num+1;
+            var skip=10*num;
+            if(!$scope.isEnd){
+                users.getActivity($stateParams.uid,skip).then(function(result){
+                    if(result.length>0){
+                        for(var i=0;i<result.length;i++){
+                            $scope.activities.push(result[i]);
+                        }
+                    }else{
+                        $scope.isEnd=true;
+                    }
+                })
+            }
+        };
+
+
         $scope.collapseC = function(collapsed){
             $scope.$apply(function(){
                 $scope.collapsedC = collapsed;
@@ -24,43 +54,16 @@ angular.module('cri.user',[])
         if(recommendProjects.length>0){
             $scope.stagPs=recommendProjects;
         }
-        console.log(recommendUser);
+        console.log('ffffffffff',recommendProjects);
         if(recommendUser.length>0){
             $scope.recUsers=recommendUser;
         }
         if(recommendFriendUser.length>0){
             $scope.ffollwers=recommendFriendUser;
         }
-    }])
-    .controller('ProfileChallengeCtrl',['$scope', 'contributedChallenges', 'followedChallenges',function($scope, contributedChallenges, followedChallenges ){
-        $scope.conChallenges=contributedChallenges;
-        $scope.fChallenges=followedChallenges;
-    }])
-    .controller('ProfileProjectCtrl',['$scope','createdProject','contributedProject','followedProject',function($scope,createdProject,contributedProject,followedProject){
-        $scope.popprojects=createdProject;
-        $scope.cprojects=contributedProject;
-        $scope.fprojects=followedProject;
-    }])
-    .controller('ProfileActivityCtrl',['$scope','activity','$stateParams','users',function($scope,activity,$stateParams,users){
-        console.log(activity)
-        $scope.activities=activity;
-        $scope.noPage=1;
-        $scope.isEnd=false;
-        $scope.loadMoreActivities=function(num){
-            $scope.noPage=num+1;
-            var skip=10*num;
-            if(!$scope.isEnd){
-                users.getActivity($stateParams.uid,skip).then(function(result){
-                    if(result.length>0){
-                        for(var i=0;i<result.length;i++){
-                            $scope.activities.push(result[i]);
-                        }
-                    }else{
-                        $scope.isEnd=true;
-                    }
-                })
-            }
-        }
+
+
+
     }])
     .controller('ProfileRelationCtrl',['$scope','loggedUser',function($scope,loggedUser){
         $scope.me = loggedUser.profile;
@@ -143,6 +146,12 @@ angular.module('cri.user',[])
         $scope.isFollowUser=false;
         $scope.me = loggedUser.profile;
         $scope.d3Tags = [];
+        angular.forEach($scope.profile.tags,function(v,k){
+            $scope.d3Tags.push({
+                title : v,
+                number : 1
+            })
+        });
 
         $scope.btnInfoVisible = false
         $scope.enterInfo = function(){
@@ -175,12 +184,6 @@ angular.module('cri.user',[])
         };
 
 
-        angular.forEach($scope.profile.tags,function(v,k){
-            $scope.d3Tags.push({
-                title : v,
-                number : 1
-            })
-        });
 
         $scope.enterPicture = function(){
             if($scope.me.id == $scope.profile.id){

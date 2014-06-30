@@ -1,6 +1,6 @@
 <section class="row profile-brief"  ng-mouseenter="enterBrief()" ng-mouseleave="leaveBrief()" >
     <div class="row" style="height: 28px;">
-        <span class="pull-right" style="margin-right: 15px;">
+        <span class="col-xs-offset-10 col-xs-col-2" style="z-index:20;height: 28px;">
             <i class="fa fa-2x fa-edit my-btn-first my-btn" ng-show="btnVisible && !briefEditable" ng-click="editBrief()"></i>
             <i class="fa fa-2x fa-save my-btn-first my-btn" ng-if="btnVisible && briefEditable" ng-click="updateBrief(profile.brief)"></i>
             <i class="fa fa-2x fa-times my-btn-second my-btn" ng-if="btnVisible && briefEditable" ng-click="editBrief()"></i>
@@ -27,7 +27,7 @@
 </section>
 <section class="row" ng-mouseenter="enterPrez()" ng-mouseleave="leavePrez()" style="min-height: 300px">
     <div class="row" style="height: 28px;">
-        <span class="pull-right" style="margin-right: 15px;">
+        <span class="col-xs-offset-10 col-xs-col-2" style="z-index:20;height: 28px;">
             <i class="fa fa-2x fa-edit my-btn-first my-btn" ng-show="btnPrezVisible && !prezEditable" ng-click="editPrez()"></i>
             <i class="fa fa-2x fa-save my-btn-first my-btn" ng-if="btnPrezVisible && prezEditable" ng-click="updatePrez(profile.presentation)"></i>
             <i class="fa fa-2x fa-times my-btn-second my-btn" ng-if="btnPrezVisible && prezEditable" ng-click="editPrez()"></i>

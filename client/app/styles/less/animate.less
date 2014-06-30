@@ -9,6 +9,17 @@
   }
 }
 
+[ui-view="messageView"],[ui-view="profileView"]{
+  &.ng-enter{
+    -webkit-animation: fadeInDown 0.5s;
+    animation: fadeInDown 0.5s;
+  }
+//  &.ng-leave{
+//    -webkit-animation: fadeOutDown 0.5s;
+//    animation: fadeOutDown 0.5s;
+//  }
+}
+
 [ui-view="challengeView"] {
   &.ng-enter{
     -webkit-animation: slideInRight 0.5s;
@@ -58,4 +69,18 @@
     animation : fadeInDown 0.5s;
   }
 
+}
+
+.filter-input{
+  input {
+    border-radius: 5px;
+  }
+  &.ng-enter{
+    -webkit-animation: rollIn 0.5s;
+    animation : rollIn 0.5s;
+  }
+  &.ng-leave{
+    -webkit-animation: flipOutX 0.5s;
+    animation : flipOutX 0.5s;
+  }
 }

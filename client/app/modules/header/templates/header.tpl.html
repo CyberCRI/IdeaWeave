@@ -14,10 +14,14 @@
                     <!--<a ui-sref="home">{{'HEAD_HOME'|translate}}</a>-->
                 <!--</li>-->
                 <li ui-route="/challenges" ng-class="{active:$uiRoute}">
-                    <a ui-sref="challenges">{{ 'HEAD_CHALLENGE' | translate }}</a>
+                    <a ui-sref="challenges" tooltip="challenge" tooltip-placement="bottom">
+                        <i class="fa fa-trophy fa-2x"></i>
+                    </a>
                 </li>
-                <li ui-route="/projects" ng-class="{active:$uiRoute}">
-                    <a ui-sref="projects">{{ 'HEAD_PROJECT' | translate }}</a>
+                <li ui-route="/projects" ng-class="{active:$uiRoute}" >
+                    <a ui-sref="projects" tooltip="project" tooltip-placement="bottom">
+                        <i class="fa fa-lightbulb-o fa-2x"></i>
+                    </a>
                 </li>
                 <!-- <li ng-class="{active:isActive('/project/')}" >  <a   ng-href="project/"   >{{ 'HEAD_PROJECT' | translate }}</a></li>-->
                 <li class="ptm mlm" style="width:400px;" >
@@ -59,13 +63,23 @@
                 <ul class="nav navbar-nav navbar-right" >
                     <li ng-show="me.profile.admin"><a ui-sref="challenges" >{{ 'ADMIN_SCREEN' | translate }}</a></li>
                     <li>
+                        <a href="">
+                            <i class="fa fa-empire fa-2x " ui-sref="profile.activity({ uid : me.profile.id })"></i>
+                        </a>
+                    </li>
+                    <li ui-route="/message/inbox" ng-class="{active:$uiRoute}">
+                        <a href="">
+                            <i class="fa fa-2x  fa-envelope-o"  ui-sref="message.inbox"></i>
+                        </a>
+                    </li>
+                    <li>
                         <a ui-sref="profile.brief({ uid : me.profile.id })" style="padding : 5px;">
-                            <img ng-if="me.profile.poster" ng-src="{{ me.profile.poster }}" height="50" tooltip-animation="true" tooltip="{{ me.profile.username }} point" tooltip-placement="bottom"/>
-                            <img ng-if="!me.profile.poster" src="images/avater.jpg" height="50" tooltip-animation="true" tooltip="{{ me.profile.username }}" tooltip-placement="bottom"/>
+                            <img ng-if="me.profile.poster"  ng-src="{{ me.profile.poster }}" height="50" tooltip-animation="true" tooltip="{{ me.profile.username }} point" tooltip-placement="bottom"/>
+                            <img ng-if="!me.profile.poster"  src="images/avater.jpg" height="50" tooltip-animation="true" tooltip="{{ me.profile.username }}" tooltip-placement="bottom"/>
                         </a>
                     </li>
                     <li class="dropdown ">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{'HEAD_ACCOUNT'|translate}} <b class="caret"></b></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="fa fa-gears fa-2x"></i></a>
                         <ul class="dropdown-menu">
                             <li><a ui-sref="admin">Admin</a></li>
                             <li><a ui-sref="userSettings.pass({ uid : me.profile.id })"  >{{ 'HEAD_SETTING' | translate }}</a></li>

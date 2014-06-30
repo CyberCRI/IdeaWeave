@@ -14,7 +14,7 @@
         </div>
         </div>
         <div class="list-group" ng-repeat="topic in topics" ng-class="{ 'owner-topic' : topic.owner == project.owner, 'member-topic' : topicsCss[$index] ==  'member', 'follower-topic' : topicsCss[$index] ==  'follower', 'visitor-topic' : topicsCss[$index] ==  'visitor' }">
-            <a ui-sref="topic.details({ tid : $index })" class="list-group-item" ui-route="/project/{{ projectId }}/topic/{{ topicId }}"  ng-class="{ active : topicId == $index }" ng-bind="topic.title"></a>
+            <a ui-sref="project.topic.details({ tid : $index })" class="list-group-item" ui-route="/project/{{ projectId }}/topic/{{ topicId }}"  ng-class="{ active : topicId == $index }" ng-bind="topic.title"></a>
         </div>
     </section>
     <section class="col-md-10">

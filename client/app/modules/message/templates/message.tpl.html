@@ -1,0 +1,14 @@
+<section class="container">
+    <div class="row">
+        <span class="pull-right">
+            <i class="fa fa-share fa-2x my-btn" ng-click="sendMessage()"   ng-if="showSendBtn"></i>
+            <i class="fa fa-envelope-square fa-2x my-btn" ui-sref='message.send'  ></i>
+            <i class="fa fa-inbox fa-2x my-btn" ui-sref='message.inbox' ></i>
+        </span>
+    </div>
+    <div class="row">
+        <section ui-view="messageView">
+
+        </section>
+    </div>
+</section>

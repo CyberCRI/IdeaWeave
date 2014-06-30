@@ -112,7 +112,7 @@ angular.module('cri.challenge', [])
                 $scope.fileUrl = null;
                 $scope.dropBoxHeight = "100px";
                 Files.getPoster(data[0]);
-                data[0].url = CONFIG.apiServer+'/fileUpload/topic/'+$stateParams.pid+'/'+file.filename;
+                data[0].url = CONFIG.apiServer+'/fileUpload/topic/'+$stateParams.pid+'/'+data[0].filename;
                 $scope.files.push(data[0]);
             }).catch(function(err){
                 toaster.pop('error',err.status,err.message);
@@ -134,6 +134,13 @@ angular.module('cri.challenge', [])
         }
     }])
     .controller('ChallengeExploreCtrl', ['$scope', 'challenges','users','Challenge','toaster', function ($scope, challenges, users, Challenge, toaster) {
+
+        $scope.filterMode = false;
+
+        $scope.enableFilterMode = function(){
+            $scope.filterMode = !$scope.filterMode;
+        }
+
         $scope.isLogged = users.isLoggedIn();
         $scope.challenges = challenges;
         $scope.noPage = 1;
@@ -223,7 +230,35 @@ angular.module('cri.challenge', [])
         }
 
     }])
-    .controller('ChallengeSuggestCtrl', ['$scope', 'Challenge','loggedUser','$upload','$state','toaster','Gmap','Files','CONFIG', function ($scope, Challenge, loggedUser,$upload,$state,toaster,Gmap,Files,CONFIG) {
+    .controller('ChallengeSuggestCtrl', ['$scope', 'Challenge','loggedUser','$upload','$state','toaster','Gmap','Files','CONFIG','datepickerPopupConfig', function ($scope, Challenge, loggedUser,$upload,$state,toaster,Gmap,Files,CONFIG,datepickerPopupConfig) {
+
+        $scope.hasDuration = false;
+
+        datepickerPopupConfig['show-button-bar'] = false;
+
+        $scope.toggleMin = function() {
+            $scope.minDate = $scope.minDate ? null : new Date();
+        };
+        $scope.toggleMin();
+
+        $scope.openStart = function($event) {
+            $event.preventDefault();
+            $event.stopPropagation();
+
+            $scope.startOpened = true;
+        };
+
+        $scope.openEnd = function($event) {
+            $event.preventDefault();
+            $event.stopPropagation();
+            $scope.endOpened = true;
+        };
+
+        $scope.dateOptions = {
+            formatYear: 'yy',
+            startingDay: 1
+        };
+
         $scope.pform = {};
         $scope.pform.tags = [];
         $scope.tinymceOption = CONFIG.tinymceOptions;

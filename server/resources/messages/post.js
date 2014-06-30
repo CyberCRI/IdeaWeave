@@ -6,7 +6,7 @@
     // get to user email address
     dpd.users.get(this.to,function(user){
        if(user.emailNotify){
-           var emailMsg=this.message+"此消息由"+me.realname+"通过积致网发出"+"<br>回复此消息请点击此连接http://www.jiizhi.com/messages/inbox/";
+           var emailMsg=this.message+"此消息由"+me.username+"通过积致网发出"+"<br>回复此消息请点击此连接http://www.jiizhi.com/messages/inbox/";
          dpd.email.post({from:'积致<no-reply@jiizhi.com>',to:user.email,subject:this.subject,html:emailMsg,text:emailMsg});
        }
     });

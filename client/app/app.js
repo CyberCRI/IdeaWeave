@@ -28,7 +28,8 @@ angular.module('cri', [
     'cri.projectSetting',
     'cri.tag',
     'cri.user',
-    'cri.admin'])
+    'cri.admin',
+    'cri.message'])
     .config(['$httpProvider','$locationProvider',function ($httpProvider,$locationProvider) {
         $httpProvider.defaults.withCredentials=true;
         $locationProvider.html5Mode(true);

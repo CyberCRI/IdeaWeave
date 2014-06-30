@@ -41,9 +41,7 @@
                                 <blockquote class="pam">
                                     <div>
                                         <a ng-init="isCollapsed=true" ng-click="isCollapsed = !isCollapsed">{{user.username}}</a>
-                                        <a ui-sref="profile({ uid : user.id })" class="btn btn-default pull-right" target="_self">
-                                            <i class="fa fa-external-link"></i>
-                                        </a>
+                                        <i class="fa fa-external-link pull-right my-btn" ui-sref="profile.brief({ uid : user.id })"></i>
                                     </div>
                                     <div class="text-muted" ng-bind-html="user.brief" collapse="isCollapsed" ></div>
                                 </blockquote>
@@ -69,9 +67,7 @@
                                 <blockquote class="pam">
                                     <div>
                                         <a ng-init="isCollapsed=true" ng-click="isCollapsed = !isCollapsed">{{challenge.title}}</a>
-                                        <a ui-sref="challenge({ pid : challenge.accessUrl })" class="btn btn-default pull-right" target="_self">
-                                            <i class="fa fa-external-link"></i>
-                                        </a>
+                                        <i class="fa fa-external-link pull-right my-btn" ui-sref="challenge.details({ pid : challenge.accessUrl })"></i>
                                     </div>
                                     <div class="text-muted" ng-bind-html="challenge.brief" collapse="isCollapsed" ></div>
                                 </blockquote>
@@ -98,9 +94,7 @@
                                 <blockquote class="pam">
                                     <div>
                                         <a ng-init="isCollapsed=true" ng-click="isCollapsed = !isCollapsed">{{project.title}}</a>
-                                        <a ui-sref="project({ pid : project.accessUrl })" class="btn btn-default pull-right" target="_self">
-                                            <i class="fa fa-external-link"></i>
-                                        </a>
+                                            <i class="fa fa-external-link my-btn pull-right" ui-sref="project({ pid : project.accessUrl })"></i>
                                     </div>
                                     <div class="text-muted" ng-bind-html="project.brief" collapse="isCollapsed"></div>
                                 </blockquote>

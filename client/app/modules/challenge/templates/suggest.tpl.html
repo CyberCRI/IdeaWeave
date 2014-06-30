@@ -14,13 +14,36 @@
                 <label class="col-sm-3 col-xs-12 control-label">{{'CHALLENGE_SUGGEST_BRIEF'|translate}}</label>
                 <div class="col-sm-9 col-xs-12">
                     <textarea ui-tinymce="tinymceOption" ng-model="pform.brief"></textarea>
-                    <!--<textarea rows="3" class="form-control" ng-trim="false" name="brief" ng-model="pform.brief" required="" ></textarea><br>-->
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-3 col-xs-12 control-label">Tags:</label>
                 <div class="col-md-6 col-sm-9 col-xs-12">
                     <div class="tag-manager" entity="pform" ng-model="pform.tags"></div>
+                </div>
+            </div>
+            <div class="form-group">
+
+                <label class=" col-sm-3 col-xs-12 control-label">
+                    <input type="checkbox" ng-model="hasDuration"/>
+                    Duration :
+                </label>
+                <div class="col-sm-3 col-xs-12">
+                    <div class="input-group">
+                        <input ng-disabled="!hasDuration" placeholder="from" type="text" class="form-control" datepicker-popup="{{format}}" ng-model="pForm.startDate" is-open="startOpened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions"  ng-required="true" close-text="Close" />
+                          <span class="input-group-btn">
+                              <button ng-disabled="!hasDuration" type="button" class="btn btn-default" ng-click="openStart($event)"><i class="fa fa-calendar"></i></button>
+                          </span>
+                    </div>
+                </div>
+                <div class="col-sm-3 col-xs-12">
+                    <span> </span>
+                    <div class="input-group">
+                        <input ng-disabled="!hasDuration" placeholder="to" type="text" class="form-control" datepicker-popup="{{format}}" ng-model="pForm.endDate" is-open="endOpened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions"  ng-required="true" close-text="Close" />
+                          <span class="input-group-btn">
+                              <button ng-disabled="!hasDuration" type="button" class="btn btn-default" ng-click="openEnd($event)"><i class="fa fa-calendar"></i></button>
+                          </span>
+                    </div>
                 </div>
             </div>
             <div class="form-group">

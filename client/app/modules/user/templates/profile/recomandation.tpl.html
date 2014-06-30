@@ -7,12 +7,6 @@
         <h3 class="dashed pbm">
             {{'PROFILE_CHALLENGE_REC_SIMILAR'|translate}}
         </h3>
-        <div ng-hide="stagCs">
-            {{'PROFILE_CHALLENGE_REC_SIMILAR_INFO'|translate}}
-            <a href="user/setting/basic">
-                {{'PROFILE_CHALLENGE_REC_SIMILAR_CHANGE'|translate}}
-            </a>
-        </div>
         <div class="row">
             <ul class="list-unstyled">
                 <li ng-repeat="challenge in recommendedChallenges track by $index" class="col-sm-6 col-xs-12" >
@@ -49,12 +43,6 @@
         <h3 class="dashed pbm">
             {{'PROFILE_IDEA_REC_SIMILAR'|translate}}
         </h3>
-        <div ng-hide="stagPs">
-            {{'PROFILE_IDEA_REC_SIMILAR_INFO'|translate}}
-            <a href="user/setting/basic">
-                {{'PROFILE_IDEA_REC_SIMILAR_CHANGE'|translate}}
-            </a>
-        </div>
         <div class="row">
             <ul ng-show="stagPs" class="list-unstyled">
                 <li ng-repeat="stagP in stagPs track by $index" class="col-sm-6 col-xs-12" >
@@ -96,7 +84,7 @@
         </div>
         <ul  class="list-unstyled">
             <li ng-repeat="stagUser in recUsers track by $index"   class="col-sm-6 col-xs-12">
-                <span user-block="stagUser.id" ></span>
+                <span user-block="stagUser" ></span>
             </li>
         </ul>
         <div class="clearfix"></div>

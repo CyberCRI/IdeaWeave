@@ -7,12 +7,10 @@
     </div>
     <div  ng-if="file">
         <div class="btn-group">
-            <button  ng-click="upload(myTopic,file,file.description)" class="btn btn-default">
-                {{ 'Upload '+file.name }}
-            </button>
-            <button ng-click="cancelUpload()" class="btn btn-danger">
-                Cancel
-            </button>
+            <i tooltip="{{ 'Upload '+file.name }}" class="fa fa-cloud-upload fa-2x my-btn" ng-click="upload(myTopic,file,file.description)" class="btn btn-default">
+            </i>
+            <i ng-click="cancelUpload()" class="fa fa-2x fa-times my-btn" tooltip="Cancel">
+            </i>
         </div>
         <textarea style="width:100%;color: black; background-color: transparent;" autofocus="true" placeholder="file description..." rows="10" ng-model="file.description"></textarea>
     </div>

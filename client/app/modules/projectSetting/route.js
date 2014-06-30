@@ -1,10 +1,10 @@
 angular.module('cri.projectSetting')
     .config(['$stateProvider',function ($stateProvider) {
         $stateProvider
-            .state('projectSettings',{
-                url : '/project/:pid/settings',
+            .state('project.settings',{
+                url : '/settings',
                 views :{
-                    mainView : {
+                    projectView : {
                         templateUrl:'modules/projectSetting/templates/projectSettings.tpl.html',
                         controller: 'ProjectSettingCtrl'
                     }
@@ -15,7 +15,7 @@ angular.module('cri.projectSetting')
                     }]
                 }
             })
-            .state('projectSettings.poster',{
+            .state('project.settings.poster',{
                 url : '/poster',
                 views :{
                     settingView : {
@@ -24,7 +24,7 @@ angular.module('cri.projectSetting')
                     }
                 }
             })
-            .state('projectSettings.basic',{
+            .state('project.settings.basic',{
                 url : '/basic',
                 views :{
                     settingView : {
@@ -33,7 +33,7 @@ angular.module('cri.projectSetting')
                     }
                 }
             })
-            .state('projectSettings.media',{
+            .state('project.settings.media',{
                 url : '/media',
                 views :{
                     settingView : {
@@ -50,7 +50,7 @@ angular.module('cri.projectSetting')
                     }]
                 }
             })
-            .state('projectSettings.apply',{
+            .state('project.settings.apply',{
                 url : '/apply',
                 views :{
                     settingView : {
@@ -65,7 +65,7 @@ angular.module('cri.projectSetting')
                     }]
                 }
             })
-            .state('projectSettings.team',{
+            .state('project.settings.team',{
                 url : '/team',
                 views :{
                     settingView : {

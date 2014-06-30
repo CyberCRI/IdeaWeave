@@ -23,11 +23,20 @@ angular.module('cri.project')
                         templateUrl:'modules/project/templates/project.tpl.html',
                         controller : 'ProjectCtrl'
                     }
+
                 },
                 resolve:{
                     project:['Project','$stateParams',function(Project,$stateParams){
                         return Project.fetch({accessUrl: $stateParams.pid,context:'detail'})
                     }]
+                }
+            })
+            .state('project.details',{
+                url : '/details',
+                views : {
+                    projectView : {
+                        templateUrl : 'modules/project/templates/project-details.tpl.html'
+                    }
                 }
             })
             .state('projectCreation',{

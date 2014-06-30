@@ -2,10 +2,10 @@ angular.module('cri.topic')
     .config(['$stateProvider',function ($stateProvider) {
         $stateProvider
 
-            .state('topic',{
-                url : '/project/:pid/topic',
+            .state('project.topic',{
+                url : '/forum',
                 views : {
-                    mainView: {
+                    projectView: {
                         templateUrl:'modules/topic/templates/topic.tpl.html',
                         controller: 'ProjectTopicCtrl'
                     }
@@ -16,7 +16,7 @@ angular.module('cri.topic')
                     }]
                 }
             })
-            .state('topic.details',{
+            .state('project.topic.details',{
                 url : '/:tid',
                 views : {
                     topicView: {

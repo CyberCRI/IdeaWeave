@@ -10,11 +10,11 @@
         <h2 class="text-center">Our Services</h2> <hr />
         <div class="row text-center">
             <div class="col-sm-3 col-xs-6">
-                <i class="fa fa-university fa-5x"> </i>
+                <i class="fa fa-lightbulb-o fa-5x"> </i>
                 <h4>Service 1</h4>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec in sem cras amet. Donec in sem cras amet.</p>
             </div>
-            <div class="col-xs-6" style="position:relative;" >
+            <div class="col-xs-6"  >
                 <div class="map-wrapper">
                     <google-map options="mapOptions" center="{ latitude : '10',longitude : '0' }"  zoom="1" class="home-map" draggable="false">
                         <marker coords="location"  ng-repeat="location in locations"></marker>
@@ -52,7 +52,7 @@
                     </div>
                     <div class="panel-body lead">
                         <div class="list-group">
-                            <a ng-repeat="myProject in projects" class="list-group-item" ui-sref="challenge.details({ pid : myProject.accessUrl })" ng-bind="myProject.title"></a>
+                            <a ng-repeat="myProject in projects" class="list-group-item" ui-sref="project.details({ pid : myProject.accessUrl })" ng-bind="myProject.title"></a>
                         </div>
                     </div>
                 </div>
@@ -69,6 +69,7 @@
                 </div>
             </div>
         </div>
+        <div ng-include id="footer" src="'modules/footer/templates/footer.tpl.html'"></div>
 
     </div>
 </div>
