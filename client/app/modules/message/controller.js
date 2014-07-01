@@ -20,7 +20,8 @@ angular.module('cri.message',[])
 
         $scope.$parent.showSendBtn = true;
         $scope.$on('sendMessage',function(){
-            if($scope.message.message && $scope.message.to){
+            console.log($scope.message)
+            if($scope.message.message && $scope.message.user){
                 $scope.message.to = $scope.message.user.id;
                 delete $scope.message.user;
                 Message.send($scope.message).then(function(){
