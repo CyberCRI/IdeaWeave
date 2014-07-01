@@ -56,7 +56,6 @@ angular.module('cri.topic',[])
             }
         };
 
-
         $scope.cancelUpload = function(){
             $scope.file = null;
             $scope.fileUrl = null;

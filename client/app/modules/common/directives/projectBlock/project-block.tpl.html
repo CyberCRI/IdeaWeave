@@ -1,18 +1,14 @@
-<div class="panel panel-default">
-    <div class="panel-body">
-        <div class="media">
-            <a class="pull-left" href="#">
-                <img class="media-object" ng-src="{{ project[pid].poster }}" ng-if="project[pid].poster" height="100px">
-            </a>
-            <div class="media-body">
-                <h4 class="media-heading">
-                    <a ng-href="project/{{pid}}" target="_blank">{{project[pid].title}}</a>
-                </h4>
-                <blockquote class="muted" style="height:80px; overflow:auto;" ng-bind-html="project[pid].brief"></blockquote>
-            </div>
-        </div>
+<li class="media edit-menu">
+    <a ui-sref="project.details({ pid : project.accessUrl })" class="pull-left">
+        <img  ng-src="{{project.poster}}" ng-show="project.poster" class="media-object img-rounded" style="height:50px;max-width: 100%">
+    </a>
+    <div class="media-body">
+        <h4 class="media-heading">
+            <a ui-sref="project.details({ pid : project.accessUrl })">{{project.title}}</a>
+        </h4>
+        <p class="muted" style="height:130px;overflow:hidden;" ng-if="showDetails">
+            <small ng-bind-html="project.brief"></small>
+        </p>
+        <div showtags="" entity="project"></div>
     </div>
-    <div class="panel-footer">
-        <div showtags="" entity="project[pid]"></div>
-    </div>
-</div>
+</li>

@@ -9,7 +9,9 @@ angular.module('cri.user',[])
         $scope.fprojects=followedProject;
     }])
     .controller('ProfileActivityCtrl',['$scope','activity','$stateParams','users','recommendChallenge','recommendProjects','recommendUser','recommendFriendUser',function($scope,activity,$stateParams,users,recommendChallenge,recommendProjects,recommendUser,recommendFriendUser){
-        console.log(activity)
+        console.log('challenge',recommendChallenge);
+        console.log('projects',recommendProjects);
+
         $scope.activities=activity;
         $scope.noPage=1;
         $scope.isEnd=false;
@@ -52,11 +54,10 @@ angular.module('cri.user',[])
             $scope.recommendedChallenges=recommendChallenge;
         }
         if(recommendProjects.length>0){
-            $scope.stagPs=recommendProjects;
+            $scope.recommendProjects=recommendProjects;
         }
-        console.log('ffffffffff',recommendProjects);
         if(recommendUser.length>0){
-            $scope.recUsers=recommendUser;
+            $scope.recommendUsers=recommendUser;
         }
         if(recommendFriendUser.length>0){
             $scope.ffollwers=recommendFriendUser;

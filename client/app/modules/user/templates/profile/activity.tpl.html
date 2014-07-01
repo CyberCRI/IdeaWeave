@@ -77,31 +77,9 @@
             <utils-btn click-minus="collapseC(item)"></utils-btn>
         </div>
         <div class="panel-body" ng-if="!collapsedC">
-            <h3 class="dashed pbm">
-                {{'PROFILE_CHALLENGE_REC_SIMILAR'|translate}}
-            </h3>
             <div class="row">
-                <ul class="list-unstyled">
-                    <li ng-repeat="challenge in recommendedChallenges track by $index" class="col-sm-6 col-xs-12" >
-                        <div class="panel panel-default">
-                            <div class="panel-body">
-                                <div class="media">
-                                    <a class="pull-left" href="#">
-                                        <img class="media-object" ng-src="{{ challenge.poster }}" ng-if="challenge.poster" height="100px">
-                                    </a>
-                                    <div class="media-body">
-                                        <h4 class="media-heading">
-                                            <a ng-href="challenge/{{challenge.id}}" target="_blank">{{challenge.title}}</a>
-                                        </h4>
-                                        <blockquote  style="height:80px; overflow:auto;" ng-bind-html="challenge.brief"></blockquote>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="panel-footer">
-                                <div showtags="" entity="challenge"></div>
-                            </div>
-                        </div>
-                    </li>
+                <ul class="media-list">
+                    <challenge-block ng-repeat="challengeId in recommendedChallenges track by $index" show-details="false" project_id="challengeId"></challenge-block>
                 </ul>
             </div>
             <div class="clearfix"></div>
@@ -113,51 +91,27 @@
             <utils-btn click-minus="collapseP(item)"></utils-btn>
         </div>
         <div class="panel-body" ng-if="!collapsedP">
-            <h3 class="dashed pbm">
-                {{'PROFILE_IDEA_REC_SIMILAR'|translate}}
-            </h3>
             <div class="row">
-                <ul ng-show="stagPs" class="list-unstyled">
-                    <li ng-repeat="stagP in stagPs track by $index" class="col-sm-6 col-xs-12" >
-                        <div project-block="stagP.id" >
-                        </div>
-                    </li>
+                <ul ng-show="recommendProjects" class="media-list">
+                    <project-block ng-repeat="projectId in recommendProjects track by $index" project-id="projectId" show-details="false"></project-block>
                 </ul>
             </div>
             <div class="clearfix">
             </div>
         </div>
     </div>
-    <div class="panel panel-default" ng-show="isOwner">
+    <div class="panel panel-default panel-animated" ng-show="isOwner">
         <div class="panel-heading">
             {{'PROJECT_USER_REC'|translate}}
             <utils-btn click-minus="collapseU(item)"></utils-btn>
         </div>
         <div class="panel-body" ng-if="!collapsedU">
-            <!--<h3 class="dashed pbm">-->
-            <!--{{'PROJECT_USER_REC_FOLLOW'|translate}}-->
-            <!--</h3>-->
-            <!--<div ng-hide="ffollwers">-->
-            <!--no recommendation, please add some tag to your profile-->
-            <!--</div>-->
-            <!--<ul ng-show="ffollwers" class="list-unstyled">-->
-            <!--<li ng-repeat="ffollower in ffollwers track by $index"  >-->
-            <!--<div user-block="ffollower" ></div>-->
-            <!--</li>-->
-            <!--</ul>-->
-            <!--<div class="clearfix"></div>-->
-            <h3 class="dashed pbm mtm">
-                {{'PROJECT_USER_REC_TAG'|translate}}
-            </h3>
             <div ng-hide="recUsers">
-                no recommendation, please add some tag to your profile
-                <a href="user/setting/basic" ui-sref="profile.basic({ uid : me.id })">
-                    do It now ?
-                </a>
+
             </div>
             <ul  class="list-unstyled">
-                <li ng-repeat="stagUser in recUsers track by $index"   class="col-sm-6 col-xs-12">
-                    <span user-block="stagUser" ></span>
+                <li ng-repeat="userId in recommendUsers track by $index"   class="col-sm-6 col-xs-12">
+                    <span user-block ="userId" ></span>
                 </li>
             </ul>
             <div class="clearfix"></div>

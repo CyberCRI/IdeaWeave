@@ -58,7 +58,7 @@ angular.module('cri.projectSetting',[])
             })
         };
     }])
-    .controller('ProjectMediaCtrl',['$scope', 'toaster','Socket','files','Files','urls','Url',function ($scope, toaster,Socket,files,Files,urls,Url) {
+    .controller('ProjectMediaCtrl',['$scope', 'toaster','Socket','files','Files','urls','Url','CONFIG',function ($scope, toaster,Socket,files,Files,urls,Url,CONFIG) {
 
         $scope.removeFile = function(file){
             Files.remove(file.id).then(function(){
@@ -69,8 +69,14 @@ angular.module('cri.projectSetting',[])
             })
         }
 
+        angular.forEach(files,function(file){
+            file.url = CONFIG.apiServer+'/fileUpload/topic/'+file.projectUrl+'/'+file.filename
+        })
+
+
         $scope.files = files;
 
+        console.log(files);
 
         $scope.urls = urls;
 

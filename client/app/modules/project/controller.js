@@ -3,17 +3,23 @@ angular.module('cri.project',[])
 
         $scope.project = Project.data = project[0];
         $scope.btnInfoVisible = false
-        $scope.me = loggedUser.profile;
+        if(loggedUser){
+            $scope.me = loggedUser.profile;
+        }else{
+            $scope.me = {
+                id : null
+            }
+        }
         $scope.enterInfo = function(){
             if($scope.me.id == $scope.project.owner){
                 $scope.btnInfoVisible = true;
             }
-        }
+        };
         $scope.leaveInfo = function(){
             if($scope.me.id == $scope.project.owner){
                 $scope.btnInfoVisible = false;
             }
-        }
+        };
         $scope.infoEditable = false;
         $scope.editInfo = function(){
             if($scope.me.id == $scope.project.owner) {
@@ -39,13 +45,13 @@ angular.module('cri.project',[])
             if($scope.me.id == $scope.project.owner){
                 $scope.btnImgVisible = true;
             }
-        }
+        };
 
         $scope.leavePicture = function(){
             if($scope.me.id == $scope.project.owner){
                 $scope.btnImgVisible = false;
             }
-        }
+        };
 
         $scope.editPicture = function() {
             if ($scope.me.id == $scope.project.owner) {
@@ -58,41 +64,40 @@ angular.module('cri.project',[])
                 });
 
                 modalInstance.result.then(function (picture) {
-                    console.log(picture)
                     $scope.profile.poster = picture;
                 }, function () {
                 });
-            };
-        }
+            }
+        };
 
         $scope.btnVisible = false;
         $scope.enterBrief = function(){
             if($scope.me.id == $scope.project.owner){
                 $scope.btnVisible = true;
             }
-        }
+        };
         $scope.leaveBrief = function(){
             if($scope.me.id == $scope.project.owner){
                 $scope.btnVisible = false;
             }
-        }
+        };
         $scope.briefEditable = false;
         $scope.editBrief = function(){
             if($scope.me.id == $scope.project.owner) {
                 $scope.briefEditable = !$scope.briefEditable;
             }
-        }
-        $scope.btnPrezVisible = false
+        };
+        $scope.btnPrezVisible = false;
         $scope.enterPrez = function(){
             if($scope.me.id == $scope.project.owner){
                 $scope.btnPrezVisible = true;
             }
-        }
+        };
         $scope.leavePrez = function(){
             if($scope.me.id == $scope.project.owner){
                 $scope.btnPrezVisible = false;
             }
-        }
+        };
         $scope.prezEditable = false;
         $scope.editPrez = function(){
             if($scope.me.id == $scope.project.owner) {
@@ -124,7 +129,7 @@ angular.module('cri.project',[])
                 toaster.pop('error','error','profile updated');
                 $scope.briefEditable = !$scope.briefEditable;
             })
-        }
+        };
 
         $scope.mapOptions = CONFIG.mapOptions;
 
@@ -142,8 +147,8 @@ angular.module('cri.project',[])
             $scope.project.presentationDisplay = $sce.trustAsHtml($scope.project.presentation);
         }
 
-        console.log($scope.project)
-        $scope.user = loggedUser.profile
+        console.log($scope.project);
+        $scope.user = loggedUser.profile;
         $scope.isLoggedIn = users.isLoggedIn();
         $scope.project=project[0];
         $scope.proccess = ($scope.project.score/9).toFixed(2);
@@ -167,7 +172,7 @@ angular.module('cri.project',[])
                 controller: ['$scope','$modalInstance',function($scope,$modalInstance){
                     $scope.tmsg={};
                     $scope.applyTeamMsg=function(){
-                        $scope.tmsg.container=project[0].id
+                        $scope.tmsg.container=project[0].id;
                         Project.apply($scope.tmsg).then(function(data){
                             $scope.tmsg={};
                             $scope.cancel();
@@ -175,7 +180,7 @@ angular.module('cri.project',[])
                         }).catch(function(err){
                             toaster.pop('error',err.status,err.message);
                         })
-                    }
+                    };
                     $scope.cancel = function () {
                         $modalInstance.dismiss('cancel');
                     };
@@ -188,7 +193,7 @@ angular.module('cri.project',[])
                 templateUrl:'/modules/project/templates/modal/projectShare.tpl.html',
                 controller: ['$scope','$modalInstance','$stateParams',function($scope,$modalInstance,$stateParams){
                     $scope.pid = $stateParams.pid;
-                    $scope.cid = $stateParams.cid
+                    $scope.cid = $stateParams.cid;
                     $scope.cancel = function () {
                         $modalInstance.dismiss('cancel');
                     };
@@ -198,7 +203,7 @@ angular.module('cri.project',[])
 
         if(loggedUser.profile){
             if(loggedUser.profile.id == project[0].owner){
-                $scope.isOwner = true
+                $scope.isOwner = true;
                 $scope.isVisitor = false;
             }else{
                 $scope.isVisitor = true;
@@ -219,7 +224,7 @@ angular.module('cri.project',[])
         $scope.isProjectFollower = function(){
             angular.forEach(project[0].followers,function(v,k){
                 if(loggedUser.profile.id == v){
-                    $scope.isVisitor = false
+                    $scope.isVisitor = false;
                     return true;
                 }
             })
@@ -237,7 +242,7 @@ angular.module('cri.project',[])
                 if(result.error){
                     alert(result.error)
                 }else{
-                    toaster.pop('success','success','Concerned about the success!')
+                    toaster.pop('success','success','Concerned about the success!');
                     $scope.project.followers.push(loggedUser.profile.id);
                     $scope.isFollow=true;
                 }
@@ -249,14 +254,14 @@ angular.module('cri.project',[])
         $scope.unfollow=function(){
             Project.unfollow($scope.project.id).then(function(result){
                 if(result.error){
-                    toaster.pop('error','error',result.error)
+                    toaster.pop('error','error',result.error);
                 }else{
                     toaster.pop('success','success','Concerned about the success!');
                     $scope.project.followers.splice($scope.project.followers.indexOf(loggedUser.profile.id),1);
                     $scope.isFollow=false;
                 }
             }).catch(function(err){
-                toaster.pop('error',err.status,err.message)
+                toaster.pop('error',err.status,err.message);
             })
         }
     }])
@@ -299,7 +304,7 @@ angular.module('cri.project',[])
                         };
                         $scope.titleChange = function(title){
                             $scope.newProject.accessUrl = title.replace(/ /g,"_");
-                        }
+                        };
                         $scope.createProject = function(project){
                             console.log(project)
                             Project.create(project).then(function(data){
@@ -316,7 +321,7 @@ angular.module('cri.project',[])
                 modalInstance.result.then(function (accessUrl) {
                     $state.go('project.details', {pid: accessUrl});
                 });
-            }
+            };
             $scope.loadProjects=function(option) {
                 $scope.isLoading = true;
                 Project.fetch(option).then(function (result) {
@@ -325,7 +330,7 @@ angular.module('cri.project',[])
                 }).catch(function(err){
                     toaster.pop('error',err.status,err.message);
                 })
-            }
+            };
             // init sortby
             $scope.sortBy='0';
             function updateSort(){
@@ -352,7 +357,7 @@ angular.module('cri.project',[])
                     option.$skip=0;
                 }
                 $scope.loadProjects(option);
-            }
+            };
 
             $scope.noPage=1;
             $scope.isEnd=false;
@@ -371,7 +376,7 @@ angular.module('cri.project',[])
                         }
                     })
                 }
-            }
+            };
 
             function uniqueObject(arr){
                 var o={},i,j,r=[];
@@ -395,7 +400,7 @@ angular.module('cri.project',[])
                 }else{
                     $scope.loadProjects();
                 }
-            }
+            };
             function queryTag(tag,callback){
                 Project.fetch({title:{$regex:tag+".*",$options: 'i'},context:'list'}).then(function(data){
                     if(data.length>0){
@@ -438,9 +443,6 @@ angular.module('cri.project',[])
     }])
     .controller('ProjectCreateCtrl',['$scope', 'Project', 'loggedUser', '$state', 'Challenge', 'toaster', 'Gmap', 'Files', 'CONFIG',function($scope, Project, loggedUser, $state, Challenge, toaster, Gmap, Files, CONFIG){
 
-
-
-
         $scope.newProject = {};
         $scope.titleChange = function(title){
             $scope.newProject.accessUrl = title.replace(/ /g,"_");
@@ -453,7 +455,6 @@ angular.module('cri.project',[])
         };
         $scope.tinymceOption = CONFIG.tinymceOptions;
         $scope.createProject = function(){
-            console.log($scope.newProject)
             $scope.newProject.owner = loggedUser.profile.id;
             $scope.newProject.container = Challenge.data.id;
             Project.create($scope.newProject).then(function(){

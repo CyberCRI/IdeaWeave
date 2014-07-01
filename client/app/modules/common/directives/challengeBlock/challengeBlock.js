@@ -1,17 +1,15 @@
 angular.module('cri.common')
-    .directive('challengeBlock',['$http','CONFIG','Project',function($http,CONFIG,Challenge){
+    .directive('challengeBlock',['$http','CONFIG','Challenge',function($http,CONFIG,Challenge){
         return {
             restrict:'EA',
             scope : {
-                challengeId : '='
+                challengeId : '=',
+                showDetails : '@'
             },
             templateUrl:'modules/common/directives/challengeBlock/challenge-block.tpl.html',
             link : function(scope,element,attrs){
-                console.log('challengeBlock',scope.challengeId);
-
                 Challenge.fetch({ id : scope.challengeId }).then(function(challenge){
-                    scope.challenge = challenge;
-                    console.log('challengeBlock',scope.challenge);
+                    scope.challenge = challenge[0];
                 }).catch(function(err){
                     console.log('error',err);
                 })
