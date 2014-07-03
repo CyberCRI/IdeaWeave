@@ -327,6 +327,7 @@ angular.module('cri.challenge', [])
 .controller('ChallengeCtrl',['$scope','Challenge','challenge','loggedUser','toaster','$state',function($scope,Challenge,challenge,loggedUser,toaster,$state){
         $scope.me = loggedUser.profile;
 
+        console.log(challenge)
         $scope.challenge = Challenge.data = challenge[0];
         console.log($scope.challenge)
         if(loggedUser.profile){
@@ -360,9 +361,10 @@ angular.module('cri.challenge', [])
 
         // follow challenge
         if (loggedUser.profile) {
-            console.log()
-            if ($scope.challenge.followers.indexOf(loggedUser.profile.id) !== -1) {
-                $scope.isFollow = true;
+            if($scope.challenge.followers){
+                if ($scope.challenge.followers.indexOf(loggedUser.profile.id) !== -1) {
+                    $scope.isFollow = true;
+                }
             }
         }
 

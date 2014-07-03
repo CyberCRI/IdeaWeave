@@ -23,7 +23,7 @@ angular.module('cri.common')
                     console.log(data)
                     defered.resolve(data);
                 }).catch(function(err){
-                    console.log(err)
+                    console.log('gmap error',err)
                     defered.reject(err)
                 })
                 return defered.promise;

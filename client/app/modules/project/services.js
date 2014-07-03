@@ -48,7 +48,8 @@ angular.module('cri.project')
                     defered.resolve(data);
                 })
                 .error(function(err){
-                    defered.reject(err);
+                   console.log('project error',err)
+                   defered.reject(err);
                 })
             return defered.promise;
         },

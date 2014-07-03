@@ -3,6 +3,9 @@
         {{'PROFILE_IDEA_CON'|translate}}
     </div>
     <div class="panel-body">
+        <div class="text-muted" ng-hide="cproject">
+            No project yet.
+        </div>
         <ul class="list-unstyled" >
             <li ng-animate="'animate'" ng-repeat="cproject in cprojects track by $index" class="solid">
                 <a ng-init="isCollapsed=true" ng-click="isCollapsed = !isCollapsed">
@@ -24,6 +27,9 @@
         {{'PROFILE_IDEA_FOLLOW'|translate}}
     </div>
     <div class="panel-body">
+        <div class="text-muted" ng-hide="fproject">
+            No project yet.
+        </div>
         <ul class="list-unstyled" >
             <li ng-animate="'animate'" ng-repeat="fproject in fprojects track by $index" class="solid">
                 <a ng-init="isCollapsed=true" ng-click="isCollapsed = !isCollapsed" >
@@ -45,6 +51,9 @@
         {{'PROFILE_IDEA_OWNER'|translate}}
     </div>
     <div class="panel-body">
+        <div class="text-muted" ng-hide="popproject">
+            No project yet.
+        </div>
         <ul class="list-unstyled" >
             <li ng-animate="'animate'" ng-repeat="popproject in popprojects track by $index" class="solid">
                 <a ng-init="isCollapsed=true" ng-click="isCollapsed = !isCollapsed">

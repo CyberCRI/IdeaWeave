@@ -10,9 +10,9 @@ angular.module('cri.user',[])
     }])
     .controller('ProfileActivityCtrl',['$scope','activity','$stateParams','users','recommendChallenge','recommendProjects','recommendUser','recommendFriendUser',function($scope,activity,$stateParams,users,recommendChallenge,recommendProjects,recommendUser,recommendFriendUser){
         console.log('challenge',recommendChallenge);
-        console.log('projects',recommendProjects);
-
+        console.log('act',typeof activity);
         $scope.activities=activity;
+
         $scope.noPage=1;
         $scope.isEnd=false;
         $scope.loadMoreActivities=function(num){

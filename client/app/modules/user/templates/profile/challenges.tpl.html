@@ -28,6 +28,9 @@
         {{'PROFILE_CHALLENGE_FOLLOW'|translate}}
     </div>
     <div class="panel-body">
+        <div class="text-muted" ng-hide="fchallenge">
+            No challenge yet.
+        </div>
         <ul class="list-unstyled" >
             <li ng-animate="'animate'" ng-repeat="fchallenge in fChallenges track by $index" class="solid">
                 <a ng-init="isCollapsed=true" ng-click="isCollapsed = !isCollapsed">

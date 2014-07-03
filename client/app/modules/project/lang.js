@@ -18,7 +18,7 @@ angular.module('cri.project')
     'PROJECT_VIEW_LINK_TITLE':'Title',
     'PROJECT_VIEW_LINK_LINK':'Link',
     'PROJECT_VIEW_LINK_NOTE':'Note (optional)',
-
+    'PROJECT_LIST_NORESULT':'No project yet',
     'PROJECT_VIEW_SHARE':'Forward', 
 	'PROJECT_VIEW_JOIN':'Join Us', 
 	'PROJECT_VIEW_FOLLOW':'Follow Us',
@@ -31,7 +31,7 @@ angular.module('cri.project')
 	// project share
 	'PROJECT_VIEW_SHARE_INFO':'Copy and share the link below to your friends.',
 	// project join
-	'PROJECT_VIEW_JOIN_INFO':'Please introduce yourself and why you are interested in this project.',
+	'PROJECT_VIEW_JOIN_INFO':'Please introduce yourself and why you are interested in this project.'
 
   });
 

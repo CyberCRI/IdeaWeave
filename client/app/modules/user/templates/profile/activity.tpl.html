@@ -1,3 +1,4 @@
+<div ng-if="!activities" class="alert alert-info center col-sm-6">no activity yet, get involved !</div>
 <ul ng-show="activities" class="list-unstyled col-sm-6">
     <li ng-repeat="activity in activities" class="solid pam">
         <div ng-switch="activity.action">
@@ -78,6 +79,7 @@
         </div>
         <div class="panel-body" ng-if="!collapsedC">
             <div class="row">
+                <div ng-if="!recommendedChallenges" class="alert alert-info center">no recommended challenges add some tags !</div>
                 <ul class="media-list">
                     <challenge-block ng-repeat="challengeId in recommendedChallenges track by $index" show-details="false" project_id="challengeId"></challenge-block>
                 </ul>
@@ -92,7 +94,8 @@
         </div>
         <div class="panel-body" ng-if="!collapsedP">
             <div class="row">
-                <ul ng-show="recommendProjects" class="media-list">
+                <div ng-if="!recommendProjects" class="alert alert-info center ">no recommended challenges add some tags !</div>
+                <ul class="media-list">
                     <project-block ng-repeat="projectId in recommendProjects track by $index" project-id="projectId" show-details="false"></project-block>
                 </ul>
             </div>
@@ -109,7 +112,8 @@
             <div ng-hide="recUsers">
 
             </div>
-            <ul  class="list-unstyled">
+            <div ng-if="!recommendUsers" class="alert alert-info center">no recommended challenges add some tags !</div>
+            <ul class="list-unstyled">
                 <li ng-repeat="userId in recommendUsers track by $index"   class="col-sm-6 col-xs-12">
                     <span user-block ="userId" ></span>
                 </li>

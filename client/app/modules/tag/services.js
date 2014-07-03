@@ -12,6 +12,7 @@ angular.module('cri.tag')
                         defered.resolve(data);
                     })
                     .error(function(err){
+                        console.log('tags error',err)
                         defered.reject(err);
                     })
                 return defered.promise;

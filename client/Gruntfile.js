@@ -1,39 +1,74 @@
 module.exports = function(grunt) {
     require("load-grunt-tasks")(grunt);
     grunt.initConfig({
+        assetsDirBs :'client/app',
         assetsDir: 'app',
         distDir: 'dist',
-        express: {
-            all: {
+
+        browserSync: {
+            dev: {
+                bsFiles: {
+                    src: [
+                        '<%= assetsDirBs %>/**/*.html',
+                        '<%= assetsDirBs %>/**/*.js',
+                        '<%= assetsDirBs %>/**/*.css'
+                    ]
+                },
                 options: {
-                    bases: ['app'],
-                    port: 5010,
-                    hostname: "0.0.0.0",
-                    livereload: true
+                    watchTask: true,
+                    ghostMode: {
+                        clicks: true,
+                        scroll: true,
+                        links: false,
+                        // must be false to avoid interfering with angular routing
+                        forms: true
+                    },
+                    server: { baseDir: '<%= assetsDir %>' }
                 }
             }
         },
         watch: {
-            all: {
-                files: [
-                    '<%= assetsDir %>/*.html',
-                    '<%= assetsDir %>/*.js',
-                    '<%= assetsDir %>/modules/**/*.js',
-                    '<%= assetsDir %>/modules/**/*.tpl.html',
-                    '<%= assetsDir %>/styles/**/.css'
-                ],
+
+        },
+        connect: {
+            test: {
                 options: {
-                    livereload: true
+                    port: 8887,
+                    base: '<%= assetsDir %>',
+                    keepalive: false,
+                    livereload: false,
+                    open: false
                 }
             }
         },
-
-        open: {
-            all: {
-                path: 'http://localhost:5010/'
-            }
+        karma: {
+            dev_unit: {
+                options: {
+                    configFile: 'test/conf/unit-test-conf.js',
+                    background: true,
+                    singleRun: false,
+                    autoWatch: true,
+                    reporters: ['progress']
+                }
+            },
+            dist_unit: {
+                options: {
+                    configFile: 'test/conf/unit-test-conf.js',
+                    background: false,
+                    singleRun: true,
+                    autoWatch: false,
+                    reporters: [
+                        'progress',
+                        'coverage'
+                    ],
+                    coverageReporter: {
+                        type: 'html',
+                        dir: '../reports/coverage'
+                    }
+                }
+            },
+            e2e: { options: { configFile: 'test/conf/e2e-test-conf.js' } }
         },
-
         clean: {
             dist: ['.tmp', '<%= distDir %>']
         },
@@ -117,8 +152,8 @@ module.exports = function(grunt) {
     ]);
 
     grunt.registerTask('server', [
-        'express',
-        'open',
+        'browserSync',
+        'karma:dev_unit:start',
         'watch'
     ]);
 };
