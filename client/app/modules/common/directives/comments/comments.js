@@ -1,13 +1,15 @@
 angular.module('cri.common')
-    .directive('comments',['loggedUser','Comment','Socket','$sce','CONFIG',function(loggedUser, Comment, Socket,$sce,CONFIG){
+    .directive('comments',['loggedUser','Comment','$sce','CONFIG',function(loggedUser, Comment,$sce,CONFIG){
         return {
             restrict:'EA',
             templateUrl:'modules/common/directives/comments/comments.tpl.html',
+            controller : ['$scope','CONFIG',function($scope,CONFIG){
+                $scope.tinymceOption = CONFIG.tinymceOptions;
+            }],
             link: function (scope,element,attrs){
                 var oj=scope.$eval(attrs.comments);
                 //load comments
                 scope.comments=[];
-                scope.tinymceOption = CONFIG.tinymceOptions;
                 var topicId = attrs.topicid;
                 Comment.fetch({type:oj.type,container:topicId}).then(function(result){
                     scope.comments=result;
@@ -63,13 +65,13 @@ angular.module('cri.common')
                     })
                 }
 
-                Socket.on('comments:create',function(data){
-                    Comment.fetch({id:data.id}).then(function(result){
-                        scope.comments.push(result);
-                    }).catch(function(err){
-                        console.log('error',err);
-                    })
-                })
+//                Socket.on('comments:create',function(data){
+//                    Comment.fetch({id:data.id}).then(function(result){
+//                        scope.comments.push(result);
+//                    }).catch(function(err){
+//                        console.log('error',err);
+//                    })
+//                })
             }
         };
     }]);

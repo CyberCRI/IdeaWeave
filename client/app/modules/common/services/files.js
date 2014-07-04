@@ -83,7 +83,7 @@ angular.module('cri.common')
             },
             isOfficeDoc : function(file){
                 var ext = file.filename.split('.');
-                if(ext[ext.length-1] == 'xslx' || ext[ext.length-1] == 'xslx' || ext[ext.length-1] == 'pptx'){
+                if(ext[ext.length-1] == 'xlsx' || ext[ext.length-1] == 'docx' || ext[ext.length-1] == 'pptx'){
                     return true;
                 }else{
                     return false;

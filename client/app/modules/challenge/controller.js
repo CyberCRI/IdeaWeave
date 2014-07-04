@@ -78,7 +78,9 @@ angular.module('cri.challenge', [])
             return Files.isPdf(file);
         };
 
+
         $scope.isOfficeDoc = function(file){
+            console.log()
             return Files.isOfficeDoc(file);
         };
 

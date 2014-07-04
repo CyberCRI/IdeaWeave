@@ -54,6 +54,7 @@ angular.module('cri.project',[])
         };
 
         $scope.editPicture = function() {
+            console.log($scope.me.id == $scope.project.owner)
             if ($scope.me.id == $scope.project.owner) {
                 var modalInstance = $modal.open({
                     templateUrl: 'modules/user/templates/settings/avatar.tpl.html',
@@ -168,7 +169,7 @@ angular.module('cri.project',[])
 
         $scope.openRqteam = function () {
             $modal.open({
-                templateUrl:'/modules/project/templates/modal/projectRqteam.tpl.html',
+                templateUrl:'apply',
                 controller: ['$scope','$modalInstance',function($scope,$modalInstance){
                     $scope.tmsg={};
                     $scope.applyTeamMsg=function(){
@@ -190,7 +191,7 @@ angular.module('cri.project',[])
 
         $scope.openShare = function () {
             $modal.open({
-                templateUrl:'/modules/project/templates/modal/projectShare.tpl.html',
+                templateUrl:'share',
                 controller: ['$scope','$modalInstance','$stateParams',function($scope,$modalInstance,$stateParams){
                     $scope.pid = $stateParams.pid;
                     $scope.cid = $stateParams.cid;
@@ -267,18 +268,22 @@ angular.module('cri.project',[])
     }])
 
     .controller('ProjectPosterCtrl',['$scope','Project','toaster','$modalInstance',function ($scope,Project,toaster,$modalInstance) {
+        console.log('eed')
         $scope.$on('cropReady',function(e,data){
             Project.update($scope.project.id,{ poster : data }).then(function(){
                 $scope.project.poster = data;
                 $modalInstance.close(data);
             }).catch(function(err){
+                $modalInstance.close(data);
                 toaster.pop('error',err.status,err.message);
             })
         })
 
     }])
-    .controller('ProjectExploreCtrl',['$scope','projects','$modal','Challenge','Project','$state','toaster',
-        function ($scope,projects,$modal,Challenge,Project,$state,toaster) {
+    .controller('ProjectExploreCtrl',['$scope','projects','loggedUser','Challenge','Project','$state','toaster',
+        function ($scope,projects,loggedUser,Challenge,Project,$state,toaster) {
+
+            $scope.me = loggedUser.profile;
 
             $scope.filterMode = false;
 
@@ -295,33 +300,7 @@ angular.module('cri.project',[])
 
             var option={$limit:6,$sort:{score:-1},context:'list'};
 
-            $scope.modalCreate = function(){
-                var modalInstance = $modal.open({
-                    templateUrl: 'projectCreate.tpl.html',
-                    controller: ['$scope','Project','Challenge','$modalInstance',function($scope,Project,Challenge,$modalInstance){
-                        $scope.newProject = {
-                            container: Challenge.data.id
-                        };
-                        $scope.titleChange = function(title){
-                            $scope.newProject.accessUrl = title.replace(/ /g,"_");
-                        };
-                        $scope.createProject = function(project){
-                            console.log(project)
-                            Project.create(project).then(function(data){
-                                toaster.pop('success','success','Project created !!!');
-                                $modalInstance.close(data.accessUrl);
-                            }).catch(function(err){
-                                toaster.pop('error',err.status,err.message);
-                                $modalInstance.dismiss();
-                            })
-                        }
-                    }],
-                    size: 'lg'
-                });
-                modalInstance.result.then(function (accessUrl) {
-                    $state.go('project.details', {pid: accessUrl});
-                });
-            };
+
             $scope.loadProjects=function(option) {
                 $scope.isLoading = true;
                 Project.fetch(option).then(function (result) {
@@ -349,15 +328,6 @@ angular.module('cri.project',[])
                         break;
                 }
             }
-
-            $scope.changeSort=function(){
-                updateSort();
-                if(option.$skip){
-                    option.$limit=6+option.$skip;
-                    option.$skip=0;
-                }
-                $scope.loadProjects(option);
-            };
 
             $scope.noPage=1;
             $scope.isEnd=false;

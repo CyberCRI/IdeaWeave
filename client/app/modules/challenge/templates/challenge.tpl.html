@@ -16,6 +16,7 @@
                         </span>
                     </h2>
                     <div class="center solid pbm">
+                        <i class="fa fa-list fa-2x my-btn" ui-sref="challenge.list({ pid : challenge.accessUrl })" ui-route="/challenge/{{ challenge.accessUrl }}/list" ng-class="{active: $uiRoute}"></i>
                         <i class="fa fa-home fa-2x my-btn" ui-route="/challenge/{{ challenge.accessUrl }}/details" ng-class="{active: $uiRoute}" ui-sref="challenge.details({ pid : challenge.accessUrl })"></i>
                         <i class="fa fa-cogs fa-2x my-btn" ui-route="/challenge/{{ challenge.accessUrl }}/settings/basic" ng-class="{active: $uiRoute}" ui-sref="challenge.settings.basic({ pid : challenge.accessUrl })" tooltip="challenge's administration" ng-if="project.isMember == 1 || user.id == project.owner"></i>
                         <i class="fa fa-comments fa-2x my-btn" ui-route="/challenge/{{ challenge.accessUrl }}/forum" ng-class="{active: $uiRoute}" ui-sref="challenge.topic" tooltip="project's forum"  ng-if="project.isMember == 1 || user.id == project.owner"></i>

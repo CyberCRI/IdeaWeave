@@ -1,5 +1,5 @@
 angular.module('cri.common')
-.factory('Socket',['socketFactory','CONFIG',function(socketFactory,CONFIG){
+.factory('Socket',['CONFIG',function(CONFIG){
 //        var myIoSocket = io.connect(CONFIG.socketUrl);
 //        return socketFactory({
 //            ioSocket: myIoSocket

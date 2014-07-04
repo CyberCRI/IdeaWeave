@@ -1,8 +1,8 @@
 <div class="pull-right">{{ 'BTN_COMMENT' | translate }}({{comments.length}})</div>
-<a class="btn btn-default pull-left" ng-click="toggleComment=!toggleComment">comment</a>
+<i class="fa fa-comment fa-2x my-btn pull-left" ng-click="toggleComment=!toggleComment"></i>
 <div class="clearfix"></div>
 <div ng-init="toggleComment=true"  collapse="toggleComment" >
-    <textarea ui-tinymce="tinymceOption" ng-model="commentValue" placeholder="I think..." required ></textarea>
+    <textarea ui-tinymce ng-model="commentValue" placeholder="I think..." required ></textarea>
     <a class="btn btn-default" ng-click="addComment()">{{ 'BTN_COMMENT' | translate }}</a>
 </div>
 <div class="comments">
@@ -14,11 +14,11 @@
             </div>
             <div class="clearfix"></div>
             <div class="pam" ng-bind-html="comment.displayText"></div>
-            <a class="pull-right " href="" ng-click="comment.isReply=!comment.isReply">Reply</a>
+            <i class="pull-right fa fa-comments fa-2x my-btn" ng-click="comment.isReply=!comment.isReply"></i>
             <div class="clearfix"></div>
             <div ng-init="comment.isReply=true"  collapse="comment.isReply" >
                 <div  class="mts  pam">
-                    <textarea ui-tinymce="tinymceOption" ng-model="comment.replyComment" placeholder="Reply..." ></textarea>
+                    <textarea ui-tinymce ng-model="comment.replyComment" placeholder="Reply..." ></textarea>
                     <br><a class="btn btn-default" ng-click="replyComment(comment.id,$index)">Reply</a>
                 </div>
             </div>
