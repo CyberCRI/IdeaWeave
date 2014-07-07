@@ -330,7 +330,7 @@ angular.module('cri.user',[])
         }
     }])
     .controller('settingPassCtrl',['$scope','users','toaster',function ($scope,users,toaster) {
-        $scope.profile={};
+                        console.log('change pass',$scope.profile);
         $scope.updatePass=function(){
             if($scope.profile.password!=$scope.profile.password2){
                 $scope.notMatch=true;
