@@ -36,7 +36,8 @@
   -webkit-animation: fadeInDown 0.5s;
   animation: fadeInDown 0.5s;
 }
-[ui-view="challengeView"].ng-enter {
+[ui-view="challengeView"].ng-enter,
+[ui-view="loginView"].ng-enter {
   -webkit-animation: slideInRight 0.5s;
   animation: slideInRight 0.5s;
 }
@@ -463,6 +464,9 @@ body {
   color: white;
   width: 75%;
   margin: auto;
+}
+.login {
+  background-color: rgba(194, 196, 189, 0.8);
 }
 .owner-topic {
   background: #b2c9bc;

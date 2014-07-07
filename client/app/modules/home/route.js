@@ -2,7 +2,7 @@ angular.module('cri.home')
 .config(['$stateProvider',function($stateProvider){
         $stateProvider
             .state('home', {
-                url: '/',
+                abstract : true,
                 views: {
                     mainView: {
                         templateUrl: 'modules/home/templates/home.tpl.html',
@@ -19,6 +19,24 @@ angular.module('cri.home')
                     popularThings : ['$http','CONFIG',function($http,CONFIG){
                         return $http.get(CONFIG.apiServer+'/datas/popular');
                     }]
+                }
+            })
+            .state('home.signup',{
+                url : '/',
+                views : {
+                    loginView : {
+                        templateUrl: 'modules/account/templates/register.tpl.html',
+                        controller: 'RegisterCtrl'
+                    }
+                }
+            })
+            .state('home.signin',{
+                url : '/signin',
+                views : {
+                    loginView : {
+                        templateUrl: 'modules/account/templates/login.tpl.html',
+                        controller: 'LoginCtrl'
+                    }
                 }
             })
     }])

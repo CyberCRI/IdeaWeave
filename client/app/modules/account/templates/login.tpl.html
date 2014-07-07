@@ -1,6 +1,6 @@
-<div class="container" style="max-width:970px!important;">
+<div class="login">
     <div class="row">
-        <div class="col-sm-4 col-xs-12">
+        <div class="col-xs-12">
             <form class="form-horizontal pal" role="form">
                 <div class="form-group">
                     <legend>{{ 'LOGIN_TITLE' | translate }}</legend>
@@ -16,7 +16,9 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <button type="submit" class="btn btn-success" ng-click="login()">{{ 'LOGIN_BUTTON' | translate }}</button> <a ng-href="resetPassword" class="text-muted mlm"  >{{ 'LOGIN_RESETPASS' | translate }}</a>
+                    <button type="submit" class="btn btn-success" ng-click="login()">{{ 'LOGIN_BUTTON' | translate }}</button>
+                    <a ng-href="resetPassword" class="mlm"  >{{ 'LOGIN_RESETPASS' | translate }}</a>
+                    <a ui-sref="home.signup" class="mlm">Don't have an account yet ?</a>
                 </div>
             </form>
             <!--<i class="fa fa-facebook fa-2x my-btn" ng-click="logWithFb()"></i><i class="fa fa-github fa-2x my-btn" ng-click="logWithGithub()"></i>-->
