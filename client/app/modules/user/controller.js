@@ -346,6 +346,8 @@ angular.module('cri.user',[])
         }
     }])
     .controller('settingAvatarCtrl',['$scope','users','toaster','loggedUser','$modalInstance',function ($scope,users,toaster,loggedUser,$modalInstance) {
+        console.log('sdfsdfsd')
+
         $scope.$on('cropReady',function(e,data){
             users.update(loggedUser.profile.id,{ poster : data }).then(function(){
                 loggedUser.profile.poster = data;

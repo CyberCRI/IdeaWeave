@@ -117,7 +117,7 @@ var type=parts[0];
             var hash=-hashCode(data[0].email);
            
         var message="You asked to reset the password , if not for you, please ignore this message. Verification code below:"+hash;
-        dpd.email.post({from:'StormIdea<no-reply@jiizhi.com>',to:data[0].email,subject:'account password reset',html:message,text:message},function(){
+        dpd.email.post({from:'IdeaStorm<no-reply@jiizhi.com>',to:data[0].email,subject:'account password reset',html:message,text:message},function(){
           setResult('ok');
         });  
         }else{

@@ -1,6 +1,7 @@
 angular.module('cri.home',[])
 .controller('HomeCtrl',['$scope','tags','positions','challenges','projects','CONFIG','$state','parallaxHelper',function($scope,tags,positions,challenges,projects,CONFIG,$state,parallaxHelper){
 
+
         $scope.servicesParalax = parallaxHelper.createAnimator(-0.6);
 
         $scope.tagCloudParalax = parallaxHelper.createAnimator(0.3);

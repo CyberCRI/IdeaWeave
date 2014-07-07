@@ -54,19 +54,25 @@ angular.module('cri.project',[])
         };
 
         $scope.editPicture = function() {
-            console.log($scope.me.id == $scope.project.owner)
             if ($scope.me.id == $scope.project.owner) {
-                var modalInstance = $modal.open({
-                    templateUrl: 'modules/user/templates/settings/avatar.tpl.html',
-                    controller: 'ProjectPosterCtrl',
+                $modal.open({
+                    templateUrl: 'modules/project/templates/poster.tpl.html',
+                    controller: ['$scope','Project','toaster','$modalInstance',function ($scope,Project,toaster,$modalInstance) {
+                        console.log('eed',$scope);
+                        $scope.$on('cropReady',function(e,data){
+                            Project.update($scope.$$prevSibling.project.id,{ poster : data }).then(function(){
+                                $scope.$$prevSibling.project.poster = data;
+                                $modalInstance.close(data);
+                            }).catch(function(err){
+                                $modalInstance.close(data);
+                                toaster.pop('error',err.status,err.message);
+                            })
+                        })
+
+                    }],
                     size: 'lg',
                     windowTemplateUrl : 'modules/common/modal/modal-transparent.tpl.html',
                     backdrop : 'static'
-                });
-
-                modalInstance.result.then(function (picture) {
-                    $scope.profile.poster = picture;
-                }, function () {
                 });
             }
         };
@@ -265,20 +271,6 @@ angular.module('cri.project',[])
                 toaster.pop('error',err.status,err.message);
             })
         }
-    }])
-
-    .controller('ProjectPosterCtrl',['$scope','Project','toaster','$modalInstance',function ($scope,Project,toaster,$modalInstance) {
-        console.log('eed')
-        $scope.$on('cropReady',function(e,data){
-            Project.update($scope.project.id,{ poster : data }).then(function(){
-                $scope.project.poster = data;
-                $modalInstance.close(data);
-            }).catch(function(err){
-                $modalInstance.close(data);
-                toaster.pop('error',err.status,err.message);
-            })
-        })
-
     }])
     .controller('ProjectExploreCtrl',['$scope','projects','loggedUser','Challenge','Project','$state','toaster',
         function ($scope,projects,loggedUser,Challenge,Project,$state,toaster) {
