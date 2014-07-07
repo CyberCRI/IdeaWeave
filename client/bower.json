@@ -23,7 +23,8 @@
         "pdfjs" : "*",
         "bootstrap": "3.1.1",
         "animatecss" : "https://github.com/daneden/animate.css.git",
-        "Font-Awesome": "4.1"
+        "Font-Awesome": "4.1",
+        "angular-carousel" : "0.2.3"
     },
     "devDependencies": {}
 }

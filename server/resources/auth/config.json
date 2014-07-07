@@ -1,8 +1,8 @@
 {
 	"type": "AuthResource",
 	"SALT_LEN": "",
-	"baseURL": "http://127.0.0.1:5010/",
-	"allowedRedirectURLs": "",
+	"baseURL": "ideastorm.io",
+	"allowedRedirectURLs": "http://127.0.0.1:5011/authcallback",
 	"allowLocal": true,
 	"allowTwitter": false,
 	"allowFacebook": true,
@@ -14,5 +14,5 @@
 	"facebookScope": "",
 	"githubClientId": "a0de9026823b0f3c405e",
 	"githubClientSecret": "a9c4e876e84a60db81e2bceb449fc7b848e7b756",
-	"githubScope": ""
+	"githubScope": "['user']"
 }

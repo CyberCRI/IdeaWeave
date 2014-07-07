@@ -277,5 +277,28 @@ switch(parts[0]){
            };
         });
     break;
-    
+    case 'popular':
+        var response = {
+          challenges : [],
+          projects : []
+        };
+        dpd.followers.get({ type : 'challenges', $sort : { count : -1 },$limit : 6},function(cdata){
+          cdata.forEach(function(v,k){
+            dpd.challenges.get({ id : v.eid},function(data){
+              console.log(data)
+              response.challenges.push(data);
+            })    
+          })
+          dpd.followers.get({ type : 'project' , $sort : { count : -1 }, $limit  : 6},function(pdata){
+              pdata.forEach(function(v,k){
+                  dpd.projects.get({ id : v.eid },function(data){
+                    response.projects.push(data);
+                    if(response.projects.length == pdata.length){
+                      setResult(response);
+                    }
+                  })
+              })      
+          })
+        })
+      break;
 }

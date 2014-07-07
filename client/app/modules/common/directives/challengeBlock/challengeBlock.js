@@ -8,7 +8,9 @@ angular.module('cri.common')
             },
             templateUrl:'modules/common/directives/challengeBlock/challenge-block.tpl.html',
             link : function(scope,element,attrs){
+                console.log('la !!!')
                 Challenge.fetch({ id : scope.challengeId }).then(function(challenge){
+                    console.log('encore la ', challenge)
                     scope.challenge = challenge[0];
                 }).catch(function(err){
                     console.log('error',err);

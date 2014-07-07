@@ -68,5 +68,6 @@ switch(query.context){
         // basic information view,for search
         hide('detail');
         hide('updateDate');
+        break;
 }
 

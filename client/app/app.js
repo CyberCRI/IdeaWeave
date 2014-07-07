@@ -11,6 +11,7 @@ angular.module('cri', [
     'pascalprecht.translate',
     'btford.socket-io',
     'angularFileUpload',
+    'angular-carousel',
     'toaster',
     'google-maps',
     'duParallax',

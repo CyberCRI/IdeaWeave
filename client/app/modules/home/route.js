@@ -16,11 +16,8 @@ angular.module('cri.home')
                     positions : ['Gmap',function(Gmap){
                         return Gmap.getAllPositions()
                     }],
-                    challenges : ['Challenge',function(Challenge){
-                        return Challenge.fetch({$limit : 10})
-                    }],
-                    projects : ['Project',function(Project){
-                        return Project.fetch({$limit : 10})
+                    popularThings : ['$http','CONFIG',function($http,CONFIG){
+                        return $http.get(CONFIG.apiServer+'/datas/popular');
                     }]
                 }
             })

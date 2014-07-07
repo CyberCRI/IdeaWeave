@@ -1,9 +1,23 @@
 <!-- first section - Home -->
-<div id="home" class="home" >
+<!--<div id="home" class="home" >
     <div class="text-vcenter">
         <h1>IdeaStorm</h1>
         <h3>This is bootstrap-based layout</h3>
     </div>
+</div>-->
+<div>
+    <ul rn-carousel rn-carousel-indicator="" style="width:100%; height:500px;">
+        <li class="list-carousel-challenge" ng-repeat="challenge in challenges" ng-style="{backgroundImage : 'url(' + challenge.poster + ')', position : 'relative'}">
+            <article class="carousel-body">
+                <h1 class="center center-vertical ">
+                    <a ui-sref="challenge.details({ pid : challenge.accessUrl })">{{challenge.title}}</a>
+                </h1>
+                <p class="carousel-brief"  ng-bind-html="challenge.brief">
+                </p>
+                <div showtags="" entity="challenge" style="position:absolute; bottom : 10px; right:50px;"></div>
+            </article>
+        </li>
+    </ul>
 </div>
 <div id="services" class="pad-section">
     <div class="container"  du-parallax x="servicesParalax">

@@ -454,6 +454,16 @@ body {
 .home-map .angular-google-map-container {
   height: 400px;
 }
+.list-carousel-challenge {
+  width: 100%;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+.carousel-brief {
+  color: white;
+  width: 75%;
+  margin: auto;
+}
 .owner-topic {
   background: #b2c9bc;
 }
