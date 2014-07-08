@@ -9,7 +9,9 @@
                 <p class="carousel-brief"  ng-bind-html="challenge.brief">
                 </p>
                 <div showtags="" entity="challenge" style="position:absolute; bottom : 10px; right:50px;"></div>
-                <a class="btn btn-default btn-block" href="#login">Join us</a>
+                <div style="position : absolute; bottom : 50px; left : 45%; right: 45%; width: 10%" class="center">
+                    <a class="btn btn-default" href="#login">Join us</a>
+                </div>
             </article>
         </li>
     </ul>
@@ -38,53 +40,18 @@
         </div>
     </div>
 </div>
-
-<div id="information" class="pad-section">
-    <!--<div class="container">-->
-        <!--<div class="row">-->
-            <!--<div class="col-md-6">-->
-                <!--<div class="panel panel-default" style="height:400px;">-->
-                    <!--<div class="panel-heading">-->
-                        <!--<h2 class="panel-title">Recent challenges</h2>-->
-                    <!--</div>-->
-                    <!--<div class="panel-body lead">-->
-                        <!--<div class="list-group">-->
-                            <!--<a ng-repeat="myChallenge in challenges" class="list-group-item" ui-sref="challenge.details({ pid : myChallenge.accessUrl })" ng-bind="myChallenge.title"></a>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
-            <!--<div class="col-md-6">-->
-                <!--<div class="panel panel-default" style="height:400px;" >-->
-                    <!--<div class="panel-heading">-->
-                        <!--<h2 class="panel-title">Recent Projects</h2>-->
-                    <!--</div>-->
-                    <!--<div class="panel-body lead">-->
-                        <!--<div class="list-group">-->
-                            <!--<a ng-repeat="myProject in projects" class="list-group-item" ui-sref="project.details({ pid : myProject.accessUrl })" ng-bind="myProject.title"></a>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
-    <!--</div>-->
-    <article ng-repeat="project in projects" class="col-xs-12 col-sm-3">
-        <img ng-src="" alt="" width="100%"/>
+<section class="container home-project-container">
+    <article ui-sref="project.details({ pid : project.accessUrl })" ng-repeat="project in projects" class="col-xs-12 col-sm-3 home-project">
+        <img ng-src="project.poster" alt="here {{ project.title }} 's poster" width="100%"/>
         <h1 ng-bind="project.title"></h1>
+        <p ng-bind-html="project.brief"></p>
     </article>
-    <div id="login" class="container" >
-       <div ui-view="loginView">
-
-       </div>
-    </div>
+</section>
+<div id="information" class="pad-section">
     <div class="row">
         <div class="col-md-12" >
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <div x="tagCloudParalax" du-parallax>
-                        <d3-tag-cloud tags="tags" on-click="showTag(item)" options="{ width : 1080,height : 400,center : true}" ></d3-tag-cloud>
-                    </div>
-                </div>
+            <div x="tagCloudParalax" du-parallax>
+                <d3-tag-cloud tags="tags" on-click="showTag(item)" options="{ width : 1080,height : 400,center : true}" ></d3-tag-cloud>
             </div>
         </div>
         <div ng-include id="footer" src="'modules/footer/templates/footer.tpl.html'"></div>
