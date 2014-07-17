@@ -49,10 +49,12 @@
                     </form>
                 </div>
                 <div class="center solid pbm">
-                    <i class="fa fa-2x fa-star-o" ng-if="!isFollowUser && !isOwner" ng-click="followUser(profile.id)"></i>
-                    <i class="fa fa-2x fa-star" ng-if="isFollowUser && !isOwner" ng-click="unfollowUser(profile.id)"></i>
-                    <i class="fa- fa-2x fa-envelope" ng-click="sendMessage()"  ng-if="!isOwner && isLogged"></i>
-                    <i class="fa fa-2x my-btn fa-home" ui-route="/user/{{ profile.id }}/brief" ng-class="{active: $uiRoute}" ui-sref="profile.brief"></i>
+                    <i class="fa fa-2x my-btn" ng-class="{ 'fa-star-o' : !isFollowUser && !isOwner,'fa-star': isFollowUser && !isOwner}" ng-click="followUser(profile.id)"></i>
+                    <!--<i class="fa fa-2x fa-star-o my-btn" ng-if="!isFollowUser && !isOwner" ng-click="followUser(profile.id)"></i>-->
+                    <!--<i class="fa fa-2x fa-star my-btn" ng-if="isFollowUser && !isOwner" ng-click="unfollowUser(profile.id)"></i>-->
+                    <i class="fa fa-2x fa-gears my-btn" ng-if="isOwner" ng-class="{active: $uiRoute}" ui-route="/user/{{ profile.id }}/settings/basic" ui-sref="profile.settings.basic"></i>
+                    <i class="fa fa-2x fa-envelope my-btn" ng-click="sendMessage()"  ng-if="!isOwner && isLogged"></i>
+                    <i class="fa fa-2x my-btn fa-home my-btn" ui-route="/user/{{ profile.id }}/brief" ng-class="{active: $uiRoute}" ui-sref="profile.brief"></i>
                     <i class="fa fa-2x my-btn fa-users" ui-route="/user/{{ profile.id }}/relations" ng-class="{active: $uiRoute}" ng-if="isOwner" ui-sref="profile.relations"></i>
                     <i class="fa fa-2x my-btn fa-lightbulb-o" ui-route="/user/{{ profile.id }}/ideas" ng-class="{active: $uiRoute}" ui-sref="profile.ideas"></i>
                     <i class="fa fa-2x fa-trophy my-btn" ui-route="/user/{{ profile.id }}/challenges" ng-class="{active: $uiRoute}" ui-sref="profile.challenges"></i>
@@ -102,9 +104,9 @@
         </div>
     </div>
     <div class="center solid pbm visible-sm visible-xs">
-        <i class="fa fa-2x fa-star-o" ng-if="!isFollowUser && !isOwner" ng-click="followUser(profile.id)"></i>
-        <i class="fa fa-2x fa-star" ng-if="isFollowUser && !isOwner" ng-click="unfollowUser(profile.id)"></i>
-        <i class="fa- fa-2x fa-envelope" ng-click="sendMessage()"  ng-if="!isOwner && isLogged"></i>
+        <i class="fa fa-2x fa-star-o" ng-class="{ 'fa-star-o' : !isFollowUser && !isOwner,'fa-star': isFollowUser && !isOwner}" ng-click="followUser(profile.id)"></i>
+        <!--<i class="fa fa-2x fa-star" ng-if="isFollowUser && !isOwner" ng-click="unfollowUser(profile.id)"></i>-->
+        <i class="fa fa-2x fa-envelope my-btn" ng-click="sendMessage()"  ng-if="!isOwner && isLogged"></i>
         <i class="fa fa-2x my-btn fa-home" ui-route="/user/{{ profile.id }}/brief" ng-class="{active: $uiRoute}" ui-sref="profile.brief"></i>
         <i class="fa fa-2x my-btn fa-users" ui-route="/user/{{ profile.id }}/relations" ng-class="{active: $uiRoute}" ng-if="isOwner" ui-sref="profile.relations"></i>
         <i class="fa fa-2x my-btn fa-lightbulb-o" ui-route="/user/{{ profile.id }}/ideas" ng-class="{active: $uiRoute}" ui-sref="profile.ideas"></i>

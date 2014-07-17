@@ -31,39 +31,6 @@ angular.module('cri.user',[])
                 })
             }
         };
-//
-//
-//        $scope.collapseC = function(collapsed){
-//            $scope.$apply(function(){
-//                $scope.collapsedC = collapsed;
-//            })
-//        };
-//
-//        $scope.collapseP = function(collapsed){
-//            $scope.$apply(function(){
-//                $scope.collapsedP = collapsed;
-//            })
-//        };
-//
-//        $scope.collapseU = function(collapsed){
-//            $scope.$apply(function(){
-//                $scope.collapsedU = collapsed;
-//            })
-//        };
-//
-//        if(recommendChallenge.length>0){
-//            $scope.recommendedChallenges=recommendChallenge;
-//        }
-//        if(recommendProjects.length>0){
-//            $scope.recommendProjects=recommendProjects;
-//        }
-//        if(recommendUser.length>0){
-//            $scope.recommendUsers=recommendUser;
-//        }
-//        if(recommendFriendUser.length>0){
-//            $scope.ffollwers=recommendFriendUser;
-//        }
-//
 
 
     }])
@@ -201,40 +168,42 @@ angular.module('cri.user',[])
 
         // follow user
         $scope.followUser=function(uid){
-            users.follow(uid).then(function(result){
-                if(result.error){
-                    toaster.pop('error','error',result.error);
-                }else{
-                    $scope.isFollowUser=true;
-                    $scope.followers.push(loggedUser.profile.id);
-                    toaster.pop('success','success','you now follow '+$scope.profile.username)
-                }
-            }).catch(function(err){
-                toaster.pop('error',err.status,err.message);
-            })
-        }
-
-        //unfollow
-        $scope.unfollowUser=function(uid){
-            users.unfollow(uid).then(function(result){
-                if(result.error){
-                    toaster.pop('error','error',result.error);
-                }else{
-                    toaster.pop('success','success','you doesn\'t follow '+$scope.profile.username+' anymore');
-                    $scope.followers.splice($scope.followers.indexOf(loggedUser.profile.id),1);
-                    $scope.isFollowUser=false;
-                }
-            }).catch(function(err){
-                toaster.pop('error',err.status,err.message);
-            })
-        }
+            console.log($scope.isFollowUser)
+            if($scope.isFollowUser){
+                users.unfollow(uid).then(function(result){
+                    if(result.error){
+                        toaster.pop('error','error',result.error);
+                    }else{
+                        toaster.pop('success','success','you doesn\'t follow '+$scope.profile.username+' anymore');
+                        $scope.followers.splice($scope.followers.indexOf(loggedUser.profile.id),1);
+                        $scope.isFollowUser=false;
+                    }
+                }).catch(function(err){
+                    toaster.pop('error',err.status,err.message);
+                })
+            }else{
+                users.follow(uid).then(function(result){
+                    if(result.error){
+                        toaster.pop('error','error',result.error);
+                    }else{
+                        $scope.isFollowUser=true;
+                        $scope.followers.push(loggedUser.profile.id);
+                        toaster.pop('success','success','you now follow '+$scope.profile.username)
+                    }
+                }).catch(function(err){
+                    toaster.pop('error',err.status,err.message);
+                })
+            }
+        };
     }])
 
-    .controller('settingBasicCtrl',['$scope','users','loggedUser','toaster',function ($scope,users,loggedUser,toaster) {
+    .controller('settingBasicCtrl',['$scope','users','loggedUser','toaster','CONFIG',function ($scope,users,loggedUser,toaster,CONFIG) {
         $scope.profile=loggedUser.profile;
         if(!$scope.profile.tags){
             $scope.profile.tags=[];
         }
+
+        $scope.tinymceOption = CONFIG.tinymceOptions;
 
         $scope.updateProfile=function(user){
             users.update(user.id,user).then(function(data){
@@ -243,8 +212,7 @@ angular.module('cri.user',[])
                 toaster.pop('error',err.status,err.message);
             })
         }
-    }])
-    .controller('settingPassCtrl',['$scope','users','toaster',function ($scope,users,toaster) {
+
         $scope.updatePass=function(){
             if($scope.profile.password!=$scope.profile.password2){
                 $scope.notMatch=true;

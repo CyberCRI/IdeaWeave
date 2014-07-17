@@ -10,21 +10,27 @@ switch(parts[0]){
     var uid=parts[1]; 
     var limit=parts[2];
     var skip=parts[3];
+    console.log('limit',limit,'skip',skip)
     // get follower's activity
     function getFollowers(uid,callback){
-      dpd.followers.get({eid:uid},function(data,err){
-        if(data.length>0){
-         callback(data[0].users);    
-        }else{
-          callback('');
-        }
-      });
+        dpd.followers.get({users:{$in:[uid]},type:'users'},function(data) {
+            console.log('activity followers',data)
+            callback(data)
+        });
     }
     function getActivity(uid,callback){
         getFollowers(uid,function(data){
           if(data.length>0){
-              dpd.activities.get({owner:{$in:data},$limit:limit,$sort:{createDate:-1},context:'list',$skip:skip,action:{$in:['followChallenge','followProject','createProject','createPtopic','createPlink','commentPtopic']}},function(data,err){
-                callback(data);
+              var response = [];
+              data.forEach(function(v,k){
+                  dpd.activities.get({ owner : v.eid,$limit:limit,$sort:{createDate:-1},context:'list',$skip:skip },function(activities,err){
+                      activities.forEach(function(v,k){
+                          response.push(v)
+                      })
+                      if(k+1 == data.length){
+                          callback(response)
+                      }
+                  })
               });
           }else{
               callback('');

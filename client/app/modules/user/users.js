@@ -187,7 +187,7 @@ angular.module('cri.user')
             },
             getActivity : function(uid,skip){
                 var defered = $q.defer();
-                var url = CONFIG.apiServer+'/datas/activity/'+uid+'/10'
+                var url = CONFIG.apiServer+'/datas/activity/'+uid+'/10/'+skip
                 if(skip){
                     url += '/'+skip;
                 }

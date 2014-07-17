@@ -2,16 +2,17 @@ angular.module('cri.user')
     .config(['$stateProvider',function ($stateProvider) {
 
         $stateProvider
-            .state('userSettings',{
-                url : '/user/:uid/settings',
+            .state('profile.settings',{
+                url : '/settings',
+                abstract : true,
                 views : {
-                    mainView : {
+                    profileView : {
                         templateUrl: 'modules/user/templates/setting.tpl.html',
                         controller: 'settingBasicCtrl'
                     }
                 }
             })
-            .state('userSettings.basic',{
+            .state('profile.settings.basic',{
                 url : '/basic',
                 views : {
                     settingView: {
@@ -19,16 +20,7 @@ angular.module('cri.user')
                     }
                 }
             })
-            .state('userSettings.pass',{
-                url : '/password',
-                views : {
-                    settingView: {
-                        templateUrl: 'modules/user/templates/settings/password.tpl.html',
-                        controller: 'settingPassCtrl'
-                    }
-                }
-            })
-            .state('userSettings.avatar',{
+            .state('profile.settings.avatar',{
                 url : '/avatar',
                 views : {
                     settingView: {
@@ -37,7 +29,7 @@ angular.module('cri.user')
                     }
                 }
             })
-            .state('userSettings.notify',{
+            .state('profile.settings.notify',{
                 url : '/notify',
                 views : {
                     settingView: {

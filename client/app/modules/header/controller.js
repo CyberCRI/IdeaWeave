@@ -5,19 +5,21 @@ angular.module('cri.header',[])
                 var input = element.find('input');
                 input.bind('focus',function(){
                     scope.width = '400px';
-                })
+                });
                 input.bind('blur',function(){
                     scope.width='300px';
                 })
             }
         }
     })
-    .controller('HeaderCtrl',['$scope','loggedUser', 'users','$state','toaster','SearchBar', '$materialSidenav','$timeout', function($scope,loggedUser, users,$state,toaster,SearchBar,$materialSidenav,$timeout){
+    .controller('HeaderCtrl',['$scope','loggedUser', 'users','$state','toaster','SearchBar', '$materialSidenav','$timeout','$window', function($scope,loggedUser, users,$state,toaster,SearchBar,$materialSidenav,$timeout,$window){
         $scope.user = users;
         $scope.me = loggedUser;
 
         $scope.logout =function(){
             users.logout().then(function(){
+                //todo fix this for production
+//                $window.location.href=''
                 $state.go('main');
             })
         };
@@ -47,7 +49,7 @@ angular.module('cri.header',[])
             notifNav = $materialSidenav('notif');
 
             if($scope.me.profile){
-                users.getActivity($scope.me.profile.id).then(function(data){
+                users.getActivity($scope.me.profile.id,0).then(function(data){
                     console.log('activities',data);
                     $scope.activities = data;
                 }).catch(function(err){
