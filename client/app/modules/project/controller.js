@@ -2,7 +2,6 @@ angular.module('cri.project',[])
     .controller('ProjectCtrl',['$scope','Project','project','$modal', 'loggedUser', 'toaster','users','$sce','CONFIG','$state','loggedUser',function($scope,Project,project,$modal, loggedUser, toaster,users,$sce,CONFIG,$state,loggedUser){
 
         $scope.project = Project.data = project[0];
-        $scope.btnInfoVisible = false
         if(loggedUser){
             $scope.me = loggedUser.profile;
         }else{
@@ -10,58 +9,29 @@ angular.module('cri.project',[])
                 id : null
             }
         }
-        $scope.enterInfo = function(){
-            if($scope.me.id == $scope.project.owner){
-                $scope.btnInfoVisible = true;
-            }
-        };
-        $scope.leaveInfo = function(){
-            if($scope.me.id == $scope.project.owner){
-                $scope.btnInfoVisible = false;
-            }
-        };
         $scope.infoEditable = false;
-        $scope.editInfo = function(){
+        $scope.actionInfo = function(title){
             if($scope.me.id == $scope.project.owner) {
+                if($scope.infoEditable){
+                    Project.update($scope.project.id, { title: title}).then(function () {
+                        toaster.pop('success', 'success', 'profile updated');
+                    }).catch(function (err) {
+                        toaster.pop('error', 'error', 'profile updated');
+                    })
+                }
                 $scope.infoEditable = !$scope.infoEditable;
             }
         };
 
-        $scope.updateInfo = function(title) {
-            if($scope.me.id == $scope.project.owner){
-                Project.update($scope.project.id, { title: title}).then(function () {
-                    toaster.pop('success', 'success', 'profile updated');
-                    $scope.infoEditable = !$scope.infoEditable;
-                    $scope.project.title= title;
-                }).catch(function (err) {
-                    toaster.pop('error', 'error', 'profile updated');
-                    $scope.infoEditable = !$scope.infoEditable;
-                })
-            }
 
-        };
-        $scope.btnImgVisible = false;
-        $scope.enterPicture = function(){
-            if($scope.me.id == $scope.project.owner){
-                $scope.btnImgVisible = true;
-            }
-        };
-
-        $scope.leavePicture = function(){
-            if($scope.me.id == $scope.project.owner){
-                $scope.btnImgVisible = false;
-            }
-        };
-
+        var projectId = $scope.project.id;
         $scope.editPicture = function() {
             if ($scope.me.id == $scope.project.owner) {
-                $modal.open({
+                var modalInstance = $modal.open({
                     templateUrl: 'modules/project/templates/poster.tpl.html',
                     controller: ['$scope','Project','toaster','$modalInstance',function ($scope,Project,toaster,$modalInstance) {
-                        console.log('eed',$scope);
                         $scope.$on('cropReady',function(e,data){
-                            Project.update($scope.$$prevSibling.project.id,{ poster : data }).then(function(){
-                                $scope.$$prevSibling.project.poster = data;
+                            Project.update(projectId,{ poster : data }).then(function(){
                                 $modalInstance.close(data);
                             }).catch(function(err){
                                 $modalInstance.close(data);
@@ -74,69 +44,12 @@ angular.module('cri.project',[])
                     windowTemplateUrl : 'modules/common/modal/modal-transparent.tpl.html',
                     backdrop : 'static'
                 });
-            }
-        };
-
-        $scope.btnVisible = false;
-        $scope.enterBrief = function(){
-            if($scope.me.id == $scope.project.owner){
-                $scope.btnVisible = true;
-            }
-        };
-        $scope.leaveBrief = function(){
-            if($scope.me.id == $scope.project.owner){
-                $scope.btnVisible = false;
-            }
-        };
-        $scope.briefEditable = false;
-        $scope.editBrief = function(){
-            if($scope.me.id == $scope.project.owner) {
-                $scope.briefEditable = !$scope.briefEditable;
-            }
-        };
-        $scope.btnPrezVisible = false;
-        $scope.enterPrez = function(){
-            if($scope.me.id == $scope.project.owner){
-                $scope.btnPrezVisible = true;
-            }
-        };
-        $scope.leavePrez = function(){
-            if($scope.me.id == $scope.project.owner){
-                $scope.btnPrezVisible = false;
-            }
-        };
-        $scope.prezEditable = false;
-        $scope.editPrez = function(){
-            if($scope.me.id == $scope.project.owner) {
-                $scope.prezEditable = !$scope.prezEditable;
-            }
-        };
-
-
-        $scope.updatePrez = function(presentation) {
-            if($scope.me.id == $scope.project.owner) {
-                Project.update($scope.project.id, { presentation: presentation }).then(function () {
-                    toaster.pop('success', 'success', 'profile updated');
-                    $scope.prezEditable = !$scope.prezEditable;
-                    $scope.project.presentation = presentation;
-                    $scope.securePresentation = $sce.trustAsHtml(presentation);
-                }).catch(function (err) {
-                    toaster.pop('error', 'error', 'profile updated');
-                    $scope.prezEditable = !$scope.prezEditable;
+                modalInstance.result.then(function(data){
+                    $scope.project.poster = data;
                 })
             }
         };
-        $scope.updateBrief = function(brief){
-            Project.update($scope.project.id,{ brief : brief }).then(function(){
-                toaster.pop('success','success','profile updated');
-                $scope.briefEditable = !$scope.briefEditable;
-                $scope.project.brief = brief;
-                $scope.secureBrief = $sce.trustAsHtml(brief);
-            }).catch(function(err){
-                toaster.pop('error','error','profile updated');
-                $scope.briefEditable = !$scope.briefEditable;
-            })
-        };
+
 
         $scope.mapOptions = CONFIG.mapOptions;
 
@@ -154,7 +67,6 @@ angular.module('cri.project',[])
             $scope.project.presentationDisplay = $sce.trustAsHtml($scope.project.presentation);
         }
 
-        console.log($scope.project);
         $scope.user = loggedUser.profile;
         $scope.isLoggedIn = users.isLoggedIn();
         $scope.project=project[0];
@@ -403,8 +315,11 @@ angular.module('cri.project',[])
             })
         }
     }])
-    .controller('ProjectCreateCtrl',['$scope', 'Project', 'loggedUser', '$state', 'Challenge', 'toaster', 'Gmap', 'Files', 'CONFIG',function($scope, Project, loggedUser, $state, Challenge, toaster, Gmap, Files, CONFIG){
+    .controller('ProjectCreateCtrl',['$scope', 'Project', 'loggedUser', '$state', 'Challenge', 'toaster', 'Gmap', 'Files', 'CONFIG','$window',function($scope, Project, loggedUser, $state, Challenge, toaster, Gmap, Files, CONFIG,$window){
 
+        $scope.back = function(){
+            $window.history.back();
+        };
         $scope.newProject = {};
         $scope.titleChange = function(title){
             $scope.newProject.accessUrl = title.replace(/ /g,"_");

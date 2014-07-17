@@ -1,4 +1,3 @@
-/* general styles */
 html,
 body {
   height: 100%;
@@ -10,6 +9,9 @@ body {
 }
 .pad-section img {
   width: 100%;
+}
+material-card {
+  height: 450px;
 }
 /* vertical-centered text */
 .text-vcenter {
@@ -24,24 +26,21 @@ body {
   padding: 0;
 }
 /* additional sections */
-#home {
-  margin-top: -50px;
+.service-image {
   background-image: url(../images/idea.jpg);
   background-position: center center;
   background-repeat: no-repeat;
   background-attachment: fixed;
   display: table;
-  height: 100%;
   position: relative;
   width: 100%;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
-  color: white;
 }
 #services {
-  background-color: #306d9f;
+  background-color: #62c1c1;
   color: #ffffff;
 }
 #services .fa {
@@ -74,23 +73,65 @@ body {
 .list-carousel-challenge {
   width: 100%;
   background-repeat: no-repeat;
-  background-size: 100% 100%;
+  background-size: cover;
+}
+.carousel-body {
+  height: 100%;
 }
 .carousel-brief {
   color: white;
   width: 75%;
   margin: auto;
 }
-.login {
-  background-color: rgba(194, 196, 189, 0.8);
+.rn-carousel-indicator {
+  height: 50px !important;
+  bottom: 20px;
+  background-color: #357ebd;
 }
 .home-project-container {
   margin-top: 20px;
   margin-bottom: 20px;
 }
-.home-project {
-  background-color: rgba(194, 196, 189, 0.8);
-  height: 400px;
-  margin-right: 10px;
-  margin-left: 5px;
+.rn-carousel-container {
+  height: 100%;
+}
+.signin-form input,
+.signin-form span,
+.signin-form label {
+  width: 100%;
+  color: black;
+  border-color: black;
+}
+.signin-form label {
+  font-size: 1.2em;
+}
+.signup-form {
+  padding-bottom: 30px;
+}
+.signup-form input {
+  width: 100%;
+}
+.signin-container {
+  background: rgba(255, 255, 255, 0.9);
+  padding-left: 50px;
+  padding-right: 50px;
+}
+.tags-container {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 25px;
+}
+footer {
+  background-color: #000000;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100% !important;
+  margin-left: 0;
+  margin-right: 0;
+}
+footer a {
+  color: #ccc;
+}
+footer p {
+  color: #999;
 }

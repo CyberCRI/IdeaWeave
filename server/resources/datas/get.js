@@ -282,14 +282,15 @@ switch(parts[0]){
           challenges : [],
           projects : []
         };
-        dpd.followers.get({ type : 'challenges', $sort : { count : -1 },$limit : 6},function(cdata){
+        dpd.followers.get({ type : 'challenges', $sort : { count : -1 },$limit : 5},function(cdata){
           cdata.forEach(function(v,k){
             dpd.challenges.get({ id : v.eid},function(data){
               console.log(data)
+              delete data.poster;
               response.challenges.push(data);
             })    
-          })
-          dpd.followers.get({ type : 'project' , $sort : { count : -1 }, $limit  : 6},function(pdata){
+          });
+          dpd.followers.get({ type : 'project' , $sort : { count : -1 }, $limit  : 4},function(pdata){
               pdata.forEach(function(v,k){
                   dpd.projects.get({ id : v.eid },function(data){
                     response.projects.push(data);
@@ -299,6 +300,6 @@ switch(parts[0]){
                   })
               })      
           })
-        })
+        });
       break;
 }

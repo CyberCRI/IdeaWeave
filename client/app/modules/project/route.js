@@ -31,6 +31,7 @@ angular.module('cri.project')
                     }]
                 }
             })
+
             .state('project.details',{
                 url : '/details',
                 views : {

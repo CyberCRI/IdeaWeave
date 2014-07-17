@@ -1,0 +1,49 @@
+<form name="signup" class="signup-form container" ng-controller="RegisterCtrl">
+    <div class="center">
+        <img src="images/svg/Joinus.svg" alt="Join Us"/>
+    </div>
+    <div class="col-md-6">
+        <span class="material-input-group material-input-group-theme-light-blue">
+            <label for="signupUsername">Username</label>
+            <input id="signupUsername" type="text" ng-model="signup.username" autocomplete="false">
+        </span>
+        <span class="material-input-group material-input-group-theme-light-blue">
+            <label for="signupEmail">Email</label>
+            <input id="signupEmail" type="email" ng-model="signup.email" autocomplete="false">
+        </span>
+        <div class="tag-manager" entity="signup" ng-model="signup.tags"></div>
+        <br/>
+    </div>
+    <div class="col-md-6">
+        <span class="material-input-group material-input-group-theme-light-blue">
+            <label for="signupPassword">Password</label>
+            <input id="signupPassword" type="password" ng-model="signup.password" autocomplete="false">
+        </span>
+        <span class="material-input-group material-input-group-theme-light-blue">
+            <label for="signupPassword2">Password</label>
+            <input id="signupPassword2" type="password" ng-model="check.password" autocomplete="false">
+        </span>
+        <br/>
+        <ui-select ng-model="rgform.localisation"
+                   theme="bootstrap"
+                   reset-search-input="false">
+            <ui-select-match placeholder="Enter an address...">{{$select.selected.formatted_address}}</ui-select-match>
+            <ui-select-choices repeat="address in addresses track by $index"
+                               refresh="refreshAddresses($select.search)"
+                               refresh-delay="0">
+                <div ng-bind-html="address.formatted_address | highlight: $select.search"></div>
+            </ui-select-choices>
+        </ui-select>
+        <material-checkbox>
+            <input type="checkbox" ng-model="signupForm.isValid">
+            <small>
+                i have read the terms of services
+            </small>
+        </material-checkbox>
+        <!--<button class="material-button material-theme-light-blue material-button-raised" type="button">Register</button>-->
+        <!--<i class="fa fa-sign-in fa-2x my-btn" ng-click="registerUser()"></i>-->
+    </div>
+    <div class="col-xs-12 center">
+        <button class="btn btn-info" style="width:200px;" ng-click="registerUser($event)"> Register</button>
+    </div>
+</form>

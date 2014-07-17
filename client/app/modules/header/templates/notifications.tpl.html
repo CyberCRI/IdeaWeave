@@ -1,0 +1,201 @@
+<div style="margin-top:20px;margin-bottom: 20px;">
+    <img src="images/svg/Notifications.svg" alt="notification"/>
+    <i class="fa fa-arrow-right fa-2x my-btn pull-right" style="color:black;" ng-click="toggleNotif()"></i>
+</div>
+<div ng-if="!activities" class="alert alert-info center ">no activity yet, get involved !</div>
+<ul class="list-group"  ng-show="activities" style="color : black; font-size:1.2em;">
+    <li ng-repeat="activity in activities" class="media">
+        <div ng-switch="activity.action">
+            <div ng-switch-when="createProject">
+
+                <div owner-block="activity.owner" class="pull-left">
+                </div>
+                <article class=" center">
+                    propose a project :
+                    <span project-info='activity.entity'></span>
+                </article>
+                <div class="pull-right " >
+                    {{activity.createDate|timeago}}
+                </div>
+            </div>
+            <div ng-switch-when="createPtopic">
+                <a href="" ui-sref="project.topic" class="list-group-item">
+                    <div owner-block="activity.owner" class="pull-left"></div>
+                    <article class="center" >
+                        propose a topic：
+
+                        {{activity.entity.title}}
+
+                        from
+                        <div project-info='activity.container'></div>
+                    </article>
+                    <span class="pull-right" style="font-size:0.6em;">
+                        {{activity.createDate|timeago}}
+                    </span>
+                </a>
+
+            </div>
+            <div ng-switch-when="createPlink">
+                <div owner-block="activity.owner" class="pull-left"></div>
+                {{activity.createDate|timeago}} Idea：
+                <div project-info='activity.container'></div>
+                Add a link to participate：
+                <a href="{{activity.entity.link}}" target="_blank">
+                    {{activity.entity.title}}
+                </a>
+            </div>
+            <div ng-switch-when="commentPtopic">
+                <div owner-block="activity.owner" class="pull-left"></div>
+                Add a comment on {{activity.container.title}} ：
+                <span>{{activity.entity.text}}</span>
+                from :
+                <div project-info='activity.container.container'></div>
+                <div class="pull-right">
+                    {{activity.createDate|timeago}}
+                </div>
+            </div>
+            <div ng-switch-when="followProject">
+                <div owner-block="activity.owner" class="pull-left"></div>
+                 follow project
+                <div project-info='activity.entity' class="inline"></div>
+                <div class="pull-right">
+                    {{activity.createDate|timeago}}
+                </div>
+            </div>
+            <div ng-switch-when="followChallenge">
+                <div owner-block="activity.owner" class="pull-left"></div>
+                follow challenge
+                <div challenge-info='activity.entity' class="inline"></div>
+                <div class="pull-right">
+                    {{activity.createDate|timeago}}
+                </div>
+            </div>
+        </div>
+    </li>
+    <li>
+        <button ng-show="activities.length>=10&&!isEnd" ng-click="loadMoreActivities(noPage)" class="btn  btn-default col-xs-12">
+            Load More
+        </button>
+        <div ng-hide="activities" class="alert alert-info">Noting yet</div>
+        <div ng-show="isEnd&&activities.length>=10"  class="alert alert-info">The end !</div>
+    </li>
+</ul>
+
+
+
+<!--<ul  class="list-unstyled">-->
+<!--<material-list ng-show="activities">-->
+    <!--<material-item ng-repeat="activity in activities">-->
+        <!--<div ng-switch="activity.action">-->
+            <!--<div ng-switch-when="createProject">-->
+                <!--<div class="material-tile-left">-->
+                    <!--<div owner-block="activity.owner"></div>-->
+                <!--</div>-->
+                <!--<div class="material-tile-content">-->
+                        <!--<span class="mln">-->
+                            <!--{{user[activity.owner].username}}-->
+                        <!--</span>-->
+                    <!--<div project-info='activity.entity'></div>-->
+                <!--</div>-->
+                <!--<div class="material-tile-right">-->
+                    <!--{{activity.createDate|timeago}}-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div ng-switch-when="createPtopic">-->
+                <!--<div class="material-tile-left">-->
+                    <!--<div owner-block="activity.owner"></div>-->
+                <!--</div>-->
+                <!--<div class="material-tile-content">-->
+                        <!--<span class="mlm">-->
+                        <!--{{user[activity.owner].username}}-->
+                        <!--</span>-->
+
+                    <!--<div project-info='activity.container'></div>-->
+                    <!--Add a topic：-->
+                        <!--<span>-->
+                            <!--{{activity.entity.title}}-->
+                        <!--</span>-->
+                <!--</div>-->
+                <!--<div class="material-tile-right">-->
+                    <!--{{activity.createDate|timeago}}-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div ng-switch-when="createPlink">-->
+                <!--<div class="material-tile-left">-->
+                    <!--<div owner-block="activity.owner"></div>-->
+                <!--</div>-->
+                <!--<div class="material-tile-content">-->
+                        <!--<span class="mlm">-->
+                            <!--{{user[activity.owner].username}}-->
+                        <!--</span>-->
+                    <!--<div project-info='activity.container'></div>-->
+                    <!--Add a link to participate：-->
+                    <!--<a href="{{activity.entity.link}}" target="_blank">-->
+                        <!--{{activity.entity.title}}-->
+                    <!--</a>-->
+                <!--</div>-->
+                <!--<div class="material-tile-right">-->
+                    <!--{{activity.createDate|timeago}}-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div ng-switch-when="commentPtopic">-->
+                <!--<div class="material-tile-left">-->
+                    <!--<div owner-block="activity.owner"></div>-->
+                <!--</div>-->
+                <!--<div class="material-tile-content">-->
+                        <!--<span class="mlm">-->
+                            <!--{{user[activity.owner].username}}-->
+                        <!--</span>-->
+                    <!--<div project-info='activity.container.container'></div>-->
+                    <!--The topic：-->
+                    <!--<a href="/project/{{activity.container.container}}" target="_blank">-->
+                        <!--{{activity.container.title}}</a>Add a comment：-->
+                    <!--<span>{{activity.entity.text}}</span>-->
+                <!--</div>-->
+                <!--<div class="material-tile-right">-->
+                    <!--{{activity.createDate|timeago}}-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div ng-switch-when="followProject">-->
+                <!--<div class="material-tile-left">-->
+                    <!--<div owner-block="activity.owner"></div>-->
+                <!--</div>-->
+                <!--<div class="material-tile-content">-->
+                        <!--<span class="mlm">-->
+                            <!--{{user[activity.owner].username}}-->
+                        <!--</span>-->
+                    <!--<div project-info='activity.entity' class="inline"></div>-->
+                <!--</div>-->
+                <!--<div class="material-tile-right">-->
+                    <!--{{activity.createDate|timeago}}-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div ng-switch-when="followChallenge">-->
+                <!--<div class="material-tile-left">-->
+                    <!--<div owner-block="activity.owner"></div>-->
+                <!--</div>-->
+                <!--<div class="material-tile-content">-->
+                        <!--<span class="mlm">-->
+                            <!--{{user[activity.owner].username}}-->
+                        <!--</span>-->
+                    <!--<div challenge-info='activity.entity' class="inline"></div>-->
+                <!--</div>-->
+                <!--<div class="material-tile-right">-->
+                    <!--{{activity.createDate|timeago}}-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</material-item>-->
+<!--</material-list>-->
+
+
+<!--<button ng-show="activities.length>=10&&!isEnd" ng-click="loadMoreActivities(noPage)" class="btn  btn-default col-xs-12">-->
+    <!--Load More-->
+<!--</button>-->
+<!--<div ng-hide="activities" class="alert alert-info">-->
+    <!--no activity yet, get involved !-->
+<!--</div>-->
+<!--<div ng-show="isEnd&&activities.length>=10"  class="alert alert-info">-->
+    <!--The end !-->
+<!--</div>-->
+

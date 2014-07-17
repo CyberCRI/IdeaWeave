@@ -1,147 +1,117 @@
-<div class="container">
-        <div class="row">
-            <div class="col-md-3 col-sm-4 col-xs-12">
-                <!--Profile basic-->
-                <div class="panel panel-default">
-                    <div class="panel-body">
-                        <div class="center" style="position: relative;" ng-mouseenter="enterPicture()" ng-mouseleave="leavePicture()">
-                            <div class="row" style="height: 28px;">
-                                <span class="col-xs-offset-10 col-xs-1" style="height: 28px;">
-                                   <i class="fa fa-2x fa-edit my-btn-picture my-btn" ng-if="btnVisible" ng-click="editPicture()"></i>
-                                </span>
-                            </div>
-                            <div class="row">
-                                <img ng-src="{{profile.poster}}" ng-show="profile.poster" class="img-rounded p" width="80%">
-                                <img ng-src="images/avater.jpg" ng-hide="profile.poster" class="img-rounded" width="80%">
+<div class="row">
+    <div class="col-md-3 col-sm-4 col-xs-12">
+        <!--Profile basic-->
+        <div class="panel panel-default visible-md visible-lg">
+            <div class="panel-body">
+                <div class="center">
+                    <div class="row" style="height: 28px;">
+                        <span class="col-xs-offset-10 col-xs-1" style="height: 28px;">
+                           <i class="fa fa-2x fa-edit my-btn-picture my-btn" ng-if="me.id == profile.id" ng-click="editPicture()"></i>
+                        </span>
+                    </div>
+                    <div class="row">
+                        <img ng-src="{{profile.poster || 'images/avater.jpg'}}" class="img-rounded p" width="80%">
+                    </div>
+                </div>
+                <div class="clearfix">
+                </div>
+                <div>
+                    <div class="row" style="height: 40px;">
+                        <span class="col-xs-offset-10 col-xs-1" style="height: 40px;">
+                            <i class="fa fa-2x   my-btn" ng-class="{ 'fa-edit' : !infoEditable,'fa-save': infoEditable}"  ng-click="actionInfo(project.title)"  ng-if="me.id == profile.id " ></i>
+                        </span>
+                    </div>
+                    <h2 class="center solid pbm edit-anim" ng-if="!infoEditable">
+                        <span>
+                            {{profile.username}}
+                        </span>
+                        <small ng-show="profile.sex>0">
+                            <span ng-if="profile.sex == 1" class="text-muted">♂</span>
+                            <span ng-if="profile.sex == 2" class="text-muted" >♀</span>
+                        </small>
+                    </h2>
+                    <form class="form-horizontal solid pbm edit-anim" role="form" ng-if="infoEditable">
+                        <div class="form-group">
+                            <div class="col-xs-12">
+                                <input type="text" class="form-control" ng-model="profile.username"/>
                             </div>
                         </div>
-                        <div class="clearfix">
-                        </div>
-                        <div ng-mouseenter="enterInfo()" ng-mouseleave="leaveInfo()">
-                            <div class="row" style="height: 28px;">
-                                <span class="pull-right" style="margin-right: 15px;">
-                                    <i class="fa fa-2x fa-edit my-btn" ng-show="btnInfoVisible && !infoEditable" ng-click="editInfo()"></i>
-                                    <i class="fa fa-2x fa-save my-btn" ng-if="btnInfoVisible && infoEditable" ng-click="updateInfo(profile.presentation)"></i>
-                                    <i class="fa fa-2x fa-times my-btn" ng-if="btnInfoVisible && infoEditable" ng-click="editInfo()"></i>
-                                </span>
+                        <div class="form-group">
+                            <div class="col-xs-12">
+                                <select ng-model="profile.sex" class="form-control" >
+                                    <option value='0'>{{'USERSET_BASIC_H'|translate}}</option>
+                                    <option value='1'>{{'USERSET_BASIC_M'|translate}}</option>
+                                    <option value='2'>{{'USERSET_BASIC_F'|translate}}</option>
+                                </select>
                             </div>
-                            <h2 class="center solid pbm" ng-if="!infoEditable">
-                                <span>
-                                    {{profile.username}}
-                                </span>
-                                <small ng-show="profile.sex>0">
-                                    <span ng-if="profile.sex == 1" class="text-muted">♂</span>
-                                    <span ng-if="profile.sex == 2" class="text-muted" >♀</span>
-                                </small>
-                            </h2>
-                            <form class="form-horizontal solid pbm" role="form" ng-if="infoEditable">
-                                <div class="form-group">
-                                    <div class="col-xs-12">
-                                        <input type="text" class="form-control" ng-model="profile.username"/>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-xs-12">
-                                        <select ng-model="profile.sex" class="form-control" >
-                                            <option value='0'>{{'USERSET_BASIC_H'|translate}}</option>
-                                            <option value='1'>{{'USERSET_BASIC_M'|translate}}</option>
-                                            <option value='2'>{{'USERSET_BASIC_F'|translate}}</option>
-                                        </select>
-                                    </div>
-                                </div>
+                        </div>
 
-                            </form>
+                    </form>
+                </div>
+                <div class="center solid pbm">
+                    <i class="fa fa-2x fa-star-o" ng-if="!isFollowUser && !isOwner" ng-click="followUser(profile.id)"></i>
+                    <i class="fa fa-2x fa-star" ng-if="isFollowUser && !isOwner" ng-click="unfollowUser(profile.id)"></i>
+                    <i class="fa- fa-2x fa-envelope" ng-click="sendMessage()"  ng-if="!isOwner && isLogged"></i>
+                    <i class="fa fa-2x my-btn fa-home" ui-route="/user/{{ profile.id }}/brief" ng-class="{active: $uiRoute}" ui-sref="profile.brief"></i>
+                    <i class="fa fa-2x my-btn fa-users" ui-route="/user/{{ profile.id }}/relations" ng-class="{active: $uiRoute}" ng-if="isOwner" ui-sref="profile.relations"></i>
+                    <i class="fa fa-2x my-btn fa-lightbulb-o" ui-route="/user/{{ profile.id }}/ideas" ng-class="{active: $uiRoute}" ui-sref="profile.ideas"></i>
+                    <i class="fa fa-2x fa-trophy my-btn" ui-route="/user/{{ profile.id }}/challenges" ng-class="{active: $uiRoute}" ui-sref="profile.challenges"></i>
+                </div>
+                <div class="solid center pbm ">
+                    <h3 >
+                        <span>
+                            {{followers.length}}<br>
+                            <small class="text-muted">
+                                {{'FOLLOWER'|translate}}
+                            </small>
+                        </span>
+                    </h3>
+                    <h3>
+                        <span>
+                            {{followings.length}}<br>
+                            <small class="text-muted">
+                                {{'FOLLOWING'|translate}}
+                            </small>
+                        </span>
+                    </h3>
+                    <h3>
+                        {{profile.score}}<br>
+                        <small class="text-muted">
+                            {{'SCORE'|translate}}
+                        </small>
+                    </h3>
+                    <div class="mbm">
+                        {{profile.rule}}
+                        <span class="text-muted">
+                            ({{profile.score}}/{{profile.next}})
+                        </span>
+                    </div>
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="{{profile.ugProgress}}" aria-valuemin="0" aria-valuemax="100" style="width: {{profile.ugProgress}}%" tooltip="{{profile.ugProgress}}%">
+                            <span class="sr-only">{{profile.ugProgress}}% </span>
                         </div>
-                        <div class="center solid pbm">
-                            <i class="fa fa-2x fa-star-o" ng-if="!isFollowUser && !isOwner" ng-click="followUser(profile.id)"></i>
-                            <i class="fa fa-2x fa-star" ng-if="isFollowUser && !isOwner" ng-click="unfollowUser(profile.id)"></i>
-                            <i class="fa- fa-2x fa-envelope" ng-click="sendMessage()"  ng-if="!isOwner && isLogged"></i>
-                            <i class="fa fa-2x my-btn fa-home" ui-route="/user/{{ profile.id }}/brief" ng-class="{active: $uiRoute}" ui-sref="profile.brief"></i>
-                            <i class="fa fa-2x my-btn fa-users" ui-route="/user/{{ profile.id }}/relations" ng-class="{active: $uiRoute}" ng-if="isOwner" ui-sref="profile.relations"></i>
-                            <i class="fa fa-2x my-btn fa-lightbulb-o" ui-route="/user/{{ profile.id }}/ideas" ng-class="{active: $uiRoute}" ui-sref="profile.ideas"></i>
-                            <i class="fa fa-2x fa-trophy my-btn" ui-route="/user/{{ profile.id }}/challenges" ng-class="{active: $uiRoute}" ui-sref="profile.challenges"></i>
-                        </div>
-                        <div class="solid center pbm ">
-                            <h3 >
-                                <span>
-                                    {{followers.length}}<br>
-                                    <small class="text-muted">
-                                        {{'FOLLOWER'|translate}}
-                                    </small>
-                                </span>
-                            </h3>
-                            <h3>
-                                <span>
-                                    {{followings.length}}<br>
-                                    <small class="text-muted">
-                                        {{'FOLLOWING'|translate}}
-                                    </small>
-                                </span>
-                            </h3>
-                            <h3>
-                                {{profile.score}}<br>
-                                <small class="text-muted">
-                                    {{'SCORE'|translate}}
-                                </small>
-                            </h3>
-                            <div class="mbm">
-                                {{profile.rule}}
-                                <span class="text-muted">
-                                    ({{profile.score}}/{{profile.next}})
-                                </span>
-                            </div>
-                            <div class="progress">
-                                <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="{{profile.ugProgress}}" aria-valuemin="0" aria-valuemax="100" style="width: {{profile.ugProgress}}%" tooltip="{{profile.ugProgress}}%">
-                                    <span class="sr-only">{{profile.ugProgress}}% </span>
-                                </div>
-                            </div>
-                            <d3-tag-cloud tags="d3Tags" on-click="showTag(item)" options="{ width : 150, height:200 }"></d3-tag-cloud>
-                        </div>
-                        <div class="pbm mtl mbl">
-                            <div class="text-muted">
-                                Join date:{{profile.createDate|date}}
-                            </div>
-                        </div>
+                    </div>
+                    <d3-tag-cloud tags="d3Tags" on-click="showTag(item)" options="{ width : 150, height:200 }"></d3-tag-cloud>
+                </div>
+                <div class="pbm mtl mbl">
+                    <div class="text-muted">
+                        Join date:{{profile.createDate|date}}
                     </div>
                 </div>
             </div>
-            <div class="col-md-9 col-sm-8 col-xs-12">
-                <ul class="nav nav-tabs mbm">
-                    <!--<li ui-route="/user/{{ profile.id }}/activity" ng-class="{active: $uiRoute}" ng-show="isOwner">-->
-                        <!--<a ui-sref="profile.activity">-->
-                            <!--{{'PROFILE_ACTIVITY'|translate}}-->
-                        <!--</a>-->
-                    <!--</li>-->
-                    <!--<li ui-route="/user/{{ profile.id }}/brief" ng-class="{active: $uiRoute}">-->
-                        <!--<a ui-sref="profile.brief">-->
-                            <!--brief-->
-                        <!--</a>-->
-                    <!--</li>-->
-                    <!--<li ui-route="/user/{{ profile.id }}/ideas" ng-class="{active: $uiRoute}">-->
-                        <!--<a ui-sref="profile.ideas">-->
-                            <!--{{'PROFILE_IDEA'|translate}}-->
-                        <!--</a>-->
-                    <!--</li>-->
-                    <!--<li ui-route="/user/{{ profile.id }}/challenges" ng-class="{active: $uiRoute}">-->
-                        <!--<a ui-sref="profile.challenges">-->
-                            <!--{{'PROFILE_CHALLENGE'|translate}}-->
-                        <!--</a>-->
-                    <!--</li>-->
-                    <!--<li ui-route="/user/{{ profile.id }}/relations" ng-class="{active: $uiRoute}" ng-if="isOwner">-->
-                        <!--<a ui-sref="profile.relations">-->
-                            <!--{{'PROFILE_RELATION'|translate}}-->
-                        <!--</a>-->
-                    <!--</li>-->
-                    <!--<li ui-route="/user/{{ profile.id }}/recomandation" ng-class="{active: $uiRoute}" ng-if="isOwner">-->
-                        <!--<a ui-sref="profile.recomandation">-->
-                            <!--{{'PROFILE_RECOMMANDATION'|translate}}-->
-                        <!--</a>-->
-                    <!--</li>-->
-                </ul>
-                <div ui-view="profileView">
-                </div>
-                <div class="clearfix mbm">
-                </div>
-            </div>
+        </div>
+    </div>
+    <div class="center solid pbm visible-sm visible-xs">
+        <i class="fa fa-2x fa-star-o" ng-if="!isFollowUser && !isOwner" ng-click="followUser(profile.id)"></i>
+        <i class="fa fa-2x fa-star" ng-if="isFollowUser && !isOwner" ng-click="unfollowUser(profile.id)"></i>
+        <i class="fa- fa-2x fa-envelope" ng-click="sendMessage()"  ng-if="!isOwner && isLogged"></i>
+        <i class="fa fa-2x my-btn fa-home" ui-route="/user/{{ profile.id }}/brief" ng-class="{active: $uiRoute}" ui-sref="profile.brief"></i>
+        <i class="fa fa-2x my-btn fa-users" ui-route="/user/{{ profile.id }}/relations" ng-class="{active: $uiRoute}" ng-if="isOwner" ui-sref="profile.relations"></i>
+        <i class="fa fa-2x my-btn fa-lightbulb-o" ui-route="/user/{{ profile.id }}/ideas" ng-class="{active: $uiRoute}" ui-sref="profile.ideas"></i>
+        <i class="fa fa-2x fa-trophy my-btn" ui-route="/user/{{ profile.id }}/challenges" ng-class="{active: $uiRoute}" ui-sref="profile.challenges"></i>
+    </div>
+    <div class="col-md-9 col-sm-8 col-xs-12">
+        <div ui-view="profileView">
+        </div>
     </div>
 </div>

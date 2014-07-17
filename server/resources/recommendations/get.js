@@ -55,15 +55,23 @@ switch(parts[0]){
                                     if(follow[0]){
                                         if(!inArray(user.id,follow[0].users)){
                                             if(!inArray(challenge.id,result)){
-                                                result.push(challenge.id);
+                                                dpd.challenges.get({ id : challenge.id },function(data){
+                                                    result.push(data);
+                                                    if(k == challenges.length - 1 ){
+                                                       setResult(result);
+                                                    }
+                                                })
                                             }
                                         }
                                     }else{
-                                        result.push(challenge.id)
+                                        dpd.challenges.get({ id : challenge.id },function(data){
+                                            result.push(data);
+                                        })   
+                                        if(k == challenges.length - 1 ){
+                                           setResult(result);
+                                        }
                                     }
-                                    if(k == challenges.length - 1 ){
-                                        setResult(result);
-                                    }
+
                                 });
 
                             })
@@ -84,12 +92,22 @@ switch(parts[0]){
                                 if(follow[0]){
                                     if(!inArray(user.id,follow[0].users)){
                                         if(!inArray(project.id,result)){
-                                            result.push(project.id);
+                                            dpd.projects.get({ id : project.id },function(data){
+                                                result.push(data);
+                                                if(k == projects.length - 1 ){
+                                                   setResult(result);
+                                                }
+                                            })
                                         }
                                     }
 
                                 }else{
-                                    result.push(user.id)
+                                    dpd.projects.get({ id : project.id },function(data){
+                                        result.push(data);
+                                        if(k == projects.length - 1 ){
+                                           setResult(result);
+                                        }
+                                    }) 
                                 }
 
                             })

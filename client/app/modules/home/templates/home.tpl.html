@@ -1,8 +1,35 @@
 <!-- first section - Home -->
-<div>
-    <ul rn-carousel rn-carousel-indicator="" style="width:100%; height:500px;">
-        <li class="list-carousel-challenge" ng-repeat="challenge in challenges" ng-style="{backgroundImage : 'url(' + challenge.poster + ')', position : 'relative'}">
-            <article class="carousel-body">
+<section style="width:100%; height:100%;">
+    <ul rn-carousel rn-carousel-indicator="" rn-carousel-control=""  style="height:100%;">
+        <li class="list-carousel-challenge" ng-repeat="challenge in challenges" ng-style="{backgroundImage : 'url(images/carousel/fond' +$index+ '.png)', position : 'relative'}" style="height: 100%;">
+            <section class="carousel-body center" ng-if="challenge.intro == 1" style="height:100%;position:relative">
+                <hgroup  style="position:absolute; top:0;bottom:0; right:0;left:0;  margin: auto;height : 200px;color:white;">
+                    <h1 class="center">
+                        IdeaStorm
+                    </h1>
+                    <h2 class="center">
+                        IdeaStorm is a platform for exchanging ideas and forming groups around exciting projects to solve problems.
+                    </h2>
+                    <p style="font-size:1.5em;">
+                        Organizations or individuals pose challenges, which are like competitions, and people suggest projects that meet this challenge. Anyone can follow and join a project to help develop it.
+                    </p>
+                </hgroup>
+
+            </section>
+            <section class="carousel-body" ng-if="challenge.intro == 2" style="height:100%;position:relative">
+                <article style="position:absolute; top:0;bottom:0;  margin: auto;height : 200px;">
+                    <p style="text-align: center; font-size:2em;">
+                        You would like to showcase your project to a growing public in order to find supporters, get advice from experts or simply test if you are communicating comprehensively?
+                        Ideastorm provides you with a dedicated space and feedback tools that are easy to use.
+                    </p>
+                    <br/>
+                    <p class="center" style="font-size:1.5em">
+                        You can check our most popular challenges ==>
+                    </p>
+                </article>
+
+            </section>
+            <article class="carousel-body"nf-if="!challenge.intro">
                 <h1 class="center center-vertical ">
                     <a ui-sref="challenge.details({ pid : challenge.accessUrl })">{{challenge.title}}</a>
                 </h1>
@@ -10,52 +37,69 @@
                 </p>
                 <div showtags="" entity="challenge" style="position:absolute; bottom : 10px; right:50px;"></div>
                 <div style="position : absolute; bottom : 50px; left : 45%; right: 45%; width: 10%" class="center">
-                    <a class="btn btn-default" href="#login">Join us</a>
+                    <a class="btn btn-default" href="#signin" ng-if="!me">Join us</a>
                 </div>
             </article>
         </li>
     </ul>
-</div>
-<div id="services" class="pad-section">
-    <div class="container"  du-parallax x="servicesParalax">
-        <h2 class="text-center">Our Services</h2> <hr />
-        <div class="row text-center">
-            <div class="col-sm-3 col-xs-6">
-                <i class="fa fa-lightbulb-o fa-5x"> </i>
-                <h4>Service 1</h4>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec in sem cras amet. Donec in sem cras amet.</p>
-            </div>
-            <div class="col-xs-6"  >
-                <div class="map-wrapper">
-                    <google-map options="mapOptions" center="{ latitude : '10',longitude : '0' }"  zoom="1" class="home-map" draggable="false">
-                        <marker coords="location"  ng-repeat="location in locations"></marker>
-                    </google-map>
+</section>
+<section class="service-image">
+    <section id="services" class="pad-section">
+        <div class="container">
+            <h2 class="text-center">Ideastorm provides a simple collaborative working environment, the possibility to organise and archive discussions, a clear visibility on the taks to be performed and the resources needed.</h2> <hr />
+            <div class="row text-center">
+                <div class="col-sm-3 col-xs-12">
+                    <i class="fa fa-lightbulb-o fa-5x"> </i>
+                    <h4>Innovation</h4>
+                    <p>Organizations or individuals pose challenges, which are like competitions, and people suggest projects that meet this challenge. Anyone can follow and join a project to help develop it.
+                    </p>
+                </div>
+                <div class="col-md-6 visible-md visible-lg visible-md"  >
+                    <d3-tag-cloud tags="tags" on-click="showTag(item)" options="{ width : 500,height : 300,center : true}" ></d3-tag-cloud>
+
+
+                    <!--<div class="map-wrapper">-->
+                        <!--<google-map options="mapOptions" center="{ latitude : '10',longitude : '0' }"  zoom="1" class="home-map" draggable="false">-->
+                            <!--<marker coords="location"  ng-repeat="location in locations"></marker>-->
+                        <!--</google-map>-->
+                    <!--</div>-->
+                </div>
+                <div class="col-sm-3 col-xs-12">
+                    <i class="fa fa-users fa-5x"> </i>
+                    <h4>Team Work</h4>
+                    <p>You and your team want to collaborate effectively without sending back and forth millions of e-mails and documents ?
+                    </p>
                 </div>
             </div>
-            <div class="col-sm-3 col-xs-6">
-                <i class="fa fa-users fa-5x"> </i>
-                <h4>Service 4</h4>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec in sem cras amet. Donec in sem cras amet.</p>
-            </div>
         </div>
-    </div>
-</div>
-<section class="container home-project-container">
-    <article ui-sref="project.details({ pid : project.accessUrl })" ng-repeat="project in projects" class="col-xs-12 col-sm-3 home-project">
-        <img ng-src="project.poster" alt="here {{ project.title }} 's poster" width="100%"/>
-        <h1 ng-bind="project.title"></h1>
-        <p ng-bind-html="project.brief"></p>
-    </article>
-</section>
-<div id="information" class="pad-section">
-    <div class="row">
-        <div class="col-md-12" >
-            <div x="tagCloudParalax" du-parallax>
-                <d3-tag-cloud tags="tags" on-click="showTag(item)" options="{ width : 1080,height : 400,center : true}" ></d3-tag-cloud>
-            </div>
+    </section>
+    <section class="container home-project-container" ng-if="projects.length >= 3">
+        <h2 class="center" style="color:white;" ng-if="!me.profile">Popular Projects</h2>
+        <h2 class="center" style="color:white;" ng-if="me.profile">Recommended projects</h2>
+        <div class="material-display-flex material-flex-h">
+            <material-whiteframe ng-repeat="project in projects" class="material-flex material-display-flex material-flex-center material-whiteframe-z1">
+                <div class="material-flex">
+                    <material-card>
+                        <img ng-src="{{project.poster || 'http://placehold.it/275x275'}}" alt="here {{ project.title }} 's poster" class="material-card-image">
+                        <h2>
+                            <a href="" ui-sref="project.details({ pid : project.accessUrl })" ng-bind="project.title"></a>
+                        </h2>
+                        <p showtags entity="project"></p>
+                        <!--<p ng-bind-html="project.brief">-->
+                        <!--</p>-->
+                    </material-card>
+                </div>
+            </material-whiteframe>
         </div>
-        <div ng-include id="footer" src="'modules/footer/templates/footer.tpl.html'"></div>
+    </section>
+    <section class="row" id="signin" ng-if="!me">
+        <div class="signin-container">
+            <ng-include src="'/modules/account/templates/signup.tpl.html'">
 
-    </div>
-</div>
+            </ng-include>
+        </div>
+    </section>
+</section>
+
+<div ng-include id="footer" src="'modules/footer/templates/footer.tpl.html'"></div>
 

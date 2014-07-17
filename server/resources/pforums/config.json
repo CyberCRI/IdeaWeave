@@ -58,6 +58,14 @@
 			"required": false,
 			"id": "urls",
 			"order": 6
+		},
+		"type": {
+			"name": "type",
+			"type": "string",
+			"typeLabel": "string",
+			"required": false,
+			"id": "type",
+			"order": 7
 		}
 	},
 	"path": "/pinfos"

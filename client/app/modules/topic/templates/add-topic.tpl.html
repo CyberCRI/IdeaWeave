@@ -1,0 +1,34 @@
+<form class="form-horizontal pam" name="myTopicForm" role="form">
+    <div class="form-group">
+        <div class=" col-xs-12">
+            <ui-select ng-model="tf.type" theme="bootstrap" style="width: 100%;">
+                <ui-select-match placeholder="Select the type of note you want write">
+                    <i class="fa fa-2x" ng-class="{'fa-comments' : $select.selected.id == 1,'fa-tasks' : $select.selected.id == 2, 'fa-flask' : $select.selected.id == 3,'fa-graduation-cap':$select.selected.id == 4 }"></i>
+                    {{$select.selected.title}}
+                </ui-select-match>
+                <ui-select-choices repeat="category in categories">
+                    <i class="fa fa-2x" ng-class="{'fa-comments' : category.id == 1,'fa-tasks' : category.id == 2, 'fa-flask' : category.id == 3,'fa-graduation-cap':category.id == 4 }"></i>
+                    <span ng-bind-html="category.title | highlight: $select.search"></span>
+                </ui-select-choices>
+            </ui-select>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class=" col-xs-12">
+            <span class="material-input-group">
+                <label for="title">Title</label>
+                <input id="title" type="text" ng-model="tf.title" required="" >
+            </span>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-xs-12">
+            <textarea ui-tinymce="tinymceOptions" ng-model="tf.text"></textarea>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class=" col-sm-offset-3 col-xs-6">
+            <button type="submit" class="btn btn-info btn-block" ng-disabled="myTopicForm.$invalid"  ng-click="addTopic(tf)">{{'PROJECT_VIEW_DIS_BTN'|translate}}</button>
+        </div>
+    </div>
+</form>

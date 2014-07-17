@@ -1,4 +1,5 @@
-/* general styles */
+@import "variables";
+
 html, body {
   height: 100%;
   width: 100%;
@@ -10,6 +11,10 @@ html, body {
 }
 .pad-section img {
   width: 100%;
+}
+
+material-card{
+  height : 450px;
 }
 
 /* vertical-centered text */
@@ -26,27 +31,24 @@ html, body {
 }
 
 /* additional sections */
-#home {
-  margin-top : -50px;
+.service-image {
   background-image: url(../images/idea.jpg);
   background-position : center center;
   background-repeat : no-repeat;
   background-attachment: fixed;
   display: table;
-  height: 100%;
   position: relative;
   width: 100%;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
-  color: white;
 }
 
 
 
 #services {
-  background-color: #306d9f;
+  background-color: rgba(98,193,193,1);
   color: #ffffff;
 }
 #services .fa {
@@ -84,12 +86,13 @@ html, body {
 //  -webkit-filter: blur(5px); -moz-filter: blur(5px); -ms-filter: blur(5px); -o-filter: blur(5px); filter: blur(5px);
   width : 100%;
   background-repeat: no-repeat;
-  background-size: 100% 100%;
+  background-size: cover;
 //  background-position: top left;
 }
 
-.center-vertical{
-//  line-height:5em;
+
+.carousel-body{
+  height: 100%;
 }
 
 .carousel-brief{
@@ -98,8 +101,11 @@ html, body {
   margin:auto;
 }
 
-.login{
-  background-color: rgba(194, 196, 189, 0.8);
+.rn-carousel-indicator{
+  height: 50px !important;
+//  z-index: 100;
+  bottom : 20px;
+  background-color: #357ebd;
 }
 
 .home-project-container{
@@ -107,9 +113,51 @@ html, body {
   margin-bottom: 20px;
 }
 
-.home-project{
-  background-color: rgba(194, 196, 189, 0.8);
-  height: 400px;
-  margin-right: 10px;
-  margin-left : 5px;
+
+.rn-carousel-container {
+  height:100%;
+}
+
+.signin-form{
+  input,span,label{
+    width : 100%;
+    color : black;
+    border-color : black;
+  }
+  label{
+    font-size : 1.2em;
+  }
+}
+
+.signup-form{
+  padding-bottom:30px;
+  input{
+    width : 100%;
+  }
+}
+
+.signin-container{
+  background: @backgroundForm;
+  padding-left: 50px;
+  padding-right : 50px;
+}
+
+.tags-container{
+  background: @backgroundForm;
+  padding: 25px;
+}
+footer{
+  background-color : @footerBg;
+  bottom : 0;
+  left : 0;
+  right : 0;
+  width : 100% !important;
+  margin-left :0;
+  margin-right: 0;
+  a {
+    color:#ccc;
+  }
+  p {
+    color:#999;
+  }
 }

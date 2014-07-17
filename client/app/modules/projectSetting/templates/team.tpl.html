@@ -1,29 +1,32 @@
-    <div class="row">
-        <div class="col-sm-10 ">
-            <div class="panel panel-default">
-                <div class="panel-heading">Member:</div>
-                <div class="panel-body">
-                    <ul class="list-unstyled">
-                        <li class="mas pull-left" ng-repeat="member in project.member">
-                            <div user-block="member" del="true" index="{{$index}}" ></div>
-                        </li>
-                     </ul>
-                </div>
+<h2 class="center">
+    Team
+</h2>
+<div class="row">
+    <div class="col-sm-10 ">
+        <div class="panel panel-default">
+            <div class="panel-heading">Member:</div>
+            <div class="panel-body">
+                <ul class="list-unstyled">
+                    <li class="mas pull-left" ng-repeat="member in project.member">
+                        <div user-block="member" del="true" index="{{$index}}" ></div>
+                    </li>
+                 </ul>
             </div>
-            <div class="panel panel-default">
-                <div class="panel-heading">Add Team Member:</div>
-                <div class="panel-body">
-                    <form name="inviteform">
-                        <label>Email:</label>
-                        <input type="email" ng-model="invite.friend" class="form-control" required=""><br>
-                        <label>Title:</label>
-                        <input type="text" ng-model="invite.subject" class="form-control"  required=""><br>
-                        <label>Content:</label>
-                        <textarea rows="5"  class="form-control" ng-model="invite.message" required=""></textarea>
-                        <br>
-                        <button class="btn btn-success" ng-disabled="inviteform.$invalid" ng-click="sendInvite()">Send Invitation</button>
-                    </form>
-                </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">Add Team Member:</div>
+            <div class="panel-body">
+                <form name="inviteform">
+                    <label>Email:</label>
+                    <input type="email" ng-model="invite.friend" class="form-control" required=""><br>
+                    <label>Title:</label>
+                    <input type="text" ng-model="invite.subject" class="form-control"  required=""><br>
+                    <label>Content:</label>
+                    <textarea rows="5"  class="form-control" ng-model="invite.message" required=""></textarea>
+                    <br>
+                    <button class="btn btn-success" ng-disabled="inviteform.$invalid" ng-click="sendInvite()">Send Invitation</button>
+                </form>
             </div>
         </div>
     </div>
+</div>

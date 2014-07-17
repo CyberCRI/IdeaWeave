@@ -122,6 +122,14 @@
 			"required": false,
 			"id": "localisation",
 			"order": 14
+		},
+		"trello": {
+			"name": "trello",
+			"type": "string",
+			"typeLabel": "string",
+			"required": false,
+			"id": "trello",
+			"order": 15
 		}
 	},
 	"path": "/projects"

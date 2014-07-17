@@ -6,10 +6,10 @@
         <img ng-src="images/avater.jpg" ng-hide="user[uid].poster" width="45px"  class="img-rounded" >
     </a>
     <div class="media-body">
-        <b><span ng-hide="user[uid].realname">{{user[uid].username}}</span><span ng-show="user[uid].realname">{{user[uid].realname}}</span><small ng-show="user[uid].sex>0" ng-switch="user[uid].sex">
-            <span ng-switch-when="1" class="text-muted">♂</span>
-            <span ng-switch-when="2" class="text-muted">♀</span>
-        </small> <span class="mlm">{{user[uid].score}} point</span></b><br>
+        <b>
+            <span ng-hide="user[uid].realname">{{user[uid].username}}</span>
+            <span ng-show="user[uid].realname">{{user[uid].realname}}</span>
+        </b>
         <span showtags="" entity="user[uid]"></span>
     </div>
 

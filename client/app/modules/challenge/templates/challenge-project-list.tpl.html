@@ -1,86 +1,40 @@
-<section class="row">
-    <div class="pull-right" >
-        <span ng-show="filterMode" class="filter-input ">
-            <input type="search"  ng-model="search.title"/>
-        </span>
-        <i class="fa fa-search fa-2x my-btn" tooltip="filter by title" ng-click="enableFilterMode()"></i>
-        <i class="fa fa-plus fa-2x my-btn" tooltip="Suggest a project" ui-sref="challenge.projectCreation"  ng-if="me"></i>
+<h2 class="center">Project lists</h2>
+<div class="row" style="padding-left:50px; padding-right: 50px;">
+    <div class="row">
+        <div class="col-xs-offset-10 col-xs-2" >
+            <i class="fa fa-plus fa-2x my-btn" tooltip="Suggest a project" ui-sref="challenge.projectCreation"  ng-if="me"></i>
+            <span class="material-input-group material-input-group-theme-light-blue" style="display: inline-block;">
+                <label for="filterProjects">
+                    <i class="fa fa-search fa-2x"></i>
+                    filter by title
+                </label>
+                <input id="filterProjects" type="search" ng-model="search.title" autocomplete="false">
+            </span>
+            <i class="fa fa-plus fa-2x my-btn" tooltip="Suggest a project" ui-sref="projectsuggest"  ng-if="isLogged"></i>
+        </div>
     </div>
-</section>
-<section class="row" style="margin-top: 20px;">
-    <section class="col-xs-12">
-        <ul class="media-list">
-            <li class="media edit-menu" ng-repeat="project in projects | orderBy:orderProp:true track by $index">
-                <a class="pull-left" ui-sref="project.details({ pid : project.accessUrl })">
-                    <img class="media-object" ng-src="{{ project.poster }}" alt="{{ project.title }}'s poster" height="100px">
+    <div class="clearfix"></div>
+    <div class="row" >
+        <ul class="media-list" >
+            <li class="media edit-menu" ng-repeat="project in projects | filter:search track by $index">
+                <a ui-sref="project.details({ pid : project.accessUrl })" class="pull-left ">
+                    <img ng-src="{{project.poster || 'http://placehold.it/90x90'}}" class="media-object img-rounded" style="height:90px;max-width: 100%">
                 </a>
-                <div class="media-body">
-                    <h4 class="media-heading" ng-bind="project.title"></h4>
-                    <ul class="list-unstyled">
-                        <li ng-repeat="tag in project.tags" class="inline mas">
-                            <a ui-sref="tag({ title : tag })" class="text-muted">
-                                #{{ tag }}
-                            </a>
-                        </li>
-                    </ul>
-                </div>
+                <article class="media-body">
+                    <h1 class="media-heading">
+                        <a ui-sref="project.details({ pid : project.accessUrl })">{{project.title}}</a>
+                    </h1>
+                    <time class="pull-right">
+                        created by : <span owner-block="project.owner"></span>
+                    </time>
+                    <div showtags="" entity="project" style="font-size:1.5em;"></div>
+                </article>
+
             </li>
         </ul>
-        <div ng-hide="challenges" class="alert alert-info">no project yet</div>
-        <button ng-show="projects.length>=4&&!isEnd" ng-click="loadMoreProjects(noPage)" class="btn  btn-default col-xs-12">Load more</button>
-    </section>
-</section>
-
-
-
-
-
-
-
-
-
-
-<!--<div class="container">-->
-    <!--<div class="col-xs-6">-->
-        <!--<div class="input-group">-->
-            <!--<input type="search" class="form-control" ng-model="searchProject" id="searchField" placeholder="e.g:Innovation">-->
-            <!--<span class="input-group-addon" ng-click="queryProject()"><i class="fa fa-search fa-fw"></i></span>-->
-        <!--</div>-->
-    <!--</div>-->
-    <!--<div class="col-xs-3">-->
-        <!--&lt;!&ndash; sort by&ndash;&gt;-->
-        <!--<select class="form-control" ng-model="sortBy" ng-change="changeSort()">-->
-            <!--<option value="0">Fly degrees</option>-->
-            <!--<option value="1" >Latest updates</option>-->
-            <!--<option value="2" >Created</option>-->
-        <!--</select>-->
-    <!--</div>-->
-    <!--<div class="clearfix"></div>-->
-    <!--<div class="solid ptm"></div>-->
-
-    <!--<i ng-show="isLoading" class="icon-refresh icon-3x icon-spin"></i>-->
-
-    <!--<div class="col-sm-6 col-md-4" ng-repeat="project in projects | orderBy:orderProp:true track by $index">-->
-        <!--<div class="thumbnail" >-->
-            <!--<a ui-sref="project({ pid : project.accessUrl })">-->
-                <!--<img ng-src="{{project.poster}}" alt="..." class="img-rounded mbm" style="height:180px">-->
-                <!--<div class="caption center">-->
-                    <!--<h3>{{project.title}}</h3>-->
-                    <!--<p ng-bind-html="project.brief" class="thumb-project-brief"></p>-->
-                    <!--<div class="progress" >-->
-                        <!--<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{project.score}}" aria-valuemin="0" aria-valuemax="100" style="width: {{project.score}}%" tooltip="靠谱度：{{project.score}}%">-->
-                            <!--<span class="sr-only">{{project.score}}% Complete (success)</span>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                    <!--<p>-->
-                        <!--<small style="color:#666">Last Updated：{{project.updateDate|timeago}}</small>-->
-                    <!--</p>-->
-                    <!--<p>-->
-                        <!--<small style="color:#666">Founded on：{{project.createDate|date}} </small>-->
-                    <!--</p>-->
-                <!--</div>-->
-            <!--</a>-->
-        <!--</div>-->
-    <!--</div>-->
-    <!--<button ng-show="projects.length>=4&&!isEnd" ng-click="loadMoreProjects(noPage)" class="btn  btn-default col-xs-12">Load more</button>-->
-<!--</div>-->
+        <div class="clearfix"></div>
+        <button ng-show="projects.length>=4&&!isEnd" ng-click="loadMoreprojects(noPage)" class="btn  btn-default col-xs-12">{{'BTN_MORE'|translate}}</button>
+    </div>
+    <div ng-hide="projects" class="alert alert-info">{{'project_LIST_NORESULT'|translate}}</div>
+    <div ng-show="isEnd&&projects.length>=4"  class="alert alert-info">{{'project_LIST_END'|translate}}</div>
+</div>

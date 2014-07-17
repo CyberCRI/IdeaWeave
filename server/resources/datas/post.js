@@ -26,7 +26,6 @@ var type=parts[0];
  }
  
  function unfollowUpdate(eid,type){
-     console.log('here')
    switch(type){
          case 'users':
       // add activity
@@ -116,7 +115,7 @@ var type=parts[0];
             // notify user the hash code
             var hash=-hashCode(data[0].email);
            
-        var message="You asked to reset the password , if not for you, please ignore this message. Verification code below:"+hash;
+        var message="Hello your username is "+data.username+". You asked to reset the password , if not for you, please ignore this message. Verification code below:"+hash;
         dpd.email.post({from:'IdeaStorm<no-reply@jiizhi.com>',to:data[0].email,subject:'account password reset',html:message,text:message},function(){
           setResult('ok');
         });  
@@ -128,7 +127,7 @@ var type=parts[0];
     break;
     case 'reset':
         // check hash code 
-        if(hashCode(body.checkEmail)==-body.token){
+        if(hashCode(body.email)==-body.token){
             // update password
             dpd.users.get({email:body.checkEmail},function(data){
                

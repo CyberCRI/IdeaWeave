@@ -90,4 +90,20 @@ angular.module('cri.common')
             }
         }
     }])
-;
+.directive('userList',['$http','CONFIG',function($http,CONFIG){
+        return {
+            restrict:'EA',
+            templateUrl:'modules/common/directives/ownerBlock/userList.tpl.html',
+            scope:{
+                userId : "@"
+            },
+            link : function(scope,element,attrs){
+                var url=CONFIG.apiServer+'/users/'+scope.userId+'?context=userBlock';
+                $http.get(url).success(function(data){
+                    scope.user=data;
+                }).error(function(err){
+                    console.log('error',err);
+                })
+            }
+        }
+    }]);

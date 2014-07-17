@@ -72,6 +72,8 @@ angular.module('cri.common')
                  input.bind('keypress',function (event){
                     if(event.charCode===13){
                         $scope.$apply($scope.add($scope.myTag));
+                        event.stopPropagation();
+                        event.preventDefault();
                     }
                  });
 

@@ -1,36 +1,83 @@
 angular.module('cri.account',[])
-    .controller('LoginCtrl', ['$scope', 'users','$state','toaster','loggedUser' ,function ($scope, users, $state,toaster, loggedUser) {
-        console.log('loginCtrl')
+    .controller('LoginCtrl', ['$scope', 'users','$state','$materialToast','loggedUser' , '$timeout', '$materialSidenav', function ($scope, users, $state,$materialToast, loggedUser, $timeout, $materialSidenav) {
+
         $scope.form = {};
         $scope.user = users;
-        $scope.login = function () {
-            users.login($scope.form.username, $scope.form.password)
+
+        $scope.toastPosition = {
+            bottom: false,
+            top: true,
+            left: true,
+            right: false,
+            fit: true
+        };
+
+        $scope.getToastPosition = function() {
+            return Object.keys($scope.toastPosition)
+                .filter(function(pos) { return $scope.toastPosition[pos]; })
+                .join(' ');
+        };
+        console.log("toast pos   :  ",$scope.getToastPosition())
+        $scope.login = function ($event) {
+            $event.preventDefault();
+            users.login($scope.signin.username, $scope.signin.password)
                 .then(function () {
-                    toaster.pop('success', 'Welcome', 'You are logged in !!!');
-                    $state.go('userSettings.basic',{ uid : loggedUser.profile.id });
+                    var message='welcome you(re logged in'
+                    $materialToast({
+                        controller: ['$scope','$hideToast',function($scope, $hideToast) {
+                            $scope.message = message;
+                            $scope.closeToast = function() {
+                                $hideToast();
+                            };
+                        }],
+                        templateUrl: 'modules/common/modal/toast.tpl.html',
+                        duration: 5000,
+                        position: 'top fit'
+                    });
+//                    toaster.pop('success', 'Welcome', 'You are logged in !!!');
+                    $state.go('home');
+                    $scope.$emit('side:close-right');
                 })
                 .catch(function (err) {
-                    console.log(err)
                     toaster.pop('error', err.status, err.message);
                 });
         };
 
-        $scope.logWithFb = function(){
-            users.oAuthLogin('facebook').then(function(err){
+        $scope.resetPassForm = false;
+        $scope.forgotPass = function(){
+            console.log($scope.forgotPass)
+            $scope.resetPassForm = !$scope.resetPassForm;
+        }
 
-            }).catch(function(err){
+        $scope.resetF = {};
+        $scope.getToken = function (email) {
+            if(!$scope.emailSend){
+                users.getResetPassToken(email).then(function(data){
+                    if (data.error) {
+                        toaster.pop('error','error', 'an error occured sorry.')
+//                    $scope.notifyErr = data.error;
+                    } else {
+                        $scope.emailSend = true;
+                        toaster.pop('sucess','success',"Verification code has been sent successfully, please log in to view your mailbox");
+//                    $scope.notifyMsg = "Verification code has been sent successfully, please log in to view your mailbox";
+                    }
+                })
+            }
 
+        }
+        $scope.reSet = function (resetData) {
+            users.resetPassword(resetData).then(function (data) {
+                if (data.error) {
+                    alert(data.error);
+                    toaster.pop('error','error','an error occured sorry');
+                } else {
+                    toaster.pop('success','success','Password reset successfull');
+//                    alert('Reset success！');
+
+                }
             })
         }
 
-        $scope.logWithGithub = function(){
-//            users.oAuthLogin('github').then(function(err){
-//
-//            }).catch(function(err){
-//
-//            })
-            window.location.href="http://ideastorm.io:5011/auth/github";
-       }
     }])
     .controller('RegisterCtrl', ['$scope','users','$state','toaster','Gmap','Files','loggedUser',  function ($scope, users, $state, toaster,Gmap,Files,loggedUser) {
 
@@ -55,14 +102,13 @@ angular.module('cri.account',[])
             $state.go('challenges');
         }
 
-        $scope.registerUser = function () {
-            //$scope.isSending = true;
-            console.log($scope)
-            if ($scope.check.password !== $scope.rgform.password) {
+        $scope.registerUser = function ($event) {
+            $event.preventDefault();
+            if ($scope.check.password !== $scope.signup.password) {
                 $scope.notMatch = true;
             } else {
                 $scope.notMatch = false;
-                users.register($scope.rgform).then( function (result) {
+                users.register($scope.signup).then( function (result) {
 //                    $scope.fileUploadQuestion = true;
 //                    toaster.pop('info','success','If you want you can set up a profile picture rigth now')
                     toaster.pop('info','Activation','Check your email to activate your account')

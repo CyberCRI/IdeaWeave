@@ -1,52 +1,44 @@
-<div class="container">
-    <div class="row">
-        <div class="col-sm-10 ">
-            <!-- content-->
-            <div class="panel panel-default">
-                <div class="panel-heading">Edit Basic Info</div>
-                <div class="panel-body">
-                    <form class="form-horizontal" name="projectBasic" role="form">
-                        <div class="form-group">
-                            <label  class="col-sm-2 col-xs-12 control-label">Title:</label>
-                            <div class="col-sm-10 col-xs-12">
-                                <input type="text" name="title" ng-model="challenge.title" class="form-control" ng-minlength="2">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label  class="col-sm-2 col-xs-12 control-label">Brief:</label>
-                            <div class="col-sm-10 col-xs-12">
-                                <textarea ui-tinymce="tinymceOptions" ng-model="challenge.brief" ></textarea>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label  class="col-sm-2 col-xs-12 control-label">Tags</label>
-                            <div class="col-sm-10 col-xs-12">
-                                <div class="tag-manager" entity="challenge" ng-model="challenge.tags"></div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label  class="col-sm-2 col-xs-12 control-label">Presentation</label>
-                            <div class="col-sm-10 col-xs-12">
-                                <div ui-ace="{mode : 'html'}" ng-model="challenge.presentation"  style="width:100%;height:100px" rows="5"></div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-sm-offset-2 col-sm-10 col-xs-12">
-                                <button type="submit" class="btn btn-success" ng-disabled="project.$invalid"  ng-click="updateChallenge()">Publish</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <!--delete project-->
-                    <button class="btn btn-danger solid" ng-click="opendel()" ng-show="project.isOwner">Delete Project</button>
-                </div>
+<h2 class="center">
+    Edit Basic Information
+</h2>
+<section class="container">
+    <form class="form-horizontal" name="projectBasic" role="form">
+        <div class="form-group">
+            <label  class="col-sm-2 col-xs-12 control-label">Title:</label>
+            <div class="col-sm-10 col-xs-12">
+                <input type="text" name="title" ng-model="challenge.title" class="form-control" ng-minlength="2">
             </div>
         </div>
+        <div class="form-group">
+            <label  class="col-sm-2 col-xs-12 control-label">Brief:</label>
+            <div class="col-sm-10 col-xs-12">
+                <textarea ui-tinymce="tinymceOptions" ng-model="challenge.brief" ></textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <label  class="col-sm-2 col-xs-12 control-label">Tags</label>
+            <div class="col-sm-10 col-xs-12">
+                <div class="tag-manager" entity="challenge" ng-model="challenge.tags"></div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label  class="col-sm-2 col-xs-12 control-label">Presentation</label>
+            <div class="col-sm-10 col-xs-12">
+                <div ui-ace="{mode : 'html'}" ng-model="challenge.presentation"  style="width:100%;height:100px" rows="5"></div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10 col-xs-12">
+                <button type="submit" class="btn btn-success" ng-disabled="project.$invalid"  ng-click="updateChallenge()">Publish</button>
+            </div>
+        </div>
+    </form>
+
+    <div class="panel-body">
+        <!--delete project-->
+        <button class="btn btn-danger solid" ng-click="opendel()" >Delete Project</button>
     </div>
-</div>
+</section>
 <script type="text/ng-template" id="projectDel.html">
     <div class="modal-dialog">
         <div class="modal-content">

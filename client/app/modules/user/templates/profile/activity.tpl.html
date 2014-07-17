@@ -1,124 +1,169 @@
-<div ng-if="!activities" class="alert alert-info center col-sm-6">no activity yet, get involved !</div>
-<ul ng-show="activities" class="list-unstyled col-sm-6">
-    <li ng-repeat="activity in activities" class="solid pam">
-        <div ng-switch="activity.action">
-            <div ng-switch-when="createProject">
-                <div owner-block="activity.owner" class="inline">
+<button class="btn btn-danger btn-block" ng-click="toggleNotif()">Cancel</button>
+<!--<ul  class="list-unstyled">-->
+    <material-list ng-show="activities">
+        <material-item ng-repeat="activity in activities">
+            <div ng-switch="activity.action">
+                <div ng-switch-when="createProject">
+                    <div class="material-tile-left">
+                        <div owner-block="activity.owner"></div>
+                    </div>
+                    <div class="material-tile-content">
+                        <span class="mln">
+                            {{user[activity.owner].username}}
+                        </span>
+                        <div project-info='activity.entity'></div>
+                    </div>
+                    <div class="material-tile-right">
+                        {{activity.createDate|timeago}}
+                    </div>
                 </div>
-                    <span class="mlm">
+                <div ng-switch-when="createPtopic">
+                    <div class="material-tile-left">
+                        <div owner-block="activity.owner"></div>
+                    </div>
+                    <div class="material-tile-content">
+                        <span class="mlm">
                         {{user[activity.owner].username}}
-                    </span>
-                {{activity.createDate|timeago}} Idea proposed：
-                <div project-info='activity.entity'></div>
-            </div>
-            <div ng-switch-when="createPtopic">
-                <div owner-block="activity.owner" class="inline"></div>
-                    <span class="mlm">
-                        {{user[activity.owner].username}}
-                    </span> {{activity.createDate|timeago}} Idea：
-                <div project-info='activity.container'></div>
-                Add a topic：
-                <a href="/project/{{activity.container}}" target="_blank">
-                    {{activity.entity.title}}
-                </a>
-            </div>
-            <div ng-switch-when="createPlink">
-                <div owner-block="activity.owner" class="inline"></div>
-                    <span class="mlm">
-                        {{user[activity.owner].username}}
-                    </span>
-                {{activity.createDate|timeago}} Idea：
-                <div project-info='activity.container'></div>
-                Add a link to participate：
-                <a href="{{activity.entity.link}}" target="_blank">
-                    {{activity.entity.title}}
-                </a>
-            </div>
-            <div ng-switch-when="commentPtopic">
-                <div owner-block="activity.owner" class="inline"></div>
-                    <span class="mlm">
-                        {{user[activity.owner].username}}
-                    </span>
-                {{activity.createDate|timeago}} Idea：
-                <div project-info='activity.container.container'></div>
-                The topic：
-                <a href="/project/{{activity.container.container}}" target="_blank">
-                    {{activity.container.title}}</a>Add a comment：
-                <span>{{activity.entity.text}}</span>
-            </div>
-            <div ng-switch-when="followProject">
-                <div owner-block="activity.owner" class="inline"></div>
-                    <span class="mlm">
-                        {{user[activity.owner].username}}
-                    </span>
-                {{activity.createDate|timeago}} Concerned about the Idea：
-                <div project-info='activity.entity' class="inline"></div>
-            </div>
-            <div ng-switch-when="followChallenge">
-                <div owner-block="activity.owner" class="inline"></div>
-                    <span class="mlm">
-                        {{user[activity.owner].username}}
-                    </span>
-                {{activity.createDate|timeago}} Concerned about the challenge：
-                <div challenge-info='activity.entity' class="inline"></div>
-            </div>
-        </div>
-    </li>
-    <li>
-        <button ng-show="activities.length>=10&&!isEnd" ng-click="loadMoreActivities(noPage)" class="btn  btn-default col-xs-12">
-            Load More
-        </button>
-        <div ng-hide="activities" class="alert alert-info">Noting yet</div>
-        <div ng-show="isEnd&&activities.length>=10"  class="alert alert-info">The end !</div> </li>
-</ul>
-<div class="col-sm-6">
-    <div class="panel panel-default panel-animated" >
-        <div class="panel-heading">
-            {{'PROFILE_CHALLENGE_REC'|translate}}
-            <utils-btn click-minus="collapseC(item)"></utils-btn>
-        </div>
-        <div class="panel-body" ng-if="!collapsedC">
-            <div class="row">
-                <div ng-if="!recommendedChallenges" class="alert alert-info center">no recommended challenges add some tags !</div>
-                <ul class="media-list">
-                    <challenge-block ng-repeat="challengeId in recommendedChallenges track by $index" show-details="false" project_id="challengeId"></challenge-block>
-                </ul>
-            </div>
-            <div class="clearfix"></div>
-        </div>
-    </div>
-    <div class="panel panel-default panel-animated">
-        <div class="panel-heading">
-            {{'PROFILE_IDEA_REC'|translate}}
-            <utils-btn click-minus="collapseP(item)"></utils-btn>
-        </div>
-        <div class="panel-body" ng-if="!collapsedP">
-            <div class="row">
-                <div ng-if="!recommendProjects" class="alert alert-info center ">no recommended challenges add some tags !</div>
-                <ul class="media-list">
-                    <project-block ng-repeat="projectId in recommendProjects track by $index" project-id="projectId" show-details="false"></project-block>
-                </ul>
-            </div>
-            <div class="clearfix">
-            </div>
-        </div>
-    </div>
-    <div class="panel panel-default panel-animated" ng-show="isOwner">
-        <div class="panel-heading">
-            {{'PROJECT_USER_REC'|translate}}
-            <utils-btn click-minus="collapseU(item)"></utils-btn>
-        </div>
-        <div class="panel-body" ng-if="!collapsedU">
-            <div ng-hide="recUsers">
+                        </span>
 
+                        <div project-info='activity.container'></div>
+                        Add a topic：
+                        <span>
+                            {{activity.entity.title}}
+                        </span>
+                    </div>
+                    <div class="material-tile-right">
+                        {{activity.createDate|timeago}}
+                    </div>
+                </div>
+                <div ng-switch-when="createPlink">
+                    <div class="material-tile-left">
+                        <div owner-block="activity.owner"></div>
+                    </div>
+                    <div class="material-tile-content">
+                        <span class="mlm">
+                            {{user[activity.owner].username}}
+                        </span>
+                        <div project-info='activity.container'></div>
+                        Add a link to participate：
+                        <a href="{{activity.entity.link}}" target="_blank">
+                            {{activity.entity.title}}
+                        </a>
+                    </div>
+                    <div class="material-tile-right">
+                        {{activity.createDate|timeago}}
+                    </div>
+                </div>
+                <div ng-switch-when="commentPtopic">
+                    <div class="material-tile-left">
+                        <div owner-block="activity.owner"></div>
+                    </div>
+                    <div class="material-tile-content">
+                        <span class="mlm">
+                            {{user[activity.owner].username}}
+                        </span>
+                        <div project-info='activity.container.container'></div>
+                        The topic：
+                        <a href="/project/{{activity.container.container}}" target="_blank">
+                            {{activity.container.title}}</a>Add a comment：
+                        <span>{{activity.entity.text}}</span>
+                    </div>
+                    <div class="material-tile-right">
+                        {{activity.createDate|timeago}}
+                    </div>
+                </div>
+                <div ng-switch-when="followProject">
+                    <div class="material-tile-left">
+                        <div owner-block="activity.owner"></div>
+                    </div>
+                    <div class="material-tile-content">
+                        <span class="mlm">
+                            {{user[activity.owner].username}}
+                        </span>
+                        <div project-info='activity.entity' class="inline"></div>
+                    </div>
+                    <div class="material-tile-right">
+                        {{activity.createDate|timeago}}
+                    </div>
+                </div>
+                <div ng-switch-when="followChallenge">
+                    <div class="material-tile-left">
+                        <div owner-block="activity.owner"></div>
+                    </div>
+                    <div class="material-tile-content">
+                        <span class="mlm">
+                            {{user[activity.owner].username}}
+                        </span>
+                        <div challenge-info='activity.entity' class="inline"></div>
+                    </div>
+                    <div class="material-tile-right">
+                        {{activity.createDate|timeago}}
+                    </div>
+                </div>
             </div>
-            <div ng-if="!recommendUsers" class="alert alert-info center">no recommended challenges add some tags !</div>
-            <ul class="list-unstyled">
-                <li ng-repeat="userId in recommendUsers track by $index"   class="col-sm-6 col-xs-12">
-                    <span user-block ="userId" ></span>
-                </li>
-            </ul>
-            <div class="clearfix"></div>
-        </div>
+        </material-item>
+    </material-list>
+
+
+    <button ng-show="activities.length>=10&&!isEnd" ng-click="loadMoreActivities(noPage)" class="btn  btn-default col-xs-12">
+        Load More
+    </button>
+    <div ng-hide="activities" class="alert alert-info">
+        no activity yet, get involved !
     </div>
-</div>
+    <div ng-show="isEnd&&activities.length>=10"  class="alert alert-info">
+        The end !
+    </div>
+
+
+<!--<div class="col-sm-6">-->
+    <!--<div class="panel panel-default panel-animated" >-->
+        <!--<div class="panel-heading">-->
+            <!--{{'PROFILE_CHALLENGE_REC'|translate}}-->
+            <!--<utils-btn click-minus="collapseC(item)"></utils-btn>-->
+        <!--</div>-->
+        <!--<div class="panel-body" ng-if="!collapsedC">-->
+            <!--<div class="row">-->
+                <!--<div ng-if="!recommendedChallenges" class="alert alert-info center">no recommended challenges add some tags !</div>-->
+                <!--<ul class="media-list">-->
+                    <!--<challenge-block ng-repeat="challengeId in recommendedChallenges track by $index" show-details="false" project_id="challengeId"></challenge-block>-->
+                <!--</ul>-->
+            <!--</div>-->
+            <!--<div class="clearfix"></div>-->
+        <!--</div>-->
+    <!--</div>-->
+    <!--<div class="panel panel-default panel-animated">-->
+        <!--<div class="panel-heading">-->
+            <!--{{'PROFILE_IDEA_REC'|translate}}-->
+            <!--<utils-btn click-minus="collapseP(item)"></utils-btn>-->
+        <!--</div>-->
+        <!--<div class="panel-body" ng-if="!collapsedP">-->
+            <!--<div class="row">-->
+                <!--<div ng-if="!recommendProjects" class="alert alert-info center ">no recommended challenges add some tags !</div>-->
+                <!--<ul class="media-list">-->
+                    <!--<project-block ng-repeat="projectId in recommendProjects track by $index" project-id="projectId" show-details="false"></project-block>-->
+                <!--</ul>-->
+            <!--</div>-->
+            <!--<div class="clearfix">-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+    <!--<div class="panel panel-default panel-animated" ng-show="isOwner">-->
+        <!--<div class="panel-heading">-->
+            <!--{{'PROJECT_USER_REC'|translate}}-->
+            <!--<utils-btn click-minus="collapseU(item)"></utils-btn>-->
+        <!--</div>-->
+        <!--<div class="panel-body" ng-if="!collapsedU">-->
+            <!--<div ng-hide="recUsers">-->
+
+            <!--</div>-->
+            <!--<div ng-if="!recommendUsers" class="alert alert-info center">no recommended challenges add some tags !</div>-->
+            <!--<ul class="list-unstyled">-->
+                <!--<li ng-repeat="userId in recommendUsers track by $index"   class="col-sm-6 col-xs-12">-->
+                    <!--<span user-block ="userId" ></span>-->
+                <!--</li>-->
+            <!--</ul>-->
+            <!--<div class="clearfix"></div>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->

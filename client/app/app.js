@@ -2,19 +2,19 @@
 angular.module('cri', [
     'ngSanitize',
     'ngAnimate',
+    'ngMaterial',
     'ui.utils',
     'ui.router',
     'ui.ace',
     'ui.bootstrap',
     'ui.select',
     'ui.tinymce',
+    'timer',
     'pascalprecht.translate',
-    'btford.socket-io',
     'angularFileUpload',
     'angular-carousel',
     'toaster',
-    'google-maps',
-    'duParallax',
+//    'google-maps',
     'ImageCropper',
     'cri.config',
     'cri.home',
@@ -36,6 +36,19 @@ angular.module('cri', [
         $locationProvider.html5Mode(true);
         $locationProvider.hashPrefix('!');
     }])
-    .run(['users', function (users) {
-        users.getMe();
+    .run(['users','loggedUser','$state', function (users,loggedUser,$state) {
+        users.getMe().then(function(){
+            if(loggedUser.profile){
+                $state.go('home');
+            }else{
+                $state.go('main');
+            }
+        })
+    }])
+    .controller('ToastCtrl',['$scope','$hideToast',function($scope, $hideToast) {
+        $scope.closeToast = function() {
+            $hideToast();
+        };
     }]);
+
+

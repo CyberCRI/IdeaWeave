@@ -65,6 +65,14 @@ angular.module('cri.projectSetting')
                     }]
                 }
             })
+            .state('project.settings.trello',{
+                url : '/trello',
+                views : {
+                    settingView : {
+                        templateUrl : 'modules/projectSetting/templates/trello.tpl.html'
+                    }
+                }
+            })
             .state('project.settings.team',{
                 url : '/team',
                 views :{

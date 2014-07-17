@@ -1,25 +1,39 @@
 angular.module('cri.challenge', [])
-    .controller('cTopicCtrl',['$scope','CONFIG','toaster','Topic',function($scope,CONFIG,toaster,Topic){
-        console.log('ctopic',$scope)
+    .controller('cTopicCtrl',['$scope','$modal','loggedUser',function($scope,$modal,loggedUser){
         $scope.topics = $scope.challenge.topics;
-
-        $scope.tinymceOptions = CONFIG.tinymceOptions;
-
+        var challengeId = $scope.challenge.id;
         $scope.tf={};
-        $scope.addTopic=function(){
-            $scope.tf.text = Topic.urlify($scope.tf.text);
-            $scope.tf.urls = Topic.getUrl($scope.tf.text);
-            $scope.tf.container=$scope.challenge.id;
-            $scope.tf.owner=$scope.me.id
-            Topic.createPost($scope.tf,'challenge').then(function(result){
-                toaster.pop('success','you earn points !!!', 'Add a topic ! Cool for 10 points.');
-                $scope.hideTopic=true;
-                $scope.tf={};
-                $scope.topics.push(result);
-            }).catch(function(err){
-                toaster.pop('error',err.status,err.message);
+
+
+        $scope.popUpTopic = function(){
+
+            var myModal = $modal.open({
+                templateUrl: 'modules/topic/templates/add-topic.tpl.html',
+                controller: ['$scope','Topic','toaster','$modalInstance','CONFIG',function ($scope,Topic,toaster,$modalInstance,CONFIG) {
+                    $scope.tinymceOptions = CONFIG.tinymceOptions;
+
+                    $scope.addTopic=function(topic){
+//                        topic = Topic.urlify(topic.text);
+//                        topic = Topic.getUrl(topic.text);
+                        topic.owner = loggedUser.profile.id;
+                        topic.container=challengeId;
+                        Topic.createPost(topic,'challenge').then(function(result){
+                            toaster.pop('success','you earn points !!!', 'Add a topic ! Cool for 10 points.');
+                            $modalInstance.close(result);
+                        }).catch(function(err){
+                            toaster.pop('error',err.status,err.message);
+                        })
+                    }
+                }],
+                size: 'lg'
+            });
+
+            myModal.result.then(function(data){
+                console.log('modal then',data)
+                $scope.topics.push(data);
             })
-        }
+        };
+
 
         //topic css classes
         $scope.topicsCss = [];
@@ -41,11 +55,77 @@ angular.module('cri.challenge', [])
             }
         })
     }])
-    .controller('cTopicDetailsCtrl',['$scope','$stateParams','Topic','toaster','Files','loggedUser','CONFIG',function($scope,$stateParams,Topic,toaster,Files,loggedUser,CONFIG){
+    .controller('cTopicDetailsCtrl',['$scope','$stateParams','Topic','toaster','Files','loggedUser','CONFIG','Comment','$sce',function($scope,$stateParams,Topic,toaster,Files,loggedUser,CONFIG,Comment,$sce){
         $scope.myTopic = $scope.topics[$stateParams.tid];
         $scope.$parent.projectId = $stateParams.pid;
         $scope.$parent.topicId = $stateParams.tid;
         $scope.dropBoxHeight = "100px";
+        $scope.tid = $stateParams.tid;
+        dpd.on('comments:create',function(data){
+            console.log('socket data',data);
+            if(data.container == $scope.myTopic.id){
+                var notin = true;
+                if(data.text){
+                    $scope.comments.forEach(function(v,k){
+                        if(v.id == data.id){
+                            notin = false;
+                        }
+                    });
+                    if(notin){
+                        Comment.fetch({id:data.id}).then(function(result){
+                            if($scope.comments.indexOf(result) == -1){
+                                if(result.parent){
+                                    angular.forEach($scope.comments,function(v,k){
+                                        if(v.id == result.parent.id){
+                                            result.displayText = $sce.trustAsHtml(result.text);
+                                            $scope.comments.splice(k+1,0,result);
+                                        }
+                                    })
+                                }else{
+                                    result.displayText = $sce.trustAsHtml(result.text);
+                                    $scope.comments.splice(0,0,result);
+                                }
+                            }
+                        }).catch(function(err){
+                            console.log('error',err);
+                        })
+                    }
+                }
+            }
+        });
+        $scope.comments=[];
+        var childrens = [];
+        console.log('topic',$scope.myTopic)
+        Comment.fetch({container:$scope.myTopic.id}).then(function(result){
+            console.log('comment',result)
+            angular.forEach(result,function(comment,id){
+                if(comment.text){
+                    comment.displayText = $sce.trustAsHtml(comment.text);
+                    if(comment.parent){
+                        childrens.push(comment);
+
+                    }else{
+                        $scope.comments.splice(0,0,comment);
+                    }
+                }
+            });
+            if(childrens.length > 0){
+                angular.forEach($scope.comments,function(v,k) {
+                    angular.forEach(childrens,function(cv,ck){
+                        console.log('parent', v.id,cv.id)
+                        if (v.id == cv.parent.id) {
+                            console.log('parent !!!!! 1',k);
+                            $scope.comments.splice(k+1,0,cv);
+                            delete childrens[ck];
+                            console.log('parent !!!!! 2',$scope.comments);
+                        }
+                    });
+
+                });
+            }
+        }).catch(function(err){
+            console.log('error',err)
+        })
 
 
         Topic.fetchFile($scope.myTopic.id).then(function(data){
@@ -137,16 +217,11 @@ angular.module('cri.challenge', [])
     }])
     .controller('ChallengeExploreCtrl', ['$scope', 'challenges','users','Challenge','toaster', function ($scope, challenges, users, Challenge, toaster) {
 
-        $scope.filterMode = false;
-
-        $scope.enableFilterMode = function(){
-            $scope.filterMode = !$scope.filterMode;
-        }
-
         $scope.isLogged = users.isLoggedIn();
         $scope.challenges = challenges;
         $scope.noPage = 1;
         $scope.isEnd = false;
+        $scope.now = new Date().getTime();
 
         var option = {$limit: 6, $sort: {follow: -1, createDate: -1}, context: 'list'};
 
@@ -275,17 +350,13 @@ angular.module('cri.challenge', [])
         }
 
         $scope.createChallenge = function (challenge) {
-            $scope.pform.owner = loggedUser.profile.id;
+            challenge.owner = loggedUser.profile.id;
+            challenge.startDate = challenge.startDate.getTime();
+            challenge.endDate = challenge.endDate.getTime();
+            console.log('!! ! ! ! ! !',challenge)
             Challenge.create(challenge).then(function(){
                 toaster.pop('info','success','Your challenge has been added. would you like to add a description picture to it ?');
-                $scope.fileUploadQuestion = true;
-                $scope.ok = function(){
-                    $scope.showFileUploader = true;
-                    $scope.fileUploadQuestion = false;
-                }
-                $scope.cancel = function(){
-                    $state.go('challenge.details',{ pid : Challenge.data.accessUrl });
-                }
+                $state.go('challenges');
             }).catch(function(err){
                 console.log(err);
                 toaster.pop('error',err.status,err.message);
@@ -327,7 +398,7 @@ angular.module('cri.challenge', [])
         $scope.followers = Challenge.data.followers;
     }])
 .controller('ChallengeCtrl',['$scope','Challenge','challenge','loggedUser','toaster','$state',function($scope,Challenge,challenge,loggedUser,toaster,$state){
-        $scope.me = loggedUser.profile;
+        $scope.me = loggedUser;
 
         console.log(challenge)
         $scope.challenge = Challenge.data = challenge[0];

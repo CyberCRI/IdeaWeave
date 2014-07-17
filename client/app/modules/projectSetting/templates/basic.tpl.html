@@ -1,52 +1,53 @@
-
-<div class="row">
-    <div class="col-sm-10 ">
-        <!-- content-->
-        <div class="panel panel-default">
-            <div class="panel-heading">Edit Basic Info</div>
-            <div class="panel-body">
-                <form class="form-horizontal" name="projectBasic" role="form">
-                    <div class="form-group">
-                        <label  class="col-sm-2 col-xs-12 control-label">Title:</label>
-                        <div class="col-sm-10 col-xs-12">
-                            <input type="text" name="title" ng-model="project.title" class="form-control" ng-minlength="2">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label  class="col-sm-2 col-xs-12 control-label">Brief:</label>
-                        <div class="col-sm-10 col-xs-12">
-                            <textarea ui-tinymce="tinymceOptions" ng-model="project.brief" ></textarea>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label  class="col-sm-2 col-xs-12 control-label">Tags</label>
-                        <div class="col-sm-10 col-xs-12">
-                            <div class="tag-manager" entity="project" ng-model="project.tags"></div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label  class="col-sm-2 col-xs-12 control-label">Presentation</label>
-                        <div class="col-sm-10 col-xs-12">
-                            <div ui-ace="{mode : 'html'}" ng-model="project.presentation"  style="width:100%;height:100px" rows="5"></div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm-offset-2 col-sm-10 col-xs-12">
-                            <button type="submit" class="btn btn-success" ng-disabled="project.$invalid"  ng-click="updateProject(project)">Pubilish</button>
-                        </div>
-                    </div>
-                </form>
+<h2 class="center">
+    Basic Information
+</h2>
+<section class="row">
+    <div class="col-xs-12 ">
+        <form class="form-horizontal" name="projectBasic" role="form">
+            <div class="form-group">
+                <label  class="col-sm-2 col-xs-12 control-label">Title:</label>
+                <div class="col-sm-10 col-xs-12">
+                    <input type="text" name="title" ng-model="project.title" class="form-control" ng-minlength="2">
+                </div>
             </div>
-        </div>
-
-        <div class="panel panel-default">
-            <div class="panel-body">
-                <!--delete proejct-->
-                <button class="btn btn-danger solid" ng-click="opendel()" ng-show="project.isOwner">Delete Project</button>
+            <div class="form-group">
+                <label  class="col-sm-2 col-xs-12 control-label">Brief:</label>
+                <div class="col-sm-10 col-xs-12">
+                    <textarea ui-tinymce="tinymceOptions" ng-model="project.brief" ></textarea>
+                </div>
             </div>
+            <div class="form-group">
+                <label  class="col-sm-2 col-xs-12 control-label">Tags</label>
+                <div class="col-sm-10 col-xs-12">
+                    <div class="tag-manager" entity="project" ng-model="project.tags"></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label  class="col-sm-2 col-xs-12 control-label">Presentation</label>
+                <div class="col-sm-10 col-xs-12">
+                    <div ui-ace="{mode : 'html'}" ng-model="project.presentation"  style="width:100%;height:100px" rows="5"></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label  class="col-sm-2 col-xs-12 control-label">Trello Id</label>
+                <div class="col-sm-10 col-xs-12">
+                    <input type="text" class="form-control" ng-model="project.trello"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10 col-xs-12">
+                    <button type="submit" class="btn btn-success" ng-disabled="project.$invalid"  ng-click="updateProject(project)">Publish</button>
+                </div>
+            </div>
+        </form>
+
+        <div class="panel-body">
+            <!--delete proejct-->
+            <button class="btn btn-danger solid" ng-click="opendel()" ng-show="project.isOwner">Delete Project</button>
         </div>
     </div>
-</div>
+</section>
+
 <script type="text/ng-template" id="projectDel.html">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -58,7 +59,7 @@
             </div>
             <div class="modal-footer">
                 <button ng-click="deleteProject()" href="" class="btn btn-danger">Confirm Delete</button>
-                <button class="btn btn-warning cancel" ng-click="cancel()">Cancel</button>
+                <ubtton class="btn btn-warning cancel" ng-click="cancel()">Cancel</button>
             </div>
         </div>
     </div>

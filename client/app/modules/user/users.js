@@ -34,6 +34,8 @@ angular.module('cri.user')
                 $http.get(CONFIG.apiServer + '/users/logout').success(function () {
                     delete loggedUser.profile;
                     deferred.resolve();
+                }).catch(function(err){
+                    console.log('err',err);
                 });
                 return deferred.promise;
             },
@@ -73,17 +75,6 @@ angular.module('cri.user')
                         deferred.reject(err);
                     });
                 return deferred.promise;
-            },
-            oAuthLogin : function(type){
-                var defered = $q.defer();
-                $http.get(CONFIG.apiServer+'/auth/'+type).success(function(data){
-                    console.log(data);
-                    defered.resolve(data);
-                }).error(function(err){
-                    console.log(err);
-                    defered.reject(err);
-                })
-                return defered.promise
             },
             validateEmail: function (userId) {
                 return $http.get(CONFIG.apiServer + '/users/' + userId)
@@ -210,6 +201,7 @@ angular.module('cri.user')
                 return defered.promise;
             },
             getResetPassToken : function(email){
+                console.log(3)
                 var defered = $q.defer();
                 $http.post(CONFIG.apiServer + '/datas/resetPass/' + email)
                     .success(function(data){

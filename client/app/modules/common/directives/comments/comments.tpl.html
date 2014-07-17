@@ -8,39 +8,34 @@
 <div class="comments">
     <div ng-repeat="comment in comments track by $index" class="pam">
         <div ng-if="!comment.parent">
-            <div owner-block="comment.owner" class="pull-left mrm"></div>
-            <div class="pas text-muted" style="background: #f2fbf2;">
-                <a href="user/{{comment.owner}}">{{user[comment.owner].username}}</a> <a class="pull-right" ng-click="removeComment(comment.id,$index)"><i class="icon-remove"></i></a><span class="text-muted pull-right">{{comment.createDate|timeago}}</span>
+            <div user-block="comment.owner" class="pull-left mrm"></div>
+            <div class="pas text-muted" style="background: #f2fbf2; height:30px;">
+                <span class="text-muted pull-right">{{comment.createDate|timeago}}</span>
             </div>
             <div class="clearfix"></div>
             <div class="pam" ng-bind-html="comment.displayText"></div>
-            <i class="pull-right fa fa-comments fa-2x my-btn" ng-click="comment.isReply=!comment.isReply"></i>
+            <span class="pull-right">
+                answers({{ comment.answers.length }})
+                <i class="fa fa-comments fa-2x my-btn" ng-click="comment.isReply=!comment.isReply"></i>
+            </span>
             <div class="clearfix"></div>
-            <div ng-init="comment.isReply=true"  collapse="comment.isReply" >
+            <div ng-init="comment.isReply=true" collapse="comment.isReply" >
                 <div  class="mts  pam">
-                    <textarea ui-tinymce ng-model="comment.replyComment" placeholder="Reply..." ></textarea>
+                    <textarea ui-tinymce ng-model="comment.replyComment" placeholder="Reply..."></textarea>
                     <br><a class="btn btn-default" ng-click="replyComment(comment.id,$index)">Reply</a>
+                </div>
+                <div ng-if="comment.answers" ng-repeat="answer in comment.answers" class="mll mtm">
+                    <blockquote >
+                        <div user-block="answer.owner" class="pull-left mrm"></div>
+                        <div class="pas text-muted" style="background: #f2fbf2;">
+                            <a href="user/{{answer.owner}}">{{user[answer.owner].username}}</a> <a class="pull-right" ng-click="removeComment(answer.id,$index)"><i class="icon-remove"></i></a><span class="text-muted pull-right">{{answer.createDate|timeago}}</span>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="pam" ng-bind-html="answer.displayText"></div>
+                    </blockquote>
                 </div>
             </div>
             <div class="clearfix"></div>
-        </div>
-        <div ng-if="comment.parent" class="mll mtm">
-            <blockquote >
-                <div owner-block="comment.owner" class="pull-left mrm"></div>
-                <div class="pas text-muted" style="background: #f2fbf2;">
-                    <a href="user/{{comment.owner}}">{{user[comment.owner].username}}</a> <a class="pull-right" ng-click="removeComment(comment.id,$index)"><i class="icon-remove"></i></a><span class="text-muted pull-right">{{comment.createDate|timeago}}</span>
-                </div>
-                <div class="clearfix"></div>
-                <div class="pam" ng-bind-html="comment.displayText"></div>
-                <!--<div ng-switch on="comment.parent" class="inline mrm">-->
-                    <!--<div ng-switch-default>-->
-                        <!--<div user-info="comment.parent.owner" ></div>-->
-                    <!--</div>-->
-                <!--</div> -->
-                <!--<span class="text-muted pull-right">{{comment.parent.createDate|timeago}}</span>-->
-                <!--<span ng-bind-html="comment.parent.displayText"></span>-->
-
-            </blockquote>
         </div>
     </div>
 </div>

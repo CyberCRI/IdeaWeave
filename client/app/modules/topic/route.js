@@ -18,10 +18,27 @@ angular.module('cri.topic')
             })
             .state('project.topic.details',{
                 url : '/:tid',
+                abstract : true,
                 views : {
                     topicView: {
                         templateUrl:'modules/topic/templates/topic-details.tpl.html',
                         controller: 'ProjectTopicDetailsCtrl'
+                    }
+                }
+            })
+            .state('project.topic.details.discussion',{
+                url : '/discussion',
+                views : {
+                    topicDetailsView: {
+                        templateUrl:'modules/topic/templates/discussion.tpl.html'
+                    }
+                }
+            })
+            .state('project.topic.details.resources',{
+                url : '/resources',
+                views : {
+                    topicDetailsView: {
+                        templateUrl:'modules/topic/templates/resources.tpl.html'
                     }
                 }
             })

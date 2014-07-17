@@ -27,7 +27,7 @@ angular.module('cri.common')
         return {
             restrict:'EA',
             replace:true,
-            template:'<a ui-sref="project({ pid :  project[pid].accessUrl})" target="_blank">{{project[pid].title}}</a>',
+            template:'<span>{{project[pid].title}}</span>',
             link : function(scope,element,attrs){
                 scope.pid=scope.$eval(attrs.projectInfo);
 

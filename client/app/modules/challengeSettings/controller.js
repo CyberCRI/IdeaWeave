@@ -2,6 +2,7 @@ angular.module('cri.challengeSettings',[])
     .controller('ChallengeSettingsCtrl',['$scope','challenge','users',function($scope,challenge,users){
         $scope.user = users;
         $scope.challenge = challenge[0];
+
     }])
     .controller('ChallengeSettingsBasicCtrl',['$scope','Challenge','toaster','CONFIG',function($scope,Challenge,toaster,CONFIG){
         $scope.tinymceOptions = CONFIG.tinymceOptions;

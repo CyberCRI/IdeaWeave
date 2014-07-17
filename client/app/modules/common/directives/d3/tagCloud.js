@@ -23,7 +23,7 @@ angular.module('cri.common')
 
                     d3.layout.cloud().size([width, height])
                         .words(scope.tags.map(function(d) {
-                                return {text: d.title, size: 10 + d.number/10 * 120};
+                                return {text: d.title, size: 10 + d.number/50 * 120};
                             }))
                         .padding(5)
                         .rotate(function() { return ~~(Math.random() * 2) * 90; })
@@ -50,6 +50,7 @@ angular.module('cri.common')
                                 return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
                             })
                             .text(function(d) { return "#"+d.text; })
+                            .attr('class','d3-tag')
                             .on('click',function(d) {
                                 return scope.onClick({item: d});
                         })

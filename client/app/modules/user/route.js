@@ -81,9 +81,7 @@ angular.module('cri.user')
                     }
                 },
                 resolve : {
-                    activity : ['users','$stateParams',function(users,$stateParams){
-                        return users.getActivity($stateParams.uid)
-                    }],
+
                     recommendUser : ['Recommend','$stateParams',function(Recommend,$stateParams){
                         return Recommend.fetchUser($stateParams.uid);
                     }],

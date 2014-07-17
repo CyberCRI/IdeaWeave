@@ -1,16 +1,9 @@
-<section class="container" >
-    <section>
-        <ul class="nav nav-pills nav-justified">
-            <li ui-route="/challenge/{{ challenge.accessUrl }}/settings/basic" ng-class="{active: $uiRoute}">
-                <a ui-sref="challenge.settings.basic">Basic</a>
-            </li>
-            <li ui-route="/challenge/{{ challenge.accessUrl }}/settings/poster" ng-class="{active: $uiRoute}">
-                <a ui-sref="challenge.settings.poster">Poster</a>
-            </li>
-        </ul>
-    </section>
-    <br>
-    <section ui-view="settingView">
+<material-tabs selected="selectedTabIndex" class="material-theme-light-blue">
+    <material-tab ui-sref="challenge.settings.basic" label="<i class='fa fa-list fa-2x'></i>" class="material-theme-light-blue">
+    </material-tab>
+    <material-tab ui-sref="challenge.settings.poster" label="<i class='fa fa-file fa-2x'></i>" class="material-theme-light-blue">
+    </material-tab>
+</material-tabs>
+<section ui-view="settingView" class=" container"  style="height:100%">
 
-    </section>
 </section>

@@ -2,6 +2,12 @@ angular.module('cri.projectSetting',[])
     .controller('ProjectSettingCtrl',['$scope','project','users',function($scope,project,users){
         $scope.user = users;
         $scope.project = project[0];
+
+        $scope.selectedTabIndex = 0;
+        $scope.$watch('selectedTabIndex', watchSelectedTab);
+        function watchSelectedTab(index, oldIndex) {
+            $scope.reverse = index < oldIndex;
+        }
     }])
     .controller('ProjectPosterCtrl',['$scope','Project','toaster',function($scope,Project,toaster){
         $scope.$watch('imageCropResult', function(newVal) {
@@ -58,8 +64,8 @@ angular.module('cri.projectSetting',[])
             })
         };
     }])
-    .controller('ProjectMediaCtrl',['$scope', 'toaster','Socket','files','Files','urls','Url','CONFIG',function ($scope, toaster,Socket,files,Files,urls,Url,CONFIG) {
-
+    .controller('ProjectMediaCtrl',['$scope', 'toaster','files','Files','urls','Url','CONFIG',function ($scope, toaster,files,Files,urls,Url,CONFIG) {
+        console.log('files',files);
         $scope.removeFile = function(file){
             Files.remove(file.id).then(function(){
                 toaster.pop('success','success','file remove succesfully');
@@ -88,7 +94,8 @@ angular.module('cri.projectSetting',[])
             })
         };
 
-        Socket.on('file:create',function(data){
+        dpd.on('file:create',function(data){
+            console.log('socket file', data);
 //            jzCommon.query(apiServer+'/files',{id:data.id,container:$stateParams.pid,context:'list'}).then(function(result){
 //                $scope.pfiles.push(result);
 //            })

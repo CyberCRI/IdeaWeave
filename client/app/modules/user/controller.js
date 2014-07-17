@@ -8,18 +8,19 @@ angular.module('cri.user',[])
         $scope.cprojects=contributedProject;
         $scope.fprojects=followedProject;
     }])
-    .controller('ProfileActivityCtrl',['$scope','activity','$stateParams','users','recommendChallenge','recommendProjects','recommendUser','recommendFriendUser',function($scope,activity,$stateParams,users,recommendChallenge,recommendProjects,recommendUser,recommendFriendUser){
-        console.log('challenge',recommendChallenge);
-        console.log('act',typeof activity);
-        $scope.activities=activity;
-
+    .controller('ProfileActivityCtrl',['$scope','loggedUser','users',function($scope,loggedUser,users){
+        users.getActivity(loggedUser.profile.id).then(function(data){
+            $scope.activities = data;
+        }).catch(function(err){
+            console.log(err);
+        })
         $scope.noPage=1;
         $scope.isEnd=false;
         $scope.loadMoreActivities=function(num){
             $scope.noPage=num+1;
             var skip=10*num;
             if(!$scope.isEnd){
-                users.getActivity($stateParams.uid,skip).then(function(result){
+                users.getActivity(loggedUser.profile.id,skip).then(function(result){
                     if(result.length>0){
                         for(var i=0;i<result.length;i++){
                             $scope.activities.push(result[i]);
@@ -30,39 +31,39 @@ angular.module('cri.user',[])
                 })
             }
         };
-
-
-        $scope.collapseC = function(collapsed){
-            $scope.$apply(function(){
-                $scope.collapsedC = collapsed;
-            })
-        };
-
-        $scope.collapseP = function(collapsed){
-            $scope.$apply(function(){
-                $scope.collapsedP = collapsed;
-            })
-        };
-
-        $scope.collapseU = function(collapsed){
-            $scope.$apply(function(){
-                $scope.collapsedU = collapsed;
-            })
-        };
-
-        if(recommendChallenge.length>0){
-            $scope.recommendedChallenges=recommendChallenge;
-        }
-        if(recommendProjects.length>0){
-            $scope.recommendProjects=recommendProjects;
-        }
-        if(recommendUser.length>0){
-            $scope.recommendUsers=recommendUser;
-        }
-        if(recommendFriendUser.length>0){
-            $scope.ffollwers=recommendFriendUser;
-        }
-
+//
+//
+//        $scope.collapseC = function(collapsed){
+//            $scope.$apply(function(){
+//                $scope.collapsedC = collapsed;
+//            })
+//        };
+//
+//        $scope.collapseP = function(collapsed){
+//            $scope.$apply(function(){
+//                $scope.collapsedP = collapsed;
+//            })
+//        };
+//
+//        $scope.collapseU = function(collapsed){
+//            $scope.$apply(function(){
+//                $scope.collapsedU = collapsed;
+//            })
+//        };
+//
+//        if(recommendChallenge.length>0){
+//            $scope.recommendedChallenges=recommendChallenge;
+//        }
+//        if(recommendProjects.length>0){
+//            $scope.recommendProjects=recommendProjects;
+//        }
+//        if(recommendUser.length>0){
+//            $scope.recommendUsers=recommendUser;
+//        }
+//        if(recommendFriendUser.length>0){
+//            $scope.ffollwers=recommendFriendUser;
+//        }
+//
 
 
     }])
@@ -79,64 +80,7 @@ angular.module('cri.user',[])
             }
         }
 
-        $scope.btnVisible = false;
-        $scope.enterBrief = function(){
-            if($scope.me.id == $scope.profile.id){
-                $scope.btnVisible = true;
-            }
-        }
-        $scope.leaveBrief = function(){
-            if($scope.me.id == $scope.profile.id){
-                $scope.btnVisible = false;
-            }
-        }
-        $scope.briefEditable = false;
-        $scope.editBrief = function(){
-            if($scope.me.id == $scope.profile.id) {
-                $scope.briefEditable = !$scope.briefEditable;
-            }
-        }
-        $scope.btnPrezVisible = false
-        $scope.enterPrez = function(){
-            if($scope.me.id == $scope.profile.id){
-                $scope.btnPrezVisible = true;
-            }
-        }
-        $scope.leavePrez = function(){
-            if($scope.me.id == $scope.profile.id){
-                $scope.btnPrezVisible = false;
-            }
-        }
-        $scope.prezEditable = false;
-        $scope.editPrez = function(){
-            if($scope.me.id == $scope.profile.id) {
-                $scope.prezEditable = !$scope.prezEditable;
-            }
-        };
 
-
-        $scope.updatePrez = function(presentation) {
-            users.update(loggedUser.profile.id, { presentation: presentation }).then(function () {
-                toaster.pop('success', 'success', 'profile updated');
-                $scope.prezEditable = !$scope.prezEditable;
-                loggedUser.profile.presentation = presentation;
-                $scope.securePresentation = $sce.trustAsHtml(presentation);
-            }).catch(function (err) {
-                toaster.pop('error', 'error', 'profile updated');
-                $scope.prezEditable = !$scope.prezEditable;
-            })
-        };
-        $scope.updateBrief = function(brief){
-            users.update(loggedUser.profile.id,{ brief : brief }).then(function(){
-                toaster.pop('success','success','profile updated');
-                $scope.briefEditable = !$scope.briefEditable;
-                loggedUser.profile.brief = brief;
-                $scope.secureBrief = $sce.trustAsHtml(brief);
-            }).catch(function(err){
-                toaster.pop('error','error','profile updated');
-                $scope.briefEditable = !$scope.briefEditable;
-            })
-        }
     }])
     .controller('ProfileCtrl',['$scope','$stateParams','toaster','loggedUser','profile','followers','following','users','CONFIG','$state','$modal',function ($scope,$stateParams,toaster,loggedUser, profile, followers, following,users,CONFIG,$state,$modal) {
         $scope.mapOptions = CONFIG.mapOptions;
@@ -154,49 +98,20 @@ angular.module('cri.user',[])
             })
         });
 
-        $scope.btnInfoVisible = false
-        $scope.enterInfo = function(){
-            if($scope.me.id == $scope.profile.id){
-                $scope.btnInfoVisible = true;
-            }
-        }
-        $scope.leaveInfo = function(){
-            if($scope.me.id == $scope.profile.id){
-                $scope.btnInfoVisible = false;
-            }
-        }
         $scope.infoEditable = false;
-        $scope.editInfo = function(){
-            if($scope.me.id == $scope.profile.id) {
+        $scope.actionInfo = function() {
+            if ($scope.me.id == profile.id) {
+                if($scope.infoEditable){
+                    users.update(loggedUser.profile.id, { username: $scope.profile.username, sex: $scope.profile.sex }).then(function () {
+                        toaster.pop('success', 'success', 'profile updated');
+                    }).catch(function (err) {
+                        toaster.pop('error', 'error', 'profile updated');
+                        $scope.infoEditable = !$scope.infoEditable;
+                    });
+                }
                 $scope.infoEditable = !$scope.infoEditable;
             }
         };
-
-        $scope.updateInfo = function(username,sex) {
-            users.update(loggedUser.profile.id, { username: username,sex:sex }).then(function () {
-                toaster.pop('success', 'success', 'profile updated');
-                $scope.infoEditable = !$scope.infoEditable;
-                loggedUser.profile.sex = sex;
-                loggedUser.profile.username = username;
-            }).catch(function (err) {
-                toaster.pop('error', 'error', 'profile updated');
-                $scope.infoEditable = !$scope.infoEditable;
-            })
-        };
-
-
-
-        $scope.enterPicture = function(){
-            if($scope.me.id == $scope.profile.id){
-                $scope.btnVisible = true;
-            }
-        }
-
-        $scope.leavePicture = function(){
-            if($scope.me.id == $scope.profile.id){
-                $scope.btnVisible = false;
-            }
-        }
 
         $scope.editPicture = function() {
             if ($scope.me.id == $scope.profile.id) {
@@ -214,7 +129,7 @@ angular.module('cri.user',[])
                 }, function () {
                 });
             };
-        }
+        };
 
         $scope.showTag = function(e){
             $state.go('tag',{title : e.text})

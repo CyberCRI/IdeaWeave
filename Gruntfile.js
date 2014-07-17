@@ -87,4 +87,16 @@ module.exports = function(grunt) {
         'rsync:client',
         'sshexec:start'
     ]);
-}
+    grunt.registerTask('copy-files', [
+        'rsync:startStopScript',
+        'sshexec:stop',
+        'sshexec:clean',
+        'rsync:server',
+        'rsync:client',
+        'sshexec:start'
+    ]);
+
+    grunt.registerTask('start-app', [
+        'sshexec:start'
+    ]);
+};

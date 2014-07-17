@@ -12,7 +12,10 @@
             <i ng-click="cancelUpload()" class="fa fa-2x fa-times my-btn" tooltip="Cancel">
             </i>
         </div>
-        <textarea style="width:100%;color: black; background-color: transparent;" autofocus="true" placeholder="file description..." rows="10" ng-model="file.description"></textarea>
     </div>
     <!--<img ng-src="{{ fileUrl }}"  ng-show="fileUrl" width="100%"/>-->
 </div>
+<span class="material-input-group material-input-group-theme-light-blue" ng-if="file">
+    <label for="fileDescription">file description...</label>
+    <input id="fileDescription" type="text" autocomplete="false" ng-model="file.description" style="width:100%">
+</span>
