@@ -1,5 +1,5 @@
 <div class="pull-right">{{ 'BTN_COMMENT' | translate }}({{comments.length}})</div>
-<i class="fa fa-comment fa-2x my-btn pull-left" ng-click="toggleComment=!toggleComment"></i>
+<i class="fa fa-comment fa-2x my-btn pull-left" ng-click="toggleComment=!toggleComment" ng-if="me"></i>
 <div class="clearfix"></div>
 <div ng-init="toggleComment=true"  collapse="toggleComment" >
     <textarea ui-tinymce ng-model="commentValue" placeholder="I think..." required ></textarea>
@@ -20,7 +20,7 @@
             </span>
             <div class="clearfix"></div>
             <div ng-init="comment.isReply=true" collapse="comment.isReply" >
-                <div  class="mts  pam">
+                <div  class="mts  pam" ng-if="me">
                     <textarea ui-tinymce ng-model="comment.replyComment" placeholder="Reply..."></textarea>
                     <br><a class="btn btn-default" ng-click="replyComment(comment.id,$index)">Reply</a>
                 </div>

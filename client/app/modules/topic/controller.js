@@ -13,7 +13,6 @@ angular.module('cri.topic',[])
         })
 
         dpd.on('comments:create',function(data){
-            console.log('socket data',data);
             if(data.container == $scope.myTopic.id){
                 var notin = true;
                 if(data.text){
@@ -29,7 +28,7 @@ angular.module('cri.topic',[])
                                     angular.forEach($scope.comments,function(v,k){
                                         if(v.id == result.parent.id){
                                             result.displayText = $sce.trustAsHtml(result.text);
-                                            $scope.comments[k].answer.push(result);
+                                            $scope.comments[k].answers.push(result);
                                         }
                                     })
                                 }else{

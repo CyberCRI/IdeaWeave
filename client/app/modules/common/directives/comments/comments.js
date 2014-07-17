@@ -1,5 +1,5 @@
 angular.module('cri.common')
-    .directive('comments',['loggedUser','Comment','$sce','CONFIG',function(loggedUser, Comment,$sce,CONFIG){
+    .directive('comments',['loggedUser','Comment','$sce','CONFIG',function(loggedUser,Comment,$sce,CONFIG){
         return {
             restrict:'EA',
             templateUrl:'modules/common/directives/comments/comments.tpl.html',
@@ -8,6 +8,7 @@ angular.module('cri.common')
               topicId : '@'
             },
             controller : ['$scope','CONFIG',function($scope,CONFIG){
+                $scope.me = loggedUser.profile;
                 $scope.tinymceOption = CONFIG.tinymceOptions;
             }],
             link: function (scope,element,attrs){
@@ -15,7 +16,7 @@ angular.module('cri.common')
                     var option={
                         owner:loggedUser.profile.id,
                         text:scope.commentValue,
-                        type:oj.type,
+//                        type:oj.type,
                         container:scope.topicId
                     };
                     Comment.post(option).then(function(result){
@@ -31,7 +32,7 @@ angular.module('cri.common')
                     var option={
                         owner:loggedUser.profile.id,
                         text:scope.comments[idx].replyComment,
-                        type:oj.type,
+//                        type:oj.type,
                         container:scope.topicId,
                         parent:pid
                     };
