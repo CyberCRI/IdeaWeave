@@ -12,7 +12,8 @@ angular.module('cri.header',[])
             }
         }
     })
-    .controller('HeaderCtrl',['$scope','loggedUser', 'users','$state','toaster','SearchBar', '$materialSidenav','$timeout','$window', function($scope,loggedUser, users,$state,toaster,SearchBar,$materialSidenav,$timeout,$window){
+    .controller('HeaderCtrl',['$scope','loggedUser', 'users','$state','toaster','SearchBar', '$materialSidenav','$timeout',
+        function($scope,loggedUser, users,$state,toaster,SearchBar,$materialSidenav,$timeout){
         $scope.user = users;
         $scope.me = loggedUser;
 
@@ -23,6 +24,7 @@ angular.module('cri.header',[])
                 $state.go('home');
             })
         };
+
 
         $timeout(function(){
             var rightNav;
@@ -39,7 +41,6 @@ angular.module('cri.header',[])
                             $scope.sideNavTemplateUrl = 'modules/header/templates/notifications.tpl.html';
                             if($scope.me.profile){
                                 users.getActivity($scope.me.profile.id,0).then(function(data){
-                                    console.log('activities',data);
                                     $scope.activities = data;
                                 }).catch(function(err){
                                     console.log(err);
@@ -56,13 +57,6 @@ angular.module('cri.header',[])
             $scope.$on('side:close-right',function(){
                 rightNav.toggle();
             });
-//            var notifNav;
-//            $scope.toggleNotif = function() {
-//                console.log('derr')
-//                notifNav.toggle();
-//            };
-//            notifNav = $materialSidenav('notif');
-
 
         },500);
         $scope.noPage=1;
@@ -86,7 +80,6 @@ angular.module('cri.header',[])
         $scope.refreshSearchBar = function(search) {
             if(search.length >=  2 ){
                 SearchBar.refresh(search).then(function(result){
-                    console.log(result)
                     $scope.searchResult = result;
                 }).catch(function(err){
                     toaster.pop('error',err.status,err.message);
@@ -95,26 +88,23 @@ angular.module('cri.header',[])
         };
 
         $scope.goTo = function(result){
-            console.log(result)
             if(result.username){
-                console.log(result)
                 $state.go('profile',{ uid : result.id })
             }else if(result.container){
                 $state.go('project',{ pid : result.accessUrl })
             }else{
                 $state.go('challenge',{ pid : result.accessUrl })
             }
-            console.log(result)
         };
 
         dpd.on('activities:create',function(data){
-            console.log('new Activity', data);
             if(data.owner == $scope.me.profile.id){
                 $scope.$apply(function(){
                     $scope.newNotif = true;
                 })
             }
 
-        })
+        });
+
 
     }])

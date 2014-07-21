@@ -5,7 +5,6 @@ angular.module('cri.common')
                 var defered = $q.defer();
                 $http.get(CONFIG.apiServer+'/recommendations/user/'+userId)
                     .success(function(data){
-                        console.log('rec user',data)
                         defered.resolve(data);
                     })
                     .error(function(err){

@@ -54,7 +54,6 @@ angular.module('cri.common')
             replace:true,
             templateUrl:'modules/common/directives/ownerBlock/userBlock.tpl.html',
             link : function(scope,element,attrs){
-                console.log(attrs)
 
 
                 scope.uid=scope.$eval(attrs.userBlock);

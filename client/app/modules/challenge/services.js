@@ -26,7 +26,6 @@ angular.module('cri.challenge')
                 }).success(function(data){
                     defered.resolve(data);
                 }).error(function(err){
-                    console.log('challege error',err)
                     defered.reject(err);
                 })
                 return defered.promise;

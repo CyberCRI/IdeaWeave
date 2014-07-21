@@ -16,7 +16,6 @@ angular.module('cri.common')
                         width = scope.options.width;
                         height = scope.options.height;
                         if(scope.options.center){
-                            console.log(element.find('svg'))
                             element.find('svg').attr('style',"margin:auto auto;");
                         }
                     }

@@ -20,7 +20,6 @@ angular.module('cri.message',[])
 
         $scope.$parent.showSendBtn = true;
         $scope.$on('sendMessage',function(){
-            console.log($scope.message)
             if($scope.message.message && $scope.message.user){
                 $scope.message.to = $scope.message.user.id;
                 delete $scope.message.user;
@@ -37,7 +36,6 @@ angular.module('cri.message',[])
         })
         var first = true;
         $scope.refreshReceiver = function(param){
-            console.log(param)
             Message.refreshUsersList(param).then(function(data){
                 $scope.searchResult = data;
                 if(Message.to && first){

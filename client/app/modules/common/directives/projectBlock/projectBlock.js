@@ -14,7 +14,6 @@ angular.module('cri.common')
                 }
                 var url=CONFIG.apiServer+"/projects/"+scope.projectId;
                 $http.get(url).success(function(data){
-                    console.log(data)
                     scope.project = data;
                 }).error(function(err){
                     console.log('error',err);

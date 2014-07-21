@@ -4,7 +4,7 @@ angular.module('cri.common')
             restrict : 'EA',
             templateUrl : "modules/common/directives/uploader/uploader.tpl.html",
             link : function(scope,element,attrs){
-                console.log(scope)
+
             }
         }
     })

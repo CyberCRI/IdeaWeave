@@ -211,7 +211,6 @@ angular.module('cri.user')
                 return defered.promise;
             },
             getResetPassToken : function(email){
-                console.log(3)
                 var defered = $q.defer();
                 $http.post(CONFIG.apiServer + '/datas/resetPass/' + email)
                     .success(function(data){

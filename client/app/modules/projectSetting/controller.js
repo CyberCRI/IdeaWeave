@@ -12,7 +12,6 @@ angular.module('cri.projectSetting',[])
     .controller('ProjectPosterCtrl',['$scope','Project','toaster',function($scope,Project,toaster){
         $scope.$watch('imageCropResult', function(newVal) {
             if (newVal) {
-                console.log($scope.challenge);
                 Project.update($scope.project.id, { poster: newVal }).then(function () {
                     $scope.project.poster = newVal;
                     toaster.pop('success', 'success', "Challenge's poster updated");
@@ -65,7 +64,6 @@ angular.module('cri.projectSetting',[])
         };
     }])
     .controller('ProjectMediaCtrl',['$scope', 'toaster','files','Files','urls','Url','CONFIG',function ($scope, toaster,files,Files,urls,Url,CONFIG) {
-        console.log('files',files);
         $scope.removeFile = function(file){
             Files.remove(file.id).then(function(){
                 toaster.pop('success','success','file remove succesfully');
@@ -82,8 +80,6 @@ angular.module('cri.projectSetting',[])
 
         $scope.files = files;
 
-        console.log(files);
-
         $scope.urls = urls;
 
         $scope.updateUrl = function(url){
@@ -95,7 +91,6 @@ angular.module('cri.projectSetting',[])
         };
 
         dpd.on('file:create',function(data){
-            console.log('socket file', data);
 //            jzCommon.query(apiServer+'/files',{id:data.id,container:$stateParams.pid,context:'list'}).then(function(result){
 //                $scope.pfiles.push(result);
 //            })
@@ -116,7 +111,6 @@ angular.module('cri.projectSetting',[])
             })
         }
         $scope.addToTeam=function(uid,idx){
-            console.log('ctrl',uid,idx)
             Project.update($scope.project.id,{member:{'$push':uid},'context':'team'}).then(function(){
 //            Project.update({uid : uid , context :'team'},$scope.project.id).then(function(){
                 $scope.finish(idx);
@@ -140,7 +134,6 @@ angular.module('cri.projectSetting',[])
         $scope.invite={};
         $scope.sendInvite=function(){
             $scope.invite.pid=Project.data.id;
-            console.log($scope.invite)
             Project.sendInvite($scope.invite).then(function(result){
                 toaster.pop('success','success','invitation send successfully');
                 $scope.invite.email="";

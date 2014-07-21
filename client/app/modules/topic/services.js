@@ -53,7 +53,6 @@ angular.module('cri.topic')
             },
             uploadFile : function(topic,file,description){
                 var defered = $q.defer();
-                console.log(description)
                 $upload.upload({
                     url: CONFIG.apiServer+'/upload?uniqueFilename=true&subdir=topic/'+$stateParams.pid+'&topic='+topic.id+'&projectUrl='+$stateParams.pid+'&description='+description+"&ownerName="+loggedUser.profile.username+"&ownerid="+loggedUser.profile.id,
                     method: 'POST',
@@ -70,7 +69,6 @@ angular.module('cri.topic')
                         topic : id
                     }
                 }).success(function(data){
-                    console.log(data)
                    defered.resolve(data);
                 }).error(function(err){
                     defered.reject(err);

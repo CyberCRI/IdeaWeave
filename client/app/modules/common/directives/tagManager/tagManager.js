@@ -21,7 +21,6 @@ angular.module('cri.common')
 
                 Tag.fetch().then(function(result){
                     $scope.tags=result;
-                    console.log(result)
                 }).catch(function(err){
                     console.log(err);
                 })
@@ -38,7 +37,6 @@ angular.module('cri.common')
 
                 // This adds the new tag to the tags array
                 $scope.add = function(tag){
-                    console.log(tag)
                     var exist = false;
                     for(var i in $scope.tags){
                         if($scope.tags[i].title == tag){
@@ -54,7 +52,6 @@ angular.module('cri.common')
 
                     // fix dulplicate
                     if(!inArray(tag,$scope.entity.tags)){
-                        console.log(tag)
                         $scope.entity.tags.push( tag );
                         $scope.myTag ='';
                     }else{

@@ -11,7 +11,6 @@ angular.module('cri.header')
                     $http.get(CONFIG.apiServer+'/challenges?'+JSON.stringify(query))
                 ]).then(function(data){
                     var response = data[0].data.concat(data[1].data,data[2].data);
-                    console.log(response)
                     defered.resolve(response);
                 }).catch(function(err){
                     defered.reject(err);

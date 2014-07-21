@@ -43,7 +43,6 @@ angular.module('cri.account',[])
 
         $scope.resetPassForm = false;
         $scope.forgotPass = function(){
-            console.log($scope.forgotPass)
             $scope.resetPassForm = !$scope.resetPassForm;
         }
 
@@ -119,7 +118,6 @@ angular.module('cri.account',[])
 
         $scope.fileSelected = function($files){
             $scope.file = $files[0];
-            console.log($scope.file)
             if(Files.isImage($scope.file)){
                 Files.getDataUrl($scope.file).then(function(dataUrl){
                     $scope.fileUrl = dataUrl;

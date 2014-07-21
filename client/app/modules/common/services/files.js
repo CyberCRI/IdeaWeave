@@ -13,7 +13,6 @@ angular.module('cri.common')
                 return defered.promise;
             },
             getPoster: function (file) {
-                console.log(file)
                 if (file.type.indexOf('image') > -1) {
                     file.class = 'fa-file-picture-o';
                     return;

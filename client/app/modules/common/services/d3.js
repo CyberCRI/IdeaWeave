@@ -12,9 +12,7 @@ angular.module('cri.common')
                 scriptTag2.type = 'text/javascript';
                 scriptTag2.async = true;
                 scriptTag2.src = 'https://rawgithub.com/jasondavies/d3-cloud/master/d3.layout.cloud.js';
-                console.log('load d3 tag')
                 scriptTag2.onreadystatechange = function () {
-                    console.log('ready d3 tags');
                     if (this.readyState == 'complete') onScriptLoad();
                 }
                 scriptTag2.onload = onScriptLoad;

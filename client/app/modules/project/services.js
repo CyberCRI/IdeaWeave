@@ -14,7 +14,6 @@ angular.module('cri.project')
             }
             $http.get(url)
                 .success(function(data){
-                    console.log(data)
                     defered.resolve(data);
                 })
                 .error(function(err){
@@ -48,13 +47,11 @@ angular.module('cri.project')
                     defered.resolve(data);
                 })
                 .error(function(err){
-                   console.log('project error',err)
                    defered.reject(err);
                 })
             return defered.promise;
         },
         create : function(project){
-            console.log(project)
             var defered = $q.defer();
             $http.post(CONFIG.apiServer + '/projects', project)
                 .success(function (data) {
@@ -96,15 +93,12 @@ angular.module('cri.project')
         },
         getApply : function(param){
             var defered = $q.defer();
-            console.log('service : ', param)
             var url = CONFIG.apiServer+'/applyteams?'+ JSON.stringify(param);
             $http.get(url)
                 .success(function(data){
-                    console.log('result',data)
                     defered.resolve(data);
                 })
                 .error(function(err){
-                    console.log('error',err.message);
                     defered.reject(err);
                 })
             return defered.promise;
@@ -202,7 +196,6 @@ angular.module('cri.project')
                 "(?:/[^\\s]*)?" +
                 "$", "i"
             );
-            console.log(string.match(/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/))
         }
     }
 

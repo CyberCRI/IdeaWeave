@@ -40,7 +40,7 @@
 <div ng-include src="'modules/header/templates/header.tpl.html'"  ng-controller="HeaderCtrl" ></div>
 
 <material-content style="height:100%;">
-    <div  ui-view="mainView"></div>
+    <div id="mainView"  ui-view="mainView" style="height: 100%;"></div>
 </material-content>
 
 
@@ -50,11 +50,10 @@
 
 <toaster-container></toaster-container>
 
-<!--<script src='//maps.googleapis.com/maps/api/js?sensor=false'></script>-->
 <script src="http://mozilla.github.io/pdf.js/build/pdf.js"></script>
 <script src="vendors/tinymce/tinymce.min.js"></script>
 
-<!--<script src="vendors/jquery/dist/jquery.js"></script>-->
+<!-- todo remove this asap just here to help for smooth scroll  -->
 
 
 <!-- build:js(app)  scripts/scripts.js -->
@@ -84,13 +83,12 @@
 <script src="vendors/angular-ui-tinymce/src/tinymce.js"></script>
 <script src="vendors/AngularJS-Toaster/toaster.js"></script>
 <script src="vendors/angular-ui-select/dist/select.js"></script>
-<script src="vendors/angular-scroll/angular-scroll.js"></script>
-<script src="vendors/ng-parallax/angular-parallax.js"></script>
 <script src="vendors/angular-crop-image/image-crop.js"></script>
 <script src="vendors/angular-material/config/lib/angular-animate-sequence/angular-animate-sequence.js"></script>
 <script src="vendors/angular-material/config/lib/angular-animate-sequence/angular-animate-stylers.js"></script>
 <script src="vendors/angular-material/dist/material-design.min.js"></script>
 <script src="vendors/angular-timer/dist/angular-timer.js"></script>
+<script src="vendors/angular-scrollto/angular-scrollto.js"></script>
 <script src="app.js"></script>
 
 <script src="modules/common/config.js"></script>

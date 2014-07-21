@@ -6,7 +6,7 @@ angular.module('cri.home')
                 views: {
                     mainView: {
                         templateUrl: 'modules/home/templates/home.tpl.html',
-                        controller: 'MainCtrl'
+                        controller: 'HomeCtrl'
                     }
                 },
                 resolve : {

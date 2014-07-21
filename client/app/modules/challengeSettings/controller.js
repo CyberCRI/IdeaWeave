@@ -23,7 +23,6 @@ angular.module('cri.challengeSettings',[])
     .controller('ChallengeSettingsPosterCtrl',['$scope','Challenge','toaster',function($scope,Challenge,toaster) {
         $scope.$watch('imageCropResult', function(newVal) {
             if (newVal) {
-                console.log($scope.challenge)
                 Challenge.update($scope.challenge.id,{ poster : newVal }).then(function(){
                     $scope.challenge.poster = newVal;
                     toaster.pop('success','success',"Challenge's poster updated");

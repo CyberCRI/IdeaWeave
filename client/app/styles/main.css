@@ -382,7 +382,6 @@ body,
 html {
   height: 100%;
   max-width: 100%;
-  overflow-x: hidden;
   font-family: helvetica, sans-serif;
 }
 textarea {
@@ -547,16 +546,6 @@ material-card {
   margin: 0;
   padding: 0;
 }
-/* additional sections */
-.service-image {
-  display: table;
-  position: relative;
-  width: 100%;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-}
 #services {
   background-color: #62c1c1;
   color: #ffffff;
@@ -571,22 +560,6 @@ material-card {
   text-align: center;
   vertical-align: middle;
   width: 140px;
-}
-#information {
-  background: url(../images/head.png) no-repeat center center fixed;
-  display: table;
-  position: relative;
-  width: 100%;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-}
-#information .panel {
-  opacity: 0.85;
-}
-.home-map .angular-google-map-container {
-  height: 400px;
 }
 .list-carousel-challenge {
   width: 100%;

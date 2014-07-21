@@ -1,24 +1,28 @@
-<section class="row" style="height:100%;" id="profile">
+<section class="row "style="padding: 30px; height: 100%;"  id="profile">
     <section class="col-md-3">
         <article class="panel-default" style="padding-left: 20px;">
             <div>
-                <img ng-src="{{profile.poster || 'images/avater.jpg'}}"  width="80%">
+                <img ng-src="{{profile.poster || 'images/avater.jpg'}}"  width="50%">
             </div>
             <p>
                 <a href="" ng-click="editPicture()" ng-if="me.id == profile.id" style="display: block;">Edit profile picture</a>
             </p>
             <p>
                 <i class="fa fa-map-marker fa-2x"></i>
-                <address ng-bind="profile.location.formatted_address" class="text-muted"></address>
+            <address ng-bind="profile.location.formatted_address" class="text-muted"></address>
+            <a smooth-scroll-jquery target="challenges" href=""   style="border:none;">
+            hghghghgh
+            </a>
             </p>
-
+            <a href="" ng-click="scrollToChallenge()" class="list-group-item"  style="border:none;">
+                Challenges
+            </a>
             <p ng-bind-html="profile.brief"></p>
             <p>
                 <i class="fa fa-tags fa-2x"></i>
-                <span showtags entity="profile">
-                </span>
+            <span showtags entity="profile">
+            </span>
             </p>
-
         </article>
     </section>
     <section class="col-md-6">
@@ -80,7 +84,7 @@
         </div>
     </section>
 </section>
-<section class="row" style="padding: 30px;height:100%;" id="challenges">
+<section class="row panel-scroll" style="padding: 30px;height:100%;"  id="challenges">
     <h2>Challenges</h2>
     <div class="col-sm-6 col-md-4 col-lg-3" ng-repeat="challenge in profile.challenges">
         <div class="thumbnail">
@@ -124,7 +128,7 @@
         </div>
     </div>
 </section>
-<section class="row" style="padding: 30px; height: 100%;" id="projects">
+<section class="row " style="padding: 30px; height: 100%;" id="projects">
     <h2>Projects</h2>
     <div class="col-sm-6 col-md-4 col-lg-3" ng-repeat="project in profile.projects">
         <div class="thumbnail">

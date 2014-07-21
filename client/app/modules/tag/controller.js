@@ -27,7 +27,6 @@ angular.module('cri.tag',[])
         $scope.d3TagData = {};
 
         Tag.search($stateParams.title).then(function(data){
-            console.log(data)
             $scope.tagdatas=data;
             $scope.d3TagData = Tag.d3FormatData(data,$stateParams.title);
         }).catch(function(err){

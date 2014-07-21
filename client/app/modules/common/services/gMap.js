@@ -20,10 +20,8 @@ angular.module('cri.common')
                     Project.fetch({type : 'position'}),
                     Challenge.fetch({type : 'position'})
                 ]).then(function(data){
-                    console.log(data)
                     defered.resolve(data);
                 }).catch(function(err){
-                    console.log('gmap error',err)
                     defered.reject(err)
                 })
                 return defered.promise;

@@ -1,13 +1,4 @@
 angular.module('cri.user',[])
-    .controller('ProfileChallengeCtrl',['$scope', 'contributedChallenges', 'followedChallenges',function($scope, contributedChallenges, followedChallenges ){
-        $scope.conChallenges=contributedChallenges;
-        $scope.fChallenges=followedChallenges;
-    }])
-    .controller('ProfileProjectCtrl',['$scope','createdProject','contributedProject','followedProject',function($scope,createdProject,contributedProject,followedProject){
-        $scope.popprojects=createdProject;
-        $scope.cprojects=contributedProject;
-        $scope.fprojects=followedProject;
-    }])
     .controller('ProfileActivityCtrl',['$scope','loggedUser','users',function($scope,loggedUser,users){
         users.getActivity(loggedUser.profile.id).then(function(data){
             $scope.activities = data;
@@ -34,43 +25,22 @@ angular.module('cri.user',[])
 
 
     }])
-    .controller('ProfileRelationCtrl',['$scope','loggedUser',function($scope,loggedUser){
-        $scope.me = loggedUser.profile;
-    }])
-    .controller('ProfileBriefCtrl',['$scope','$sce','loggedUser','users','toaster',function($scope,$sce,loggedUser,users,toaster){
-        if(loggedUser.profile){
-            if(loggedUser.profile.brief){
-                $scope.secureBrief = $sce.trustAsHtml($scope.profile.brief);
-            }
-            if(loggedUser.profile.presentation){
-                $scope.securePresentation = $sce.trustAsHtml($scope.profile.presentation);
-            }
-        }
 
-
-    }])
     .controller('ProfileCtrl',['$scope','toaster','loggedUser','profile','users','$modal','recommendUser','recommendProjects','recommendChallenge','$state','$sce',
         function ($scope,toaster,loggedUser, profile,users,$modal,recommendUser,recommendProjects,recommendChallenge,$state,$sce) {
         $scope.user = users;
         $scope.isLogged = false;
         $scope.profile=profile;
-        console.log('profile,',profile)
         if($scope.profile.presentation){
             $scope.profile.securePresentation = $sce.trustAsHtml($scope.profile.presentation);
         }
-//        users.getProfile($stateParams.uid).then(function(profile){
-//
-//            $scope.profile=profile;
-//        })
 
-//        $scope.profile=profile;
         $scope.now = new Date().getTime();
         $scope.recommandation = {
             users : recommendUser,
             projects : recommendProjects,
             challenges : recommendChallenge
         }
-        console.log('recommand',$scope.recommandation)
         $scope.isFollowUser=false;
         $scope.me = loggedUser.profile;
         $scope.d3Tags = [];
@@ -92,7 +62,6 @@ angular.module('cri.user',[])
                 });
 
                 modalInstance.result.then(function (picture) {
-                    console.log(picture)
                     $scope.profile.poster = picture;
                 }, function () {
                 });
@@ -108,9 +77,7 @@ angular.module('cri.user',[])
             if($scope.profile.id==loggedUser.profile.id){
                 $scope.isOwner=true;
             }else if($scope.profile.followers.length>0){
-                console.log(followers)
                 if($scope.followers.indexOf(loggedUser.profile.id)!==-1){
-                    console.log('follow !!!')
                     $scope.isFollowUser=true;
                 }
             }
@@ -146,7 +113,6 @@ angular.module('cri.user',[])
 
         // follow user
         $scope.followUser=function(uid){
-            console.log($scope.isFollowUser)
             if($scope.isFollowUser){
                 users.unfollow(uid).then(function(result){
                     if(result.error){
@@ -206,8 +172,6 @@ angular.module('cri.user',[])
         }
     }])
     .controller('settingAvatarCtrl',['$scope','users','toaster','loggedUser','$modalInstance',function ($scope,users,toaster,loggedUser,$modalInstance) {
-        console.log('sdfsdfsd')
-
         $scope.$on('cropReady',function(e,data){
             users.update(loggedUser.profile.id,{ poster : data }).then(function(){
                 loggedUser.profile.poster = data;

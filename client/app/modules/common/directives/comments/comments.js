@@ -20,12 +20,10 @@ angular.module('cri.common')
                         container:scope.topicId
                     };
                     Comment.post(option).then(function(result){
-                        console.log('commentResponse  ',result);
                         result.displayText = $sce.trustAsHtml(result.text);
 //                        scope.comments.splice(0,0,result);
                         scope.commentValue='';
                     }).catch(function(err){
-                        console.log('error',err);
                     })
                 };
                 scope.replyComment=function(pid,idx){

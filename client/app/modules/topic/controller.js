@@ -47,9 +47,7 @@ angular.module('cri.topic',[])
 
         $scope.comments=[];
         var childrens = [];
-        console.log('topic',$scope.myTopic)
         Comment.fetch({container:$scope.myTopic.id}).then(function(result){
-            console.log('comment',result)
             angular.forEach(result,function(comment,id){
                 if(comment.text){
                     comment.displayText = $sce.trustAsHtml(comment.text);
@@ -65,17 +63,13 @@ angular.module('cri.topic',[])
                 angular.forEach($scope.comments,function(v,k) {
                     $scope.comments[k].answers = [];
                     angular.forEach(childrens,function(cv,ck){
-                        console.log('parent', v.id,cv.id)
                         if (v.id == cv.parent.id) {
-                            console.log('parent !!!!! 1',k);
                             $scope.comments[k].answers.push(cv);
                             delete childrens[ck];
-                            console.log('parent !!!!! 2',$scope.comments);
                         }
                     });
 
                 });
-                console.log('scope.comments    ',$scope.comments)
             }
         }).catch(function(err){
             console.log('error',err)

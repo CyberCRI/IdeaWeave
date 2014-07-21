@@ -25,7 +25,6 @@ angular.module('cri.message')
                 var defered = $q.defer(),
                     queryUser = {username:{$regex:param+".*",$options: 'i'},context:'list'};
                 $http.get(CONFIG.apiServer+'/users?'+JSON.stringify(queryUser)).success(function(data){
-                    console.log('service message refresh to' , data)
                     defered.resolve(data);
                 }).error(function(err){
                     defered.reject(err);

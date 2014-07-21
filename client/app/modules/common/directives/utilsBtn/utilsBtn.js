@@ -10,7 +10,6 @@ angular.module('cri.common')
                 var item = element.find('i');
                 item.bind('click',function(){
                     scope.collapsed = !scope.collapsed;
-                    console.log(scope.collapsed);
                     if(scope.collapsed){
                         item.removeClass('fa-minus');
                         item.addClass('fa-plus');

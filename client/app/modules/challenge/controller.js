@@ -29,7 +29,6 @@ angular.module('cri.challenge', [])
             });
 
             myModal.result.then(function(data){
-                console.log('modal then',data)
                 $scope.topics.push(data);
             })
         };
@@ -62,7 +61,6 @@ angular.module('cri.challenge', [])
         $scope.dropBoxHeight = "100px";
         $scope.tid = $stateParams.tid;
         dpd.on('comments:create',function(data){
-            console.log('socket data',data);
             if(data.container == $scope.myTopic.id){
                 var notin = true;
                 if(data.text){
@@ -87,7 +85,6 @@ angular.module('cri.challenge', [])
                                 }
                             }
                         }).catch(function(err){
-                            console.log('error',err);
                         })
                     }
                 }
@@ -95,9 +92,7 @@ angular.module('cri.challenge', [])
         });
         $scope.comments=[];
         var childrens = [];
-        console.log('topic',$scope.myTopic)
         Comment.fetch({container:$scope.myTopic.id}).then(function(result){
-            console.log('comment',result)
             angular.forEach(result,function(comment,id){
                 if(comment.text){
                     comment.displayText = $sce.trustAsHtml(comment.text);
@@ -112,19 +107,16 @@ angular.module('cri.challenge', [])
             if(childrens.length > 0){
                 angular.forEach($scope.comments,function(v,k) {
                     angular.forEach(childrens,function(cv,ck){
-                        console.log('parent', v.id,cv.id)
                         if (v.id == cv.parent.id) {
-                            console.log('parent !!!!! 1',k);
                             $scope.comments.splice(k+1,0,cv);
                             delete childrens[ck];
-                            console.log('parent !!!!! 2',$scope.comments);
                         }
                     });
 
                 });
             }
         }).catch(function(err){
-            console.log('error',err)
+
         })
 
 
@@ -160,7 +152,6 @@ angular.module('cri.challenge', [])
 
 
         $scope.isOfficeDoc = function(file){
-            console.log()
             return Files.isOfficeDoc(file);
         };
 
@@ -171,7 +162,6 @@ angular.module('cri.challenge', [])
 
         $scope.fileSelected = function($files){
             $scope.file = $files[0];
-            console.log($scope.file);
             if(Files.isImage($scope.file)){
                 Files.getDataUrl($scope.file).then(function(dataUrl){
                     $scope.fileUrl = dataUrl;
@@ -254,21 +244,18 @@ angular.module('cri.challenge', [])
 
         // query search
         $scope.queryChallenge = function () {
-            console.log($scope.searchChallenge)
             if ($scope.searchChallenge) {
                 // search title
                 var challenges = [];
                 var count = 0;
                 queryTag($scope.searchChallenge, function (datas) {
                     count++;
-                    console.log(count,datas)
                     if(datas){
                         challenges = challenges.concat(datas);
 
                     }
                     if (count == 3) {
                         $scope.challenges = uniqueObject(challenges);
-                        console.log($scope.challenges)
                     }
                 });
             } else {
@@ -353,12 +340,10 @@ angular.module('cri.challenge', [])
             challenge.owner = loggedUser.profile.id;
             challenge.startDate = challenge.startDate.getTime();
             challenge.endDate = challenge.endDate.getTime();
-            console.log('!! ! ! ! ! !',challenge)
             Challenge.create(challenge).then(function(){
                 toaster.pop('info','success','Your challenge has been added. would you like to add a description picture to it ?');
                 $state.go('challenges');
             }).catch(function(err){
-                console.log(err);
                 toaster.pop('error',err.status,err.message);
             })
         }
@@ -400,16 +385,13 @@ angular.module('cri.challenge', [])
 .controller('ChallengeCtrl',['$scope','Challenge','challenge','loggedUser','toaster','$state',function($scope,Challenge,challenge,loggedUser,toaster,$state){
         $scope.me = loggedUser;
 
-        console.log(challenge)
         $scope.challenge = Challenge.data = challenge[0];
-        console.log($scope.challenge)
         if(loggedUser.profile){
             if(loggedUser.profile.id == $scope.challenge.owner){
                 $scope.isOwner = true;
             }
         }
         if($scope.challenge.localisation){
-            console.log($scope.challenge.localisation)
             $scope.map = {
                 center: {
                     latitude: $scope.challenge.localisation.geometry.location.lat,
@@ -474,9 +456,7 @@ angular.module('cri.challenge', [])
 
 .controller('ChallengeSettingsCtrl',['$scope','Challenge','toaster',function($scope,Challenge,toaster){
 
-        console.log($scope.challenge)
         $scope.$watch('imageCropResult', function(newVal) {
-            console.log('rr',newVal)
             if (newVal) {
                 Challenge.update($scope.challenge.id,{ poster : newVal }).then(function(){
                     toaster.pop('success','success','challenge poster updated');
@@ -488,9 +468,7 @@ angular.module('cri.challenge', [])
         $scope.updateChallenge = function(challenge){
             Challenge.update(challenge.id,challenge).then(function(data){
                 toaster.pop('success','success','Challenge updated successfully');
-                console.log('success',data)
             }).catch(function(err){
-                console.log('err',err)
                 toaster.pop('error',err.status,err.message);
             })
         }
