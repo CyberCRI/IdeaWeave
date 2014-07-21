@@ -2,39 +2,12 @@ angular.module('cri.user')
     .config(['$stateProvider',function ($stateProvider) {
 
         $stateProvider
-            .state('profile.settings',{
-                url : '/settings',
-                abstract : true,
+            .state('userSettings',{
+                url : '/profile/edit/:uid',
                 views : {
-                    profileView : {
-                        templateUrl: 'modules/user/templates/setting.tpl.html',
+                    mainView : {
+                        templateUrl: 'modules/user/templates/edit.tpl.html',
                         controller: 'settingBasicCtrl'
-                    }
-                }
-            })
-            .state('profile.settings.basic',{
-                url : '/basic',
-                views : {
-                    settingView: {
-                        templateUrl: 'modules/user/templates/settings/basic.tpl.html'
-                    }
-                }
-            })
-            .state('profile.settings.avatar',{
-                url : '/avatar',
-                views : {
-                    settingView: {
-                        templateUrl: 'modules/user/templates/settings/avatar.tpl.html',
-                        controller: 'settingAvatarCtrl'
-                    }
-                }
-            })
-            .state('profile.settings.notify',{
-                url : '/notify',
-                views : {
-                    settingView: {
-                        templateUrl: 'modules/user/templates/settings/notify.tpl.html',
-                        controller: 'settingNotifyCtrl'
                     }
                 }
             })
@@ -42,25 +15,22 @@ angular.module('cri.user')
                 url : '/user/:uid',
                 views : {
                     mainView: {
-                        templateUrl: 'modules/user/templates/profile.tpl.html',
+                        templateUrl: 'modules/user/templates/me.tpl.html',
                         controller: 'ProfileCtrl'
                     }
                 },
                 resolve : {
                     profile : ['users','$stateParams',function(users,$stateParams){
-                        var option = {
-                            id : $stateParams.uid,
-                            context : 'details'
-                        }
-                        return users.fetch(option);
+                        return users.getProfile($stateParams.uid);
                     }],
-                    followers : ['$stateParams','users',function($stateParams,users){
-                        var options = {eid:$stateParams.uid,type:'users'};
-                        return users.getFollower(options);
+                    recommendUser : ['Recommend','loggedUser',function(Recommend,loggedUser){
+                        return Recommend.fetchUser(loggedUser.profile.id);
                     }],
-                    following : ['$stateParams', 'users',function($stateParams, users){
-                        var options = { value : 'following', uid : $stateParams.uid}
-                        return users.getFollowing(options);
+                    recommendProjects : ['Recommend','loggedUser',function(Recommend,loggedUser){
+                        return Recommend.fetchProject(loggedUser.profile.id);
+                    }],
+                    recommendChallenge : ['Recommend','loggedUser',function(Recommend,loggedUser){
+                        return Recommend.fetchChallenge(loggedUser.profile.id);
                     }]
                 }
             })
@@ -71,21 +41,6 @@ angular.module('cri.user')
                         templateUrl: 'modules/user/templates/profile/activity.tpl.html',
                         controller : 'ProfileActivityCtrl'
                     }
-                },
-                resolve : {
-
-                    recommendUser : ['Recommend','$stateParams',function(Recommend,$stateParams){
-                        return Recommend.fetchUser($stateParams.uid);
-                    }],
-                    recommendFriendUser : ['Recommend','$stateParams',function(Recommend,$stateParams) {
-                        return Recommend.fetchFriendsUser($stateParams.uid);
-                    }],
-                    recommendProjects : ['Recommend','$stateParams',function(Recommend,$stateParams){
-                        return Recommend.fetchProject($stateParams.uid);
-                    }],
-                    recommendChallenge : ['Recommend','$stateParams',function(Recommend,$stateParams){
-                        return Recommend.fetchChallenge($stateParams.uid);
-                    }]
                 }
             })
             .state('profile.challenges',{
@@ -146,13 +101,5 @@ angular.module('cri.user')
                     }]
                 }
             })
-            .state('profile.brief',{
-                url : '/brief',
-                views : {
-                    profileView: {
-                        templateUrl: 'modules/user/templates/profile/brief.tpl.html',
-                        controller : 'ProfileBriefCtrl'
-                    }
-                }
-            })
+
     }]);

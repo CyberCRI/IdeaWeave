@@ -104,6 +104,16 @@ angular.module('cri.user')
                     })
                 return defered.promise;
             },
+            getProfile : function(id){
+                var defered = $q.defer();
+                var url = CONFIG.apiServer + '/datas/profile/'+id;
+                $http.get(url).success(function(data){
+                        defered.resolve(data);
+                    }).error(function(err){
+                        defered.reject(err);
+                    })
+                return defered.promise;
+            },
             uploadPoster : function(file){
                 var defered = $q.defer();
                 var regex = /\.([0-9a-z]+)(?:[\?#]|$)/i;

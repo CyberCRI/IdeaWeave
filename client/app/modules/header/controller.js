@@ -20,42 +20,50 @@ angular.module('cri.header',[])
             users.logout().then(function(){
                 //todo fix this for production
 //                $window.location.href=''
-                $state.go('main');
+                $state.go('home');
             })
         };
 
-        $scope.goHome = function(){
-            if(loggedUser.profile){
-                $state.go('home');
-            }else{
-                $state.go('main');
-            }
-        }
         $timeout(function(){
-            var loginNav;
-            $scope.toggleLogin = function() {
-                loginNav.toggle();
+            var rightNav;
+            $scope.toggleRight = function(template) {
+                if(template){
+                    switch(template){
+                        case 'login':
+                            $scope.sideNavTemplateUrl = 'modules/account/templates/signin.tpl.html';
+                            break;
+                        case 'menu':
+                            $scope.sideNavTemplateUrl = 'modules/header/templates/menu.tpl.html';
+                            break;
+                        case 'notif':
+                            $scope.sideNavTemplateUrl = 'modules/header/templates/notifications.tpl.html';
+                            if($scope.me.profile){
+                                users.getActivity($scope.me.profile.id,0).then(function(data){
+                                    console.log('activities',data);
+                                    $scope.activities = data;
+                                }).catch(function(err){
+                                    console.log(err);
+                                })
+                            }
+                            break;
+                    }
+                }
+
+                rightNav.toggle();
             };
-            loginNav = $materialSidenav('login');
+            rightNav = $materialSidenav('right');
 
             $scope.$on('side:close-right',function(){
-                loginNav.toggle();
+                rightNav.toggle();
             });
-            var notifNav;
-            $scope.toggleNotif = function() {
-                console.log('derr')
-                notifNav.toggle();
-            };
-            notifNav = $materialSidenav('notif');
+//            var notifNav;
+//            $scope.toggleNotif = function() {
+//                console.log('derr')
+//                notifNav.toggle();
+//            };
+//            notifNav = $materialSidenav('notif');
 
-            if($scope.me.profile){
-                users.getActivity($scope.me.profile.id,0).then(function(data){
-                    console.log('activities',data);
-                    $scope.activities = data;
-                }).catch(function(err){
-                    console.log(err);
-                })
-            }
+
         },500);
         $scope.noPage=1;
         $scope.isEnd=false;

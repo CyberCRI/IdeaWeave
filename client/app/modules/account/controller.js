@@ -17,7 +17,6 @@ angular.module('cri.account',[])
                 .filter(function(pos) { return $scope.toastPosition[pos]; })
                 .join(' ');
         };
-        console.log("toast pos   :  ",$scope.getToastPosition())
         $scope.login = function ($event) {
             $event.preventDefault();
             users.login($scope.signin.username, $scope.signin.password)
@@ -32,9 +31,8 @@ angular.module('cri.account',[])
                         }],
                         templateUrl: 'modules/common/modal/toast.tpl.html',
                         duration: 5000,
-                        position: 'top fit'
+                        position: 'bottom fit'
                     });
-//                    toaster.pop('success', 'Welcome', 'You are logged in !!!');
                     $state.go('home');
                     $scope.$emit('side:close-right');
                 })
@@ -150,48 +148,6 @@ angular.module('cri.account',[])
                 toaster.pop('error',err.status,err.message);
             })
         }
-    }])
-    .controller('resetPassCtrl', ['$scope', '$stateParams', 'users', '$state', 'toaster', function ($scope, $stateParams, users, $state, toaster) {
-        $scope.resetF = {};
-        $scope.getToken = function () {
-            users.getResetPassToken($scope.resetF.checkEmail).then(function(data){
-                if (data.error) {
-                    toaster.pop('error','error', 'an error occured sorry.')
-//                    $scope.notifyErr = data.error;
-                } else {
-                    toaster.pop('sucess','success',"Verification code has been sent successfully, please log in to view your mailbox")
-//                    $scope.notifyMsg = "Verification code has been sent successfully, please log in to view your mailbox";
-                }
-            })
-//            jzCommon.postOj(apiServer + '/datas/resetPass/' + $scope.resetF.checkEmail).then(function (data) {
-//                if (data.error) {
-//                    $scope.notifyErr = data.error;
-//                } else {
-//                    $scope.notifyMsg = "Verification code has been sent successfully, please log in to view your mailbox";
-//                }
-//            })
-        }
-        $scope.reSet = function () {
-            users.resetPassword($scope.resetF).then(function (data) {
-                if (data.error) {
-                    alert(data.error);
-                    toaster.pop('error','error','an error occured sorry');
-                } else {
-                    toaster.pop('success','success','Password reset successfull');
-//                    alert('Reset success！');
-                    $state.go('login');
-                }
-            })
-//            jzCommon.postOj(apiServer + '/datas/reset/', $scope.resetF).then(function (data) {
-//                if (data.error) {
-//                    alert(data.error);
-//                } else {
-//                    alert('Reset success！');
-//                    $location.path('account/login');
-//                }
-//            })
-        }
-
     }])
     .controller('ActivateCtrl',['$scope','users','$state','$stateParams','toaster',function($scope,users,$state,$stateParams,toaster){
         $scope.activate = function(){

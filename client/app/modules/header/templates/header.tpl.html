@@ -1,19 +1,20 @@
-<material-toolbar  class="material-theme-light-blue" role="navigation" scroll-header condensed-height="64">
+<material-toolbar  class="main-header" style="background-color: white; border-bottom:solid 1px black;" role="navigation" scroll-header condensed-height="64">
     <!--<div class="material-toolbar-tools material-toolbar-tools-top ">-->
         <!--<span class="material-flex center">-->
         <!--</span>-->
     <!--</div>-->
     <div class="material-toolbar-tools material-toolbar-tools">
-        <span class="material-flex ">
-            <a ng-click="goHome()" class="navbar-brand visible-lg" style="cursor : pointer;">
-                <img src="images/svg/logoallume.svg" alt="IdeaStorm"/>
+        <span class="material-flex">
+             <a class="navbar-brand visible-sm visible-xs" style="cursor : pointer;padding-top: 0px;"  ui-sref="home">
+                <i class="fa fa-lightbulb-o fa-2x"></i>
+            </a>
+             <a class="navbar-brand visible-lg visible-md" style="cursor : pointer;padding-top: 0px;"  ui-sref="home">
+                <i class="fa fa-lightbulb-o fa-2x"  ui-sref="home"></i>
+                <span class="my-grey">Idea</span>
+                <span class="my-yellow">Storm</span>
             </a>
             <ul class="header-list">
-                <li class="hidden-lg">
-                    <a href="">
-                        <i class="fa fa-gears fa-2x" ng-click="toggleLeft()"></i>
-                    </a>
-                </li>
+
                 <li ui-route="/challenges" class="hidden-sm hidden-xs" ng-class="{active:$uiRoute}">
                     <a ui-sref="challenges" tooltip="challenge" tooltip-placement="bottom">
                         <i class="fa fa-trophy fa-2x"></i>
@@ -50,41 +51,49 @@
                         </ui-select-choices>
                     </ui-select>
                 </li>
-                <li class="pull-right visible-lg" style="margin-right:50px;">
-                    <span ng-if="user.isLoggedIn()">
-                        <a ui-sref="profile.brief({ uid : me.profile.id })" style="padding : 5px;" >
-                            <img  ng-src="{{ me.profile.poster || 'images/avater.jpg' }}" class="img-rounded" height="50" />
-                            <span ng-bind="me.profile.username"></span>
-                        </a>
-                        <span class="dropdown">
-                            <a href="" class="fa fa-2x fa-gear dropdown-toggle"></a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li>
-                                    <a href="" ng-if="me.admin">
-                                        <i class="fa fa-gear"></i>
-                                        Admin
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="" ui-sref="profile.settings.basic({ uid : me.profile.id })">
-                                        <i class="fa fa-user" ></i>
-                                        &nbsp Personnal
-                                    </a>
-                                </li>
-                                <li class="divider"></li>
-                                <li>
-                                    <a href="" ng-click="logout()">Logout</a>
-                                </li>
-                            </ul>
-                        </span>
-                        <a href="">
-                            <i class="fa fa-2x fa-envelope-o"  ui-sref="message.inbox" tooltip-animation="true" tooltip="inbox" tooltip-placement="bottom"></i>
-                        </a>
-                    </span>
+                <li class="pull-right"style="margin-right:50px;">
                     <a href="">
-                        <i tooltip="signin" tooltip-placement="bottom" class="fa fa-sign-in fa-2x" ng-click="toggleLogin()" ng-if="!user.isLoggedIn()"></i>
+                        <i tooltip="menu"  tooltip-placement="bottom" class="fa fa-caret-left fa-2x" ng-click="toggleRight('menu')" ng-if="user.isLoggedIn()"></i>
+                    </a>
+                    <a href="">
+                        <i tooltip="signin" tooltip-placement="bottom" class="fa fa-sign-in fa-2x" ng-click="toggleRight('login')" ng-if="!user.isLoggedIn()"></i>
                     </a>
                 </li>
+                <!--<li class="pull-right visible-lg" style="margin-right:50px;">-->
+                    <!--<span ng-if="user.isLoggedIn()">-->
+                        <!--<a ui-sref="profile.brief({ uid : me.profile.id })" style="padding : 5px;" >-->
+                            <!--<img  ng-src="{{ me.profile.poster || 'images/avater.jpg' }}" class="img-rounded" height="50" />-->
+                            <!--<span ng-bind="me.profile.username"></span>-->
+                        <!--</a>-->
+                        <!--<span class="dropdown">-->
+                            <!--<a href="" class="fa fa-2x fa-gear dropdown-toggle"></a>-->
+                            <!--<ul class="dropdown-menu" role="menu">-->
+                                <!--<li>-->
+                                    <!--<a href="" ng-if="me.admin">-->
+                                        <!--<i class="fa fa-gear"></i>-->
+                                        <!--Admin-->
+                                    <!--</a>-->
+                                <!--</li>-->
+                                <!--<li>-->
+                                    <!--<a href="" ui-sref="profile.settings.basic({ uid : me.profile.id })">-->
+                                        <!--<i class="fa fa-user" ></i>-->
+                                        <!--&nbsp Personnal-->
+                                    <!--</a>-->
+                                <!--</li>-->
+                                <!--<li class="divider"></li>-->
+                                <!--<li>-->
+                                    <!--<a href="" ng-click="logout()">Logout</a>-->
+                                <!--</li>-->
+                            <!--</ul>-->
+                        <!--</span>-->
+                        <!--<a href="">-->
+                            <!--<i class="fa fa-2x fa-envelope-o"  ui-sref="message.inbox" tooltip-animation="true" tooltip="inbox" tooltip-placement="bottom"></i>-->
+                        <!--</a>-->
+                    <!--</span>-->
+                    <!--<a href="">-->
+                        <!--<i tooltip="signin" tooltip-placement="bottom" class="fa fa-sign-in fa-2x" ng-click="toggleLogin()" ng-if="!user.isLoggedIn()"></i>-->
+                    <!--</a>-->
+                <!--</li>-->
             </ul>
         </span>
     </div>
@@ -93,11 +102,8 @@
         <!--<material-icon icon="images/svg/notification.svg"></material-icon>-->
     </button>
 </material-toolbar>
-<material-sidenav class="material-sidenav-right material-whiteframe-z2 material-theme-light" component-id="notif" >
-        <div ng-include="'modules/header/templates/notifications.tpl.html'">
-        </div>
-</material-sidenav>
-<material-sidenav class="material-sidenav-right material-whiteframe-z2 material-theme-light" component-id="login" >
-    <div ng-include="'modules/account/templates/signin.tpl.html'">
+
+<material-sidenav class="material-sidenav-right material-whiteframe-z2 material-theme-light" component-id="right" >
+    <div ng-include="sideNavTemplateUrl">
     </div>
 </material-sidenav>

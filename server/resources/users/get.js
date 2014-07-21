@@ -11,3 +11,5 @@ if(query.type =='position'){
         }
     });
 }
+
+ 

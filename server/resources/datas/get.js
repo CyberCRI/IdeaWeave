@@ -1,11 +1,133 @@
 
 function uniqueObject(arr){
-      var o={},i,j,r=[];
-      for(var i=0;i<arr.length;i++) o[arr[i]['id']]=arr[i];
-      for(var j in o) r.push(o[j])
-      return r
+    var unique = {},
+        result = [];
+    arr.forEach(function(item) {
+        console.log(item.id,unique[item.id])
+        if (!unique[item.id]) {
+            result.push(item);
+            unique[item.id] = item;
+        }
+    });
+    console.log(result.length)
+    return result;
 }
 switch(parts[0]){
+    case 'profile':
+
+    function getPidsfromOj(data){
+        var pids=[];
+        if(data&&data.length>0){
+            for(var i in data){
+                pids[i]=data[i].container;
+            }
+        }
+        return pids;
+    }
+    function getCProjects(uid,pids,callback){
+        var subcount=0;
+        var result=[];
+        dpd.projects.get({member:{$in:[uid]},owner:{$ne:uid},$sort:{score:-1,createDate:-1},context:'list'},function(data,err){
+            finalCallback(data,callback);
+        });
+        dpd.projects.get({id:{$in:pids},owner:{$ne:uid},context:'list'},function(data,err){
+            finalCallback(data,callback);
+        });
+        function finalCallback(data,callback){
+            subcount++;
+            result=result.concat(data);
+            // delete dulplicate
+            result=uniqueObject(result);
+            if(subcount==2){
+                callback(result);
+            }
+        }
+    }
+
+    function getConProjects(uid,callback){
+        var count=0;
+        var pids=[];
+        dpd.pforums.get({owner:uid},function(data,err){
+            scallback(getPidsfromOj(data),callback);
+        });
+        dpd.plinks.get({owner:uid},function(data,err){
+            scallback(getPidsfromOj(data),callback);
+        })
+        function scallback(data,callback){
+            count++;
+            pids=pids.concat(data);
+            if(count==2){
+                getCProjects(uid,pids,callback);
+            }
+        }
+    }
+
+        console.log('id',parts[1])
+        dpd.users.get({id : parts[1]},function(user){
+            console.log('user',user)
+              dpd.followers.get({users:{$in:[user.id]},type:'users'},function(data,err){
+                 user.followings = [];
+                if(data){
+                     for(var i in data){
+                        user.followings.push(data[i].eid);
+                    }   
+                }
+            dpd.followers.get({eid:user.id},function(data){
+                if(data){
+                    user.followers = data.users || [];    
+                }else{
+                    user.followers = [];
+                }            
+                dpd.projects.get({owner : user.id},function(data){
+                    if(data){
+                        user.projects = data;
+                    }else{
+                        user.projects = [];
+                    }
+                    getConProjects(user.id,function(contribP){
+                        contribP.forEach(function(project){
+                            user.projects.push(project);
+                        })
+                        dpd.challenges.get({ owner : user.id },function(data){
+                            if(data){
+                                user.challenges = data;
+
+                            }else{
+                                user.challenges = [];
+                            }
+                            var carr=[];
+                            for(var i in user.projects){
+                                carr[i]=(user.projects[i].container);
+                            }
+                            dpd.challenges.get({id:{$in:carr},$sort:{follow:-1},context:'list'},function(datas){
+                                datas.forEach(function(v,k){
+                                    user.challenges.push(v);
+                                });
+                                dpd.followers.get({users:{$in:[user.id]},type:'challenges'},function(datas,err){
+                                    if(datas.length>0){
+                                        var fpids=[];
+                                        for(var i in datas){
+                                            fpids[i]=datas[i].eid;
+                                        }
+                                        dpd.challenges.get({id:{$in:fpids},$sort:{score:-1,createDate:-1},context:'list'},function(data){
+                                            data.forEach(function(v,k){
+                                                user.challenges.push(v);
+                                            });
+                                        });
+                                    }
+                                    user.challenges = uniqueObject(user.challenges);
+                                    user.projects = uniqueObject(user.projects);
+                                    console.log('last,',user.challenges.length);
+                                    setResult(user);
+                                });
+                            });
+                        });
+                    });
+                });
+            }); 
+        });
+
+    })
     case 'activity':
     var uid=parts[1]; 
     var limit=parts[2];

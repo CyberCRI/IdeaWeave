@@ -1,0 +1,28 @@
+<section style="padding-left : 20px; padding-top: 20px;" >
+    <div class="row">
+        <div class="col-xs-6">
+            <img ng-src="{{ me.profile.poster || 'images/avater.jpg' }}" alt="{{ me.profile.username }}'s photo" width="100%" class="img-rounded pull-left"/>
+        </div>
+        <i class="fa fa-caret-right fa-2x my-btn pull-right" style="color:black; margin-right:10px;" ng-click="toggleRight('menu')"></i>
+    </div>
+    <h2 style="color:black;">
+        {{ me.profile.realname || me.profile.username }}
+    </h2>
+    <div class="list-group" >
+        <a ui-route="/user/{{me.profile.id}}" class="list-group-item" ng-class="{'menu-active':$uiRoute}" ng-href="user/{{me.profile.id}}#profile" style="border:none;">
+            Profile
+        </a>
+        <a ui-route="/message" ui-sref="message" class="list-group-item" ng-class="{'menu-active':$uiRoute}" style="border:none;">
+            Messages
+        </a>
+        <a ui-route="/user/{{me.profile.id}}#challenges" ng-href="user/{{me.profile.id}}#challenges" class="list-group-item"  ng-class="{'menu-active':$uiRoute}" style="border:none;">
+            Challenges
+        </a>
+        <a ui-route="" ng-href="user/{{me.profile.id}}#projects" class="list-group-item" ng-class="{'menu-active':$uiRoute}" style="border:none;">
+            Projects
+        </a>
+        <a ui-route="" href="" ui-sref="userSettings({ uid : me.profile.id })" class="list-group-item" ng-class="{'menu-active':$uiRoute}" style="border:none;">
+            Edit Profile
+        </a>
+    </div>
+</section>

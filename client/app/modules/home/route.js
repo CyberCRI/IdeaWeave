@@ -1,7 +1,7 @@
 angular.module('cri.home')
 .config(['$stateProvider',function($stateProvider){
         $stateProvider
-            .state('main', {
+            .state('home', {
                 url : "/",
                 views: {
                     mainView: {
@@ -24,27 +24,27 @@ angular.module('cri.home')
                     }]
                 }
             })
-            .state('home', {
-                url : "/home",
-                views: {
-                    mainView: {
-                        templateUrl: 'modules/home/templates/home.tpl.html',
-                        controller: 'HomeCtrl'
-                    }
-                },
-                resolve : {
-                    tags : ['Tag',function(Tag){
-                        return Tag.fetch();
-                    }],
-//                    positions : ['Gmap',function(Gmap){
-//                        return Gmap.getAllPositions()
+//            .state('home', {
+//                url : "/home",
+//                views: {
+//                    mainView: {
+//                        templateUrl: 'modules/home/templates/home.tpl.html',
+//                        controller: 'HomeCtrl'
+//                    }
+//                },
+//                resolve : {
+//                    tags : ['Tag',function(Tag){
+//                        return Tag.fetch();
 //                    }],
-                    recommendThings : ['Recommend','loggedUser',function(Recommend,loggedUser){
-
-                        return Recommend.fetchAll(loggedUser.profile.id);
-
-
-                    }]
-                }
-            })
+////                    positions : ['Gmap',function(Gmap){
+////                        return Gmap.getAllPositions()
+////                    }],
+//                    recommendThings : ['Recommend','loggedUser',function(Recommend,loggedUser){
+//
+//                        return Recommend.fetchAll(loggedUser.profile.id);
+//
+//
+//                    }]
+//                }
+//            })
     }])

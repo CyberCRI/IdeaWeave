@@ -77,7 +77,7 @@
         <h2 class="center" style="color:white;" ng-if="!me.profile">Popular Projects</h2>
         <h2 class="center" style="color:white;" ng-if="me.profile">Recommended projects</h2>
         <div class="material-display-flex material-flex-h">
-            <material-whiteframe ng-repeat="project in projects" class="material-flex material-display-flex material-flex-center material-whiteframe-z1">
+            <material-whiteframe ng-repeat="project in projects" class="material-flex material-display-flex material-flex-center material-whiteframe-z1" style="margin-right: 20px;">
                 <div class="material-flex">
                     <material-card>
                         <img ng-src="{{project.poster || 'http://placehold.it/275x275'}}" alt="here {{ project.title }} 's poster" class="material-card-image">

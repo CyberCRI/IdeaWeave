@@ -383,12 +383,20 @@ html {
   height: 100%;
   max-width: 100%;
   overflow-x: hidden;
-}
-body {
-  font-family: 'Abel', sans-serif;
+  font-family: helvetica, sans-serif;
 }
 textarea {
   resize: none;
+}
+.main-header {
+  border-bottom: #2e2d30 solid 1 px;
+}
+.main-header .my-grey,
+.main-header .fa {
+  color: #2e2d30;
+}
+.main-header .my-yellow {
+  color: #f5e618;
 }
 material-content {
   padding: 0px ;
@@ -525,6 +533,7 @@ body {
 }
 material-card {
   height: 450px;
+  background-color: white !important;
 }
 /* vertical-centered text */
 .text-vcenter {
@@ -540,10 +549,6 @@ material-card {
 }
 /* additional sections */
 .service-image {
-  background-image: url(../images/idea.jpg);
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
   display: table;
   position: relative;
   width: 100%;

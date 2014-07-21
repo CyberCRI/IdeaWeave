@@ -4,8 +4,6 @@ if(query.type =='position'){
             hide(key);    
         }
     });
-}else if(query.context==="list"){
-    hide('content');
 }else{
     dpd.projects.get({ container : this.id },function(data){
         this.projectNumber = data.length;

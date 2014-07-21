@@ -49,12 +49,28 @@ angular.module('cri.user',[])
 
 
     }])
-    .controller('ProfileCtrl',['$scope','$stateParams','toaster','loggedUser','profile','followers','following','users','CONFIG','$state','$modal',function ($scope,$stateParams,toaster,loggedUser, profile, followers, following,users,CONFIG,$state,$modal) {
-        $scope.mapOptions = CONFIG.mapOptions;
-
+    .controller('ProfileCtrl',['$scope','toaster','loggedUser','profile','users','$modal','recommendUser','recommendProjects','recommendChallenge','$state','$sce',
+        function ($scope,toaster,loggedUser, profile,users,$modal,recommendUser,recommendProjects,recommendChallenge,$state,$sce) {
         $scope.user = users;
         $scope.isLogged = false;
         $scope.profile=profile;
+        console.log('profile,',profile)
+        if($scope.profile.presentation){
+            $scope.profile.securePresentation = $sce.trustAsHtml($scope.profile.presentation);
+        }
+//        users.getProfile($stateParams.uid).then(function(profile){
+//
+//            $scope.profile=profile;
+//        })
+
+//        $scope.profile=profile;
+        $scope.now = new Date().getTime();
+        $scope.recommandation = {
+            users : recommendUser,
+            projects : recommendProjects,
+            challenges : recommendChallenge
+        }
+        console.log('recommand',$scope.recommandation)
         $scope.isFollowUser=false;
         $scope.me = loggedUser.profile;
         $scope.d3Tags = [];
@@ -64,21 +80,6 @@ angular.module('cri.user',[])
                 number : 1
             })
         });
-
-        $scope.infoEditable = false;
-        $scope.actionInfo = function() {
-            if ($scope.me.id == profile.id) {
-                if($scope.infoEditable){
-                    users.update(loggedUser.profile.id, { username: $scope.profile.username, sex: $scope.profile.sex }).then(function () {
-                        toaster.pop('success', 'success', 'profile updated');
-                    }).catch(function (err) {
-                        toaster.pop('error', 'error', 'profile updated');
-                        $scope.infoEditable = !$scope.infoEditable;
-                    });
-                }
-                $scope.infoEditable = !$scope.infoEditable;
-            }
-        };
 
         $scope.editPicture = function() {
             if ($scope.me.id == $scope.profile.id) {
@@ -102,34 +103,11 @@ angular.module('cri.user',[])
             $state.go('tag',{title : e.text})
         }
 
-        if(profile.localisation){
-            $scope.map = {
-                center: {
-                    latitude: profile.localisation.geometry.location.lat,
-                    longitude: profile.localisation.geometry.location.lng
-                },
-                zoom: 8
-            };
-        }
-
-
-        if(followers[0]){
-            $scope.followers = followers[0].users;
-        }else{
-            $scope.followers = [];
-        }
-        if(following){
-            $scope.followings = following;
-        }else{
-            $scope.followings = [];
-        }
-;
         if(loggedUser.profile){
             $scope.isLogged = true;
-            if($stateParams.uid==loggedUser.profile.id){
+            if($scope.profile.id==loggedUser.profile.id){
                 $scope.isOwner=true;
-            }
-            if($scope.followers.length>0){
+            }else if($scope.profile.followers.length>0){
                 console.log(followers)
                 if($scope.followers.indexOf(loggedUser.profile.id)!==-1){
                     console.log('follow !!!')

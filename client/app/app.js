@@ -37,13 +37,7 @@ angular.module('cri', [
         $locationProvider.hashPrefix('!');
     }])
     .run(['users','loggedUser','$state', function (users,loggedUser,$state) {
-        users.getMe().then(function(){
-            if(loggedUser.profile){
-                $state.go('home');
-            }else{
-                $state.go('main');
-            }
-        })
+        users.getMe();
     }])
     .controller('ToastCtrl',['$scope','$hideToast',function($scope, $hideToast) {
         $scope.closeToast = function() {

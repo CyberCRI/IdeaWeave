@@ -4,22 +4,27 @@ body,html{
   height: 100%;
   max-width: 100%;
   overflow-x: hidden;
-}
-
-body{
-  font-family: 'Abel', sans-serif;
+  font-family :helvetica, sans-serif;
 }
 
 textarea{
   resize: none;
 }
 
+.main-header{
+  border-bottom:@headerGrey solid 1 px;
+  .my-grey,.fa{
+    color : @headerGrey;
+  }
+  .my-yellow{
+    color : @headerYellow;
+  }
+}
+
 material-content{
   padding : 0px ;
 
 }
-
-
 
 .material-content{
   height:100%;
