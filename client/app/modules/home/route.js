@@ -13,9 +13,6 @@ angular.module('cri.home')
                     tags : ['Tag',function(Tag){
                         return Tag.fetch();
                     }],
-//                    positions : ['Gmap',function(Gmap){
-//                        return Gmap.getAllPositions()
-//                    }],
                     popularThings : ['$http','CONFIG',function($http,CONFIG){
 
                         return $http.get(CONFIG.apiServer+'/datas/popular');
@@ -24,27 +21,4 @@ angular.module('cri.home')
                     }]
                 }
             })
-//            .state('home', {
-//                url : "/home",
-//                views: {
-//                    mainView: {
-//                        templateUrl: 'modules/home/templates/home.tpl.html',
-//                        controller: 'HomeCtrl'
-//                    }
-//                },
-//                resolve : {
-//                    tags : ['Tag',function(Tag){
-//                        return Tag.fetch();
-//                    }],
-////                    positions : ['Gmap',function(Gmap){
-////                        return Gmap.getAllPositions()
-////                    }],
-//                    recommendThings : ['Recommend','loggedUser',function(Recommend,loggedUser){
-//
-//                        return Recommend.fetchAll(loggedUser.profile.id);
-//
-//
-//                    }]
-//                }
-//            })
-    }])
+    }]);

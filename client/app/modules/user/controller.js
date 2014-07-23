@@ -34,13 +34,13 @@ angular.module('cri.user',[])
         if($scope.profile.presentation){
             $scope.profile.securePresentation = $sce.trustAsHtml($scope.profile.presentation);
         }
-
         $scope.now = new Date().getTime();
         $scope.recommandation = {
             users : recommendUser,
             projects : recommendProjects,
             challenges : recommendChallenge
-        }
+        };
+            console.log('recommandation',$scope.recommandation)
         $scope.isFollowUser=false;
         $scope.me = loggedUser.profile;
         $scope.d3Tags = [];
@@ -167,7 +167,6 @@ angular.module('cri.user',[])
                 }).catch(function(err){
                     toaster.pop('error',err.status,err.message);
                 })
-
             }
         }
     }])

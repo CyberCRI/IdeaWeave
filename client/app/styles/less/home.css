@@ -83,12 +83,12 @@ material-card {
   width: 100%;
 }
 .signin-container {
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(240, 240, 241, 0.9);
   padding-left: 50px;
   padding-right: 50px;
 }
 .tags-container {
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(240, 240, 241, 0.9);
   padding: 25px;
 }
 footer {

@@ -20,8 +20,28 @@
   height: 300px;
   overflow: auto;
 }
-.challenge-map .angular-google-map-container {
-  height: 200px;
+.challenge-block-container {
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+  display: inline-block;
+  margin-right: 15px;
+  width: 100%;
+}
+.challenge-block-container .challenge-block {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: rgba(160, 166, 161, 0.4);
+}
+.challenge-block-container .challenge-block.ng-enter {
+  -webkit-animation: fadeInDown 0.3s ease-in-out;
+  animation: fadeInDown 0.3s ease-in-out;
+}
+.challenge-block-container .challenge-block.ng-leave {
+  -webkit-animation: fadeOutUp 0.3s ease-in-out;
+  animation: fadeOutUp 0.3s ease-in-out;
 }
 .tabs-view {
   position: absolute;
@@ -496,9 +516,6 @@ material-toast {
   border: none;
   box-shadow: none;
 }
-.img-rounded {
-  border-radius: 50%;
-}
 .search-container {
   width: 75%;
 }
@@ -603,12 +620,12 @@ material-card {
   width: 100%;
 }
 .signin-container {
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(240, 240, 241, 0.9);
   padding-left: 50px;
   padding-right: 50px;
 }
 .tags-container {
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(240, 240, 241, 0.9);
   padding: 25px;
 }
 footer {

@@ -1,0 +1,16 @@
+<li class="media edit-menu">
+    <a ui-sref="challenge.details({ pid : challenge.accessUrl })" class="pull-left">
+        <img ng-src="{{challenge.poster || 'http://placehold.it/50x50'}}"  class="media-object" style="height:50px;max-width: 100%">
+    </a>
+    <div class="media-body">
+        <h4 class="media-heading">
+            <a ui-sref="challenge.details({ pid : challenge.accessUrl })">{{challenge.title}}</a>
+        </h4>
+        <p class="muted" ng-if="showDetails">
+            <small ng-bind-html="challenge.brief">
+
+            </small>
+        </p>
+        <div showtags="" entity="challenge"></div>
+    </div>
+</li>

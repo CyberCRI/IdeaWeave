@@ -1,14 +1,8 @@
-<li class="media edit-menu">
-    <a ui-sref="project.details({ pid : project.accessUrl })" class="pull-left">
-        <img  ng-src="{{project.poster}}" ng-show="project.poster" class="media-object img-rounded" style="height:50px;max-width: 100%">
-    </a>
-    <div class="media-body">
-        <h4 class="media-heading">
-            <a ui-sref="project.details({ pid : project.accessUrl })">{{project.title}}</a>
-        </h4>
-        <p class="muted" style="height:130px;overflow:hidden;" ng-if="showDetails">
-            <small ng-bind-html="project.brief"></small>
+<div class="challenge-block-container" ng-mouseenter="hoverEnter($event)" ng-mouseleave="hoverLeave($event)" ui-sref="project({ pid : project.accessUrl })">
+    <img ng-src="{{ project.poster || 'http://placehold.it/100x100' }}" width="100%" alt="" class="img-rounded"/>
+    <div class="challenge-block center" ng-if="block.isHovered" ng-style="{ height : blockHeight}">
+        <p style="margin-top:40%;">
+            {{project.title}}
         </p>
-        <div showtags="" entity="project"></div>
     </div>
-</li>
+</div>

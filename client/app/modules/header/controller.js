@@ -17,7 +17,7 @@ angular.module('cri.header',[])
         $scope.user = users;
         $scope.me = loggedUser;
 
-        $scope.logout =function(){
+        $scope.signout =function(){
             users.logout().then(function(){
                 //todo fix this for production
 //                $window.location.href=''

@@ -1,3 +1,23 @@
-.challenge-map .angular-google-map-container {
-  height: 200px;
+.challenge-block-container {
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+  display: inline-block;
+  margin-right: 15px;
+  width: 100%;
+}
+.challenge-block-container .challenge-block {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: rgba(160, 166, 161, 0.4);
+}
+.challenge-block-container .challenge-block.ng-enter {
+  -webkit-animation: fadeInDown 0.3s ease-in-out;
+  animation: fadeInDown 0.3s ease-in-out;
+}
+.challenge-block-container .challenge-block.ng-leave {
+  -webkit-animation: fadeOutUp 0.3s ease-in-out;
+  animation: fadeOutUp 0.3s ease-in-out;
 }

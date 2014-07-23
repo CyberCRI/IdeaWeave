@@ -1,4 +1,4 @@
-<section class="row "style="padding: 30px; height: 100%;"  id="profile">
+<section class="row "style="height: 100%;"  id="profile">
     <section class="col-md-3">
         <article class="panel-default" style="padding-left: 20px;">
             <div>
@@ -9,10 +9,7 @@
             </p>
             <p>
                 <i class="fa fa-map-marker fa-2x"></i>
-            <address ng-bind="profile.location.formatted_address" class="text-muted"></address>
-            <a smooth-scroll-jquery target="challenges" href=""   style="border:none;">
-            hghghghgh
-            </a>
+                <address ng-bind="profile.location.formatted_address" class="text-muted"></address>
             </p>
             <a href="" ng-click="scrollToChallenge()" class="list-group-item"  style="border:none;">
                 Challenges
@@ -46,37 +43,37 @@
     <section class="col-md-3" >
         <div class="pull-right" style="width:300px;">
             <section class="panel-default">
-                <article class="panel-body">
+                <article>
                     <h4>
                         You should speak with :
                     </h4>
-                    <div class="media-list">
-                        <div ng-repeat="user in recommandation.users">
-                            <user-list user-id="user.id"></user-list>
+                    <div class="row">
+                        <div class="col-xs-4" ng-repeat="user in recommandation.users">
+                            <user-block user-id="user.id"></user-block>
                         </div>
                     </div>
                 </article>
             </section>
             <section class="panel-default">
-                <article class="panel-body">
+                <article>
                     <h4>
                         You should participate to :
                     </h4>
-                    <div class="media-list">
-                        <div ng-repeat="challenge in recommandation.challenges">
-                            <challenge-list challenge-id="challenge.id"></challenge-list>
+                    <div class="row">
+                        <div class="col-xs-4" ng-repeat="challenge in recommandation.challenges">
+                            <challenge-block challenge-id="challenge.id"></challenge-block>
                         </div>
                     </div>
                 </article>
             </section>
             <section class="panel-default">
-                <article class="panel-body">
+                <article>
                     <h4>
                         You should take a look to :
                     </h4>
-                    <div class="media-list">
-                        <div ng-repeat="project in recommandation.projects">
-                            <project-list project-id="project.id"></project-list>
+                    <div class="row">
+                        <div class="col-xs-4" ng-repeat="project in recommandation.projects">
+                            <project-block project-id="project.id"></project-block>
                         </div>
                     </div>
                 </article>

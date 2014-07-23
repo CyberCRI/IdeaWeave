@@ -48,44 +48,36 @@ angular.module('cri.common')
             }
         }
     }])
-    .directive('userBlock',['$http','CONFIG','$document',function($http,CONFIG,$document){
+    .directive('userBlock',['$http','CONFIG','users',function($http,CONFIG,users){
         return {
             restrict:'EA',
-            replace:true,
+            scope : {
+                userId : '='
+            },
             templateUrl:'modules/common/directives/ownerBlock/userBlock.tpl.html',
             link : function(scope,element,attrs){
 
+                console.log(scope.userId )
+                scope.block = {
+                    isHovered : false
+                };
+                scope.hoverEnter = function($event){
+                    console.log(element.find('div').height());
+                    scope.block.isHovered = true;
+                    scope.blockHeight =  element.find('div').height()+'px';
+                };
+                scope.hoverLeave= function($event){
+                    scope.block.isHovered = false;
+                };
+                element.bind('touch',function(e){
+                    scope.block.isHovered = !scope.block.isHovered;
+                });
+                users.fetch(null, scope.userId).then(function(user){
+                    console.log(user);
+                    scope.user = user;
+                }).catch(function(err){
 
-                scope.uid=scope.$eval(attrs.userBlock);
-                if(!scope.user&&scope.uid!==undefined){
-                    scope.user={};
-                }
-                if(scope.uid===undefined){
-                    return false;
-                }
-
-                if(!scope.user[scope.uid]&&scope.uid!==undefined){
-                    var url=CONFIG.apiServer+'/users/'+scope.uid+'?context=userBlock';
-                    $http.get(url).success(function(data){
-                        scope.user[scope.uid]=data;
-                        if(attrs.del === 'true'){
-                            element[0].style.position ="relative;";
-                            var i = $document[0].createElement('i');
-                            i.style.position = "absolute"
-                            i.style.top = "-10px";
-                            i.style.right = "-10px";
-                            i.classList.add("fa");
-                            i.classList.add("fa-2x");
-                            i.classList.add("fa-times");
-                            element[0].appendChild(i);
-                            i.addEventListener('click',function(){
-                                scope.removeMember(attrs.index,scope.user[scope.uid]);
-                            })
-                        }
-                    }).error(function(err){
-                        console.log('error',err);
-                    })
-                }
+                })
             }
         }
     }])
