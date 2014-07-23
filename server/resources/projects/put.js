@@ -1,7 +1,3 @@
-console.log('this',this);
-console.log('query',query);
-
-
 var member=this.member.concat(this.owner);
 
 if(!inArray(me.id,member)&&!internal){

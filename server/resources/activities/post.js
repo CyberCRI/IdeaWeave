@@ -68,9 +68,7 @@ switch(this.action){
     break;
     case "applyTeam":
           // update project score
-          console.log('activity',1)
         dpd.projectscores.get({pid:this.container},function(data,err){
-          console.log('activity2',data)
           if(data.length>0){
             dpd.projectscores.put(data[0].id,{applyTeamNum:{$inc:1}});      
           }

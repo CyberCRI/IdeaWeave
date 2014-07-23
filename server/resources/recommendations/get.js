@@ -1,46 +1,68 @@
 var userId = parts[1]
 
-
-function inArray(value,array){
-    if(typeof value=="string"){
-        var len=array.length;
-        for(var i=0;i<len;i++){
-            if(value===array[i]){
-                return true;
-            }
+function uniqueObject(arr){
+    var unique = {},
+        result = [];
+    arr.forEach(function(item) {
+        if (!unique[item.id]) {
+            result.push(item);
+            unique[item.id] = item;
         }
-    }
-    return false;
+    });
+    return result;
 }
 
 switch(parts[0]){
     case 'user':
-        dpd.users.get({ id : userId},function(data){
-            var result = [];
-            data.tags.forEach(function(tag){
-                dpd.users.get({tags:{$regex:tag+".*",$options: 'i'}},function(users,err){
-                    users.forEach(function(user,k){
-                        dpd.followers.get({eid : user.id},function(follow){
-                            if(follow[0]){
-                                if(!inArray(data.id,follow[0].users)){
-                                    if(!inArray(user.id,result)){
-                                        result.push(user.id);
-                                    }
+        function getRecommandation(data,following,result,cb){
+            var i = 0;
+            data.tags.forEach(function(tag,k) {
+                console.log('tag', tag);
+                dpd.users.get({tags: {$regex: tag + ".*", $options: 'i'}}, function (users, err) {
+                    users.forEach(function (user) {
+                        console.log('user', user.id)
+                        if (user.id != userId) {
+                            var isFollowing = false;
+                            following.forEach(function (v) {
+                                console.log('following test', v.eid, user.id);
+                                if (v.eid == user.id) {
+                                    isFollowing = true
                                 }
-
-                            }else{
-                                if(data.id != user.id) {
-                                    result.push(user.id);
-                                }
+                            });
+                            i = i+1
+                            if (!isFollowing) {
+                                console.log('new user');
+                                result.push(user);
                             }
-
-                        })
-                        if(k == users.length - 1){
-                            setResult(result);
+                        }
+                        console.log(i,data.tags.length,result.length)
+                        if(i == data.tags.length -1){
+                            cb();
                         }
                     });
+
                 })
+
             })
+        };
+
+         dpd.users.get({ id : userId},function(data){
+            var result = [],
+                following = [];
+            dpd.followers.get({users:{$in:[userId]},type:'users'},function(follow){
+                console.log('followingr',follow);
+                if(follow){
+                    following = follow;
+                }
+                getRecommandation(data,following,result,function(){
+                    console.log('the end !!!',data.tags.length);
+                    console.log('size result',result.length);
+                    setResult(uniqueObject(result));
+
+                })
+
+
+            });
         });
         break;
     case 'challenge':
@@ -53,27 +75,29 @@ switch(parts[0]){
                             challenges.forEach(function(challenge,k){
                                 dpd.followers.get({eid : challenge.id},function(follow,key){
                                     if(follow[0]){
-                                        if(!inArray(user.id,follow[0].users)){
-                                            if(!inArray(challenge.id,result)){
-                                                dpd.challenges.get({ id : challenge.id },function(data){
-                                                    result.push(data);
-                                                    if(k == challenges.length - 1 ){
-                                                       setResult(result);
-                                                    }
-                                                })
+                                        var isFollow = false
+                                        follow[0].users.forEach(function(v,k){
+                                            if(v == me.id){
+                                                isFollow = true;
                                             }
+                                        });
+                                        if(!isFollow){
+                                            dpd.challenges.get({ id : challenge.id },function(data){
+                                                result.push(data);
+                                                if(k == challenges.length - 1 ){
+                                                    setResult(uniqueObject(result));
+                                                }
+                                            })
                                         }
                                     }else{
                                         dpd.challenges.get({ id : challenge.id },function(data){
                                             result.push(data);
-                                        })   
-                                        if(k == challenges.length - 1 ){
-                                           setResult(result);
-                                        }
+                                            if(k == challenges.length - 1 ){
+                                                setResult(uniqueObject(result));
+                                            }
+                                        })
                                     }
-
                                 });
-
                             })
                         }
                     })
@@ -90,29 +114,27 @@ switch(parts[0]){
                         projects.forEach(function(project,k){
                             dpd.followers.get({eid : project.id},function(follow){
                                 if(follow[0]){
-                                    if(!inArray(user.id,follow[0].users)){
-                                        if(!inArray(project.id,result)){
-                                            dpd.projects.get({ id : project.id },function(data){
-                                                result.push(data);
-                                                if(k == projects.length - 1 ){
-                                                   setResult(result);
-                                                }
-                                            })
+
+                                    dpd.projects.get({ id : project.id },function(data){
+                                        result.push(data);
+                                        if(k == projects.length - 1 ){
+                                           setResult(uniqueObject(result));
                                         }
-                                    }
+                                    })
+
 
                                 }else{
                                     dpd.projects.get({ id : project.id },function(data){
                                         result.push(data);
                                         if(k == projects.length - 1 ){
-                                           setResult(result);
+                                           setResult(uniqueObject(result));
                                         }
                                     }) 
                                 }
 
                             })
                             if(k == projects.length - 1){
-                                setResult(result);
+                                setResult(uniqueObject(result));
                             }
 
                         })

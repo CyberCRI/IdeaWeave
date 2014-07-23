@@ -1,4 +1,3 @@
-console.log(this)
 
 dpd.projects.get(this.container,function(result,err){
     if(!result.isMember){

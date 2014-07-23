@@ -1,4 +1,3 @@
-console.log('data !!!',parts)
 var type=parts[0];
   // check if user account exsit
    hashCode=function(s){
@@ -148,9 +147,7 @@ var type=parts[0];
         if(!me){
             cancel('no permission',401);
         }else{
-            console.log('part',parts[1]);
             dpd.invites.get(parts[1],function(result,err){
-                console.log('result',result);
                 if(result.friend==me.email){
                     dpd.projects.put(result.pid,{member:{$push:me.id},context:'team'},function(result,err){
                       if(err) error('project',err);

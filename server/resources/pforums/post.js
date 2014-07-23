@@ -7,19 +7,15 @@ if(!me){
 dpd.pforums.get({id:this.id},function(data,err){
     if(data){
         if(data[0]){
-            console.log('1 ',data);
-            cancel('Already created it',401);   
+            cancel('Already created it',401);
         }
     }
 });
 dpd.projects.get({ id :  this.container},function(result){
     if(!result){
-        console.log('2 ',result);
         cancel('No idea',401);
-    } 
-    
+    }
 
-    
     this.owner=me.id;
     this.createDate=new Date().getTime();
     

@@ -17,7 +17,6 @@ if(query.context==="list"){
                });
       
                dpd.pforums.get(this.container,function(data,err){
-                   console.log(data);
                 this.container=data;
                })
             break;

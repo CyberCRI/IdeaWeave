@@ -9,11 +9,8 @@
             </p>
             <p>
                 <i class="fa fa-map-marker fa-2x"></i>
-                <address ng-bind="profile.location.formatted_address" class="text-muted"></address>
+                <address ng-bind="profile.localisation.formatted_address" class="text-muted"></address>
             </p>
-            <a href="" ng-click="scrollToChallenge()" class="list-group-item"  style="border:none;">
-                Challenges
-            </a>
             <p ng-bind-html="profile.brief"></p>
             <p>
                 <i class="fa fa-tags fa-2x"></i>

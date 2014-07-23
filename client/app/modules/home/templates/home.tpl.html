@@ -46,7 +46,6 @@
                     </div>
                 </article>
             </section>
-
         </li>
     </ul>
 </section>
@@ -63,13 +62,6 @@
                 </div>
                 <div class="col-md-6 visible-md visible-lg visible-md"  >
                     <d3-tag-cloud tags="tags" on-click="showTag(item)" options="{ width : 500,height : 300,center : true}" ></d3-tag-cloud>
-
-
-                    <!--<div class="map-wrapper">-->
-                        <!--<google-map options="mapOptions" center="{ latitude : '10',longitude : '0' }"  zoom="1" class="home-map" draggable="false">-->
-                            <!--<marker coords="location"  ng-repeat="location in locations"></marker>-->
-                        <!--</google-map>-->
-                    <!--</div>-->
                 </div>
                 <div class="col-sm-3 col-xs-12">
                     <i class="fa fa-users fa-5x"> </i>
@@ -101,12 +93,11 @@
     </section>
 
 </section>
-<section class="row" id="signin" ng-if="!me">
+<section class="row" id="signin">
     <div class="signin-container">
-        <ng-include src="'/modules/account/templates/signup.tpl.html'">
+        <ng-include src="'modules/account/templates/signup.tpl.html'">
 
         </ng-include>
     </div>
 </section>
 <div ng-include id="footer" src="'modules/footer/templates/footer.tpl.html'"></div>
-

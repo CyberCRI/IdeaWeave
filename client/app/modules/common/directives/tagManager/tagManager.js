@@ -31,6 +31,12 @@ angular.module('cri.common')
                     $scope.add();
                 }
 
+                if($scope.entity === undefined){
+                    $scope.entity = {
+                        tags : []
+                    }
+                };
+
                 if($scope.entity.tags===undefined){
                     $scope.entity.tags=[];
                 }

@@ -14,8 +14,6 @@ angular.module('cri', [
     'angularFileUpload',
     'angular-carousel',
     'toaster',
-    'scrollto',
-//    'google-maps',
     'ImageCropper',
     'cri.config',
     'cri.home',

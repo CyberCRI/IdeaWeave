@@ -93,11 +93,11 @@ angular.module('cri.account',[])
         $scope.ok = function(){
             $scope.fileUploadQuestion = false;
             $scope.showFileUploader = true;
-        }
+        };
 
         $scope.cancel = function(){
             $state.go('challenges');
-        }
+        };
 
         $scope.registerUser = function ($event) {
             $event.preventDefault();
@@ -105,6 +105,7 @@ angular.module('cri.account',[])
                 $scope.notMatch = true;
             } else {
                 $scope.notMatch = false;
+                console.log($scope.signup);
                 users.register($scope.signup).then( function (result) {
 //                    $scope.fileUploadQuestion = true;
 //                    toaster.pop('info','success','If you want you can set up a profile picture rigth now')
@@ -126,14 +127,14 @@ angular.module('cri.account',[])
             }else{
                 toaster.pop('warning','warning','this file is not an image');
             }
-        }
+        };
 
 
         $scope.cancelUpload = function(){
             $scope.file = null;
             $scope.fileUrl = null;
             $scope.dropBoxHeight = "100px";
-        }
+        };
 
         $scope.upload = function(topic,file,description){
             users.uploadPoster(file).then(function(data){

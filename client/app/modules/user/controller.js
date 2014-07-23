@@ -31,6 +31,7 @@ angular.module('cri.user',[])
         $scope.user = users;
         $scope.isLogged = false;
         $scope.profile=profile;
+        console.log(profile)
         if($scope.profile.presentation){
             $scope.profile.securePresentation = $sce.trustAsHtml($scope.profile.presentation);
         }

@@ -3,13 +3,11 @@ function uniqueObject(arr){
     var unique = {},
         result = [];
     arr.forEach(function(item) {
-        console.log(item.id,unique[item.id])
         if (!unique[item.id]) {
             result.push(item);
             unique[item.id] = item;
         }
     });
-    console.log(result.length)
     return result;
 }
 switch(parts[0]){
@@ -62,9 +60,7 @@ switch(parts[0]){
         }
     }
 
-        console.log('id',parts[1])
         dpd.users.get({id : parts[1]},function(user){
-            console.log('user',user)
               dpd.followers.get({users:{$in:[user.id]},type:'users'},function(data,err){
                  user.followings = [];
                 if(data){
@@ -117,7 +113,6 @@ switch(parts[0]){
                                     }
                                     user.challenges = uniqueObject(user.challenges);
                                     user.projects = uniqueObject(user.projects);
-                                    console.log('last,',user.challenges.length);
                                     setResult(user);
                                 });
                             });
@@ -132,11 +127,9 @@ switch(parts[0]){
     var uid=parts[1]; 
     var limit=parts[2];
     var skip=parts[3];
-    console.log('limit',limit,'skip',skip)
     // get follower's activity
     function getFollowers(uid,callback){
         dpd.followers.get({users:{$in:[uid]},type:'users'},function(data) {
-            console.log('activity followers',data)
             callback(data)
         });
     }
@@ -181,7 +174,6 @@ switch(parts[0]){
     case 'fChallenges':
            var uid=parts[1];
         dpd.followers.get({users:{$in:[uid]},type:'challenges'},function(datas,err){
-            console.log('fChallenges',datas)
              if(datas.length>0){
               var fpids=[];
               for(var i in datas){
@@ -388,7 +380,6 @@ switch(parts[0]){
         };
         var count=0;
         var result={};
-        console.log(tag);
         getOjByTag(tag,function(data){
            count++;
            if(data.users){
@@ -413,7 +404,6 @@ switch(parts[0]){
         dpd.followers.get({ type : 'challenges', $sort : { count : -1 },$limit : 5},function(cdata){
           cdata.forEach(function(v,k){
             dpd.challenges.get({ id : v.eid},function(data){
-              console.log(data)
               delete data.poster;
               response.challenges.push(data);
             })    

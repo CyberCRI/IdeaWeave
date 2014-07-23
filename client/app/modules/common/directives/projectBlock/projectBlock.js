@@ -24,7 +24,6 @@ angular.module('cri.common')
                     scope.block.isHovered = !scope.block.isHovered;
                 });
                 Project.fetch(null, scope.projectId).then(function(project){
-                    console.log(challenge);
                     scope.project = project;
                 }).catch(function(err){
 
