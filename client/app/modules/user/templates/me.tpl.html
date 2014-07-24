@@ -8,13 +8,13 @@
                 <a href="" ng-click="editPicture()" ng-if="me.id == profile.id" style="display: block;">Edit profile picture</a>
             </p>
             <p>
-                <i class="fa fa-map-marker fa-2x"></i>
-                <address ng-bind="profile.localisation.formatted_address" class="text-muted"></address>
+                <i class="fa fa-map-marker fa-2x" style="display: inline-block;"></i>
+                <span ng-bind="profile.localisation.formatted_address" style="display:inline-block;" class="text-muted"></span>
             </p>
             <p ng-bind-html="profile.brief"></p>
             <p>
                 <i class="fa fa-tags fa-2x"></i>
-            <span showtags entity="profile">
+                <span showtags entity="profile">
             </span>
             </p>
         </article>
@@ -38,7 +38,7 @@
         </article>
     </section>
     <section class="col-md-3" >
-        <div class="pull-right" style="width:300px;">
+        <div class="pull-right" style="width:280px;">
             <section class="panel-default">
                 <article>
                     <h4>
@@ -78,7 +78,7 @@
         </div>
     </section>
 </section>
-<section class="row panel-scroll" style="padding: 30px;height:100%;"  id="challenges">
+<section class="row" style="padding: 30px;height:100%;"  id="challenges">
     <h2>Challenges</h2>
     <div class="col-sm-6 col-md-4 col-lg-3" ng-repeat="challenge in profile.challenges">
         <div class="thumbnail">

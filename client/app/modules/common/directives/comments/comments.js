@@ -7,11 +7,14 @@ angular.module('cri.common')
               comments : '=',
               topicId : '@'
             },
-            controller : ['$scope','CONFIG',function($scope,CONFIG){
+            controller : ['$scope','CONFIG','loggedUser',function($scope,CONFIG,loggedUser){
                 $scope.me = loggedUser.profile;
                 $scope.tinymceOption = CONFIG.tinymceOptions;
             }],
             link: function (scope,element,attrs){
+                scope.showForm = function(){
+                    scope.toggleComment = !scope.toggleComment;
+                };
                 scope.addComment = function(){
                     var option={
                         owner:loggedUser.profile.id,

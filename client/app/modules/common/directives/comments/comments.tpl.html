@@ -1,7 +1,7 @@
 <div class="pull-right">{{ 'BTN_COMMENT' | translate }}({{comments.length}})</div>
-<i class="fa fa-comment fa-2x my-btn pull-left" ng-click="toggleComment=!toggleComment" ng-if="me"></i>
+<i class="fa fa-comment fa-2x my-btn pull-left" ng-click="showForm()" ng-if="me"></i>
 <div class="clearfix"></div>
-<div ng-init="toggleComment=true"  collapse="toggleComment" >
+<div collapse="toggleComment" >
     <textarea ui-tinymce ng-model="commentValue" placeholder="I think..." required ></textarea>
     <a class="btn btn-default" ng-click="addComment()">{{ 'BTN_COMMENT' | translate }}</a>
 </div>
