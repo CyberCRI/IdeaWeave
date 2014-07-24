@@ -3,12 +3,12 @@ angular.module('cri.common')
         return {
             restrict:'EA',
             scope : {
-                projectId : '='
+                projectId : '=',
+                project : '='
             },
-            templateUrl:'modules/common/directives/ownerBlock/userBlock.tpl.html',
+            templateUrl:'modules/common/directives/projectBlock/project-block.tpl.html',
             link : function(scope,element,attrs){
-
-                console.log(scope.projectId )
+                console.log('project',scope.project)
                 scope.block = {
                     isHovered : false
                 };
@@ -23,11 +23,13 @@ angular.module('cri.common')
                 element.bind('touch',function(e){
                     scope.block.isHovered = !scope.block.isHovered;
                 });
-                Project.fetch(null, scope.projectId).then(function(project){
-                    scope.project = project;
-                }).catch(function(err){
+                if(scope.projectId){
+                    Project.fetch(null, scope.projectId).then(function(project){
+                        scope.project = project;
+                    }).catch(function(err){
 
-                })
+                    })
+                }
             }
         }
     }])
@@ -36,7 +38,7 @@ angular.module('cri.common')
             restrict:'EA',
             replace:true,
             template:'<span>{{project[pid].title}}</span>',
-            link : function(scope,element,attrs){
+            link : function(scope,element,attrs){d
                 scope.pid=scope.$eval(attrs.projectInfo);
 
                 if(!scope.project){

@@ -52,7 +52,8 @@ angular.module('cri.common')
         return {
             restrict:'EA',
             scope : {
-                userId : '='
+                userId : '=',
+                user : '='
             },
             templateUrl:'modules/common/directives/ownerBlock/userBlock.tpl.html',
             link : function(scope,element,attrs){
@@ -72,12 +73,14 @@ angular.module('cri.common')
                 element.bind('touch',function(e){
                     scope.block.isHovered = !scope.block.isHovered;
                 });
-                users.fetch(null, scope.userId).then(function(user){
-                    console.log(user);
-                    scope.user = user;
-                }).catch(function(err){
+                if(scope.userId){
+                    users.fetch(null, scope.userId).then(function(user){
+                        console.log(user);
+                        scope.user = user;
+                    }).catch(function(err){
 
-                })
+                    })
+                }
             }
         }
     }])

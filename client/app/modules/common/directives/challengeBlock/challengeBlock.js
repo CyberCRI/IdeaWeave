@@ -23,7 +23,8 @@ angular.module('cri.common')
         return {
             restrict:'EA',
             scope : {
-                challengeId : '='
+                challengeId : '=',
+                challenge : '='
             },
             templateUrl:'modules/common/directives/challengeBlock/challenge-block.tpl.html',
             link : function(scope,element,attrs){
@@ -51,12 +52,15 @@ angular.module('cri.common')
                 element.bind('touch',function(e){
                     scope.block.isHovered = !scope.block.isHovered;
                 });
-                Challenge.fetch(null, scope.challengeId).then(function(challenge){
-                    console.log(challenge);
-                    scope.challenge = challenge;
-                }).catch(function(err){
 
-                })
+                if(scope.challengeId){
+                    Challenge.fetch(null, scope.challengeId).then(function(challenge){
+                        console.log(challenge);
+                        scope.challenge = challenge;
+                    }).catch(function(err){
+
+                    })
+                }
             }
         }
     }])

@@ -46,7 +46,7 @@
                     </h4>
                     <div class="row">
                         <div class="col-xs-4" ng-repeat="user in recommandation.users">
-                            <user-block user-id="user.id"></user-block>
+                            <user-block user="user"></user-block>
                         </div>
                     </div>
                 </article>
@@ -58,7 +58,7 @@
                     </h4>
                     <div class="row">
                         <div class="col-xs-4" ng-repeat="challenge in recommandation.challenges">
-                            <challenge-block challenge-id="challenge.id"></challenge-block>
+                            <challenge-block challenge="challenge"></challenge-block>
                         </div>
                     </div>
                 </article>
@@ -70,7 +70,7 @@
                     </h4>
                     <div class="row">
                         <div class="col-xs-4" ng-repeat="project in recommandation.projects">
-                            <project-block project-id="project.id"></project-block>
+                            <project-block project="project"></project-block>
                         </div>
                     </div>
                 </article>
