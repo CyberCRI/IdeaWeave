@@ -40,7 +40,7 @@ angular.module('cri.header',[])
                         case 'notif':
                             $scope.sideNavTemplateUrl = 'modules/header/templates/notifications.tpl.html';
                             if($scope.me.profile){
-                                users.getActivity($scope.me.profile.id,0).then(function(data){
+                                users.getActivity($scope.me.profile.id,5).then(function(data){
                                     $scope.activities = data;
                                 }).catch(function(err){
                                     console.log(err);
@@ -59,23 +59,6 @@ angular.module('cri.header',[])
             });
 
         },500);
-        $scope.noPage=1;
-        $scope.isEnd=false;
-        $scope.loadMoreActivities=function(num){
-            $scope.noPage=num+1;
-            var skip=10*num;
-            if(!$scope.isEnd){
-                users.getActivity($scope.me.profile.id,skip).then(function(result){
-                    if(result.length>0){
-                        for(var i=0;i<result.length;i++){
-                            $scope.activities.push(result[i]);
-                        }
-                    }else{
-                        $scope.isEnd=true;
-                    }
-                })
-            }
-        };
 
         $scope.refreshSearchBar = function(search) {
             if(search.length >=  2 ){

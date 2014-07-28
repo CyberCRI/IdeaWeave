@@ -41,7 +41,7 @@ angular.module('cri.common')
             }
         }
     }])
-    .directive('activityFollow',['$http','CONFIG',function($http,CONFIG){
+    .directive('activityFollow',['$http','CONFIG','loggedUser',function($http,CONFIG,loggedUser){
         return {
             restrict : 'EA',
             templateUrl :'modules/common/directives/activity/follow-activity.tpl.html',
@@ -69,6 +69,9 @@ angular.module('cri.common')
                     case 'users':
                         $http.get(CONFIG.apiServer+'/users/'+scope.activity.entity).success(function(user){
                             scope.entity = user;
+                            if(loggedUser.profile.id == user.id){
+                                scope.entity.realname = 'me';
+                            }
                             console.log('user',scope.entity);
                         }).catch(function(err){
                             console.log(err);

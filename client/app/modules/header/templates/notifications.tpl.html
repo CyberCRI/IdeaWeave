@@ -1,66 +1,24 @@
-<!--<div style="margin-top:20px;margin-bottom: 20px;">-->
-    <!--<img src="images/svg/Notifications.svg" alt="notification"/>-->
-    <!--<i class="fa fa-arrow-right fa-2x my-btn pull-right" style="color:black;" ng-click="toggleNotif()"></i>-->
-<!--</div>-->
-<div ng-if="!activities" class="alert alert-info">no activity yet, get involved !</div>
-<div class="list-group"  ng-show="activities" style="color : black; font-size:1.2em;">
-    <a ng-repeat="activity in activities" class="list-group-item" style="height:100px !important;overflow-y : auto;">
-        <div owner-block="activity.owner" class="col-xs-2">
-        </div>
-        <article class=" center col-xs-8" ng-if="activity.action == 'createProject'" style="cursor:pointer;">
-            propose a project :
-            <span project-info='activity.entity'></span>
-        </article>
-        <activity-topic ng-if="activity.action=='createPtopic'" activity="activity" class="col-xs-8"></activity-topic>
-        <activity-comment  ng-if="activity.action=='comment'" activity="activity" class="col-xs-8"></activity-comment>
-        <activity-follow ng-if="activity.action=='followProject'" activity="activity" type="projects" follow="true" class="col-xs-8"></activity-follow>
-        <activity-follow ng-if="activity.action=='followChallenge'" activity="activity" type="challenges" follow="true" class="col-xs-8"></activity-follow>
-        <activity-follow ng-if="activity.action=='followUser'" activity="activity" type="users" follow="true" class="col-xs-8"></activity-follow>
-        <activity-follow ng-if="activity.action=='unfollowProject'" activity="activity" type="projects"  class="col-xs-8"></activity-follow>
-        <activity-follow ng-if="activity.action=='unfollowChallenge'" activity="activity" type="challenges"  class="col-xs-8"></activity-follow>
-        <activity-follow ng-if="activity.action=='unfollowUser'" activity="activity" type="users"  class="col-xs-8"></activity-follow>
-        <!--<article class="center" ng-if="activity.action=='createPtopic'">-->
-            <!--propose a topic：-->
-            <!--<topic-info topic-id="activity.entity.id"></topic-info>-->
-            <!--from-->
-            <!--<div project-info='activity.container'></div>-->
-        <!--</article>-->
-
-        <!--<article class="center" ng-if="activity.action=='followProject'">-->
-            <!--follow project-->
-            <!--<div project-info='activity.entity' class="inline"></div>-->
-        <!--</article>-->
-        <!--<article class="center" ng-if="activity.action=='followChallenge'">-->
-            <!--follow challenge-->
-            <!--<div challenge-info='activity.entity' class="inline"></div>-->
-        <!--</article>-->
-        <!--<article class="center" ng-if="activity.action=='comment'">-->
-            <!--add a comment to-->
-            <!--<topic-info topic-id="activity.container"></topic-info>-->
-            <!--from the project-->
-        <!--</article>-->
-        <div class="col-xs-2 text-muted">
-            {{activity.createDate|timeago}}
-        </div>
-            <!--<div ng-switch-when="createPlink">-->
-                <!--<div owner-block="activity.owner" class="pull-left"></div>-->
-                <!--{{activity.createDate|timeago}} Idea：-->
-                <!--<div project-info='activity.container'></div>-->
-                <!--Add a link to participate：-->
-                <!--<a href="{{activity.entity.link}}" target="_blank">-->
-                    <!--{{activity.entity.title}}-->
-                <!--</a>-->
-            <!--</div>-->
-
-
-
-    </a>
-    <a class="list-group-item">
-        <button ng-show="activities.length>=10&&!isEnd" ng-click="loadMoreActivities(noPage)" class="btn  btn-default ">
-            Load More
-        </button>
-        <div ng-hide="activities" class="alert alert-info">Noting yet</div>
-        <div ng-show="isEnd&&activities.length>=10"  class="alert alert-info">The end !</div>
-    </a>
-</div>
-
+<section>
+    <div ng-if="!activities" class="alert alert-info">no activity yet, get involved !</div>
+    <div class="list-group"  ng-show="activities" style="color : black; font-size:1.2em;">
+        <a ng-repeat="activity in activities" class="list-group-item" style="height:100px !important;overflow-y : auto;">
+            <div owner-block="activity.owner" class="col-xs-2">
+            </div>
+            <article class=" center col-xs-8" ng-if="activity.action == 'createProject'" style="cursor:pointer;">
+                propose a project :
+                <span project-info='activity.entity'></span>
+            </article>
+            <activity-topic ng-if="activity.action=='createPtopic'" activity="activity" class="col-xs-8"></activity-topic>
+            <activity-comment  ng-if="activity.action=='comment'" activity="activity" class="col-xs-8"></activity-comment>
+            <activity-follow ng-if="activity.action=='followProject'" activity="activity" type="projects" follow="true" class="col-xs-8"></activity-follow>
+            <activity-follow ng-if="activity.action=='followChallenge'" activity="activity" type="challenges" follow="true" class="col-xs-8"></activity-follow>
+            <activity-follow ng-if="activity.action=='followUser'" activity="activity" type="users" follow="true" class="col-xs-8"></activity-follow>
+            <activity-follow ng-if="activity.action=='unfollowProject'" activity="activity" type="projects"  class="col-xs-8"></activity-follow>
+            <activity-follow ng-if="activity.action=='unfollowChallenge'" activity="activity" type="challenges"  class="col-xs-8"></activity-follow>
+            <activity-follow ng-if="activity.action=='unfollowUser'" activity="activity" type="users"  class="col-xs-8"></activity-follow>
+            <div class="col-xs-2 text-muted">
+                {{activity.createDate|timeago}}
+            </div>
+        </a>
+    </div>
+</section>

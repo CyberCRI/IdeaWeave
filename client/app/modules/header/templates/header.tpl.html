@@ -105,6 +105,12 @@
 </material-toolbar>
 
 <material-sidenav class="material-sidenav-right material-whiteframe-z2 material-theme-light" component-id="right" style="height:100%;">
+    <div class="row" ng-if="sideNavTemplateUrl == 'modules/header/templates/notifications.tpl.html'">
+        <div class="col-xs-6">
+            <img src="images/notif.png" alt="notifications !"/>
+        </div>
+        <i class="fa fa-caret-right fa-2x my-btn pull-right" style="color:black; margin-right:10px;" ng-click="toggleRight('menu')"></i>
+    </div>
     <div ng-include="sideNavTemplateUrl" style="height:100%;">
     </div>
 </material-sidenav>

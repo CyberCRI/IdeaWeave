@@ -114,25 +114,6 @@ angular.module('cri.user')
                     })
                 return defered.promise;
             },
-            uploadPoster : function(file){
-                var defered = $q.defer();
-                var regex = /\.([0-9a-z]+)(?:[\?#]|$)/i;
-                $upload.upload({
-                    url: CONFIG.apiServer+'/upload?subdir=users&users='+loggedUser.profile.id,
-                    method: 'POST',
-                    file: file
-                }).success(function(data, status, headers, config) {
-                    loggedUser.profile.poster = CONFIG.apiServer+'/fileUpload/users/'+data[0].filename
-                    $http.put(CONFIG.apiServer+'/users',loggedUser.profile)
-                        .success(function(data){
-                            defered.resolve(data);
-                        })
-                        .error(function(err){
-                            defered.reject(err);
-                        })
-                });
-                return defered.promise;
-            },
             update : function(id,user){
                 var defered = $q.defer();
                 $http.put(CONFIG.apiServer+'/users/'+id,user)
@@ -195,12 +176,9 @@ angular.module('cri.user')
                     });
                 return defered.promise;
             },
-            getActivity : function(uid,skip){
+            getActivity : function(uid,limit){
                 var defered = $q.defer();
-                var url = CONFIG.apiServer+'/datas/activity/'+uid+'/10/'+skip
-                if(skip){
-                    url += '/'+skip;
-                }
+                var url = CONFIG.apiServer+'/datas/activity/'+uid+'/'+limit;
                 $http.get(url)
                     .success(function(data){
                         defered.resolve(data);

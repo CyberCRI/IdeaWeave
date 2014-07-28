@@ -42,8 +42,6 @@ angular.module('cri.user',[])
         };
         $scope.activities = activities;
 
-        console.log($scope.activities);
-
         $scope.isFollowUser=false;
         $scope.me = loggedUser.profile;
         $scope.d3Tags = [];
