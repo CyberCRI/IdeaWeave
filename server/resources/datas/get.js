@@ -10,6 +10,13 @@ function uniqueObject(arr) {
     return result;
 }
 switch (parts[0]) {
+    case 'challengebytag':
+        dpd.challenges.get({tags: {$regex: tag + ".*", $options: 'i'}, context: 'feed'}, function (result, err) {
+
+            setResult(result);
+
+        });
+        break;
     case 'profile':
 
     function getPidsfromOj(data) {
@@ -136,15 +143,21 @@ switch (parts[0]) {
     }
 
     function getActivity(uid, callback) {
-        getFollowers(uid, function (data) {
-            if (data.length > 0) {
-                var activities = [];
-                data.forEach(function (v, k) {
+        getFollowers(uid, function (followings) {
+            if (followings.length > 0) {
+                var response = [],
+                    followingCounter = 0;
+                followings.forEach(function (v, k) {
                     dpd.activities.get({ owner: v.eid, context: 'list' }, function (activities, err) {
+                        var activitiesCounter = 0;
                         activities.forEach(function (v, k) {
-                            activities.push(v)
+                            response.push(v)
+                            activitiesCounter++;
+                            if(activitiesCounter == activities.length){
+                                followingCounter++;
+                            }
                         });
-                        if (k + 1 == data.length) {
+                        if (followingCounter == followings.length) {
                             activities.sort(function (a, b) {
                                 if (a.createDate > b.createDate)
                                     return -1;
@@ -153,8 +166,8 @@ switch (parts[0]) {
                                 // a must be equal to b
                                 return 0;
                             });
-//                            response = response.splice()
-                            callback(activities.slice(0,limit));
+
+                            callback(response.slice(0,limit));
                         }
                     })
                 });

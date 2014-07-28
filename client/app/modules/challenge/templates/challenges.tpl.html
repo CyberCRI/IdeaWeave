@@ -1,0 +1,12 @@
+<section class="row">
+    <section class="col-xs-9" ui-view="challengesView">
+
+    </section>
+    <section class="col-xs-3">
+        <div class="list-group">
+            <a  class="list-group-item" ng-repeat="tag in tags" ui-sref="challenges.list({ tag : tag.title })">
+                {{ tag.title }}
+            </a>
+        </div>
+    </section>
+</section>

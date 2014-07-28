@@ -3,17 +3,41 @@ angular.module('cri.challenge')
         $stateProvider
             .state('challenges',{
                 url : '/challenges',
+                abstract:true,
                 resolve: {
-                    challenges: ['Challenge', function (Challenge) {
-                        var option = {$limit: 6, $sort: {createDate: -1}, context: 'list'};
-                        return Challenge.fetch(option);
+                    tags : ['Tag',function(Tag){
+                        return Tag.fetch();
                     }]
                 },
                 views : {
                     mainView :{
-                        templateUrl: 'modules/challenge/templates/challenges-list.tpl.html',
+                        templateUrl: 'modules/challenge/templates/challenges.tpl.html',
                         controller: 'ChallengeExploreCtrl'
                     }
+                }
+            })
+            .state('challenges.list',{
+                url : '/:tag',
+                views : {
+                    challengesView : {
+                        templateUrl: 'modules/challenge/templates/challenges-list.tpl.html',
+                        controller: 'ChallengesListCtrl'
+                    }
+                },
+                resolve : {
+                    challenges: ['Challenge','$stateParams', function (Challenge,$stateParams) {
+                        var option;
+                        if($stateParams.tag == 'all'){
+                            option = {$limit: 6, $sort: {createDate: -1}, context: 'list'};
+                            return Challenge.fetch(option);
+
+                        }else{
+                            console.log($stateParams.tag)
+                            return Challenge.fetch(null,null,{tags: {$regex: $stateParams.tag , $options: 'i'}, context: 'list'})
+//                            option = {$limit: 6, $sort: {createDate: -1}, context: 'list', title : $stateParams.tag};
+                        }
+
+                    }]
                 }
             })
             .state('challengeSuggest',{

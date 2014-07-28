@@ -205,35 +205,9 @@ angular.module('cri.challenge', [])
             })
         }
     }])
-    .controller('ChallengeExploreCtrl', ['$scope', 'challenges','users','Challenge','toaster', function ($scope, challenges, users, Challenge, toaster) {
-
+    .controller('ChallengeExploreCtrl', ['$scope','users','tags', function ($scope, users,tags) {
         $scope.isLogged = users.isLoggedIn();
-        $scope.challenges = challenges;
-        $scope.noPage = 1;
-        $scope.isEnd = false;
-        $scope.now = new Date().getTime();
-
-        var option = {$limit: 6, $sort: {follow: -1, createDate: -1}, context: 'list'};
-
-        $scope.loadMoreChallenges = function (num) {
-            $scope.noPage = num + 1;
-            option.$skip = 6 * num;
-            if (!$scope.isEnd) {
-
-                Challenge.fetch(option).then(function (result) {
-                    if (result.length > 0) {
-                        for (var i = 0; i < result.length; i++) {
-                            $scope.challenges.push(result[i]);
-                        }
-                    } else {
-                        $scope.isEnd = true;
-                        toaster.pop('info','the end', 'there is no more challenges')
-                    }
-                }).catch(function(err){
-                    toaster.pop('error',err.status,err.message);
-                })
-            }
-        }
+        $scope.tags = tags;
 
         function uniqueObject(arr) {
             var o = {}, i, j, r = [];
@@ -291,6 +265,46 @@ angular.module('cri.challenge', [])
             }).catch(function(err){
                 toaster.pop('error',err.status,err.message);
             });
+        }
+
+    }])
+    .controller('ChallengesListCtrl',['$scope','challenges','toaster','Challenge','Project',function($scope,challenges,toaster,Challenge,Project){
+        $scope.challenges = challenges;
+        $scope.projects = {};
+        $scope.projectsToggle = {};
+        $scope.noPage = 1;
+        $scope.isEnd = false;
+        $scope.now = new Date().getTime();
+        var option = {$limit: 6, $sort: {follow: -1, createDate: -1}, context: 'list'};
+        $scope.loadMoreChallenges = function (num) {
+            $scope.noPage = num + 1;
+            option.$skip = 6 * num;
+            if (!$scope.isEnd) {
+
+                Challenge.fetch(option).then(function (result) {
+                    if (result.length > 0) {
+                        for (var i = 0; i < result.length; i++) {
+                            $scope.challenges.push(result[i]);
+                        }
+                    } else {
+                        $scope.isEnd = true;
+                        toaster.pop('info','the end', 'there is no more challenges')
+                    }
+                }).catch(function(err){
+                    toaster.pop('error',err.status,err.message);
+                })
+            }
+        };
+        $scope.toggleProjects = function(id){
+            console.log('icici',id)
+            $scope.projectsToggle[id] = true;
+            Project.fetch({ container : id }).then(function(projects){
+                console.log('projects',projects)
+                $scope.projects[id] = projects;
+                $scope.projectsToggle[id] = false;
+            }).catch(function(err){
+                console.log(err);
+            })
         }
 
     }])

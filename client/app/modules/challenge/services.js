@@ -2,6 +2,7 @@ angular.module('cri.challenge')
 .factory('Challenge',['$http','$q','$upload','CONFIG',function($http,$q,$upload,CONFIG){
         var URI = '/challenges';
         var service  = {
+
             getFollowers : function(followers){
                 var defered = $q.defer();
                 var param = angular.toJson(followers);
@@ -12,15 +13,15 @@ angular.module('cri.challenge')
                 })
                 return defered.promise;
             },
-            fetch : function(param,id){
+            fetch : function(param,id,search){
                 var defered = $q.defer();
                 var url = CONFIG.apiServer+URI;
                 if(id){
                     url += '/'+id;
                 }
-//                if(param){
-//                    url += '?'+JSON.stringify(param)
-//                }
+                if(search){
+                    url += '?'+JSON.stringify(search)
+                }
                 $http.get(url,{
                     params : param
                 }).success(function(data){

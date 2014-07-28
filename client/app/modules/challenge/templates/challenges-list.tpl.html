@@ -1,51 +1,44 @@
-<div class="container">
-    <h2 class="center">
-        Our Challenges
-    </h2>
-    <!--<a ui-sref="challengeSuggest" class="btn btn-default pull-right"  ng-if="isLogged" >{{'CHALLENGE_LIST_SUGGEST'|translate}}</a>-->
-    <div class="row">
-        <div class="col-xs-offset-10 col-xs-2" >
-            <i class="fa fa-plus fa-2x my-btn" tooltip="Suggest a challenge" ui-sref="challengeSuggest"  ng-if="isLogged"></i>
-            <span class="material-input-group material-input-group-theme-light-blue " style="display:inline-block;">
-                <label for="filterChallenges">
-                    <i class="fa fa-search fa-2x"></i>
-                    filter by title
-                </label>
-                <input id="filterChallenges" type="text" ng-model="search.title" autocomplete="false">
-            </span>
+<ul class="media-list">
+    <li class="media" ng-repeat="challenge in challenges">
+        <div>
+            <img ng-src="{{ challenge.poster || 'http://placehold.it/90x90' }}" class="pull-left" alt="challenge's poster"  width="300px" height="300px"/>
         </div>
-    </div>
-        <!--<div class="solid ptm"></div>-->
-    <div class="clearfix"></div>
-    <div class="row" >
-        <ul class="media-list" >
-            <li class="media" ng-repeat="challenge in challenges | filter:search track by $index">
-                <a ui-sref="challenge.details({ pid : challenge.accessUrl })" class="pull-left ">
-                    <img ng-src="{{challenge.poster || 'http://placehold.it/90x90'}}" class="media-object img-rounded" width="100%">
-                </a>
-                <article class="media-body">
-                    <h1 class="media-heading center">
-                        <a ui-sref="challenge.details({ pid : challenge.accessUrl })">{{challenge.title}}</a>
-                    </h1>
-                    <div class="pull-right">
-                        <span>Created by : </span>
-                        <span owner-block="challenge.owner"></span>
-                    </div>
-                    <!--<p class="muted" style="height:130px;overflow:hidden;" ><small ng-bind-html="challenge.brief"></small></p>-->
-                    <div showtags="" entity="challenge" style="font-size:1.5em;"></div>
-                    <p ng-if="challenge.startDate < now && challenge.endDate > now" class="text-muted">
+
+        <article class="media-body" style="padding-left: 50px;">
+            <h1 class="media-heading">
+                {{ challenge.title }}
+            </h1>
+            <p ng-bind-html="challenge.brief" style="height: 150px;overflow: auto;">
+            </p>
+            <div showtags="" entity="challenge"></div>
+            <div class="row" >
+                <div class="col-xs-4">
+                    {{ challenge.followers.length }}
+                    <p>
+                        Followers
+                    </p>
+                </div>
+                <div class="col-xs-4">
+                    {{ challenge.projectNumber }}
+                    <p>
+                        Projects
+                    </p>
+                </div>
+                <div class="col-xs-4">
+                    <p ng-if="challenge.startDate < now && challenge.endDate > now" >
                         <timer end-time="challenge.endDate" >End in :{{days}} d, {{hours}} : {{minutes}} : {{seconds}}</timer>
                     </p>
-                    <p ng-if="challenge.startDate > now" class="text-muted">
+                    <p ng-if="challenge.startDate > now" >
                         <timer end-time="challenge.endDate" >Start in : {{days}} d, {{hours}} : {{minutes}} : {{seconds}}</timer>
                     </p>
-                </article>
-
-            </li>
-        </ul>
-        <div class="clearfix"></div>
-        <button ng-show="challenges.length>=4&&!isEnd" ng-click="loadMoreChallenges(noPage)" class="btn  btn-default col-xs-12">{{'BTN_MORE'|translate}}</button>
-    </div>
-    <div ng-hide="challenges" class="alert alert-info">{{'CHALLENGE_LIST_NORESULT'|translate}}</div>
-    <div ng-show="isEnd&&challenges.length>=4"  class="alert alert-info">{{'CHALLENGE_LIST_END'|translate}}</div>
-</div>
+                </div>
+            </div>
+        </article>
+        <a href="" ng-click="toggleProjects(challenge.id)">show related projects</a>
+        <section collapse="projectsToggle[challenge.id]">
+            <div ng-repeat="project in projects[challenge.id]" class="col-xs-4">
+                <project-block project="project"></project-block>
+            </div>
+        </section>
+    </li>
+</ul>

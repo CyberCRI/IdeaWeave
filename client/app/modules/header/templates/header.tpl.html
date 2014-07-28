@@ -16,7 +16,7 @@
             <ul class="header-list">
 
                 <li ui-route="/challenges" class="hidden-sm hidden-xs" ng-class="{active:$uiRoute}">
-                    <a ui-sref="challenges" tooltip="challenge" tooltip-placement="bottom">
+                    <a ui-sref="challenges.list({ tag :'all' })" tooltip="challenge" tooltip-placement="bottom">
                         <i class="fa fa-trophy fa-2x"></i>
                     </a>
                     <img src="images/plus.png" width="25%" ui-sref="challengeSuggest" alt="add" style="cursor:pointer;" tooltip="add" tooltip-placement="bottom"/>
