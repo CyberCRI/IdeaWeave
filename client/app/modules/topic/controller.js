@@ -1,5 +1,5 @@
 angular.module('cri.topic',[])
-    .controller('ProjectTopicDetailsCtrl',['$scope','$stateParams','Topic','toaster','Files','loggedUser','CONFIG','Comment','$sce',function($scope,$stateParams,Topic,toaster,Files,loggedUser,CONFIG,Comment,$sce){
+    .controller('ProjectTopicDetailsCtrl',['$scope','$stateParams','Topic','toaster','Files','loggedUser','CONFIG','Comment','$sce','$window',function($scope,$stateParams,Topic,toaster,Files,loggedUser,CONFIG,Comment,$sce,$window){
         $scope.tid = $stateParams.tid;
 //        $scope.myTopic = $scope.topics[$stateParams.tid];
         $scope.$parent.projectId = $stateParams.pid;
@@ -12,7 +12,8 @@ angular.module('cri.topic',[])
             }
         })
 
-        dpd.on('comments:create',function(data){
+        $window.socket.on('comments:create',function(data){
+            console.log('comment create ',data,$scope.myTopic);
             if(data.container == $scope.myTopic.id){
                 var notin = true;
                 if(data.text){

@@ -24,8 +24,7 @@ angular.module('cri.common')
         return {
             restrict:'EA',
             replace:true,
-            template:
-                '<a ng-href="user/{{uid}}" class="inline">{{user[uid].username}}</a>',
+            template:'<a ng-href="user/{{uid}}" class="inline">{{user[uid].username}}</a>',
             link : function(scope,element,attrs){
                 scope.uid=scope.$eval(attrs.userInfo);
 
@@ -53,12 +52,11 @@ angular.module('cri.common')
             restrict:'EA',
             scope : {
                 userId : '=',
-                user : '='
+                myUser : '='
             },
             templateUrl:'modules/common/directives/ownerBlock/userBlock.tpl.html',
             link : function(scope,element,attrs){
 
-                console.log(scope.userId )
                 scope.block = {
                     isHovered : false
                 };
@@ -80,6 +78,9 @@ angular.module('cri.common')
                     }).catch(function(err){
 
                     })
+                }
+                if(scope.myUser){
+                    scope.user = scope.myUser;
                 }
             }
         }

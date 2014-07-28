@@ -35,8 +35,10 @@ angular.module('cri', [
         $locationProvider.html5Mode(true);
         $locationProvider.hashPrefix('!');
     }])
-    .run(['users','loggedUser','$state', function (users,loggedUser,$state) {
+    .run(['users','$window', function (users,$window) {
         users.getMe();
+        $window.socket = io.connect('http://localhost:5011');
+        console.log($window.socket)
     }])
     .controller('ToastCtrl',['$scope','$hideToast',function($scope, $hideToast) {
         $scope.closeToast = function() {

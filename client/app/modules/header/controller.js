@@ -12,8 +12,8 @@ angular.module('cri.header',[])
             }
         }
     })
-    .controller('HeaderCtrl',['$scope','loggedUser', 'users','$state','toaster','SearchBar', '$materialSidenav','$timeout',
-        function($scope,loggedUser, users,$state,toaster,SearchBar,$materialSidenav,$timeout){
+    .controller('HeaderCtrl',['$scope','loggedUser', 'users','$state','toaster','SearchBar', '$materialSidenav','$timeout','$window',
+        function($scope,loggedUser, users,$state,toaster,SearchBar,$materialSidenav,$timeout,$window){
         $scope.user = users;
         $scope.me = loggedUser;
 
@@ -97,14 +97,12 @@ angular.module('cri.header',[])
             }
         };
 
-        dpd.on('activities:create',function(data){
+
+        $window.socket.on('activities:create',function(data){
             if(data.owner == $scope.me.profile.id){
                 $scope.$apply(function(){
                     $scope.newNotif = true;
                 })
             }
-
         });
-
-
-    }])
+    }]);
