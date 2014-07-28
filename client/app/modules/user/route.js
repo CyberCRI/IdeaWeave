@@ -20,6 +20,9 @@ angular.module('cri.user')
                     }
                 },
                 resolve : {
+                    activities : ['users','$stateParams',function(users,$stateParams){
+                        return users.getActivity($stateParams.uid,0);
+                    }],
                     profile : ['users','$stateParams',function(users,$stateParams){
                         return users.getProfile($stateParams.uid);
                     }],

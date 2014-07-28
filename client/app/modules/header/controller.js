@@ -99,6 +99,7 @@ angular.module('cri.header',[])
 
 
         $window.socket.on('activities:create',function(data){
+            console.log('activities create',data)
             if(data.owner == $scope.me.profile.id){
                 $scope.$apply(function(){
                     $scope.newNotif = true;

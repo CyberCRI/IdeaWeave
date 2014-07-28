@@ -26,8 +26,8 @@ angular.module('cri.user',[])
 
     }])
 
-    .controller('ProfileCtrl',['$scope','toaster','loggedUser','profile','users','$modal','recommendUser','recommendProjects','recommendChallenge','$state','$sce',
-        function ($scope,toaster,loggedUser, profile,users,$modal,recommendUser,recommendProjects,recommendChallenge,$state,$sce) {
+    .controller('ProfileCtrl',['$scope','toaster','loggedUser','profile','users','$modal','recommendUser','recommendProjects','recommendChallenge','$state','$sce','activities',
+        function ($scope,toaster,loggedUser, profile,users,$modal,recommendUser,recommendProjects,recommendChallenge,$state,$sce,activities) {
         $scope.user = users;
         $scope.isLogged = false;
         $scope.profile=profile;
@@ -40,7 +40,10 @@ angular.module('cri.user',[])
             projects : recommendProjects,
             challenges : recommendChallenge
         };
-            console.log('recommandation',$scope.recommandation)
+        $scope.activities = activities;
+
+        console.log($scope.activities);
+
         $scope.isFollowUser=false;
         $scope.me = loggedUser.profile;
         $scope.d3Tags = [];
@@ -50,6 +53,8 @@ angular.module('cri.user',[])
                 number : 1
             })
         });
+
+
 
         $scope.editPicture = function() {
             if ($scope.me.id == $scope.profile.id) {

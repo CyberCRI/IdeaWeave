@@ -38,7 +38,7 @@ angular.module('cri.common')
             restrict:'EA',
             replace:true,
             template:'<span>{{project[pid].title}}</span>',
-            link : function(scope,element,attrs){d
+            link : function(scope,element,attrs){
                 scope.pid=scope.$eval(attrs.projectInfo);
 
                 if(!scope.project){
@@ -52,6 +52,25 @@ angular.module('cri.common')
                         console.log('error',err);
                     })
                 }
+            }
+        }
+    }])
+.directive('topicInfo',['$http','CONFIG',function($http,CONFIG){
+        return {
+            restrict : 'EA',
+            replace : true,
+            template : '<span>{{ topic.title }}</span>',
+            scope : {
+                topicId : '='
+            },
+            link : function(scope,element,attrs){
+                console.log(scope.topicId);
+                $http.get(CONFIG.apiServer+"/pforums/"+scope.topicId).success(function(data){
+                    scope.topic = data;
+                    console.log(scope.topic)
+                }).error(function(err){
+                    console.log(err,err)
+                })
             }
         }
     }]);

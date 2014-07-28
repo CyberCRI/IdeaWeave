@@ -52,6 +52,7 @@
                     </ui-select>
                 </li>
                 <li class="pull-right"style="margin-right:50px;">
+
                     <a href="">
                         <i tooltip="menu"  tooltip-placement="bottom" class="fa fa-caret-left fa-2x" ng-click="toggleRight('menu')" ng-if="user.isLoggedIn()"></i>
                     </a>
@@ -97,8 +98,8 @@
             </ul>
         </span>
     </div>
-    <button class="material-button material-button-fab material-button-fab-bottom-right"  style="cursor:pointer;" ng-class="{ 'material-theme-yellow' : newNotif }" ng-click="toggleNotif()" ng-if="user.isLoggedIn()" tooltip="notifications" tooltip-placement="left">
-        <material-icon icon="images/svg/bell.svg" ></material-icon>
+    <button class="material-button material-button-fab material-button-fab-bottom-right" ng-click="toggleRight('notif')" style="cursor:pointer;" ng-class="{ 'material-theme-yellow' : newNotif }" ng-click="toggleNotif()" ng-if="user.isLoggedIn()" tooltip="notifications" tooltip-placement="left">
+        <i class="fa fa-bell" ></i>
         <!--<material-icon icon="images/svg/notification.svg"></material-icon>-->
     </button>
 </material-toolbar>

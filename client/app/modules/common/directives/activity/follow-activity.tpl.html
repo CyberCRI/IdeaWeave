@@ -1,0 +1,14 @@
+<article class="center"  ng-if="type=='users'" style="height:70px;cursor:pointer;" ui-sref="user({ uid : entity.id })">
+    {{ message }}
+    <span>{{ entity.realname || entity.username }}</span>
+</article>
+
+<article class="center"  ng-if="type=='challenges'" style="height:70px;cursor:pointer;" ui-sref="challenge({ pid : entity.accessUrl })">
+    {{ message }}
+    <span>{{ entity.title }}</span>
+</article>
+
+<article class="center"  ng-if="type=='projects'" style="height:70px;cursor:pointer;" ui-sref="project({ pid : project.accessUrl })">
+    {{ message }}
+    <span>{{ entity.title }}</span>
+</article>
