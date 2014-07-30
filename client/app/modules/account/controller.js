@@ -54,7 +54,7 @@ angular.module('cri.account',[])
         }
 
     }])
-    .controller('RegisterCtrl', ['$scope','users','$state','toaster','Gmap','Files','loggedUser',  function ($scope, users, $state, toaster,Gmap,Files,loggedUser) {
+    .controller('RegisterCtrl', ['$scope','users','$state','Notification','Gmap','Files','loggedUser',  function ($scope, users, $state, Notification,Gmap,Files,loggedUser) {
 
         $scope.user = users;
 
@@ -84,55 +84,21 @@ angular.module('cri.account',[])
             } else {
                 $scope.notMatch = false;
                 console.log($scope.signup);
-                users.register($scope.signup).then( function (result) {
-//                    $scope.fileUploadQuestion = true;
-//                    toaster.pop('info','success','If you want you can set up a profile picture rigth now')
-                    toaster.pop('info','Activation','Check your email to activate your account')
-
-                },function(err){
-                    toaster.pop('error',err.status, err.message);
+                users.register($scope.signup).then(function (result) {
+                    Notification.display('Check your email to activate your account')
+                }).catch(function(err){
+                    Notification.display(err.message);
                 })
             }
         };
-
-        $scope.fileSelected = function($files){
-            $scope.file = $files[0];
-            if(Files.isImage($scope.file)){
-                Files.getDataUrl($scope.file).then(function(dataUrl){
-                    $scope.fileUrl = dataUrl;
-                })
-                $scope.dropBoxHeight = "300px";
-            }else{
-                toaster.pop('warning','warning','this file is not an image');
-            }
-        };
-
-
-        $scope.cancelUpload = function(){
-            $scope.file = null;
-            $scope.fileUrl = null;
-            $scope.dropBoxHeight = "100px";
-        };
-
-        $scope.upload = function(topic,file,description){
-            users.uploadPoster(file).then(function(data){
-                toaster.pop('success','upload success','your file has been uploaded !!!');
-                $scope.file = null;
-                $scope.fileUrl = null;
-                $scope.dropBoxHeight = "100px";
-                $state.go('userSettings.basic',{ uid : loggedUser.profile.id });
-            }).catch(function(err){
-                toaster.pop('error',err.status,err.message);
-            })
-        }
     }])
-    .controller('ActivateCtrl',['$scope','users','$state','$stateParams','toaster',function($scope,users,$state,$stateParams,toaster){
+    .controller('ActivateCtrl',['$scope','users','$state','$stateParams','Notification',function($scope,users,$state,$stateParams,Notification){
         $scope.activate = function(){
             users.update($stateParams.uid,{ emailValidated : true }).then(function(){
                 $state.go('home')
             }).catch(function(err){
-                toaster.pop('error',err.status,err.message)
+                Notification.display(err.message);
             })
         }
-    }])
+    }]);
  

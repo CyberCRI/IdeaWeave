@@ -40,7 +40,7 @@ this.sex = 0;
 
 // Send mail for email validation
 // TODO Remove IP Address
-var link = 'http://localhost:5010/account/activate/' + this.id;
+var link = 'http://ideastorm.io/account/activate/' + this.id;
 var emailMsg = "<h3>Welcome</h3>Please validate your email by clicking on this link : <a href='" + link + "'>" + link + "</a>";
 dpd.email.post({from:'Coidea<no-reply@coidea.com>',
     to: this.email,

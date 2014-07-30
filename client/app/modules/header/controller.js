@@ -15,15 +15,6 @@ angular.module('cri.header',[])
     .controller('HeaderCtrl',['$scope','loggedUser', 'users','$state','toaster','SearchBar', '$materialSidenav','$timeout','$window',function($scope,loggedUser, users,$state,toaster,SearchBar,$materialSidenav,$timeout,$window){
         $scope.user = users;
         $scope.me = loggedUser.profile;
-        console.log($scope.me)
-        $scope.signout =function(){
-            users.logout().then(function(){
-                //todo fix this for production
-//                $window.location.href=''
-                $state.go('home');
-            })
-        };
-
 
         $timeout(function(){
             var rightNav;
@@ -57,6 +48,12 @@ angular.module('cri.header',[])
             $scope.$on('side:close-right',function(){
                 rightNav.toggle();
             });
+            $scope.signout =function(){
+                users.logout().then(function(){
+                    rightNav.toggle();
+                    $state.go('home');
+                })
+            };
 
         },500);
         $scope.goTo = function(result){

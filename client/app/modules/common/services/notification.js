@@ -14,7 +14,7 @@ angular.module('cri.common')
                     }],
                     templateUrl: 'modules/common/modal/toast.tpl.html',
                     duration: 5000,
-                    position: 'bottom fit'
+                    position: 'top fit'
                 });
             }
         };
