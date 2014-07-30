@@ -12,11 +12,10 @@ angular.module('cri.header',[])
             }
         }
     })
-    .controller('HeaderCtrl',['$scope','loggedUser', 'users','$state','toaster','SearchBar', '$materialSidenav','$timeout','$window',
-        function($scope,loggedUser, users,$state,toaster,SearchBar,$materialSidenav,$timeout,$window){
+    .controller('HeaderCtrl',['$scope','loggedUser', 'users','$state','toaster','SearchBar', '$materialSidenav','$timeout','$window',function($scope,loggedUser, users,$state,toaster,SearchBar,$materialSidenav,$timeout,$window){
         $scope.user = users;
-        $scope.me = loggedUser;
-
+        $scope.me = loggedUser.profile;
+        console.log($scope.me)
         $scope.signout =function(){
             users.logout().then(function(){
                 //todo fix this for production
@@ -36,6 +35,7 @@ angular.module('cri.header',[])
                             break;
                         case 'menu':
                             $scope.sideNavTemplateUrl = 'modules/header/templates/menu.tpl.html';
+                            $scope.me = loggedUser.profile;
                             break;
                         case 'notif':
                             $scope.sideNavTemplateUrl = 'modules/header/templates/notifications.tpl.html';
@@ -59,7 +59,18 @@ angular.module('cri.header',[])
             });
 
         },500);
-
+        $scope.goTo = function(result){
+            console.log('ffffffffff',result)
+            if(result.username){
+                console.log(result)
+                $state.go('profile',{ uid : result.id })
+            }else if(result.container){
+                $state.go('project',{ pid : result.accessUrl })
+            }else{
+                $state.go('challenge',{ pid : result.accessUrl })
+            }
+            console.log(result)
+        };
         $scope.refreshSearchBar = function(search) {
             if(search.length >=  2 ){
                 SearchBar.refresh(search).then(function(result){

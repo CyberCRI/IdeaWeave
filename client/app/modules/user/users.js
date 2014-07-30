@@ -12,19 +12,19 @@ angular.module('cri.user')
         var service = {
             login: function (username, password) {
                 var deferred = $q.defer();
-                $http.post(CONFIG.apiServer + '/users/login', {username: username, password: password}).success(function () {
-                    service.getMe().then(function(me){
+                $http.post(CONFIG.apiServer + '/datas/login', {username: username}).success(function (me) {
+                    $http.post(CONFIG.apiServer + '/datas/login', {username: username, password: password}).success(function () {
+                        console.log('login',me)
                         loggedUser.profile = me;
                         deferred.resolve(me);
-                    }).catch(function(){
+                    }).catch(function(err){
                         deferred.reject(err);
-                    })
+                    });
                 }).error(function (err) {
                     deferred.reject(err);
                 });
                 return deferred.promise;
             },
-
             isLoggedIn: function () {
                 return loggedUser.profile !== undefined && loggedUser.profile !== null;
             },
@@ -77,12 +77,13 @@ angular.module('cri.user')
                 return deferred.promise;
             },
             validateEmail: function (userId) {
-                return $http.get(CONFIG.apiServer + '/users/' + userId)
-                    .then(function (result) {
-                        var user = result.data;
-                        user.emailValidated = true;
-                        return $http.put(CONFIG.apiServer + '/users/' + user.id, user);
-                    });
+                var defered = $q.defer();
+                $http.put(CONFIG.apiServer+'/users/' + userId).then(function(){
+                    defered.resolve();
+                }).catch(function(err){
+                    defered.reject(err);
+                })
+                return defered.promise;
             },
             fetch :function(param,userId){
                 var defered = $q.defer();

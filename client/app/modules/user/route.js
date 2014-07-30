@@ -27,13 +27,19 @@ angular.module('cri.user')
                         return users.getProfile($stateParams.uid);
                     }],
                     recommendUser : ['Recommend','loggedUser',function(Recommend,loggedUser){
-                        return Recommend.fetchUser(loggedUser.profile.id);
+                        if(loggedUser.profile){
+                            return Recommend.fetchUser(loggedUser.profile.id);
+                        }
                     }],
                     recommendProjects : ['Recommend','loggedUser',function(Recommend,loggedUser){
-                        return Recommend.fetchProject(loggedUser.profile.id);
+                        if(loggedUser.profile) {
+                            return Recommend.fetchProject(loggedUser.profile.id);
+                        }
                     }],
                     recommendChallenge : ['Recommend','loggedUser',function(Recommend,loggedUser){
-                        return Recommend.fetchChallenge(loggedUser.profile.id);
+                        if(loggedUser.profile) {
+                            return Recommend.fetchChallenge(loggedUser.profile.id);
+                        }
                     }]
                 }
             })

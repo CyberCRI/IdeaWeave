@@ -15,15 +15,15 @@
             </a>
             <ul class="header-list">
 
-                <li ui-route="/challenges" class="hidden-sm hidden-xs" ng-class="{active:$uiRoute}">
+                <li  class="hidden-sm hidden-xs">
                     <a ui-sref="challenges.list({ tag :'all' })" tooltip="challenge" tooltip-placement="bottom">
-                        <i class="fa fa-trophy fa-2x"></i>
+                        <i class="fa fa-trophy fa-2x" ui-route="/challenges/all"  ng-class="{'menu-active': $uiRoute}"></i>
                     </a>
-                    <img src="images/plus.png" width="25%" ui-sref="challengeSuggest" alt="add" style="cursor:pointer;" tooltip="add" tooltip-placement="bottom"/>
+                    <img src="images/plus.png" width="25%" ui-sref="challengeSuggest" ng-if="me" alt="add" style="cursor:pointer;" tooltip="add" tooltip-placement="bottom"/>
                 </li>
-                <li ui-route="/projects" class="hidden-sm hidden-xs" ng-class="{active:$uiRoute}" style="margin-right: 10px;">
+                <li class="hidden-sm hidden-xs"  style="margin-right: 10px;">
                     <a ui-sref="projects" tooltip="projects" tooltip-placement="bottom">
-                        <i class="fa fa-lightbulb-o fa-2x"></i>
+                        <i class="fa fa-lightbulb-o fa-2x" ui-route="/projects"  ng-class="{'menu-active': $uiRoute}"></i>
                     </a>
                 </li>
                 <li class="search-container">

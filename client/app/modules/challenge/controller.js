@@ -1,212 +1,6 @@
 angular.module('cri.challenge', [])
-    .controller('cTopicCtrl',['$scope','$modal','loggedUser',function($scope,$modal,loggedUser){
-        $scope.topics = $scope.challenge.topics;
-        var challengeId = $scope.challenge.id;
-        $scope.tf={};
-
-
-        $scope.popUpTopic = function(){
-
-            var myModal = $modal.open({
-                templateUrl: 'modules/topic/templates/add-topic.tpl.html',
-                controller: ['$scope','Topic','toaster','$modalInstance','CONFIG',function ($scope,Topic,toaster,$modalInstance,CONFIG) {
-                    $scope.tinymceOptions = CONFIG.tinymceOptions;
-
-                    $scope.addTopic=function(topic){
-//                        topic = Topic.urlify(topic.text);
-//                        topic = Topic.getUrl(topic.text);
-                        topic.owner = loggedUser.profile.id;
-                        topic.container=challengeId;
-                        Topic.createPost(topic,'challenge').then(function(result){
-                            toaster.pop('success','you earn points !!!', 'Add a topic ! Cool for 10 points.');
-                            $modalInstance.close(result);
-                        }).catch(function(err){
-                            toaster.pop('error',err.status,err.message);
-                        })
-                    }
-                }],
-                size: 'lg'
-            });
-
-            myModal.result.then(function(data){
-                $scope.topics.push(data);
-            })
-        };
-
-
-        //topic css classes
-        $scope.topicsCss = [];
-        angular.forEach($scope.topics,function(v,k){
-            if(v.owner === $scope.challenge.owner ){
-                $scope.topicsCss[k] = 'owner'
-            }else{
-                $scope.topicsCss[k] = 'visitor';
-                angular.forEach($scope.challenge.followers,function(vf,kf){
-                    if(v.owner === vf){
-                        $scope.topicsCss[k] = 'follower';
-                    }
-                });
-                angular.forEach($scope.challenge.member,function(vm,km){
-                    if(v.owner === vm){
-                        $scope.topicsCss[k] = 'member';
-                    }
-                })
-            }
-        })
-    }])
-    .controller('cTopicDetailsCtrl',['$scope','$stateParams','Topic','toaster','Files','loggedUser','CONFIG','Comment','$sce',function($scope,$stateParams,Topic,toaster,Files,loggedUser,CONFIG,Comment,$sce){
-        $scope.myTopic = $scope.topics[$stateParams.tid];
-        $scope.$parent.projectId = $stateParams.pid;
-        $scope.$parent.topicId = $stateParams.tid;
-        $scope.dropBoxHeight = "100px";
-        $scope.tid = $stateParams.tid;
-        dpd.on('comments:create',function(data){
-            if(data.container == $scope.myTopic.id){
-                var notin = true;
-                if(data.text){
-                    $scope.comments.forEach(function(v,k){
-                        if(v.id == data.id){
-                            notin = false;
-                        }
-                    });
-                    if(notin){
-                        Comment.fetch({id:data.id}).then(function(result){
-                            if($scope.comments.indexOf(result) == -1){
-                                if(result.parent){
-                                    angular.forEach($scope.comments,function(v,k){
-                                        if(v.id == result.parent.id){
-                                            result.displayText = $sce.trustAsHtml(result.text);
-                                            $scope.comments.splice(k+1,0,result);
-                                        }
-                                    })
-                                }else{
-                                    result.displayText = $sce.trustAsHtml(result.text);
-                                    $scope.comments.splice(0,0,result);
-                                }
-                            }
-                        }).catch(function(err){
-                        })
-                    }
-                }
-            }
-        });
-        $scope.comments=[];
-        var childrens = [];
-        Comment.fetch({container:$scope.myTopic.id}).then(function(result){
-            angular.forEach(result,function(comment,id){
-                if(comment.text){
-                    comment.displayText = $sce.trustAsHtml(comment.text);
-                    if(comment.parent){
-                        childrens.push(comment);
-
-                    }else{
-                        $scope.comments.splice(0,0,comment);
-                    }
-                }
-            });
-            if(childrens.length > 0){
-                angular.forEach($scope.comments,function(v,k) {
-                    angular.forEach(childrens,function(cv,ck){
-                        if (v.id == cv.parent.id) {
-                            $scope.comments.splice(k+1,0,cv);
-                            delete childrens[ck];
-                        }
-                    });
-
-                });
-            }
-        }).catch(function(err){
-
-        })
-
-
-        Topic.fetchFile($scope.myTopic.id).then(function(data){
-            $scope.files = data || [];
-            angular.forEach($scope.files,function(file){
-                Files.getPoster(file);
-                file.url = CONFIG.apiServer+'/fileUpload/topic/'+$stateParams.pid+'/'+file.filename;
-            })
-        }).catch(function(err){
-            toaster.pop(err.status,err.message);
-        });
-
-
-        Topic.fetchUrl($scope.myTopic.id).then(function(data){
-            $scope.myTopic.urls = data;
-        }).catch(function(err){
-            toaster.pop(err.status,err.message);
-        });
-
-
-        $scope.isImage = function(file){
-            return Files.isImage(file);
-        };
-
-        $scope.isVideo = function(file){
-            return Files.isVideo(file);
-        };
-
-        $scope.isPdf = function(file){
-            return Files.isPdf(file);
-        };
-
-
-        $scope.isOfficeDoc = function(file){
-            return Files.isOfficeDoc(file);
-        };
-
-
-        $scope.showFileDetails = function(file){
-            $scope.fileDetails = file;
-        };
-
-        $scope.fileSelected = function($files){
-            $scope.file = $files[0];
-            if(Files.isImage($scope.file)){
-                Files.getDataUrl($scope.file).then(function(dataUrl){
-                    $scope.fileUrl = dataUrl;
-                });
-                $scope.dropBoxHeight = "300px";
-            }
-        };
-
-
-        $scope.cancelUpload = function(){
-            $scope.file = null;
-            $scope.fileUrl = null;
-            $scope.dropBoxHeight = "100px";
-        };
-
-        $scope.upload = function(topic,file,description){
-            Topic.uploadFile(topic, file,description).then(function(data){
-                toaster.pop('success','upload success','your file has been uploaded !!!');
-                $scope.file = null;
-                $scope.fileUrl = null;
-                $scope.dropBoxHeight = "100px";
-                Files.getPoster(data[0]);
-                data[0].url = CONFIG.apiServer+'/fileUpload/topic/'+$stateParams.pid+'/'+data[0].filename;
-                $scope.files.push(data[0]);
-            }).catch(function(err){
-                toaster.pop('error',err.status,err.message);
-            })
-        };
-
-        $scope.addUrl = function(url){
-            url.project = $stateParams.pid;
-            url.container = $scope.myTopic.id;
-            url.owner = loggedUser.profile.id;
-            Topic.addUrl(url).then(function(data){
-                if(!$scope.myTopic.urls){
-                    $scope.myTopic.urls = [];
-                }
-                $scope.myTopic.urls.push(url);
-            }).catch(function(err){
-                toaster.pop('error',err.status,err.message);
-            })
-        }
-    }])
-    .controller('ChallengeExploreCtrl', ['$scope','users','tags', function ($scope, users,tags) {
-        $scope.isLogged = users.isLoggedIn();
+    .controller('ChallengeExploreCtrl', ['$scope','loggedUser','tags', function ($scope, loggedUser,tags) {
+        $scope.me = loggedUser.profile;
         $scope.tags = tags;
 
         function uniqueObject(arr) {
@@ -296,15 +90,19 @@ angular.module('cri.challenge', [])
             }
         };
         $scope.toggleProjects = function(id){
-            console.log('icici',id)
-            $scope.projectsToggle[id] = true;
             Project.fetch({ container : id }).then(function(projects){
                 console.log('projects',projects)
                 $scope.projects[id] = projects;
-                $scope.projectsToggle[id] = false;
+                if(projects.length == 0){
+                    $scope.message[id] = true;
+                }
+                $scope.projectsToggle[id] = true;
             }).catch(function(err){
                 console.log(err);
             })
+        }
+        $scope.hideProject = function(id){
+            $scope.projectsToggle[id] = false;
         }
 
     }])
@@ -362,59 +160,25 @@ angular.module('cri.challenge', [])
             })
         }
     }])
-    .controller('ChallengeViewCtrl', ['$scope', 'challenge','users', 'Challenge','Project','$sce','toaster','loggedUser','CONFIG',
-        function ($scope, challenge,users, Challenge, Project, $sce, toaster, loggedUser, CONFIG) {
-            $scope.user = users;
-            $scope.isFollow = false;
-            $scope.challenge = Challenge.data = challenge[0];
-            $scope.mapOptions = CONFIG.mapOptions;
-            if($scope.challenge.presentation){
-                $scope.challenge.presentationDisplay = $sce.trustAsHtml($scope.challenge.presentation);
-            }
-
-            $scope.noPage = 1;
-            $scope.isEnd = false;
-            $scope.loadMoreProjects = function (num) {
-                $scope.noPage = num + 1;
-                option.$skip = 6 * num;
-                if (!$scope.isEnd) {
-                    Project.fetch(option).then(function (result) {
-                        if (result.length > 0) {
-                            for (var i = 0; i < result.length; i++) {
-                                $scope.projects.push(result[i]);
-                            }
-                        } else {
-                            toaster.pop('info','the end','There is no more project !');
-                            $scope.isEnd = true;
-                        }
-                    }).catch(function(err){
-                        toaster.pop('error',err.status,err.message);
-                    })
-                }
-            }
-        }])
-.controller('ChallengeFollowerCtrl',['$scope','Challenge',function($scope,Challenge){
-        $scope.followers = Challenge.data.followers;
-    }])
-.controller('ChallengeCtrl',['$scope','Challenge','challenge','loggedUser','toaster','$state',function($scope,Challenge,challenge,loggedUser,toaster,$state){
+.controller('ChallengeCtrl',['$scope','Challenge','challenge','loggedUser','toaster','$state','Project',function($scope,Challenge,challenge,loggedUser,toaster,$state,Project){
         $scope.me = loggedUser;
 
         $scope.challenge = Challenge.data = challenge[0];
+
+        console.log('challenge',challenge);
+        var options = {container : $scope.challenge.id,$limit:8,$sort:{score:-1},context:'list'};
+        Project.fetch(options).then(function(projects){
+            $scope.projects = projects;
+            console.log('project',projects);
+        }).catch(function(err){
+            console.log(err);
+        });
+
         if(loggedUser.profile){
             if(loggedUser.profile.id == $scope.challenge.owner){
                 $scope.isOwner = true;
             }
         }
-        if($scope.challenge.localisation){
-            $scope.map = {
-                center: {
-                    latitude: $scope.challenge.localisation.geometry.location.lat,
-                    longitude: $scope.challenge.localisation.geometry.location.lng
-                },
-                zoom: 8
-            };
-        }
-
         $scope.d3Tags = [];
         angular.forEach($scope.challenge.tags,function(v,k){
             $scope.d3Tags.push({

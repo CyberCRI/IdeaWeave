@@ -87,7 +87,7 @@ angular.module('cri.common')
         return {
             restrict: 'EAC',
             scope: { entity: '=' },
-            template:'<ul class="list-unstyled">'+'<li ng-repeat="tag in entity.tags | limitTo: 2" class="inline mas"><a ui-sref="tag({ title : tag })" class="text-muted" target="_self">#{{tag}}</a></li>'+
+            template:'<ul class="list-unstyled" style="display: inline-block;">'+'<li ng-repeat="tag in entity.tags | limitTo: 2" class="inline mas"><a ui-sref="tag({ title : tag })" class="text-muted" target="_self">#{{tag}}</a></li>'+
                 '</ul>'
         };
     })

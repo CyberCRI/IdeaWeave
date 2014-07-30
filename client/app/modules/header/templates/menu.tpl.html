@@ -1,21 +1,21 @@
 <section style="padding-left : 20px; padding-top: 20px; height:100%; position:relative;" >
     <div class="row">
         <div class="col-xs-6">
-            <img ng-src="{{ me.profile.poster || 'images/avater.jpg' }}" alt="{{ me.profile.username }}'s photo" width="100%" class="img-rounded pull-left"/>
+            <img ng-src="{{ me.poster || 'images/avater.jpg' }}" alt="{{ me.username }}'s photo" width="100%" class="img-rounded pull-left"/>
         </div>
         <i class="fa fa-caret-right fa-2x my-btn pull-right" style="color:black; margin-right:10px;" ng-click="toggleRight('menu')"></i>
     </div>
     <h2 style="color:black;">
-        {{ me.profile.realname || me.profile.username }}
+        {{ me.realname || me.username }}
     </h2>
     <div class="list-group row" >
-        <a  class="list-group-item"  ng-href="user/{{me.profile.id}}#profile"  style="border:none;">
+        <a  class="list-group-item"  ng-href="user/{{me.id}}#profile"  style="border:none;">
             Profile
         </a>
         <a ui-route="/message"   ui-sref="message" class="list-group-item" ng-class="{'menu-active':$uiRoute}" style="border:none;">
             Messages
         </a>
-        <a scroll-on-click href="user/{{me.profile.id}}#challenges" class="list-group-item"  style="border:none;">
+        <a scroll-on-click href="user/{{me.id}}#challenges" class="list-group-item"  style="border:none;">
             Challenges
         </a>
         <a  href="#projects" class="list-group-item" du-smooth-scroll style="border:none;">
@@ -27,7 +27,7 @@
     </div>
         <div style="position: absolute; bottom : 0px;color:black;width:100%;" ng-if="me.profile">
             <div class="pull-left text-muted">
-                <p>You're logged as {{ me.profile.username }}</p>
+                <p>You're logged as {{ me.username }}</p>
             </div>
             <div class="pull-right" style="margin-right: 25px;">
                 <i class="fa fa-sign-out fa-2x my-btn" tooltip="sign-out" ng-click="signout()"></i>

@@ -1,43 +1,21 @@
 angular.module('cri.account',[])
-    .controller('LoginCtrl', ['$scope', 'users','$state','$materialToast','loggedUser' , '$timeout', '$materialSidenav', function ($scope, users, $state,$materialToast, loggedUser, $timeout, $materialSidenav) {
+    .controller('LoginCtrl', ['$scope', 'users','$state','Notification', function ($scope, users, $state,Notification) {
 
         $scope.form = {};
         $scope.user = users;
 
-        $scope.toastPosition = {
-            bottom: false,
-            top: true,
-            left: true,
-            right: false,
-            fit: true
-        };
-
-        $scope.getToastPosition = function() {
-            return Object.keys($scope.toastPosition)
-                .filter(function(pos) { return $scope.toastPosition[pos]; })
-                .join(' ');
-        };
         $scope.login = function ($event) {
             $event.preventDefault();
             users.login($scope.signin.username, $scope.signin.password)
                 .then(function () {
-                    var message='welcome you(re logged in'
-                    $materialToast({
-                        controller: ['$scope','$hideToast',function($scope, $hideToast) {
-                            $scope.message = message;
-                            $scope.closeToast = function() {
-                                $hideToast();
-                            };
-                        }],
-                        templateUrl: 'modules/common/modal/toast.tpl.html',
-                        duration: 5000,
-                        position: 'bottom fit'
-                    });
+                    Notification.display('welcome you(re logged in');
                     $state.go('home');
                     $scope.$emit('side:close-right');
                 })
                 .catch(function (err) {
-                    toaster.pop('error', err.status, err.message);
+                    console.log(err);
+                    Notification.display(err.message);
+//                    toaster.pop('error', err.status, err.message);
                 });
         };
 
@@ -51,11 +29,13 @@ angular.module('cri.account',[])
             if(!$scope.emailSend){
                 users.getResetPassToken(email).then(function(data){
                     if (data.error) {
-                        toaster.pop('error','error', 'an error occured sorry.')
+                        Notification.display('an error occured sorry.');
+//                        toaster.pop('error','error', 'an error occured sorry.')
 //                    $scope.notifyErr = data.error;
                     } else {
                         $scope.emailSend = true;
-                        toaster.pop('sucess','success',"Verification code has been sent successfully, please log in to view your mailbox");
+                        Notification.display("Verification code has been sent successfully, please log in to view your mailbox");
+//                        toaster.pop('sucess','success',"Verification code has been sent successfully, please log in to view your mailbox");
 //                    $scope.notifyMsg = "Verification code has been sent successfully, please log in to view your mailbox";
                     }
                 })
@@ -65,12 +45,10 @@ angular.module('cri.account',[])
         $scope.reSet = function (resetData) {
             users.resetPassword(resetData).then(function (data) {
                 if (data.error) {
-                    alert(data.error);
-                    toaster.pop('error','error','an error occured sorry');
+                    Notification.display('an error occured sorry.');
+//                    toaster.pop('error','error','an error occured sorry');
                 } else {
-                    toaster.pop('success','success','Password reset successfull');
-//                    alert('Reset success！');
-
+                    Notification.display('Password reset successfull');
                 }
             })
         }
@@ -151,7 +129,7 @@ angular.module('cri.account',[])
     .controller('ActivateCtrl',['$scope','users','$state','$stateParams','toaster',function($scope,users,$state,$stateParams,toaster){
         $scope.activate = function(){
             users.update($stateParams.uid,{ emailValidated : true }).then(function(){
-                $state.go('login')
+                $state.go('home')
             }).catch(function(err){
                 toaster.pop('error',err.status,err.message)
             })

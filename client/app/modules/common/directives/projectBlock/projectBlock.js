@@ -55,22 +55,15 @@ angular.module('cri.common')
             }
         }
     }])
-.directive('topicInfo',['$http','CONFIG',function($http,CONFIG){
+.directive('projectCard',[function(){
         return {
             restrict : 'EA',
-            replace : true,
-            template : '<span>{{ topic.title }}</span>',
+            templateUrl : 'modules/common/directives/projectBlock/project-card.tpl.html',
             scope : {
-                topicId : '='
+                project : '='
             },
-            link : function(scope,element,attrs){
-                console.log(scope.topicId);
-                $http.get(CONFIG.apiServer+"/pforums/"+scope.topicId).success(function(data){
-                    scope.topic = data;
-                    console.log(scope.topic)
-                }).error(function(err){
-                    console.log(err,err)
-                })
+            link:function(scope,element,attrs){
+
             }
         }
     }]);

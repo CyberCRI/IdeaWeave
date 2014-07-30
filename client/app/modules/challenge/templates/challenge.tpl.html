@@ -1,70 +1,61 @@
-<div class="row">
-    <div class="col-md-3 col-sm-4 col-xs-12">
-        <!--Profile basic-->
-        <div class="panel panel-default visible-md visible-lg">
-            <div class="panel-body">
-                <div class="center">
-                    <img ng-src="{{challenge.poster}}" ng-show="challenge.poster" class="img-rounded" width="80%">
-                    <img ng-src="images/avater.jpg" ng-hide="challenge.poster" class="img-rounded" width="80%">
-                </div>
-                <div class="clearfix">
-                </div>
-                <h2 class="center solid pbm" >
-                    <span ng-show="challenge.title">
-                        {{challenge.title}}
-                    </span>
-                </h2>
-                <div class="center solid pbm">
-                    <i class="fa fa-list fa-2x my-btn" ui-sref="challenge.list({ pid : challenge.accessUrl })" ui-route="/challenge/{{ challenge.accessUrl }}/list" ng-class="{active: $uiRoute}"></i>
-                    <i class="fa fa-users fa-2x my-btn" ui-route="/challenge/{{ challenge.accessUrl }}/followers" ng-class="{active: $uiRoute}" ui-sref="challenge.followers({ pid : challenge.accessUrl })"></i>
-                    <i class="fa fa-home fa-2x my-btn" ui-route="/challenge/{{ challenge.accessUrl }}/details" ng-class="{active: $uiRoute}" ui-sref="challenge.details({ pid : challenge.accessUrl })"></i>
-                    <i class="fa fa-cogs fa-2x my-btn" ui-route="/challenge/{{ challenge.accessUrl }}/settings/basic" ng-class="{active: $uiRoute}" ui-sref="challenge.settings.basic({ pid : challenge.accessUrl })" tooltip="challenge's administration" ng-if="user.id == challenge.owner"></i>
-                    <i class="fa fa-comments fa-2x my-btn" ui-route="/challenge/{{ challenge.accessUrl }}/forum" ng-class="{active: $uiRoute}" ui-sref="challenge.topic" tooltip="project's forum"  ng-if="project.isMember == 1 || user.id == project.owner"></i>
-                    <i class="fa fa-star-o fa-2x " ng-if="!isFollow && me" tooltip="follow this challenge"  ng-click="followChallenge()"tooltip="Follow this project" ></i>
-                    <i class="fa fa-2x fa-star "  ng-if="isFollow && me" ng-click="unfollow(challenge.id)" tooltip="Unfollow this challenge" ></i>
-                    <!--<i class="fa fa-2x fa-bullhorn my-btn" ng-click="openShare()" tooltip="Promote this challenge"></i>-->
-                </div>
-                <div class="solid center pbm ">
-                    <h3>
-                        <span>
-                            <small class="text-muted">
-                                Projects
-                            </small>
-                            <br>{{challenge.projectNumber}}
-                        </span>
-                    </h3>
-                    <h3>
-                        <span>
-                            <small class="text-muted">
-                                {{'FOLLOWER'|translate}}
-                            </small>
-                                <br>{{challenge.followers.length}}
-                        </span>
-                    </h3>
-                    <h3>
-                        <span>
-                            <small class="text-muted">
-                                created by
-                            </small>
-                            <span owner-block="challenge.owner"></span>
-                        </span>
-                    </h3>
-                    <d3-tag-cloud tags="d3Tags" on-click="showTag(item)" options="{ width : 150, height:200 }"></d3-tag-cloud>
-                </div>
+<section>
+    <header style="background-image: {{ challenge.banner || 'http://placehold.it/500x100'  }}" class="challenge-header">
+        <h1>
+            {{ challenge.title }}
+        </h1>
+        <p>
+            <span>
+                {{ challenge.followers.length }}
+                <span class="text-muted">
+                    followers
+                </span>
+            </span>
+            <span>
+                . {{ challenge.projectNumber }}
+                <span class="text-muted">
+                    projects
+                </span>
+            </span>
+            <span ng-if="challenge.startDate < now && challenge.endDate > now" >
+                <timer end-time="challenge.endDate" >End in :{{days}} d, {{hours}} : {{minutes}} : {{seconds}}</timer>
+            </span>
+            <span ng-if="challenge.startDate > now" >
+                <timer end-time="challenge.endDate" >Start in : {{days}} d, {{hours}} : {{minutes}} : {{seconds}}</timer>
+            </span>
+        </p>
+        <p>
+            <i class="fa fa-plus" style="color:yellow;"></i>
+            follow
+        </p>
+    </header>
+
+    <section class="pad-left" style="padding-top:10px;">
+        <i class="fa fa-tags fa-2x"></i>
+        <span showtags entity="challenge"></span>
+    </section>
+    <section style="background-color:grey;">
+        <section class="row" >
+            <div class="col-md-8 pad-left" style="min-height:400px; border-right:solid 1px black;margin-top:30px;">
+                <article ng-bind-html="challenge.brief">
+
+                </article>
             </div>
+            <div class="col-md-4 pad-left" style="margin-top: 30px;">
+
+            </div>
+        </section>
+        <div class="row center" style="padding-top: 30px;padding-bottom: 30px;">
+            <button class="btn btn-lg btn-info">Participate to this challenge</button>
         </div>
-        <div class="center solid pbm visible-sm visible-xs">
-            <i class="fa fa-list fa-2x my-btn" ui-sref="challenge.list({ pid : challenge.accessUrl })" ui-route="/challenge/{{ challenge.accessUrl }}/list" ng-class="{active: $uiRoute}"></i>
-            <i class="fa fa-home fa-2x my-btn" ui-route="/challenge/{{ challenge.accessUrl }}/details" ng-class="{active: $uiRoute}" ui-sref="challenge.details({ pid : challenge.accessUrl })"></i>
-            <i class="fa fa-cogs fa-2x my-btn" ui-route="/challenge/{{ challenge.accessUrl }}/settings/basic" ng-class="{active: $uiRoute}" ui-sref="challenge.settings.basic({ pid : challenge.accessUrl })" tooltip="challenge's administration" ng-if="project.isMember == 1 || user.id == project.owner"></i>
-            <i class="fa fa-comments fa-2x my-btn" ui-route="/challenge/{{ challenge.accessUrl }}/forum" ng-class="{active: $uiRoute}" ui-sref="challenge.topic" tooltip="project's forum"  ng-if="project.isMember == 1 || user.id == project.owner"></i>
-            <i class="fa fa-star-o fa-2x " ng-if="!isFollow && me" tooltip="follow this challenge"  ng-click="followChallenge()"tooltip="Follow this project" ></i>
-            <i class="fa fa-2x fa-star "  ng-if="isFollow && me" ng-click="unfollow(challenge.id)" tooltip="Unfollow this challenge" ></i>
-            <!--<i class="fa fa-2x fa-bullhorn my-btn" ng-click="openShare()" tooltip="Promote this challenge"></i>-->
+    </section>
+    <section class="container-fluid">
+        <div class="col-xs-12 col-sm-4 col-md-3 col-lg-2" ng-repeat="project in projects">
+            <project-card project="project"></project-card>
         </div>
-    </div>
-    <article class="col-md-9 col-sm-8 col-xs-12">
-        <div ui-view="challengeView">
-        </div>
-    </article>
-</div>
+    </section>
+    <section>
+        <user-block ng-repeat="follower in followers" user-id="follower" class="col-xs-4 col-sm-3 col-md-2 col-lg-1">
+
+        </user-block>
+    </section>
+</section>

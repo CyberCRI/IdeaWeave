@@ -10,11 +10,10 @@ function uniqueObject(arr) {
     return result;
 }
 switch (parts[0]) {
+
     case 'challengebytag':
         dpd.challenges.get({tags: {$regex: tag + ".*", $options: 'i'}, context: 'feed'}, function (result, err) {
-
             setResult(result);
-
         });
         break;
     case 'profile':

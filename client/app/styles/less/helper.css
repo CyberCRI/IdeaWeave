@@ -50,6 +50,9 @@
   height: 200px;
 }
 /* padding*/
+.pad-left {
+  padding-left: 50px;
+}
 .pan {
   padding: 0;
 }

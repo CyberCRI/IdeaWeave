@@ -79,9 +79,11 @@ angular.module('cri.user',[])
             $scope.isLogged = true;
             if($scope.profile.id==loggedUser.profile.id){
                 $scope.isOwner=true;
-            }else if($scope.profile.followers.length>0){
-                if($scope.followers.indexOf(loggedUser.profile.id)!==-1){
-                    $scope.isFollowUser=true;
+            }else if($scope.profile.followers){
+                if($scope.profile.followers.length>0){
+                    if($scope.followers.indexOf(loggedUser.profile.id)!==-1){
+                        $scope.isFollowUser=true;
+                    }
                 }
             }
         }

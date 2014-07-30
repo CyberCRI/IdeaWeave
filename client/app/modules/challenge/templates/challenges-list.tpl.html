@@ -1,14 +1,13 @@
 <ul class="media-list">
     <li class="media" ng-repeat="challenge in challenges">
-        <div>
-            <img ng-src="{{ challenge.poster || 'http://placehold.it/90x90' }}" class="pull-left" alt="challenge's poster"  width="300px" height="300px"/>
+        <div class="pull-left">
+            <img ng-src="{{ challenge.poster || 'http://placehold.it/90x90' }}" class="list-img media-object" width="100%" alt="challenge's poster" />
         </div>
-
         <article class="media-body" style="padding-left: 50px;">
-            <h1 class="media-heading">
+            <h1 class="media-heading" style="cursor : pointer;"  ui-sref="challenge({ pid : challenge.accessUrl })">
                 {{ challenge.title }}
             </h1>
-            <p ng-bind-html="challenge.brief" style="height: 150px;overflow: auto;">
+            <p ng-bind-html="challenge.brief" class="list-brief" >
             </p>
             <div showtags="" entity="challenge"></div>
             <div class="row" >
@@ -34,9 +33,16 @@
                 </div>
             </div>
         </article>
-        <a href="" ng-click="toggleProjects(challenge.id)">show related projects</a>
-        <section collapse="projectsToggle[challenge.id]">
-            <div ng-repeat="project in projects[challenge.id]" class="col-xs-4">
+        <a href="" ng-click="toggleProjects(challenge.id)" ng-if="!projectsToggle[challenge.id]">show related projects</a>
+        <a href="" ng-click="hideProject(challenge.id)" ng-if="projectsToggle[challenge.id]">hide related projects</a>
+        <section collapse="!projectsToggle[challenge.id]" class="container">
+            <p ng-if="message[challenge.id]">
+                <span>
+                    no related projects, create one ?
+                </span>
+                <i class="fa fa-plus fa-2x my-btn" ui-sref=""></i>
+            </p>
+            <div ng-repeat="project in projects[challenge.id]" class="col-xs-2">
                 <project-block project="project"></project-block>
             </div>
         </section>

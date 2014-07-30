@@ -1,10 +1,23 @@
+<section class="row" style="margin-left:50px;">
+    <h2>
+        Challenges
+    </h2>
+    <p ng-if="me">
+        <a href="" ui-sref="challengeSuggest">
+            <i class="fa fa-plus my-btn" ></i>
+            <span class="text-muted" > create a new project</span>
+        </a>
+
+    </p>
+    <a href="" ui-sref="projects" class="pull-right" style="margin-right: 50px;">See all related projects</a>
+</section>
 <section class="row">
-    <section class="col-xs-9" ui-view="challengesView">
+    <section class="col-xs-9 list-container"  ui-view="challengesView">
 
     </section>
     <section class="col-xs-3">
         <div class="list-group">
-            <a  class="list-group-item" ng-repeat="tag in tags" ui-sref="challenges.list({ tag : tag.title })">
+            <a  class="list-group-item" ui-route="/challenges/{{tag.title}}" ng-class="{ 'active' : $uiRoute }" ng-repeat="tag in tags" ui-sref="challenges.list({ tag : tag.title })">
                 {{ tag.title }}
             </a>
         </div>

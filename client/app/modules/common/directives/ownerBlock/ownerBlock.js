@@ -24,26 +24,19 @@ angular.module('cri.common')
         return {
             restrict:'EA',
             replace:true,
-            template:'<a ng-href="user/{{uid}}" class="inline">{{user[uid].username}}</a>',
+            scope : {
+                userId : '@'
+            },
+            template:'<a ng-href="user/{{userId}}" class="inline">{{user.realname || user.username}}</a>',
             link : function(scope,element,attrs){
-                scope.uid=scope.$eval(attrs.userInfo);
 
-                if(!scope.user&&scope.uid!==undefined){
-                    scope.user={};
-                }
-                if(scope.uid===undefined){
-                    return false;
-                }
+                var url=CONFIG.apiServer+'/users/'+scope.userId+'?context=userBlock';
+                $http.get(url).success(function(data){
+                    scope.user=data;
+                }).error(function(err){
+                    console.log('error',err)
+                })
 
-                if(!scope.user[scope.uid]&&scope.uid!==undefined){
-                    var url=CONFIG.apiServer+'/users/'+scope.uid+'?context=userBlock';
-                    var hash='usersBlock-'+scope.uid;
-                    $http.get(url).success(function(data){
-                        scope.user[scope.uid]=data;
-                    }).error(function(err){
-                        console.log('error',err)
-                    })
-                }
             }
         }
     }])
