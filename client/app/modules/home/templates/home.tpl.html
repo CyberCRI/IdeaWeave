@@ -73,25 +73,44 @@
         </div>
     </section>
     <section class="container home-project-container" ng-if="projects.length >= 3">
-        <h2 class="center" style="color:white;" ng-if="!me.profile">Popular Projects</h2>
-        <h2 class="center" style="color:white;" ng-if="me.profile">Recommended projects</h2>
-        <div class="material-display-flex material-flex-h">
-            <material-whiteframe ng-repeat="project in projects" class="material-flex material-display-flex material-flex-center material-whiteframe-z1" style="margin-right: 20px;">
-                <div class="material-flex">
-                    <material-card>
-                        <img ng-src="{{project.poster || 'http://placehold.it/275x275'}}" alt="here {{ project.title }} 's poster" class="material-card-image">
-                        <h2>
-                            <a href="" ui-sref="project.details({ pid : project.accessUrl })" ng-bind="project.title"></a>
-                        </h2>
-                        <p showtags entity="project"></p>
-                        <!--<p ng-bind-html="project.brief">-->
-                        <!--</p>-->
-                    </material-card>
-                </div>
-            </material-whiteframe>
+        <h2 class="center" style="color:white;">Popular Projects</h2>
+        <div class="col-sm-6 col-md-4 col-lg-3" ng-repeat="project in profile.projects">
+            <div class="thumbnail">
+                <img ng-src="{{project.poster || 'http://placehold.it/300x300'}}" alt="..." width="100%">
+                <article class="caption">
+                    <h1>{{ project.title }}</h1>
+                    <p class="text-muted">
+                        By :
+                        <span class="text-muted" user-info="project.owner"></span>
+                    </p>
+                    <p class="text-muted" ng-bind-html="project.brief" style="max-height:200px;overflow:auto;"></p>
+                    <showtags entity="project">
+                    </showtags>
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <div>
+                                {{ project.followers.length }}
+                            </div>
+                            <p class="text-muted">
+                                Followers
+                            </p>
+                        </div>
+                        <div class="col-xs-4">
+
+                        </div>
+                        <div class="col-xs-4">
+                            <div>
+                                {{ project.member.length }}
+                            </div>
+                            <p class="text-muted">
+                                Member
+                            </p>
+                        </div>
+                    </div>
+                </article>
+            </div>
         </div>
     </section>
-
 </section>
 <section class="row" id="signin">
     <div class="signin-container">

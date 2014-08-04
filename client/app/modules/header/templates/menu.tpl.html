@@ -9,16 +9,16 @@
         {{ me.realname || me.username }}
     </h2>
     <div class="list-group row" >
-        <a  class="list-group-item"  ng-href="user/{{me.id}}#profile"  style="border:none;">
+        <a data-scroll class="list-group-item"  ng-href="user/{{me.id}}#profile"  style="border:none;">
             Profile
         </a>
-        <a ui-route="/message"   ui-sref="message" class="list-group-item" ng-class="{'menu-active':$uiRoute}" style="border:none;">
+        <a ui-route="/message" ui-sref="message" class="list-group-item" ng-class="{'menu-active':$uiRoute}" style="border:none;">
             Messages
         </a>
-        <a scroll-on-click href="user/{{me.id}}#challenges" class="list-group-item"  style="border:none;">
+        <a data-scroll href="user/{{me.id}}#challenges" class="list-group-item"  style="border:none;">
             Challenges
         </a>
-        <a  href="#projects" class="list-group-item" du-smooth-scroll style="border:none;">
+        <a data-scroll href="user/{{me.id}}#projects" class="list-group-item"  style="border:none;">
             Projects
         </a>
         <a  ui-sref="userSettings({ uid : me.profile.id })" class="list-group-item" style="border:none;">

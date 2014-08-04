@@ -26,8 +26,8 @@ angular.module('cri.user',[])
 
     }])
 
-    .controller('ProfileCtrl',['$scope','toaster','loggedUser','profile','users','$modal','recommendUser','recommendProjects','recommendChallenge','$state','$sce','activities',
-        function ($scope,toaster,loggedUser, profile,users,$modal,recommendUser,recommendProjects,recommendChallenge,$state,$sce,activities) {
+    .controller('ProfileCtrl',['$scope','Notification','loggedUser','profile','users','$modal','recommendUser','recommendProjects','recommendChallenge','$state','$sce','activities',
+        function ($scope,Notification,loggedUser, profile,users,$modal,recommendUser,recommendProjects,recommendChallenge,$state,$sce,activities) {
         $scope.user = users;
         $scope.isLogged = false;
         $scope.profile=profile;
@@ -121,32 +121,32 @@ angular.module('cri.user',[])
             if($scope.isFollowUser){
                 users.unfollow(uid).then(function(result){
                     if(result.error){
-                        toaster.pop('error','error',result.error);
+                        Notification.display(result.error);
                     }else{
-                        toaster.pop('success','success','you doesn\'t follow '+$scope.profile.username+' anymore');
+                        Notification.display('you doesn\'t follow '+$scope.profile.username+' anymore');
                         $scope.followers.splice($scope.followers.indexOf(loggedUser.profile.id),1);
                         $scope.isFollowUser=false;
                     }
                 }).catch(function(err){
-                    toaster.pop('error',err.status,err.message);
+                    Notification.display(err.message);
                 })
             }else{
                 users.follow(uid).then(function(result){
                     if(result.error){
-                        toaster.pop('error','error',result.error);
+                        Notification.display(result.error);
                     }else{
                         $scope.isFollowUser=true;
                         $scope.followers.push(loggedUser.profile.id);
-                        toaster.pop('success','success','you now follow '+$scope.profile.username)
+                        Notification.display('you now follow '+$scope.profile.username)
                     }
                 }).catch(function(err){
-                    toaster.pop('error',err.status,err.message);
+                    Notification.display(err.message);
                 })
             }
         };
     }])
 
-    .controller('settingBasicCtrl',['$scope','users','loggedUser','toaster','CONFIG',function ($scope,users,loggedUser,toaster,CONFIG) {
+    .controller('settingBasicCtrl',['$scope','users','loggedUser','Notification','CONFIG',function ($scope,users,loggedUser,Notification,CONFIG) {
         $scope.profile=loggedUser.profile;
         if(!$scope.profile.tags){
             $scope.profile.tags=[];
@@ -156,9 +156,9 @@ angular.module('cri.user',[])
 
         $scope.updateProfile=function(user){
             users.update(user.id,user).then(function(data){
-                toaster.pop('success','Updated successfully');
+                Notification.display('Updated successfully');
             }).catch(function(err){
-                toaster.pop('error',err.status,err.message);
+                Notification.display(err.message);
             })
         }
 
@@ -168,30 +168,30 @@ angular.module('cri.user',[])
             }else{
                 $scope.notMatch=false;
                 users.update($scope.profile.id,$scope.profile).then(function(result){
-                    toaster.pop('success','success','Updated successfully');
+                    Notification.display('Updated successfully');
                 }).catch(function(err){
-                    toaster.pop('error',err.status,err.message);
+                    Notification.display(err.message);
                 })
             }
         }
     }])
-    .controller('settingAvatarCtrl',['$scope','users','toaster','loggedUser','$modalInstance',function ($scope,users,toaster,loggedUser,$modalInstance) {
+    .controller('settingAvatarCtrl',['$scope','users','Notification','loggedUser','$modalInstance',function ($scope,users,Notification,loggedUser,$modalInstance) {
         $scope.$on('cropReady',function(e,data){
             users.update(loggedUser.profile.id,{ poster : data }).then(function(){
                 loggedUser.profile.poster = data;
                 $modalInstance.close(data);
             }).catch(function(err){
-                toaster.pop('error',err.status,err.message);
+                Notification.display(err.message);
             })
         })
 
     }])
-    .controller('settingNotifyCtrl',['$scope','users','toaster',function ($scope,users,toaster) {
+    .controller('settingNotifyCtrl',['$scope','users','Notification',function ($scope,users,Notification) {
         $scope.updateNotify=function(){
             users.update($scope.profile.id,$scope.profile).then(function(result){
-                toaster.pop('success','success','Updated successfully')
+                Notification.display('Updated successfully')
             }).catch(function(err){
-                toaster.pop('error',err.status,err.message)
+                Notification.display(err.message)
             })
         }
     }]);

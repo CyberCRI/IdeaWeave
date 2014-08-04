@@ -1,5 +1,5 @@
 angular.module('cri.topic',[])
-    .controller('ProjectTopicDetailsCtrl',['$scope','$stateParams','Topic','toaster','Files','loggedUser','CONFIG','Comment','$sce','$window',function($scope,$stateParams,Topic,toaster,Files,loggedUser,CONFIG,Comment,$sce,$window){
+    .controller('ProjectTopicDetailsCtrl',['$scope','$stateParams','Topic','Notification','Files','loggedUser','CONFIG','Comment','$sce','$window',function($scope,$stateParams,Topic,Notification,Files,loggedUser,CONFIG,Comment,$sce,$window){
         $scope.tid = $stateParams.tid;
 //        $scope.myTopic = $scope.topics[$stateParams.tid];
         $scope.$parent.projectId = $stateParams.pid;
@@ -84,14 +84,14 @@ angular.module('cri.topic',[])
                 file.url = CONFIG.apiServer+'/fileUpload/topic/'+$stateParams.pid+'/'+file.filename;
             })
         }).catch(function(err){
-            toaster.pop(err.status,err.message);
+            Notification.display(err.message);
         });
 
 
         Topic.fetchUrl($scope.myTopic.id).then(function(data){
             $scope.myTopic.urls = data;
         }).catch(function(err){
-            toaster.pop(err.status,err.message);
+            Notification.display(err.message);
         });
 
 
@@ -135,7 +135,7 @@ angular.module('cri.topic',[])
 
         $scope.upload = function(topic,file,description){
             Topic.uploadFile(topic, file,description).then(function(data){
-                toaster.pop('success','upload success','your file has been uploaded !!!');
+                Notification.display('your file has been uploaded !!!');
                 $scope.file = null;
                 $scope.fileUrl = null;
                 $scope.dropBoxHeight = "100px";
@@ -143,7 +143,7 @@ angular.module('cri.topic',[])
                 data[0].url = CONFIG.apiServer+'/fileUpload/topic/'+$stateParams.pid+'/'+data[0].filename;
                 $scope.files.push(data[0]);
             }).catch(function(err){
-                toaster.pop('error',err.status,err.message);
+                Notification.display(err.message);
             })
         };
 
@@ -157,7 +157,7 @@ angular.module('cri.topic',[])
                 }
                 $scope.myTopic.urls.push(url);
             }).catch(function(err){
-                toaster.pop('error',err.status,err.message);
+                Notification.display(err.message);
             })
         }
     }])
@@ -177,7 +177,7 @@ angular.module('cri.topic',[])
         $scope.popUpTopic = function(){
             var myModal = $modal.open({
                 templateUrl: 'modules/topic/templates/add-topic.tpl.html',
-                controller: ['$scope','Topic','toaster','$modalInstance','CONFIG',function ($scope,Topic,toaster,$modalInstance,CONFIG) {
+                controller: ['$scope','Topic','Notification','$modalInstance','CONFIG',function ($scope,Topic,Notification,$modalInstance,CONFIG) {
                     $scope.tinymceOptions = CONFIG.tinymceOptions;
                     $scope.categories = [
                         {
@@ -205,10 +205,10 @@ angular.module('cri.topic',[])
                         topic.container=project[0].id;
                         console.log(topic)
                         Topic.createPost(topic,'project').then(function(result){
-                            toaster.pop('success','you earn points !!!', 'Add a topic ! Cool for 10 points.');
+                            Notification.display('Add a topic ! Cool for 10 points.');
                             $modalInstance.close(result);
                         }).catch(function(err){
-                            toaster.pop('error',err.status,err.message);
+                            Notification.display(err.message);
                         })
                     }
                 }],

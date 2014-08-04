@@ -13,7 +13,6 @@ angular.module('cri', [
     'pascalprecht.translate',
     'angularFileUpload',
     'angular-carousel',
-    'toaster',
     'ImageCropper',
     'cri.config',
     'cri.home',

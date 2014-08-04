@@ -14,4 +14,4 @@ angular.module('cri.home',[])
             $state.go('tag',{title : e.text})
         }
 
-    }])
+    }]);

@@ -96,6 +96,14 @@
 			"required": false,
 			"id": "endDate",
 			"order": 11
+		},
+		"banner": {
+			"name": "banner",
+			"type": "string",
+			"typeLabel": "string",
+			"required": false,
+			"id": "banner",
+			"order": 12
 		}
 	}
 }

@@ -14,7 +14,7 @@ angular.module('cri.message',[])
             $state.go('message.send');
         }
     }])
-.controller('SendMessagesCtrl',['$scope','Message','toaster','CONFIG',function($scope,Message,toaster,CONFIG){
+.controller('SendMessagesCtrl',['$scope','Message','Notification','CONFIG',function($scope,Message,Notification,CONFIG){
 
 
 
@@ -24,13 +24,13 @@ angular.module('cri.message',[])
                 $scope.message.to = $scope.message.user.id;
                 delete $scope.message.user;
                 Message.send($scope.message).then(function(){
-                    toaster.pop('success','success','message send !');
+                    Notification.display('message send !');
                 }).catch(function(err){
-                    toaster.pop('error','error','message not send !');
+                    Notification.display('message not send !');
 
                 })
             }else{
-                toaster.pop('info','warning','uncomplete message')
+                Notification.display('uncomplete message');
             }
 
         })

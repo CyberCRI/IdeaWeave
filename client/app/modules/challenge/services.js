@@ -51,21 +51,12 @@ angular.module('cri.challenge')
                 });
                 return defered.promise;
             },
-            uploadPoster : function(file){
+            remove : function(id){
                 var defered = $q.defer();
-                $upload.upload({
-                    url: CONFIG.apiServer+'/upload?subdir=challenge&challenge='+service.data.id,
-                    method: 'POST',
-                    file: file
-                }).success(function(data, status, headers, config) {
-                    service.data.poster = CONFIG.apiServer+'/fileUpload/challenge/'+data[0].filename
-                    $http.put(CONFIG.apiServer+'/challenges',service.data)
-                        .success(function(data){
-                            defered.resolve(data);
-                        })
-                        .error(function(err){
-                            defered.reject(err);
-                        })
+                $http.delete(CONFIG.apiServer+URI+'/'+id).success(function(data){
+                    defered.resolve(data);
+                }).error(function(err){
+                    defered.reject(err);
                 });
                 return defered.promise;
             },

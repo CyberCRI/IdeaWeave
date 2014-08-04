@@ -1,5 +1,5 @@
 angular.module('cri.project',[])
-    .controller('ProjectCtrl',['$scope','Project','project','$modal', 'loggedUser', 'toaster','users','$sce','CONFIG','$state','loggedUser',function($scope,Project,project,$modal, loggedUser, toaster,users,$sce,CONFIG,$state,loggedUser){
+    .controller('ProjectCtrl',['$scope','Project','project','$modal', 'loggedUser', 'Notification','users','$sce','CONFIG','$state','loggedUser',function($scope,Project,project,$modal, loggedUser, Notification,users,$sce,CONFIG,$state,loggedUser){
 
         $scope.project = Project.data = project[0];
         if(loggedUser){
@@ -45,9 +45,9 @@ angular.module('cri.project',[])
                         Project.apply($scope.tmsg).then(function(data){
                             $scope.tmsg={};
                             $scope.cancel();
-                            toaster.pop('success','success','Sent successfully! Cool to get 5 points.');
+                            Notification.display('Sent successfully! Cool to get 5 points.');
                         }).catch(function(err){
-                            toaster.pop('error',err.status,err.message);
+                            Notification.display(err.message);
                         })
                     };
                     $scope.cancel = function () {
@@ -104,31 +104,31 @@ angular.module('cri.project',[])
                 if(result.error){
                     alert(result.error)
                 }else{
-                    toaster.pop('success','success','Concerned about the success!');
+                    Notification.display('Concerned about the success!');
                     $scope.project.followers.push(loggedUser.profile.id);
                     $scope.isFollow=true;
                 }
             }).catch(function(err){
-                toaster.pop('error',err.status,err.message)
+                Notification.display(err.message);
             })
         }
 
         $scope.unfollow=function(){
             Project.unfollow($scope.project.id).then(function(result){
                 if(result.error){
-                    toaster.pop('error','error',result.error);
+                    Notification.disply(result.error);
                 }else{
-                    toaster.pop('success','success','Concerned about the success!');
+                    Notification.display('Concerned about the success!');
                     $scope.project.followers.splice($scope.project.followers.indexOf(loggedUser.profile.id),1);
                     $scope.isFollow=false;
                 }
             }).catch(function(err){
-                toaster.pop('error',err.status,err.message);
+                Notification.display(err.message);
             })
         }
     }])
-    .controller('ProjectExploreCtrl',['$scope','projects','loggedUser','Challenge','Project','$state','toaster',
-        function ($scope,projects,loggedUser,Challenge,Project,$state,toaster) {
+    .controller('ProjectExploreCtrl',['$scope','projects','loggedUser','Challenge','Project','$state','Notification',
+        function ($scope,projects,loggedUser,Challenge,Project,$state,Notification) {
 
             $scope.me = loggedUser.profile;
 
@@ -154,7 +154,7 @@ angular.module('cri.project',[])
                     $scope.projects = result;
                     $scope.isLoading = false;
                 }).catch(function(err){
-                    toaster.pop('error',err.status,err.message);
+                    Notification.display(err.message);
                 })
             };
             // init sortby
@@ -245,27 +245,34 @@ angular.module('cri.project',[])
 
     }])
 
-    .controller('ProjectJoinCtrl',['$scope','users','CONFIG','Project','$state','toaster','$stateParams','project',function ($scope,users,CONFIG,Project,$state,toaster,$stateParams,project) {
+    .controller('ProjectJoinCtrl',['$scope','users','CONFIG','Project','$state','Notification','$stateParams','project',function ($scope,users,CONFIG,Project,$state,Notification,$stateParams,project) {
         $scope.user = users;
         Project.data = project;
 //        $scope.ref='/project/setting/'+$stateParams.pid+'/join/'+$stateParams.jid;
         $scope.joinTeam=function(){
             Project.join($stateParams.id).then(function(data){
-                toaster.pop('success','success','Welcome to '+Project.data.title);
+                Notification.display('Welcome to '+Project.data.title);
                 $state.go('project.settings.basic',{ pid : Project.data.accessUrl });
             }).catch(function(err){
-                toaster.pop('error',err.status,err.message);
+                Notification.display(err.message);
             })
         }
     }])
-    .controller('ProjectCreateCtrl',['$scope', 'Project', 'loggedUser', '$state', 'toaster', 'Gmap', 'CONFIG', 'challenges',function($scope, Project, loggedUser, $state, toaster, Gmap, CONFIG,challenges){
+    .controller('ProjectCreateCtrl',['$scope', 'Project', 'loggedUser', '$state', 'Notification', 'Gmap', 'CONFIG', 'challenges',function($scope, Project, loggedUser, $state, Notification, Gmap, CONFIG,challenges){
 
         $scope.tinymceOption = CONFIG.tinymceOptions;
         $scope.challenges = challenges;
         $scope.newProject = {};
+
+        if(Project.challengeSelected){
+            $scope.challenge = {
+                selected : Project.challengeSelected
+            }
+        }
+
         $scope.titleChange = function(title){
             $scope.newProject.accessUrl = title.replace(/ /g,"_");
-        }
+        };
         $scope.refreshAddresses = function(address) {
             Gmap.getAdress(address).then(function(adresses){
                 $scope.addresses = adresses;
@@ -273,14 +280,12 @@ angular.module('cri.project',[])
         };
         $scope.createProject = function(){
             $scope.newProject.owner = loggedUser.profile.id;
-//            $scope.newProject.container = Challenge.data.id;
+            $scope.newProject.container = $scope.challenge.selected.id;
             Project.create($scope.newProject).then(function(){
                 $state.go('project',{ pid : Project.data.accessUrl });
             }).catch(function(err){
                 console.log(err)
-                toaster.pop('error',err.status,err.message);
+                Notification.display(err.message);
             })
         }
-
-
-    }])
+    }]);

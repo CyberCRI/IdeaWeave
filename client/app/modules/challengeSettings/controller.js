@@ -4,7 +4,7 @@ angular.module('cri.challengeSettings',[])
         $scope.challenge = challenge[0];
 
     }])
-    .controller('ChallengeSettingsBasicCtrl',['$scope','Challenge','toaster','CONFIG',function($scope,Challenge,toaster,CONFIG){
+    .controller('ChallengeSettingsBasicCtrl',['$scope','Challenge','Notification','CONFIG',function($scope,Challenge,Notification,CONFIG){
         $scope.tinymceOptions = CONFIG.tinymceOptions;
 
         $scope.updateChallenge=function(){
@@ -14,20 +14,30 @@ angular.module('cri.challengeSettings',[])
                 title : $scope.challenge.title
             };
             Challenge.update($scope.challenge.id,data).then(function(){
-                toaster.pop('success','success','Challenge updated');
+                Notification.display('Challenge updated');
             }).catch(function(err){
-                toaster.pop(err.status,err.message);
+                Notification.display(err.message);
             })
         }
     }])
-    .controller('ChallengeSettingsPosterCtrl',['$scope','Challenge','toaster',function($scope,Challenge,toaster) {
+    .controller('ChallengeSettingsPosterCtrl',['$scope','Challenge','Notification',function($scope,Challenge,Notification) {
         $scope.$watch('imageCropResult', function(newVal) {
             if (newVal) {
                 Challenge.update($scope.challenge.id,{ poster : newVal }).then(function(){
                     $scope.challenge.poster = newVal;
-                    toaster.pop('success','success',"Challenge's poster updated");
+                    Notification.display("Challenge's poster updated");
                 }).catch(function(err){
-                    toaster.pop('error',err.status,err.message);
+                    Notification.display(err.message);
+                })
+            }
+        });
+        $scope.$watch('bannerResult', function(newVal) {
+            if (newVal) {
+                Challenge.update($scope.challenge.id,{ banner : newVal }).then(function(){
+                    $scope.challenge.poster = newVal;
+                    Notification.display("Challenge's poster updated");
+                }).catch(function(err){
+                    Notification.display(err.message);
                 })
             }
         });

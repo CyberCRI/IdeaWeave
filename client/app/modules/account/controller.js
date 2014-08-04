@@ -8,7 +8,7 @@ angular.module('cri.account',[])
             $event.preventDefault();
             users.login($scope.signin.username, $scope.signin.password)
                 .then(function () {
-                    Notification.display('welcome you(re logged in');
+                    Notification.display("welcome you're logged in");
                     $state.go('home');
                     $scope.$emit('side:close-right');
                 })

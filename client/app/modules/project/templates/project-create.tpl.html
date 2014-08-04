@@ -7,8 +7,8 @@
             <div class="form-group">
                 <label class="col-sm-2 col-xs-12 control-label">Challenge</label>
                 <div class="col-sm-10 col-xs-12">
-                    <ui-select ng-model="newProject.container" theme="bootstrap">
-                        <ui-select-match placeholder="The challenge who will own your project ...">{{$select.selected.id}}</ui-select-match>
+                    <ui-select ng-model="challenge.selected" theme="bootstrap">
+                        <ui-select-match placeholder="The challenge who will own your project ...">{{$select.selected.title}}</ui-select-match>
                         <ui-select-choices repeat="challenge in challenges">
                             <img ng-src="{{ challenge.poster || 'http://placehold.it/25x25' }}" width="25px" alt="challenge's poster"/>
                             <small>

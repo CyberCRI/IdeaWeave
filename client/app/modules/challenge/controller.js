@@ -3,7 +3,7 @@ angular.module('cri.challenge', [])
 
         $window.socket.on('chat:create',function(err,data){
             console.log(err,data);
-        })
+        });
 
         $scope.me = loggedUser.profile;
 
@@ -26,70 +26,9 @@ angular.module('cri.challenge', [])
             })
         }
     }])
-    .controller('ChallengeExploreCtrl', ['$scope','loggedUser','tags', function ($scope, loggedUser,tags) {
+
+    .controller('ChallengesListCtrl',['$scope','challenges','Notification','Challenge','Project','loggedUser',function($scope,challenges,Notification,Challenge,Project,loggedUser){
         $scope.me = loggedUser.profile;
-        $scope.tags = tags;
-
-        function uniqueObject(arr) {
-            var o = {}, i, j, r = [];
-            for (var i = 0; i < arr.length; i++) o[arr[i]['id']] = arr[i];
-            for (var j in o) r.push(o[j])
-            return r;
-        }
-
-        // query search
-        $scope.queryChallenge = function () {
-            if ($scope.searchChallenge) {
-                // search title
-                var challenges = [];
-                var count = 0;
-                queryTag($scope.searchChallenge, function (datas) {
-                    count++;
-                    if(datas){
-                        challenges = challenges.concat(datas);
-
-                    }
-                    if (count == 3) {
-                        $scope.challenges = uniqueObject(challenges);
-                    }
-                });
-            } else {
-                toaster.pop('info','info','you need to fill the search form')
-            }
-        }
-        function queryTag(tag, callback) {
-            Challenge.fetch({title: {$regex: tag + ".*", $options: 'i'}, context: 'list'}).then(function (data) {
-                if (data.length > 0) {
-                    callback(data);
-                } else {
-                    callback();
-                }
-            }).catch(function(err){
-                toaster.pop('error',err.status,err.message);
-            });
-            Challenge.fetch({brief: {$regex: tag + ".*", $options: 'i'}, context: 'list'}).then(function (data) {
-                if (data.length > 0) {
-                    callback(data);
-                } else {
-                    callback();
-                }
-            }).catch(function(err){
-                toaster.pop('error',err.status,err.message);
-            });
-
-            Challenge.fetch({tags: {$regex: tag + ".*", $options: 'i'}, context: 'list'}).then(function (data) {
-                if (data.length > 0) {
-                    callback(data);
-                } else {
-                    callback();
-                }
-            }).catch(function(err){
-                toaster.pop('error',err.status,err.message);
-            });
-        }
-
-    }])
-    .controller('ChallengesListCtrl',['$scope','challenges','toaster','Challenge','Project',function($scope,challenges,toaster,Challenge,Project){
         $scope.challenges = challenges;
         $scope.projects = {};
         $scope.projectsToggle = {};
@@ -109,10 +48,10 @@ angular.module('cri.challenge', [])
                         }
                     } else {
                         $scope.isEnd = true;
-                        toaster.pop('info','the end', 'there is no more challenges')
+                        Notification.display('there is no more challenges')
                     }
                 }).catch(function(err){
-                    toaster.pop('error',err.status,err.message);
+                    Notification.display(err.message);
                 })
             }
         };
@@ -127,13 +66,21 @@ angular.module('cri.challenge', [])
             }).catch(function(err){
                 console.log(err);
             })
-        }
+        };
         $scope.hideProject = function(id){
             $scope.projectsToggle[id] = false;
+        };
+
+        $scope.removeChallenge = function(id){
+            Challenge.remove(id).then(function(){
+                Notification.display('challenge removed')
+            }).catch(function(err){
+                Notification.display(err.message);
+            })
         }
 
     }])
-    .controller('ChallengeSuggestCtrl', ['$scope', 'Challenge','loggedUser','$upload','$state','toaster','Gmap','Files','CONFIG','datepickerPopupConfig', function ($scope, Challenge, loggedUser,$upload,$state,toaster,Gmap,Files,CONFIG,datepickerPopupConfig) {
+    .controller('ChallengeSuggestCtrl', ['$scope', 'Challenge','loggedUser','$upload','$state','Notification','Gmap','Files','CONFIG','datepickerPopupConfig', function ($scope, Challenge, loggedUser,$upload,$state,Notification,Gmap,Files,CONFIG,datepickerPopupConfig) {
 
         $scope.hasDuration = false;
 
@@ -180,23 +127,21 @@ angular.module('cri.challenge', [])
             challenge.startDate = challenge.startDate.getTime();
             challenge.endDate = challenge.endDate.getTime();
             Challenge.create(challenge).then(function(){
-                toaster.pop('info','success','Your challenge has been added. would you like to add a description picture to it ?');
+                Notification.display('Your challenge has been added. would you like to add a description picture to it ?');
                 $state.go('challenges');
             }).catch(function(err){
-                toaster.pop('error',err.status,err.message);
+                Notification.display(err.message);
             })
         }
     }])
-.controller('ChallengeCtrl',['$scope','Challenge','challenge','loggedUser','toaster','$state','Project',function($scope,Challenge,challenge,loggedUser,toaster,$state,Project){
+.controller('ChallengeCtrl',['$scope','Challenge','challenge','loggedUser','Notification','$state','Project',function($scope,Challenge,challenge,loggedUser,Notification,$state,Project){
         $scope.me = loggedUser;
 
         $scope.challenge = Challenge.data = challenge[0];
 
-        console.log('challenge',challenge);
         var options = {container : $scope.challenge.id,$limit:8,$sort:{score:-1},context:'list'};
         Project.fetch(options).then(function(projects){
             $scope.projects = projects;
-            console.log('project',projects);
         }).catch(function(err){
             console.log(err);
         });
@@ -206,6 +151,16 @@ angular.module('cri.challenge', [])
                 $scope.isOwner = true;
             }
         }
+
+        $scope.participate = function(){
+            if(loggedUser.profile){
+                Project.challengeSelected = $scope.challenge;
+                $state.go('projectCreation')
+            }else{
+                //todo go to signuo page
+            }
+        };
+
         $scope.d3Tags = [];
         angular.forEach($scope.challenge.tags,function(v,k){
             $scope.d3Tags.push({
@@ -233,48 +188,48 @@ angular.module('cri.challenge', [])
                 if (result.error) {
                     alert(result.error)
                 } else {
-                    toaster.pop('info','score','Concerned about the success! Cool increased by 2 points.');
+                    Notification.display('Concerned about the success! Cool increased by 2 points.');
                     $scope.challenge.followers.push($scope.me.id);
                     $scope.isFollow = true;
                 }
             }).catch(function(err){
-                toaster.pop('error',err.status,err.message);
+                Notification.display(err.message);
             })
         }
 
         $scope.unfollow = function () {
             Challenge.unfollow($scope.challenge.id).then(function (result) {
                 if (result.error) {
-                    toaster.pop('error','error','an error occured sorry');
+                    Notification.display('an error occured sorry');
                 } else {
-                    toaster.pop('info','score','Concerned about the success! Cool increased by 2 points.');
+                    Notification.display('Concerned about the success! Cool increased by 2 points.');
                     $scope.challenge.followers.splice($scope.challenge.followers.indexOf($scope.me.id), 1);
                     $scope.isFollow = false;
                 }
             }).catch(function(err){
-                toaster.pop('error',err.status,err.message);
+                Notification.display(err.message);
 
             })
         }
 
     }])
 
-.controller('ChallengeSettingsCtrl',['$scope','Challenge','toaster',function($scope,Challenge,toaster){
+.controller('ChallengeSettingsCtrl',['$scope','Challenge','Notification',function($scope,Challenge,Notification){
 
         $scope.$watch('imageCropResult', function(newVal) {
             if (newVal) {
                 Challenge.update($scope.challenge.id,{ poster : newVal }).then(function(){
-                    toaster.pop('success','success','challenge poster updated');
+                    Notification.display('challenge poster updated');
                 }).catch(function(err){
-                    toaster.pop('error',err.status,err.message);
+                    Notification.display(err.message);
                 })
             }
         });
         $scope.updateChallenge = function(challenge){
             Challenge.update(challenge.id,challenge).then(function(data){
-                toaster.pop('success','success','Challenge updated successfully');
+                Notification.display('Challenge updated successfully');
             }).catch(function(err){
-                toaster.pop('error',err.status,err.message);
+                Notification.display(err.message);
             })
         }
     }])

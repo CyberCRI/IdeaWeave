@@ -27,7 +27,7 @@
         "angular-carousel" : "0.2.3",
         "angular-material" : "https://github.com/angular/material.git",
         "angular-timer" : "*",
-        "angular-scrollto" : "0.1.4"
+        "smooth-scroll" : "https://github.com/cferdinandi/smooth-scroll.git"
     },
     "devDependencies": {}
 }

@@ -1,12 +1,12 @@
 angular.module('cri.tag',[])
-    .controller('TagCtrl',['$scope','$stateParams','Tag','$timeout','$sce','toaster',function($scope,$stateParams,Tag,$timeout,$sce,toaster){
+    .controller('TagCtrl',['$scope','$stateParams','Tag','$timeout','$sce','Notification',function($scope,$stateParams,Tag,$timeout,$sce,Notification){
 
         $scope.queryTag = function(query){
             Tag.search(query).then(function(data){
                 $scope.tagdatas=data;
                 $scope.d3TagData = Tag.d3FormatData(data,$stateParams.title);
             }).catch(function(err){
-                toaster.pop('error',err.status,err.message);
+                Notification.display(err.message);
             })
         }
 

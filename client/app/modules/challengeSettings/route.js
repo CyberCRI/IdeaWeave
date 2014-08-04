@@ -1,10 +1,10 @@
 angular.module('cri.challengeSettings')
     .config(['$stateProvider',function ($stateProvider) {
         $stateProvider
-            .state('challenge.settings',{
-                url : '/settings',
+            .state('challengeSettings',{
+                url : '/callengesettings/:pid',
                 views :{
-                    challengeView : {
+                    mainView : {
                         templateUrl:'modules/challengeSettings/templates/challengeSettings.tpl.html',
                         controller: 'ChallengeSettingsCtrl'
                     }
@@ -15,7 +15,7 @@ angular.module('cri.challengeSettings')
                     }]
                 }
             })
-            .state('challenge.settings.basic',{
+            .state('challengeSettings.basic',{
                 url : '/basic',
                 views :{
                     settingView : {
@@ -24,7 +24,7 @@ angular.module('cri.challengeSettings')
                     }
                 }
             })
-            .state('challenge.settings.poster',{
+            .state('challengeSettings.poster',{
                 url : '/poster',
                 views :{
                     settingView : {

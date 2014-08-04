@@ -157,3 +157,6 @@ form input {
 .menu-active {
   color: #428bca !important;
 }
+material-toast {
+  max-height: 64px !important;
+}

@@ -10,8 +10,7 @@ angular.module('cri.challenge')
                 },
                 views : {
                     mainView :{
-                        templateUrl: 'modules/challenge/templates/challenges.tpl.html',
-                        controller: 'ChallengeExploreCtrl'
+                        templateUrl: 'modules/challenge/templates/challenges.tpl.html'
                     }
                 }
             })

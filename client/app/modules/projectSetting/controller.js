@@ -9,19 +9,19 @@ angular.module('cri.projectSetting',[])
             $scope.reverse = index < oldIndex;
         }
     }])
-    .controller('ProjectPosterCtrl',['$scope','Project','toaster',function($scope,Project,toaster){
+    .controller('ProjectPosterCtrl',['$scope','Project','Notification',function($scope,Project,Notification){
         $scope.$watch('imageCropResult', function(newVal) {
             if (newVal) {
                 Project.update($scope.project.id, { poster: newVal }).then(function () {
                     $scope.project.poster = newVal;
-                    toaster.pop('success', 'success', "Challenge's poster updated");
+                    Notification.display("Challenge's poster updated");
                 }).catch(function (err) {
-                    toaster.pop('error', err.status, err.message);
+                    Notification.display(err.message);
                 })
             }
         })
     }])
-    .controller('ProjectBasicCtrl',['$scope','$stateParams','Project','$modal','$state','toaster','CONFIG',function ($scope,$stateParams,Project,$modal,$state,toaster,CONFIG) {
+    .controller('ProjectBasicCtrl',['$scope','$stateParams','Project','$modal','$state','Notification','CONFIG',function ($scope,$stateParams,Project,$modal,$state,Notification,CONFIG) {
         $scope.options = {
             height: 200,
             focus: true
@@ -33,9 +33,9 @@ angular.module('cri.projectSetting',[])
         //Update project
         $scope.updateProject=function(project) {
             Project.update(project.id,project).then(function (result) {
-                toaster.pop('success', 'success', 'Update Success!');
+                Notification.display('Update Success!');
             }).catch(function (err) {
-                toaster.pop('error', err.status, err.message);
+                Notification.display(err.message);
             })
         }
 
@@ -46,16 +46,16 @@ angular.module('cri.projectSetting',[])
         $scope.opendel = function () {
             var delModelInstance=$modal.open({
                 templateUrl:'projectDel.html',
-                controller:['$scope','$modalInstance','toaster',function($scope,$modalInstance,toaster){
+                controller:['$scope','$modalInstance','Notification',function($scope,$modalInstance,Notification){
                     $scope.deleteProject=function(){
                         Project.delete(Project.data.id).then(function(data){
-                            toaster.pop('success','success','project removed successfully');
+                            Notification.display('project removed successfully');
                             $modalInstance.dismiss('cancel');
                             var challengeId = Project.data.container;
                             Project.data = {};
                             $state.go('challenge',{ pid : challengeId });
                         }).catch(function(err){
-                            toaster.pop('error',err.status,err.message);
+                            Notification.display(err.message);
                             $modalInstance.dismiss('cancel');
                         })
                     };
@@ -63,13 +63,13 @@ angular.module('cri.projectSetting',[])
             })
         };
     }])
-    .controller('ProjectMediaCtrl',['$scope', 'toaster','files','Files','urls','Url','CONFIG',function ($scope, toaster,files,Files,urls,Url,CONFIG) {
+    .controller('ProjectMediaCtrl',['$scope', 'Notification','files','Files','urls','Url','CONFIG',function ($scope, Notification,files,Files,urls,Url,CONFIG) {
         $scope.removeFile = function(file){
             Files.remove(file.id).then(function(){
-                toaster.pop('success','success','file remove succesfully');
+                Notification.display('file remove succesfully');
                 $scope.files.splice($scope.files.indexOf(file),1);
             }).catch(function(err){
-                toaster.pop('error',err.status,err.message);
+                Notification.display(err.message);
             })
         }
 
@@ -84,9 +84,9 @@ angular.module('cri.projectSetting',[])
 
         $scope.updateUrl = function(url){
             Url.update(url).then(function(data){
-                toaster.pop('success','success','url updated succesfully');
+                Notification.display('url updated succesfully');
             }).catch(function(err){
-                toaster.pop('error','error','update fail');
+                Notification.display('update fail');
             })
         };
 
@@ -99,35 +99,35 @@ angular.module('cri.projectSetting',[])
 
     }])
 
-    .controller('ProjectApplyCtrl',['$scope','applyteams','Project','toaster',function ($scope,applyteams,Project,toaster) {
+    .controller('ProjectApplyCtrl',['$scope','applyteams','Project','Notification',function ($scope,applyteams,Project,Notification) {
         $scope.applyteams=applyteams;
 
         $scope.finish=function(idx){
             Project.finishApply({status:true}, $scope.applyteams[idx].id).then(function(data){
                 $scope.applyteams[idx].status=true;
-                toaster.pop('success','success','Updated successfully!');
+                Notification.display('Updated successfully!');
             }).catch(function(err){
-                toaster.pop('error',err.status,err.message);
+                Notification.display(err.message);
             })
         }
         $scope.addToTeam=function(uid,idx){
             Project.update($scope.project.id,{member:{'$push':uid},'context':'team'}).then(function(){
 //            Project.update({uid : uid , context :'team'},$scope.project.id).then(function(){
                 $scope.finish(idx);
-                toaster.pop('success','success','Successfully added');
+                Notification.display('Successfully added');
             }).catch(function(err){
-                toaster.pop('error',err.status,err.message);
+                Notification.display(err.message);
             })
         }
     }])
 
-    .controller('ProjectTeamCtrl',['$scope','Project','toaster',function ($scope,Project,toaster) {
+    .controller('ProjectTeamCtrl',['$scope','Project','Notification',function ($scope,Project,Notification) {
         $scope.removeMember=function(idx,user){
             Project.update({member:{$pull:user.id}},Project.data.id).then(function(result){
-                toaster.pop('success','success','Successfully removed');
+                Notification.display('Successfully removed');
                 $scope.project.member.splice(idx,1);
             }).catch(function(err){
-                toaster.pop('error','error','Remove failed, please try again later');
+                Notification.display('Remove failed, please try again later');
             });
         }
 
@@ -135,10 +135,10 @@ angular.module('cri.projectSetting',[])
         $scope.sendInvite=function(){
             $scope.invite.pid=Project.data.id;
             Project.sendInvite($scope.invite).then(function(result){
-                toaster.pop('success','success','invitation send successfully');
+                Notification.display('invitation send successfully');
                 $scope.invite.email="";
             }).catch(function(err){
-                toaster.pop('error','error','Failed,Please try again later.');
+                Notification.display('Failed,Please try again later.');
             })
         }
     }])

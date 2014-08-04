@@ -14,7 +14,6 @@ angular.module('cri.user')
                 var deferred = $q.defer();
                 $http.post(CONFIG.apiServer + '/datas/login', {username: username}).success(function (me) {
                     $http.post(CONFIG.apiServer + '/users/login', {username: username, password: password}).success(function () {
-                        console.log('login',me)
                         loggedUser.profile = me;
                         deferred.resolve(me);
                     }).catch(function(err){

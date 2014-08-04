@@ -1,18 +1,6 @@
 angular.module('cri.header',[])
-    .directive('selectFocus',function(){
-        return {
-            link : function(scope,element,attrs){
-                var input = element.find('input');
-                input.bind('focus',function(){
-                    scope.width = '400px';
-                });
-                input.bind('blur',function(){
-                    scope.width='300px';
-                })
-            }
-        }
-    })
-    .controller('HeaderCtrl',['$scope','loggedUser', 'users','$state','toaster','SearchBar', '$materialSidenav','$timeout','$window',function($scope,loggedUser, users,$state,toaster,SearchBar,$materialSidenav,$timeout,$window){
+
+    .controller('HeaderCtrl',['$scope','loggedUser', 'users','$state','Notification','SearchBar', '$materialSidenav','$timeout','$window',function($scope,loggedUser, users,$state,Notification,SearchBar,$materialSidenav,$timeout,$window){
         $scope.user = users;
         $scope.me = loggedUser.profile;
 
@@ -73,7 +61,7 @@ angular.module('cri.header',[])
                 SearchBar.refresh(search).then(function(result){
                     $scope.searchResult = result;
                 }).catch(function(err){
-                    toaster.pop('error',err.status,err.message);
+                    Notification.display(err.message);
                 })
             }
         };
@@ -97,4 +85,4 @@ angular.module('cri.header',[])
                 })
             }
         });
-    }]);
+    }])

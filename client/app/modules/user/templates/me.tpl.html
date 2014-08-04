@@ -23,7 +23,7 @@
         <article>
             <h1 ng-bind="profile.realname || profile.username"></h1>
             <p class="text-muted">
-                {{ profile.challenges.length }} challenges . {{ profile.projects.length }} projects
+                {{ profile.challenges.length }} <a data-scroll href="#challenges">challenges</a> . {{ profile.projects.length }} projects
             </p>
             <p class="text-muted">
                 {{ profile.followers.length }} followers . {{ profile.followings.length }} following
@@ -84,6 +84,7 @@
         <div class="thumbnail">
             <img ng-src="{{challenge.poster || 'http://placehold.it/300x300'}}" alt="..." width="100%">
             <article class="caption">
+                <a href="" ui-sref="challengeSettings({ pid : challenge.accessUrl })">Edit</a>
                 <h1>{{ challenge.title }}</h1>
                 <p class="text-muted">
                     By :

@@ -1,5 +1,6 @@
 <ul class="media-list">
-    <li class="media" ng-repeat="challenge in challenges">
+    <li class="media" ng-repeat="challenge in challenges" style="position:relative;overflow: visible">
+        <i class="fa fa-anchor fa-2x my-btn" style="position:absolute; top : -10px;right:-10px;" ng-if="me.admin" ng-click="removeChallenge(challenge.id)"></i>
         <div class="pull-left">
             <img ng-src="{{ challenge.poster || 'http://placehold.it/90x90' }}" class="list-img media-object" width="100%" alt="challenge's poster" />
         </div>
