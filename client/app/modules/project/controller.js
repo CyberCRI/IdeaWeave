@@ -3,87 +3,37 @@ angular.module('cri.project',[])
 
         $scope.project = Project.data = project[0];
         if(loggedUser){
+            if(loggedUser.profile){
+                if(loggedUser.profile.id == project[0].owner){
+                    $scope.isOwner = true;
+                    $scope.isVisitor = false;
+                }else{
+                    $scope.isVisitor = true;
+                }
+            }
             $scope.me = loggedUser.profile;
         }else{
             $scope.me = {
                 id : null
             }
         }
-        $scope.infoEditable = false;
-        $scope.actionInfo = function(title){
-            if($scope.me.id == $scope.project.owner) {
-                if($scope.infoEditable){
-                    Project.update($scope.project.id, { title: title}).then(function () {
-                        toaster.pop('success', 'success', 'profile updated');
-                    }).catch(function (err) {
-                        toaster.pop('error', 'error', 'profile updated');
-                    })
-                }
-                $scope.infoEditable = !$scope.infoEditable;
-            }
-        };
-
-
-        var projectId = $scope.project.id;
-        $scope.editPicture = function() {
-            if ($scope.me.id == $scope.project.owner) {
-                var modalInstance = $modal.open({
-                    templateUrl: 'modules/project/templates/poster.tpl.html',
-                    controller: ['$scope','Project','toaster','$modalInstance',function ($scope,Project,toaster,$modalInstance) {
-                        $scope.$on('cropReady',function(e,data){
-                            Project.update(projectId,{ poster : data }).then(function(){
-                                $modalInstance.close(data);
-                            }).catch(function(err){
-                                $modalInstance.close(data);
-                                toaster.pop('error',err.status,err.message);
-                            })
-                        })
-
-                    }],
-                    size: 'lg',
-                    windowTemplateUrl : 'modules/common/modal/modal-transparent.tpl.html',
-                    backdrop : 'static'
-                });
-                modalInstance.result.then(function(data){
-                    $scope.project.poster = data;
-                })
-            }
-        };
-
-
-        $scope.mapOptions = CONFIG.mapOptions;
-
-
-        if($scope.project.localisation){
-            $scope.map = {
-                center: {
-                    latitude: $scope.project.localisation.geometry.location.lat,
-                    longitude: $scope.project.localisation.geometry.location.lng
-                },
-                zoom: 8
-            };
-        }
         if($scope.project.presentation){
             $scope.project.presentationDisplay = $sce.trustAsHtml($scope.project.presentation);
         }
-
-        $scope.user = loggedUser.profile;
-        $scope.isLoggedIn = users.isLoggedIn();
         $scope.project=project[0];
         $scope.proccess = ($scope.project.score/9).toFixed(2);
 
-
-        $scope.d3Tags = [];
-        angular.forEach($scope.project.tags,function(v,k){
-            $scope.d3Tags.push({
-                title : v,
-                number : 1
-            })
-        });
-
-        $scope.showTag = function(e){
-            $state.go('tag',{title : e.text})
-        }
+//        $scope.d3Tags = [];
+//        angular.forEach($scope.project.tags,function(v,k){
+//            $scope.d3Tags.push({
+//                title : v,
+//                number : 1
+//            })
+//        });
+//
+//        $scope.showTag = function(e){
+//            $state.go('tag',{title : e.text})
+//        }
 
         $scope.openRqteam = function () {
             $modal.open({
@@ -120,14 +70,7 @@ angular.module('cri.project',[])
             });
         };
 
-        if(loggedUser.profile){
-            if(loggedUser.profile.id == project[0].owner){
-                $scope.isOwner = true;
-                $scope.isVisitor = false;
-            }else{
-                $scope.isVisitor = true;
-            }
-        }
+
 
 
         $scope.isProjectMember = function(){
@@ -315,25 +258,22 @@ angular.module('cri.project',[])
             })
         }
     }])
-    .controller('ProjectCreateCtrl',['$scope', 'Project', 'loggedUser', '$state', 'Challenge', 'toaster', 'Gmap', 'Files', 'CONFIG','$window',function($scope, Project, loggedUser, $state, Challenge, toaster, Gmap, Files, CONFIG,$window){
+    .controller('ProjectCreateCtrl',['$scope', 'Project', 'loggedUser', '$state', 'toaster', 'Gmap', 'CONFIG', 'challenges',function($scope, Project, loggedUser, $state, toaster, Gmap, CONFIG,challenges){
 
-        $scope.back = function(){
-            $window.history.back();
-        };
+        $scope.tinymceOption = CONFIG.tinymceOptions;
+        $scope.challenges = challenges;
         $scope.newProject = {};
         $scope.titleChange = function(title){
             $scope.newProject.accessUrl = title.replace(/ /g,"_");
         }
-
         $scope.refreshAddresses = function(address) {
             Gmap.getAdress(address).then(function(adresses){
                 $scope.addresses = adresses;
             })
         };
-        $scope.tinymceOption = CONFIG.tinymceOptions;
         $scope.createProject = function(){
             $scope.newProject.owner = loggedUser.profile.id;
-            $scope.newProject.container = Challenge.data.id;
+//            $scope.newProject.container = Challenge.data.id;
             Project.create($scope.newProject).then(function(){
                 $state.go('project',{ pid : Project.data.accessUrl });
             }).catch(function(err){

@@ -42,6 +42,11 @@ angular.module('cri.project')
             })
             .state('projectCreation',{
                 url : '/projectCreation',
+                resolve : {
+                    challenges : ['Challenge',function(Challenge){
+                        return Challenge.fetch();
+                    }]
+                },
                 views : {
                     mainView : {
                         templateUrl:'modules/project/templates/project-create.tpl.html',

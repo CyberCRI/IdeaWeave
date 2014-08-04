@@ -33,19 +33,19 @@
         <i class="fa fa-tags fa-2x"></i>
         <span showtags entity="challenge"></span>
     </section>
-    <section style="background-color:grey;">
+    <section style="background-color:rgb(240,241,241);">
         <section class="row" >
             <div class="col-md-8 pad-left" style="min-height:400px; border-right:solid 1px black;margin-top:30px;">
                 <article ng-bind-html="challenge.brief">
 
                 </article>
             </div>
-            <div class="col-md-4 pad-left" style="margin-top: 30px;">
-
+            <div class="col-md-4" style="margin-top: 30px;">
+                <div ng-include="'modules/challenge/templates/chat.tpl.html'"></div>
             </div>
         </section>
         <div class="row center" style="padding-top: 30px;padding-bottom: 30px;">
-            <button class="btn btn-lg btn-info">Participate to this challenge</button>
+            <button class="btn btn-lg btn-info" ui-sref="projectCreation">Participate to this challenge</button>
         </div>
     </section>
     <section class="container-fluid">

@@ -1,0 +1,17 @@
+<section style="min-height:400px;" ng-controller="chatCtrl">
+    <div style="background-color: white; height:350px;margin-right: 15px !important;">
+        <p ng-repeat="message in messages">
+            <user-info user-id="{{message.owner}}"></user-info>
+            <span>
+                {{ message.content }}
+            </span>
+        </p>
+    </div>
+    <div ng-if="me">
+        <span class="material-input-group" style="display:inline-block;width:80%;">
+            <label for="message">Message</label>
+            <input id="message" type="text" ng-model="message.content">
+        </span>
+        <i class="fa fa-2x fa-send my-btn" ng-click="postMessage(message)"></i>
+    </div>
+</section>

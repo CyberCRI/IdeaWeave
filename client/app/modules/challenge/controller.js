@@ -1,4 +1,31 @@
 angular.module('cri.challenge', [])
+    .controller('chatCtrl',['$scope','Challenge','loggedUser','$window',function($scope,Challenge,loggedUser,$window){
+
+        $window.socket.on('chat:create',function(err,data){
+            console.log(err,data);
+        })
+
+        $scope.me = loggedUser.profile;
+
+        Challenge.getMessage($scope.challenge.id ).then(function(messages){
+            console.log('messages',messages)
+            $scope.messages = messages;
+        }).catch(function(err){
+            console.log(err)
+        });
+
+        $scope.postMessage = function(message){
+            message.container = $scope.challenge.id;
+            message.owner = loggedUser.profile.id;
+            message.createDate = new Date().getTime();
+
+            Challenge.postMessage(message).then(function(data){
+                console.log(data);
+            }).catch(function(err){
+                console.log(err);
+            })
+        }
+    }])
     .controller('ChallengeExploreCtrl', ['$scope','loggedUser','tags', function ($scope, loggedUser,tags) {
         $scope.me = loggedUser.profile;
         $scope.tags = tags;

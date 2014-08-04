@@ -10,7 +10,7 @@ angular.module('cri.challenge')
                     defered.resolve(data);
                 }).error(function(err){
                     defered.reject(err);
-                })
+                });
                 return defered.promise;
             },
             fetch : function(param,id,search){
@@ -28,7 +28,7 @@ angular.module('cri.challenge')
                     defered.resolve(data);
                 }).error(function(err){
                     defered.reject(err);
-                })
+                });
                 return defered.promise;
             },
             create : function(newChallenge){
@@ -38,7 +38,7 @@ angular.module('cri.challenge')
                     defered.resolve(data);
                 }).error(function(err){
                     defered.reject(err);
-                })
+                });
                 return defered.promise;
             },
             update : function(id,challenge){
@@ -48,7 +48,7 @@ angular.module('cri.challenge')
                     defered.resolve(data);
                 }).error(function(err){
                     defered.reject(err);
-                })
+                });
                 return defered.promise;
             },
             uploadPoster : function(file){
@@ -66,7 +66,7 @@ angular.module('cri.challenge')
                         .error(function(err){
                             defered.reject(err);
                         })
-                })
+                });
                 return defered.promise;
             },
             follow : function(challengeId){
@@ -75,7 +75,7 @@ angular.module('cri.challenge')
                     defered.resolve(data);
                 }).error(function(err){
                     defered.reject(err);
-                })
+                });
                 return defered.promise;
             },
             unfollow : function(challengeId){
@@ -84,7 +84,7 @@ angular.module('cri.challenge')
                     defered.resolve(data);
                 }).error(function(err){
                     defered.reject(err);
-                })
+                });
                 return defered.promise;
             },
             getFollowing : function(userId){
@@ -102,9 +102,31 @@ angular.module('cri.challenge')
                     defered.resolve(data);
                 }).error(function(err){
                     defered.reject(err);
-                })
+                });
+                return defered.promise;
+            },
+            getMessage : function(challengeId){
+                var defered = $q.defer();
+                $http.get(CONFIG.apiServer+'/chat',{
+                    params : {
+                        container : challengeId
+                    }
+                }).success(function(data){
+                    defered.resolve(data);
+                }).error(function(err){
+                    defered.reject(err);
+                });
+                return defered.promise;
+            },
+            postMessage : function(message){
+                var defered = $q.defer();
+                $http.post(CONFIG.apiServer+'/chat',message).success(function(data){
+                    defered.resolve(data);
+                }).error(function(err){
+                    defered.reject(err);
+                });
                 return defered.promise;
             }
-        }
+        };
         return service;
-    }])
+    }]);

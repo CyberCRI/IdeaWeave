@@ -3,7 +3,6 @@ angular.module('cri.challenge')
         $stateProvider
             .state('challenges',{
                 url : '/challenges',
-                abstract:true,
                 resolve: {
                     tags : ['Tag',function(Tag){
                         return Tag.fetch();
@@ -29,8 +28,7 @@ angular.module('cri.challenge')
                         var option;
                         if($stateParams.tag == 'all'){
                             option = {$limit: 6, $sort: {createDate: -1}, context: 'list'};
-                            return Challenge.fetch(option);
-
+                            return Challenge.fetch(null,null,option);
                         }else{
                             console.log($stateParams.tag)
                             return Challenge.fetch(null,null,{tags: {$regex: $stateParams.tag , $options: 'i'}, context: 'list'})
@@ -66,86 +64,6 @@ angular.module('cri.challenge')
                   }
                 }
             })
-            .state('challenge.topic',{
-                url : '/forum',
-                views : {
-                    challengeView: {
-                        templateUrl: 'modules/challenge/templates/challenge-forum.tpl.html',
-                        controller: 'cTopicCtrl'
-                    }
-                }
-            })
-            .state('challenge.topic.details',{
-                url : '/:tid',
-                abstract : true,
-                views : {
-                    topicView: {
-                        templateUrl:'modules/challenge/templates/challenge-forum-detail.tpl.html',
-                        controller: 'cTopicDetailsCtrl'
-                    }
-                }
-            })
-            .state('challenge.topic.details.discussion',{
-                url : '/discussion',
-                views : {
-                    topicDetailsView: {
-                        templateUrl:'modules/topic/templates/discussion.tpl.html'
-                    }
-                }
-            })
-            .state('challenge.topic.details.resources',{
-                url : '/resources',
-                views : {
-                    topicDetailsView: {
-                        templateUrl:'modules/topic/templates/resources.tpl.html'
-                    }
-                }
-            })
-            .state('challenge.details',{
-                url : '/details',
-                views : {
-                    challengeView: {
-                        templateUrl: 'modules/challenge/templates/challenge-detail.tpl.html',
-                        controller: 'ChallengeViewCtrl'
-                    }
-                }
-            })
-            .state('challenge.list',{
-                url : '/list',
-                resolve:{
-                    projects: ['Project','Challenge',function(Project,Challenge){
-                        return Project.fetch({
-                            container : Challenge.data.id,
-                            $limit:6,
-                            $sort:{score:-1},
-                            context:'list'})
-                    }]
-                },
-                views : {
-                    challengeView: {
-                        templateUrl: 'modules/challenge/templates/challenge-project-list.tpl.html',
-                        controller: 'ProjectExploreCtrl'
-                    }
-                }
-            })
-            .state('challenge.followers',{
-                url : '/followers',
-                views : {
-                    challengeView: {
-                        templateUrl: 'modules/challenge/templates/challenge-followers.tpl.html',
-                        controller: 'ChallengeFollowerCtrl'
-                    }
-                }
-            })
-//            .state('challenge.settings',{
-//                url : '/settings',
-//                views : {
-//                    challengeView: {
-//                        templateUrl: 'modules/challenge/templates/challenge-settings.tpl.html',
-//                        controller: 'ChallengeSettingsCtrl'
-//                    }
-//                }
-//            })
             .state('challenge.projectCreation',{
                 url : '/projectCreation',
                 views : {

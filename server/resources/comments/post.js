@@ -1,6 +1,5 @@
 this.createDate=new Date().getTime();
 
-console.log('event emitted')
 emit('comments:create',this);
 // add activity
 if(this.type==='pforums'){
