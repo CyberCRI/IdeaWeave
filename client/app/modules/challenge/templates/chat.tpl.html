@@ -1,10 +1,11 @@
 <section style="min-height:400px;" ng-controller="chatCtrl">
-    <div style="background-color: white; height:350px;margin-right: 15px !important;">
-        <p ng-repeat="message in messages">
+    <div style="background-color: white; height:350px;margin-right: 15px !important; overflow:auto;">
+        <p ng-repeat="message in messages" class="tag-detail">
             <user-info user-id="{{message.owner}}"></user-info>
             <span>
                 {{ message.content }}
             </span>
+            <i class="fa fa-times my-btn"></i>
         </p>
     </div>
     <div ng-if="me">

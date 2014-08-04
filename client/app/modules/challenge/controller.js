@@ -1,8 +1,7 @@
 angular.module('cri.challenge', [])
     .controller('chatCtrl',['$scope','Challenge','loggedUser','$window',function($scope,Challenge,loggedUser,$window){
-
-        $window.socket.on('chat:create',function(err,data){
-            console.log(err,data);
+        $window.socket.on('chat'+$scope.challenge.id+':create',function(message){
+            $scope.messages.push(message);
         });
 
         $scope.me = loggedUser.profile;
