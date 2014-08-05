@@ -12,7 +12,7 @@ angular.module('cri.topic',[])
             }
         })
 
-        $window.socket.on('comments:create',function(data){
+        $window.socket.on('comments'+$scope.$parent.topicId+':create',function(data){
             console.log('comment create ',data,$scope.myTopic);
             if(data.container == $scope.myTopic.id){
                 var notin = true;

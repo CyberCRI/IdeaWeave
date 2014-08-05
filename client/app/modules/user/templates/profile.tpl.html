@@ -1,119 +1,170 @@
-<div class="row">
-    <div class="col-md-3 col-sm-4 col-xs-12">
-        <!--Profile basic-->
-        <div class="panel panel-default visible-md visible-lg">
-            <div class="panel-body">
-                <div class="center">
-                    <div class="row" style="height: 28px;">
-                        <span class="col-xs-offset-10 col-xs-1" style="height: 28px;">
-                           <i class="fa fa-2x fa-edit my-btn-picture my-btn" ng-if="me.id == profile.id" ng-click="editPicture()"></i>
-                        </span>
-                    </div>
-                    <div class="row">
-                        <img ng-src="{{profile.poster || 'images/avater.jpg'}}" class="img-rounded p" width="80%">
-                    </div>
-                </div>
-                <div class="clearfix">
-                </div>
-                <div>
-                    <div class="row" style="height: 40px;">
-                        <span class="col-xs-offset-10 col-xs-1" style="height: 40px;">
-                            <i class="fa fa-2x   my-btn" ng-class="{ 'fa-edit' : !infoEditable,'fa-save': infoEditable}"  ng-click="actionInfo(project.title)"  ng-if="me.id == profile.id " ></i>
-                        </span>
-                    </div>
-                    <h2 class="center solid pbm edit-anim" ng-if="!infoEditable">
-                        <span>
-                            {{profile.username}}
-                        </span>
-                        <small ng-show="profile.sex>0">
-                            <span ng-if="profile.sex == 1" class="text-muted">♂</span>
-                            <span ng-if="profile.sex == 2" class="text-muted" >♀</span>
-                        </small>
-                    </h2>
-                    <form class="form-horizontal solid pbm edit-anim" role="form" ng-if="infoEditable">
-                        <div class="form-group">
-                            <div class="col-xs-12">
-                                <input type="text" class="form-control" ng-model="profile.username"/>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-xs-12">
-                                <select ng-model="profile.sex" class="form-control" >
-                                    <option value='0'>{{'USERSET_BASIC_H'|translate}}</option>
-                                    <option value='1'>{{'USERSET_BASIC_M'|translate}}</option>
-                                    <option value='2'>{{'USERSET_BASIC_F'|translate}}</option>
-                                </select>
-                            </div>
-                        </div>
-
-                    </form>
-                </div>
-                <div class="center solid pbm">
-                    <i class="fa fa-2x my-btn" ng-class="{ 'fa-star-o' : !isFollowUser && !isOwner,'fa-star': isFollowUser && !isOwner}" ng-click="followUser(profile.id)"></i>
-                    <!--<i class="fa fa-2x fa-star-o my-btn" ng-if="!isFollowUser && !isOwner" ng-click="followUser(profile.id)"></i>-->
-                    <!--<i class="fa fa-2x fa-star my-btn" ng-if="isFollowUser && !isOwner" ng-click="unfollowUser(profile.id)"></i>-->
-                    <i class="fa fa-2x fa-gears my-btn" ng-if="isOwner" ng-class="{active: $uiRoute}" ui-route="/user/{{ profile.id }}/settings/basic" ui-sref="profile.settings.basic"></i>
-                    <i class="fa fa-2x fa-envelope my-btn" ng-click="sendMessage()"  ng-if="!isOwner && isLogged"></i>
-                    <i class="fa fa-2x my-btn fa-home my-btn" ui-route="/user/{{ profile.id }}/brief" ng-class="{active: $uiRoute}" ui-sref="profile.brief"></i>
-                    <i class="fa fa-2x my-btn fa-users" ui-route="/user/{{ profile.id }}/relations" ng-class="{active: $uiRoute}" ng-if="isOwner" ui-sref="profile.relations"></i>
-                    <i class="fa fa-2x my-btn fa-lightbulb-o" ui-route="/user/{{ profile.id }}/ideas" ng-class="{active: $uiRoute}" ui-sref="profile.ideas"></i>
-                    <i class="fa fa-2x fa-trophy my-btn" ui-route="/user/{{ profile.id }}/challenges" ng-class="{active: $uiRoute}" ui-sref="profile.challenges"></i>
-                </div>
-                <div class="solid center pbm ">
-                    <h3 >
-                        <span>
-                            {{followers.length}}<br>
-                            <small class="text-muted">
-                                {{'FOLLOWER'|translate}}
-                            </small>
-                        </span>
-                    </h3>
-                    <h3>
-                        <span>
-                            {{followings.length}}<br>
-                            <small class="text-muted">
-                                {{'FOLLOWING'|translate}}
-                            </small>
-                        </span>
-                    </h3>
-                    <h3>
-                        {{profile.score}}<br>
-                        <small class="text-muted">
-                            {{'SCORE'|translate}}
-                        </small>
-                    </h3>
-                    <div class="mbm">
-                        {{profile.rule}}
-                        <span class="text-muted">
-                            ({{profile.score}}/{{profile.next}})
-                        </span>
-                    </div>
-                    <div class="progress">
-                        <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="{{profile.ugProgress}}" aria-valuemin="0" aria-valuemax="100" style="width: {{profile.ugProgress}}%" tooltip="{{profile.ugProgress}}%">
-                            <span class="sr-only">{{profile.ugProgress}}% </span>
-                        </div>
-                    </div>
-                    <d3-tag-cloud tags="d3Tags" on-click="showTag(item)" options="{ width : 150, height:200 }"></d3-tag-cloud>
-                </div>
-                <div class="pbm mtl mbl">
-                    <div class="text-muted">
-                        Join date:{{profile.createDate|date}}
-                    </div>
-                </div>
+<section class="row "style="height: 100%;"  id="profile">
+    <section class="col-md-3">
+        <article class="panel-default" style="padding-left: 20px;">
+            <div>
+                <img ng-src="{{profile.poster || 'images/avater.jpg'}}"  width="50%">
             </div>
+            <p>
+                <a href="" ng-click="editPicture()" ng-if="me.id == profile.id" style="display: block;">Edit profile picture</a>
+            </p>
+            <p>
+                <i class="fa fa-map-marker fa-2x" style="display: inline-block;"></i>
+                <span ng-bind="profile.localisation.formatted_address" style="display:inline-block;" class="text-muted"></span>
+            </p>
+            <p ng-bind-html="profile.brief"></p>
+            <p>
+                <i class="fa fa-tags fa-2x"></i>
+                <span showtags entity="profile">
+            </span>
+            </p>
+        </article>
+    </section>
+    <section class="col-md-6" style="height:100%;overflow:auto;">
+        <article>
+            <h1 ng-bind="profile.realname || profile.username"></h1>
+            <p class="text-muted">
+                {{ profile.challenges.length }} <a data-scroll href="#challenges">challenges</a> . {{ profile.projects.length }} projects
+            </p>
+            <p class="text-muted">
+                {{ profile.followers.length }} followers . {{ profile.followings.length }} following
+                <span  class="my-btn" ng-if="me.id != profile.id && !isFollowUser" ng-click="followUser">
+                    <i class="fa fa-star-half"></i> follow
+                </span>
+                <span  class="my-btn" ng-if="me.id != profile.id && isFollowUser" ng-click="followUser">
+                    <i class="fa fa-star"></i> follow
+                </span>
+            </p>
+            <section ng-if="me.id == profile.id" ng-include="'modules/header/templates/notifications.tpl.html'" style="width:100%;">
+
+            </section>
+            <section ng-if="me.id != profile.id" class="embed-responsive-item center">
+                <div class="embed-responsive embed-responsive-16by9" ng-bind-html="profile.securePresentation"></div>
+            </section>
+        </article>
+    </section>
+    <section class="col-md-3" >
+        <div class="pull-right" style="width:280px;">
+            <section class="panel-default">
+                <article>
+                    <h4>
+                        You should speak with :
+                    </h4>
+                    <div class="row">
+                        <div class="col-xs-4" ng-repeat="user in recommandation.users">
+                            <user-block my-user="user"></user-block>
+                        </div>
+                    </div>
+                </article>
+            </section>
+            <section class="panel-default">
+                <article>
+                    <h4>
+                        You should participate to :
+                    </h4>
+                    <div class="row">
+                        <div class="col-xs-4" ng-repeat="challenge in recommandation.challenges">
+                            <challenge-block challenge="challenge"></challenge-block>
+                        </div>
+                    </div>
+                </article>
+            </section>
+            <section class="panel-default">
+                <article>
+                    <h4>
+                        You should take a look to :
+                    </h4>
+                    <div class="row">
+                        <div class="col-xs-4" ng-repeat="project in recommandation.projects">
+                            <project-block project="project"></project-block>
+                        </div>
+                    </div>
+                </article>
+            </section>
+        </div>
+    </section>
+</section>
+<section class="row" style="padding: 30px;height:100%;"  id="challenges">
+    <h2>Challenges</h2>
+    <div class="col-sm-6 col-md-4 col-lg-3" ng-repeat="challenge in profile.challenges">
+        <div class="thumbnail">
+            <img ng-src="{{challenge.poster || 'http://placehold.it/300x300'}}" alt="..." width="100%">
+            <article class="caption">
+                <a href="" ng-click="editChallengePicture($index,challenge)" ng-if="me.id == challenge.owner" style="display: block;">Edit challenge picture</a>
+                <a href="" ui-sref="challengeSettings({ pid : challenge.accessUrl })">Edit</a>
+                <h1>{{ challenge.title }}</h1>
+                <p class="text-muted">
+                    By :
+                    <span class="text-muted" user-info="{{challenge.owner}}"></span>
+                </p>
+                <p class="text-muted" ng-bind-html="challenge.brief" style="max-height:200px;overflow:auto;"></p>
+                <showtags entity="challenge">
+                </showtags>
+                <div class="row">
+                    <div class="col-xs-4">
+                        <div>
+                            {{ challenge.followers.length }}
+                        </div>
+                        <p class="text-muted">
+                            Followers
+                        </p>
+                    </div>
+                    <div class="col-xs-4">
+                        <div>
+                            {{ challenge.projectNumber }}
+                        </div>
+                        <p class="text-muted">
+                            Projects
+                        </p>
+                    </div>
+                    <div class="col-xs-4">
+                        <p ng-if="challenge.startDate < now && challenge.endDate > now" class="text-muted">
+                            <timer end-time="challenge.endDate" >End in: {{days}}d,{{hours}}h:{{minutes}}m</timer>
+                        </p>
+                        <p ng-if="challenge.startDate > now" class="text-muted">
+                            <timer end-time="challenge.endDate" >Start in: {{days}}d,{{hours}}h{{minutes}}m</timer>
+                        </p>
+                    </div>
+                </div>
+            </article>
         </div>
     </div>
-    <div class="center solid pbm visible-sm visible-xs">
-        <i class="fa fa-2x fa-star-o" ng-class="{ 'fa-star-o' : !isFollowUser && !isOwner,'fa-star': isFollowUser && !isOwner}" ng-click="followUser(profile.id)"></i>
-        <!--<i class="fa fa-2x fa-star" ng-if="isFollowUser && !isOwner" ng-click="unfollowUser(profile.id)"></i>-->
-        <i class="fa fa-2x fa-envelope my-btn" ng-click="sendMessage()"  ng-if="!isOwner && isLogged"></i>
-        <i class="fa fa-2x my-btn fa-home" ui-route="/user/{{ profile.id }}/brief" ng-class="{active: $uiRoute}" ui-sref="profile.brief"></i>
-        <i class="fa fa-2x my-btn fa-users" ui-route="/user/{{ profile.id }}/relations" ng-class="{active: $uiRoute}" ng-if="isOwner" ui-sref="profile.relations"></i>
-        <i class="fa fa-2x my-btn fa-lightbulb-o" ui-route="/user/{{ profile.id }}/ideas" ng-class="{active: $uiRoute}" ui-sref="profile.ideas"></i>
-        <i class="fa fa-2x fa-trophy my-btn" ui-route="/user/{{ profile.id }}/challenges" ng-class="{active: $uiRoute}" ui-sref="profile.challenges"></i>
-    </div>
-    <div class="col-md-9 col-sm-8 col-xs-12">
-        <div ui-view="profileView">
+</section>
+<section class="row " style="padding: 30px; height: 100%;" id="projects">
+    <h2>Projects</h2>
+    <div class="col-sm-6 col-md-4 col-lg-3" ng-repeat="project in profile.projects">
+        <div class="thumbnail">
+            <img ng-src="{{project.poster || 'http://placehold.it/300x300'}}" alt="..." width="100%">
+            <article class="caption">
+                <h1>{{ project.title }}</h1>
+                <p class="text-muted">
+                    By :
+                    <span class="text-muted" user-info="project.owner"></span>
+                </p>
+                <p class="text-muted" ng-bind-html="project.brief" style="max-height:200px;overflow:auto;"></p>
+                <showtags entity="project">
+                </showtags>
+                <div class="row">
+                    <div class="col-xs-4">
+                        <div>
+                            {{ project.followers.length }}
+                        </div>
+                        <p class="text-muted">
+                            Followers
+                        </p>
+                    </div>
+                    <div class="col-xs-4">
+
+                    </div>
+                    <div class="col-xs-4">
+                        <div>
+                            {{ project.member.length }}
+                        </div>
+                        <p class="text-muted">
+                            Member
+                        </p>
+                    </div>
+                </div>
+            </article>
         </div>
     </div>
-</div>
+</section>

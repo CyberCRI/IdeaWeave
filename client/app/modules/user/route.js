@@ -15,7 +15,7 @@ angular.module('cri.user')
                 url : '/user/:uid',
                 views : {
                     mainView: {
-                        templateUrl: 'modules/user/templates/me.tpl.html',
+                        templateUrl: 'modules/user/templates/profile.tpl.html',
                         controller: 'ProfileCtrl'
                     }
                 },

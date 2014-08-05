@@ -49,7 +49,7 @@
   width: 100%;
   height: 200px;
   padding-top: 20px;
-  background-color: black;
+  background-size: cover;
 }
 .challenge-header h1 {
   margin-top: 0;

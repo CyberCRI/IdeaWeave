@@ -2,7 +2,7 @@ angular.module('cri.challengeSettings')
     .config(['$stateProvider',function ($stateProvider) {
         $stateProvider
             .state('challengeSettings',{
-                url : '/callengesettings/:pid',
+                url : '/challengesettings/:pid',
                 views :{
                     mainView : {
                         templateUrl:'modules/challengeSettings/templates/challengeSettings.tpl.html',

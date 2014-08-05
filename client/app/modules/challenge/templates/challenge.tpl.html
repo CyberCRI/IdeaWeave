@@ -1,5 +1,5 @@
 <section>
-    <header style="background-image: {{ challenge.banner || 'http://placehold.it/500x100'  }}" class="challenge-header">
+    <header style="background-image: url({{ challenge.banner || 'http://placehold.it/900x150'  }}) !important;" class="challenge-header">
         <h1>
             {{ challenge.title }}
         </h1>
@@ -23,7 +23,11 @@
                 <timer end-time="challenge.endDate" >Start in : {{days}} d, {{hours}} : {{minutes}} : {{seconds}}</timer>
             </span>
         </p>
-        <p>
+        <p ng-if="me.id && !isFollow" class="my-btn" ng-click="followChallenge()">
+            <i class="fa fa-plus" style="color:yellow;"></i>
+            follow
+        </p>
+        <p ng-if="me.id && isFollow" class="my-btn" ng-click="unfollow()">
             <i class="fa fa-plus" style="color:yellow;"></i>
             follow
         </p>

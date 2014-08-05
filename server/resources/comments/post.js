@@ -1,6 +1,6 @@
 this.createDate=new Date().getTime();
 
-emit('comments:create',this);
+emit('comments'+this.id+':create',this);
 // add activity
 if(this.type==='pforums'){
     dpd.activities.post({action:'commentPtopic',entity:this.id,container:this.container});

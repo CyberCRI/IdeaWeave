@@ -52,6 +52,34 @@ angular.module('cri.user',[])
             })
         });
 
+        $scope.editChallengePicture = function($index,challenge) {
+            if ($scope.me.id == $scope.profile.id) {
+                var modalInstance = $modal.open({
+                    templateUrl: 'modules/user/templates/settings/avatar.tpl.html',
+                    controller: ['$scope','Challenge','Notification','$modalInstance',function($scope,Challenge,Notification,$modalInstance){
+                        $scope.$on('cropReady',function(e,data){
+                            Challenge.update(challenge.id,{ poster : data}).then(function(){
+                                $modalInstance.close(data);
+                            }).catch(function(err){
+                                $modalInstance.cancel();
+                            })
+                        })
+
+                    }],
+                    size: 'lg',
+                    windowTemplateUrl : 'modules/common/modal/modal-transparent.tpl.html',
+                    backdrop : 'static'
+                });
+
+                modalInstance.result.then(function (picture) {
+                    $scope.profile.challenges[$index].poster = picture;
+                    Notification.display("Challenge's poster updated");
+                }, function () {
+                    Notification.display("error, challeng's poster is not updated");
+                });
+            };
+        };
+
 
 
         $scope.editPicture = function() {

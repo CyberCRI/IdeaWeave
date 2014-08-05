@@ -8,7 +8,7 @@
 <div class="comments">
     <div ng-repeat="comment in comments track by $index" class="pam">
         <div ng-if="!comment.parent">
-            <user-block user-id="comment.owner" class="pull-left mrm"></user-block>
+            <user-block user-id="comment.owner" class="pull-left mrm" style="width:50px;"></user-block>
             <div class="pas text-muted" style="background: #f2fbf2; height:30px;">
                 <span class="text-muted pull-right">{{comment.createDate|timeago}}</span>
             </div>
@@ -26,7 +26,7 @@
                 </div>
                 <div ng-if="comment.answers" ng-repeat="answer in comment.answers" class="mll mtm">
                     <blockquote >
-                        <user-block user-id="answer.owner" class="pull-left mrm"></user-block>
+                        <user-block user-id="answer.owner" class="pull-left mrm" style="width:50px;"></user-block>
                         <div class="pas text-muted" style="background: #f2fbf2;">
                             <a href="user/{{answer.owner}}">{{user[answer.owner].username}}</a> <a class="pull-right" ng-click="removeComment(answer.id,$index)"><i class="icon-remove"></i></a><span class="text-muted pull-right">{{answer.createDate|timeago}}</span>
                         </div>
