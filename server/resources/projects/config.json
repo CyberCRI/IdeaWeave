@@ -130,6 +130,14 @@
 			"required": false,
 			"id": "trello",
 			"order": 15
+		},
+		"banner": {
+			"name": "banner",
+			"type": "string",
+			"typeLabel": "string",
+			"required": false,
+			"id": "banner",
+			"order": 16
 		}
 	},
 	"path": "/projects"

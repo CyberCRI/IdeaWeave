@@ -1,39 +1,31 @@
-<h1 ng-bind="project.title" class="center"></h1>
-<section class="row profile-brief" >
-    <!--<div style="position:relative;" class="col-xs-12 col-md-3">-->
-        <!--<div class="profile-map">-->
-            <!--<google-map center="map.center" zoom="map.zoom" ng-if="map"  options="mapOptions">-->
-                <!--<marker coords="map.center"></marker>-->
-            <!--</google-map>-->
-        <!--</div>-->
-    <!--</div>-->
-    <p ng-bind-html="project.brief" class="col-xs-12 col-md-offset-1 col-md-10"></p>
-</section>
+<section style="background-color:rgb(240,241,241);">
+    <section class="row" style="min-height:400px;">
+        <div ng-bind-html="project.brief">
 
-<section class="row" style="min-height: 300px">
-    <div ng-bind-html="project.presentationDisplay"></div>
+        </div>
+        <div ng-bind-html="project.presentationDisplay">
+
+        </div>
+
+    </section>
+    <div class="row center" style="margin-top: 60px;padding-bottom: 30px;">
+        <div class="btn-group">
+            <button class="btn btn-info" ng-click="openShare()">promote</button>
+            <button class="btn btn-info" ng-if="!isFollow" ng-click="follow()">Follow</button>
+            <button class="btn btn-info" ng-if="isFollow" ng-click="unfollow(project.id)">unfollow</button>
+        </div>
+    </div>
 </section>
-<div class="row">
-    <div class="col-sm-6">
-        <div class="panel panel-default project-panel">
-            <div class="panel-heading" ><b>{{'PROJECT_VIEW_MEMBER'|translate}}</b></div>
-            <div class="panel-body">
-                <div class="col-sm-6" ng-repeat="member in project.member track by $index">
-                    <div user-block="member" class="inline mlm"></div>
-                </div>
-                <div class="clearfix"></div>
-            </div>
-        </div>
-    </div>
-    <div class="col-sm-6">
-        <div class="panel panel-default project-panel">
-            <div class="panel-heading" ><b>Followers</b></div>
-            <div class="panel-body">
-                <div class="col-sm-6" ng-repeat="follower in project.followers track by $index">
-                    <div user-block="follower" class="inline mlm"></div>
-                </div>
-                <div class="clearfix"></div>
-            </div>
-        </div>
-    </div>
-</div>
+<section class="container-fluid">
+    <h2 ng-if="project.followers.length > 0">
+        Followers
+    </h2>
+    <user-block ng-repeat="follower in project.followers" user-id="follower" class="col-xs-4 col-sm-3 col-md-2 col-lg-1">
+    </user-block>
+    <br/>
+    <h2 ng-if="project.member.length > 0">
+        Members
+    </h2>
+    <user-block ng-repeat="member in project.member" user-id="member" class="col-xs-4 col-sm-3 col-md-2 col-lg-1">
+    </user-block>
+</section>

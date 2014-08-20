@@ -9,6 +9,9 @@
         {{ me.realname || me.username }}
     </h2>
     <div class="list-group row" >
+        <a  ui-sref="admin" class="list-group-item" ui-sref="admin" style="border:none;" >
+            Admin
+        </a>
         <a data-scroll class="list-group-item"  ng-href="user/{{me.id}}#profile"  style="border:none;">
             Profile
         </a>

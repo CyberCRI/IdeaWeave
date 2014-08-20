@@ -40,6 +40,14 @@ angular.module('cri.project')
                     }
                 }
             })
+            .state('project.trello',{
+                url : '/trello',
+                views : {
+                    projectView : {
+                        templateUrl : 'modules/projectSetting/templates/trello.tpl.html'
+                    }
+                }
+            })
             .state('projectCreation',{
                 url : '/projectCreation',
                 resolve : {

@@ -1,3 +1,7 @@
+.icon-tabs li {
+  cursor: pointer;
+  text-align: center;
+}
 body,
 html {
   height: 100%;

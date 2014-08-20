@@ -23,14 +23,14 @@
                 <timer end-time="challenge.endDate" >Start in : {{days}} d, {{hours}} : {{minutes}} : {{seconds}}</timer>
             </span>
         </p>
-        <p ng-if="me.id && !isFollow" class="my-btn" ng-click="followChallenge()">
+        <button ng-if="me.id && !isFollow" class="btn btn-default" ng-click="followChallenge()">
             <i class="fa fa-plus" style="color:yellow;"></i>
             follow
-        </p>
-        <p ng-if="me.id && isFollow" class="my-btn" ng-click="unfollow()">
+        </button>
+        <button ng-if="me.id && isFollow" class="btn btn-default" ng-click="unfollow()">
             <i class="fa fa-plus" style="color:yellow;"></i>
-            follow
-        </p>
+            unfollow
+        </button>
     </header>
 
     <section class="pad-left" style="padding-top:10px;">

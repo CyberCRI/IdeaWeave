@@ -134,7 +134,7 @@ angular.module('cri.challenge', [])
         }
     }])
 .controller('ChallengeCtrl',['$scope','Challenge','challenge','loggedUser','Notification','$state','Project',function($scope,Challenge,challenge,loggedUser,Notification,$state,Project){
-        $scope.me = loggedUser;
+        $scope.me = loggedUser.profile;
 
         $scope.challenge = Challenge.data = challenge[0];
 

@@ -37,7 +37,7 @@ angular.module('cri.project',[])
 
         $scope.openRqteam = function () {
             $modal.open({
-                templateUrl:'apply',
+                templateUrl:'modules/project/templates/projectRqteam.tpl.html',
                 controller: ['$scope','$modalInstance',function($scope,$modalInstance){
                     $scope.tmsg={};
                     $scope.applyTeamMsg=function(){
@@ -59,7 +59,7 @@ angular.module('cri.project',[])
 
         $scope.openShare = function () {
             $modal.open({
-                templateUrl:'share',
+                templateUrl:'modules/project/templates/projectShare.tpl.html',
                 controller: ['$scope','$modalInstance','$stateParams',function($scope,$modalInstance,$stateParams){
                     $scope.pid = $stateParams.pid;
                     $scope.cid = $stateParams.cid;
@@ -72,15 +72,12 @@ angular.module('cri.project',[])
 
 
 
-
-        $scope.isProjectMember = function(){
-            angular.forEach(project[0].member,function(v,k){
-                if(loggedUser.profile.id == v){
-                    $scope.isVisitor = false;
-                    return true;
-                }
-            })
-        }
+        angular.forEach(project[0].member,function(v,k){
+            if(loggedUser.profile.id == v){
+                $scope.isVisitor = false;
+                $scope.isMember = true;
+            }
+        })
 
 
         $scope.isProjectFollower = function(){
@@ -90,7 +87,7 @@ angular.module('cri.project',[])
                     return true;
                 }
             })
-        }
+        };
         // follow project
         $scope.isFollow=false;
         if(loggedUser.profile){
@@ -111,7 +108,7 @@ angular.module('cri.project',[])
             }).catch(function(err){
                 Notification.display(err.message);
             })
-        }
+        };
 
         $scope.unfollow=function(){
             Project.unfollow($scope.project.id).then(function(result){

@@ -413,6 +413,10 @@
   -moz-border-radius: 20px;
   border-radius: 20px;
 }
+.icon-tabs li {
+  cursor: pointer;
+  text-align: center;
+}
 body,
 html {
   height: 100%;

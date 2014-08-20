@@ -1,13 +1,12 @@
 angular.module('cri.projectSetting',[])
-    .controller('ProjectSettingCtrl',['$scope','project','users',function($scope,project,users){
+    .controller('ProjectSettingCtrl',['$scope','project','users','files','urls',function($scope,project,users,files,urls){
         $scope.user = users;
         $scope.project = project[0];
 
-        $scope.selectedTabIndex = 0;
-        $scope.$watch('selectedTabIndex', watchSelectedTab);
-        function watchSelectedTab(index, oldIndex) {
-            $scope.reverse = index < oldIndex;
-        }
+        $scope.files = files;
+
+        $scope.urls = urls;
+
     }])
     .controller('ProjectPosterCtrl',['$scope','Project','Notification',function($scope,Project,Notification){
         $scope.$watch('imageCropResult', function(newVal) {
@@ -31,16 +30,29 @@ angular.module('cri.projectSetting',[])
 //        $scope.project=project;
 
         //Update project
-        $scope.updateProject=function(project) {
-            Project.update(project.id,project).then(function (result) {
+        $scope.updateProject=function() {
+            Project.update($scope.project.id,$scope.project).then(function (result) {
+                console.log(result)
                 Notification.display('Update Success!');
             }).catch(function (err) {
                 Notification.display(err.message);
             })
         }
 
-        // save poster
-
+        $scope.$on('cropReady',function(e,data){
+            $scope.project.banner = data;
+        })
+//        $scope.$watch('bannerResult', function(newVal) {
+//            console.log('yeah',newVal)
+//            if (newVal) {
+//                Project.update($scope.project.id,{ banner : newVal }).then(function(){
+//                    $scope.challenge.poster = newVal;
+//                    Notification.display("Challenge's banner updated");
+//                }).catch(function(err){
+//                    Notification.display(err.message);
+//                })
+//            }
+//        });
 
         // delete project
         $scope.opendel = function () {
@@ -63,7 +75,7 @@ angular.module('cri.projectSetting',[])
             })
         };
     }])
-    .controller('ProjectMediaCtrl',['$scope', 'Notification','files','Files','urls','Url','CONFIG',function ($scope, Notification,files,Files,urls,Url,CONFIG) {
+    .controller('ProjectMediaCtrl',['$scope', 'Notification','Files','Url','CONFIG',function ($scope, Notification,Files,Url,CONFIG) {
         $scope.removeFile = function(file){
             Files.remove(file.id).then(function(){
                 Notification.display('file remove succesfully');
@@ -71,16 +83,12 @@ angular.module('cri.projectSetting',[])
             }).catch(function(err){
                 Notification.display(err.message);
             })
-        }
+        };
 
-        angular.forEach(files,function(file){
-            file.url = CONFIG.apiServer+'/fileUpload/topic/'+file.projectUrl+'/'+file.filename
-        })
+        angular.forEach($scope.files,function(file,index){
+            $scope.files[index].url = CONFIG.apiServer+'/fileUpload/topic/'+file.projectUrl+'/'+file.filename
+        });
 
-
-        $scope.files = files;
-
-        $scope.urls = urls;
 
         $scope.updateUrl = function(url){
             Url.update(url).then(function(data){
@@ -90,36 +98,9 @@ angular.module('cri.projectSetting',[])
             })
         };
 
-        dpd.on('file:create',function(data){
-//            jzCommon.query(apiServer+'/files',{id:data.id,container:$stateParams.pid,context:'list'}).then(function(result){
-//                $scope.pfiles.push(result);
-//            })
-            //todo mettre ca dans le service file
-        })
 
     }])
 
-    .controller('ProjectApplyCtrl',['$scope','applyteams','Project','Notification',function ($scope,applyteams,Project,Notification) {
-        $scope.applyteams=applyteams;
-
-        $scope.finish=function(idx){
-            Project.finishApply({status:true}, $scope.applyteams[idx].id).then(function(data){
-                $scope.applyteams[idx].status=true;
-                Notification.display('Updated successfully!');
-            }).catch(function(err){
-                Notification.display(err.message);
-            })
-        }
-        $scope.addToTeam=function(uid,idx){
-            Project.update($scope.project.id,{member:{'$push':uid},'context':'team'}).then(function(){
-//            Project.update({uid : uid , context :'team'},$scope.project.id).then(function(){
-                $scope.finish(idx);
-                Notification.display('Successfully added');
-            }).catch(function(err){
-                Notification.display(err.message);
-            })
-        }
-    }])
 
     .controller('ProjectTeamCtrl',['$scope','Project','Notification',function ($scope,Project,Notification) {
         $scope.removeMember=function(idx,user){
@@ -139,6 +120,30 @@ angular.module('cri.projectSetting',[])
                 $scope.invite.email="";
             }).catch(function(err){
                 Notification.display('Failed,Please try again later.');
+            })
+        };
+
+        Project.getApply({container:Project.data.id,$sort:{createDate:-1}}).then(function(applyteams){
+            $scope.applyteams=applyteams;
+        }).catch(function(err){
+            console.log(err);
+        });
+
+        $scope.finish=function(idx){
+            Project.finishApply({status:true}, $scope.applyteams[idx].id).then(function(data){
+                $scope.applyteams[idx].status=true;
+                Notification.display('Updated successfully!');
+            }).catch(function(err){
+                Notification.display(err.message);
+            })
+        }
+        $scope.addToTeam=function(uid,idx){
+            Project.update($scope.project.id,{member:{'$push':uid},'context':'team'}).then(function(){
+//            Project.update({uid : uid , context :'team'},$scope.project.id).then(function(){
+                $scope.finish(idx);
+                Notification.display('Successfully added');
+            }).catch(function(err){
+                Notification.display(err.message);
             })
         }
     }])

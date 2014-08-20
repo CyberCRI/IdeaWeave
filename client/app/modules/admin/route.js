@@ -10,36 +10,14 @@ angular.module('cri.admin')
                     }
                 },
                 resolve : {
-                    projects : ['Project',function(Project){
-                        return Project.fetch();
+                    usersList : ['users',function(users){
+                        return users.fetch();
                     }],
-                    challenges : ['Challenge',function(Challenge){
-                        return Challenge.fetch();
+                    tags : ['Tag',function(Tag){
+                        return Tag.fetch();
                     }]
 
                 }
             })
-            .state('adminChallenge',{
-                url : '/admin/challenge/:pid',
-                views : {
-                    mainView : {
-                        templateUrl : 'modules/admin/templates/dashboard.tpl.html',
-                        controller : 'adminChallengeCtrl'
-                    }
-                },
-                resolve : {
-                    topics : ['Topics',function(Topics){
 
-                    }],
-                    project : ['Project',function(Project) {
-
-                    }],
-                    files : ['Files',function(Files){
-
-                    }],
-                    url : ['Urls',function(Urls){
-
-                    }]
-                }
-            })
-    }])
+    }]);

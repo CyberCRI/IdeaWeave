@@ -1,8 +1,22 @@
 angular.module('cri.admin',[])
 
-    .controller('adminCtrl', ['$scope','projects','challenges', function($scope,projects,challenges){
-        $scope.projects = projects;
-        $scope.challenges = challenges;
+    .controller('adminCtrl', ['$scope','tags','usersList', function($scope,tags,usersList){
+        $scope.tags = tags;
+        $scope.usersList = usersList;
+        $scope.statusList = [
+            {
+                title : 'admin',
+                index : 0
+            },
+            {
+                title : 'moderator',
+                index : 1
+            },
+            {
+                title : 'basic',
+                index : 2
+            }
+        ]
     }])
     .controller('adminProjectCtrl',['$scope', function($scope){
 

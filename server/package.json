@@ -27,7 +27,8 @@
     "dpd-fileupload":"CyberCRI/dpd-fileupload",
     "jz-json":"0.0.1",
     "jz-recommend":"0.0.1",
-    "jz-tags":"0.0.1"
+    "jz-tags":"0.0.1",
+    "dpd-passport" :"0.1.1"
 },
     "preferGlobal": true,
     "private": true

@@ -12,6 +12,12 @@ angular.module('cri.projectSetting')
                 resolve:{
                     project:['$stateParams','Project',function($stateParams,Project){
                         return Project.fetch({accessUrl:$stateParams.pid})
+                    }],
+                    files : ['Files', '$stateParams',function(Files, $stateParams){
+                        return Files.fetch({projectUrl : $stateParams.pid});
+                    }],
+                    urls : ['Url','$stateParams',function(Url,$stateParams){
+                        return Url.fetch({ project : $stateParams.pid });
                     }]
                 }
             })
@@ -50,29 +56,6 @@ angular.module('cri.projectSetting')
                     }]
                 }
             })
-            .state('project.settings.apply',{
-                url : '/apply',
-                views :{
-                    settingView : {
-                        templateUrl:'modules/projectSetting/templates/apply.tpl.html',
-                        controller: 'ProjectApplyCtrl'
-                    }
-                },
-                resolve:{
-                    applyteams:['Project',function(Project){
-                        return Project.getApply({container:Project.data.id,$sort:{createDate:-1}});
-//                        return jzCommon.query(apiServer+'/applyteams',{project:$route.current.params.pid,$sort:{createDate:-1}});
-                    }]
-                }
-            })
-            .state('project.settings.trello',{
-                url : '/trello',
-                views : {
-                    settingView : {
-                        templateUrl : 'modules/projectSetting/templates/trello.tpl.html'
-                    }
-                }
-            })
             .state('project.settings.team',{
                 url : '/team',
                 views :{
@@ -80,6 +63,12 @@ angular.module('cri.projectSetting')
                         templateUrl:'modules/projectSetting/templates/team.tpl.html',
                         controller: 'ProjectTeamCtrl'
                     }
+                },
+                resolve:{
+                    applyteams:['Project',function(Project){
+                        return Project.getApply({container:Project.data.id,$sort:{createDate:-1}});
+//                        return jzCommon.query(apiServer+'/applyteams',{project:$route.current.params.pid,$sort:{createDate:-1}});
+                    }]
                 }
             })
     }]);

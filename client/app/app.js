@@ -14,6 +14,7 @@ angular.module('cri', [
     'angularFileUpload',
     'angular-carousel',
     'ImageCropper',
+    'cri.admin',
     'cri.config',
     'cri.home',
     'cri.header',
@@ -36,9 +37,8 @@ angular.module('cri', [
     }])
     .run(['users','$window', function (users,$window) {
         users.getMe();
-        $window.socket = io.connect('http://localhost:5011');
-//        $window.socket = io.connect('http://ideastorm.io:5011');
-        console.log($window.socket)
+//        $window.socket = io.connect('http://localhost:5011');
+        $window.socket = io.connect('http://ideastorm.io:5011');
     }])
     .controller('ToastCtrl',['$scope','$hideToast',function($scope, $hideToast) {
         $scope.closeToast = function() {

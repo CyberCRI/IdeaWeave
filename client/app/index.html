@@ -19,23 +19,12 @@
     <link rel="stylesheet" href="vendors/bootstrap/dist/css/bootstrap.css">
     <link rel="stylesheet" href="vendors/bootstrap/dist/css/bootstrap-theme.css">
     <link rel="stylesheet" href="vendors/angular-ui-select/dist/select.css"/>
-    <link rel="stylesheet" href="vendors/AngularJS-Toaster/toaster.css"/>
     <link rel="stylesheet" href="vendors/angular-crop-image/image-crop-styles.css"/>
     <link rel="stylesheet" href="vendors/angular-carousel/dist/angular-carousel.css">
     <link rel="stylesheet" href="vendors/angular-material/dist/material-design.min.css"/>
     <!--<link rel="stylesheet" href="vendors/angular-material/docs/app/css/tab_demos.css"/>-->
     <link rel="stylesheet" href="styles/main.css">
-
     <!-- endbuild -->
-    <script src="vendors/smooth-scroll/dist/js/smooth-scroll.js"></script>
-    <script>
-        smoothScroll.init({
-            speed: 500, // Integer. How fast to complete the scroll in milliseconds
-            easing: 'easeInOutCubic', // Easing pattern to use
-            updateURL: true, // Boolean. Whether or not to update the URL with the anchor hash on scroll
-            offset: 0 // Integer. How far to offset the scrolling anchor location in pixels
-        });
-    </script>
 </head>
 <body>
 <!--[if lt IE 9]>
@@ -46,17 +35,15 @@
       </p>
     <![endif]-->
 
-<div ng-include src="'modules/header/templates/header.tpl.html'"  ng-controller="HeaderCtrl" ></div>
+<div ng-include="'modules/header/templates/header.tpl.html'"  ng-controller="HeaderCtrl" ></div>
 
 <material-content style="height:100%;">
     <div id="mainView"  ui-view="mainView" style="height: 100%;"></div>
 </material-content>
 
 
-<toaster-container></toaster-container>
-
 <script src="http://mozilla.github.io/pdf.js/build/pdf.js"></script>
-<script src="vendors/tinymce/tinymce.min.js"></script>
+<!--<script src="vendors/tinymce/tinymce.min.js"></script>-->
 <script src="https://cdn.socket.io/socket.io-1.0.6.js"></script>
 
 <!-- build:js(app)  scripts/scripts.js -->
@@ -169,6 +156,9 @@
 <script src="modules/user/route.js"></script>
 <script src="modules/user/lang.js"></script>
 <script src="modules/user/users.js"></script>
+
+<script src="modules/admin/controller.js"></script>
+<script src="modules/admin/route.js"></script>
 
 <script src="modules/message/controller.js"></script>
 <script src="modules/message/route.js"></script>
