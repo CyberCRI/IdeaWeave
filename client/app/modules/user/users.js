@@ -64,13 +64,6 @@ angular.module('cri.user')
                         deferred.resolve(me);
                     })
                     .error(function (err) {
-                        if (err.errors.username) {
-                            alert('Username already exsit');
-                        } else if (err.errors.email) {
-                            alert('Email already register');
-                        } else {
-                            alert(err.message);
-                        }
                         deferred.reject(err);
                     });
                 return deferred.promise;

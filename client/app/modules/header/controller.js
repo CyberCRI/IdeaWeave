@@ -18,8 +18,8 @@ angular.module('cri.header',[])
                             break;
                         case 'notif':
                             $scope.sideNavTemplateUrl = 'modules/header/templates/notifications.tpl.html';
-                            if($scope.me.profile){
-                                users.getActivity($scope.me.profile.id,5).then(function(data){
+                            if($scope.me){
+                                users.getActivity($scope.me.id,5).then(function(data){
                                     $scope.activities = data;
                                 }).catch(function(err){
                                     console.log(err);

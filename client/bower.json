@@ -22,7 +22,8 @@
         "Font-Awesome": "4.1",
         "angular-carousel" : "0.2.3",
         "angular-material" : "https://github.com/angular/material.git",
-        "angular-timer" : "*"
+        "angular-timer" : "*",
+        "satellizer" :"0.3.1"
     },
     "devDependencies": {}
 }

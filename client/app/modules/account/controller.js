@@ -83,14 +83,24 @@ angular.module('cri.account',[])
                 $scope.notMatch = true;
             } else {
                 $scope.notMatch = false;
-                console.log($scope.signup);
                 users.register($scope.signup).then(function (result) {
                     Notification.display('Check your email to activate your account')
                 }).catch(function(err){
-                    Notification.display(err.message);
+                    console.log(err);
+                    if(err.errors.username){
+                        Notification.display('username already taken');
+                    }else if(err.errors.email){
+                        Notification.display('email already taken');
+                    }else{
+                        Notification.display(err.message);
+                    }
                 })
             }
         };
+
+        $scope.githubLogin = function(){
+
+        }
     }])
     .controller('ActivateCtrl',['$scope','users','$state','$stateParams','Notification',function($scope,users,$state,$stateParams,Notification){
         $scope.activate = function(){
