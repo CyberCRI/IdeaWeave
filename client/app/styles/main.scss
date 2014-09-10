@@ -1,0 +1,58 @@
+
+$backgroundForm : rgba(240, 240, 241, 0.9);
+$footerBg : #000000;
+
+$opacityTiming : 0.5s;
+$opacityIndex : 0.2;
+$opacityIndexHover : 0.9;
+
+$headerGrey : rgb(46,45,48);
+$headerYellow : rgb(245,230,24);
+
+@import "../modules/common/sass/animation";
+@import "../modules/auth/sass/auth";
+@import "../modules/header/sass/header";
+@import "../modules/footer/sass/footer";
+@import "../modules/common/sass/material-redesign";
+@import "../modules/common/sass/form";
+@import "../modules/challenge/sass/challenge";
+@import "../modules/project/sass/project";
+@import "../modules/noteLab/sass/notelab";
+@import "../modules/home/sass/home";
+@import "../modules/d3/sass/d3";
+@import "../modules/challenge/sass/challenge";
+
+
+
+body,html{
+  overflow-x: hidden !important;
+  overflow-y : hidden !important;
+  height: 100%;
+  max-width: 100%;
+  font-family: 'Fira Sans';
+}
+
+.main-header{
+  border-bottom:$headerGrey solid 1 px;
+  .my-grey,.fa{
+    color : $headerGrey;
+  }
+  .my-yellow{
+    color : $headerYellow;
+  }
+}
+
+header{
+  margin-bottom :  0px !important;;
+}
+
+.center{
+  text-align : center;
+}
+
+.tag{
+  cursor:pointer;
+  font-size: 1.1em;
+}
+
+@import "../modules/common/sass/media-queries";

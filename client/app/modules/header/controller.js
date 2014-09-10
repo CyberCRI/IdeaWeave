@@ -1,25 +1,29 @@
 angular.module('cri.header',[])
 
-    .controller('HeaderCtrl',['$scope','loggedUser', 'users','$state','Notification','SearchBar', '$materialSidenav','$timeout','$window',function($scope,loggedUser, users,$state,Notification,SearchBar,$materialSidenav,$timeout,$window){
-        $scope.user = users;
-        $scope.me = loggedUser.profile;
+    .controller('HeaderCtrl',['$scope','$state','Notification','SearchBar', '$materialSidenav','$timeout','$auth','$rootScope',function($scope,$state,Notification,SearchBar,$materialSidenav,$timeout,$auth,$rootScope){
+        var rightNav;
+
+        $scope.sideNavToggle = function(event){
+            $rootScope.$broadcast(event);
+        };
+        $rootScope.$on('showLogin',function(){
+            $scope.toggleRight('login')
+        });
 
         $timeout(function(){
-            var rightNav;
             $scope.toggleRight = function(template) {
                 if(template){
                     switch(template){
                         case 'login':
-                            $scope.sideNavTemplateUrl = 'modules/account/templates/signin.tpl.html';
+                            $scope.sideNavTemplateUrl = 'modules/auth/templates/signin.tpl.html';
                             break;
                         case 'menu':
                             $scope.sideNavTemplateUrl = 'modules/header/templates/menu.tpl.html';
-                            $scope.me = loggedUser.profile;
                             break;
                         case 'notif':
                             $scope.sideNavTemplateUrl = 'modules/header/templates/notifications.tpl.html';
-                            if($scope.me){
-                                users.getActivity($scope.me.id,5).then(function(data){
+                            if($scope.currentUser){
+                                users.getActivity($scope.currentUser._id,5).then(function(data){
                                     $scope.activities = data;
                                 }).catch(function(err){
                                     console.log(err);
@@ -37,27 +41,15 @@ angular.module('cri.header',[])
                 rightNav.toggle();
             });
             $scope.signout =function(){
-                users.logout().then(function(){
-                    rightNav.toggle();
-                    $state.go('home');
-                })
+                $auth.logout();
+                rightNav.toggle();
+                Notification.display('You have been logged out');
             };
 
         },500);
-        $scope.goTo = function(result){
-            console.log('ffffffffff',result)
-            if(result.username){
-                console.log(result)
-                $state.go('profile',{ uid : result.id })
-            }else if(result.container){
-                $state.go('project',{ pid : result.accessUrl })
-            }else{
-                $state.go('challenge',{ pid : result.accessUrl })
-            }
-            console.log(result)
-        };
+
         $scope.refreshSearchBar = function(search) {
-            if(search.length >=  2 ){
+            if(search.length >=  1 ){
                 SearchBar.refresh(search).then(function(result){
                     $scope.searchResult = result;
                 }).catch(function(err){
@@ -68,21 +60,11 @@ angular.module('cri.header',[])
 
         $scope.goTo = function(result){
             if(result.username){
-                $state.go('profile',{ uid : result.id })
+                $state.go('profile',{ uid : result._id })
             }else if(result.container){
                 $state.go('project',{ pid : result.accessUrl })
             }else{
                 $state.go('challenge',{ pid : result.accessUrl })
             }
         };
-
-
-        $window.socket.on('activities:create',function(data){
-            console.log('activities create',data)
-            if(data.owner == $scope.me.profile.id){
-                $scope.$apply(function(){
-                    $scope.newNotif = true;
-                })
-            }
-        });
     }])

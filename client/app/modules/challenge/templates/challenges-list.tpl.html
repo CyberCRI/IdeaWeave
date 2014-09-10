@@ -1,51 +1,46 @@
-<ul class="media-list">
-    <li class="media" ng-repeat="challenge in challenges" style="position:relative;overflow: visible">
-        <i class="fa fa-anchor fa-2x my-btn" style="position:absolute; top : -10px;right:-10px;" ng-if="me.admin" ng-click="removeChallenge(challenge.id)"></i>
-        <div class="pull-left">
-            <img ng-src="{{ challenge.poster || 'http://placehold.it/90x90' }}" class="list-img media-object" width="100%" alt="challenge's poster" />
-        </div>
-        <article class="media-body" style="padding-left: 50px;">
-            <h1 class="media-heading" style="cursor : pointer;"  ui-sref="challenge({ pid : challenge.accessUrl })">
-                {{ challenge.title }}
-            </h1>
-            <p ng-bind-html="challenge.brief" class="list-brief" >
-            </p>
-            <div showtags="" entity="challenge"></div>
-            <div class="row" >
-                <div class="col-xs-4">
+<material-content layout="vertical" scroller loading-method="loadMoreChallenges()" style="overflow-x:hidden;" flex>
+    <material-list>
+        <material-item ng-repeat="challenge in challenges">
+            <div class="material-tile-left" flex="40" flex-sm="30" flex-md="25" flex-lg="15">
+                <img ng-src="{{ challenge.poster || 'http://placehold.it/90x90' }}" class="" width="100%" alt="challenge's poster" />
+            </div>
+            <article class="material-tile-content">
+                <h1 style="cursor : pointer; text-align:center;"  ui-sref="challenge({ pid : challenge.accessUrl })">
+                    {{ challenge.title }}
+                </h1>
+                <p ng-bind-html="challenge.brief">
+                </p>
+                <showtags entity="challenge"></showtags>
+                <div layout="horizontal">
+                    <div flex>
+                    <span>
                     {{ challenge.followers.length }}
-                    <p>
+                    </span>
+                    <span>
                         Followers
-                    </p>
-                </div>
-                <div class="col-xs-4">
-                    {{ challenge.projectNumber }}
-                    <p>
+                    </span>
+                    </div>
+                    <div flex>
+                    <span>
+                    {{ challenge.projects.length }}
+                    </span>
+                    <span>
                         Projects
-                    </p>
+                    </span>
+                    </div>
+                    <div flex>
+                        <p ng-if="challenge.startDate < now && challenge.endDate > now" >
+                            <timer end-time="challenge.endDate" >End in :{{days}} d, {{hours}} : {{minutes}} : {{seconds}}</timer>
+                        </p>
+                        <p ng-if="challenge.startDate > now" >
+                            <timer end-time="challenge.endDate" >Start in : {{days}} d, {{hours}} : {{minutes}} : {{seconds}}</timer>
+                        </p>
+                    </div>
                 </div>
-                <div class="col-xs-4">
-                    <p ng-if="challenge.startDate < now && challenge.endDate > now" >
-                        <timer end-time="challenge.endDate" >End in :{{days}} d, {{hours}} : {{minutes}} : {{seconds}}</timer>
-                    </p>
-                    <p ng-if="challenge.startDate > now" >
-                        <timer end-time="challenge.endDate" >Start in : {{days}} d, {{hours}} : {{minutes}} : {{seconds}}</timer>
-                    </p>
-                </div>
-            </div>
-        </article>
-        <a href="" ng-click="toggleProjects(challenge.id)" ng-if="!projectsToggle[challenge.id]">show related projects</a>
-        <a href="" ng-click="hideProject(challenge.id)" ng-if="projectsToggle[challenge.id]">hide related projects</a>
-        <section collapse="!projectsToggle[challenge.id]" class="container">
-            <p ng-if="message[challenge.id]">
-                <span>
-                    no related projects, create one ?
-                </span>
-                <i class="fa fa-plus fa-2x my-btn" ui-sref=""></i>
-            </p>
-            <div ng-repeat="project in projects[challenge.id]" class="col-xs-2">
-                <project-block project="project"></project-block>
-            </div>
-        </section>
-    </li>
-</ul>
+                <material-button ng-click="showProjects($event,challenge._id,$index)">
+                    show related projects
+                </material-button>
+            </article>
+        </material-item>
+    </material-list>
+</material-content>

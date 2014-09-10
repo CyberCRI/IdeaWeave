@@ -1,40 +1,38 @@
-<section style="padding-left : 20px; padding-top: 20px; height:100%; position:relative;" >
-    <div class="row">
-        <div class="col-xs-6">
-            <img ng-src="{{ me.poster || 'images/avater.jpg' }}" alt="{{ me.username }}'s photo" width="100%" class="img-rounded pull-left"/>
-        </div>
-        <i class="fa fa-caret-right fa-2x my-btn pull-right" style="color:black; margin-right:10px;" ng-click="toggleRight('menu')"></i>
+<section layout="vertical" layout-fill>
+    <div div layout="horizontal" layout-align="center center">
+        <img ng-src="{{ currentUser.poster || 'images/avater.jpg' }}" alt="{{ currentUser.username }}'s photo" width="50%" height="50%" class="img-rounded"/>
     </div>
-    <h2 style="color:black;">
-        {{ me.realname || me.username }}
-    </h2>
-    <div class="list-group row" >
-        <a  ui-sref="admin" class="list-group-item" ui-sref="admin" style="border:none;" >
-            Admin
-        </a>
-        <a data-scroll class="list-group-item"  ng-href="user/{{me.id}}#profile"  style="border:none;">
+    <!--<h2 style="color:black;">-->
+        <!--{{ currentUser.realname || currentUser.username }}-->
+    <!--</h2>-->
+
+    <div layout="horizontal" >
+        <div class=" text-muted" flex>
+            <p>You're logged as {{ currentUser.username }}</p>
+        </div>
+        <material-button ng-click="signout()" layout layout-align="center center">
+            <i class="fa fa-sign-out">Signout</i>
+        </material-button>
+    </div>
+    <div class="menu">
+        <!--<material-button ui-sref="admin"  ng-class="{'material-theme-red':$uiRoute}" ui-route="/admin">-->
+            <!--Admin-->
+        <!--</material-button>-->
+        <material-button ui-sref="profile({uid : currentUser._id})"  ng-class="{'material-theme-light':$uiRoute}" ui-route="/profile/{{currentUser._id}}">
             Profile
-        </a>
-        <a ui-route="/message" ui-sref="message" class="list-group-item" ng-class="{'menu-active':$uiRoute}" style="border:none;">
+        </material-button>
+        <material-button ui-sref="message" ng-class="{'material-theme-orange':$uiRoute}" ui-route="/message">
             Messages
-        </a>
-        <a data-scroll href="user/{{me.id}}#challenges" class="list-group-item"  style="border:none;">
+        </material-button>
+        <material-button ui-sref="challenges.list({ tag : 'all' })" ng-class="{'material-theme-indigo':$uiRoute}" ui-route="/challenges/[a-z]*">
             Challenges
-        </a>
-        <a data-scroll href="user/{{me.id}}#projects" class="list-group-item"  style="border:none;">
+        </material-button>
+        <material-button ui-sref="projects.list({ tag : 'all' })" ng-class="{'material-theme-indigo':$uiRoute}" ui-route="/projects/all">
             Projects
-        </a>
-        <a  ui-sref="userSettings({ uid : me.profile.id })" class="list-group-item" style="border:none;">
+        </material-button>
+        <material-button ui-sref="userSettings({ uid : currentUser._id })"  ng-class="{'material-theme-light':$uiRoute}" ui-route="/profile/edit/{{ currentUser._id }}">
             Edit Profile
-        </a>
+        </material-button>
     </div>
-        <div style="position: absolute; bottom : 0px;color:black;width:100%;" ng-if="me">
-            <div class="pull-left text-muted">
-                <p>You're logged as {{ me.username }}</p>
-            </div>
-            <div class="pull-right" style="margin-right: 25px;">
-                <i class="fa fa-sign-out fa-2x my-btn" tooltip="sign-out" ng-click="signout()"></i>
-            </div>
-        </div>
-    </div>
+
 </section>

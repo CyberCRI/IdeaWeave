@@ -3,14 +3,10 @@ angular.module('cri.challenge')
         $stateProvider
             .state('challenges',{
                 url : '/challenges',
-                resolve: {
-                    tags : ['Tag',function(Tag){
-                        return Tag.fetch();
-                    }]
-                },
                 views : {
                     mainView :{
-                        templateUrl: 'modules/challenge/templates/challenges.tpl.html'
+                        templateUrl: 'modules/challenge/templates/challenges.tpl.html',
+                        controller : 'ChallengesCtrl'
                     }
                 }
             })
@@ -23,22 +19,16 @@ angular.module('cri.challenge')
                     }
                 },
                 resolve : {
-                    challenges: ['Challenge','$stateParams', function (Challenge,$stateParams) {
-                        var option;
-                        if($stateParams.tag == 'all'){
-                            option = {$limit: 6, $sort: {createDate: -1}, context: 'list'};
-                            return Challenge.fetch(null,null,option);
-                        }else{
-                            console.log($stateParams.tag)
-                            return Challenge.fetch(null,null,{tags: {$regex: $stateParams.tag , $options: 'i'}, context: 'list'})
+                    challenges: ['Challenge','$stateParams','Config', function (Challenge,$stateParams,Config) {
+                        return Challenge.getByTag($stateParams.tag,{ limit : Config.paginateChallenge, skip : 0});
 //                            option = {$limit: 6, $sort: {createDate: -1}, context: 'list', title : $stateParams.tag};
-                        }
+
 
                     }]
                 }
             })
             .state('challengeSuggest',{
-                url : '/challenges/suggest',
+                url : '/suggest_a_challenge',
                 views :{
                     mainView :{
                         templateUrl: 'modules/challenge/templates/suggest.tpl.html',
@@ -52,7 +42,8 @@ angular.module('cri.challenge')
                     challenge:  ['$stateParams', 'Challenge',function ($stateParams, Challenge) {
                         var option = {
                             accessUrl : $stateParams.pid
-                        }
+                        };
+
                         return Challenge.fetch(option);
                     }]
                 },

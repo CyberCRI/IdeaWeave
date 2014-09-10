@@ -1,0 +1,75 @@
+<section layout="vertical">
+    <h2 class="center">Media Management</h2>
+    <section layout="vertical" layout-md="horizontal">
+        <section flex-md>
+            <h3 class="center">File resources</h3>
+            <div ng-if="files.length == 0 || !files" class="center">
+                no file yet, to upload a file you have to go in the notelab
+            </div>
+            <div ng-if="files.length > 0">
+                <material-input-group>
+                    <label for="filterFile">
+                        <span class="fa fa-search">&nbsp;filter by name</span>
+                    </label>
+                    <material-input type="text" id="filterFile" ng-model="searchFile.originalName"></material-input>
+                </material-input-group>
+                <material-list>
+                    <material-item ng-repeat="file in files track by $index |filter:searchFile">
+                        <div class="material-tile-left">
+                            <user-block user-id="file.owner"></user-block>
+                        </div>
+                        <div class="material-tile-content">
+                            <div class="center" ng-bind="file.orginalName"></div>
+                            <div ng-bind="file.description"></div>
+                        </div>
+                        <div class="material-tile-right">
+                            <material-button>
+                                <i class="fa fa-download fa-2x"></i>
+                            </material-button>
+                            <material-button>
+                                <i class="fa fa-trash-o fa-2x"></i>
+                            </material-button>
+                        </div>
+                    </material-item>
+                </material-list>
+            </div>
+        </section>
+        <section layout="vertical" flex-md>
+            <h3 class="center">Url resources</h3>
+            <div ng-if="urls.length == 0 || !urls" class="center">
+                no url yet, to add url you have to go in the notelab
+            </div>
+            <div ng-if="urls.length > 0">
+                <material-input-group>
+                    <label for="filterUrl">
+                        <span class="fa fa-search">&nbsp;filter by title</span>
+                    </label>
+                    <material-input type="text" id="filterUrl" ng-model="searchUrl.title"></material-input>
+                </material-input-group>
+
+                <material-list>
+                    <material-item ng-repeat="url in urls |filter:searchUrl track by $index">
+                        <div class="material-tile-left">
+                            <user-block user-id="url.owner"></user-block>
+                        </div>
+                        <div class="material-tile-content">
+                            <div class="center" >
+                                <a bg-href="{{ url.url }}" ng-bind="url.title"></a>
+                            </div>
+                            <div ng-bind="url.description"></div>
+                        </div>
+                        <div class="material-tile-right">
+                            <material-button>
+                                <i class="fa-upload fa fa-2x"></i>
+                            </material-button>
+                            <material-button>
+                                <i class="fa-trash-o fa fa-2x"></i>
+                            </material-button>
+                        </div>
+                    </material-item>
+                </material-list>
+            </div>
+
+        </section>
+    </section>
+</section>

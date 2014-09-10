@@ -1,0 +1,44 @@
+.challenge-block-container{
+  overflow : hidden;
+  cursor: pointer;
+  position:relative;
+  display : inline-block;
+  margin-right : 15px;
+  width:100%;
+  .challenge-block{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    background-color: rgba(160, 166, 161, 0.40);
+}
+.ng-enter{
+  @extend .challenge-block-container;
+  -webkit-animation: fadeInDown 0.3s ease-in-out;
+  animation: fadeInDown 0.3s ease-in-out;
+}
+.ng-leave{
+  @extend  .challenge-block-container;
+  -webkit-animation: fadeOutUp 0.3s ease-in-out;
+  animation: fadeOutUp 0.3s ease-in-out;    }
+}
+
+
+.challenge-header{
+  background-size: cover;
+  color : white;
+  width:100%;
+  height: 200px !important;
+  padding-top:20px;
+  padding-left:50px;
+  h1{
+    margin-top : 0;
+    text-decoration: underline;
+  }
+}
+
+
+
+.project-modal{
+  max-height : 350px;
+}

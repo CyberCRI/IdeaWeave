@@ -1,25 +1,31 @@
-<section class="row" style="margin-left:50px;">
-    <h2>
-        Challenges
-    </h2>
-    <p ng-if="me">
-        <a href="" ui-sref="challengeSuggest">
-            <i class="fa fa-plus my-btn" ></i>
-            <span class="text-muted" > create a new challenge</span>
-        </a>
+<section layout="horizontal" layout-fill style="overflow-y: hidden;">
+    <material-sidenav class="material-sidenav-left material-whiteframe-z2 left" component-id="left">
+        <material-toolbar layout="horizontal">
+            <div class="material-toolbar-tools">
+                <i class="fa fa-caret-left fa-2x my-btn" hide-md style="color:black;" ng-click="toggle()" flex></i>
+                <div>
+                    <i class="fa fa-tags"> Tags</i>
+                </div>
+            </div>
+        </material-toolbar>
+        <material-content layout="vertical" >
+            <div layout="horizontal" ng-repeat="tag in tags">
+                <material-button flex class="material-button-hover" ui-route="/challenges/{{tag.title}}" ng-class="{ 'material-button-raised' : $uiRoute }"  ui-sref="challenges.list({ tag : tag.title })">{{tag.title}}</material-button>
+            </div>
+        </material-content>
+    </material-sidenav>
+    <section flex layout-fill layout="vertical">
+        <h1 class="center">
+            Challenges
+        </h1>
+        <div ng-if="currentUser" >
+            <material-button ui-sref="challengeSuggest" hide block-md>
+                Suggest a challenge !
+            </material-button>
+            <i class="fa fa-plus fa-2x my-btn" ui-sref="challengeSuggest" hide-md></i>
 
-    </p>
-    <a href="" ui-sref="projects" class="pull-right" style="margin-right: 50px;">See all related projects</a>
-</section>
-<section class="row">
-    <section class="col-xs-9 list-container"  ui-view="challengesView">
-
-    </section>
-    <section class="col-xs-3">
-        <div class="list-group">
-            <a  class="list-group-item" ui-route="/challenges/{{tag.title}}" ng-class="{ 'active' : $uiRoute }" ng-repeat="tag in tags" ui-sref="challenges.list({ tag : tag.title })">
-                {{ tag.title }}
-            </a>
         </div>
+        <section ui-view="challengesView" flex layout style="padding-bottom:64px;" ></section>
     </section>
+
 </section>

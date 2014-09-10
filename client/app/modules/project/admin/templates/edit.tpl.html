@@ -1,0 +1,50 @@
+<material-content layout="horizontal" layout-fill>
+    <material-sidenav class="material-sidenav-left material-whiteframe-z2 left" component-id="left">
+        <material-content style="padding-left: 20px;" layout="vertical" >
+            <material-toolbar layout="horizontal">
+                <div class="material-toolbar-tools">
+                    <i class="fa fa-caret-left fa-2x my-btn" hide-md style="color:black;" ng-click="toggle()" flex></i>
+                    <div>
+                        <i class="fa fa-user">Edit your project</i>
+                    </div>
+                </div>
+            </material-toolbar>
+            <material-button ng-click="popUpEdit()">
+                Edit HomePage
+            </material-button>
+            <material-button ng-click="popUpPoster()">
+                edit Poster
+            </material-button>
+            <material-button ng-click="popUpBanner()">
+                edit banner
+            </material-button>
+            <material-button class="material-theme-red" ng-click="remove()">
+                delete
+            </material-button>
+        </material-content>
+    </material-sidenav>
+    <form name="projectBasic" layout="vertical" flex class="right-part">
+        <ui-select ng-model="project.localisation"
+                   theme="selectize"
+                   reset-search-input="false">
+            <ui-select-match placeholder="Enter your address...">{{$select.selected.formatted_address}}</ui-select-match>
+            <ui-select-choices repeat="address in addresses track by $index"
+                               refresh="refreshAddresses($select.search)"
+                               refresh-delay="0">
+                <div ng-bind-html="address.formatted_address | highlight: $select.search"></div>
+            </ui-select-choices>
+        </ui-select>
+        <tag-manager entity="project" ng-model="project.tags"></tag-manager>
+        <material-input-group>
+            <label for="title">Title</label>
+            <material-input id="title" type="text" ng-model="project.title" />
+        </material-input-group>
+        <label for="brief"></label>
+        <textarea  id="brief" rows="5" style="width:100%;" ng-model="project.brief"></textarea>
+        <material-input-group >
+            <label for="trello">Trello Id</label>
+            <material-input id="trello" type="text"ng-model="project.trello" />
+        </material-input-group>
+        <material-button flex class="material-button-raised material-button-colored" type="button" ng-click="updateProject($event)">Update</material-button>
+    </form>
+</material-content>

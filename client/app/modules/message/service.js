@@ -1,9 +1,9 @@
 angular.module('cri.message')
-.factory('Message',['$http','$q','CONFIG',function($http,$q,CONFIG){
+.factory('Message',function($http,$q,Config){
         var service = {
             send : function(message){
                 var defered = $q.defer();
-                $http.post(CONFIG.apiServer+'/messages',message).success(function(data){
+                $http.post(Config.apiServer+'/messages',message).success(function(data){
                     defered.resolve(data);
                 }).error(function(err){
                     defered.reject(err);
@@ -12,7 +12,7 @@ angular.module('cri.message')
             },
             fetch : function(param){
                 var defered = $q.defer();
-                $http.get(CONFIG.apiServer+'/messages',{
+                $http.get(Config.apiServer+'/messages',{
                     params : param
                 }).success(function(data){
                     defered.resolve(data);
@@ -24,7 +24,7 @@ angular.module('cri.message')
             refreshUsersList : function(param){
                 var defered = $q.defer(),
                     queryUser = {username:{$regex:param+".*",$options: 'i'},context:'list'};
-                $http.get(CONFIG.apiServer+'/users?'+JSON.stringify(queryUser)).success(function(data){
+                $http.get(Config.apiServer+'/users?'+JSON.stringify(queryUser)).success(function(data){
                     defered.resolve(data);
                 }).error(function(err){
                     defered.reject(err);
@@ -33,4 +33,4 @@ angular.module('cri.message')
             }
         };
         return service;
-    }])
+    })

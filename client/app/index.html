@@ -12,22 +12,22 @@
     <meta http-equiv="X-UA-Compatible"content="IE=9; IE=8; IE=7; IE=EDGE">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <base href="/"></base>
-    <link href='http://fonts.googleapis.com/css?family=Abel' rel='stylesheet' type='text/css'>
-    <!-- build:css(app) styles/main.css -->
+    <link rel="stylesheet" href="//code.cdn.mozilla.net/fonts/fira.css">
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.8.5/css/selectize.default.css">
+    <!-- build:css styles/main.css -->
     <link rel="stylesheet" href="vendors/Font-Awesome/css/font-awesome.css">
+    <link rel="stylesheet" href="vendors/font-awesome-animation/dist/font-awesome-animation.css"/>
     <link rel="stylesheet" href="vendors/animatecss/animate.css"/>
-    <link rel="stylesheet" href="vendors/bootstrap/dist/css/bootstrap.css">
-    <link rel="stylesheet" href="vendors/bootstrap/dist/css/bootstrap-theme.css">
     <link rel="stylesheet" href="vendors/angular-ui-select/dist/select.css"/>
     <link rel="stylesheet" href="vendors/angular-crop-image/image-crop-styles.css"/>
     <link rel="stylesheet" href="vendors/angular-carousel/dist/angular-carousel.css">
-    <link rel="stylesheet" href="vendors/angular-material/dist/material-design.min.css"/>
-    <!--<link rel="stylesheet" href="vendors/angular-material/docs/app/css/tab_demos.css"/>-->
+    <link rel="stylesheet" href="vendors/angular-material/angular-material.css"/>
+    <!--<link rel="stylesheet" href="vendors/angular-datepicker/dist/index.css"/>-->
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
 </head>
-<body>
-<!--[if lt IE 9]>
+<body layout="vertical" layout-fill>
+<!--[if lt IE 10]>
       <p class="alert alert-warnning">For better user experience,please use one of these bowers :
     <a href="http://www.google.com/chrome/" target="_blank">Google Chrome</a>
     <a href="www.mozilla.org/en-US/firefox/&lrm;" target="_blank">Firefox</a> /
@@ -35,27 +35,19 @@
       </p>
     <![endif]-->
 
-<div ng-include="'modules/header/templates/header.tpl.html'"  ng-controller="HeaderCtrl" ></div>
+<ng-include src="'modules/header/templates/header.tpl.html'"  ng-controller="HeaderCtrl" ></ng-include>
 
-<material-content style="height:100%;">
-    <div id="mainView"  ui-view="mainView" style="height: 100%;"></div>
-</material-content>
+<section id="mainView" ui-view="mainView" layout="vertical" layout-fill></section>
 
-
-<script src="http://mozilla.github.io/pdf.js/build/pdf.js"></script>
-<!--<script src="vendors/tinymce/tinymce.min.js"></script>-->
-<script src="https://cdn.socket.io/socket.io-1.0.6.js"></script>
-
-<!-- build:js(app)  scripts/scripts.js -->
-<script src="vendors/underscore/underscore.js"></script>
-<script src="vendors/ace-builds/src/ace.js"></script>
-<script src="vendors/ace-builds/src/mode-html.js"></script>
 
 <script src="vendors/tinymce/tinymce.min.js"></script>
 <script src="vendors/tinymce/themes/modern/theme.min.js"></script>
 <script src="vendors/tinymce/plugins/print/plugin.min.js"></script>
 <script src="vendors/tinymce/plugins/textcolor/plugin.min.js"></script>
-
+<!-- build:js scripts/scripts.js -->
+<script src="vendors/socket.io-client/socket.io.js"></script>
+<script src="vendors/pdfjs/src/pdf.js"></script>
+<script src="vendors/underscore/underscore.js"></script>
 <script src="vendors/ng-file-upload/angular-file-upload-html5-shim.js"></script>
 <script src="vendors/angular/angular.js"></script>
 <script src="vendors/angular-touch/angular-touch.js"></script>
@@ -64,49 +56,37 @@
 <script src="vendors/angular-sanitize/angular-sanitize.js"></script>
 <script src="vendors/angular-ui-router/release/angular-ui-router.js"></script>
 <script src="vendors/ng-file-upload/angular-file-upload.js"></script>
-<script src="vendors/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+<script src="vendors/angular-socket-io/socket.js"></script>
 <script src="vendors/angular-translate/angular-translate.js"></script>
 <script src="vendors/angular-ui-utils/ui-utils.js"></script>
-<script src="vendors/angular-ui-ace/ui-ace.js"></script>
 <script src="vendors/angular-ui-tinymce/src/tinymce.js"></script>
 <script src="vendors/angular-ui-select/dist/select.js"></script>
-<script src="vendors/angular-crop-image/image-crop.js"></script>
-<script src="vendors/angular-material/config/lib/angular-animate-sequence/angular-animate-sequence.js"></script>
-<script src="vendors/angular-material/config/lib/angular-animate-sequence/angular-animate-stylers.js"></script>
-<script src="vendors/angular-material/dist/material-design.min.js"></script>
+<script src="vendors/angular-image-crop/image-crop.js"></script>
+<script src="vendors/angular-material/angular-material.js"></script>
 <script src="vendors/angular-timer/dist/angular-timer.js"></script>
 <script src="vendors/satellizer/satellizer.js"></script>
+<script src="vendors/angular-timeago/src/timeAgo.js"></script>
+
 <script src="app.js"></script>
 
 <script src="modules/common/config.js"></script>
+<script src="modules/common/iframe/iframe.js"></script>
+<script src="modules/common/gmap/gMap.js"></script>
+<script src="modules/common/socket/socket.js"></script>
+<script src="modules/common/scroller/scroller.js"></script>
 
 <script src="modules/common/lang.js"></script>
 <script src="modules/common/filters/filter_time.js"></script>
 
-<script src="modules/common/directives/challengeBlock/challengeBlock.js"></script>
-<script src="modules/common/directives/tagManager/tagManager.js"></script>
-<script src="modules/common/directives/comments/comments.js"></script>
-<script src="modules/common/directives/ownerBlock/ownerBlock.js"></script>
-<script src="modules/common/directives/projectBlock/projectBlock.js"></script>
-<script src="modules/common/directives/drag/dragout.js"></script>
-<script src="modules/common/directives/fullWidth/fullWidth.js"></script>
-<script src="modules/common/directives/uploader/uploader.js"></script>
-<script src="modules/common/directives/pdf.js"></script>
-<script src="modules/common/directives/d3/tagGraph.js"></script>
-<script src="modules/common/directives/d3/tagCloud.js"></script>
-<script src="modules/common/directives/googledocPreview/googledocPreview.js"></script>
-<script src="modules/common/directives/iframe/iframe.js"></script>
-<script src="modules/common/directives/activity/directives.js"></script>
+<script src="modules/d3/services.js"></script>
+<script src="modules/d3/directives/tagGraph.js"></script>
+<script src="modules/d3/directives/tagCloud.js"></script>
 
-<script src="modules/common/services/notification.js"></script>
-<script src="modules/common/services/files.js"></script>
-<script src="modules/common/services/followers.js"></script>
-<script src="modules/common/services/recommend.js"></script>
-<script src="modules/common/services/comment.js"></script>
-<script src="modules/common/services/gMap.js"></script>
-<script src="modules/common/services/d3.js"></script>
-<script src="modules/common/services/urls.js"></script>
+<script src="modules/notification/notification.js"></script>
 
+<script src="modules/files/services.js"></script>
+<script src="modules/files/directives/googledocPreview.js"></script>
+<script src="modules/files/directives/pdf.js"></script>
 
 <script src="modules/home/controller.js"></script>
 <script src="modules/home/route.js"></script>
@@ -117,9 +97,9 @@
 <script src="modules/footer/controller.js"></script>
 <script src="modules/footer/route.js"></script>
 
-<script src="modules/account/controller.js"></script>
-<script src="modules/account/lang.js"></script>
-<script src="modules/account/route.js"></script>
+<script src="modules/auth/controller.js"></script>
+<script src="modules/auth/lang.js"></script>
+<script src="modules/auth/route.js"></script>
 
 <script src="modules/admin/controller.js"></script>
 <script src="modules/admin/route.js"></script>
@@ -129,34 +109,42 @@
 <script src="modules/project/services.js"></script>
 <script src="modules/project/route.js"></script>
 <script src="modules/project/lang.js"></script>
+<script src="modules/project/directives/projectBlock/directives.js"></script>
 
-<script src="modules/topic/controller.js"></script>
-<script src="modules/topic/services.js"></script>
-<script src="modules/topic/route.js"></script>
-<script src="modules/topic/lang.js"></script>
+<script src="modules/project/admin/controller.js"></script>
+<script src="modules/project/admin/route.js"></script>
+<script src="modules/project/admin/lang.js"></script>
 
-<script src="modules/projectSetting/controller.js"></script>
-<script src="modules/projectSetting/route.js"></script>
-<script src="modules/projectSetting/lang.js"></script>
+<script src="modules/noteLab/controller.js"></script>
+<script src="modules/noteLab/services.js"></script>
+<script src="modules/noteLab/route.js"></script>
+<script src="modules/noteLab/lang.js"></script>
+<script src="modules/noteLab/directives/note-info.js"></script>
+<script src="modules/noteLab/comments/controller.js"></script>
+<script src="modules/noteLab/comments/services.js"></script>
 
 <script src="modules/challenge/controller.js"></script>
 <script src="modules/challenge/route.js"></script>
 <script src="modules/challenge/lang.js"></script>
 <script src="modules/challenge/services.js"></script>
+<script src="modules/challenge/directives/challengeBlock/directives.js"></script>
 
 <script src="modules/challengeSettings/controller.js"></script>
 <script src="modules/challengeSettings/route.js"></script>
-
 
 <script src="modules/tag/controller.js"></script>
 <script src="modules/tag/route.js"></script>
 <script src="modules/tag/lang.js"></script>
 <script src="modules/tag/services.js"></script>
+<script src="modules/tag/directives/tagManager.js"></script>
 
-<script src="modules/user/controller.js"></script>
-<script src="modules/user/route.js"></script>
-<script src="modules/user/lang.js"></script>
-<script src="modules/user/users.js"></script>
+<script src="modules/profile/controller.js"></script>
+<script src="modules/profile/route.js"></script>
+<script src="modules/profile/lang.js"></script>
+<script src="modules/profile/services.js"></script>
+<script src="modules/profile/recommandations.js"></script>
+<script src="modules/profile/directives/activity/directives.js"></script>
+<script src="modules/profile/directives/userBlock/directives.js"></script>
 
 <script src="modules/admin/controller.js"></script>
 <script src="modules/admin/route.js"></script>

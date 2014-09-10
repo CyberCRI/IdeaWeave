@@ -1,35 +1,34 @@
 {
-    "name": "IdeaStorm",
-    "version": "0.0.1",
-    "description": "a collaborative tool to propose share and develo projects of all kind",
-    "author": "Charles Jacquin <charles.jacquin@autistici.org>",
-    "contributors": [{
-        "name": "Charles Jacquin",
-        "email": "charles.jacquin@autistici.org"
-    }],
-    "main": "app.js",
-    "repository": {
-    "type": "git",
-    "url": "https://github.com/CyberCRI/IdeaStorm"
-},
-"bugs": {
-    "url": "https://github.com/CyberCRI/IdeaStorm"
-},
-"keywords": [
-    "collaborative",
-    "CRI",
-    "projects"
-],
-"dependencies": {
-    "deployd":"0.7.0",
-    "dpd-email":"0.0.3",
-    "dpd-event":"0.0.2",
-    "dpd-fileupload":"CyberCRI/dpd-fileupload",
-    "jz-json":"0.0.1",
-    "jz-recommend":"0.0.1",
-    "jz-tags":"0.0.1",
-    "dpd-passport" :"0.1.1"
-},
-    "preferGlobal": true,
-    "private": true
+  "name": "IdeaStorm",
+  "description": "something",
+  "version": "0.0.1",
+  "author": "Cri",
+  "engines": {
+    "node": "0.10.x",
+    "npm": "1.4.x"
+  },
+  "dependencies": {
+    "bcryptjs": "^0.7.12",
+    "body-parser": "~1.2.0",
+    "compression": "~1.0.1",
+    "cookie-parser": "~1.1.0",
+    "express": "~4.2.0",
+    "forever": "~0.11.0",
+    "glob": "~3.2.9",
+    "grunt-cli": "~0.1.13",
+    "helmet": "~0.2.1",
+    "jwt-simple": "^0.2.0",
+    "lodash": "~2.4.1",
+    "method-override": "~1.0.0",
+    "moment": "^2.8.1",
+    "mongoose": "~3.8.8",
+    "mongoose-q": "0.0.10",
+    "morgan": "~1.1.0",
+    "multer": "^0.1.4",
+    "q": "1.0.1",
+    "request": "^2.40.0",
+    "socket.io": "1.0",
+    "nodemailer" : "1.2.1",
+    "hackpad" : "*"
+  }
 }

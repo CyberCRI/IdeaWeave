@@ -1,17 +1,18 @@
 angular.module('cri.home',[])
-.controller('HomeCtrl',['$scope','tags','$state','popularThings','loggedUser',
-    function($scope,tags,$state,popularThings,loggedUser){
-        $scope.me = loggedUser.profile;
-//        $scope.locations = positions[0].concat(positions[1])
-//        $scope.locations = $scope.locations.concat(positions[2])
+.controller('HomeCtrl',['$scope','$state','popularThings','tags','$location','$anchorScroll',
+    function($scope,$state,popularThings,tags,$location, $anchorScroll){
+        console.log(popularThings)
         $scope.challenges = popularThings.data.challenges || [];
-        $scope.challenges.splice(0,0,{intro : 2});
-        $scope.challenges.splice(0,0,{intro : 1});
+        $scope.challenges.unshift({intro : 3});
+        $scope.challenges.unshift({intro : 2});
+        $scope.challenges.unshift({intro : 1});
         $scope.projects = popularThings.data.projects || [];
 
         $scope.tags = tags;
-        $scope.showTag = function(e){
-            $state.go('tag',{title : e.text})
+
+        $scope.toSignUp = function(){
+            $location.hash('signup');
+            $anchorScroll();
         }
 
     }]);

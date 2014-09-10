@@ -9,15 +9,15 @@
                 </div>
                 <div class="col-xs-5">
                     <ui-select ng-model="user.status" theme="bootstrap" >
-                        <ui-select-match placeholder="user status">{{$select.selected.title}}</ui-select-match>
+                        <ui-select-match placeholder="user status">{{$select.selected}}</ui-select-match>
                         <ui-select-choices repeat="status in statusList">
-                            <div ng-bind="status.title"></div>
+                            <div ng-bind="status"></div>
                         </ui-select-choices>
                     </ui-select>
                 </div>
                 <div class="col-xs-3">
-                    <i class="fa fa-check my-btn" ng-click="updateStatus()"></i>
-                    <i class="fa fa-ban my-btn" ng-click="removeUser()"></i>
+                    <i class="fa fa-check my-btn" ng-click="updateStatus(user)"></i>
+                    <i class="fa fa-ban my-btn" ng-click="removeUser(user.id,$index)"></i>
                 </div>
             </div>
         </div>

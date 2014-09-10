@@ -1,0 +1,72 @@
+<section layout="vertical" class="signin-form">
+    <div ng-controller="LoginCtrl" layout="vertical">
+        <form name="signin-form" >
+            <material-input-group>
+                <label for="email">Account's Email</label>
+                <material-input id="email" type="text" ng-model="signin.email" />
+            </material-input-group>
+            <material-input-group>
+                <label for="password">Password</label>
+                <material-input id="password" type="password" ng-model="signin.password" />
+            </material-input-group>
+            <div style="margin-top:10px;">
+                <material-button class="material-button-raised" ng-click="login($event)">
+                    <span class="faa-spin animated" ng-if="loader['email']">
+                        <i class="fa fa-2x fa-spinner"></i>
+                    </span>
+                    <i class="fa fa-sign-in">Sign-in</i>
+                </material-button>
+            </div>
+            <div>
+                <material-button class="material-button-raised material-theme-orange" disabled ng-click="authenticate('twitter')">
+                    <i class="fa">Sign in with Personna (soon)</i>
+                </material-button>
+            </div>
+            <div>
+                <material-button class="material-button-raised material-theme-indigo" ng-click="authenticate('github')">
+                    <span class="faa-spin animated" ng-if="loader['github']">
+                        <i class="fa fa-2x fa-spinner"></i>
+                    </span>
+
+                    <i class="fa fa-github">Sign in with GitHub</i>
+                </material-button>
+            </div>
+            <div>
+                <material-button class="material-button-raised material-theme-red" disabled ng-click="authenticate('google')">
+                    <i class="fa fa-google">Sign in with Google (soon)</i>
+                </material-button>
+            </div>
+            <div>
+                <material-button class="material-button-raised material-theme-light-blue" disabled ng-click="authenticate('twitter')">
+                    <i class="fa fa-twitter">Sign in with twitter (soon)</i>
+                </material-button>
+            </div>
+            <br/>
+            <div>
+                <material-button ng-click="forgotPass()">
+                    Forgot your password ?
+                </material-button>
+            </div>
+        </form>
+        <div ng-if="resetPassForm" layout="vertical">
+            <div layout="horizontal" layout-align="end end">
+                <material-input-group flex>
+                    <label for="emailR">your email account</label>
+                    <material-input id="emailR" type="email" ng-model="resetPass.email" />
+                </material-input-group>
+                <i class="fa fa-2x fa-envelope my-btn"></i>
+            </div>
+            <material-input-group>
+                <label for="token">token you get by mail</label>
+                <material-input id="token" type="text" ng-model="resetPass.token" />
+            </material-input-group>
+            <div layout="horizontal" layout-align="end end">
+                <material-input-group flex>
+                    <label for="new-password">your new password</label>
+                    <material-input id="new-password" type="password" ng-model="resetPass.email" />
+                </material-input-group>
+                <i class="fa fa-2x fa-share my-btn"></i>
+            </div>
+        </div>
+    </div>
+</section>

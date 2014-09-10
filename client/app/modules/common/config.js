@@ -1,5 +1,5 @@
-angular.module('cri.config',[])
-.constant('CONFIG',{
+angular.module('cri.common',[])
+.constant('Config',{
         apiServer : "http://" + window.location.hostname + ":5011",
         socketUrl : "ideastorm.io",
         tinymceOptions : {
@@ -13,12 +13,7 @@ angular.module('cri.config',[])
             toolbar: "template styleselect fontselect fontsizeselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist | link image | forecolor backcolor fullscreen",
             image_advtab: true
         },
-        mapOptions : {
-            scrollwheel : false,
-            scaleControl : false,
-            zoomControl : false,
-            streetViewControl : false,
-            disableDoubleClickZoom : false,
-            panControl : false
-        }
-    })
+        paginateChallenge : 10,
+        paginateProject : 10,
+        activityLimit : 40
+    });

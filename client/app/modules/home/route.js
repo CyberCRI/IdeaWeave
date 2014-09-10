@@ -13,9 +13,9 @@ angular.module('cri.home')
                     tags : ['Tag',function(Tag){
                         return Tag.fetch();
                     }],
-                    popularThings : ['$http','CONFIG',function($http,CONFIG){
+                    popularThings : ['$http','Config',function($http,Config){
 
-                        return $http.get(CONFIG.apiServer+'/datas/popular');
+                        return $http.get(Config.apiServer+'/popular');
 
 
                     }]

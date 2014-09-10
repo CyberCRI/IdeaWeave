@@ -1,31 +1,11 @@
-<section style="background-color:rgb(240,241,241);">
-    <section class="row" style="min-height:400px;">
-        <div ng-bind-html="project.brief">
-
+<section style="background-color:rgb(240,241,241);" layout="vertical">
+    <section flex>
+        <div ng-bind-html="project.home">
         </div>
-        <div ng-bind-html="project.presentationDisplay">
-
-        </div>
-
     </section>
     <div class="row center" style="margin-top: 60px;padding-bottom: 30px;">
         <div class="btn-group">
             <button class="btn btn-info" ng-click="openShare()">promote</button>
-            <button class="btn btn-info" ng-if="!isFollow" ng-click="follow()">Follow</button>
-            <button class="btn btn-info" ng-if="isFollow" ng-click="unfollow(project.id)">unfollow</button>
         </div>
     </div>
-</section>
-<section class="container-fluid">
-    <h2 ng-if="project.followers.length > 0">
-        Followers
-    </h2>
-    <user-block ng-repeat="follower in project.followers" user-id="follower" class="col-xs-4 col-sm-3 col-md-2 col-lg-1">
-    </user-block>
-    <br/>
-    <h2 ng-if="project.member.length > 0">
-        Members
-    </h2>
-    <user-block ng-repeat="member in project.member" user-id="member" class="col-xs-4 col-sm-3 col-md-2 col-lg-1">
-    </user-block>
 </section>

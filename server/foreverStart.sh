@@ -10,6 +10,6 @@ cd $DIR
 mkdir -p logs
 
 # Run forever as daemon, keeping logs 
-forever start -a -l $DIR/logs/forever.log -o $DIR/logs/out.log -e $DIR/logs/error.log --minUptime=10000 --spinSleepTime=10000 $DIR/app.js
+NODE_ENV=production forever start -a -l $DIR/logs/forever.log -o $DIR/logs/out.log -e $DIR/logs/error.log --minUptime=10000 --spinSleepTime=10000 $DIR/server.js
 
 popd 

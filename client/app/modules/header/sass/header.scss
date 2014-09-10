@@ -1,0 +1,39 @@
+.search-bar{
+  z-index : 1000;
+  .result-item{
+    showtags : {
+      font-size : 0.6em;
+    }
+  }
+}
+
+.plus-icon{
+  cursor: pointer;
+}
+
+.profile-menu{
+  material-button{
+    width:100%;
+    margin-left : 10px;
+    text-align : right;
+    padding-right : 15px;
+  }
+}
+
+
+.hidden{
+  display: none;
+}
+
+.img-rounded{
+  border-radius : 100%;
+}
+
+.menu {
+  material-button {
+    width: 100%;
+    margin-left: 10px;
+    text-align: right;
+    padding-right: 15px;
+  }
+}

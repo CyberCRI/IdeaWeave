@@ -1,0 +1,33 @@
+<material-whiteframe class="material-whiteframe-z1" layout="vertical" layout-align="" style="width:80%;height:60%; position:relative;">
+    <material-toolbar layout="horizontal" layout-align="start end" style="text-align:right;">
+        <div layout="horizontal">
+            <div flex></div>
+            <div class="faa-spin animated" ng-if="isUploding">
+                <i class="fa fa-spinner fa-2x"></i>
+            </div>
+            <div  ng-if="file">
+                <i  class="fa fa-cloud-upload fa-2x my-btn" ng-click="upload(file,file.description)" class="btn btn-default">
+                </i>
+                <i ng-click="cancelUpload()" class="fa fa-2x fa-ban my-btn" tooltip="Cancel">
+                </i>
+            </div>
+            <i class="fa fa-times fa-2x my-btn" ng-click="cancel()"></i>
+        </div>
+    </material-toolbar>
+    <!--<img src="images/loader.gif" alt="" style="position:absolute;top:40%;left:40%;right:40%;bottom:40%;" />-->
+
+    <div class="dropbox"
+         ng-file-drop="fileSelected($files)"
+         ng-file-drag-over-class="dropbox-dragover"
+         style="background-image:url({{ fileUrl }});background-repeat:no-repeat;background-size:contain;background-position:right;" flex>
+        <div>
+            <input ng-if="!file" type="file" ng-file-select="fileSelected($files)"/>
+        </div>
+        <!--<img ng-src="{{ fileUrl }}"  ng-show="fileUrl" width="100%"/>-->
+        <material-input-group ng-if="file">
+            <label for="fileDescription">file description...</label>
+            <material-input id="fileDescription" type="text"  ng-model="file.description" style="width:100%"/>
+        </material-input-group>
+    </div>
+
+</material-whiteframe>

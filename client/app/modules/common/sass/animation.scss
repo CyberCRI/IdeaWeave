@@ -1,0 +1,10 @@
+@mixin anim($prop) {
+  -webkit-animation: $prop;
+  animation: $prop;
+}
+
+.rotation{
+  &.ng-enter{
+    @include anim(flipInX 1s)
+  }
+}

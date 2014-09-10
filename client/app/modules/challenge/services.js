@@ -1,26 +1,41 @@
 angular.module('cri.challenge')
-.factory('Challenge',['$http','$q','$upload','CONFIG',function($http,$q,$upload,CONFIG){
+.factory('Challenge',['$http','$q','$upload','Config',function($http,$q,$upload,Config){
         var URI = '/challenges';
         var service  = {
-
-            getFollowers : function(followers){
+            getTemplates :function(id){
                 var defered = $q.defer();
-                var param = angular.toJson(followers);
-                $http.get(CONFIG.apiServer+'/followers?users='+param).success(function(data){
+                $http.get(Config.apiServer+'/challenge/template/'+id).success(function(data){
                     defered.resolve(data);
                 }).error(function(err){
                     defered.reject(err);
                 });
                 return defered.promise;
             },
-            fetch : function(param,id,search){
+            createTemplate : function(id,template){
                 var defered = $q.defer();
-                var url = CONFIG.apiServer+URI;
+                $http.post(Config.apiServer+'/challenge/template/'+id,template).success(function(data){
+                    defered.resolve(data);
+                }).error(function(err){
+                    defered.reject(err);
+                });
+                return defered.promise;
+            },
+            getByTag : function(tag,param){
+                var defered = $q.defer();
+                $http.get(Config.apiServer+URI+'/tag/'+tag,{
+                    params : param
+                }).success(function(data){
+                    defered.resolve(data);
+                }).error(function(err){
+                    defered.reject(err);
+                });
+                return defered.promise;
+            },
+            fetch : function(param,id){
+                var defered = $q.defer();
+                var url = Config.apiServer+URI;
                 if(id){
                     url += '/'+id;
-                }
-                if(search){
-                    url += '?'+JSON.stringify(search)
                 }
                 $http.get(url,{
                     params : param
@@ -33,8 +48,7 @@ angular.module('cri.challenge')
             },
             create : function(newChallenge){
                 var defered = $q.defer();
-                $http.post(CONFIG.apiServer+URI,newChallenge).success(function(data){
-                    service.data = data;
+                $http.post(Config.apiServer+URI,newChallenge).success(function(data){
                     defered.resolve(data);
                 }).error(function(err){
                     defered.reject(err);
@@ -43,8 +57,7 @@ angular.module('cri.challenge')
             },
             update : function(id,challenge){
                 var defered = $q.defer();
-                $http.put(CONFIG.apiServer+URI+'/'+id,challenge).success(function(data){
-                    service.data = data;
+                $http.put(Config.apiServer+URI+'/'+id,challenge).success(function(data){
                     defered.resolve(data);
                 }).error(function(err){
                     defered.reject(err);
@@ -53,25 +66,31 @@ angular.module('cri.challenge')
             },
             remove : function(id){
                 var defered = $q.defer();
-                $http.delete(CONFIG.apiServer+URI+'/'+id).success(function(data){
+                $http.delete(Config.apiServer+URI+'/'+id).success(function(data){
                     defered.resolve(data);
                 }).error(function(err){
                     defered.reject(err);
                 });
                 return defered.promise;
             },
-            follow : function(challengeId){
+            follow : function(follower,following){
                 var defered = $q.defer();
-                $http.post(CONFIG.apiServer + '/datas/follow/challenges/' + challengeId).success(function(data){
+                $http.post(Config.apiServer + '/challenges/follow',{
+                    follower : follower,
+                    following : following
+                }).success(function(data){
                     defered.resolve(data);
                 }).error(function(err){
                     defered.reject(err);
                 });
                 return defered.promise;
             },
-            unfollow : function(challengeId){
+            unfollow : function(follower,following){
                 var defered = $q.defer();
-                $http.post(CONFIG.apiServer + '/datas/unfollow/challenges/' + challengeId).success(function(data){
+                $http.post(Config.apiServer + '/challenges/unfollow',{
+                    follower : follower,
+                    following : following
+            }).success(function(data){
                     defered.resolve(data);
                 }).error(function(err){
                     defered.reject(err);
@@ -80,7 +99,7 @@ angular.module('cri.challenge')
             },
             getFollowing : function(userId){
                 var defered = $q.defer();
-                $http.get(CONFIG.apiServer+'/datas/fChallenges/'+userId).success(function(data){
+                $http.get(Config.apiServer+'/datas/fChallenges/'+userId).success(function(data){
                     defered.resolve(data);
                 }).error(function(err){
                     defered.reject(err);
@@ -89,7 +108,7 @@ angular.module('cri.challenge')
             },
             getContributed : function(userId){
                 var defered = $q.defer();
-                $http.get(CONFIG.apiServer+'/datas/conChallenges/'+userId).success(function(data){
+                $http.get(Config.apiServer+'/datas/conChallenges/'+userId).success(function(data){
                     defered.resolve(data);
                 }).error(function(err){
                     defered.reject(err);
@@ -98,7 +117,7 @@ angular.module('cri.challenge')
             },
             getMessage : function(challengeId){
                 var defered = $q.defer();
-                $http.get(CONFIG.apiServer+'/chat',{
+                $http.get(Config.apiServer+'/chat',{
                     params : {
                         container : challengeId
                     }
@@ -111,7 +130,7 @@ angular.module('cri.challenge')
             },
             postMessage : function(message){
                 var defered = $q.defer();
-                $http.post(CONFIG.apiServer+'/chat',message).success(function(data){
+                $http.post(Config.apiServer+'/chat',message).success(function(data){
                     defered.resolve(data);
                 }).error(function(err){
                     defered.reject(err);

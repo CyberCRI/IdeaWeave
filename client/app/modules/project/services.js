@@ -1,59 +1,68 @@
 angular.module('cri.project')
-    .service('Project',['$http','$q','$upload','CONFIG', function($http,$q,$upload,CONFIG){
+    .service('Project',['$http','$q','$upload','Config', function($http,$q,$upload,Config){
 
     var service = {
-        current : {},
-        getAssociatedFiles : function(id,poster){
+        getByTag : function(tag,param){
             var defered = $q.defer();
-            if(poster && id){
-                var url = CONFIG.apiServer+'/upload?project='+id+'&poster='+true
-            }else if(id){
-                var url = CONFIG.apiServer+'/upload?project='+id;
-            }else{
-                var url = CONFIG.apiServer+'/upload?posters='+true
-            }
-            $http.get(url)
-                .success(function(data){
-                    defered.resolve(data);
-                })
-                .error(function(err){
-                    defered.reject(err);
-                })
+            $http.get(Config.apiServer+'/projects/tag/'+tag,{
+                params : param
+            }).success(function(data){
+                defered.resolve(data);
+            }).error(function(err){
+                defered.reject(err);
+            });
+            return defered.promise;
+        },
+        fetchUrls : function(id){
+            var defered = $q.defer();
+            $http.get(Config.apiServer+'/project/urls/'+id).success(function(data){
+                defered.resolve(data);
+            }).error(function(err){
+                defered.reject(err);
+            });
+            return defered.promise;
+        },
+        fetchFiles : function(id){
+            var defered = $q.defer();
+            $http.get(Config.apiServer+'/project/files/'+id).success(function(data){
+                defered.resolve(data);
+            }).error(function(err){
+                defered.reject(err);
+            });
             return defered.promise;
         },
         update : function(id,param){
             var defered = $q.defer(),
-                url = CONFIG.apiServer + '/projects';
-            if(id){
-                url += '/'+id;
-            }
-            $http.put(url,JSON.stringify(param)).success(function(){
+                url = Config.apiServer + '/projects/'+id;
+            $http.put(url,param).success(function(){
                 defered.resolve();
             }).error(function(err){
                 defered.reject(err);
-            })
+            });
+            return defered.promise;
+        },
+        getByChallenge : function(challengeId){
+            var defered = $q.defer();
+            $http.get(Config.apiServer+'/projects/challenge/'+challengeId).success(function(data){
+                defered.resolve(data);
+            }).error(function(err){
+                defered.reject(err);
+            });
             return defered.promise;
         },
         fetch :function(param){
-            var defered = $q.defer();
-            var url = CONFIG.apiServer+'/projects';
-//            if(param){
-//                url += '?'+ JSON.stringify(param);
-//            }
-           $http.get(url,{
-               params : param
-           })
-                .success(function(data){
-                    defered.resolve(data);
-                })
-                .error(function(err){
-                   defered.reject(err);
-                })
+            var defered = $q.defer(),
+                url = Config.apiServer+'/projects';
+            $http.get(url,{params : param}).success(function(data){
+                defered.resolve(data);
+            }).error(function(err){
+                defered.reject(err);
+            });
             return defered.promise;
         },
         create : function(project){
             var defered = $q.defer();
-            $http.post(CONFIG.apiServer + '/projects', project)
+            $http.post(Config.apiServer + '/projects', project)
                 .success(function (data) {
                     service.data = data;
                     defered.resolve(data)
@@ -64,140 +73,100 @@ angular.module('cri.project')
                 });
             return defered.promise;
         },
-        follow : function(projectId){
+        follow : function(param){
             var defered = $q.defer();
-            $http.post(CONFIG.apiServer + '/datas/follow/project/' + projectId).success(function(data){
+            $http.post(Config.apiServer + '/project/follow',param).success(function(data){
                 defered.resolve(data);
             }).error(function(err){
                 defered.reject(err);
-            })
+            });
             return defered.promise;
         },
-        unfollow : function(projectId){
+        unfollow : function(param){
             var defered = $q.defer();
-            $http.post(CONFIG.apiServer + '/datas/unfollow/project/' + projectId).success(function(data){
+            $http.post(Config.apiServer + '/project/unfollow',param).success(function(data){
                 defered.resolve(data);
             }).error(function(err){
                 defered.reject(err);
-            })
+            });
             return defered.promise;
         },
         apply : function(param){
             var defered = $q.defer();
-            $http.post(CONFIG.apiServer+'/applyteams',param).success(function(data){
+            $http.post(Config.apiServer+'/project/team/apply',param).success(function(data){
                 defered.resolve(data);
             }).error(function(err){
                 defered.reject(err);
-            })
+            });
             return defered.promise;
         },
         getApply : function(param){
             var defered = $q.defer();
-            var url = CONFIG.apiServer+'/applyteams?'+ JSON.stringify(param);
-            $http.get(url)
-                .success(function(data){
-                    defered.resolve(data);
-                })
-                .error(function(err){
-                    defered.reject(err);
-                })
+            $http.get(Config.apiServer+'/project/team/apply',{
+                params : param
+            }).success(function(data){
+                defered.resolve(data);
+            }).error(function(err){
+                defered.reject(err);
+            });
             return defered.promise;
         },
         finishApply : function(param, id){
             var defered = $q.defer();
-            $http.put(CONFIG.apiServer+'/applyteams/'+id,param).success(function(data){
+            $http.put(Config.apiServer+'/project/apply/'+id,param).success(function(data){
                 defered.resolve(data);
             }).catch(function(err){
                 defered.reject(err);
-            })
+            });
             return defered.promise;
         },
-        uploadPoster : function(file){
+        addToTeam : function(projectId,param){
             var defered = $q.defer();
-            $upload.upload({
-                url: CONFIG.apiServer+'/upload?subdir=project&project='+service.data.id,
-                method: 'POST',
-                file: file
-            }).success(function(data, status, headers, config) {
-                service.data.poster = CONFIG.apiServer+'/fileUpload/project/'+data[0].filename
-                $http.put(CONFIG.apiServer+'/projects',service.data)
-                    .success(function(data){
-                        defered.resolve(data);
-                    })
-                    .error(function(err){
-                        defered.reject(err);
-                    })
-            })
-            return defered.promise;
-        },
-        getFollowing : function(userId){
-            var defered = $q.defer();
-            $http.get(CONFIG.apiServer+'/datas/fProjects/'+userId).success(function(data){
+            $http.put(Config.apiServer+'/project/add/'+projectId,param).success(function(data){
                 defered.resolve(data);
-            }).error(function(err){
+            }).catch(function(err){
                 defered.reject(err);
-            })
+            });
             return defered.promise;
         },
-        getContributed : function(userId){
+        banMember : function(projectId,param){
             var defered = $q.defer();
-            $http.get(CONFIG.apiServer+'/datas/conProjects/'+userId).success(function(data){
+            $http.put(Config.apiServer+'/project/ban/'+projectId,param).success(function(data){
                 defered.resolve(data);
-            }).error(function(err){
+            }).catch(function(err){
                 defered.reject(err);
-            })
+            });
             return defered.promise;
         },
         delete : function(id){
             var defered = $q.defer();
-            $http.delete(CONFIG.apiServer+'/projects/'+id).success(function(data){
+            $http.delete(Config.apiServer+'/projects/'+id).success(function(data){
                 defered.resolve(data);
             }).error(function(err){
                 defered.reject(err);
-            })
+            });
             return defered.promise;
         },
         sendInvite : function(invite){
             var defered = $q.defer();
-            $http.post(CONFIG.apiServer+'/invites',invite).success(function(data){
+            $http.post(Config.apiServer+'/project/invites',invite).success(function(data){
                 defered.resolve(data);
             }).error(function(err){
                 defered.reject(err);
-            })
+            });
             return defered.promise;
         },
         join : function(projectId){
             var defered = $q.defer();
-            $http.post(CONFIG.apiServer+'/datas/joinTeam/'+projectId).success(function(data){
+            $http.post(Config.apiServer+'/datas/joinTeam/'+projectId).success(function(data){
                 defered.resolve(data);
             }).error(function(err){
                 defered.reject(err);
-            })
+            });
             return defered.promise;
-        },
-        parseUrl : function(string){
-            var re_weburl = new RegExp(
-                "^" +
-                "(?:(?:https?|ftp)://)" +
-                "(?:\\S+(?::\\S*)?@)?" +
-                "(?:" +
-                "(?!(?:10|127)(?:\\.\\d{1,3}){3})" +
-                "(?!(?:169\\.254|192\\.168)(?:\\.\\d{1,3}){2})" +
-                "(?!172\\.(?:1[6-9]|2\\d|3[0-1])(?:\\.\\d{1,3}){2})" +
-                "(?:[1-9]\\d?|1\\d\\d|2[01]\\d|22[0-3])" +
-                "(?:\\.(?:1?\\d{1,2}|2[0-4]\\d|25[0-5])){2}" +
-                "(?:\\.(?:[1-9]\\d?|1\\d\\d|2[0-4]\\d|25[0-4]))" +
-                "|" +
-                "(?:(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)" +
-                "(?:\\.(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)*" +
-                "(?:\\.(?:[a-z\\u00a1-\\uffff]{2,}))" +
-                ")" +
-                "(?::\\d{2,5})?" +
-                "(?:/[^\\s]*)?" +
-                "$", "i"
-            );
         }
-    }
+
+    };
 
     return service;
 }])

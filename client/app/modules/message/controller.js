@@ -14,7 +14,7 @@ angular.module('cri.message',[])
             $state.go('message.send');
         }
     }])
-.controller('SendMessagesCtrl',['$scope','Message','Notification','CONFIG',function($scope,Message,Notification,CONFIG){
+.controller('SendMessagesCtrl',['$scope','Message','Notification','Config',function($scope,Message,Notification,Config){
 
 
 
@@ -54,6 +54,6 @@ angular.module('cri.message',[])
             })
         }
 
-        $scope.tinymceOptions = CONFIG.tinymceOptions;
+        $scope.tinymceOptions = Config.tinymceOptions;
 
     }])

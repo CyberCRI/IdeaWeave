@@ -1,0 +1,50 @@
+<section layout="vertical">
+    <div layout="horizontal" layout-align="start center">
+        <div flex>
+            <material-button class="material-button-fab" ng-click="popUpComment($event)" ng-if="currentUser">
+                <material-icon class="fa fa-comment-o fa-2x" style="width: 24px; height: 24px;"></material-icon>
+            </material-button>
+        </div>
+        <div>
+            <material-button  ng-click="showComment()">{{ 'BTN_COMMENT' | translate }}({{comments.length}})</material-button>
+        </div>
+    </div>
+</section>
+<section class="comments">
+    <material-list ng-if="commentsShow">
+        <div ng-repeat="comment in comments track by $index">
+            <material-item  ng-if="!comment.parent">
+                <div class="material-tile-left" style="width:120px;">
+                    <user-block user-id="comment.owner" style="width:50px;"></user-block>
+                </div>
+                <div class="material-tile-content" flex>
+                    <section layout="horizontal">
+                        <div ng-bind-html="comment.displayText" flex></div>
+                        <span class="text-muted">{{comment.createDate|timeago}}</span>
+                    </section>
+                    <section layout="horizontal" layout-align="start center">
+                        <div flex>
+                            <material-button class="material-button-fab"  ng-click="popUpComment($event,true,comment._id)"  ng-if="currentUser">
+                                <material-icon class="fa fa-comment-o fa-2x" style="width: 24px; height: 24px;"></material-icon>
+                            </material-button>
+                        </div>
+                        <div>
+                            <material-button  ng-click="showAnswer($index)">answers({{ comment.answer.length }})</material-button>
+                        </div>
+                    </section>
+                </div>
+            </material-item>
+            <material-list ng-if="answers[$index]">
+                <material-item ng-repeat="answer in comment.answer track by $index" ng-if="comment.answer" style="padding-left:50px">
+                    <div class="material-tile-left">
+                        <user-block user-id="answer.owner" style="width:30px;"></user-block>
+                    </div>
+                    <div class="material-tile-content" >
+                        <div class="pam" ng-bind-html="answer.displayText" flex></div>
+                    </div>
+                </material-item>
+            </material-list>
+        </div>
+
+    </material-list>
+</section>

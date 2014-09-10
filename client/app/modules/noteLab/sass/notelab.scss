@@ -1,0 +1,50 @@
+$ownerColor : #b2c9bc;
+$memberColor : #e0ffda;
+$followerColor : #faffc1;
+$visitorColor : #fff4f4;
+
+
+.list-resource {
+  max-height:200px;
+  overflow-y:auto;
+  padding-right:20px;
+  padding-left:20px;
+}
+
+material-tabs{
+  padding-left : 30px;
+}
+
+.owner-topic {
+  background: $ownerColor;
+}
+
+.follower-topic{
+  background: $followerColor;
+}
+
+.visitor-topic{
+  background: $visitorColor;
+}
+
+.member-topic{
+  background : $memberColor;
+}
+
+.dropbox{
+  min-height : 70px;
+  max-height : 300px;
+  width : 70%;
+  margin: auto;
+  border : 1px #828282 solid;
+  -webkit-transition: height 0.5s;
+  -moz-transition: height 0.5s;
+  -ms-transition: height 0.5s;
+  -o-transition: height 0.5s;
+  transition: height 0.5s;
+}
+
+.dropbox-dragover{
+  border : 1.5px #828282 dashed;
+  height : 300px;
+}

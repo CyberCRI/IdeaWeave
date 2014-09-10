@@ -1,0 +1,53 @@
+<material-content layout="vertical" layout-sm="horizontal">
+    <material-sidenav class="material-sidenav-left material-whiteframe-z2 left" component-id="left">
+        <material-content style="padding-left: 20px;" layout="vertical" >
+            <material-toolbar layout="horizontal">
+                <div class="material-toolbar-tools">
+                    <i class="fa fa-caret-left fa-2x my-btn" hide-md style="color:black;" ng-click="toggle()" flex></i>
+                    <div>
+                        <i class="fa fa-user"> publication</i>
+                    </div>
+                </div>
+            </material-toolbar>
+            <blockquote>
+                Welcome to your workspace, here you can edit notes with your team and then publish it to the world .
+            </blockquote>
+            <blockquote>
+                You can share urls or files for a notes.
+            </blockquote>
+            <material-button class="material-button-raised" ng-click="popUpTopic($event)">Create a new note</material-button>
+            <ui-select ng-model="tf.type" theme="selectize" style="width: 100%;">
+                <ui-select-match placeholder="Filter by type ...">
+                    <i class="fa fa-2x" ng-class="{'fa-comments' : $select.selected.id == 1,'fa-tasks' : $select.selected.id == 2, 'fa-flask' : $select.selected.id == 3,'fa-graduation-cap':$select.selected.id == 4 }"></i>
+                    {{$select.selected.title}}
+                </ui-select-match>
+                <ui-select-choices repeat="category in categories" >
+                    <div layout="horizontal" ng-click="filterTopics(category.id)" >
+                        <i class="fa fa-2x" ng-class="{'fa-comments' : category.id == 1,'fa-tasks' : category.id == 2, 'fa-flask' : category.id == 3,'fa-graduation-cap':category.id == 4 }"></i>
+                        <span ng-bind-html="category.title | highlight: $select.search" flex></span>
+                    </div>
+                </ui-select-choices>
+            </ui-select>
+            <material-content style="max-height:200px;">
+                <material-list>
+                    <material-item ng-repeat="note in notes | filter:search track by note._id">
+                        <div class="material-tile-left">
+                            <i class="fa fa-2x" ng-class="{'fa-comments' : note.type == 1,'fa-tasks' : note.type == 2, 'fa-flask' : note.type == 3,'fa-graduation-cap':note.type == 4 }"></i>
+                        </div>
+                        <div class="material-tile-content">
+                            <material-button style="width:100%;"   ui-route="/project/{{ projectId }}/notelab/{{ note._id }}"  ng-class="{ 'material-button-colored' : topicId == note._id }" ui-sref="project.noteLab.details.discussion({ tid : note._id })" layout="horizontal" layout-align="start">
+                                <span ng-bind="note.title"></span>
+                            </material-button>
+                        </div>
+                        <div class="material-tile-right">
+                            <user-block user-id="note.owner" height="'50px'" width="'50px'" style="height:60px !important; margin:auto auto;"></user-block>
+                        </div>
+                    </material-item>
+                </material-list>
+            </material-content>
+        </material-content>
+    </material-sidenav>
+    <div ui-view="topicView" style="width:100%;" class="right-part">
+
+    </div>
+</material-content>

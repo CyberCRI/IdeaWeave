@@ -1,122 +1,97 @@
 <!-- first section - Home -->
-<section style="width:100%; height:100%;">
-    <ul rn-carousel rn-carousel-indicator="" rn-carousel-control=""  style="height:100%;">
-        <li class="list-carousel-challenge" ng-repeat="challenge in challenges" ng-style="{backgroundImage : 'url(images/carousel/fond' +$index+ '.png)', position : 'relative'}" style="height: 100%;">
-            <section class="carousel-body center" ng-if="challenge.intro == 1" style="height:100%;position:relative">
-                <hgroup  style="position:absolute; top:0;bottom:0; right:0;left:0;  margin: auto;height : 200px;color:white;">
-                    <h1 class="center">
-                        IdeaStorm
-                    </h1>
-                    <h2 class="center">
-                        IdeaStorm is a platform for exchanging ideas and forming groups around exciting projects to solve problems.
-                    </h2>
-                    <p style="font-size:1.5em;">
-                        Organizations or individuals pose challenges, which are like competitions, and people suggest projects that meet this challenge. Anyone can follow and join a project to help develop it.
-                    </p>
-                </hgroup>
-                <div style="position : absolute; bottom : 50px; left : 35%; right: 35%;width:30%;" class="center">
-                    <a class="btn btn-info btn-block" href="#signin" ng-if="!me">Join us</a>
+<material-content style="height:100%;">
+    <ul rn-carousel rn-carousel-indicator="" rn-carousel-control="">
+        <!--ng-style="{backgroundImage : 'url(images/carousel/fond' +$index+ '.png)'}"-->
+        <li class="list-carousel-challenge" ng-repeat="challenge in challenges"  style="height: 100%;" >
+
+            <section class="carousel-body" id="firstSlide" ng-if="challenge.intro == 1" layout="vertical" layout-align="start center" style="height:100%;">
+                <h1 class="center" style="font-size: 3em;">
+                    IdeaWeaves
+                </h1>
+                <section layout="vertical" layout-md="horizontal" >
+                    <article >
+                        <p>
+                            IdeaWeaves is a platform for exchanging ideas and forming groups around exciting projects to solve problems.
+                        </p>
+                    </article>
+                    <div hide block-md flex-md="20">
+
+                    </div>
+                    <article layout layout-align="start end" >
+                        <p>
+                            Organizations or individuals pose challenges, which are like competitions, and people suggest projects that meet this challenge. Anyone can follow and join a project to help develop it.
+                        </p>
+
+                    </article>
+                </section>
+                <d3-tag-cloud hide block-md  tags="tags" on-click="showTag(item)" options="{ width : 900,height : 300,center : true}" ></d3-tag-cloud>
+                <div>
+                    <material-button ng-click="toSignUp()" ng-if="!currentUser" class="material-button-raised material-button-colored">Join us</material-button>
                 </div>
             </section>
-            <section class="carousel-body" ng-if="challenge.intro == 2" style="height:100%;position:relative">
-                <article style="position:absolute; top:0;bottom:0;  margin: auto;height : 200px;">
+            <section class="carousel-body" ng-if="challenge.intro == 2"  layout="vertical" layout-align="center center">
+                <article>
                     <p style="text-align: center; font-size:2em;">
                         You would like to showcase your project to a growing public in order to find supporters, get advice from experts or simply test if you are communicating comprehensively?
-                        Ideastorm provides you with a dedicated space and feedback tools that are easy to use.
-                    </p>
-                    <br/>
-                    <p class="center" style="font-size:1.5em">
-                        You can check our most popular challenges ==>
+                        Ideaweaves provides you with a dedicated space and feedback tools that are easy to use.
                     </p>
                 </article>
-                <div style="position : absolute; bottom : 50px; left : 35%; right: 35%;width:30%;" class="center">
-                    <a class="btn btn-info btn-block" href="#signin" ng-if="!me">Join us</a>
+            </section>
+            <section  layout="vertical"  class="carousel-body" ng-if="challenge.intro == 3">
+                <h2 class="center">Ideastorm provides a simple collaborative working environment, the possibility to organise and archive discussions, a clear visibility on the taks to be performed and the resources needed.</h2> <hr />
+                <div layout="vertical" layout-md="horizontal" layout-align="center center">
+                    <div layout="vertical" flex-md>
+                        <div class="center">
+                            <i class="fa fa-lightbulb-o fa-5x"> </i>
+                            <h4>Innovation</h4>
+                            <p >Organizations or individuals pose challenges, which are like competitions, and people suggest projects that meet this challenge. Anyone can follow and join a project to help develop it.
+                            </p>
+                            <p>
+                                An open Api (read more on github...)
+                            </p>
+
+                        </div>
+                    </div>
+
+                    <div layout="vertical" flex-md class="center">
+                        <i class="fa fa-users fa-5x"> </i>
+                        <h4>Team Work</h4>
+                        <p>You and your team want to collaborate effectively without sending back and forth millions of e-mails and documents ?
+                        </p>
+                        Numerous collaboration tools : HackPad, GoogleDrive...
+                    </div>
                 </div>
             </section>
-            <section style="height:100%;position:relative" nf-if="!challenge.intro" class="carousel-body" >
+            <section style="height:100%;" ng-if="$index > 2" class="carousel-body" >
                 <article >
-                    <h1 class="center center-vertical ">
+                    <h1 class="center">
                         <a ui-sref="challenge.details({ pid : challenge.accessUrl })">{{challenge.title}}</a>
                     </h1>
-                    <p class="carousel-brief"  ng-bind-html="challenge.brief">
+                    <showtags entity="challenge"></showtags>
+                    <p class="carousel-brief"  ng-bind-html="challenge.home">
                     </p>
-                    <div showtags="" entity="challenge" style="position:absolute; bottom : 10px; right:50px;"></div>
-                    <div style="position : absolute; bottom : 50px; left : 35%; right: 35%;width:30%;" class="center">
-                        <a class="btn btn-info btn-block" ui-sref="challenges" ng-if="!me">See more challenges</a>
+
+
+                    <div layout="horizontal">
+                        <material-button ui-sref="challenge({pid : challenge.accessUrl})" class="material-button-raised material-button-colored">Take a look</material-button>
+                        <material-button ui-sref="challenges.list({tag : 'all'})" class="material-button-raised material-button-colored">See more challenges</material-button>
                     </div>
                 </article>
             </section>
         </li>
     </ul>
-</section>
-<section class="service-image">
-    <section id="services" class="pad-section">
-        <div class="container">
-            <h2 class="text-center">Ideastorm provides a simple collaborative working environment, the possibility to organise and archive discussions, a clear visibility on the taks to be performed and the resources needed.</h2> <hr />
-            <div class="row text-center">
-                <div class="col-sm-3 col-xs-12">
-                    <i class="fa fa-lightbulb-o fa-5x"> </i>
-                    <h4>Innovation</h4>
-                    <p>Organizations or individuals pose challenges, which are like competitions, and people suggest projects that meet this challenge. Anyone can follow and join a project to help develop it.
-                    </p>
-                </div>
-                <div class="col-md-6 visible-md visible-lg visible-md"  >
-                    <d3-tag-cloud tags="tags" on-click="showTag(item)" options="{ width : 500,height : 300,center : true}" ></d3-tag-cloud>
-                </div>
-                <div class="col-sm-3 col-xs-12">
-                    <i class="fa fa-users fa-5x"> </i>
-                    <h4>Team Work</h4>
-                    <p>You and your team want to collaborate effectively without sending back and forth millions of e-mails and documents ?
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-    <section class="container home-project-container" ng-if="projects.length >= 3">
-        <h2 class="center" style="color:white;">Popular Projects</h2>
-        <div class="col-sm-6 col-md-4 col-lg-3" ng-repeat="project in profile.projects">
-            <div class="thumbnail">
-                <img ng-src="{{project.poster || 'http://placehold.it/300x300'}}" alt="..." width="100%">
-                <article class="caption">
-                    <h1>{{ project.title }}</h1>
-                    <p class="text-muted">
-                        By :
-                        <span class="text-muted" user-info="project.owner"></span>
-                    </p>
-                    <p class="text-muted" ng-bind-html="project.brief" style="max-height:200px;overflow:auto;"></p>
-                    <showtags entity="project">
-                    </showtags>
-                    <div class="row">
-                        <div class="col-xs-4">
-                            <div>
-                                {{ project.followers.length }}
-                            </div>
-                            <p class="text-muted">
-                                Followers
-                            </p>
-                        </div>
-                        <div class="col-xs-4">
 
-                        </div>
-                        <div class="col-xs-4">
-                            <div>
-                                {{ project.member.length }}
-                            </div>
-                            <p class="text-muted">
-                                Member
-                            </p>
-                        </div>
-                    </div>
-                </article>
-            </div>
-        </div>
-    </section>
-</section>
-<section class="row" id="signin">
-    <div class="signin-container">
-        <ng-include src="'modules/account/templates/signup.tpl.html'">
+    <article  ng-if="projects.length >= 3">
+        <h1 class="center" >Popular Projects</h1>
+        <section style="text-align: center">
+            <project-card style="text-align: left;" ng-repeat="project in projects" my-project="project" inline-block>
 
-        </ng-include>
-    </div>
-</section>
-<div ng-include id="footer" src="'modules/footer/templates/footer.tpl.html'"></div>
+            </project-card>
+        </section>
+
+
+    </article>
+    <ng-include id="signup" src="'modules/auth/templates/signup.tpl.html'"></ng-include>
+    <ng-include src="'modules/footer/templates/footer.tpl.html'"></ng-include>
+
+</material-content>

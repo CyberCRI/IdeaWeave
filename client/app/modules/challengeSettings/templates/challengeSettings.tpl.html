@@ -1,92 +1,108 @@
-<!--<material-tabs selected="selectedTabIndex" class="material-theme-light-blue">-->
-    <!--<material-tab ui-sref="challengeSettings.basic" label="<i class='fa fa-list fa-2x'></i>" class="material-theme-light-blue">-->
-    <!--</material-tab>-->
-    <!--<material-tab ui-sref="challengeSettings.poster" label="<i class='fa fa-file fa-2x'></i>" class="material-theme-light-blue">-->
-    <!--</material-tab>-->
-<!--</material-tabs>-->
-<!--<section ui-view="settingView" class=" container"  style="height:100%">-->
 
-<!--</section>-->
-
-
-<tabset justified="true">
-    <tab>
-        <tab-heading>
-            <i class='fa fa-list fa-2x'></i>
-        </tab-heading>
-        <h2 class="center">
-            Edit Basic Information
-        </h2>
-        <section class="container">
-            <form class="form-horizontal" name="projectBasic" role="form">
-                <div class="form-group">
-                    <label  class="col-sm-2 col-xs-12 control-label">Title:</label>
-                    <div class="col-sm-10 col-xs-12">
-                        <input type="text" name="title" ng-model="challenge.title" class="form-control" ng-minlength="2">
+    <material-content layout="horizontal layout-fill">
+        <material-sidenav class="material-sidenav-left material-whiteframe-z2 left" layout-fill component-id="left">
+            <material-content style="padding-left: 20px;" layout="vertical" layout-fill>
+                <material-toolbar layout="horizontal">
+                    <div class="material-toolbar-tools">
+                        <i class="fa fa-caret-left fa-2x my-btn" hide-md style="color:black;" ng-click="toggle()" flex></i>
+                        <div>
+                            <i class="fa fa-trophy">Edition</i>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label  class="col-sm-2 col-xs-12 control-label">Brief:</label>
-                    <div class="col-sm-10 col-xs-12">
-                        <textarea ui-tinymce="tinymceOptions" ng-model="challenge.brief" ></textarea>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label  class="col-sm-2 col-xs-12 control-label">Tags</label>
-                    <div class="col-sm-10 col-xs-12">
-                        <div class="tag-manager" entity="challenge" ng-model="challenge.tags"></div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label  class="col-sm-2 col-xs-12 control-label">Presentation</label>
-                    <div class="col-sm-10 col-xs-12">
-                        <div ui-ace="{mode : 'html'}" ng-model="challenge.presentation"  style="width:100%;height:100px" rows="5"></div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10 col-xs-12">
-                        <button type="submit" class="btn btn-success" ng-disabled="project.$invalid"  ng-click="updateChallenge()">Publish</button>
-                    </div>
-                </div>
+                </material-toolbar>
+                <section layout="vertical" flex-md>
+                    <material-button ng-click="popUpPoster($event)" class="material-button-raised">
+                        Edit Poster
+                    </material-button>
+                    <material-button class="material-button-raised" style="width:100%;" ng-click="popUpBanner()">
+                        Edit Banner
+                    </material-button>
+                    <material-button class="material-button-raised"  style="width:100%;" ng-click="popUpEdit()">
+                        Edit HomePage
+                    </material-button>
+                    <material-button class="material-button-colored material-theme-red" style="width:100%;" ng-click="popUpRemove()">
+                        Delete Challenge
+                    </material-button>
+                </section>
+            </material-content>
+        </material-sidenav>
+        <material-content layout="vertical" flex layout-fill class="right-part">
+            <material-toolbar layout="vertical">
+                <h1 class="center">
+                    {{ challenge.title }}'s administration
+                </h1>
+            </material-toolbar>
+            <form name="projectBasic" layout="vertical">
+                <material-input-group>
+                    <label for="title">Title</label>
+                    <material-input type="text" id="title" ng-model="challenge.title"></material-input>
+                </material-input-group>
+                <textarea placeholder="a brief description of your project" rows="5" ng-model="project.brief" class="pretty-area"></textarea>
+                <tag-manager entity="challenge" ng-model="challenge.tags"></tag-manager>
+                <material-button class="material-button-raised" style="width:100%;" ng-click="updateChallenge()">
+                <span class="faa-spin animated" ng-if="isBasicLoading">
+                    <i class="fa fa-spin"></i>
+                </span>
+                    Update Challenge
+                </material-button>
             </form>
+            <section layout="vertical" layout-md="horizontal">
+                <section flex-md layout="vertical">
+                    <header>
+                        <h2 class="center">Workspace's templates</h2>
+                    </header>
+                    <material-button style="width:100%" class="material-button-raised" ng-click="popUpTemplate()">
+                        New Template
+                    </material-button>
+                    <material-list>
+                        <material-item ng-repeat="template in templates">
+                            <div class="material-tile-left">
 
-            <div class="panel-body">
-                <!--delete project-->
-                <button class="btn btn-danger solid" ng-click="opendel()" >Delete Project</button>
-            </div>
-        </section>
-        <script type="text/ng-template" id="projectDel.html">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4>Attention:</h4>
-                    </div>
-                    <div class="modal-body">
-                        This operation could not undo. Please back up the information before you confirm.
-                    </div>
-                    <div class="modal-footer">
-                        <button ng-click="deleteProject()" href="" class="btn btn-danger">Confirm Delete</button>
-                        <button class="btn btn-warning cancel" ng-click="cancel()">Cancel</button>
-                    </div>
-                </div>
-            </div>
-        </script>
-    </tab>
-    <tab>
-        <tab-heading>
-            <i class='fa fa-file fa-2x'></i>
-            Banner
-        </tab-heading>
-        <section ng-controller="BannerCtrl">
-            <h3 class="center">New banner</h3>
-            <image-crop
-                    data-width="900"
-                    data-height="150"
-                    data-shape="square"
-                    data-step="imageCropStep"
-                    data-result="bannerResult"
-                    ng-show="showImageCropper">
-            </image-crop>
-        </section>
-    </tab>
-</tabset>
+                            </div>
+                            <div class="material-tile-content">
+                                <h4>{{ template.title }}</h4>
+                            </div>
+                            <div class="material-tile-right">
+                                <material-button ng-click="removeTemplate(template,$index)">
+                            <span class="faa-spin animated" ng-if="isTLoading[$index]">
+                                <i fa fa-spinner></i>
+                            </span>
+                                    <i class="fa fa-trash-o">Remove</i>
+
+                                </material-button>
+                            </div>
+                        </material-item>
+                    </material-list>
+                </section>
+                <section flex-md layout="vertical">
+                    <header>
+                        <h2 class="center">Projects</h2>
+                    </header>
+                    <material-button style="width:100%" class="material-button-raised" ng-click="createProject()">
+                        New Project
+                    </material-button>
+                    <material-list>
+                        <material-item ng-repeat="project in projects">
+                            <div class="material-tile-left">
+
+                            </div>
+                            <div class="material-tile-content">
+                                <h4>{{ project.title }}</h4>
+                            </div>
+                            <div class="material-tile-right">
+                                <material-button ng-click="removeProject(project,$index)">
+                            <span class="faa-spin animated" ng-if="isPLoading[$index]">
+                                <i class="fa fa-spinner"></i>
+                            </span>
+                                    <i class="fa fa-trash-o">Remove</i>
+                                </material-button>
+                            </div>
+                        </material-item>
+                    </material-list>
+                </section>
+
+            </section>
+
+        </material-content>
+    </material-content>
+

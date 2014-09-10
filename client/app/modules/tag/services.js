@@ -1,9 +1,9 @@
 angular.module('cri.tag')
-.factory('Tag',['$q','$http','CONFIG',function($q,$http,CONFIG){
+.factory('Tag',['$q','$http','Config',function($q,$http,Config){
         var service = {
             fetch : function(param){
                 var defered = $q.defer();
-                var url = CONFIG.apiServer+'/tags'
+                var url = Config.apiServer+'/tags'
                 if(param){
                     url += '?'+JSON.stringify(param)
                 }
@@ -19,7 +19,7 @@ angular.module('cri.tag')
             },
             search : function(tagTitle){
                 var defered = $q.defer();
-                var url = CONFIG.apiServer+'/datas/searchTag/'+tagTitle
+                var url = Config.apiServer+'/datas/searchTag/'+tagTitle
                 $http.get(url).success(function(data){
                     defered.resolve(data);
                 }).error(function(err){
@@ -29,7 +29,7 @@ angular.module('cri.tag')
             },
             fetchold : function(tag){
                 var defered = $q.defer();
-                $http.get(CONFIG.apiServer+'/datas/searchTag/'+tag)
+                $http.get(Config.apiServer+'/datas/searchTag/'+tag)
                     .success(function(data){
                         defered.resolve(data);
                     })
@@ -40,7 +40,7 @@ angular.module('cri.tag')
             },
             create : function(tag){
                 var defered = $q.defer();
-                $http.post(CONFIG.apiServer+'/tags',tag)
+                $http.post(Config.apiServer+'/tags',tag)
                     .success(function(data){
                         defered.resolve(data);
                     })
@@ -135,7 +135,18 @@ angular.module('cri.tag')
                     d3TagData.links.push(link);
                 })
                 return d3TagData;
+            },
+            remove : function(id){
+                var defered = $q.defer();
+                $http.delete(Config.apiServer+'/tags/'+id)
+                    .success(function(data){
+                        defered.resolve(data);
+                    })
+                    .error(function(err){
+                        defered.reject(err);
+                    })
+                return defered.promise;
             }
-        }
+        };
         return service;
     }])

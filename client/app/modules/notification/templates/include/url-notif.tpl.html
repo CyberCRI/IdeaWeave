@@ -1,0 +1,20 @@
+<material-item>
+    <div class="material-tile-left">
+        <user-block style="position : relative; top:4px;" height="'64px'"  width="'64px'" user-id="notif.owner"></user-block>
+    </div>
+    <div class="material-tile-content" layout="horizontal" layout-align="center center">
+        <span>
+            add a resource url
+        </span>
+        <a ng-href="{{ notif.entity.url }}" ng-bind="notif.entity.title"></a>
+        <span>
+           to
+        </span>
+        <note-info note-id="notif.container"></note-info>
+    </div>
+    <div class="material-tile-right">
+        <material-button ng-click="closeToast()">
+            Close
+        </material-button>
+    </div>
+</material-item>

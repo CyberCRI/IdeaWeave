@@ -1,0 +1,23 @@
+<!--<material-whiteframe class="material-whiteframe-z1" layout="vertical"  style="z-index: 19;">-->
+
+<material-dialog>
+    <material-toolbar layout="horizontal" layout-align="">
+        <div layout layout-align="start center">
+            <span flex>Edit your profile page</span>
+            <i class="fa fa-times fa-2x my-btn" ng-click="cancel()" block></i>
+        </div>
+    </material-toolbar>
+    <form name="descriptionForm">
+        <textarea ui-tinymce="tinymceOption" name='brief'  ng-model="profile.brief"/></textarea>
+
+        <!--<h2>Add some embeded content (youtube,vimeo,slideshare...)</h2>-->
+        <!--<div class="form-group">-->
+        <!--<div class="col-xs-12">-->
+        <!--<div ui-ace="{mode : 'html'}" class="form-control" ng-model="profile.presentation" style="width:100%;height:100px"></div>-->
+        <!--</div>-->
+        <!--</div>-->
+        <material-button type="button" style="width:100%;" class="material-button-raised" ng-click="updateProfile(profile)">submit your description</material-button>
+    </form>
+</material-dialog>
+
+<!--</material-whiteframe>-->

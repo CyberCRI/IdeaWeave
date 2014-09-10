@@ -1,43 +1,31 @@
-<h2 class="center">Our Projects</h2>
-<div class="container">
-    <!--<a ui-sref="projectsuggest" class="btn btn-default pull-right"  ng-if="isLogged" >{{'project_LIST_SUGGEST'|translate}}</a>-->
-    <div class="row">
-        <div class="pull-right" >
-            <span class="material-input-group material-input-group-theme-light-blue">
-                <label for="filterprojects">
-                    <i class="fa fa-search fa-2x"></i>
-                    filter by title
-                </label>
-                <input id="filterprojects" type="text" ng-model="search.title" autocomplete="false">
-            </span>
-            <i class="fa fa-plus fa-2x my-btn" tooltip="Suggest a project" ui-sref="projectsuggest"  ng-if="isLogged"></i>
+<section layout="horizontal" layout-fill style="overflow-y: hidden;">
+    <material-sidenav class="material-sidenav-left material-whiteframe-z2 left" component-id="left" style="height:100%">
+        <material-toolbar layout="horizontal">
+            <div class="material-toolbar-tools">
+                <i class="fa fa-caret-left fa-2x my-btn" hide-md style="color:black;" ng-click="toggle()" flex></i>
+                <div>
+                    <i class="fa fa-tags"> Tags</i>
+                </div>
+            </div>
+        </material-toolbar>
+        <material-content layout="vertical" >
+            <div layout="horizontal" ng-repeat="tag in tags">
+                <material-button flex class="material-button-hover" ui-route="/projects/{{tag.title}}" ng-class="{ 'material-button-raised' : $uiRoute }"  ui-sref="projects.list({ tag : tag.title })">{{tag.title}}</material-button>
+            </div>
+        </material-content>
+    </material-sidenav>
+    <section flex layout="vertical" layout-fill>
+        <h1 class="center">
+            Projects
+        </h1>
+        <div ng-if="currentUser" >
+            <material-button ui-sref="projectCreation" hide block-md>
+                Suggest a project !
+            </material-button>
+            <i class="fa fa-plus fa-2x my-btn" ui-sref="projectCreation" hide-md></i>
+
         </div>
-    </div>
-    <!--<div class="solid ptm"></div>-->
-    <div class="clearfix"></div>
-    <div class="row" >
-        <ul class="media-list" >
-            <li class="media edit-menu" ng-repeat="project in projects | filter:search track by $index">
-                <a ui-sref="project.details({ pid : project.accessUrl })" class="pull-left ">
-                    <img ng-src="{{project.poster || 'http://placehold.it/90x90'}}" class="media-object img-rounded" style="height:90px;max-width: 100%">
-                </a>
-                <article class="media-body">
-                    <h1 class="media-heading center">
-                        <a ui-sref="project.details({ pid : project.accessUrl })">{{project.title}}</a>
-                    </h1>
-                    <span class="pull-right">
-                        created by : <span owner-block="project.owner"></span>
-                    </span>
-                    <!--<p class="muted" style="height:130px;overflow:hidden;" ><small ng-bind-html="project.brief"></small></p>-->
-                    <div showtags="" entity="project" style="font-size:1.5em;"></div>
+        <section ui-view="projectsView" layout style="padding-bottom:64px;"></section>
+    </section>
 
-                </article>
-
-            </li>
-        </ul>
-        <div class="clearfix"></div>
-        <button ng-show="projects.length>=4&&!isEnd" ng-click="loadMoreprojects(noPage)" class="btn  btn-default col-xs-12">{{'BTN_MORE'|translate}}</button>
-    </div>
-    <div ng-hide="projects" class="alert alert-info">{{'project_LIST_NORESULT'|translate}}</div>
-    <div ng-show="isEnd&&projects.length>=4"  class="alert alert-info">{{'project_LIST_END'|translate}}</div>
-</div>
+</section>

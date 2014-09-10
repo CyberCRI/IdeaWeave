@@ -1,0 +1,17 @@
+<material-content style="width:100%">
+    <material-tabs center>
+        {{ note.title }}
+        <material-tab ui-sref="project.noteLab.details.discussion({ tid : topicId })">
+            <material-label>
+                <i class='fa fa-comments fa-2x'></i>
+            </material-label>
+        </material-tab>
+        <material-tab ui-sref="project.noteLab.details.resources({ tid : topicId })">
+            <material-label>
+                <i class='fa fa-file fa-2x'></i>
+            </material-label>
+        </material-tab>
+    </material-tabs>
+    <section ui-view="topicDetailsView" style="width:100%;"></section>
+
+</material-content>

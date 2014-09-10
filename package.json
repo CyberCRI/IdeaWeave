@@ -5,7 +5,8 @@
   "devDependencies": {
     "grunt-rsync" : "*",
     "grunt-ssh" : "*",
-    "load-grunt-tasks": "~0.2.0"
+    "load-grunt-tasks": "~0.2.0",
+    "gulp-chug"  : "*"
   },
   "engines": {
     "node": ">=0.8.0"

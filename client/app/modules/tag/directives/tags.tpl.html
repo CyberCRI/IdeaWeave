@@ -1,0 +1,34 @@
+<section layout="vertical">
+    <div layout="horizontal">
+        <ui-select ng-model="myTag" theme="selectize" flex>
+            <ui-select-match placeholder="Tags">{{$select.selected.title}}</ui-select-match>
+            <ui-select-choices repeat="tag in tags | filter:$viewValue | limitTo:8">
+                <div layout="horizontal" layout-align="start center" ng-click="add(tag)">
+                    <div ng-bind="tag.title" flex></div>
+                    <i class="fa fa-plus my-btn" ></i>
+                </div>
+            </ui-select-choices>
+        </ui-select flex>
+        <material-button ng-click="addTag()" type="button">
+            Add a new Tag
+        </material-button>
+    </div>
+    <div layout="horizontal" layout-align="start end" ng-if="formTag">
+        <material-input-group flex>
+            <label for="newTag">New Tag</label>
+            <material-input id="newTag" type="text" ng-model="newTag.title" />
+        </material-input-group>
+        <i class="fa fa-plus fa-2x my-btn" ng-if="newTag.title" ng-click="addNew(newTag)"></i>
+    </div>
+    <div>
+        <div ng-repeat="tag in entity.tags"  inline-block class="rotation">
+            <div  layout="horizontal">
+                <material-button ui-sref="tag({ tag : tag.title })" type="button">
+                    <span>#{{tag.title}}</span>
+                </material-button>
+
+                <i class="fa fa-times my-btn fa-2x" ng-click="remove($index)"></i>
+            </div>
+        </div>
+    </div>
+</section>

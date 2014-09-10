@@ -1,0 +1,64 @@
+<section layout="vertical" layout-md="horizontal" layout-md="space-between">
+    <section layout="vertical" flex-md="60">
+        <h2 class="center">
+            Team Management
+        </h2>
+        <div ng-if="project.members.length == 0 || !project.members" class="center">
+            You're alone in your project lets invite some folks !
+        </div>
+        <div>
+            <material-button ng-click="inviteModal($event)" style="width:100%">
+                Invite some people
+            </material-button>
+        </div>
+        <div ng-if="project.members.length > 0">
+            <user-card admin="true" style="width:250px;" delete="ban" inline-block ng-repeat="member in project.members" user-id="member"></user-card>
+        </div>
+    </section>
+    <section layout="vertical" flex-md="40">
+        <h2 class="center">
+            Apply Management
+        </h2>
+        <div class="apply-table" layout="vertical">
+            <div layout="horizontal" class="tr" layout-align="center center">
+                <div flex="15" class="th">
+                    Applier
+                </div>
+                <div flex="30" class="th">
+                    Content
+                </div>
+                <div flex="20" class="th">
+                    Times
+                </div>
+                <div flex="15" class="th">
+                    Status
+                </div>
+                <div flex="20" class="th">
+                    Action
+                </div>
+            </div>
+            <div layout="horizontal" ng-repeat="applyteam in applyteams track by $index" class="tr" layout-align="center center">
+                <div flex="15" class="td" layout layout-align="center center">
+                    <div style="width:100px;">
+                        <user-block user-id="applyteam.owner"></user-block>
+                    </div>
+
+                </div>
+                <div flex="30" class="td" ng-bind-html="applyteam.message" layout layout-align="center center"></div>
+                <div flex="20" class="td" layout layout-align="center center">{{applyteam.createDate|timeago}}</div>
+                <div flex="15" class="td" layout layout-align="center center">
+                    <div ng-show="applyteam.status" ><i class="fa fa-thumbs-up fa-2x"></i></div>
+                    <div ng-hide="applyteam.status"  ><i class="fa fa-thumbs-down fa-2x"></i></div>
+                </div>
+                <div layout="vertical" flex="20" class="td">
+                    <material-button ng-hide="applyteam.status" ng-click="addToTeam(applyteam.owner,$index)" flex>
+                        <i class="fa fa-2x fa-check"></i>
+                    </material-button>
+                    <material-button ng-hide="applyteam.status" flex>
+                        <i class="fa fa-2x fa-ban"></i>
+                    </material-button>
+                </div>
+            </div>
+        </div>
+    </section>
+</section>

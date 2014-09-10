@@ -1,65 +1,63 @@
-<section>
-    <header style="background-image: url({{ challenge.banner || 'http://placehold.it/900x150'  }}) !important;" class="challenge-header">
+<material-content layout-vertical layout-fill>
+    <header layout="vertical" class="challenge-header" style="background-image: url({{ challenge.banner || 'http://placehold.it/900x150'  }}) !important;" >
         <h1>
             {{ challenge.title }}
         </h1>
-        <p>
+        <div layout="horizontal" flex>
             <span>
                 {{ challenge.followers.length }}
-                <span class="text-muted">
-                    followers
-                </span>
+            </span>
+            <span class="text-muted">
+                &nbsp;followers
             </span>
             <span>
-                . {{ challenge.projectNumber }}
-                <span class="text-muted">
-                    projects
-                </span>
+                . {{ challenge.projects.length }}
             </span>
-            <span ng-if="challenge.startDate < now && challenge.endDate > now" >
-                <timer end-time="challenge.endDate" >End in :{{days}} d, {{hours}} : {{minutes}} : {{seconds}}</timer>
+            <span class="text-muted">
+                &nbsp;projects
             </span>
-            <span ng-if="challenge.startDate > now" >
-                <timer end-time="challenge.endDate" >Start in : {{days}} d, {{hours}} : {{minutes}} : {{seconds}}</timer>
-            </span>
-        </p>
-        <button ng-if="me.id && !isFollow" class="btn btn-default" ng-click="followChallenge()">
-            <i class="fa fa-plus" style="color:yellow;"></i>
-            follow
-        </button>
-        <button ng-if="me.id && isFollow" class="btn btn-default" ng-click="unfollow()">
-            <i class="fa fa-plus" style="color:yellow;"></i>
-            unfollow
-        </button>
+            <!--<span ng-if="challenge.startDate < now && challenge.endDate > now" >-->
+                <!--<timer end-time="challenge.endDate" >End in :{{days}} d, {{hours}} : {{minutes}} : {{seconds}}</timer>-->
+            <!--</span>-->
+            <!--<span ng-if="challenge.startDate > now" >-->
+                <!--<timer end-time="challenge.endDate" >Start in : {{days}} d, {{hours}} : {{minutes}} : {{seconds}}</timer>-->
+            <!--</span>-->
+        </div>
+        <div ng-if="currentUser">
+            <material-button  ng-if="!isOwner && !isFollow"  ng-click="follow()" class="material-button-raised material-button-colored rotation">
+                <i class="fa fa-thumbs-up"></i>
+                follow
+            </material-button>
+            <material-button  ng-if="!isOwner && isFollow" ng-click="unfollow()" class="material-button-raised material-button-colored rotation">
+                <i class="fa fa-thumbs-down" ></i>
+                unfollow
+            </material-button>
+        </div>
     </header>
-
     <section class="pad-left" style="padding-top:10px;">
-        <i class="fa fa-tags fa-2x"></i>
-        <span showtags entity="challenge"></span>
+        <showtags entity="challenge"></showtags>
     </section>
-    <section style="background-color:rgb(240,241,241);">
-        <section class="row" >
-            <div class="col-md-8 pad-left" style="min-height:400px; border-right:solid 1px black;margin-top:30px;">
-                <article ng-bind-html="challenge.brief">
+    <section style="background-color:rgb(240,241,241);" layout="vertical">
+        <section layout="vertical"  layout-md="horizontal">
+            <div class="pad-left" flex style="min-height:400px; border-right:solid 1px black;margin-top:30px;">
+                <article ng-bind-html="challenge.home">
 
                 </article>
             </div>
-            <div class="col-md-4" style="margin-top: 30px;">
+            <div style="margin-top: 30px;" flex>
                 <div ng-include="'modules/challenge/templates/chat.tpl.html'"></div>
             </div>
         </section>
         <div class="row center" style="padding-top: 30px;padding-bottom: 30px;">
-            <button class="btn btn-lg btn-info" ng-click="participate()">Participate to this challenge</button>
+            <material-button  ng-if="currentUser"  ng-click="participate()" class="material-button-raised">
+                Participate to this challenge
+            </material-button>
         </div>
     </section>
-    <section class="container-fluid">
-        <div class="col-xs-12 col-sm-4 col-md-3 col-lg-2" ng-repeat="project in projects">
-            <project-card project="project"></project-card>
-        </div>
+    <section >
+        <project-card inline-block project-id="project" ng-repeat="project in challenge.projects"></project-card>
     </section>
-    <section>
-        <user-block ng-repeat="follower in followers" user-id="follower" class="col-xs-4 col-sm-3 col-md-2 col-lg-1">
-
-        </user-block>
-    </section>
-</section>
+    <!--<section layout="horizontal" layout-align="space-around">-->
+        <!--<user-block ng-repeat="follower in followers" user-id="follower"></user-block>-->
+    <!--</section>-->
+</material-content>

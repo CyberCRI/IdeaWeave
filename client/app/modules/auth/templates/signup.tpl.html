@@ -1,0 +1,45 @@
+<section layout="horizontal" layout-align="space-around">
+    <form name="signupForm"  ng-controller="RegisterCtrl" layout="vertical"  flex-sm="50"   ng-submit="registerUser(signup)">
+        <div class="center">
+            <img src="images/svg/Joinus.svg" alt="Join Us"/>
+        </div>
+        <material-input-group>
+            <label for="username">Username</label>
+            <material-input id="username" type="text" ng-model="signup.username" />
+        </material-input-group>
+        <material-input-group>
+            <label for="emailS">Email</label>
+            <material-input id="emailS" type="text" ng-model="signup.email" />
+        </material-input-group>
+        <tag-manager entity="signup"></tag-manager>
+        <material-input-group>
+            <label for="passwordR">Password</label>
+            <material-input id="passwordR" type="password" ng-model="signup.password" />
+        </material-input-group>
+        <material-input-group >
+            <label for="passwordCheck">Repeat your password</label>
+            <material-input id="passwordCheck" type="password" ng-model="check.password" />
+        </material-input-group>
+        <div>
+            <ui-select ng-model="signup.localisation"
+                       theme="selectize"
+                       reset-search-input="false">
+                <ui-select-match placeholder="Enter an address...">{{$select.selected.formatted_address}}</ui-select-match>
+                <ui-select-choices repeat="address in addresses track by $index"
+                                   refresh="refreshAddresses($select.search)"
+                                   refresh-delay="0">
+                    <div ng-bind-html="address.formatted_address | highlight: $select.search"></div>
+                </ui-select-choices>
+            </ui-select>
+        </div>
+        <material-checkbox ng-model="signupForm.valid">
+            <small>
+                i have read the terms of services
+            </small>
+        </material-checkbox>
+        <!--<a href="http://localhost:5011/auth/github">githu</a>-->
+        <!--<button class="material-button material-theme-light-blue material-button-raised" type="button">Register</button>-->
+        <!--<i class="fa fa-sign-in fa-2x my-btn" ng-click="registerUser()"></i>-->
+        <material-button style="width:100%;" class="material-button-raised" type="submit">Register</material-button>
+    </form>
+</section>

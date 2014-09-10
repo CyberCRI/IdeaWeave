@@ -3,5 +3,5 @@
 # Directory of script (why is this so hard?)
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-forever stop $DIR/app.js
-echo "stopped app.js"
+forever stop $DIR/server.js
+echo "stopped server.js"

@@ -1,0 +1,17 @@
+<material-dialog>
+    <material-toolbar layout="horizontal" layout-align="start end" style="text-align:right;">
+        <i class="fa fa-times fa-2x my-btn" ng-click="cancel()"></i>
+    </material-toolbar>
+    <form name="inviteform">
+        <material-input-group>
+            <label for="email">Your friend's email</label>
+            <material-input id="email" type="text" ng-model="invite.email"></material-input>
+        </material-input-group>
+        <material-input-group>
+            <label for="subject">Subject</label>
+            <material-input type="text"  id="subject" ng-model="invite.subject"></material-input>
+        </material-input-group>
+        <textarea ui-tinymce  class="form-control" ng-model="invite.message"></textarea>
+        <material-button class="material-button-raised" style="width:100%;" ng-click="sendInvite()">Send Invitation</material-button>
+    </form>
+</material-dialog>

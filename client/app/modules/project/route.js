@@ -6,13 +6,21 @@ angular.module('cri.project')
                 views : {
                     mainView: {
                         templateUrl:'modules/project/templates/projects.tpl.html',
-                        controller: 'ProjectExploreCtrl'
+                        controller: 'ProjectsCtrl'
+                    }
+                }
+            })
+            .state('projects.list',{
+                url : '/:tag',
+                views : {
+                    projectsView : {
+                        templateUrl: 'modules/project/templates/projects-list.tpl.html',
+                        controller: 'ProjectsListCtrl'
                     }
                 },
-                resolve:{
-                    projects:['Project',function(Project){
-                        var option={$limit:6,$sort:{score:-1},context:'list'};
-                        return Project.fetch(option);
+                resolve : {
+                    projects: ['Project','$stateParams','Config', function (Project,$stateParams,Config) {
+                        return Project.getByTag($stateParams.tag,{ limit : Config.paginateProject, skip : 0});
                     }]
                 }
             })
@@ -27,13 +35,13 @@ angular.module('cri.project')
                 },
                 resolve:{
                     project:['Project','$stateParams',function(Project,$stateParams){
-                        return Project.fetch({accessUrl: $stateParams.pid,context:'detail'})
+                        return Project.fetch( { accessUrl : $stateParams.pid})
                     }]
                 }
             })
 
             .state('project.details',{
-                url : '/details',
+                url : '/home',
                 views : {
                     projectView : {
                         templateUrl : 'modules/project/templates/project-details.tpl.html'
@@ -44,7 +52,7 @@ angular.module('cri.project')
                 url : '/trello',
                 views : {
                     projectView : {
-                        templateUrl : 'modules/projectSetting/templates/trello.tpl.html'
+                        templateUrl : 'modules/project/templates/trello.tpl.html'
                     }
                 }
             })
@@ -74,6 +82,45 @@ angular.module('cri.project')
                     project : ['Project', '$stateParams',function(Project, $stateParams){
                         return Project.fetch({id : $stateParams.pid});
                     }]
+                }
+            })
+            .state('project.noteLab',{
+                url : '/workspace',
+                views : {
+                    projectView: {
+                        templateUrl:'modules/project/templates/notes.tpl.html',
+                        controller: 'NoteLabCtrl'
+                    }
+                },
+                resolve:{
+                    notes:['NoteLab','$stateParams',function(NoteLab,$stateParams){
+                        return NoteLab.fetch({projectUrl: $stateParams.pid})
+                    }]
+                }
+            })
+            .state('project.noteLab.details',{
+                url : '/:tid',
+                views : {
+                    topicView: {
+                        templateUrl:'modules/noteLab/templates/notedetails.tpl.html',
+                        controller: 'NoteLabDetailsCtrl'
+                    }
+                }
+            })
+            .state('project.noteLab.details.discussion',{
+                url : '/discussion',
+                views : {
+                    topicDetailsView: {
+                        templateUrl:'modules/noteLab/templates/discussion.tpl.html'
+                    }
+                }
+            })
+            .state('project.noteLab.details.resources',{
+                url : '/resources',
+                views : {
+                    topicDetailsView: {
+                        templateUrl:'modules/noteLab/templates/resources.tpl.html'
+                    }
                 }
             })
     }]);

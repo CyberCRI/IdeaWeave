@@ -1,12 +1,7 @@
 deployConfig.json
 node_modules
-.sass-cache
-GruntFileOld.js
-server/.dpd
 server/public/
 server/node_modules
-server/deployConfig.json
-client/.tmp
 client/dist
 client/node_modules
 client/app/vendors

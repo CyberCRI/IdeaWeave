@@ -1,71 +1,44 @@
-<div class="container">
-    <div class="alert alert-info">
-        {{'CHALLENGE_SUGGEST_INTRO'|translate}}
-    </div>
-    <form name="cform" class="form-horizontal">
-        <div class="col-xs12-">
-            <div class="form-group">
-                <label class="col-sm-3 col-xs-12 control-label">{{'CHALLENGE_SUGGEST_TITLE'|translate}}</label>
-                <div class="col-sm-9 col-xs-12">
-                    <input type="text" class="form-control" name="title" ng-model="pform.title" required="" ng-change="titleChange(pform.title)">
+<section layout="vertical" layout-md="horizontal" layout-fill>
+    <material-sidenav class="material-sidenav-left material-whiteframe-z2 left" layout-fill component-id="left" >
+        <material-content >
+            <material-toolbar layout="horizontal">
+                <div class="material-toolbar-tools">
+                    <i class="fa fa-caret-left fa-2x my-btn" hide-md style="color:black;" ng-click="toggle()" flex></i>
+                    <div>
+                        <i class="fa fa-question">&nbsp;Challenge us !</i>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-3 col-xs-12 control-label">{{'CHALLENGE_SUGGEST_BRIEF'|translate}}</label>
-                <div class="col-sm-9 col-xs-12">
-                    <textarea ui-tinymce="tinymceOption" ng-model="pform.brief"></textarea>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-3 col-xs-12 control-label">Tags:</label>
-                <div class="col-md-6 col-sm-9 col-xs-12">
-                    <div class="tag-manager" entity="pform" ng-model="pform.tags"></div>
-                </div>
-            </div>
-            <div class="form-group">
+            </material-toolbar>
+            <aside>
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque eveniet iure magni neque quis! Ab assumenda, culpa cupiditate est exercitationem expedita facilis id illum, minus molestiae, nam quod suscipit tempora!
+            </aside>
+        </material-content>
+    </material-sidenav>
+    <section flex class="right-part">
+        <h2>Your challenge description</h2>
+        <form name="cform" layout="vertical" layout-align="">
+            <material-input-group>
+                <label for="title">Description</label>
+                <material-input id="title" type="text" ng-model="pform.title" ng-change="titleChange(pform.title)"/>
+            </material-input-group>
+            <tag-manager entity="pform"></tag-manager>
+            <ui-select ng-model="pform.localisation"
+                       theme="selectize"
+                       reset-search-input="false"
+                       style="width:100%">
+                <ui-select-match placeholder="Enter an address...">{{$select.selected.formatted_address}}</ui-select-match>
+                <ui-select-choices repeat="address in addresses track by $index"
+                                   refresh="refreshAddresses($select.search)"
+                                   refresh-delay="0">
+                    <div ng-bind-html="address.formatted_address | highlight: $select.search"></div>
+                </ui-select-choices>
+            </ui-select>
 
-                <label class=" col-sm-3 col-xs-12 control-label">
-                    <input type="checkbox" ng-model="hasDuration"/>
-                    Duration :
-                </label>
-                <div class="col-sm-3 col-xs-12">
-                    <div class="input-group">
-                        <input ng-disabled="!hasDuration" placeholder="from" type="text" class="form-control" datepicker-popup="{{format}}" ng-model="pform.startDate" is-open="startOpened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions"  ng-required="true" close-text="Close" />
-                          <span class="input-group-btn">
-                              <button ng-disabled="!hasDuration" type="button" class="btn btn-default" ng-click="openStart($event)"><i class="fa fa-calendar"></i></button>
-                          </span>
-                    </div>
-                </div>
-                <div class="col-sm-3 col-xs-12">
-                    <span> </span>
-                    <div class="input-group">
-                        <input ng-disabled="!hasDuration" placeholder="to" type="text" class="form-control" datepicker-popup="{{format}}" ng-model="pform.endDate" is-open="endOpened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions"  ng-required="true" close-text="Close" />
-                          <span class="input-group-btn">
-                              <button ng-disabled="!hasDuration" type="button" class="btn btn-default" ng-click="openEnd($event)"><i class="fa fa-calendar"></i></button>
-                          </span>
-                    </div>
-                </div>
+            <textarea placeholder="a short description of your challenge" ng-model="pform.brief" rows="5" style="width:100%;"></textarea>
+
+            <div>
+                <material-button style="width:100%;" ng-click="createChallenge(pform)" class="material-button-raised">{{'BTN_SUBMIT'|translate}}</material-button>
             </div>
-            <div class="form-group">
-                <label class="col-sm-3 col-xs-12 control-label">Localisation</label>
-                <div class="col-sm-9 col-xs-12">
-                    <ui-select ng-model="pform.localisation"
-                               theme="bootstrap"
-                               reset-search-input="false">
-                        <ui-select-match placeholder="Enter an address...">{{$select.selected.formatted_address}}</ui-select-match>
-                        <ui-select-choices repeat="address in addresses track by $index"
-                                           refresh="refreshAddresses($select.search)"
-                                           refresh-delay="0">
-                            <div ng-bind-html="address.formatted_address | highlight: $select.search"></div>
-                        </ui-select-choices>
-                    </ui-select>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-offset-3 col-sm-9 col-xs-12">
-                    <button type="submit" class="btn btn-default" ng-disabled="cform.$invalid" ng-click="createChallenge(pform)">{{'BTN_SUBMIT'|translate}}</button>
-                </div>
-            </div>
-        </div>
-    </form>
-</div>
+        </form>
+    </section>
+</section>

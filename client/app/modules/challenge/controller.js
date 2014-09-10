@@ -1,50 +1,57 @@
 angular.module('cri.challenge', [])
-    .controller('chatCtrl',['$scope','Challenge','loggedUser','$window',function($scope,Challenge,loggedUser,$window){
-        $window.socket.on('chat'+$scope.challenge.id+':create',function(message){
+    .controller('chatCtrl',['$scope','Challenge','mySocket',function($scope,Challenge,mySocket){
+//        mySocket.on('chat_'+$scope.challenge._id+'::created',function(message){
+        mySocket.socket.on('chat_'+$scope.challenge._id+'::newMessage',function(message){
             $scope.messages.push(message);
         });
 
-        $scope.me = loggedUser.profile;
-
-        Challenge.getMessage($scope.challenge.id ).then(function(messages){
-            console.log('messages',messages)
+        Challenge.getMessage($scope.challenge._id ).then(function(messages){
             $scope.messages = messages;
         }).catch(function(err){
             console.log(err)
         });
 
         $scope.postMessage = function(message){
-            message.container = $scope.challenge.id;
-            message.owner = loggedUser.profile.id;
+            message.container = $scope.challenge._id;
+            message.owner = $scope.currentUser._id;
             message.createDate = new Date().getTime();
-
-            Challenge.postMessage(message).then(function(data){
-                console.log(data);
-            }).catch(function(err){
-                console.log(err);
-            })
+            mySocket.socket.emit('chat::newMessage',message);
         }
     }])
+    .controller('ChallengesCtrl',['$scope','$materialSidenav','Tag',function($scope,$materialSidenav,Tag){
+        var leftNav;
+        $scope.$on('showTags',function(){
+            leftNav = $materialSidenav('left');
+            leftNav.toggle();
+        });
 
-    .controller('ChallengesListCtrl',['$scope','challenges','Notification','Challenge','Project','loggedUser',function($scope,challenges,Notification,Challenge,Project,loggedUser){
-        $scope.me = loggedUser.profile;
+        Tag.fetch().then(function(tags){
+            $scope.tags = tags;
+        }).catch(function(err){
+            console.log(err);
+        });
+
+        $scope.toggle = function(){
+            leftNav.toggle();
+        }
+
+    }])
+    .controller('ChallengesListCtrl',['$scope','challenges','Notification','Challenge','Project','$stateParams','Config','$materialDialog',function($scope,challenges,Notification,Challenge,Project,$stateParams,Config,$materialDialog){
         $scope.challenges = challenges;
-        $scope.projects = {};
-        $scope.projectsToggle = {};
-        $scope.noPage = 1;
+
+        $scope.noPage = 0;
         $scope.isEnd = false;
         $scope.now = new Date().getTime();
-        var option = {$limit: 6, $sort: {follow: -1, createDate: -1}, context: 'list'};
-        $scope.loadMoreChallenges = function (num) {
-            $scope.noPage = num + 1;
-            option.$skip = 6 * num;
+        var option = { limit : Config.paginateChallenge };
+        $scope.loadMoreChallenges = function () {
+            $scope.noPage++;
+            option.skip = Config.paginateChallenge * $scope.noPage;
             if (!$scope.isEnd) {
-
-                Challenge.fetch(option).then(function (result) {
+                Challenge.getByTag($stateParams.tag,option).then(function (result) {
                     if (result.length > 0) {
-                        for (var i = 0; i < result.length; i++) {
-                            $scope.challenges.push(result[i]);
-                        }
+                        angular.forEach(result,function(challenge){
+                            $scope.challenges.push(challenge);
+                        });
                     } else {
                         $scope.isEnd = true;
                         Notification.display('there is no more challenges')
@@ -54,21 +61,28 @@ angular.module('cri.challenge', [])
                 })
             }
         };
-        $scope.toggleProjects = function(id){
-            Project.fetch({ container : id }).then(function(projects){
-                console.log('projects',projects)
-                $scope.projects[id] = projects;
-                if(projects.length == 0){
-                    $scope.message[id] = true;
-                }
-                $scope.projectsToggle[id] = true;
-            }).catch(function(err){
-                console.log(err);
+
+        $scope.showProjects = function(e,id,index){
+            var challenge = $scope.challenges[index];
+            $materialDialog({
+                templateUrl : 'modules/challenge/templates/modal/listProjects.tpl.html',
+                controller : ['$scope','Project','$hideDialog',function($scope,Project,$hideDialog){
+                    $scope.challenge = challenge;
+                    Project.getByChallenge( id ).then(function(projects){
+                        console.log('projects',projects);
+                        $scope.projects = projects;
+                    }).catch(function(err){
+                        console.log(err);
+                    });
+
+                    $scope.cancel = function(){
+                        $hideDialog();
+                    }
+                }],
+                event :e
             })
         };
-        $scope.hideProject = function(id){
-            $scope.projectsToggle[id] = false;
-        };
+
 
         $scope.removeChallenge = function(id){
             Challenge.remove(id).then(function(){
@@ -79,132 +93,85 @@ angular.module('cri.challenge', [])
         }
 
     }])
-    .controller('ChallengeSuggestCtrl', ['$scope', 'Challenge','loggedUser','$upload','$state','Notification','Gmap','Files','CONFIG','datepickerPopupConfig', function ($scope, Challenge, loggedUser,$upload,$state,Notification,Gmap,Files,CONFIG,datepickerPopupConfig) {
+    .controller('ChallengeSuggestCtrl', ['$scope', 'Challenge','$upload','$state','Notification','Gmap','Files','Config', function ($scope, Challenge,$upload,$state,Notification,Gmap,Files,Config) {
 
         $scope.hasDuration = false;
-
-        datepickerPopupConfig['show-button-bar'] = false;
-
-        $scope.toggleMin = function() {
-            $scope.minDate = $scope.minDate ? null : new Date();
-        };
-        $scope.toggleMin();
-
-        $scope.openStart = function($event) {
-            $event.preventDefault();
-            $event.stopPropagation();
-
-            $scope.startOpened = true;
-        };
-
-        $scope.openEnd = function($event) {
-            $event.preventDefault();
-            $event.stopPropagation();
-            $scope.endOpened = true;
-        };
-
-        $scope.dateOptions = {
-            formatYear: 'yy',
-            startingDay: 1
-        };
-
         $scope.pform = {};
         $scope.pform.tags = [];
-        $scope.tinymceOption = CONFIG.tinymceOptions;
+        $scope.tinymceOption = Config.tinymceOptions;
         $scope.refreshAddresses = function(address) {
             Gmap.getAdress(address).then(function(adresses){
                 $scope.addresses = adresses;
             })
         };
-
         $scope.titleChange = function(title){
             $scope.pform.accessUrl = title.replace(/ /g,"_");
-        }
+        };
 
         $scope.createChallenge = function (challenge) {
-            challenge.owner = loggedUser.profile.id;
-            challenge.startDate = challenge.startDate.getTime();
-            challenge.endDate = challenge.endDate.getTime();
+            challenge.owner = $scope.currentUser._id;
+            if($scope.hasDuration){
+                challenge.startDate = challenge.startDate.getTime();
+                challenge.endDate = challenge.endDate.getTime();
+            }
             Challenge.create(challenge).then(function(){
-                Notification.display('Your challenge has been added. would you like to add a description picture to it ?');
-                $state.go('challenges');
+                $state.go("challenges.list",{tag : 'all'});
             }).catch(function(err){
                 Notification.display(err.message);
             })
         }
     }])
-.controller('ChallengeCtrl',['$scope','Challenge','challenge','loggedUser','Notification','$state','Project',function($scope,Challenge,challenge,loggedUser,Notification,$state,Project){
-        $scope.me = loggedUser.profile;
-
-        $scope.challenge = Challenge.data = challenge[0];
-
-        var options = {container : $scope.challenge.id,$limit:8,$sort:{score:-1},context:'list'};
-        Project.fetch(options).then(function(projects){
-            $scope.projects = projects;
-        }).catch(function(err){
-            console.log(err);
-        });
-
-        if(loggedUser.profile){
-            if(loggedUser.profile.id == $scope.challenge.owner){
+.controller('ChallengeCtrl',['$scope','Challenge','challenge','Notification','$state','Project',function($scope,Challenge,challenge,Notification,$state,Project){
+        $scope.challenge = challenge[0];
+        if($scope.currentUser){
+            if($scope.currentUser._id == $scope.challenge.owner){
                 $scope.isOwner = true;
+
+            }
+            if ($scope.challenge.followers.indexOf($scope.currentUser._id) !== -1) {
+                $scope.isFollow = true;
+
             }
         }
 
         $scope.participate = function(){
-            if(loggedUser.profile){
+            if($scope.currentUser){
                 Project.challengeSelected = $scope.challenge;
                 $state.go('projectCreation')
             }else{
-                //todo go to signuo page
+                Notification.display('Please fill the signup form');
+                $state.go('home');
             }
         };
 
-        $scope.d3Tags = [];
-        angular.forEach($scope.challenge.tags,function(v,k){
-            $scope.d3Tags.push({
-                title : v,
-                number : 1
-            })
-        });
+//        $scope.d3Tags = [];
+//        angular.forEach($scope.challenge.tags,function(v,k){
+//            $scope.d3Tags.push({
+//                title : v,
+//                number : 1
+//            })
+//        });
+//
+//        $scope.showTag = function(e){
+//            $state.go('tag',{title : e.text})
+//        };
 
-        $scope.showTag = function(e){
-            $state.go('tag',{title : e.text})
-        };
-
-
-        // follow challenge
-        if (loggedUser.profile) {
-            if($scope.challenge.followers){
-                if ($scope.challenge.followers.indexOf(loggedUser.profile.id) !== -1) {
-                    $scope.isFollow = true;
-                }
-            }
-        }
-
-        $scope.followChallenge = function () {
-            Challenge.follow($scope.challenge.id).then(function (result) {
-                if (result.error) {
-                    alert(result.error)
-                } else {
-                    Notification.display('Concerned about the success! Cool increased by 2 points.');
-                    $scope.challenge.followers.push($scope.me.id);
-                    $scope.isFollow = true;
-                }
+        $scope.follow = function () {
+            Challenge.follow($scope.currentUser._id,$scope.challenge._id).then(function (result) {
+                Notification.display('You are now following this challenge');
+                $scope.challenge.followers.push($scope.currentUser._id);
+                $scope.isFollow = true;
             }).catch(function(err){
                 Notification.display(err.message);
             })
-        }
+        };
 
         $scope.unfollow = function () {
-            Challenge.unfollow($scope.challenge.id).then(function (result) {
-                if (result.error) {
-                    Notification.display('an error occured sorry');
-                } else {
-                    Notification.display('Concerned about the success! Cool increased by 2 points.');
-                    $scope.challenge.followers.splice($scope.challenge.followers.indexOf($scope.me.id), 1);
-                    $scope.isFollow = false;
-                }
+            Challenge.unfollow($scope.currentUser._id,$scope.challenge._id).then(function (result) {
+                Notification.display('You are not following this challenge anymore');
+                $scope.challenge.followers.splice($scope.challenge.followers.indexOf($scope.currentUser._id), 1);
+                $scope.isFollow = false;
+
             }).catch(function(err){
                 Notification.display(err.message);
 
@@ -231,4 +198,4 @@ angular.module('cri.challenge', [])
                 Notification.display(err.message);
             })
         }
-    }])
+    }]);

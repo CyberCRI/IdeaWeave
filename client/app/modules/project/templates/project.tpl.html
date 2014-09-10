@@ -1,38 +1,58 @@
-<section>
-    <header style="background-image: url({{ project.banner || 'http://placehold.it/900x150'  }}) !important;" class="challenge-header">
+<section layout="vertical" layout-fill>
+    <header layout="vertical" class="challenge-header" style="background-image: url({{ project.banner || 'http://placehold.it/900x150'  }}) !important;" >
         <h1 style="margin: 0;">
             {{ project.title }}
         </h1>
-        <p>
+        <div layout="horizontal" flex>
             <span>
                 {{ project.followers.length }}
-                <span class="text-muted">
-                    followers
-                </span>
             </span>
+            &nbsp;
+            <span class="text-muted">
+                followers
+            </span>
+            &nbsp;
             <span>
-                . {{ project.member.length }}
-                <span class="text-muted">
-                    members
-                </span>
+                . {{ project.members.length }}
             </span>
-        </p>
-        <div class="row center" style="padding-top: 30px;padding-bottom: 5px;">
-            <div class="btn-group">
-                <button class="btn btn-info" ui-sref="project.details({pid : project.accessUrl})" ng-if="isOwner || isMember">Home</button>
-                <button class="btn btn-info" ng-click="openRqteam()" ng-if="isVisitor">Join</button>
-                <button class="btn btn-info" ui-sref="project.settings({ pid : project.accessUrl })" ng-if="isOwner">Admin</button>
-                <button class="btn btn-info" ui-sref="project.topic({ pid : project.accessUrl })" ng-if="isOwner || isMember">NoteLab(Forum)</button>
-                <button class="btn btn-info" ui-sref="project.trello({ pid : project.accessUrl })" ng-if="project.trello">trello</button>
-            </div>
+            &nbsp;
+            <span class="text-muted">
+                members
+            </span>
+        </div>
+        <div>
+            <material-button  ng-if="!isOwner && !isFollow"  ng-click="follow()" class="material-button-raised material-button-colored rotation">
+                <i class="fa fa-thumbs-up">follow</i>
+
+            </material-button>
+            <material-button  ng-if="!isOwner && isFollow" ng-click="unfollow()" class="material-button-raised material-button-colored rotation">
+                <i class="fa fa-thumbs-down">unfollow</i>
+
+            </material-button>
+            <material-button class="material-button-raised material-button-colored" ng-click="openApplyModal($event)" ng-if="!isMember && !isOwner">
+                Join Us !
+            </material-button>
         </div>
     </header>
-
-    <section class="pad-left" style="padding-top:10px;">
-        <i class="fa fa-tags fa-2x"></i>
-        <span showtags entity="project"></span>
+    <section class="pad-left" style="padding-top:10px;" >
+        <showtags entity="project"></showtags>
     </section>
-    <div ui-view="projectView"></div>
-
-
+    <material-tabs selected="selectedIndex"  ng-if="isMember">
+        <material-tab  ui-sref="project.details({pid : project.accessUrl})"  ui-route="project/[A-Za-z0-9_.]*/home" ng-class="{ 'active' : $uiRoute }">
+            <material-label >
+                <i class='fa fa-home fa-2x'>&nbsp;Home</i>
+            </material-label>
+        </material-tab>
+        <material-tab ui-sref="project.noteLab({ pid : project.accessUrl })" ui-route="project/[A-Za-z0-9_.]*/notelab" ng-class="{ 'active' : $uiRoute }">
+            <material-label >
+                <i class='fa fa-cogs fa-2x'>&nbsp;WorkSpace</i>
+            </material-label>
+        </material-tab>
+        <material-tab ui-sref="project.trello({ pid : project.accessUrl })" >
+            <material-label >
+                <i class='fa fa-trello fa-2x'>&nbsp;Trello</i>
+            </material-label>
+        </material-tab>
+    </material-tabs>
+    <section ui-view="projectView"></section>
 </section>

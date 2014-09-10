@@ -1,0 +1,23 @@
+<material-whiteframe class="material-whiteframe-z1" layout="vertical" layout-align="">
+    <material-toolbar   style="text-align:right;">
+        <div layout="horizontal" layout-align="start end">
+            <div flex></div>
+            <a ng-href="{{ fileDetails.url }}" target="_blank">
+                <i class="my-btn fa fa-download fa-2x"></i>
+            </a>
+            <i class="fa fa-times fa-2x my-btn" ng-click="cancel()"></i>
+        </div>
+
+    </material-toolbar>
+    <section layout="horizontal">
+        <p ng-bind="fileDetails.description" flex></p>
+
+    </section>
+    <section>
+        <img ng-src="{{ fileDetails.url }}" width="100%" ng-if="isImage(fileDetails)"/>
+        <video ng-src="{{ fileDetails.url }}" ng-if="isVideo(fileDetails)"></video>
+        <pdf-js url="fileDetails.url" width="100%" height="400px" ng-if="isPdf(fileDetails)"></pdf-js>
+        <g-doc-preview ng-if="isOfficeDoc(fileDetails)" doc-url="fileDetails.url"></g-doc-preview>
+    </section>
+    <!--<button href="" class="btn btn-default">open in Google Docs</button>-->
+</material-whiteframe>

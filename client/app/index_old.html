@@ -1,0 +1,185 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" ng-app="cri"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>IdeaStorm </title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible"content="IE=9; IE=8; IE=7; IE=EDGE">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <base href="/"></base>
+    <link href='http://fonts.googleapis.com/css?family=Abel' rel='stylesheet' type='text/css'>
+    <!-- build:css(app) styles/main.css -->
+    <link rel="stylesheet" href="vendors/Font-Awesome/css/font-awesome.css">
+    <link rel="stylesheet" href="vendors/animatecss/animate.css"/>
+    <link rel="stylesheet" href="vendors/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="vendors/bootstrap/dist/css/bootstrap-theme.css">
+    <link rel="stylesheet" href="vendors/angular-ui-select/dist/select.css"/>
+    <link rel="stylesheet" href="vendors/angular-crop-image/image-crop-styles.css"/>
+    <link rel="stylesheet" href="vendors/angular-carousel/dist/angular-carousel.css">
+    <link rel="stylesheet" href="vendors/angular-material/dist/angular-material.css"/>
+    <!--<link rel="stylesheet" href="vendors/angular-material/docs/app/css/tab_demos.css"/>-->
+    <link rel="stylesheet" href="styles/main.css">
+    <!-- endbuild -->
+</head>
+<body layout="vertical" layout-fill>
+<!--[if lt IE 9]>
+      <p class="alert alert-warnning">For better user experience,please use one of these bowers :
+    <a href="http://www.google.com/chrome/" target="_blank">Google Chrome</a>
+    <a href="www.mozilla.org/en-US/firefox/&lrm;" target="_blank">Firefox</a> /
+        <a href="http://www.opera.com/" target="_blank">Opera</a></li>
+      </p>
+    <![endif]-->
+
+<div ng-include="'modules/header/templates/header.tpl.html'"  ng-controller="HeaderCtrl" ></div>
+
+<material-content style="height:100%;">
+    <div id="mainView"  ui-view="mainView" style="height: 100%;"></div>
+</material-content>
+
+
+<script src="http://mozilla.github.io/pdf.js/build/pdf.js"></script>
+<!--<script src="vendors/tinymce/tinymce.min.js"></script>-->
+<script src="https://cdn.socket.io/socket.io-1.0.6.js"></script>
+
+<!-- build:js(app)  scripts/scripts.js -->
+<script src="vendors/underscore/underscore.js"></script>
+<script src="vendors/ace-builds/src/ace.js"></script>
+<script src="vendors/ace-builds/src/mode-html.js"></script>
+
+<script src="vendors/tinymce/tinymce.min.js"></script>
+<script src="vendors/tinymce/themes/modern/theme.min.js"></script>
+<script src="vendors/tinymce/plugins/print/plugin.min.js"></script>
+<script src="vendors/tinymce/plugins/textcolor/plugin.min.js"></script>
+
+<script src="vendors/ng-file-upload/angular-file-upload-html5-shim.js"></script>
+<script src="vendors/angular/angular.js"></script>
+<script src="vendors/angular-touch/angular-touch.js"></script>
+<script src="vendors/angular-carousel/dist/angular-carousel.js"></script>
+<script src="vendors/angular-animate/angular-animate.js"></script>
+<script src="vendors/angular-sanitize/angular-sanitize.js"></script>
+<script src="vendors/angular-ui-router/release/angular-ui-router.js"></script>
+<script src="vendors/ng-file-upload/angular-file-upload.js"></script>
+<script src="vendors/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+<script src="vendors/angular-translate/angular-translate.js"></script>
+<script src="vendors/angular-ui-utils/ui-utils.js"></script>
+<script src="vendors/angular-ui-ace/ui-ace.js"></script>
+<script src="vendors/angular-ui-tinymce/src/tinymce.js"></script>
+<script src="vendors/angular-ui-select/dist/select.js"></script>
+<script src="vendors/angular-crop-image/image-crop.js"></script>
+<script src="vendors/angular-material/config/lib/angular-animate-sequence/angular-animate-sequence.js"></script>
+<script src="vendors/angular-material/config/lib/angular-animate-sequence/angular-animate-stylers.js"></script>
+<script src="vendors/angular-material/dist/angular-material.js"></script>
+<script src="vendors/angular-timer/dist/angular-timer.js"></script>
+<script src="vendors/satellizer/satellizer.js"></script>
+<script src="app.js"></script>
+
+<script src="modules/common/config.js"></script>
+
+<script src="modules/common/lang.js"></script>
+<script src="modules/common/filters/filter_time.js"></script>
+
+<script src="modules/common/directives/challengeBlock/challengeBlock.js"></script>
+<script src="modules/common/directives/tagManager/tagManager.js"></script>
+<script src="modules/common/directives/comments/comments.js"></script>
+<script src="modules/common/directives/ownerBlock/ownerBlock.js"></script>
+<script src="modules/common/directives/projectBlock/projectBlock.js"></script>
+<script src="modules/common/directives/drag/dragout.js"></script>
+<script src="modules/common/directives/fullWidth/fullWidth.js"></script>
+<script src="modules/common/directives/uploader/uploader.js"></script>
+<script src="modules/common/directives/pdf.js"></script>
+<script src="modules/common/directives/d3/tagGraph.js"></script>
+<script src="modules/common/directives/d3/tagCloud.js"></script>
+<script src="modules/common/directives/googledocPreview/googledocPreview.js"></script>
+<script src="modules/common/directives/iframe/iframe.js"></script>
+<script src="modules/common/directives/activity/directives.js"></script>
+
+<script src="modules/common/notification/notification.js"></script>
+<script src="modules/common/services/files.js"></script>
+<script src="modules/common/services/followers.js"></script>
+<script src="modules/common/services/recommend.js"></script>
+<script src="modules/common/services/comment.js"></script>
+<script src="modules/common/services/gMap.js"></script>
+<script src="modules/common/services/d3.js"></script>
+<script src="modules/common/services/urls.js"></script>
+
+
+<script src="modules/home/controller.js"></script>
+<script src="modules/home/route.js"></script>
+
+<script src="modules/header/controller.js"></script>
+<script src="modules/header/service.js"></script>
+
+<script src="modules/footer/controller.js"></script>
+<script src="modules/footer/route.js"></script>
+
+<script src="modules/account/controller.js"></script>
+<script src="modules/account/lang.js"></script>
+<script src="modules/account/route.js"></script>
+
+<script src="modules/admin/controller.js"></script>
+<script src="modules/admin/route.js"></script>
+<script src="modules/admin/lang.js"></script>
+
+<script src="modules/project/controller.js"></script>
+<script src="modules/project/services.js"></script>
+<script src="modules/project/route.js"></script>
+<script src="modules/project/lang.js"></script>
+
+<script src="modules/topic/controller.js"></script>
+<script src="modules/topic/services.js"></script>
+<script src="modules/topic/route.js"></script>
+<script src="modules/topic/lang.js"></script>
+
+<script src="modules/projectSetting/controller.js"></script>
+<script src="modules/projectSetting/route.js"></script>
+<script src="modules/projectSetting/lang.js"></script>
+
+<script src="modules/challenge/controller.js"></script>
+<script src="modules/challenge/route.js"></script>
+<script src="modules/challenge/lang.js"></script>
+<script src="modules/challenge/services.js"></script>
+
+<script src="modules/challengeSettings/controller.js"></script>
+<script src="modules/challengeSettings/route.js"></script>
+
+
+<script src="modules/tag/controller.js"></script>
+<script src="modules/tag/route.js"></script>
+<script src="modules/tag/lang.js"></script>
+<script src="modules/tag/services.js"></script>
+
+<script src="modules/user/controller.js"></script>
+<script src="modules/user/route.js"></script>
+<script src="modules/user/lang.js"></script>
+<script src="modules/user/users.js"></script>
+
+<script src="modules/admin/controller.js"></script>
+<script src="modules/admin/route.js"></script>
+
+<script src="modules/message/controller.js"></script>
+<script src="modules/message/route.js"></script>
+<script src="modules/message/service.js"></script>
+<!-- endbuild -->
+
+
+<script type="text/javascript">
+    // google analystic
+    var _gaq = _gaq || [];
+    /* // only for production
+     _gaq.push(['_setAccount', 'UA-41577560-1']);
+     _gaq.push(['_trackPageview']);
+     (function() {
+     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+     })();
+     */
+</script>
+
+</body>
+</html>

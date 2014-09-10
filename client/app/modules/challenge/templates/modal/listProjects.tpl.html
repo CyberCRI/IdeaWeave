@@ -1,0 +1,14 @@
+<material-whiteframe class="material-whiteframe-z1" layout="vertical" layout-align="" style="width:90%;">
+    <material-toolbar layout="horizontal" layout-align="">
+        <div flex layout layout-align="start center">
+            <material-button ui-sref="challenge({pid : challenge.accessUrl})" flex>
+                {{ challenge.title }}
+            </material-button>
+            <i class="fa fa-times fa-2x my-btn" ng-click="cancel()" block></i>
+        </div>
+
+    </material-toolbar>
+    <material-content class="project-modal">
+        <project-block my-project="project" ng-repeat="project in projects" width="'100px'" height="'100px'"></project-block>
+    </material-content>
+</material-whiteframe>

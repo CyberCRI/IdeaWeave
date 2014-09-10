@@ -1,116 +1,106 @@
-<material-toolbar  class="main-header" style="background-color: white; border-bottom:solid 1px black;" role="navigation" scroll-header condensed-height="64">
-    <!--<div class="material-toolbar-tools material-toolbar-tools-top ">-->
-        <!--<span class="material-flex center">-->
-        <!--</span>-->
-    <!--</div>-->
-    <div class="material-toolbar-tools material-toolbar-tools">
-        <span class="material-flex">
-             <a class="navbar-brand visible-sm visible-xs" style="cursor : pointer;padding-top: 0px;"  ui-sref="home">
-                <i class="fa fa-lightbulb-o fa-2x"></i>
+<material-toolbar scroll-shrink class="">
+    <div class="material-toolbar-tools" layout="horizontal">
+        <div>
+            <i class="fa fa-2x fa-tags my-btn" hide-md ui-route="/challenges/[A-Za-z0-9_.]*" ng-class="{ 'hidden' : !$uiRoute }" ng-click="sideNavToggle('showTags')"></i>
+            <i class="fa fa-2x fa-tags my-btn" hide-md ui-route="/projects/[A-Za-z0-9_.]*" ng-class="{ 'hidden' : !$uiRoute }" ng-click="sideNavToggle('showTags')"></i>
+            <i class="fa fa-2x fa-user my-btn" hide-md ui-route="/profile/[A-Za-z0-9_.]*" ng-class="{ 'hidden' : !$uiRoute }" ng-click="sideNavToggle('showProfile')"></i>
+            <i class="fa fa-2x fa-cogs my-btn" hide-md ui-route="/project/[A-Za-z0-9_.]*/notelab" ng-class="{ 'hidden' : !$uiRoute }" ng-click="sideNavToggle('showWorkspace')"></i>
+            <i class="fa fa-2x fa-gears my-btn" hide-md ui-route="/admin/project/[A-Za-z0-9_.]*" ng-class="{ 'hidden' : !$uiRoute }" ng-click="sideNavToggle('showAdmin')"></i>
+            <i class="fa fa-2x fa-gears my-btn" hide-md ui-route="/admin/challenge/[A-Za-z0-9_.]*" ng-class="{ 'hidden' : !$uiRoute }" ng-click="sideNavToggle('showAdmin')"></i>
+        </div>
+        <div hide block-md>
+            <a style="cursor : pointer;padding-top: 0px;"  ui-sref="home">
+                <img src="images/ideaweavelogo.png" height="50px" alt="IdeaWeaves"/>
             </a>
-             <a class="navbar-brand visible-lg visible-md" style="cursor : pointer;padding-top: 0px;"  ui-sref="home">
-                <i class="fa fa-lightbulb-o fa-2x"  ui-sref="home"></i>
-                <span class="my-grey">Idea</span>
-                <span class="my-yellow">Storm</span>
-            </a>
-            <ul class="header-list">
+        </div>
+        <div layout="horizontal" layout-align="start end" hide block-md>
+            <i ui-sref="challenges.list({ tag :'all' })" class="fa fa-trophy fa-2x my-btn" ui-route="/challenges/all"  ng-class="{'menu-active': $uiRoute}"></i>
+            <img src="images/plus.png" width="15%" height="15%" class="plus-icon" ui-sref="challengeSuggest" ng-if="currentUser._id" alt="add"/>
+            <i ui-sref="projects.list({ tag : 'all' })" class="fa fa-lightbulb-o fa-2x my-btn" ui-route="/projects"  ng-class="{'menu-active': $uiRoute}"></i>
+        </div>
 
-                <li  class="hidden-sm hidden-xs">
-                    <a ui-sref="challenges.list({ tag :'all' })" tooltip="challenge" tooltip-placement="bottom">
-                        <i class="fa fa-trophy fa-2x" ui-route="/challenges/all"  ng-class="{'menu-active': $uiRoute}"></i>
-                    </a>
-                    <img src="images/plus.png" width="25%" ui-sref="challengeSuggest" ng-if="me" alt="add" style="cursor:pointer;" tooltip="add" tooltip-placement="bottom"/>
-                </li>
-                <li class="hidden-sm hidden-xs"  style="margin-right: 10px;">
-                    <a ui-sref="projects" tooltip="projects" tooltip-placement="bottom">
-                        <i class="fa fa-lightbulb-o fa-2x" ui-route="/projects"  ng-class="{'menu-active': $uiRoute}"></i>
-                    </a>
-                </li>
-                <li class="search-container">
-                    <ui-select ng-model="address.selected"
-                               theme="bootstrap"
-                               ng-disabled="disabled"
-                               select-focus
-                               reset-search-input="true"
-                               style="width: 100%">
-                        <ui-select-match placeholder="Search...">
-                            {{$select.selected.title || $select.selected.username}}
-                        </ui-select-match>
-                        <ui-select-choices repeat="result in searchResult track by $index"
-                                           refresh="refreshSearchBar($select.search)"
-                                           refresh-delay="0">
-                            <a ng-click="goTo(result)">
-                                <img ng-src="{{result.poster || 'http://placehold.it/50x50'}}" class="img-rounded" style="height:50px;max-width: 100%">
-                            </a>
-                            <article style="display: inline-block;line-height: 50px;width:80%;" ng-click="goTo(result)">
-                                <span>{{result.title ||result.username}}</span>
-                                <span class="pull-right">
-                                    <div showtags="" entity="result" style="font-size:0.8em;"></div>
+        <div flex>
+            <ui-select ng-model="address.selected"
+                       reset-search-input="true"
+                       theme="selectize"
+                       class="search-bar">
+                <ui-select-match placeholder="Search...">
+                    {{$select.selected.title || $select.selected.username}}
+                </ui-select-match>
+                <ui-select-choices repeat="result in searchResult track by $index"
+                                   refresh="refreshSearchBar($select.search)"
+                                   refresh-delay="0">
+                    <material-item ng-if="result.separator" class="center" style="cursor: default;background-color: #808080;color:white;" >
+                        {{ result.separator }}
+                    </material-item>
+                    <material-item ng-if="!result.separator" class="result-item" ng-click="goTo(result)">
+                        <div class="material-tile-left" ng-click="goTo(result)">
+                            <img ng-src="{{result.poster || 'http://placehold.it/50x50'}}" class="img-rounded" style="height:50px;max-width: 100%">
+                        </div>
+                        <div class="material-tile-content">
+                            <div>
+                                <div>{{result.title ||result.username}}</div>
+                                <showtags entity="result" ></showtags>
+                            </div>
+                        </div>
+                        <div class="material-tile-right" ng-if="result.tags">
+                            <div ng-if="result.followers">
+                                <span>
+                                    {{ result.followers.length }}
                                 </span>
-                            </article>
-                        </ui-select-choices>
-                    </ui-select>
-                </li>
-                <li class="pull-right"style="margin-right:50px;">
-
-                    <a href="">
-                        <i tooltip="menu"  tooltip-placement="bottom" class="fa fa-caret-left fa-2x" ng-click="toggleRight('menu')" ng-if="user.isLoggedIn()"></i>
-                    </a>
-                    <a href="">
-                        <i tooltip="signin" tooltip-placement="bottom" class="fa fa-sign-in fa-2x" ng-click="toggleRight('login')" ng-if="!user.isLoggedIn()"></i>
-                    </a>
-                </li>
-                <!--<li class="pull-right visible-lg" style="margin-right:50px;">-->
-                    <!--<span ng-if="user.isLoggedIn()">-->
-                        <!--<a ui-sref="profile.brief({ uid : me.profile.id })" style="padding : 5px;" >-->
-                            <!--<img  ng-src="{{ me.profile.poster || 'images/avater.jpg' }}" class="img-rounded" height="50" />-->
-                            <!--<span ng-bind="me.profile.username"></span>-->
-                        <!--</a>-->
-                        <!--<span class="dropdown">-->
-                            <!--<a href="" class="fa fa-2x fa-gear dropdown-toggle"></a>-->
-                            <!--<ul class="dropdown-menu" role="menu">-->
-                                <!--<li>-->
-                                    <!--<a href="" ng-if="me.admin">-->
-                                        <!--<i class="fa fa-gear"></i>-->
-                                        <!--Admin-->
-                                    <!--</a>-->
-                                <!--</li>-->
-                                <!--<li>-->
-                                    <!--<a href="" ui-sref="profile.settings.basic({ uid : me.profile.id })">-->
-                                        <!--<i class="fa fa-user" ></i>-->
-                                        <!--&nbsp Personnal-->
-                                    <!--</a>-->
-                                <!--</li>-->
-                                <!--<li class="divider"></li>-->
-                                <!--<li>-->
-                                    <!--<a href="" ng-click="logout()">Logout</a>-->
-                                <!--</li>-->
-                            <!--</ul>-->
-                        <!--</span>-->
-                        <!--<a href="">-->
-                            <!--<i class="fa fa-2x fa-envelope-o"  ui-sref="message.inbox" tooltip-animation="true" tooltip="inbox" tooltip-placement="bottom"></i>-->
-                        <!--</a>-->
-                    <!--</span>-->
-                    <!--<a href="">-->
-                        <!--<i tooltip="signin" tooltip-placement="bottom" class="fa fa-sign-in fa-2x" ng-click="toggleLogin()" ng-if="!user.isLoggedIn()"></i>-->
-                    <!--</a>-->
-                <!--</li>-->
-            </ul>
-        </span>
+                                &nbsp;
+                                <span>
+                                    followers
+                                </span>
+                            </div>
+                            <div ng-if="result.noteNumber">
+                                <span>
+                                    {{ result.noteNumber }}
+                                </span>
+                                &nbsp;
+                                <span>
+                                    publication
+                                </span>
+                            </div>
+                            <div ng-if="result.projects">
+                                <span>
+                                    {{ result.projects.number }}
+                                </span>
+                                &nbsp;
+                                <span>
+                                    projects
+                                </span>
+                            </div>
+                        </div>
+                    </material-item>
+                </ui-select-choices>
+            </ui-select>
+        </div>
+        <div>
+            <a href="">
+                <i class="fa fa-caret-left fa-2x" ng-click="toggleRight('menu')" ng-if="currentUser"></i>
+            </a>
+            <a href="">
+                <i class="fa fa-sign-in fa-2x" ng-click="toggleRight('login')" ng-if="!currentUser"></i>
+            </a>
+        </div>
     </div>
-    <button class="material-button material-button-fab material-button-fab-bottom-right" ng-click="toggleRight('notif')" style="cursor:pointer;" ng-class="{ 'material-theme-yellow' : newNotif }" ng-click="toggleNotif()" ng-if="user.isLoggedIn()" tooltip="notifications" tooltip-placement="left">
-        <i class="fa fa-bell" ></i>
-        <!--<material-icon icon="images/svg/notification.svg"></material-icon>-->
-    </button>
+    <!--<button class="material-button material-button-fab material-button-fab-bottom-right" ng-click="toggleRight('notif')" style="cursor:pointer;" ng-class="{ 'material-theme-yellow' : newNotif }" ng-click="toggleNotif()" ng-if="user.isLoggedIn()" tooltip="notifications" tooltip-placement="left">-->
+    <!--<i class="fa fa-bell" ></i>-->
+    <!--&lt;!&ndash;<material-icon icon="images/svg/notification.svg"></material-icon>&ndash;&gt;-->
+    <!--</button>-->
 </material-toolbar>
 
-<material-sidenav class="material-sidenav-right material-whiteframe-z2 material-theme-light" component-id="right" style="height:100%;">
-    <div class="row" ng-if="sideNavTemplateUrl == 'modules/header/templates/notifications.tpl.html'">
-        <div class="col-xs-6">
-            <img src="images/notif.png" alt="notifications !"/>
+<material-sidenav class="material-sidenav-right material-whiteframe-z2" component-id="right" layout="vertical" layout-fill>
+    <material-toolbar layout="horizontal">
+        <div class="material-toolbar-tools">
+            <div flex>
+                <img src="images/notif.png" alt="notifications !"  ng-if="sideNavTemplateUrl == 'modules/header/templates/notifications.tpl.html'"/>
+                <img src="images/svg/login.svg" alt="notifications !"  ng-if="sideNavTemplateUrl == 'modules/auth/templates/signin.tpl.html'"/>
+            </div>
+            <i class="fa fa-caret-right fa-2x my-btn" style="color:black;" ng-click="toggleRight()"></i>
         </div>
-        <i class="fa fa-caret-right fa-2x my-btn pull-right" style="color:black; margin-right:10px;" ng-click="toggleRight('menu')"></i>
-    </div>
-    <div ng-include="sideNavTemplateUrl" style="height:100%;">
+    </material-toolbar>
+    <div ng-include="sideNavTemplateUrl"flex layout layout-fill>
     </div>
 </material-sidenav>

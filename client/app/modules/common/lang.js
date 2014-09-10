@@ -1,4 +1,4 @@
-angular.module('cri.common',[])
+angular.module('cri.common')
     .config(['$translateProvider',function ($translateProvider){
         $translateProvider.translations('en', {
             'TITLE': 'IdeaStorm',

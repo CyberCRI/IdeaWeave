@@ -1,0 +1,99 @@
+$material-tab-color : #313131;
+$material-tab-color-active : black;
+$material-tab-color-disabled : #808080;
+$material-tab-background : #ffffff;
+$material-tab-background-disabled : #c1c1c1;
+$material-card-background : rgb(253, 255, 248);
+
+$headerHeight : 64px;
+
+
+.material-dialog-container{
+  overflow-y: hidden;
+}
+
+material-content{
+  padding : 0px ;
+
+}
+
+.material-content{
+  height:100%;
+  padding-top : $headerHeight;
+}
+
+material-tabs{
+  padding-left: 0px !important;
+  width:100%;
+}
+
+material-tab material-tab-label{
+  color : $material-tab-color;
+  background-color: $material-tab-background;
+  &.active {
+    color: $material-tab-color-active;
+  }
+  &.disabled {
+    color: $material-tab-color-disabled;
+    background-color : $material-tab-background-disabled
+  }
+}
+
+.tabs-header{
+  background-color: $material-tab-background;
+}
+
+.tab-paginator{
+  color : black !important;
+  background-color: darkgray;
+}
+
+.material-theme-white{
+  color : black !important;
+  background-color: white !important;
+}
+
+
+
+material-card{
+  background-color: $material-card-background;
+  //  height: 400px;
+  font-size : 0.8em;
+  word-wrap: break-word;
+  width:180px;
+  h4{
+    cursor : pointer;
+    word-break: break-all;
+  }
+  showtags{
+    font-size : 0.7em;
+  }
+}
+
+
+
+.material-sidenav-right{
+  background-color: $material-card-background !important;
+}
+
+
+
+material-toast{
+  min-height : $headerHeight !important;
+  z-index:100;
+}
+
+
+material-whiteframe{
+  background-color: $material-card-background !important;
+}
+
+
+material-ink-bar{
+  background-color: #5f9ea0!important;
+  height:4px!important;
+}
+
+.material-sidenav-left{
+  padding-left: 20px;
+}

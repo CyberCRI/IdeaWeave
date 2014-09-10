@@ -1,0 +1,16 @@
+<material-item layout="horizontal">
+    <div class="material-tile-left">
+        <user-block style="position : relative; top:4px;" height="'60px'" width="'60px'" user-id="notif.owner"></user-block>
+    </div>
+    <div flex class="material-tile-content" layout="horizontal" layout-align="center center">
+        <span>
+            publish
+        </span>
+        <note-info note-id="notif.entity"></note-info>
+    </div>
+    <div class="material-tile-right">
+        <material-button ng-click="closeToast()">
+            Close
+        </material-button>
+    </div>
+</material-item>
