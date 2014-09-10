@@ -2,10 +2,9 @@
 
 Ideaweave is a collaborative platform intended to help people sharing idea and organise themself in team.
 
-## Build with Modern Tools
-![nodejs](/http://nodejs.org/images/logos/nodejs.png)
-![Angularjs](/https://raw.githubusercontent.com/angular/angular.js/master/images/logo/AngularJS.exports/AngularJS-small.png)
-![mongodb](/http://media-cache-ak0.pinimg.com/736x/24/a6/63/24a663052e771d440fa6555894a93595.jpg)
+## Javascript fullstack
+![nodejs](http://nodejs.org/images/logos/nodejs.png)
+![Angularjs](https://raw.githubusercontent.com/angular/angular.js/master/images/logo/AngularJS.exports/AngularJS-small.png)
 
 
 
@@ -15,25 +14,23 @@ Ideaweave is a collaborative platform intended to help people sharing idea and o
 
 ## Running backend
 
-### Dependancies
-- item
-- item
-- item
-
-[Express](http://expressjs.com/)
-[Mongoose](http://mongoosejs.com/)
+### Main dependancies
+- [Express](http://expressjs.com/)
+- [Mongoose](http://mongoosejs.com/)
+- [socket.io](http://socket.io/)
 
 `cd server`
 `npm install`
 `node server.js`
 
 ## Running frontend
+![gulp](http://ih3.redbubble.net/image.15786709.1011/sticker,375x360.png)
 
 `npm install`
 `bower install`
 `gulp dev`
 
-## build front-end
+### build front-end
 `gulp build`
 
 ## deploy
