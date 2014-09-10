@@ -1,26 +1,42 @@
-﻿# IdeaStorm 
+# IdeaWeave 
 
-Here's how to get started.
+Ideaweave is a collaborative platform intended to help people sharing idea and organise themself in team.
 
-## Install app
-`npm install`
+## Build with Modern Tools
+![nodejs](/http://nodejs.org/images/logos/nodejs.png)
+![Angularjs](/https://raw.githubusercontent.com/angular/angular.js/master/images/logo/AngularJS.exports/AngularJS-small.png)
+![mongodb](/http://media-cache-ak0.pinimg.com/736x/24/a6/63/24a663052e771d440fa6555894a93595.jpg)
 
-## Install server
-`cd server`
-`npm install`
+
+
+## Dependancies
+- [NodeJs](http://nodejs.org/)
+- [MongoDb](http://www.mongodb.org/) 
 
 ## Running backend
-Copy deployConfig.sample.json to deployConfig.json, and change it as needed.
 
-`node app.js`
+### Dependancies
+- item
+- item
+- item
 
-If you run into "EMFILE" errors, try upping your open file limit (http://blog.izs.me/post/56827866110/wtf-is-emfile-and-why-does-it-happen-to-me)
+[Express](http://expressjs.com/)
+[Mongoose](http://mongoosejs.com/)
+
+`cd server`
+`npm install`
+`node server.js`
 
 ## Running frontend
-`grunt server`
 
-## Minify app
-`grunt build`
+`npm install`
+`bower install`
+`gulp dev`
 
-## Minify Server
-`grunt min-server`
+## build front-end
+`gulp build`
+
+## deploy
+go back to the root of the project
+`npm install`
+`grunt deploy`
