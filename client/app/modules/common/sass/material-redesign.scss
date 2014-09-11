@@ -97,3 +97,14 @@ material-ink-bar{
 .material-sidenav-left{
   padding-left: 20px;
 }
+
+@media (min-width: 960px) {
+  material-sidenav {
+    position: absolute !important;
+    -webkit-transition: all 0.3s ease-in-out !important;
+    transition: all 0.3s ease-in-out !important;
+  }
+  .material-sidenav-backdrop {
+    display: block !important;
+  }
+}

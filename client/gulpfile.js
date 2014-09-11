@@ -49,8 +49,10 @@ gulp.task('sass', function () {
 gulp.task('watch', function() {
     gulp.watch([ './app/**/**/*.scss','./app/styles/main.scss'],[
           'sass'
-//        'lint',
     ]);
+    gulp.watch('./app/**/*.js',[
+        'lint'
+    ])
 });
 
 gulp.task('dev', function() {
@@ -103,4 +105,6 @@ gulp.task('build', function() {
 //        .pipe(minifyHtml())
 //        .pipe(gulp.dest('./temp'));
 //    gulp.src('./app/modules/**/*.html')
+    gulp.run('grunt-inline_angular_templates')
+
 });

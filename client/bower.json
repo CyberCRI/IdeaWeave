@@ -23,7 +23,6 @@
     "angular-material": "0.0.2",
     "angular-timer": "*",
     "satellizer": "0.3.1",
-    "angular-datepicker": "https://github.com/g00fy-/angular-datepicker",
     "opentip": "2.4.6",
     "angular-timeago": "0.1.2"
   },

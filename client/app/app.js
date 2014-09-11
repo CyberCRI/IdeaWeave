@@ -35,15 +35,8 @@ angular.module('cri', [
         $locationProvider.html5Mode(true);
         $locationProvider.hashPrefix('!');
 
+//        dev
 
-        $authProvider.google({
-            clientId: '372552657598-hdg4o1pqc15amejp9jlr2qs016k0m6ve.apps.googleusercontent.com'
-        });
-
-        $authProvider.github({
-            url: 'http://localhost:5011/auth/github',
-            clientId: 'a0de9026823b0f3c405e'
-        });
     }])
     .run(['users','mySocket','$rootScope', function (users,mySocket,$rootScope) {
         users.getMe().then(function(me){
