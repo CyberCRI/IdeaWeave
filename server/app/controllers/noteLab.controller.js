@@ -139,10 +139,12 @@ exports.removeUrl = function(req,res){
 
 //note
 exports.fetchNote = function(req,res){
+    console.log(1,req.query)
     if(req.query.projectUrl){
         Project.find({accessUrl : req.query.projectUrl}).populate('_id').execQ().then(function(project) {
-
+            console.log(2,project)
             NoteLab.findQ({ project : project[0]._id }).then(function(notes){
+                console.log(3,notes)
                 res.json(notes);
             }).fail(function(err){
                 res.json(500,err);

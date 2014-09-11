@@ -99,6 +99,10 @@ exports.googleAuth = function(req, res) {
 };
 
 exports.githubAuth = function(req, res) {
+    console.log('toto')
+    console.log(config);
+
+    console.log(req.body)
     var accessTokenUrl = 'https://github.com/login/oauth/access_token';
     var userApiUrl = 'https://api.github.com/user';
     var params = {

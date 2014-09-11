@@ -1,31 +1,25 @@
 angular.module('cri.auth',[
     'Satellizer',
     'cri.common'])
-    .config(function($authProvider,$windowProvider,Config){
-        var $window  = $windowProvider.$get(),
-            env;
-        if($window.location == 'localhost'  || '127.0.0.1'){
-            env = 'dev'
-        }else{
-            env = 'prod'
-        }
+    .config(function($authProvider,$windowProvider,ConfigProvider){
+        var Config = ConfigProvider.$get();
+
+
+        console.log(Config)
+
         $authProvider.setConfig({
-            loginUrl: Config[env].apiUrl+'/auth/login',
-            signupUrl: Config[env].apiUrl+'/auth/signup'
+            loginUrl: Config.apiServer+'/auth/login',
+            signupUrl: Config.apiServer+'/auth/signup'
         });
 
         $authProvider.google({
-            clientId: Config[env].googleClient
+            clientId: Config.googleClient
         });
 
         $authProvider.github({
-            url: Config[env].apiUrl+'/auth/github',
-            clientId: Config[env].githubClient
+            url: Config.apiServer+'/auth/github',
+            clientId: Config.githubClient
         });
-
-
-
-        console.log($authProvider)
     })
     .controller('LoginCtrl', ['$scope', 'users','$state','Notification','$auth','$materialDialog','$rootScope','mySocket', function ($scope, users, $state,Notification,$auth,$materialDialog,$rootScope,mySocket) {
         $scope.loader = {};

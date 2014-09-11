@@ -1,23 +1,23 @@
-<div layout="horizontal">
-    <material-button disabled flex>
-        Simple edit (soon)
-    </material-button>
-    <material-button flex  ng-click="joinHackPad()">
-        Work together
-    </material-button>
-    <material-button disabled flex>
-        Pdf export
-    </material-button>
-</div>
-<material-content>
-    <material-item style="width:100%;">
-        <div class="material-tile-content">
-            <p ng-bind-html="myTopic.text" style="font-size: 1em;"></p>
-        </div>
-        <div class="material-tile-right" layout="vertical" layout-align="center center">
-            <span time-ago from-time="{{myTopic.createDate}}"></span>
-            <user-info user-id="myTopic.owner"></user-info>
-        </div>
-    </material-item>
+    <div layout="horizontal">
+        <material-button disabled flex>
+            Simple edit (soon)
+        </material-button>
+        <material-button flex  ng-click="joinHackPad()">
+            Work together
+        </material-button>
+        <material-button disabled flex>
+            Pdf export
+        </material-button>
+    </div>
+    <p ng-bind-html="myTopic.text" style="font-size: 1em;width:100%; height:400px;overflow-Y:auto width:90%;overflow-x:hidden;" ></p>
+
+    <!--<material-item style="width:100%; height:400px;overflow-Y:auto">-->
+        <!--<div class="material-tile-content">-->
+        <!--</div>-->
+        <!--<div class="material-tile-right" layout="vertical" layout-align="center center">-->
+            <!--<span time-ago from-time="{{myTopic.createDate}}"></span>-->
+            <!--<user-info user-id="myTopic.owner"></user-info>-->
+        <!--</div>-->
+    <!--</material-item>-->
     <ng-include src="'modules/noteLab/comments/templates/comments.tpl.html'" ng-controller="CommentsCtrl"></ng-include>
-</material-content>
+

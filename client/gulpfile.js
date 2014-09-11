@@ -99,12 +99,13 @@ gulp.task('build', function() {
         .pipe(copy('./dist/images/',{prefix : 2}));
     gulp.src('./app/vendors/tinymce/**')
         .pipe(copy('./dist/vendors/tinymce/',{prefix : 3}));
-    gulp.src('./app/vendors/font-awesome/fonts/**')
+    gulp.src('./app/vendors/Font-Awesome/fonts/**')
         .pipe(copy('./dist/',{prefix : 3}));
 //    gulp.src('./app/modules/**/*.tpl.html')
 //        .pipe(minifyHtml())
 //        .pipe(gulp.dest('./temp'));
 //    gulp.src('./app/modules/**/*.html')
-    gulp.run('grunt-inline_angular_templates')
-
 });
+
+
+
