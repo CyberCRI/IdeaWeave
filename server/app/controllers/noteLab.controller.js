@@ -38,11 +38,11 @@ exports.upload = function(req,res) {
 ;
         fs.exists(req.files.file.path, function (exists,err) {
             if (exists) {
-                fs.rename(req.files.file.path,'../public/workspaceFile/'+req.files.file.name,function(err){
+                fs.rename(req.files.file.path,'public/workspaceFile/'+req.files.file.name,function(err){
                     console.log(err)
                     if(!err){
                         var myFile = new File(req.files.file);
-                        myFile.url = 'http://ideastorm.io//workspaceFile/'+req.files.file.name;
+                        myFile.url = 'http://ideastorm.io:5011/workspaceFile/'+req.files.file.name;
                         myFile.type = req.files.file.mimetype;
                         myFile.owner = req.body.owner;
                         myFile.descripion = req.body.description;

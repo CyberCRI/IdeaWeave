@@ -275,7 +275,7 @@ angular.module('cri.workspace',[])
                             $scope.dropBoxHeight = "100px";
                             Files.getPoster(file);
 //                data[0].url = Config.apiServer+'/fileUpload/topic/'+$stateParams.pid+'/'+data[0].filename;
-                            $scope.files.push(file);
+                            files.push(file);
                         }).catch(function(err){
                             Notification.display(err.message);
                         }).finally(function(){
