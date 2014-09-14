@@ -1,6 +1,6 @@
-<material-content layout="vertical" layout-sm="horizontal">
+<section layout="horizontal" layout-fill>
     <material-sidenav class="material-sidenav-left material-whiteframe-z2 left" component-id="left">
-        <material-content style="padding-left: 20px;" layout="vertical" >
+        <div style="padding-left: 20px;" layout="vertical" >
             <material-toolbar layout="horizontal">
                 <div class="material-toolbar-tools">
                     <i class="fa fa-caret-left fa-2x my-btn" hide-md style="color:black;" ng-click="toggle()" flex></i>
@@ -28,14 +28,14 @@
                     </div>
                 </ui-select-choices>
             </ui-select>
-            <material-content style="max-height:200px;">
+            <material-content>
                 <material-list>
                     <material-item ng-repeat="note in notes | filter:search track by note._id">
                         <div class="material-tile-left">
                             <i class="fa fa-2x" ng-class="{'fa-comments' : note.type == 1,'fa-tasks' : note.type == 2, 'fa-flask' : note.type == 3,'fa-graduation-cap':note.type == 4 }"></i>
                         </div>
                         <div class="material-tile-content">
-                            <material-button style="width:100%;"   ui-route="/project/{{ projectId }}/notelab/{{ note._id }}"  ng-class="{ 'material-button-colored' : topicId == note._id }" ui-sref="project.noteLab.details.discussion({ tid : note._id })" layout="horizontal" layout-align="start">
+                            <material-button style="width:100%;"   ui-route="/workspace/{{ project._id }}/note/{{ note._id }}"  ng-class="{ 'material-button-colored' : noteId == note._id }" ui-sref="workspace.note.discussion({ tid : note._id })" layout="horizontal" layout-align="start">
                                 <span ng-bind="note.title"></span>
                             </material-button>
                         </div>
@@ -45,9 +45,7 @@
                     </material-item>
                 </material-list>
             </material-content>
-        </material-content>
+        </div>
     </material-sidenav>
-    <div ui-view="topicView" style="width:100%;" class="right-part">
-
-    </div>
-</material-content>
+    <div ui-view="noteView" style="width:100%;" layout="vertical"></div>
+</section>

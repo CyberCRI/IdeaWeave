@@ -1,4 +1,4 @@
-angular.module('cri.user')
+angular.module('cri.profile')
     .config(['$translateProvider',function ($translateProvider){
         $translateProvider.translations('en', {
             'USER_TITLE': 'User',

@@ -1,4 +1,4 @@
-angular.module('cri.user')
+angular.module('cri.profile')
 .directive('activityTopic',['$http','Config',function($http,Config){
         return {
             restrict : 'EA',

@@ -40,11 +40,11 @@ angular.module('cri.project')
                 }
             })
 
-            .state('project.details',{
+            .state('project.home',{
                 url : '/home',
                 views : {
                     projectView : {
-                        templateUrl : 'modules/project/templates/project-details.tpl.html'
+                        templateUrl : 'modules/project/templates/project-home.tpl.html'
                     }
                 }
             })

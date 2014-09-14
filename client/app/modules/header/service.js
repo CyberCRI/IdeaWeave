@@ -18,4 +18,9 @@ angular.module('cri.header')
             }
         };
         return service;
-    }]);
+    }]).directive('searchBar',function(){
+        return {
+            restrict : 'EA',
+            templateUrl : 'modules/header/templates/searchBar.tpl.html',
+        }
+    });

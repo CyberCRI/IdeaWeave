@@ -23,20 +23,13 @@ textarea{
 
 .my-btn{
   cursor:pointer;
-  //  position: absolute;
   -webkit-transition: all 0.005s;
   transition: all 0.005s;
-  //  &.ng-enter{
-  //    -webkit-animation : fadeInDown 0.5s;
-  //    animation : fadeInDown 0.5s;
-  //  }
   :active{
     transform : scale(0.8);
     -webkit-transform : scale(0.8);
   }
   &.ng-leave{
-    //    -webkit-animation : fadeInUp 0.5s;
-    //    animation : fadeInUp 0.5s;
     visibility: hidden;
   }
   &.active{
@@ -73,3 +66,13 @@ textarea{
   opacity: 0;
   filter: alpha(opacity=0);
 }
+//::-webkit-datetime-edit[aria-valuetext=blank]{
+//  display:none;
+//}
+//::-webkit-datetime-edit-month-field[aria-valuetext=blank]{
+//  display:none;
+//}
+//::-webkit-datetime-edit-day-field[aria-valuetext=blank]{
+//  display:none;
+//}
+

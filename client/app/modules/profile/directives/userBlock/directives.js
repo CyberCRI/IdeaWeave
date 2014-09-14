@@ -1,4 +1,4 @@
-angular.module('cri.user')
+angular.module('cri.profile')
     .directive('userInfo',[function(){
         return {
             restrict:'EA',
@@ -7,9 +7,9 @@ angular.module('cri.user')
                 myUser : '='
             },
             templateUrl:'modules/profile/directives/userBlock/user-info.tpl.html',
-            controller : ['$scope','users',function($scope,users){
+            controller : ['$scope','Profile',function($scope,Profile){
                 if($scope.userId){
-                    users.fetch( { _id : $scope.userId, type : 'info' }).then(function(user){
+                    Profile.fetch( { _id : $scope.userId, type : 'info' }).then(function(user){
                         $scope.user = user[0];
                     }).catch(function(err){
                         console.log('error',err);
@@ -25,7 +25,7 @@ angular.module('cri.user')
             }
         }
     }])
-    .directive('userBlock',['users',function(users){
+    .directive('userBlock',[function(){
         return {
             restrict:'EA',
             scope : {
@@ -35,9 +35,9 @@ angular.module('cri.user')
                 width : '='
             },
             templateUrl:'modules/profile/directives/userBlock/user-block.tpl.html',
-            controller : ['$scope','users',function($scope,users){
+            controller : ['$scope','Profile',function($scope,Profile){
                 if($scope.userId){
-                    users.fetch( { _id : $scope.userId, type : 'block' }).then(function(user){
+                    Profile.fetch( { _id : $scope.userId, type : 'block' }).then(function(user){
                         $scope.user = user[0];
                     }).catch(function(err){
                         console.log('error',err);
@@ -85,9 +85,9 @@ angular.module('cri.user')
                 delete : '='
             },
             templateUrl:'modules/profile/directives/userBlock/user-card.tpl.html',
-            controller : ['$scope','users',function($scope,users){
+            controller : ['$scope','Profile',function($scope,Profile){
                 if($scope.userId){
-                    users.fetch( { _id : $scope.userId, type : 'card' }).then(function(user){
+                    Profile.fetch( { _id : $scope.userId, type : 'card' }).then(function(user){
                         $scope.user = user[0];
                     }).catch(function(err){
                         console.log('error',err);
@@ -99,7 +99,7 @@ angular.module('cri.user')
             link : function(scope,element,attrs){
                 scope.banUser = function(user){
                     return scope.delete(user);
-                }
+                };
                 if(scope.admin){
                     element.bind('mouseenter',function(e){
                         scope.isHovered = true;

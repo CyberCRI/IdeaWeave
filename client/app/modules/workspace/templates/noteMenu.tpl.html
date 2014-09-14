@@ -1,0 +1,34 @@
+<material-toolbar class="material-theme-black" scroll-shrink>
+    <div display="vertical">
+        <div class="center" flex>
+            {{ project.title }} workspace
+        </div>
+        <material-tabs center>
+            {{ note.title }}
+            <material-tab ui-sref="workspace.note.discussion({ tid : myNote._id })">
+                <material-label>
+                    <i class='fa fa-comments fa-2x'></i>
+                </material-label>
+            </material-tab>
+            <material-tab ui-sref="workspace.note.hackpad({ tid : myNote._id })">
+                <material-label>
+                    <i class='fa fa-trello fa-2x'></i>
+                </material-label>
+            </material-tab>
+            <material-tab ui-sref="workspace.note.file({ tid : myNote._id })">
+                <material-label>
+                    <i class='fa fa-file fa-2x'></i>
+                </material-label>
+            </material-tab>
+            <material-tab ui-sref="workspace.note.resources({ tid : myNote._id })">
+                <material-label style="font-size:2em">
+                    @
+                </material-label>
+            </material-tab>
+        </material-tabs>
+    </div>
+</material-toolbar>
+
+<material-content >
+    <section ui-view="noteDetailsView" style="width:100%; height: 90%;" ></section>
+</material-content>

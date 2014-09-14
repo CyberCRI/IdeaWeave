@@ -1,58 +1,67 @@
-<section layout="vertical" >
-    <header layout="vertical" class="challenge-header" style="background-image: url({{ project.banner || 'http://placehold.it/900x150'  }}) !important;" >
-        <h1 style="margin: 0;">
-            {{ project.title }}
-        </h1>
-        <div layout="horizontal" flex>
-            <span>
-                {{ project.followers.length }}
-            </span>
-            &nbsp;
-            <span class="text-muted">
-                followers
-            </span>
-            &nbsp;
-            <span>
-                . {{ project.members.length }}
-            </span>
-            &nbsp;
-            <span class="text-muted">
-                members
-            </span>
-        </div>
-        <div>
-            <material-button  ng-if="!isOwner && !isFollow"  ng-click="follow()" class="material-button-raised material-button-colored rotation">
-                <i class="fa fa-thumbs-up">follow</i>
+<section layout="vertical" layout-fill>
+    <material-toolbar scroll-shrink class="home-header"  style="background-image: url({{ challenge.banner || 'http://placehold.it/900x150'  }}) !important;" >
+        <div layout="vertical" class="content">
+            <h1 style="margin: 0;">
+                {{ project.title }}
+            </h1>
+            <div layout="horizontal" flex>
+                <div flex>
+                      <span>
+                        {{ project.followers.length }}
+                    </span>
+                        &nbsp;
+                    <span class="text-muted">
+                        followers
+                    </span>
+                        &nbsp;
+                    <span>
+                        . {{ project.members.length }}
+                    </span>
+                        &nbsp;
+                    <span class="text-muted">
+                        members
+                    </span>
+                </div>
+                <div ng-if="isMember">
+                    <material-button ui-sref="workspace({ pid : project.accessUrl })">
+                        <i class='fa fa-cogs'>&nbsp;WorkSpace</i>
+                    </material-button>
+                    <material-button ui-sref="project.trello({ pid : project.accessUrl })">
+                        <i class='fa fa-trello'>&nbsp;Trello</i>
+                    </material-button>
+                </div>
+                <div>
+                    <material-button  ng-if="!isOwner && !isFollow"  ng-click="follow()" class="material-button-raised material-button-colored rotation">
+                        <i class="fa fa-thumbs-up">follow</i>
 
-            </material-button>
-            <material-button  ng-if="!isOwner && isFollow" ng-click="unfollow()" class="material-button-raised material-button-colored rotation">
-                <i class="fa fa-thumbs-down">unfollow</i>
+                    </material-button>
+                    <material-button  ng-if="!isOwner && isFollow" ng-click="unfollow()" class="material-button-raised material-button-colored rotation">
+                        <i class="fa fa-thumbs-down">unfollow</i>
 
-            </material-button>
-            <material-button class="material-button-raised material-button-colored" ng-click="openApplyModal($event)" ng-if="!isMember && !isOwner">
-                Join Us !
-            </material-button>
+                    </material-button>
+                    <material-button class="material-button-raised material-button-colored" ng-click="openApplyModal($event)" ng-if="!isMember">
+                        Join Us !
+                    </material-button>
+                </div>
+            </div>
         </div>
-    </header>
-    <section class="pad-left" style="padding-top:10px;" >
-        <showtags entity="project"></showtags>
-    </section>
-    <material-tabs selected="selectedIndex"  ng-if="isMember">
-        <material-tab  ui-sref="project.details({pid : project.accessUrl})"  ui-route="project/[A-Za-z0-9_.]*/home" ng-class="{ 'active' : $uiRoute }">
-            <material-label >
-                <i class='fa fa-home fa-2x'>&nbsp;Home</i>
-            </material-label>
-        </material-tab>
-        <material-tab ui-sref="project.noteLab({ pid : project.accessUrl })" ui-route="project/[A-Za-z0-9_.]*/notelab" ng-class="{ 'active' : $uiRoute }">
-            <material-label >
-                <i class='fa fa-cogs fa-2x'>&nbsp;WorkSpace</i>
-            </material-label>
-        </material-tab>
-        <material-tab ui-sref="project.trello({ pid : project.accessUrl })" >
-            <material-label >
-                <i class='fa fa-trello fa-2x'>&nbsp;Trello</i>
-            </material-label>
-        </material-tab>
-    </material-tabs>
-    <section ui-view="projectView"></section>
+        <material-tabs selected="selectedIndex"  ng-if="isMember">
+            <material-tab  ui-sref="project.home({pid : project.accessUrl})"  ui-route="project/[A-Za-z0-9_.]*/home" ng-class="{ 'active' : $uiRoute }">
+                <material-label >
+                    <i class='fa fa-home fa-2x'>&nbsp;Home</i>
+                </material-label>
+            </material-tab>
+            <material-tab >
+                <material-label>
+                    <i class='fa fa-trello fa-2x'>Publication</i>
+                </material-label>
+            </material-tab>
+        </material-tabs>
+    </material-toolbar>
+    <material-content flex>
+        <section >
+            <showtags entity="project"></showtags>
+        </section>
+        <section ui-view="projectView"></section>
+    </material-content>
 </section>

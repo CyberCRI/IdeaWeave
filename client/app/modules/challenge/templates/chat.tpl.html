@@ -1,5 +1,5 @@
 <section style="min-height:400px;" ng-controller="chatCtrl" layout="vertical">
-    <div style="background-color: white; height:350px;margin-right: 15px !important; overflow:auto;" layout="vertical">
+    <div class="chat-zone" layout="vertical">
         <p ng-repeat="message in messages" layout="horizontal">
             <user-info user-id="message.owner"></user-info>
             &nbsp;

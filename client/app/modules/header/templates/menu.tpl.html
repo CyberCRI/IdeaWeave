@@ -18,7 +18,7 @@
         <!--<material-button ui-sref="admin"  ng-class="{'material-theme-red':$uiRoute}" ui-route="/admin">-->
             <!--Admin-->
         <!--</material-button>-->
-        <material-button ui-sref="profile({uid : currentUser._id})"  ng-class="{'material-theme-light':$uiRoute}" ui-route="/profile/{{currentUser._id}}">
+        <material-button ui-sref="profile({uid : currentUser._id})"  ng-class="{'material-theme-green':$uiRoute}" ui-route="/profile/{{currentUser._id}}">
             Profile
         </material-button>
         <material-button ui-sref="message" ng-class="{'material-theme-orange':$uiRoute}" ui-route="/message">
@@ -27,10 +27,10 @@
         <material-button ui-sref="challenges.list({ tag : 'all' })" ng-class="{'material-theme-indigo':$uiRoute}" ui-route="/challenges/[a-z]*">
             Challenges
         </material-button>
-        <material-button ui-sref="projects.list({ tag : 'all' })" ng-class="{'material-theme-indigo':$uiRoute}" ui-route="/projects/all">
+        <material-button ui-sref="projects.list({ tag : 'all' })" ng-class="{'material-theme-light-blue':$uiRoute}" ui-route="/projects/all">
             Projects
         </material-button>
-        <material-button ui-sref="userSettings({ uid : currentUser._id })"  ng-class="{'material-theme-light':$uiRoute}" ui-route="/profile/edit/{{ currentUser._id }}">
+        <material-button ui-sref="profileAdmin({ uid : currentUser._id })"  ng-class="{'material-theme-green':$uiRoute}" ui-route="/admin/profile/{{ currentUser._id }}">
             Edit Profile
         </material-button>
     </div>

@@ -1,6 +1,6 @@
-angular.module('cri.user',[])
-    .controller('ProfileActivityCtrl',['$scope','loggedUser','users',function($scope,loggedUser,users){
-        users.getActivity(loggedUser.profile.id).then(function(data){
+angular.module('cri.profile',[])
+    .controller('ProfileActivityCtrl',['$scope','loggedUser','Profile',function($scope,loggedUser,Profile){
+        Profile.getActivity(loggedUser.profile.id).then(function(data){
             $scope.activities = data;
         }).catch(function(err){
             console.log(err);
@@ -11,7 +11,7 @@ angular.module('cri.user',[])
             $scope.noPage=num+1;
             var skip=10*num;
             if(!$scope.isEnd){
-                users.getActivity(loggedUser.profile.id,skip).then(function(result){
+                Profile.getActivity(loggedUser.profile.id,skip).then(function(result){
                     if(result.length>0){
                         for(var i=0;i<result.length;i++){
                             $scope.activities.push(result[i]);
@@ -24,7 +24,7 @@ angular.module('cri.user',[])
         };
     }])
 
-    .controller('ProfileCtrl',['$scope','Notification','profile','users','recommandations','$state','$sce','activities','$materialSidenav',function ($scope,Notification,profile,users,recommandations,$state,$sce,activities,$materialSidenav) {
+    .controller('ProfileCtrl',['$scope','Notification','profile','Profile','recommandations','$state','$sce','activities','$materialSidenav',function ($scope,Notification,profile,Profile,recommandations,$state,$sce,activities,$materialSidenav) {
         $scope.profile = profile.data;
         $scope.moreData = profile.moreData
         $scope.activities = [];
@@ -100,7 +100,7 @@ angular.module('cri.user',[])
 
         // follow user
         $scope.follow=function(){
-            users.follow($scope.currentUser._id,$scope.profile._id).then(function(result){
+            Profile.follow($scope.currentUser._id,$scope.profile._id).then(function(result){
                 $scope.isFollowing=true;
                 $scope.profile.followers.push($scope.currentUser._id);
                 Notification.display('you now follow '+$scope.profile.username)
@@ -109,7 +109,7 @@ angular.module('cri.user',[])
             })
         };
         $scope.unfollow = function(){
-            users.unfollow($scope.currentUser._id,$scope.profile._id).then(function(result){
+            Profile.unfollow($scope.currentUser._id,$scope.profile._id).then(function(result){
                 Notification.display('you don\'t follow '+$scope.profile.username+' anymore');
 
                 $scope.profile.followers.splice($scope.profile.followers.indexOf($scope.currentUser._id));
@@ -118,112 +118,4 @@ angular.module('cri.user',[])
                 Notification.display(err.message);
             })
         }
-    }])
-
-    .controller('settingBasicCtrl',['$scope','users','Gmap','Notification','$materialDialog',function ($scope,users,Gmap,Notification,$materialDialog) {
-        $scope.profile=angular.copy($scope.currentUser);
-        delete $scope.profile._id;
-        delete $scope.profile.poster;
-        if(!$scope.profile.tags){
-            $scope.profile.tags=[];
-        }
-
-        $scope.refreshAddresses = function(address) {
-            Gmap.getAdress(address).then(function(adresses){
-                $scope.addresses = adresses;
-            })
-        };
-
-        $scope.cropPosterModal = function($event){
-            $materialDialog({
-                templateUrl : 'modules/profile/templates/modal/cropPosterModal.tpl.html',
-                clickOutsideToClose : false,
-                escapeToClose : false,
-                locals : {
-                    currentUser : $scope.currentUser
-                },
-                controller : ['$scope','users','$hideDialog','currentUser',function($scope,users,$hideDialog,currentUser){
-                    $scope.imageCropResult = null;
-                    $scope.$watch('imageCropResult',function(dataUri){
-                        if(dataUri){
-                            var user = {
-                                poster : dataUri
-                            };
-                            users.update(currentUser._id,user).then(function(data){
-                                Notification.display('Updated successfully');
-                            }).catch(function(err){
-                                Notification.display(err.message);
-                            }).finally(function(){
-                                $hideDialog();
-                            });
-                        }
-                    });
-                    $scope.cancel = function(){
-                        $hideDialog();
-                    }
-                }]
-            });
-        };
-
-        $scope.editPageModal = function(){
-            $materialDialog({
-                templateUrl : 'modules/profile/templates/modal/editPageModal.tpl.html',
-                locals : {
-                    currentUser : $scope.currentUser
-                },
-                controller : ['$scope','Config','users','$hideDialog','currentUser',function($scope,Config,users,$hideDialog,currentUser){
-                    $scope.tinymceOption = Config.tinymceOptions;
-                    $scope.cancel = function(){
-                        $hideDialog();
-                    };
-                    $scope.updateProfile=function(user){
-                        users.update(currentUser._id,user).then(function(data){
-                            Notification.display('Updated successfully');
-                        }).catch(function(err){
-                            Notification.display(err.message);
-                        }).finally(function(){
-                            $hideDialog();
-                        })
-                    };
-                }]
-            });
-        };
-
-        $scope.resetPassModal = function(){
-            $materialDialog({
-                templateUrl : 'modules/profile/templates/modal/resetPassword.tpl.html',
-                locals : {
-                    currentUser : $scope.currentUser
-                },
-                controller : ['$scope','users','$hideDialog','currentUser',function($scope,users,$hideDialog,currentUser){
-                    $scope.cancel = function(){
-                        $hideDialog();
-                    };
-
-                    $scope.updatePass=function(){
-                        if($scope.profile.password!=$scope.profile.password2){
-                            $scope.notMatch=true;
-                        }else{
-                            $scope.notMatch=false;
-                            users.update(currentUser._id,$scope.profile).then(function(result){
-                                Notification.display('Updated successfully');
-                            }).catch(function(err){
-                                Notification.display(err.message);
-                            })
-                        }
-                    };
-
-                }]
-            });
-        };
-
-        $scope.updateProfile=function(user){
-            users.update($scope.currentUser._id,user).then(function(data){
-                Notification.display('Updated successfully');
-            }).catch(function(err){
-                Notification.display(err.message);
-            })
-        };
-
-
-    }])
+    }]);

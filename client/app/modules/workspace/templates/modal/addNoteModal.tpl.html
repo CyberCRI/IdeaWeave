@@ -1,0 +1,43 @@
+<material-dialog>
+    <material-toolbar>
+        <div layout="horizontal" layout-align="start center">
+            <div>
+                <material-checkbox ng-model="note.public" aria-label="Checkbox 1">
+                    Public ?
+                </material-checkbox>
+            </div>
+            <div flex class="center">
+                Note
+            </div>
+            <material-button class="material-button-fab"  ng-click="createNote(note)" >
+                <i class="fa fa-check "></i>
+            </material-button>
+            <material-button ng-click="cancel()" block class="material-button-fab">
+                <i class="fa fa-times" ></i>
+            </material-button>
+            <!--<material-button  style="font-size: 1.6em">-->
+                <!--<i class="fa fa-check">Save</i>-->
+            <!--</material-button>-->
+            <!--<i class="fa fa-times fa-2x my-btn" ng-click="cancel()" block></i>-->
+        </div>
+    </material-toolbar>
+    <material-content>
+        <form name="noteForm" layout="vertical">
+            <ui-select ng-model="note.type" theme="selectize" style="width: 100%;">
+                <ui-select-match placeholder="Select the type of note you want write">
+                    <i class="fa fa-2x" ng-class="{'fa-comments' : $select.selected.id == 1,'fa-tasks' : $select.selected.id == 2, 'fa-flask' : $select.selected.id == 3,'fa-graduation-cap':$select.selected.id == 4 }"></i>
+                    {{$select.selected.title}}
+                </ui-select-match>
+                <ui-select-choices repeat="category in categories">
+                    <i class="fa fa-2x" ng-class="{'fa-comments' : category.id == 1,'fa-tasks' : category.id == 2, 'fa-flask' : category.id == 3,'fa-graduation-cap':category.id == 4 }"></i>
+                    <span ng-bind-html="category.title | highlight: $select.search"></span>
+                </ui-select-choices>
+            </ui-select>
+            <material-input-group>
+                <label for="title">Title</label>
+                <material-input id="title" type="text" ng-model="note.title" />
+            </material-input-group>
+            <textarea ui-tinymce="tinymceOptions" ng-model="note.text"></textarea>
+        </form>
+    </material-content>
+</material-dialog>

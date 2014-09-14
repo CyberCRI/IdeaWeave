@@ -1,10 +1,8 @@
 angular.module('cri.project',[])
-    .controller('ProjectCtrl',['$scope','Project','project', 'Notification','users','$sce','$materialDialog',function($scope,Project,project, Notification,users,$sce,$materialDialog){
+    .controller('ProjectCtrl',['$scope','Project','project', 'Notification','$sce','$materialDialog',function($scope,Project,project, Notification,$sce,$materialDialog){
         $scope.isVisitor = true;
         $scope.project = project[0];
         if($scope.currentUser){
-            console.log($scope.project)
-            console.log($scope.currentUser)
             if($scope.currentUser._id == $scope.project.owner._id){
                 $scope.isMember = true;
                 $scope.isOwner = true;
@@ -120,6 +118,7 @@ angular.module('cri.project',[])
         Tag.fetch().then(function(tags){
             $scope.tags = tags;
         }).catch(function(err){
+        }).catch(function(err){
             console.log(err);
         });
 
@@ -128,6 +127,7 @@ angular.module('cri.project',[])
         }
     }])
     .controller('ProjectsListCtrl',['$scope','projects','Notification','Project','$stateParams','Config','$materialDialog',function($scope,projects,Notification,Project,$stateParams,Config,$materialDialog){
+        console.log('sfs dfsfs fsf s',projects)
         $scope.projects = projects;
         $scope.noPage = 0;
         $scope.isEnd = false;
@@ -153,8 +153,7 @@ angular.module('cri.project',[])
         };
     }])
 
-    .controller('ProjectJoinCtrl',['$scope','users','Config','Project','$state','Notification','$stateParams','project',function ($scope,users,Config,Project,$state,Notification,$stateParams,project) {
-        $scope.user = users;
+    .controller('ProjectJoinCtrl',['$scope','Profile','Config','Project','$state','Notification','$stateParams','project',function ($scope,Profile,Config,Project,$state,Notification,$stateParams,project) {
         Project.data = project;
 //        $scope.ref='/project/setting/'+$stateParams.pid+'/join/'+$stateParams.jid;
         $scope.joinTeam=function(){

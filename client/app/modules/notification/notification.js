@@ -38,7 +38,7 @@ angular.module('cri.common')
                             $hideToast();
                         };
                     }],
-                    templateUrl: 'templates/socketToast.tpl.html',
+                    templateUrl: 'modules/notification/templates/socketToast.tpl.html',
                     duration: 50000,
                     position: 'top right'
                 });

@@ -1,6 +1,5 @@
 'use strict';
 angular.module('cri', [
-    'templates',
     'ngSanitize',
     'ngAnimate',
     'ngMaterial',
@@ -16,19 +15,20 @@ angular.module('cri', [
     'Satellizer',
     'btford.socket-io',
     'yaru22.angular-timeago',
+    'cri.admin',
     'cri.d3',
+    'cri.hackpad',
     'cri.files',
     'cri.home',
     'cri.header',
     'cri.footer',
 	'cri.common',
     'cri.project',
-    'cri.noteLab',
+    'cri.workspace',
     'cri.auth',
     'cri.challenge',
-    'cri.challengeSettings',
     'cri.tag',
-    'cri.user',
+    'cri.profile',
     'cri.message'])
     .config(['$httpProvider','$locationProvider','$authProvider',function ($httpProvider,$locationProvider,$authProvider) {
 //        $httpProvider.defaults.withCredentials=true;
@@ -38,12 +38,12 @@ angular.module('cri', [
 //        dev
 
     }])
-    .run(['users','mySocket','$rootScope', function (users,mySocket,$rootScope) {
-        users.getMe().then(function(me){
+    .run(['Profile','mySocket','$rootScope', function (Profile,mySocket,$rootScope) {
+        Profile.getMe().then(function(me){
             console.log('data',me);
 //            $rootScope.currentUser = me;
             mySocket.init(me);
-            users.getPoster(me._id).then(function(data){
+            Profile.getPoster(me._id).then(function(data){
                 $rootScope.currentUser.poster = data.poster;
             }).catch(function(err){
                 console.log('poster error',err)
@@ -56,5 +56,33 @@ angular.module('cri', [
         $scope.closeToast = function() {
             $hideToast();
         };
-    }]);
-angular.module('templates',[]);
+    }]).controller('RightNavCtrl',function($scope,$materialSidenav,$auth,Notification){
+        var rightNav = $materialSidenav('right');
+        $scope.$on('toggleRight',function(e,type){
+            switch(type){
+                case 'login':
+                    $scope.sideNavTemplateUrl = 'modules/auth/templates/signin.tpl.html';
+                    rightNav.toggle();
+                    break;
+                case 'menu':
+                    $scope.sideNavTemplateUrl = 'modules/header/templates/menu.tpl.html';
+                    rightNav.toggle();
+                    break;
+            }
+
+        });
+        $scope.toggleRight = function(){
+            rightNav.toggle();
+        };
+        $scope.$on('showLogin',function(){
+            rightNav.toggle();
+        });
+        $scope.$on('side:close-right',function(){
+            rightNav.toggle();
+        });
+        $scope.signout =function() {
+            $auth.logout();
+            rightNav.toggle();
+            Notification.display('You have been logged out');
+        }
+    });

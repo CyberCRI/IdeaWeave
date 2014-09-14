@@ -1,4 +1,4 @@
-<section layout="horizontal" layout-fill style="overflow-y: hidden;">
+<section layout="horizontal" layout-fill>
     <material-sidenav class="material-sidenav-left material-whiteframe-z2 left" component-id="left">
         <material-toolbar layout="horizontal">
             <div class="material-toolbar-tools">
@@ -14,18 +14,17 @@
             </div>
         </material-content>
     </material-sidenav>
-    <section flex layout-fill layout="vertical">
-        <h1 class="center">
-            Challenges
-        </h1>
-        <div ng-if="currentUser" >
-            <material-button ui-sref="challengeSuggest" hide block-md>
-                Suggest a challenge !
+    <section layout="vertical" style="width:100%;">
+        <material-toolbar scroll-shrink class="material-theme-indigo" layout="vertical" style="position:relative;z-index:10;">
+            <div class="center">
+                Challenges
+            </div>
+            <material-button class="material-button-fab material-button-fab-bottom-right material-theme-indigo" ui-sref="challengeSuggest" ng-if="currentUser" style="color:black;bottom:-24px;position:relative; left :90%;z-index : inherit">
+                <i class="fa fa-plus" style="font-size: 1.2em; top:3px;position:relative;z-index: 50"></i>
             </material-button>
-            <i class="fa fa-plus fa-2x my-btn" ui-sref="challengeSuggest" hide-md></i>
-
-        </div>
-        <section ui-view="challengesView" flex layout style="padding-bottom:64px;" ></section>
+        </material-toolbar>
+        <material-content>
+            <section ui-view="challengesView"></section>
+        </material-content>
     </section>
-
 </section>

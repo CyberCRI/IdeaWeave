@@ -7,6 +7,10 @@ $material-card-background : rgb(253, 255, 248);
 
 $headerHeight : 64px;
 
+.material-theme-black{
+  background-color: #000000;
+  color : #f5f5f5;
+}
 
 .material-dialog-container{
   overflow-y: hidden;
@@ -53,8 +57,6 @@ material-tab material-tab-label{
   background-color: white !important;
 }
 
-
-
 material-card{
   background-color: $material-card-background;
   //  height: 400px;
@@ -94,10 +96,29 @@ material-ink-bar{
   height:4px!important;
 }
 
+material-dialog{
+  material-content{
+    padding-left : 15px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+  }
+}
+
+
+.material-button-fab{
+
+  .fa{
+    margin: auto auto;
+    position: relative;
+  }
+}
+
 .material-sidenav-left{
   padding-left: 20px;
 }
-
+.material-sidenav-right.open,.material-sidenav-right.open{
+  z-index:25 !important;
+}
 //@media (min-width: 960px) {
 //  material-sidenav {
 //    position: absolute !important;

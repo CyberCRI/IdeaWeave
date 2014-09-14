@@ -1,7 +1,10 @@
 var HackPad = require('hackpad'),
-    client = new HackPad('qGjGvsaCdDG', 'byPcXTnxwDxYgwT6zrwsgVw33RHVpNSz'),
+    client = new HackPad('z9FmIrlxJNu', 'W17CLixQ5ocGRy20NqlRnNnKtyKi8531',{
+        site : 'ideaweave'
+    }),
     mongoose = require('mongoose-q')(),
-    NoteLab = mongoose.model('NoteLab');
+    NoteLab = mongoose.model('NoteLab'),
+    myHackpad = require('../services/hackpad.service');
 
 exports.client = client;
 exports.getContent = function(req,res) {
@@ -9,7 +12,6 @@ exports.getContent = function(req,res) {
         if(err){
             res.json(400,err)
         }else{
-
             NoteLab.findOneAndUpdateQ({hackPadId : req.params.id},{ text : resp }).then(function(note){
                 res.json(note);
             }).fail(function(err){
@@ -19,4 +21,17 @@ exports.getContent = function(req,res) {
     })
 };
 
+exports.getIframe = function(req,res){
+    myHackpad.getIframe('z9FmIrlxJNu','W17CLixQ5ocGRy20NqlRnNnKtyKi8531',req.params.id,req.query.email,req.query.name).then(function(data){
+        console.log(data)
+        res.send(200,data);
+    }).catch(function(err){
+        console.log(err);
+        res.json(400,err);
+    })
+};
 
+exports.auth = function(req,res){
+    console.log(myHackpad.auth('z9FmIrlxJNu','W17CLixQ5ocGRy20NqlRnNnKtyKi8531'))
+    res.json(myHackpad.auth('z9FmIrlxJNu','W17CLixQ5ocGRy20NqlRnNnKtyKi8531'));
+}

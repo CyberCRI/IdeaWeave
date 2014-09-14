@@ -1,0 +1,18 @@
+<material-dialog>
+    <material-toolbar layout="horizontal" layout-align="">
+        <div layout layout-align="start center">
+            <span flex>Your profile page</span>
+            <material-button class="material-button-fab" ng-click="cancel()">
+                <i class="fa fa-times" ></i>
+            </material-button>
+        </div>
+    </material-toolbar>
+    <image-crop
+            data-width="300"
+            data-height="300"
+            data-shape="circle"
+            data-step="imageCropStep"
+            data-result="imageCropResult"
+            ></image-crop>
+
+</material-dialog>

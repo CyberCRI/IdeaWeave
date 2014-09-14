@@ -1,0 +1,28 @@
+<material-dialog>
+    <material-toolbar layout="horizontal" layout-align="">
+        <div layout layout-align="start center">
+            <span flex>Note templates</span>
+            <span class="faa-spin animated" ng-if="isLoading">
+                    <i class="fa fa-spinner"></i>
+                </span>
+            <material-button class="material-button-fab" ng-click="createTemplate(newTemplate)">
+                <i class="fa fa-check"></i>
+            </material-button>
+            <material-button class="material-button-fab" ng-click="cancel()">
+                <i class="fa fa-times"></i>
+            </material-button>
+        </div>
+    </material-toolbar>
+    <material-content>
+        <form name="templateForm">
+            <material-input-group>
+                <!--<label for="title">Template's title</label>-->
+                <material-input type="text" id="title" ng-model="newTemplate.title"></material-input>
+            </material-input-group>
+
+            <textarea name="description" ng-model="newTemplate.description" placeholder="Description" style="width:100%" rows="5"></textarea>
+
+            <textarea ui-tinymce="tinymceOption" name='brief'  ng-model="newTemplate.content"/></textarea>
+        </form>
+    </material-content>
+</material-dialog>

@@ -196,6 +196,7 @@ exports.profile = function(req,res){
         .populate('tags')
         .execQ()
         .then(function(profile){
+            console.log(profile)
             var myProfile = profile[0];
             q.all([
                 User.findQ({'followers':  myProfile._id },'_id'),

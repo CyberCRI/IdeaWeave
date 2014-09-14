@@ -1,0 +1,31 @@
+<section layout="vertical">
+    <div layout="horizontal" layout-align="start center">
+        <material-button ng-click="addResourceModal($event)" flex>
+            <span>
+                Add a resource
+            </span>
+            <i class="material-button-icon fa fa-plus fa-2x"></i>
+        </material-button>
+
+        <material-input-group >
+            <label for="urlFilter">Filter by title <i class="fa fa-search fa-2x"></i></label>
+            <material-input type="text" ng-model="urlFilter.title" id="urlFilter"/>
+        </material-input-group>
+    </div>
+
+    <material-list class="list-resource">
+        <material-item ng-repeat="url in urls |filter:urlFilter">
+            <div class="material-tile-content" layout="vertical" layout-align="start center">
+                <material-button ng-href="{{ url.text }}" target="_blank" style="width:100%;">
+                        {{ url.title }}
+                </material-button>
+                <p>
+                  {{ url.description }}
+                </p>
+            </div>
+            <div class="material-tile-right">
+                <user-block userId="url.owner" height="50px"></user-block>
+            </div>
+        </material-item>
+    </material-list>
+</section>

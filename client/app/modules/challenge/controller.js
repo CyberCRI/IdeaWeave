@@ -39,11 +39,13 @@ angular.module('cri.challenge', [])
     .controller('ChallengesListCtrl',['$scope','challenges','Notification','Challenge','Project','$stateParams','Config','$materialDialog',function($scope,challenges,Notification,Challenge,Project,$stateParams,Config,$materialDialog){
         $scope.challenges = challenges;
 
+
         $scope.noPage = 0;
         $scope.isEnd = false;
         $scope.now = new Date().getTime();
         var option = { limit : Config.paginateChallenge };
         $scope.loadMoreChallenges = function () {
+            console.log('ee')
             $scope.noPage++;
             option.skip = Config.paginateChallenge * $scope.noPage;
             if (!$scope.isEnd) {

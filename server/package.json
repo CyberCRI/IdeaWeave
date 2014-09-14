@@ -8,6 +8,8 @@
     "npm": "1.4.x"
   },
   "dependencies": {
+      "underscore":"*",
+    "oauth-client": "~0.3.0",
     "bcryptjs": "^0.7.12",
     "body-parser": "~1.2.0",
     "compression": "~1.0.1",

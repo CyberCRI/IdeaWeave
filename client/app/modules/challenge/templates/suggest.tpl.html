@@ -33,6 +33,17 @@
                     <div ng-bind-html="address.formatted_address | highlight: $select.search"></div>
                 </ui-select-choices>
             </ui-select>
+            <material-input-group>
+                <label for="startdate" style="padding-left:100px;">Start date</label>
+                <material-input type="date" id="startdate" ng-model="pform.startDate"></material-input>
+            </material-input-group>
+            <material-input-group>
+                <label for="endDate" style="padding-left:100px;">End date</label>
+                <material-input type="date" id="endDate" ng-model="pform.startDate"></material-input>
+            </material-input-group>            <!--<material-input-group>-->
+                <!--<label for="enddate">Satrt date</label>-->
+                <!--<material-input type="date" id="startdate"></material-input>-->
+            <!--</material-input-group>-->
 
             <textarea placeholder="a short description of your challenge" ng-model="pform.brief" rows="5" style="width:100%;"></textarea>
 

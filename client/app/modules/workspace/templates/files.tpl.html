@@ -1,0 +1,28 @@
+<div layout="horizontal" layout-align="start center">
+    <material-button ng-click="uploadFileModal($event)" flex>
+            <span>
+                upload
+            </span>
+        <i class="material-button-icon fa fa-upload fa-2x"></i>
+    </material-button>
+
+    <material-input-group >
+        <label for="filter">Filter by name <i class="fa fa-search fa-2x"></i></label>
+        <material-input type="text" ng-model="fileFilter.originalname" id="filter"/>
+    </material-input-group>
+</div>
+<material-list class="list-resource">
+    <material-item ng-repeat="file in files |filter:fileFilter">
+        <div class="material-tile-left">
+            <i class="fa {{ file.class }} fa-2x icon-file" ng-class="{ 'file-selected' : file.id == fileDetails.id  }" ng-click="showFileDetails(file)" ></i>
+        </div>
+        <div class="material-tile-content">
+            <material-button ng-click="detailsFileModal($event,file)" style="height: 100%;width:100%;">
+                {{ file.originalname }}
+            </material-button>
+        </div>
+        <div class="material-tile-right">
+            <user-block userId="file.owner" height="'50px'"></user-block>
+        </div>
+    </material-item>
+</material-list>

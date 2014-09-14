@@ -1,0 +1,21 @@
+.home-header{
+  background-size: cover;
+  padding-top:20px;
+  .content{
+    padding-left:50px;
+  }
+  h1{
+    margin-top : 0;
+    text-decoration: underline;
+  }
+}
+.item-list{
+  h1{
+    cursor : pointer;
+    text-align:center;
+    margin-top:0px;
+  }
+  .material-tile-content{
+    padding-left:20px;
+  }
+}

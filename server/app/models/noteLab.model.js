@@ -14,6 +14,10 @@ var NoteLabSchema = new Schema({
         type: Date,
         default: Date.now
     },
+    public : {
+        type : Boolean,
+        defaults : false
+    },
     hackPadId : {
         type : String
     },

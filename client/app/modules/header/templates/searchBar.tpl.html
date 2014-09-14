@@ -1,0 +1,55 @@
+<ui-select ng-model="address.selected"
+           reset-search-input="true"
+           theme="selectize"
+           class="search-bar">
+    <ui-select-match placeholder="Search...">
+        {{$select.selected.title || $select.selected.username}}
+    </ui-select-match>
+    <ui-select-choices repeat="result in searchResult track by $index"
+                       refresh="refreshSearchBar($select.search)"
+                       refresh-delay="0">
+        <material-item ng-if="result.separator" class="center" style="cursor: default;background-color: #808080;color:white;" >
+            {{ result.separator }}
+        </material-item>
+        <material-item ng-if="!result.separator" class="result-item" ng-click="goTo(result)">
+            <div class="material-tile-left" ng-click="goTo(result)">
+                <img ng-src="{{result.poster || 'http://placehold.it/50x50'}}" class="img-rounded" style="height:50px;max-width: 100%">
+            </div>
+            <div class="material-tile-content">
+                <div>
+                    <div>{{result.title ||result.username}}</div>
+                    <showtags entity="result" ></showtags>
+                </div>
+            </div>
+            <div class="material-tile-right" ng-if="result.tags">
+                <div ng-if="result.followers">
+                            <span>
+                                {{ result.followers.length }}
+                            </span>
+                    &nbsp;
+                            <span>
+                                followers
+                            </span>
+                </div>
+                <div ng-if="result.noteNumber">
+                            <span>
+                                {{ result.noteNumber }}
+                            </span>
+                    &nbsp;
+                            <span>
+                                publication
+                            </span>
+                </div>
+                <div ng-if="result.projects">
+                            <span>
+                                {{ result.projects.number }}
+                            </span>
+                    &nbsp;
+                            <span>
+                                projects
+                            </span>
+                </div>
+            </div>
+        </material-item>
+    </ui-select-choices>
+</ui-select>

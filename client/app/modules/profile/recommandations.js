@@ -1,4 +1,4 @@
-angular.module('cri.user')
+angular.module('cri.profile')
 .factory('Recommandations',['$q','$http','Config',function($q,$http,Config){
         var service = {
             fetchUser : function(userId){

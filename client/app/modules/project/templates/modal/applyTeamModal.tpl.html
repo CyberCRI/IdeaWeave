@@ -1,11 +1,16 @@
-<material-whiteframe class="material-whiteframe-z1" layout="vertical" layout-align="" style="width:90%;">
-    <header layout="horizontal">
-        <h2 style="text-align: center;" flex>Introduce Yourself</h2>
-
-        <i class="fa fa-times fa-2x my-btn" ng-click="cancel()"></i>
-    </header>
-    <textarea placeholder="Present yourself" ui-tinymce style="height:300px; width:100%"  ng-model="apply.message"></textarea>
-    <footer>
-        <material-button class="material-button-raised" style="width:100%;" ng-click="applyTeamMsg()">Apply</material-button>
-    </footer>
-</material-whiteframe>
+<material-dialog>
+    <material-toolbar>
+        <div layout="horizontal">
+            <h2 style="text-align: center;" flex>Introduce Yourself</h2>
+            <material-button class="material-button-fab" ng-click="applyTeamMsg()">
+                <i class="fa fa-check"></i>
+            </material-button>
+            <material-button class="material-button-fab"  ng-click="cancel()">
+                <i class="fa fa-times"></i>
+            </material-button>
+        </div>
+    </material-toolbar>
+    <material-content>
+        <textarea placeholder="Present yourself" ui-tinymce style="min-height:300px; width:100%"  ng-model="apply.message"></textarea>
+    </material-content>
+</material-dialog>

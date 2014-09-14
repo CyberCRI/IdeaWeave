@@ -9,15 +9,16 @@ $opacityIndexHover : 0.9;
 $headerGrey : rgb(46,45,48);
 $headerYellow : rgb(245,230,24);
 
+@import "../modules/common/sass/common";
 @import "../modules/common/sass/animation";
+@import "../modules/common/sass/material-redesign";
+@import "../modules/common/sass/form";
 @import "../modules/auth/sass/auth";
 @import "../modules/header/sass/header";
 @import "../modules/footer/sass/footer";
-@import "../modules/common/sass/material-redesign";
-@import "../modules/common/sass/form";
 @import "../modules/challenge/sass/challenge";
 @import "../modules/project/sass/project";
-@import "../modules/noteLab/sass/notelab";
+@import "../modules/workspace/sass/workspace";
 @import "../modules/home/sass/home";
 @import "../modules/d3/sass/d3";
 @import "../modules/challenge/sass/challenge";
@@ -33,13 +34,10 @@ body,html{
 }
 
 .main-header{
-  border-bottom:$headerGrey solid 1 px;
-  .my-grey,.fa{
-    color : $headerGrey;
-  }
-  .my-yellow{
-    color : $headerYellow;
-  }
+  z-index: 15;
+  position:relative;
+  background-color: white;
+  border-bottom:slategrey solid 1px;
 }
 
 header{

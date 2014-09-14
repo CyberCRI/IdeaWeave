@@ -1,0 +1,107 @@
+<section layout="horizontal" layout-fill>
+    <material-sidenav class="material-sidenav-left material-whiteframe-z2 left" component-id="left">
+        <material-toolbar layout="horizontal">
+            <div class="material-toolbar-tools">
+                <i class="fa fa-caret-left fa-2x my-btn" hide-md style="color:black;" ng-click="toggle()" flex></i>
+                <div>
+                    <i class="fa fa-trophy">Edition</i>
+                </div>
+            </div>
+        </material-toolbar>
+        <material-content>
+            <section layout="vertical" flex-md>
+                <material-button ng-click="popUpPoster($event)" class="material-button-raised">
+                    Edit Poster
+                </material-button>
+                <material-button class="material-button-raised" style="width:100%;" ng-click="popUpBanner()">
+                    Edit Banner
+                </material-button>
+                <material-button class="material-button-raised"  style="width:100%;" ng-click="popUpEdit()">
+                    Edit HomePage
+                </material-button>
+                <material-button class="material-button-colored material-theme-red" style="width:100%;" ng-click="popUpRemove()">
+                    Delete Challenge
+                </material-button>
+            </section>
+        </material-content>
+    </material-sidenav>
+    <section layout="vertical" style="width:100%;" >
+        <material-toolbar scroll-shrink class="material-theme-indigo">
+            <div class="center">
+                {{ challenge.title }}'s administration
+            </div>
+        </material-toolbar>
+        <material-content class="right-part">
+            <form name="projectBasic" layout="vertical">
+                <material-input-group>
+                    <label for="title">Title</label>
+                    <material-input type="text" id="title" ng-model="challenge.title"></material-input>
+                </material-input-group>
+                <textarea placeholder="a brief description of your project" rows="5" ng-model="project.brief" class="pretty-area"></textarea>
+                <tag-manager entity="challenge" ng-model="challenge.tags"></tag-manager>
+                <material-button class="material-theme-indigo"  ng-click="updateChallenge()" style="margin:auto;">
+                    <span class="faa-spin animated" ng-if="isBasicLoading">
+                        <i class="fa fa-spin"></i>
+                    </span>
+                    Update Challenge
+                </material-button>
+            </form>
+            <section layout="vertical" layout-md="horizontal">
+                <section flex-md layout="vertical">
+                    <header>
+                        <h2 class="center">Workspace's templates</h2>
+                    </header>
+                    <material-button style="width:100%" class="material-button-raised" ng-click="popUpTemplate()">
+                        New Template
+                    </material-button>
+                    <material-list>
+                        <material-item ng-repeat="template in templates">
+                            <div class="material-tile-left">
+
+                            </div>
+                            <div class="material-tile-content">
+                                <h4>{{ template.title }}</h4>
+                            </div>
+                            <div class="material-tile-right">
+                                <material-button ng-click="removeTemplate(template,$index)">
+                        <span class="faa-spin animated" ng-if="isTLoading[$index]">
+                            <i fa fa-spinner></i>
+                        </span>
+                                    <i class="fa fa-trash-o">Remove</i>
+
+                                </material-button>
+                            </div>
+                        </material-item>
+                    </material-list>
+                </section>
+                <section flex-md layout="vertical">
+                    <header>
+                        <h2 class="center">Projects</h2>
+                    </header>
+                    <material-button style="width:100%" class="material-button-raised" ng-click="createProject()">
+                        New Project
+                    </material-button>
+                    <material-list>
+                        <material-item ng-repeat="project in projects">
+                            <div class="material-tile-left">
+
+                            </div>
+                            <div class="material-tile-content">
+                                <h4>{{ project.title }}</h4>
+                            </div>
+                            <div class="material-tile-right">
+                                <material-button ng-click="removeProject(project,$index)">
+                        <span class="faa-spin animated" ng-if="isPLoading[$index]">
+                            <i class="fa fa-spinner"></i>
+                        </span>
+                                    <i class="fa fa-trash-o">Remove</i>
+                                </material-button>
+                            </div>
+                        </material-item>
+                    </material-list>
+                </section>
+            </section>
+        </material-content>
+    </section>
+</section>
+

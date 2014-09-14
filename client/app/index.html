@@ -35,16 +35,61 @@
       </p>
     <![endif]-->
 
-<ng-include src="'modules/header/templates/header.tpl.html'"  ng-controller="HeaderCtrl" ></ng-include>
+<material-sidenav class="material-sidenav-right material-whiteframe-z2" component-id="right" layout="vertical" >
+    <div ng-controller="RightNavCtrl">
+        <material-toolbar layout="horizontal">
+            <div class="material-toolbar-tools">
+                <div flex>
+                    <img src="images/notif.png" alt="notifications !"  ng-if="sideNavTemplateUrl == 'modules/header/templates/notifications.tpl.html'"/>
+                    <img src="images/svg/login.svg" alt="notifications !"  ng-if="sideNavTemplateUrl == 'modules/auth/templates/signin.tpl.html'"/>
+                </div>
+                <i class="fa fa-caret-right fa-2x my-btn" style="color:black;" ng-click="toggleRight()"></i>
+            </div>
+        </material-toolbar>
+        <div ng-include="sideNavTemplateUrl"flex layout layout-fill>
+        </div>
+    </div>
+</material-sidenav>
 
-<section id="mainView" ui-view="mainView" layout="vertical" layout-fill></section>
+<material-toolbar ng-controller="HeaderCtrl" class="main-header">
+    <div class="material-toolbar-tools">
+        <div>
+            <i class="fa fa-2x fa-tags my-btn" hide-md ui-route="/challenges/[A-Za-z0-9_.]*" ng-class="{ 'hidden' : !$uiRoute }" ng-click="sideNavToggle('showTags')"></i>
+            <i class="fa fa-2x fa-tags my-btn" hide-md ui-route="/projects/[A-Za-z0-9_.]*" ng-class="{ 'hidden' : !$uiRoute }" ng-click="sideNavToggle('showTags')"></i>
+            <i class="fa fa-2x fa-user my-btn" hide-md ui-route="/profile/[A-Za-z0-9_.]*" ng-class="{ 'hidden' : !$uiRoute }" ng-click="sideNavToggle('showProfile')"></i>
+            <i class="fa fa-2x fa-cogs my-btn" hide-md ui-route="/project/[A-Za-z0-9_.]*/notelab" ng-class="{ 'hidden' : !$uiRoute }" ng-click="sideNavToggle('showWorkspace')"></i>
+            <i class="fa fa-2x fa-gears my-btn" hide-md ui-route="/admin/project/[A-Za-z0-9_.]*" ng-class="{ 'hidden' : !$uiRoute }" ng-click="sideNavToggle('showAdmin')"></i>
+            <i class="fa fa-2x fa-gears my-btn" hide-md ui-route="/admin/challenge/[A-Za-z0-9_.]*" ng-class="{ 'hidden' : !$uiRoute }" ng-click="sideNavToggle('showAdmin')"></i>
+        </div>
+        <div hide block-md>
+            <a style="cursor : pointer;padding-top: 0px;"  ui-sref="home">
+                <img src="images/ideaweavelogo.png" height="50px" alt="IdeaWeaves"/>
+            </a>
+        </div>
+        <div layout="horizontal" layout-align="start end" hide block-md>
+            <i ui-sref="challenges.list({ tag :'all' })" class="fa fa-trophy fa-2x my-btn" ui-route="/challenges/all"  ng-class="{'menu-active': $uiRoute}"></i>
+            <img src="images/plus.png" width="15%" height="15%" class="plus-icon" ui-sref="challengeSuggest" ng-if="currentUser._id" alt="add"/>
+            <i ui-sref="projects.list({ tag : 'all' })" class="fa fa-lightbulb-o fa-2x my-btn" ui-route="/projects"  ng-class="{'menu-active': $uiRoute}"></i>
+        </div>
+       <search-bar flex></search-bar>
+        <div>
+            <a href="">
+                <i class="fa fa-caret-left fa-2x" ng-click="toggleRight('menu')" ng-if="currentUser"></i>
+            </a>
+            <a href="">
+                <i class="fa fa-sign-in fa-2x" ng-click="toggleRight('login')" ng-if="!currentUser"></i>
+            </a>
+        </div>
+    </div>
+</material-toolbar>
 
-
+<section ui-view="mainView" layout="vertical" layout-fill></section>
 <script src="vendors/tinymce/tinymce.min.js"></script>
 <script src="vendors/tinymce/themes/modern/theme.min.js"></script>
 <script src="vendors/tinymce/plugins/print/plugin.min.js"></script>
 <script src="vendors/tinymce/plugins/textcolor/plugin.min.js"></script>
 <!-- build:js scripts/scripts.js -->
+<script src="vendors/oauth-signature/dist/oauth-signature.js"></script>
 <script src="vendors/socket.io-client/socket.io.js"></script>
 <script src="vendors/pdfjs/src/pdf.js"></script>
 <script src="vendors/underscore/underscore.js"></script>
@@ -66,6 +111,7 @@
 <script src="vendors/angular-timer/dist/angular-timer.js"></script>
 <script src="vendors/satellizer/satellizer.js"></script>
 <script src="vendors/angular-timeago/src/timeAgo.js"></script>
+<script src="vendors/angular-embedly/angular-embedly.js"></script>
 
 <script src="app.js"></script>
 
@@ -81,6 +127,8 @@
 <script src="modules/d3/services.js"></script>
 <script src="modules/d3/directives/tagGraph.js"></script>
 <script src="modules/d3/directives/tagCloud.js"></script>
+
+<script src="modules/hackpad/hackpad.js"></script>
 
 <script src="modules/notification/notification.js"></script>
 
@@ -101,36 +149,25 @@
 <script src="modules/auth/lang.js"></script>
 <script src="modules/auth/route.js"></script>
 
-<script src="modules/admin/controller.js"></script>
-<script src="modules/admin/route.js"></script>
-<script src="modules/admin/lang.js"></script>
-
 <script src="modules/project/controller.js"></script>
 <script src="modules/project/services.js"></script>
 <script src="modules/project/route.js"></script>
 <script src="modules/project/lang.js"></script>
 <script src="modules/project/directives/projectBlock/directives.js"></script>
 
-<script src="modules/project/admin/controller.js"></script>
-<script src="modules/project/admin/route.js"></script>
-<script src="modules/project/admin/lang.js"></script>
-
-<script src="modules/noteLab/controller.js"></script>
-<script src="modules/noteLab/services.js"></script>
-<script src="modules/noteLab/route.js"></script>
-<script src="modules/noteLab/lang.js"></script>
-<script src="modules/noteLab/directives/note-info.js"></script>
-<script src="modules/noteLab/comments/controller.js"></script>
-<script src="modules/noteLab/comments/services.js"></script>
+<script src="modules/workspace/controller.js"></script>
+<script src="modules/workspace/services.js"></script>
+<script src="modules/workspace/route.js"></script>
+<script src="modules/workspace/lang.js"></script>
+<script src="modules/workspace/directives/note-info.js"></script>
+<script src="modules/workspace/comments/controller.js"></script>
+<script src="modules/workspace/comments/services.js"></script>
 
 <script src="modules/challenge/controller.js"></script>
 <script src="modules/challenge/route.js"></script>
 <script src="modules/challenge/lang.js"></script>
 <script src="modules/challenge/services.js"></script>
 <script src="modules/challenge/directives/challengeBlock/directives.js"></script>
-
-<script src="modules/challengeSettings/controller.js"></script>
-<script src="modules/challengeSettings/route.js"></script>
 
 <script src="modules/tag/controller.js"></script>
 <script src="modules/tag/route.js"></script>
@@ -146,8 +183,18 @@
 <script src="modules/profile/directives/activity/directives.js"></script>
 <script src="modules/profile/directives/userBlock/directives.js"></script>
 
-<script src="modules/admin/controller.js"></script>
-<script src="modules/admin/route.js"></script>
+
+<script src="modules/admin/profile/controller.js"></script>
+<script src="modules/admin/profile/route.js"></script>
+
+<script src="modules/admin/project/controller.js"></script>
+<script src="modules/admin/project/route.js"></script>
+
+<script src="modules/admin/challenge/controller.js"></script>
+<script src="modules/admin/challenge/route.js"></script>
+
+<script src="modules/admin/su/controller.js"></script>
+
 
 <script src="modules/message/controller.js"></script>
 <script src="modules/message/route.js"></script>

@@ -1,10 +1,10 @@
 <!-- first section - Home -->
-<material-content style="height:100%;">
+<section>
     <ul rn-carousel rn-carousel-indicator="" rn-carousel-control="">
         <!--ng-style="{backgroundImage : 'url(images/carousel/fond' +$index+ '.png)'}"-->
-        <li class="list-carousel-challenge" ng-repeat="challenge in challenges"  style="height: 100%;" >
+        <li class="list-carousel-challenge" ng-repeat="challenge in challenges" >
 
-            <section class="carousel-body" id="firstSlide" ng-if="challenge.intro == 1" layout="vertical" layout-align="start center" style="height:100%;">
+            <section class="carousel-body" id="firstSlide" ng-if="challenge.intro == 1" layout="vertical" layout-align="start center" >
                 <h1 class="center" style="font-size: 3em;">
                     IdeaWeaves
                 </h1>
@@ -94,4 +94,4 @@
     <ng-include id="signup" src="'modules/auth/templates/signup.tpl.html'"></ng-include>
     <ng-include src="'modules/footer/templates/footer.tpl.html'"></ng-include>
 
-</material-content>
+</section>

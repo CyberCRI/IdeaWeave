@@ -4,9 +4,6 @@ angular.module('cri.auth',[
     .config(function($authProvider,$windowProvider,ConfigProvider){
         var Config = ConfigProvider.$get();
 
-
-        console.log(Config)
-
         $authProvider.setConfig({
             loginUrl: Config.apiServer+'/auth/login',
             signupUrl: Config.apiServer+'/auth/signup'
@@ -21,7 +18,7 @@ angular.module('cri.auth',[
             clientId: Config.githubClient
         });
     })
-    .controller('LoginCtrl', ['$scope', 'users','$state','Notification','$auth','$materialDialog','$rootScope','mySocket', function ($scope, users, $state,Notification,$auth,$materialDialog,$rootScope,mySocket) {
+    .controller('LoginCtrl', ['$scope', 'Profile','$state','Notification','$auth','$materialDialog','$rootScope','mySocket', function ($scope, Profile, $state,Notification,$auth,$materialDialog,$rootScope,mySocket) {
         $scope.loader = {};
         $scope.authenticate = function(provider) {
             $scope.loader[provider] = true;
@@ -37,7 +34,7 @@ angular.module('cri.auth',[
                         locals : {
                             currentUser : $scope.currentUser
                         },
-                        controller : ['$scope','$hideDialog','users','currentUser',function($scope,$hideDialog,users,currentUser){
+                        controller : ['$scope','$hideDialog','Profile','currentUser',function($scope,$hideDialog,Profile,currentUser){
                             $scope.cancel = function(){
                                 $hideDialog();
                             };
@@ -46,7 +43,7 @@ angular.module('cri.auth',[
                                     username : $scope.currentUser.username,
                                     email : $scope.currentUser.email
                                 };
-                                users.update(user._id,$scope.profile).then(function(user){
+                                Profile.update(user._id,$scope.profile).then(function(user){
                                     currentUser = user;
                                     $hideDialog();
                                     Notification.display("Welcome you're logged in");
@@ -66,7 +63,6 @@ angular.module('cri.auth',[
         };
 
         $scope.form = {};
-        $scope.user = users;
 
         $scope.login = function ($event) {
             $event.preventDefault();
@@ -92,7 +88,7 @@ angular.module('cri.auth',[
         $scope.resetF = {};
         $scope.getToken = function (email) {
             if(!$scope.emailSend){
-                users.getResetPassToken(email).then(function(data){
+                Profile.getResetPassToken(email).then(function(data){
                     if (data.error) {
                         Notification.display('an error occured sorry.');
 
@@ -106,7 +102,7 @@ angular.module('cri.auth',[
 
         };
         $scope.reSet = function (resetData) {
-            users.resetPassword(resetData).then(function (data) {
+            Profile.resetPassword(resetData).then(function (data) {
                 if (data.error) {
                     Notification.display('an error occured sorry.');
                 } else {
@@ -144,9 +140,9 @@ angular.module('cri.auth',[
         };
 
     }])
-    .controller('ActivateCtrl',['$scope','users','$state','$stateParams','Notification',function($scope,users,$state,$stateParams,Notification){
+    .controller('ActivateCtrl',['$scope','Profile','$state','$stateParams','Notification',function($scope,Profile,$state,$stateParams,Notification){
         $scope.activate = function(){
-            users.update($stateParams.uid,{ emailValidated : true }).then(function(){
+            Profile.update($stateParams.uid,{ emailValidated : true }).then(function(){
                 $state.go('home')
             }).catch(function(err){
                 Notification.display(err.message);

@@ -26,7 +26,7 @@ angular.module('cri.common',[])
         };
         var $window = $windowProvider.$get();
         console.log($window.location.host)
-        if($window.location.host == 'localhost'){
+        if($window.location.host == 'localhost:5000'){
             config.env = 'dev';
             config.apiServer = 'http://localhost:5011';
             config.githubClient = 'a7b3f0d3bbda1a42f26e',
@@ -44,4 +44,14 @@ angular.module('cri.common',[])
             return config;
         }
 
+    })
+    .directive('includeReplace', function () {
+        return {
+            require: 'ngInclude',
+            restrict: 'A', /* optional */
+            link: function (scope, el, attrs) {
+                el.replaceWith(el.children());
+            }
+        };
     });
+

@@ -36,4 +36,8 @@ module.exports = function(app) {
 
     app.route('/note/hackpad/:id')
         .get(utils.ensureAuthenticated,hackPad.getContent);
+
+    app.get('/hackpad/embed/:id',utils.ensureAuthenticated,hackPad.getIframe);
+    app.get('/hackpad/auth',utils.ensureAuthenticated,hackPad.auth);
+
 };
