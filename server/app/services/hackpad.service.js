@@ -41,7 +41,7 @@ exports.getIframe = function(key,secret,id,email,name){
 
 exports.auth = function(key,secret){
     var consumer = oauth.createConsumer(key, secret),
-        signer = oauth.createHmac(consumer)
+        signer = oauth.createHmac(consumer);
 
     return signer;
 };

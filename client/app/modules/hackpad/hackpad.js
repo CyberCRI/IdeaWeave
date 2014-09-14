@@ -25,21 +25,10 @@ angular.module('cri.hackpad',[])
 //                    console.log(err)
 //                });
 
-//                $http.get(Config.apiServer+'/hackpad/auth').success(function(data) {
+                $http.get(Config.apiServer+'/hackpad/auth').success(function(data) {
                     var a = document.createElement('a');
-//                    console.log(data)
-//                    var httpMethod = 'GET',
-//                        url = 'https://ideaweave.hackpad.com/ep/api/embed-pad',
-//                        parameters = {
-//                            oauth_consumer_key: data.consumer.oauth_consumer_key,
-//                            oauth_signature_method: 'HMAC-SHA1',
-//                            oauth_version: '1.0'
-//                        },
-//                        consumerSecret = data.consumer.oauth_consumer_secret;
-//
-//                    var oauthSign = oauthSignature.generate(httpMethod, url, parameters, consumerSecret);
 
-                    scope.url = $sce.trustAsResourceUrl("https://ideaweave.hackpad.com/ep/api/embed-pad?padId="+scope.padId)
+                    scope.url = $sce.trustAsResourceUrl("https://ideaweave.hackpad.com/ep/api/embed-pad?padId="+scope.padId);
 //                        +'&email='+$rootScope.currentUser.email+'&name='+$rootScope.currentUser.username+'&oauth_signature='+oauthSign);
                     a.href = scope.url;
                     console.log(a.protocol + '//' + a.host)
@@ -69,9 +58,9 @@ angular.module('cri.hackpad',[])
                             }
                         }
                     }, false);
-//                }).error(function(err){
+                }).error(function(err){
 //
-//                })
+                })
 
             }
         }

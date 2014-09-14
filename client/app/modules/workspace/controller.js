@@ -14,7 +14,7 @@ angular.module('cri.workspace',[])
             })
         }
     })
-    .controller('NoteCtrl',['$scope','$stateParams','NoteLab','Notification','Files','$materialDialog',function($scope,$stateParams,NoteLab,Notification,Files,$materialDialog){
+    .controller('NoteCtrl',['$scope','$stateParams','NoteLab','Pdf','Notification',function($scope,$stateParams,NoteLab,Pdf,Notification){
         $scope.$parent.projectId = $stateParams.pid;
         $scope.$parent.noteId = $stateParams.tid;
         $scope.dropBoxHeight = "100px";
@@ -25,6 +25,11 @@ angular.module('cri.workspace',[])
                 NoteLab.data = $scope.myNote;
             }
         });
+
+        $scope.toPdf = function(){
+            console.log('rr')
+            Pdf.fromHtml();
+        }
     }])
     .controller('WorkspaceCtrl',['$scope','notes','$materialDialog','NoteLab','Challenge','$materialSidenav','project',function($scope,notes,$materialDialog,NoteLab,Challenge,$materialSidenav,project){
         if(notes.length){

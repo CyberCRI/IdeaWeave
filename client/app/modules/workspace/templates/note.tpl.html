@@ -6,11 +6,11 @@
 
         </div>
         <div class="material-tile-right">
-            <material-button>
-                <i class="fa fa-file-pdf-o">Export</i>
+            <material-button ng-click="toPdf()">
+                <i class="fa fa-file-pdf-o" >Export</i>
             </material-button>
         </div>
     </material-item>
 </material-toolbar>
-<article ng-bind-html="myNote.text" style="font-size: 1em;width:100%;"></article>
+<article ng-bind-html="myNote.text" id="note" style="font-size: 1.2em;width:100%;"></article>
 <ng-include src="'modules/workspace/comments/templates/comments.tpl.html'" ng-controller="CommentsCtrl"></ng-include>
