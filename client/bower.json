@@ -3,7 +3,7 @@
   "description": "social and collaborative tool",
   "version": "0.0.1",
   "dependencies": {
-    "angular": "1.2.16",
+    "angular": "*",
     "angular-translate": "1.1.1",
     "angular-sanitize": "~1.2.16",
     "angular-ui-router": "*",

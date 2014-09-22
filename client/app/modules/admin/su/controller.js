@@ -16,7 +16,7 @@ angular.module('cri.admin',['cri.admin.profile','cri.admin.challenge','cri.admin
                 Notification.display("user's status succesfully updated");
             }).catch(function(err){
                 Notification.display("error user's status is not updated");
-            })
+            });
         };
 
         $scope.removeUser = function(id,$index){
@@ -25,7 +25,7 @@ angular.module('cri.admin',['cri.admin.profile','cri.admin.challenge','cri.admin
                 $scope.usersList.splice($index,1);
             }).catch(function(err){
                 Notification.display('error the user is not removed');
-            })
-        }
+            });
+        };
     }]);
 

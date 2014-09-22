@@ -12,6 +12,5 @@ angular.module('cri.common')
                     .attr('src','https://trello.com/b/'+scope.id+'.html')
                     .attr('height',scope.height);
             }
-
-        }
+        };
     }]);

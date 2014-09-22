@@ -14,12 +14,12 @@ angular.module('cri.profile')
                         scope.project = project ;
                     }).catch(function(err){
                         console.log(err);
-                    })
+                    });
                 }).catch(function(err){
                     console.log(err);
-                })
+                });
             }
-        }
+        };
     }])
     .directive('activityComment',['$http','Config',function($http,Config){
         return {
@@ -34,12 +34,12 @@ angular.module('cri.profile')
                     scope.topic = topic ;
                     $http.get(Config.apiServer+'/projects/'+topic.container).success(function(project){
                         scope.project = project;
-                    })
+                    });
                 }).catch(function(err){
                     console.log(err);
-                })
+                });
             }
-        }
+        };
     }])
     .directive('activityFollow',['$http','Config',function($http,Config){
         return {
@@ -80,9 +80,9 @@ angular.module('cri.profile')
                         });
                         break;
                     default :
-                        scope.message = 'something went wrong'
+                        scope.message = 'something went wrong';
                         break;
                 }
             }
-        }
-    }])
+        };
+    }]);

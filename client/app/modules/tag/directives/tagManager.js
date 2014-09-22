@@ -50,12 +50,12 @@ angular.module('cri.tag')
                         Tag.create(tag).then(function(newTag) {
                             $scope.entity.tags.push(newTag);
                         }).catch(function(err){
-                            console.log(err)
-                        })
+                            console.log(err);
+                        });
                     }else{
                         Notification.display('this tag already exist');
                     }
-                }
+                };
             }],
             link: function(scope,element){
 
@@ -67,7 +67,7 @@ angular.module('cri.tag')
                 if(scope.entity === undefined){
                     scope.entity = {
                         tags : []
-                    }
+                    };
                 }else if(scope.entity.tags===undefined){
                     scope.entity.tags=[];
                 }
@@ -95,5 +95,5 @@ angular.module('cri.tag')
         return {
             restrict : 'EA',
             templateUrl : ''
-        }
-    })
+        };
+    });

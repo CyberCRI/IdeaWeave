@@ -15,9 +15,9 @@ angular.module('cri.project')
                         $scope.project = project[0];
                     }).catch(function(err){
                         console.log('error',err);
-                    })
+                    });
                 }else{
-                    $scope.project = $scope.myProject
+                    $scope.project = $scope.myProject;
                 }
             }],
             templateUrl:'modules/project/directives/projectBlock/project-block.tpl.html',
@@ -44,7 +44,7 @@ angular.module('cri.project')
                 });
 
             }
-        }
+        };
     }])
     .directive('projectInfo',[function(){
         return {
@@ -60,12 +60,12 @@ angular.module('cri.project')
                         $scope.project = project[0];
                     }).catch(function(err){
                         console.log('error',err);
-                    })
+                    });
                 }else{
                     $scope.project = $scope.myProject;
                 }
             }]
-        }
+        };
     }])
 .directive('projectCard',[function(){
         return {
@@ -82,7 +82,7 @@ angular.module('cri.project')
                         $scope.project = project[0];
                     }).catch(function(err){
                         console.log('error',err);
-                    })
+                    });
                 }else{
                     $scope.project = $scope.myProject;
                 }
@@ -93,7 +93,7 @@ angular.module('cri.project')
                 });
                 element.bind('mouseleave',function(e){
                     scope.isHovered = false;
-                })
+                });
             }
-        }
+        };
     }]);

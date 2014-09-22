@@ -11,5 +11,5 @@ angular.module('cri.files')
                 var url = "http://docs.google.com/gview?url=" + scope.docUrl + "&embedded=true";
                 element.attr('src',url);
             }
-        }
-    }])
+        };
+    }]);

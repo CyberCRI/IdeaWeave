@@ -14,11 +14,8 @@ angular.module('cri.home')
                         return Tag.fetch();
                     }],
                     popularThings : ['$http','Config',function($http,Config){
-
                         return $http.get(Config.apiServer+'/popular');
-
-
                     }]
                 }
-            })
+            });
     }]);

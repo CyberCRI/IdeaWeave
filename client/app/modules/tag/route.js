@@ -9,5 +9,5 @@ angular.module('cri.tag')
                         controller: 'TagCtrl'
                     }
                 }
-            })
+            });
     }]);

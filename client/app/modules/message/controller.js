@@ -1,18 +1,18 @@
 angular.module('cri.message',[])
 .controller('MessageCtrl',['$scope',function($scope){
 
-        $scope.showSendBtn = false
+        $scope.showSendBtn = false;
         $scope.sendMessage = function(){
             $scope.$broadcast('sendMessage');
         };
     }])
     .controller('InboxCtrl',['$scope','messages','Message','$state',function($scope,messages,Message,$state){
-        $scope.$parent.showSendBtn = false
+        $scope.$parent.showSendBtn = false;
         $scope.messages = messages;
         $scope.reply = function(to){
             Message.to = to;
             $state.go('message.send');
-        }
+        };
     }])
 .controller('SendMessagesCtrl',['$scope','Message','Notification','Config',function($scope,Message,Notification,Config){
 
@@ -28,12 +28,12 @@ angular.module('cri.message',[])
                 }).catch(function(err){
                     Notification.display('message not send !');
 
-                })
+                });
             }else{
                 Notification.display('uncomplete message');
             }
 
-        })
+        });
         var first = true;
         $scope.refreshReceiver = function(param){
             Message.refreshUsersList(param).then(function(data){
@@ -46,14 +46,12 @@ angular.module('cri.message',[])
                             };
                             Message.to = null;
                         }
-                    })
-
+                    });
                 }
             }).catch(function(err){
                 console.log(err);
-            })
-        }
+            });
+        };
 
         $scope.tinymceOptions = Config.tinymceOptions;
-
-    }])
+    }]);

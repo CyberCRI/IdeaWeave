@@ -2,17 +2,16 @@ angular.module('cri.workspace',[])
     .controller('NoteHackpadCtrl',function($scope,Notification,NoteLab,$http,Config){
 
         $scope.myNote = NoteLab.data;
-        console.log($scope.currentUser)
+        console.log($scope.currentUser);
 //        $scope.hackpadUrl = $sce.trustAsResourceUrl('https://hackpad.com/'+NoteLab.data.hackPadId);
 
         $scope.exportHackPad = function(){
             NoteLab.exportHackPad($scope.myNote.hackPadId).then(function(data){
-                console.log(data)
-                Notification.display('note successfully saved')
+                Notification.display('note successfully saved');
             }).catch(function(err){
-                console.log('error',err)
-            })
-        }
+                console.log('error',err);
+            });
+        };
     })
     .controller('NoteCtrl',['$scope','$stateParams','NoteLab','Pdf','Notification',function($scope,$stateParams,NoteLab,Pdf,Notification){
         $scope.$parent.projectId = $stateParams.pid;
@@ -27,9 +26,8 @@ angular.module('cri.workspace',[])
         });
 
         $scope.toPdf = function(){
-            console.log('rr')
             Pdf.fromHtml();
-        }
+        };
     }])
     .controller('WorkspaceCtrl',['$scope','notes','$materialDialog','NoteLab','Challenge','$materialSidenav','project',function($scope,notes,$materialDialog,NoteLab,Challenge,$materialSidenav,project){
         if(notes.length){
@@ -95,7 +93,7 @@ angular.module('cri.workspace',[])
                 },
                 resolve : {
                     templates : function(){
-                        return Challenge.getTemplates($scope.project.container)
+                        return Challenge.getTemplates($scope.project.container);
                     }
                 },
                 controller: ['$scope', 'NoteLab', 'Notification', '$hideDialog', 'Config','templates','currentUser','project', function ($scope, NoteLab, Notification, $hideDialog, Config,templates,currentUser,project) {
@@ -142,8 +140,8 @@ angular.module('cri.workspace',[])
                             Notification.display('error the note is not created');
                         }).finally(function(){
                             $hideDialog();
-                        })
-                    }
+                        });
+                    };
                 }]
             });
         };
@@ -154,24 +152,25 @@ angular.module('cri.workspace',[])
                 templateUrl: 'modules/workspace/templates/modal/addResourceModal.tpl.html',
                 event: e,
                 locals : {
-                    urls : $scope.urls
+                    urls : $scope.urls,
+                    currentUser : $scope.currentUser
                 },
-                controller: ['$scope', 'NoteLab', '$hideDialog','urls', function ($scope, NoteLab, $hideDialog, urls) {
+                controller: ['$scope', 'NoteLab', '$hideDialog','urls', function ($scope, NoteLab, $hideDialog, urls, currentUser) {
                     $scope.cancel = function () {
                         $hideDialog();
                     };
                     $scope.addUrl = function(url){
-                        url.project = myNote.container;
+                        url.project = NoteLab.data._id;
                         url.container = $stateParams.tid;
-                        url.owner = userId;
+                        url.owner = currentUser._id;
 
                         NoteLab.addUrl(url).then(function(data){
                             urls.push(url);
                             $hideDialog();
                         }).catch(function(err){
                             Notification.display(err.message);
-                        })
-                    }
+                        });
+                    };
                 }]
             });
         };
@@ -179,17 +178,6 @@ angular.module('cri.workspace',[])
             $scope.urls = data;
         }).catch(function(err){
             Notification.display(err.message);
-        });
-
-        $scope.files = [];
-        NoteLab.fetchFile($stateParams.tid).then(function(data){
-            $scope.files = data || [];
-            angular.forEach($scope.files,function(file){
-                Files.getPoster(file);
-//                file.url = Config.apiServer+'/fileUpload/topic/'+$stateParams.pid+'/'+file.filename;
-            })
-        }).catch(function(err){
-//            Notification.display(err.message);
         });
     })
     .controller('NoteFilesCtrl',function($scope,Files,NoteLab,$materialDialog,$stateParams,Notification){
@@ -199,7 +187,7 @@ angular.module('cri.workspace',[])
             angular.forEach($scope.files,function(file){
                 Files.getPoster(file);
 //                file.url = Config.apiServer+'/fileUpload/topic/'+$stateParams.pid+'/'+file.filename;
-            })
+            });
         }).catch(function(err){
 //            Notification.display(err.message);
         });
@@ -280,13 +268,13 @@ angular.module('cri.workspace',[])
                             Notification.display(err.message);
                         }).finally(function(){
                             $scope.isUploading = false;
-                            $hideDialog()
-                        })
+                            $hideDialog();
+                        });
                     };
                     $scope.cancel = function(){
                         $hideDialog();
-                    }
+                    };
                 }]
-            })
+            });
         };
-    })
+    });

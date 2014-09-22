@@ -48,5 +48,5 @@ angular.module('cri.footer')
                         templateUrl: 'modules/footer/templates/term_content.tpl.html'
                     }
                 }
-            })
-    }])
+            });
+    }]);

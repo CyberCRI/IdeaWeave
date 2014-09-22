@@ -31,7 +31,7 @@ angular.module('cri.admin.project',[])
         $scope.refreshAddresses = function(address) {
             Gmap.getAdress(address).then(function(adresses){
                 $scope.addresses = adresses;
-            })
+            });
         };
 
         $scope.popUpPoster = function($event){
@@ -61,10 +61,10 @@ angular.module('cri.admin.project',[])
 
                     $scope.cancel = function(){
                         $hideDialog();
-                    }
+                    };
                 }]
 
-            })
+            });
         };
 
         $scope.popUpBanner = function(){
@@ -94,10 +94,10 @@ angular.module('cri.admin.project',[])
 
                     $scope.cancel = function(){
                         $hideDialog();
-                    }
+                    };
                 }]
 
-            })
+            });
         };
         $scope.popUpEdit = function(){
             $materialDialog({
@@ -122,10 +122,9 @@ angular.module('cri.admin.project',[])
                     };
                     $scope.cancel = function(){
                         $hideDialog();
-                    }
+                    };
                 }]
-
-            })
+            });
         };
 
         $scope.popUpRemove = function(){
@@ -139,9 +138,9 @@ angular.module('cri.admin.project',[])
                     $scope.delete = function(test){
                         if(test.title == project.title){
                             Project.remove(project._id).then(function(){
-                                Notification.display(challenge.title+' succesly removed')
+                                Notification.display(challenge.title+' succesly removed');
                             }).catch(function(err){
-                                Notification.display('error, the challenge is not removed')
+                                Notification.display('error, the challenge is not removed');
                             }).finally(function(){
                                 $hideDialog();
                             });
@@ -149,10 +148,10 @@ angular.module('cri.admin.project',[])
                     };
                     $scope.cancel = function(){
                         $hideDialog();
-                    }
+                    };
                 }]
 
-            })
+            });
         };
 
 
@@ -165,7 +164,7 @@ angular.module('cri.admin.project',[])
                 Notification.display('Update Success!');
             }).catch(function (err) {
                 Notification.display(err.message);
-            })
+            });
         };
     }])
     .controller('ProjectMediaCtrl',['$scope', 'Notification','Files','Url','Config',function ($scope, Notification,Files,Url,Config) {
@@ -175,11 +174,11 @@ angular.module('cri.admin.project',[])
                 $scope.files.splice($scope.files.indexOf(file),1);
             }).catch(function(err){
                 Notification.display(err.message);
-            })
+            });
         };
 
         angular.forEach($scope.files,function(file,index){
-            $scope.files[index].url = Config.apiServer+'/fileUpload/topic/'+file.projectUrl+'/'+file.filename
+            $scope.files[index].url = Config.apiServer+'/fileUpload/topic/'+file.projectUrl+'/'+file.filename;
         });
 
 
@@ -188,7 +187,7 @@ angular.module('cri.admin.project',[])
                 Notification.display('url updated succesfully');
             }).catch(function(err){
                 Notification.display('update fail');
-            })
+            });
         };
     }])
 
@@ -208,13 +207,13 @@ angular.module('cri.admin.project',[])
                             $scope.invite.email="";
                         }).catch(function(err){
                             Notification.display('Failed,Please try again later.');
-                        })
+                        });
                     };
                     $scope.cancel = function(){
                         $hideDialog();
-                    }
+                    };
                 }]
-            })
+            });
         };
 
         $scope.ban=function(user){
@@ -237,7 +236,7 @@ angular.module('cri.admin.project',[])
                 $scope.applyteams[$index].status=true;
             }).catch(function(err){
                 Notification.display(err.message);
-            })
+            });
         };
 
         $scope.fail = function($index){
@@ -251,9 +250,6 @@ angular.module('cri.admin.project',[])
                 Notification.display('Successfully added');
             }).catch(function(err){
                 Notification.display(err.message);
-            })
-        }
-    }])
-
-
-
+            });
+        };
+    }]);

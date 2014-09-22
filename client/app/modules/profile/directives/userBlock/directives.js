@@ -13,9 +13,9 @@ angular.module('cri.profile')
                         $scope.user = user[0];
                     }).catch(function(err){
                         console.log('error',err);
-                    })
+                    });
                 }else{
-                    $scope.user = $scope.myUser
+                    $scope.user = $scope.myUser;
                 }
             }],
             link : function(scope,element,attrs){
@@ -23,7 +23,7 @@ angular.module('cri.profile')
 
 
             }
-        }
+        };
     }])
     .directive('userBlock',[function(){
         return {
@@ -36,27 +36,22 @@ angular.module('cri.profile')
             },
             templateUrl:'modules/profile/directives/userBlock/user-block.tpl.html',
             controller : ['$scope','Profile',function($scope,Profile){
-                console.log($scope)
                 if($scope.userId){
                     Profile.fetch( { _id : $scope.userId, type : 'block' }).then(function(user){
                         $scope.user = user[0];
                     }).catch(function(err){
                         console.log('error',err);
-                    })
+                    });
                 }else{
-                    console.log('yo!!!!')
-
-                    $scope.user = $scope.myUser
+                    $scope.user = $scope.myUser;
                 }
             }],
             link : function(scope,element,attrs){
                 if(scope.height){
-//                    element.css('height',scope.height);
                     element.find('img').attr('height' , scope.height);
                 }
 
                 if(scope.width){
-//                    element.css('height',scope.height);
                     element.find('img').attr('width' , scope.width);
                 }
 
@@ -76,7 +71,7 @@ angular.module('cri.profile')
                 });
 
             }
-        }
+        };
     }])
     .directive('userCard',[function(){
         return {
@@ -94,9 +89,9 @@ angular.module('cri.profile')
                         $scope.user = user[0];
                     }).catch(function(err){
                         console.log('error',err);
-                    })
+                    });
                 }else{
-                    $scope.user = $scope.myUser
+                    $scope.user = $scope.myUser;
                 }
             }],
             link : function(scope,element,attrs){
@@ -109,8 +104,8 @@ angular.module('cri.profile')
                     });
                     element.bind('mouseleave',function(e){
                         scope.isHovered = false;
-                    })
+                    });
                 }
             }
-        }
+        };
     }]);

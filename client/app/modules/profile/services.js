@@ -24,14 +24,14 @@ angular.module('cri.profile')
                     defered.resolve();
                 }).catch(function(err){
                     defered.reject(err);
-                })
+                });
                 return defered.promise;
             },
             fetch :function(param,userId){
                 var defered = $q.defer();
                 var url = Config.apiServer + '/users';
                 if(userId){
-                    url += '/'+userId
+                    url += '/'+userId;
                 }
                 $http.get(url,{
                     params : param
@@ -138,7 +138,7 @@ angular.module('cri.profile')
             remove : function(id){
                 var defered = $q.defer();
                 $http.delete(Config.apiServer+'/users/'+id).success(function(){
-                    defered.resolve()
+                    defered.resolve();
                 }).error(function(err){
                     defered.reject(err);
                 });

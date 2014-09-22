@@ -25,7 +25,6 @@ angular.module('cri.workspace')
             },
             createNote : function(note){
                 var defered = $q.defer();
-                console.log(note)
                 $http.post(Config.apiServer+'/note',note).success(function(newNote){
                     defered.resolve(newNote);
                 }).error(function(err){
@@ -48,12 +47,9 @@ angular.module('cri.workspace')
             },
             addUrl : function(url){
                 var defered = $q.defer();
-                console.log('service')
                 $http.post(Config.apiServer+'/note/'+url.container+'/url', url).success(function(data){
-                    console.log('success',data)
                     defered.resolve(data);
                 }).error(function(err){
-                    console.log(err)
                     defered.reject(err);
                 });
                 return defered.promise;
@@ -93,7 +89,7 @@ angular.module('cri.workspace')
                 });
                 return defered.promise;
             }
-        }
+        };
         return service;
     }])
     .factory('Url',['Config','$http','$q',function(Config,$http,$q){
@@ -101,7 +97,7 @@ angular.module('cri.workspace')
             fetch : function(param){
                 var defered = $q.defer();
                 if(!param){
-                    var param = {}
+                    param = {};
                 }
                 $http.get(Config.apiServer+'/url',{
                     params : param
@@ -123,5 +119,4 @@ angular.module('cri.workspace')
             }
         };
         return service;
-    }])
-
+    }]);

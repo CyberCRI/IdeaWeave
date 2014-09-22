@@ -14,7 +14,7 @@ angular.module('cri.challenge')
                         $scope.challenge = challenge[0];
                     }).catch(function(err){
                         console.log('error',err);
-                    })
+                    });
                 }else{
                     $scope.challenge = $scope.myChallenge;
                 }
@@ -37,7 +37,7 @@ angular.module('cri.challenge')
 
 
             }
-        }
+        };
     }])
     .directive('challengeInfo',[function(){
         return {
@@ -53,7 +53,7 @@ angular.module('cri.challenge')
                         $scope.challenge = challenge[0];
                     }).catch(function(err){
                         console.log('error',err);
-                    })
+                    });
                 }else{
                     $scope.challenge = $scope.myChallenge;
                 }
@@ -61,7 +61,7 @@ angular.module('cri.challenge')
             link : function(scope,element,attrs){
 
             }
-        }
+        };
     }])
     .directive('challengeCard',[function(){
         return {
@@ -79,7 +79,7 @@ angular.module('cri.challenge')
                         $scope.challenge = challenge[0];
                     }).catch(function(err){
                         console.log('error',err);
-                    })
+                    });
                 }else{
                     $scope.challenge = $scope.myChallenge;
                 }
@@ -90,7 +90,7 @@ angular.module('cri.challenge')
                 });
                 element.bind('mouseleave',function(e){
                     scope.isHovered = false;
-                })
+                });
             }
-        }
+        };
     }]);

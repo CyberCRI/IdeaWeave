@@ -10,7 +10,7 @@ angular.module('cri.admin.profile',['cri.profile'])
         $scope.refreshAddresses = function(address) {
             Gmap.getAdress(address).then(function(adresses){
                 $scope.addresses = adresses;
-            })
+            });
         };
 
         $scope.cropPosterModal = function($event){
@@ -39,7 +39,7 @@ angular.module('cri.admin.profile',['cri.profile'])
                     });
                     $scope.cancel = function(){
                         $hideDialog();
-                    }
+                    };
                 }]
             });
         };
@@ -62,7 +62,7 @@ angular.module('cri.admin.profile',['cri.profile'])
                             Notification.display(err.message);
                         }).finally(function(){
                             $hideDialog();
-                        })
+                        });
                     };
                 }]
             });
@@ -88,7 +88,7 @@ angular.module('cri.admin.profile',['cri.profile'])
                                 Notification.display('Updated successfully');
                             }).catch(function(err){
                                 Notification.display(err.message);
-                            })
+                            });
                         }
                     };
 
@@ -100,6 +100,6 @@ angular.module('cri.admin.profile',['cri.profile'])
                 Notification.display('Updated successfully');
             }).catch(function(err){
                 Notification.display(err.message);
-            })
+            });
         };
     }]);

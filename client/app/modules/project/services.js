@@ -65,11 +65,10 @@ angular.module('cri.project')
             $http.post(Config.apiServer + '/projects', project)
                 .success(function (data) {
                     service.data = data;
-                    defered.resolve(data)
+                    defered.resolve(data);
                 })
                 .error(function (err) {
-                    console.log(err)
-                    defered.reject(err)
+                    defered.reject(err);
                 });
             return defered.promise;
         },
@@ -165,8 +164,6 @@ angular.module('cri.project')
             });
             return defered.promise;
         }
-
     };
-
     return service;
-}])
+}]);

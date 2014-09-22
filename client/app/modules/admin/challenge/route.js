@@ -11,8 +11,8 @@ angular.module('cri.admin.challenge')
                 },
                 resolve:{
                     challenge:['$stateParams','Challenge',function($stateParams,Challenge){
-                        return Challenge.fetch({_id:$stateParams.cid})
+                        return Challenge.fetch({_id:$stateParams.cid});
                     }]
                 }
-            })
+            });
     }]);

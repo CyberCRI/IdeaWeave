@@ -7,8 +7,8 @@ angular.module('cri.tag',[])
                 $scope.d3TagData = Tag.d3FormatData(data,$stateParams.title);
             }).catch(function(err){
                 Notification.display(err.message);
-            })
-        }
+            });
+        };
 
         $scope.d3OnClick = function(item) {
             $scope.$apply(function() {
@@ -20,7 +20,7 @@ angular.module('cri.tag',[])
                     if (!$scope.showDetailPanel){}
                         $scope.showDetailPanel = true;
                     $scope.detailItem = item;
-                },10)
+                },10);
             });
         };
 
@@ -30,9 +30,6 @@ angular.module('cri.tag',[])
             $scope.tagdatas=data;
             $scope.d3TagData = Tag.d3FormatData(data,$stateParams.title);
         }).catch(function(err){
-            console.log(err)
-        })
-
-
+            console.log(err);
+        });
     }]);
-  

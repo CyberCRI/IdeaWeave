@@ -33,5 +33,5 @@ angular.module('cri.message')
                     return Message.fetch({ to : loggedUser.profile.id});
                 }]
             }
-         })
+         });
   }]);

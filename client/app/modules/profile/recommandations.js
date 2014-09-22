@@ -9,7 +9,7 @@ angular.module('cri.profile')
                     })
                     .error(function(err){
                         defered.reject(err);
-                    })
+                    });
                 return defered.promise;
             },
             fetchProject : function(userId){
@@ -20,7 +20,7 @@ angular.module('cri.profile')
                     })
                     .error(function(err){
                         defered.reject(err);
-                    })
+                    });
                 return defered.promise;
             },
             fetchChallenge : function(userId){
@@ -31,9 +31,9 @@ angular.module('cri.profile')
                     })
                     .error(function(err){
                         defered.reject(err);
-                    })
+                    });
                 return defered.promise;
             }
-        }
+        };
         return service;
-    }])
+    }]);

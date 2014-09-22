@@ -11,9 +11,8 @@ angular.module('cri.admin.project')
                 },
                 resolve:{
                     project:['$stateParams','Project',function($stateParams,Project){
-                        return Project.fetch({_id:$stateParams.pid})
+                        return Project.fetch({_id:$stateParams.pid});
                     }]
                 }
-            })
-
+            });
     }]);

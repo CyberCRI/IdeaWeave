@@ -11,8 +11,8 @@ angular.module('cri.workspace')
                     $scope.note = note[0];
                     Project.fetch({_id : $scope.note.project, type : 'info'}).then(function (project){
                         $scope.project = project[0];
-                    })
+                    });
                 });
             }]
-        }
+        };
     }]);

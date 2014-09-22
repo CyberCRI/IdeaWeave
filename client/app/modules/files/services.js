@@ -9,7 +9,7 @@ angular.module('cri.files',[])
                     defered.resolve(data);
                 }).error(function (err) {
                     defered.reject(err);
-                })
+                });
                 return defered.promise;
             },
             getPoster: function (file) {
@@ -39,22 +39,22 @@ angular.module('cri.files',[])
                         file.class = 'fa-file-word-o';
                         break;
                     case 'application/pdf':
-                        file.class = "fa-file-pdf-o"
+                        file.class = "fa-file-pdf-o";
                         break;
                     case 'application/vnd.ms-powerpoint':
-                        file.class = "fa-file-powerpoint-o"
+                        file.class = "fa-file-powerpoint-o";
                         break;
                     case 'application/zip':
-                        file.class = "fa-file-archive-o"
+                        file.class = "fa-file-archive-o";
                         break;
                     case 'application/rar':
                         file.class = 'fa-file-archive-o';
                         break;
                     case 'application/x-gzip':
-                        file.class = 'fa-file-archive-o'
+                        file.class = 'fa-file-archive-o';
                         break;
                     default :
-                        file.class = ''
+                        file.class = '';
                         break;
 
                 }
@@ -93,7 +93,7 @@ angular.module('cri.files',[])
                 var fileReader = new FileReader();
                 fileReader.onload = function (e) {
                     defered.resolve(e.target.result);
-                }
+                };
                 fileReader.readAsDataURL(file);
                 return defered.promise;
             },
@@ -103,8 +103,8 @@ angular.module('cri.files',[])
                     defered.resolve(data);
                 }).catch(function (err) {
                     defered.reject(err);
-                })
+                });
                 return defered.promise;
             }
-        }
-    }])
+        };
+    }]);

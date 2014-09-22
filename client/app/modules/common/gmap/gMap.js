@@ -28,4 +28,4 @@ angular.module('cri.common')
 //            }
         };
         return service;
-    })
+    });

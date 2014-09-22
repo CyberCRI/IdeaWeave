@@ -15,13 +15,13 @@ angular.module('cri.admin.challenge',[])
         Project.getByChallenge($scope.challenge._id).then(function(data){
            $scope.projects = data;
         }).catch(function(err){
-            console.log(err)
+            console.log(err);
         });
 
         Challenge.getTemplates( $scope.challenge._id).then(function(data){
             $scope.templates = data;
         }).catch(function(err){
-            console.log(err)
+            console.log(err);
         });
 
         $scope.popUpTemplate = function($event){
@@ -44,14 +44,13 @@ angular.module('cri.admin.challenge',[])
                             Notification.display('error template');
                         }).finally(function(){
                            $hideDialog();
-                        })
+                        });
                     };
                     $scope.cancel = function(){
                         $hideDialog();
-                    }
+                    };
                 }]
-
-            })
+            });
         };
 
 
@@ -83,10 +82,9 @@ angular.module('cri.admin.challenge',[])
 
                     $scope.cancel = function(){
                         $hideDialog();
-                    }
+                    };
                 }]
-
-            })
+            });
         };
 
         $scope.popUpBanner = function(){
@@ -116,10 +114,10 @@ angular.module('cri.admin.challenge',[])
 
                     $scope.cancel = function(){
                         $hideDialog();
-                    }
+                    };
                 }]
 
-            })
+            });
         };
         $scope.popUpEdit = function(){
             $materialDialog({
@@ -144,10 +142,9 @@ angular.module('cri.admin.challenge',[])
                     };
                     $scope.cancel = function(){
                         $hideDialog();
-                    }
+                    };
                 }]
-
-            })
+            });
         };
 
         $scope.popUpRemove = function(){
@@ -161,20 +158,20 @@ angular.module('cri.admin.challenge',[])
                     $scope.delete = function(test){
                         if(test.title == challenge.title){
                             Challenge.remove(challenge._id).then(function(){
-                                Notification.display(challenge.title+' succesly removed')
+                                Notification.display(challenge.title+' succesly removed');
                             }).catch(function(err){
-                                Notification.display('error, the challenge is not removed')
+                                Notification.display('error, the challenge is not removed');
                             }).finally(function(){
                                 $hideDialog();
                             });
                         }
-                    }
+                    };
                     $scope.cancel = function(){
                         $hideDialog();
-                    }
+                    };
                 }]
 
-            })
+            });
         };
 
 
@@ -190,6 +187,6 @@ angular.module('cri.admin.challenge',[])
                 Notification.display(err.message);
             }).finally(function(){
                 $scope.isBasicLoading = false;
-            })
-        }
+            });
+        };
     }]);

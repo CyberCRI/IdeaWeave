@@ -19,14 +19,14 @@ angular.module('cri.profile',[])
                     }else{
                         $scope.isEnd=true;
                     }
-                })
+                });
             }
         };
     }])
 
     .controller('ProfileCtrl',['$scope','Notification','profile','Profile','recommandations','$state','$sce','activities','$materialSidenav',function ($scope,Notification,profile,Profile,recommandations,$state,$sce,activities,$materialSidenav) {
         $scope.profile = profile.data;
-        $scope.moreData = profile.moreData
+        $scope.moreData = profile.moreData;
         $scope.activities = [];
         var leftNav;
         $scope.toggle = function(){
@@ -47,7 +47,7 @@ angular.module('cri.profile',[])
         }
 
         $scope.now = new Date().getTime();
-        $scope.recommandation = recommandations
+        $scope.recommandation = recommandations;
 //        $scope.activities = activities;
 
         $scope.isFollowing = false;
@@ -103,10 +103,10 @@ angular.module('cri.profile',[])
             Profile.follow($scope.currentUser._id,$scope.profile._id).then(function(result){
                 $scope.isFollowing=true;
                 $scope.profile.followers.push($scope.currentUser._id);
-                Notification.display('you now follow '+$scope.profile.username)
+                Notification.display('you now follow '+$scope.profile.username);
             }).catch(function(err){
                 Notification.display(err.message);
-            })
+            });
         };
         $scope.unfollow = function(){
             Profile.unfollow($scope.currentUser._id,$scope.profile._id).then(function(result){
@@ -116,6 +116,6 @@ angular.module('cri.profile',[])
                 $scope.isFollowing=false;
             }).catch(function(err){
                 Notification.display(err.message);
-            })
-        }
+            });
+        };
     }]);

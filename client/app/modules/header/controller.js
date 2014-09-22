@@ -16,18 +16,17 @@ angular.module('cri.header',[])
                     $scope.searchResult = result;
                 }).catch(function(err){
                     Notification.display(err.message);
-                })
+                });
             }
         };
 
         $scope.goTo = function(result){
             if(result.username){
-                $state.go('profile',{ uid : result._id })
+                $state.go('profile',{ uid : result._id });
             }else if(result.container){
-                $state.go('project',{ pid : result.accessUrl })
+                $state.go('project',{ pid : result.accessUrl });
             }else{
-                $state.go('challenge',{ pid : result.accessUrl })
+                $state.go('challenge',{ pid : result.accessUrl });
             }
         };
-        console.log('r')
     }]);

@@ -35,7 +35,7 @@ angular.module('cri.project')
                 },
                 resolve:{
                     project:['Project','$stateParams',function(Project,$stateParams){
-                        return Project.fetch( { accessUrl : $stateParams.pid})
+                        return Project.fetch( { accessUrl : $stateParams.pid});
                     }]
                 }
             })
@@ -83,6 +83,5 @@ angular.module('cri.project')
                         return Project.fetch({id : $stateParams.pid});
                     }]
                 }
-            })
-
+            });
     }]);

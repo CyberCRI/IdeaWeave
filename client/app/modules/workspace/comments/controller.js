@@ -17,36 +17,36 @@ angular.module('cri.workspace')
                                 owner:currentUser._id,
                                 text:$scope.commentValue,
                                 container:myTopic._id
-                            }
+                            };
                         }else{
                             myComment = {
                                 owner:currentUser._id,
                                 text:$scope.commentValue,
                                 container:myTopic._id,
                                 parent:pid
-                            }
+                            };
                         }
                         Comment.post(myComment).then(function(result){
                             result.displayText = $sce.trustAsHtml(result.text);
-                            $hideDialog()
+                            $hideDialog();
 
                         }).catch(function(err){
-                            $hideDialog()
+                            $hideDialog();
 
-                        })
+                        });
                     };
                     $scope.cancel = function () {
-                        $hideDialog()
+                        $hideDialog();
                     };
                 }]
-            })
+            });
         };
         $scope.removeComment=function(id,idx){
             Comment.delete(id).then(function(result){
                 $scope.comments.splice(idx,1);
             }).catch(function(err){
                 console.log('error',err);
-            })
+            });
         };
 
         $scope.comments=[];
@@ -54,12 +54,12 @@ angular.module('cri.workspace')
             angular.forEach(result,function(comment,id){
                     comment.displayText = $sce.trustAsHtml(comment.text);
                     angular.forEach(comment.answer,function(answer){
-                        answer.displayText = $sce.trustAsHtml(answer.text)
+                        answer.displayText = $sce.trustAsHtml(answer.text);
                     });
                 $scope.comments.splice(0,0,comment);
             });
         }).catch(function(err){
-            console.log('error',err)
+            console.log('error',err);
         });
 
         $scope.commentsShow = false;
@@ -82,7 +82,7 @@ angular.module('cri.workspace')
                     if(newComment.parent == comment._id){
                         comment.answer.push(newComment);
                     }
-                })
+                });
             }else {
                 $scope.comments.push(newComment);
             }

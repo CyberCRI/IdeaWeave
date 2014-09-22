@@ -103,7 +103,7 @@ angular.module('cri.challenge')
                     defered.resolve(data);
                 }).error(function(err){
                     defered.reject(err);
-                })
+                });
                 return defered.promise;
             },
             getContributed : function(userId){

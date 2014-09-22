@@ -21,6 +21,6 @@ angular.module('cri.header')
     }]).directive('searchBar',function(){
         return {
             restrict : 'EA',
-            templateUrl : 'modules/header/templates/searchBar.tpl.html',
-        }
+            templateUrl : 'modules/header/templates/searchBar.tpl.html'
+        };
     });

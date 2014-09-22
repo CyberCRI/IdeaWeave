@@ -57,10 +57,10 @@ angular.module('cri.project',[])
                             Notification.display('Apply sent successfully');
                         }).catch(function(err){
                             Notification.display(err.message);
-                        })
+                        });
                     };
                     $scope.cancel = function () {
-                        $hideDialog()
+                        $hideDialog();
                     };
                 }]
             });
@@ -74,7 +74,7 @@ angular.module('cri.project',[])
                     $scope.pid = $stateParams.pid;
                     $scope.cid = $stateParams.cid;
                     $scope.cancel = function () {
-                        $hideDialog()
+                        $hideDialog();
                     };
                 }]
             });
@@ -91,7 +91,7 @@ angular.module('cri.project',[])
                 $scope.isFollow=true;
             }).catch(function(err){
                 Notification.display(err.message);
-            })
+            });
         };
 
         $scope.unfollow=function(){
@@ -105,8 +105,8 @@ angular.module('cri.project',[])
                 $scope.isFollow=false;
             }).catch(function(err){
                 Notification.display(err.message);
-            })
-        }
+            });
+        };
     }])
     .controller('ProjectsCtrl',['$scope','$materialSidenav','Tag',function($scope,$materialSidenav,Tag){
         var leftNav;
@@ -124,10 +124,9 @@ angular.module('cri.project',[])
 
         $scope.toggle = function(){
             leftNav.toggle();
-        }
+        };
     }])
     .controller('ProjectsListCtrl',['$scope','projects','Notification','Project','$stateParams','Config','$materialDialog',function($scope,projects,Notification,Project,$stateParams,Config,$materialDialog){
-        console.log('sfs dfsfs fsf s',projects)
         $scope.projects = projects;
         $scope.noPage = 0;
         $scope.isEnd = false;
@@ -148,7 +147,7 @@ angular.module('cri.project',[])
                     }
                 }).catch(function(err){
                     Notification.display(err.message);
-                })
+                });
             }
         };
     }])
@@ -162,8 +161,8 @@ angular.module('cri.project',[])
                 $state.go('project.settings.basic',{ pid : Project.data.accessUrl });
             }).catch(function(err){
                 Notification.display(err.message);
-            })
-        }
+            });
+        };
     }])
     .controller('ProjectCreateCtrl',['$scope', 'Project', '$state', 'Notification', 'Gmap', 'Config', 'challenges',function($scope, Project, $state, Notification, Gmap, Config,challenges){
 
@@ -181,7 +180,7 @@ angular.module('cri.project',[])
         $scope.refreshAddresses = function(address) {
             Gmap.getAdress(address).then(function(adresses){
                 $scope.addresses = adresses;
-            })
+            });
         };
         $scope.createProject = function(newProject){
             $scope.isloading = true;
@@ -190,10 +189,9 @@ angular.module('cri.project',[])
             Project.create($scope.newProject).then(function(data){
                 $state.go('project',{ pid : data.accessUrl });
             }).catch(function(err){
-                console.log(err)
                 Notification.display(err.message);
             }).finally(function(){
                 $scope.isloading = false;
-            })
-        }
+            });
+        };
     }]);

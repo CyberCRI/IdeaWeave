@@ -36,8 +36,8 @@ angular.module('cri.common')
                             Notification.displaySocketNotif(notif);
                         });
 
-                    })
-                })
+                    });
+                });
 
             }
         };

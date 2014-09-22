@@ -33,4 +33,4 @@ angular.module('cri.message')
             }
         };
         return service;
-    })
+    });

@@ -25,16 +25,15 @@ angular.module('cri.common',[])
             }
         };
         var $window = $windowProvider.$get();
-        console.log($window.location.host)
         if($window.location.host == 'localhost:5000'){
             config.env = 'dev';
             config.apiServer = 'http://localhost:5011';
-            config.githubClient = 'a7b3f0d3bbda1a42f26e',
-            config.googleClient = '372552657598-hdg4o1pqc15amejp9jlr2qs016k0m6ve.apps.googleusercontent.com'
+            config.githubClient = 'a7b3f0d3bbda1a42f26e';
+            config.googleClient = '372552657598-hdg4o1pqc15amejp9jlr2qs016k0m6ve.apps.googleusercontent.com';
 
         }else{
             config.env = 'prod';
-            config.apiServer = 'http://ideastorm.io:5011'
+            config.apiServer = 'http://ideastorm.io:5011';
             config.githubClient = '';
             config.githubClient = '';
             config.githubClient = 'a0de9026823b0f3c405e';
@@ -42,7 +41,7 @@ angular.module('cri.common',[])
         }
         this.$get = function(){
             return config;
-        }
+        };
 
     })
     .directive('includeReplace', function () {

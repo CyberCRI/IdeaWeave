@@ -62,5 +62,5 @@ angular.module('cri.challenge')
                         controller : 'ProjectCreateCtrl'
                     }
                 }
-            })
+            });
     }]);

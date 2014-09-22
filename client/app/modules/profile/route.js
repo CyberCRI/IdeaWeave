@@ -22,5 +22,5 @@ angular.module('cri.profile')
                         return [];
                     }]
                 }
-            })
+            });
     }]);

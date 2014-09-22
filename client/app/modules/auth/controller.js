@@ -49,24 +49,24 @@ angular.module('cri.auth',[
                                     Notification.display("Welcome you're logged in");
                                 }).catch(function(err){
                                     Notification.display("error you are not logged in");
-                                })
+                                });
                             };
                         }]
-                    })
+                    });
                 }
 
             }).catch(function(err) {
-                console.log("error",err)
+                console.log("error",err);
             }).finally(function(){
                 $scope.loader[provider] = false;
-            })
+            });
         };
 
         $scope.form = {};
 
         $scope.login = function ($event) {
             $event.preventDefault();
-            $scope.loader['email'] = true;
+            $scope.loader.email = true;
             $auth.login({ email : $scope.signin.email, password : $scope.signin.password }).then(function () {
                 Notification.display("welcome you're logged in");
                 $scope.signin = {};
@@ -76,8 +76,8 @@ angular.module('cri.auth',[
             }).catch(function (err) {
                 Notification.display(err.message);
             }).finally(function(){
-                $scope.loader['email'] = false;
-            })
+                $scope.loader.email = false;
+            });
         };
 
         $scope.resetPassForm = false;
@@ -97,7 +97,7 @@ angular.module('cri.auth',[
                         Notification.display("Verification code has been sent successfully, please log in to view your mailbox");
 
                     }
-                })
+                });
             }
 
         };
@@ -108,8 +108,8 @@ angular.module('cri.auth',[
                 } else {
                     Notification.display('Password reset successfull');
                 }
-            })
-        }
+            });
+        };
 
     }])
     .controller('RegisterCtrl', ['$scope','$state','Notification','Gmap','Files','$auth',  function ($scope, $state, Notification,Gmap,Files,$auth) {
@@ -121,7 +121,7 @@ angular.module('cri.auth',[
         $scope.refreshAddresses = function(address) {
             Gmap.getAdress(address).then(function(adresses){
                 $scope.addresses = adresses;
-            })
+            });
         };
 
         $scope.cancel = function(){
@@ -143,9 +143,9 @@ angular.module('cri.auth',[
     .controller('ActivateCtrl',['$scope','Profile','$state','$stateParams','Notification',function($scope,Profile,$state,$stateParams,Notification){
         $scope.activate = function(){
             Profile.update($stateParams.uid,{ emailValidated : true }).then(function(){
-                $state.go('home')
+                $state.go('home');
             }).catch(function(err){
                 Notification.display(err.message);
-            })
-        }
+            });
+        };
     }]);
