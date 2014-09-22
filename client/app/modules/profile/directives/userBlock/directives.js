@@ -19,9 +19,6 @@ angular.module('cri.profile')
                 }
             }],
             link : function(scope,element,attrs){
-
-
-
             }
         };
     }])

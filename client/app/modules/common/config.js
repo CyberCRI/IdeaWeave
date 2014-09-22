@@ -34,8 +34,6 @@ angular.module('cri.common',[])
         }else{
             config.env = 'prod';
             config.apiServer = 'http://ideastorm.io:5011';
-            config.githubClient = '';
-            config.githubClient = '';
             config.githubClient = 'a0de9026823b0f3c405e';
             config.googleClient = '659220840623-qft0lcgjtbjp6651159nualku81uvns1.apps.googleusercontent.com';
         }

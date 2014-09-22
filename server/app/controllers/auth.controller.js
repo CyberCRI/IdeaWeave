@@ -66,6 +66,7 @@ exports.signin = function(req, res) {
 };
 
 exports.googleAuth = function(req, res) {
+    console.log('google')
     var accessTokenUrl = 'https://accounts.google.com/o/oauth2/token';
     var peopleApiUrl = 'https://www.googleapis.com/plus/v1/people/me/openIdConnect';
     var params = {
@@ -81,6 +82,7 @@ exports.googleAuth = function(req, res) {
         var headers = { Authorization: 'Bearer ' + accessToken };
 // Step 2. Retrieve information about the current user.
         request.get({ url: peopleApiUrl, headers: headers, json: true }, function(error, response, profile) {
+            console.log('profile',profile)
             User.findOne({ google: profile.sub }).populate('tags').exec(function(err, user) {
                 if (user) {
                     return res.send({ token: token });
@@ -90,7 +92,7 @@ exports.googleAuth = function(req, res) {
                     username: profile.given_name+'_'+profile.family_name,
                     email: profile.email
                 });
-                user.save(function() {
+                user.saveQ(function() {
                     var token = utils.createJwtToken(user);
                     res.send({ token: token });
                 });

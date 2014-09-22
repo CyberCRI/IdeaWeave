@@ -82,7 +82,6 @@ exports.fetchChallenges = function(req,res){
 
 
 exports.popular = function(req,res){
-    console.log('req',req)
     q.all([
         Challenge.find().sort('-projectNumber').limit(3).execQ(),
         Project.find().sort('-projectNumber').limit(10).execQ()
