@@ -1,5 +1,5 @@
 <section layout="horizontal" layout-fill>
-    <material-sidenav class="material-sidenav-left material-whiteframe-z2 left" component-id="left">
+    <material-sidenav class="material-sidenav-left material-whiteframe-z2 left" component-id="left" style="overflow-y:auto;">
         <div style="padding-left: 20px;" layout="vertical" >
             <material-toolbar layout="horizontal">
                 <div class="material-toolbar-tools">
@@ -28,7 +28,7 @@
                     </div>
                 </ui-select-choices>
             </ui-select>
-            <material-content>
+            <material-content style="margin-bottom:100px;">
                 <material-list>
                     <material-item ng-repeat="note in notes | filter:search track by note._id">
                         <div class="material-tile-left">

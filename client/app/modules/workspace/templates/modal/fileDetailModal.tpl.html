@@ -2,11 +2,11 @@
     <material-toolbar>
         <div layout="horizontal">
             <div flex></div>
-            <a ng-href="{{ fileDetails.url }}" target="_blank">
-                <i class="my-btn fa fa-download fa-2x"></i>
-            </a>
-            <material-button>
-                <i class="fa fa-times" ng-click="cancel()"></i>
+            <material-button class="material-button-fab" ng-href="{{ fileDetails.url }}" target="_blank">
+                <i class="fa fa-download"></i>
+            </material-button>
+            <material-button class="material-button-fab" ng-click="cancel()">
+                <i class="fa fa-times"></i>
             </material-button>
         </div>
     </material-toolbar>

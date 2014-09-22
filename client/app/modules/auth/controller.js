@@ -1,7 +1,7 @@
 angular.module('cri.auth',[
     'Satellizer',
-    'cri.common'])
-    .config(function($authProvider,$windowProvider,ConfigProvider){
+    'cri.common'
+]).config(function($authProvider,ConfigProvider){
         var Config = ConfigProvider.$get();
 
         $authProvider.setConfig({

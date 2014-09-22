@@ -49,7 +49,7 @@ module.exports = function(db) {
 		app.use(morgan('dev'));
 
 		// Disable views cache
-		app.set('view cache', false);
+//		app.set('view cache', false);
 	} else if (process.env.NODE_ENV === 'production') {
 		app.locals.cache = 'memory';
 	}
@@ -72,14 +72,16 @@ module.exports = function(db) {
 
 	// Use helmet to secure Express headers
 //	app.use(helmet.xframe());
-	app.use(helmet.iexss());
-	app.use(helmet.contentTypeOptions());
-	app.use(helmet.ienoopen());
+//;	app.use(helmet.iexss());
+//	app.use(helmet.contentTypeOptions());
+//	app.use(helmet.ienoopen())
 	app.disable('x-powered-by');
     console.log(config)
 
     app.use(function(req, res, next) {
-        res.header('Access-Control-Allow-Origin', config.crossOrigin);
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Headers", "X-Requested-With");
+//        res.header('Access-Control-Allow-Origin', config.crossOrigin);
         res.header('Access-Control-Allow-Credentials',true);
         res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
         res.header('Access-Control-Allow-Headers', 'Content-Type,Authorization');
@@ -87,25 +89,24 @@ module.exports = function(db) {
     })
 
 	// Setting the app router and static folder
-    console.log(path.resolve('./public'))
 	app.use(express.static(path.resolve('./public')));
 
 	// Globbing routing files
 
 
     // Assume 'not found' in the error msgs is a 404. this is somewhat silly, but valid, you can do whatever you like, set properties, use instanceof etc.
-	app.use(function(err, req, res, next) {
-		// If the error object doesn't exists
-		if (!err) return next();
-
-		// Log it
-		console.error(err.stack);
-
-		// Error page
-		res.status(500).render('500', {
-			error: err.stack
-		});
-	});
+//	app.use(function(err, req, res, next) {
+//		// If the error object doesn't exists
+//		if (!err) return next();
+//
+//		// Log it
+//		console.error(err.stack);
+//
+//		// Error page
+//		res.status(500).render('500', {
+//			error: err.stack
+//		});
+//	});
 
 	return app;
 };

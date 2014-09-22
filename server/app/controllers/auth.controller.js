@@ -19,10 +19,12 @@ var mongoose = require('mongoose-q')(),
 exports.signup = function(req, res) {
 	// Init Variables
     var tagsId = [];
-    req.body.tags.forEach(function(tag,k){
-        tagsId.push(tag._id)
-    });
-    req.body.tags = tagsId;
+    if(req.body.tags){
+        req.body.tags.forEach(function(tag,k){
+            tagsId.push(tag._id)
+        });
+        req.body.tags = tagsId;
+    }
 	var user = new User(req.body);
 	// Then save the user
 	user.saveQ().then(function(err) {
@@ -81,7 +83,6 @@ exports.googleAuth = function(req, res) {
         request.get({ url: peopleApiUrl, headers: headers, json: true }, function(error, response, profile) {
             User.findOne({ google: profile.sub }).populate('tags').exec(function(err, user) {
                 if (user) {
-                    var token = utils.createJwtToken(user);
                     return res.send({ token: token });
                 }
                 user = new User({

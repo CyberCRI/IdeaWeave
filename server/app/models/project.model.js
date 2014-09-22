@@ -15,8 +15,7 @@ var ProjectSchema = new Schema({
         default: Date.now
     },
     accessUrl : {
-        type : String,
-        required : true
+        type : String
     },
     title: {
         type: String,

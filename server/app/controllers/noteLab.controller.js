@@ -161,7 +161,7 @@ exports.fetchNote = function(req,res){
 
 exports.createNote = function(req,res){
     var myNote = new NoteLab(req.body);
-    q.all([
+        q.all([
         myNote.saveQ(),
         Project.findOneAndUpdateQ({_id:req.body.project},{$inc:{noteNumber : 1}})
     ]).then(function(data){
@@ -172,22 +172,27 @@ exports.createNote = function(req,res){
             container : data[0].project
         });
         myNotif.saveQ().then(function(notif){
+            console.log('la')
             HackPadClient.create(data[0].text,'text/html',function(err,resp){
                 if(err){
+                    console.log(1,err)
                     res.json(400,err);
                 }else{
                     NoteLab.findOneAndUpdateQ({ _id  :data[0]._id },{ hackPadId : resp.padId }).then(function(note){
                         io.sockets.in('project::'+req.body.project).emit('newNote',notif,note);
                         res.send(200);
                     }).fail(function(err){
+                        console.log(2,err)
                         res.json(400,err)
                     })
                 }
             });
         }).fail(function(err){
+            console.log(3,err)
             res.json(400,err);
         });
     }).fail(function(err){
+        console.log(4,err)
         res.json(400,err);
     });
 };

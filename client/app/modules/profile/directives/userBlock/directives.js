@@ -36,6 +36,7 @@ angular.module('cri.profile')
             },
             templateUrl:'modules/profile/directives/userBlock/user-block.tpl.html',
             controller : ['$scope','Profile',function($scope,Profile){
+                console.log($scope)
                 if($scope.userId){
                     Profile.fetch( { _id : $scope.userId, type : 'block' }).then(function(user){
                         $scope.user = user[0];
@@ -43,6 +44,8 @@ angular.module('cri.profile')
                         console.log('error',err);
                     })
                 }else{
+                    console.log('yo!!!!')
+
                     $scope.user = $scope.myUser
                 }
             }],

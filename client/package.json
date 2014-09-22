@@ -23,7 +23,6 @@
     "gulp-inline-angular-templates" : "*",
     "gulp-rev" : "*",
     "gulp-grunt" : "*",
-
     "grunt-inline-angular-templates":"*"
 
   },

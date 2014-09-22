@@ -248,7 +248,7 @@ angular.module('cri.workspace',[])
                     currentUser : $scope.currentUser,
                     files : $scope.files
                 },
-                controller : ['$scope','NoteLab','$hideDialog','Notification','Files','currentUser',function($scope,NoteLab,$hideDialog,Notification,Files,currentUser){
+                controller : ['$scope','NoteLab','$hideDialog','Notification','Files','currentUser','files',function($scope,NoteLab,$hideDialog,Notification,Files,currentUser,files){
 
                     $scope.fileSelected = function($files){
                         $scope.file = $files[0];

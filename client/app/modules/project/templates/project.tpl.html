@@ -30,7 +30,7 @@
                         <i class='fa fa-trello'>&nbsp;Trello</i>
                     </material-button>
                 </div>
-                <div>
+                <div ng-if="currentUser">
                     <material-button  ng-if="!isOwner && !isFollow"  ng-click="follow()" class="material-button-raised material-button-colored rotation">
                         <i class="fa fa-thumbs-up">follow</i>
 

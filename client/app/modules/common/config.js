@@ -38,7 +38,7 @@ angular.module('cri.common',[])
             config.githubClient = '';
             config.githubClient = '';
             config.githubClient = 'a0de9026823b0f3c405e';
-            config.googleClient = '372552657598-hdg4o1pqc15amejp9jlr2qs016k0m6ve.apps.googleusercontent.com';
+            config.googleClient = '659220840623-qft0lcgjtbjp6651159nualku81uvns1.apps.googleusercontent.com';
         }
         this.$get = function(){
             return config;

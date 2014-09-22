@@ -89,6 +89,14 @@ exports.getByChallenge = function(req,res){
     })
 };
 
+exports.fetchOne = function(req,res){
+    Project.findQ({ _id : req.params.id}).then(function(project){
+        res.json(project[0]);
+    }).fail(function(err){
+        res.json(400,err)
+    })
+};
+
 exports.fetch = function(req,res){
     if(req.query.accessUrl){
         Project
@@ -139,6 +147,7 @@ exports.fetch = function(req,res){
         Project
             .find()
             .populate('tags')
+            .select('_id title members')
             .execQ()
             .then(function(project){
                 res.json(project);
@@ -149,39 +158,42 @@ exports.fetch = function(req,res){
 };
 
 exports.create = function(req,res){
-    var tagsId = [];
-    req.body.tags.forEach(function(tag,k){
-        tagsId.push(tag._id)
-    });
 
-    req.body.tags = tagsId;
+    if(req.body.tags){
+        var tagsId = [];
+        req.body.tags.forEach(function(tag,k){
+            tagsId.push(tag._id)
+        });
+
+        req.body.tags = tagsId;
+    }
+
     var project = new Project(req.body);
     project.saveQ().then(function(project){
-
-        Challenge.findOneAndUpdateQ({_id : project.container},{ $push : { projects : project._id },$inc : { projectNumber : 1 }}).then(function(challenge){
-
-            var myNotif =  new Notification({
-                type : 'project',
-                owner : project.owner,
-                entity : project,
-                container : project.container
-            });
-            myNotif.saveQ().then(function(notif){
-
-                io.sockets.in('challenge::'+project.container).emit('newProject',notif);
-                res.json(project)
+        if(project.container){
+            Challenge.findOneAndUpdateQ({_id : project.container},{ $push : { projects : project._id },$inc : { projectNumber : 1 }}).then(function(challenge){
+                var myNotif =  new Notification({
+                    type : 'project',
+                    owner : project.owner,
+                    entity : project,
+                    container : project.container
+                });
+                myNotif.saveQ().then(function(notif){
+                    io.sockets.in('challenge::'+project.container).emit('newProject',notif);
+                    res.json(project)
+                }).fail(function(err){
+                    res.json(400,err);
+                })
             }).fail(function(err){
-;
-                res.json(400,err);
+                res.json(400,err)
             })
-        }).fail(function(err){
-;
-            res.json(400,err)
-        })
+        }else{
+            res.json(project)
+        }
     }).fail(function(err){
 
         res.json(400,err)
-    })
+    });
 //    q.all([
 
 

@@ -11,7 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible"content="IE=9; IE=8; IE=7; IE=EDGE">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-    <base href="/"></base>
+    <base href="/"/>
     <link rel="stylesheet" href="//code.cdn.mozilla.net/fonts/fira.css">
     <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.8.5/css/selectize.default.css">
     <!-- build:css styles/main.css -->
@@ -22,7 +22,6 @@
     <link rel="stylesheet" href="vendors/angular-image-crop/image-crop-styles.css"/>
     <link rel="stylesheet" href="vendors/angular-carousel/dist/angular-carousel.css">
     <link rel="stylesheet" href="vendors/angular-material/angular-material.css"/>
-    <!--<link rel="stylesheet" href="vendors/angular-datepicker/dist/index.css"/>-->
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
 </head>
@@ -61,17 +60,21 @@
             <i class="fa fa-2x fa-gears my-btn" hide-md ui-route="/admin/project/[A-Za-z0-9_.]*" ng-class="{ 'hidden' : !$uiRoute }" ng-click="sideNavToggle('showAdmin')"></i>
             <i class="fa fa-2x fa-gears my-btn" hide-md ui-route="/admin/challenge/[A-Za-z0-9_.]*" ng-class="{ 'hidden' : !$uiRoute }" ng-click="sideNavToggle('showAdmin')"></i>
         </div>
-        <div hide block-md>
-            <a style="cursor : pointer;padding-top: 0px;"  ui-sref="home">
+        <div>
+            <a style="cursor : pointer;padding-top: 0px;"  ui-sref="home" hide block-md>
                 <img src="images/ideaweavelogo.png" height="50px" alt="IdeaWeaves"/>
             </a>
         </div>
-        <div layout="horizontal" layout-align="start end" hide block-md>
+        <div hide-md>
+            <i class="fa fa-home fa-2x my-btn" ui-sref="home"></i>
+        </div>
+        <div layout="horizontal" layout-align="start end" >
             <i ui-sref="challenges.list({ tag :'all' })" class="fa fa-trophy fa-2x my-btn" ui-route="/challenges/all"  ng-class="{'menu-active': $uiRoute}"></i>
             <img src="images/plus.png" width="15%" height="15%" class="plus-icon" ui-sref="challengeSuggest" ng-if="currentUser._id" alt="add"/>
             <i ui-sref="projects.list({ tag : 'all' })" class="fa fa-lightbulb-o fa-2x my-btn" ui-route="/projects"  ng-class="{'menu-active': $uiRoute}"></i>
         </div>
-       <search-bar flex></search-bar>
+        <div flex hide-md></div>
+       <search-bar hide block-md flex></search-bar>
         <div>
             <a href="">
                 <i class="fa fa-caret-left fa-2x" ng-click="toggleRight('menu')" ng-if="currentUser"></i>
@@ -84,6 +87,7 @@
 </material-toolbar>
 
 <section ui-view="mainView" layout="vertical" layout-fill></section>
+
 <script src="vendors/tinymce/tinymce.min.js"></script>
 <script src="vendors/tinymce/themes/modern/theme.min.js"></script>
 <script src="vendors/tinymce/plugins/print/plugin.min.js"></script>

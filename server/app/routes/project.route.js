@@ -13,6 +13,7 @@ module.exports = function(app) {
         .post(utils.ensureAuthenticated,project.create);
 
     app.route('/projects/:id')
+        .get(utils.ensureAuthenticated,project.fetchOne)
         .put(utils.ensureAuthenticated,project.update)
         .delete(utils.ensureAuthenticated,project.remove);
 
@@ -33,6 +34,5 @@ module.exports = function(app) {
     app.get('/project/files/:id',project.getFiles);
 
     app.get('/projects/tag/:tag',project.getByTag);
-
 
 };

@@ -82,17 +82,19 @@ exports.fetchChallenges = function(req,res){
 
 
 exports.popular = function(req,res){
+    console.log('req',req)
     q.all([
         Challenge.find().sort('-projectNumber').limit(3).execQ(),
         Project.find().sort('-projectNumber').limit(10).execQ()
     ]).then(function(data){
+        console.log('success Mothafuck')
         var response = {
             challenges : data[0],
             projects : data[1]
         };
         res.json(response);
     }).catch(function(err){
-
+        console.log("err",err)
         res.json(400,err);
     })
 

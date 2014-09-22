@@ -30,11 +30,12 @@ angular.module('cri', [
     'cri.tag',
     'cri.profile',
     'cri.message'])
-    .config(['$httpProvider','$locationProvider','$authProvider',function ($httpProvider,$locationProvider,$authProvider) {
+    .config(['$httpProvider','$locationProvider','$sceProvider',function ($httpProvider,$locationProvider,$sceProvider) {
 //        $httpProvider.defaults.withCredentials=true;
         $locationProvider.html5Mode(true);
         $locationProvider.hashPrefix('!');
 
+        $sceProvider.enabled(false);
 //        dev
 
     }])

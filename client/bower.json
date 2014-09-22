@@ -1,6 +1,6 @@
 {
-  "name": "IdeaWeaves",
-  "description": "made with love at the C.R.I. (Paris)",
+  "name": "IdeaWeave",
+  "description": "social and collaborative tool",
   "version": "0.0.1",
   "dependencies": {
     "angular": "1.2.16",

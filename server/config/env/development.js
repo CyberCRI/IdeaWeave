@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-	db: 'mongodb://localhost/ideaw',
+	db: 'mongodb://localhost/ideaweave',
     crossOrigin : 'http://localhost:5000',
     TOKEN_SECRET: 'my-secret',
     GITHUB_SECRET: '801b0f6e9703e43ba7cf70f4a700b4bb8e54cb0c',

@@ -97,6 +97,11 @@ material-ink-bar{
 }
 
 material-dialog{
+  width:90%;
+  height : 300px;
+  material-toolbar{
+    border-bottom:solid 1px black;
+  }
   material-content{
     padding-left : 15px;
     padding-bottom: 10px;
