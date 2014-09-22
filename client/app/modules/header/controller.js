@@ -29,4 +29,5 @@ angular.module('cri.header',[])
                 $state.go('challenge',{ pid : result.accessUrl })
             }
         };
+        console.log('r')
     }]);

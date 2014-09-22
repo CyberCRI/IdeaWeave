@@ -25,7 +25,8 @@
     "satellizer": "0.3.1",
     "opentip": "2.4.6",
     "angular-timeago": "0.1.2",
-    "jspdf" : "*"
+    "jspdf" : "*",
+    "ng-messages" : "*"
   },
   "devDependencies": {}
 }

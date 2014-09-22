@@ -1,15 +1,31 @@
 <section  ng-controller="LoginCtrl" layout="vertical" class="signin-form">
-    <form name="signin-form" layout="vertical">
+    <form name="signinForm" layout="vertical">
         <material-input-group>
             <label for="email">Account's Email</label>
-            <material-input id="email" type="text" ng-model="signin.email" />
+            <material-input id="email" name="email" type="email" required ng-model="signin.email" />
         </material-input-group>
+        <div ng-messages="signinForm.email.$error" ng-if="!signinForm.email.$pristine">
+            <div ng-message="required" class="form-message">
+                email is required
+            </div>
+            <div ng-message="email" class="form-message">
+                you must type a valid email
+            </div>
+        </div>
         <material-input-group>
             <label for="password">Password</label>
-            <material-input id="password" type="password" ng-model="signin.password" />
+            <material-input id="password" type="password" name="password" ng-model="signin.password" required pattern=""/>
         </material-input-group>
+        <div ng-messages="signinForm.password.$error" ng-if="!signinForm.email.$pristine" ng-if="!signinForm.password.$pristine">
+            <div class="form-message" ng-message="required">
+                password is required
+            </div>
+            <div ng-message="pattern" class="form-message">
+                password must contain at least one maj
+            </div>
+        </div>
         <div style="margin-top:10px;">
-            <material-button class="material-button-raised" ng-click="login($event)">
+            <material-button class="material-button-raised" ng-click="login($event)" ng-disabled="signinForm.$invalid">
                 <span class="faa-spin animated" ng-if="loader['email']">
                     <i class="fa fa-2x fa-spinner"></i>
                 </span>

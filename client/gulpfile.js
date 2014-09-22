@@ -16,8 +16,8 @@ var gulp = require('gulp'),
     minifyCss = require('gulp-minify-css'),
     minifyHtml = require('gulp-minify-html'),
     rev = require('gulp-rev'),
-    inlineAngularTemplates = require('gulp-inline-angular-templates');
-livereloadport = 35729,
+    inlineAngularTemplates = require('gulp-inline-angular-templates'),
+    livereloadport = 35729,
     serverport = 5000;
 
 require('gulp-grunt')(gulp);
@@ -36,6 +36,7 @@ server.all('/*', function(req, res) {
 
 gulp.task('lint', function() {
     gulp.src('./app/modules/**/*.js')
+        .pipe(refresh(lrserver))
         .pipe(jshint())
         .pipe(jshint.reporter('default'));
 });
@@ -43,8 +44,15 @@ gulp.task('lint', function() {
 gulp.task('sass', function () {
     gulp.src('./app/styles/main.scss')
         .pipe(sass())
-        .pipe(gulp.dest('./app/styles'));
+        .pipe(gulp.dest('./app/styles'))
+        .pipe(refresh(lrserver));
 });
+
+gulp.task('html', function () {
+    gulp.src('./app/**/*.html')
+        .pipe(refresh(lrserver));
+});
+
 
 gulp.task('watch', function() {
     gulp.watch([ './app/**/**/*.scss','./app/styles/main.scss'],[
@@ -52,7 +60,10 @@ gulp.task('watch', function() {
     ]);
     gulp.watch('./app/**/*.js',[
         'lint'
-    ])
+    ]);
+    gulp.watch('./app/**/*.html',[
+        'html'
+    ]);
 });
 
 gulp.task('dev', function() {

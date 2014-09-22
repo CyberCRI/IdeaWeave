@@ -14,5 +14,5 @@ angular.module('cri.home',[])
             $location.hash('signup');
             $anchorScroll();
         }
-
+        console.log('dd')
     }]);

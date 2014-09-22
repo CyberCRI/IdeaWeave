@@ -66,6 +66,12 @@ textarea{
   opacity: 0;
   filter: alpha(opacity=0);
 }
+
+.form-message{
+  color : red;
+  text-align:center;
+}
+
 //::-webkit-datetime-edit[aria-valuetext=blank]{
 //  display:none;
 //}

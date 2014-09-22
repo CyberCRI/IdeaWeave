@@ -38,6 +38,13 @@
   -webkit-animation: flipInX 1s;
   animation: flipInX 1s; }
 
+.form-message.ng-enter {
+  -webkit-animation: flipInX 0.5s;
+  animation: flipInX 0.5s; }
+.form-message.ng-leave {
+  -webkit-animation: flipOutX 0.5s;
+  animation: flipOutX 0.5s; }
+
 .material-theme-black {
   background-color: #000000;
   color: #f5f5f5; }
@@ -173,6 +180,10 @@ textarea {
   cursor: pointer;
   opacity: 0;
   filter: alpha(opacity=0); }
+
+.form-message {
+  color: red;
+  text-align: center; }
 
 .signin-form material-button {
   width: 100%;

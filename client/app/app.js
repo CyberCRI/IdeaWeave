@@ -3,6 +3,7 @@ angular.module('cri', [
     'ngSanitize',
     'ngAnimate',
     'ngMaterial',
+    'ngMessages',
     'ui.utils',
     'ui.router',
     'ui.select',
@@ -28,8 +29,7 @@ angular.module('cri', [
     'cri.auth',
     'cri.challenge',
     'cri.tag',
-    'cri.profile',
-    'cri.message'])
+    'cri.profile'])
     .config(['$httpProvider','$locationProvider','$sceProvider',function ($httpProvider,$locationProvider,$sceProvider) {
 //        $httpProvider.defaults.withCredentials=true;
         $locationProvider.html5Mode(true);
