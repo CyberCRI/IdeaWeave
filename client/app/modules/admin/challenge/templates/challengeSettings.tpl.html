@@ -35,11 +35,16 @@
             <form name="projectBasic" layout="vertical">
                 <material-input-group>
                     <label for="title">Title</label>
-                    <material-input type="text" id="title" ng-model="challenge.title"></material-input>
+                    <material-input type="text" id="title" name="title" ng-model="challenge.title" required></material-input>
                 </material-input-group>
+                <div ng-messages="projectBasic.title.$error">
+                    <div ng-message="required">
+                        title is required
+                    </div>
+                </div>
                 <textarea placeholder="a brief description of your project" rows="5" ng-model="project.brief" class="pretty-area"></textarea>
                 <tag-manager entity="challenge" ng-model="challenge.tags"></tag-manager>
-                <material-button class="material-theme-indigo"  ng-click="updateChallenge()" style="margin:auto;">
+                <material-button class="material-theme-indigo"  ng-click="updateChallenge()" style="margin:auto;" ng-disabled="projectBasic.title.$invalid">
                     <span class="faa-spin animated" ng-if="isBasicLoading">
                         <i class="fa fa-spin"></i>
                     </span>
@@ -64,11 +69,10 @@
                             </div>
                             <div class="material-tile-right">
                                 <material-button ng-click="removeTemplate(template,$index)">
-                        <span class="faa-spin animated" ng-if="isTLoading[$index]">
-                            <i fa fa-spinner></i>
-                        </span>
-                                    <i class="fa fa-trash-o">Remove</i>
-
+                                <span class="faa-spin animated" ng-if="isTLoading[$index]">
+                                    <i fa fa-spinner></i>
+                                </span>
+                                <i class="fa fa-trash-o">Remove</i>
                                 </material-button>
                             </div>
                         </material-item>

@@ -7,9 +7,9 @@ angular.module('cri.common',[])
                 plugins: [
                     "advlist autolink lists link image charmap print preview anchor",
                     "searchreplace visualblocks code fullscreen",
-                    "insertdatetime template media table contextmenu paste textcolor "
+                    "insertdatetime template media table contextmenu paste textcolor youtube"
                 ],
-                toolbar: "template styleselect fontselect fontsizeselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist | link image | forecolor backcolor fullscreen",
+                toolbar: "template media youtube styleselect fontselect fontsizeselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist | link image | forecolor backcolor fullscreen",
                 image_advtab: true
             },
             paginateChallenge : 10,

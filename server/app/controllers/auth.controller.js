@@ -82,15 +82,18 @@ exports.googleAuth = function(req, res) {
         var headers = { Authorization: 'Bearer ' + accessToken };
 // Step 2. Retrieve information about the current user.
         request.get({ url: peopleApiUrl, headers: headers, json: true }, function(error, response, profile) {
-            console.log('profile',profile)
+            console.log('profile',profile,token)
             User.findOne({ google: profile.sub }).populate('tags').exec(function(err, user) {
+                console.log(err,user)
                 if (user) {
-                    return res.send({ token: token });
+                    var token = utils.createJwtToken(user);
+                    return res.json({ token: token });
                 }
                 user = new User({
                     google: profile.sub,
-                    username: profile.given_name+'_'+profile.family_name,
-                    email: profile.email
+                    username: profile.name,
+                    email: profile.email,
+                    poster : profile.picture
                 });
                 user.saveQ(function() {
                     var token = utils.createJwtToken(user);

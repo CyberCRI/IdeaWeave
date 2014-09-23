@@ -37,14 +37,19 @@
         <tag-manager entity="project" ng-model="project.tags"></tag-manager>
         <material-input-group>
             <label for="title">Title</label>
-            <material-input id="title" type="text" ng-model="project.title" />
+            <material-input id="title" type="text" ng-model="project.title" name="title"/>
         </material-input-group>
+        <div ng-messages="projectBasic.title.$error">
+            <div ng-message="required">
+                title is required
+            </div>
+        </div>
         <label for="brief"></label>
         <textarea  id="brief" rows="5" style="width:100%;" ng-model="project.brief"></textarea>
         <material-input-group >
             <label for="trello">Trello Id</label>
             <material-input id="trello" type="text"ng-model="project.trello" />
         </material-input-group>
-        <material-button flex class="material-button-raised material-button-colored" type="button" ng-click="updateProject($event)">Update</material-button>
+        <material-button flex class="material-button-raised material-button-colored" type="button" ng-click="updateProject($event)" ng-disabled="">Update</material-button>
     </form>
 </material-content>
