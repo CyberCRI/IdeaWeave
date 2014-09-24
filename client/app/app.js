@@ -41,7 +41,6 @@ angular.module('cri', [
     }])
     .run(['Profile','mySocket','$rootScope', function (Profile,mySocket,$rootScope) {
         Profile.getMe().then(function(me){
-            console.log('data',me);
 //            $rootScope.currentUser = me;
             mySocket.init(me);
             Profile.getPoster(me._id).then(function(data){
