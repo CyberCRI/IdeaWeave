@@ -105,7 +105,6 @@ exports.googleAuth = function(req, res) {
 };
 
 exports.githubAuth = function(req, res) {
-    console.log('toto')
     console.log(config);
 
     console.log(req.body)

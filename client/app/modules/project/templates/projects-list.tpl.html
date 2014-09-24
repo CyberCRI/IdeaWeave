@@ -1,38 +1,42 @@
 <material-content scroller loading-method="loadMoreProjects()" style="overflow-x:hidden;">
     <material-list>
         <material-item ng-repeat="project in projects" class="item-list">
-            <div class="material-tile-left" flex="40" flex-sm="30" flex-md="25" flex-lg="15">
-                <img ng-src="{{ project.poster || 'http://placehold.it/90x90' }}" class="" width="100%" alt="project's poster" />
-            </div>
-            <article class="material-tile-content">
-                <h1 ui-sref="project.home({ pid : project.accessUrl })">
-                    {{ project.title }}
-                </h1>
-                <p ng-bind-html="project.brief">
-                </p>
-                <showtags entity="project"></showtags>
-                <div layout="horizontal">
-                    <div flex>
-                    <span>
-                    {{ project.followers.length }}
-                    </span>
-                    <span>
-                        Followers
-                    </span>
-                    </div>
-                    <div flex>
-                    <span>
-                    {{ projects.members.length }}
-                    </span>
-                    <span>
-                        Members
-                    </span>
-                    </div>
+            <material-item-content>
+                <div class="material-tile-left" flex="40" flex-sm="30" flex-md="25" flex-lg="15">
+                    <img ng-src="{{ project.poster || 'http://placehold.it/90x90' }}" class="" width="100%" alt="project's poster" />
                 </div>
-                <material-button>
-                    show publication
-                </material-button>
-            </article>
+                <article class="material-tile-content">
+                    <h1 ui-sref="project.home({ pid : project.accessUrl })">
+                        {{ project.title }}
+                    </h1>
+                    <showtags entity="project"></showtags>
+                    <div hide block-md>
+                        <p ng-bind-html="project.brief">
+                        </p>
+                        <div layout="horizontal">
+                            <div flex>
+                            <span>
+                            {{ project.followers.length }}
+                            </span>
+                            <span>
+                                Followers
+                            </span>
+                            </div>
+                            <div flex>
+                            <span>
+                            {{ projects.members.length }}
+                            </span>
+                            <span>
+                                Members
+                            </span>
+                            </div>
+                        </div>
+                        <material-button>
+                            show publication
+                        </material-button>
+                    </div>
+                </article>
+            </material-item-content>
         </material-item>
     </material-list>
 </material-content>

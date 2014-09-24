@@ -23,13 +23,7 @@ var gulp = require('gulp'),
 require('gulp-grunt')(gulp);
 
 
-//express server
-var server = express();
-server.use(livereload({port: livereloadport}));
-server.use(express.static('./app'));
-server.all('/*', function(req, res) {
-    res.sendFile('index.html', { root: 'app' });
-});
+
 
 
 // Dev tasks
@@ -64,6 +58,14 @@ gulp.task('watch', function() {
     gulp.watch('./app/**/*.html',[
         'html'
     ]);
+});
+
+//express server
+var server = express();
+server.use(livereload({port: livereloadport}));
+server.use(express.static('./app'));
+server.all('/*', function(req, res) {
+    res.sendFile('index.html', { root: 'app' });
 });
 
 gulp.task('dev', function() {

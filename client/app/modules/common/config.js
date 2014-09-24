@@ -7,10 +7,11 @@ angular.module('cri.common',[])
                 plugins: [
                     "advlist autolink lists link image charmap print preview anchor",
                     "searchreplace visualblocks code fullscreen",
-                    "insertdatetime template media table contextmenu paste textcolor youtube"
+                    "insertdatetime template media table contextmenu paste textcolor"
                 ],
-                toolbar: "template media youtube styleselect fontselect fontsizeselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist | link image | forecolor backcolor fullscreen",
-                image_advtab: true
+                toolbar: "template media styleselect fontselect fontsizeselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist | link image | forecolor backcolor fullscreen",
+                image_advtab: true,
+                valid_elements:"iframe[src|title|width|height|allowfullscreen|frameborder|class|id],object[classid|width|height|codebase|*],param[name|value|_value|*],embed[type|width|height|src|*]"
             },
             paginateChallenge : 10,
             paginateProject : 10,

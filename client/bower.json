@@ -20,7 +20,7 @@
     "Font-Awesome": "4.1",
     "font-awesome-animation": "*",
     "angular-carousel": "0.2.3",
-    "angular-material": "0.0.2",
+    "angular-material": "0.0.3",
     "angular-timer": "*",
     "satellizer": "0.3.1",
     "opentip": "2.4.6",

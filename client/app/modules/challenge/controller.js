@@ -63,7 +63,7 @@ angular.module('cri.challenge', [])
             }
         };
 
-        $scope.showProjects = function(e,id,index){
+        $scope.showProjects = function(id,index){
             var challenge = $scope.challenges[index];
             $materialDialog({
                 templateUrl : 'modules/challenge/templates/modal/listProjects.tpl.html',
@@ -79,8 +79,7 @@ angular.module('cri.challenge', [])
                     $scope.cancel = function(){
                         $hideDialog();
                     };
-                }],
-                event :e
+                }]
             });
         };
 

@@ -4,7 +4,9 @@ angular.module('cri.challenge')
             restrict:'EA',
             scope : {
                 challengeId : '=',
-                myChallenge : '='
+                myChallenge : '=',
+                height : '=',
+                width : '='
             },
             templateUrl:'modules/challenge/directives/challengeBlock/challenge-block.tpl.html',
             controller : ['$scope','Challenge',function($scope,Challenge){
@@ -20,6 +22,14 @@ angular.module('cri.challenge')
                 }
             }],
             link : function(scope,element,attrs){
+                if(scope.height){
+                    element.find('img').attr('height' , scope.height);
+                }
+
+                if(scope.width){
+                    element.find('img').attr('width' , scope.width);
+                }
+
 
                 scope.block = {
                     isHovered : false

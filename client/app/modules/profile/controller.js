@@ -24,7 +24,8 @@ angular.module('cri.profile',[])
         };
     }])
 
-    .controller('ProfileCtrl',['$scope','Notification','profile','Profile','recommandations','$state','$sce','activities','$materialSidenav',function ($scope,Notification,profile,Profile,recommandations,$state,$sce,activities,$materialSidenav) {
+    .controller('ProfileCtrl',['$scope','Notification','profile','Profile','Recommendation','$state','$sce','activities','$materialSidenav','$q',function ($scope,Notification,profile,Profile,Recommendation,$state,$sce,activities,$materialSidenav,$q) {
+
         $scope.profile = profile.data;
         $scope.moreData = profile.moreData;
         $scope.activities = [];
@@ -47,13 +48,30 @@ angular.module('cri.profile',[])
         }
 
         $scope.now = new Date().getTime();
-        $scope.recommandation = recommandations;
 //        $scope.activities = activities;
 
         $scope.isFollowing = false;
         if($scope.currentUser){
             if($scope.currentUser._id == $scope.profile._id){
                 $scope.isOwner=true;
+                $q.all([
+                    Recommendation.fetchUsers($scope.currentUser._id,$scope.currentUser.tags,'user'),
+                    Recommendation.fetchChallenges($scope.currentUser._id,$scope.currentUser.tags,'user'),
+                    Recommendation.fetchProjects($scope.currentUser._id,$scope.currentUser.tags,'user')
+                ]).then(function(recommendations){
+                    console.log(recommendations)
+                    if(recommendations[0].length > 0){
+                        $scope.recommandedUsers = recommendations[0];
+                    }
+                    if(recommendations[2].length > 0){
+                        $scope.recommandedProjects = recommendations[2];
+                    }
+                    if(recommendations[1].length > 0){
+                        $scope.recommandedChallenges = recommendations[1];
+                    }
+                }).catch(function(err){
+                    console.log('nooooooo',err);
+                });
             }else{
                 angular.forEach($scope.profile.followers,function(follower){
                     if(follower._id == $scope.currentUser._id){

@@ -1,8 +1,11 @@
 <div class="item-block-container" ng-mouseenter="hoverEnter($event)" ng-mouseleave="hoverLeave($event)" ui-sref="project({ pid : project.accessUrl })">
     <img ng-src="{{ project.poster || 'http://placehold.it/100x100' }}" alt=""/>
-    <div class="item-block center" ng-if="isHovered" ng-style="{ height : height,width:width}">
-        <p style="font-size :1em;">
-            {{project.title}}
-        </p>
+    <!--<div class="item-block center" ng-if="isHovered" ng-style="{ height : height,width:width}">-->
+        <!--<p style="font-size :1em;">-->
+            <!--{{project.title}}-->
+        <!--</p>-->
+    <!--</div>-->
+    <div ng-if="isHovered" style="text-align: center;">
+        {{project.title}}
     </div>
 </div>

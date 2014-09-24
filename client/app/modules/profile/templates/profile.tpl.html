@@ -16,45 +16,41 @@
                 </div>
             </div>
             <h1 ng-bind="profile.realname || profile.username"></h1>
-            <p class="text-muted">
-                {{ profile.followers.length }} followers . {{ profile.followings.length }} following
-            </p>
-            <div ng-if="!isOwner">
-                <material-button ng-if="!isFollowing" ng-click="follow()" class="material-button-raised material-button-colored rotation">
-                    <i class="fa fa-thumbs-up">follow</i>
-                </material-button>
-                <material-button  ng-if="isFollowing" ng-click="unfollow()"  class="material-button-raised material-button-colored rotation">
-                    <i class="fa fa-thumbs-down">unfollow</i>
-                </material-button>
-            </div>
             <div layout="horizontal" >
                 <i class="fa fa-map-marker fa-2x"></i>
                 <span ng-bind="profile.localisation.formatted_address" class="text-muted" flex></span>
             </div>
-            <showtags entity="profile" flex></showtags>
-            <section layout="vertical" style="max-width:280px;">
-                <article ng-if="recommandation.users">
+            <div ng-if="!isOwner">
+                <material-button ng-if="!isFollowing" ng-click="follow()" class="material-button-raised material-button-colored">
+                    <i class="fa fa-thumbs-up">follow</i>
+                </material-button>
+                <material-button  ng-if="isFollowing" ng-click="unfollow()"  class="material-button-raised material-button-colored ">
+                    <i class="fa fa-thumbs-down">unfollow</i>
+                </material-button>
+            </div>
+            <section layout="vertical" ng-if="isOwner">
+                <article ng-if="recommandedUsers">
                     <h4>
                         You should speak with :
                     </h4>
                     <div layout="horizontal" layout-align="space-between">
-                        <user-block my-user="user" ng-repeat="user in recommandation.users"></user-block>
+                        <user-block my-user="user" height="'50px'" width="'50px'" ng-repeat="user in recommandedUsers"></user-block>
                     </div>
                 </article>
-                <article ng-if="recommandation.challenges">
+                <article ng-if="recommandedChallenges">
                     <h4>
                         You should participate to :
                     </h4>
                     <div layout="horizontal" layout-align="space-between">
-                        <challenge-block ng-repeat="challenge in recommandation.challenges" challenge="challenge"></challenge-block>
+                        <challenge-block height="'50px'" width="'50px'" ng-repeat="challenge in recommandedChallenges" my-challenge="challenge"></challenge-block>
                     </div>
                 </article>
-                <article ng-if="recommandation.projects">
+                <article ng-if="recommandedProjects">
                     <h4>
                         You should take a look to :
                     </h4>
                     <div layout="horizontal" layout-align="space-between">
-                        <project-block ng-repeat="project in recommandation.projects" project="project"></project-block>
+                        <project-block height="'50px'" width="'50px'" ng-repeat="project in recommandedProjects" my-project="project"></project-block>
                     </div>
                 </article>
             </section>
@@ -63,8 +59,12 @@
     <section layout="vertical" layout-fill>
         <material-toolbar scroll-shrink class="material-theme-green">
             <h1 ng-bind="profile.realname || profile.username" class="center" style="margin-top:0;margin-bottom:0;"></h1>
+            <p class="text-muted">
+                {{ profile.followers.length }} followers . {{ profile.followings.length }} following
+            </p>
         </material-toolbar>
         <material-content flex>
+            <showtags entity="profile"></showtags>
             <material-tabs style="padding-left:0;">
                 <material-tab  class="material-theme-white" >
                     <material-tab-label>
@@ -100,60 +100,71 @@
                 <material-tab ng-disabled="moreData.challenges.length == 0" class="material-theme-white" >
                     <material-tab-label>
                         <material-item>
-                            <div class="material-tile-left">
-                                <i class="fa fa-trophy fa-2x"></i>
-                            </div>
-                            <div class="material-tile-content" style="text-align:left;">
-                                <span>created</span>
-                            </div>
+                            <material-item-content>
+                                <div class="material-tile-left">
+                                    <i class="fa fa-trophy fa-2x"></i>
+                                </div>
+                                <div class="material-tile-content" style="text-align:left;">
+                                    <span>created</span>
+                                </div>
+                            </material-item-content>
                         </material-item>
                     </material-tab-label>
                 </material-tab>
                 <material-tab ng-disabled="moreData.followedChallenges.length == 0">
                     <material-tab-label>
                         <material-item>
-                            <div class="material-tile-left">
-                                <i class="fa fa-trophy fa-2x"></i>
-                            </div>
-                            <div class="material-tile-content" style="text-align:left;">
-                                <span>followed</span>
-                            </div>
+                            <material-item-content>
+                                <div class="material-tile-left">
+                                    <i class="fa fa-trophy fa-2x"></i>
+                                </div>
+                                <div class="material-tile-content" style="text-align:left;">
+                                    <span>followed</span>
+                                </div>
+                            </material-item-content>
                         </material-item>
                     </material-tab-label>
                 </material-tab>
                 <material-tab ng-disabled="moreData.projects.length == 0">
                     <material-tab-label>
                         <material-item>
-                            <div class="material-tile-left">
-                                <i class="fa fa-lightbulb-o fa-2x"></i>
-                            </div>
-                            <div class="material-tile-content" style="text-align:left;">
-                                <span>created</span>
-                            </div>
+                            <material-item-content>
+
+                                <div class="material-tile-left">
+                                    <i class="fa fa-lightbulb-o fa-2x"></i>
+                                </div>
+                                <div class="material-tile-content" style="text-align:left;">
+                                    <span>created</span>
+                                </div>
+                            </material-item-content>
                         </material-item>
                     </material-tab-label>
                 </material-tab>
                 <material-tab ng-disabled="moreData.memberProjects.length == 0">
                     <material-tab-label>
                         <material-item>
-                            <div class="material-tile-left">
-                                <i class="fa fa-lightbulb-o fa-2x"></i>
-                            </div>
-                            <div class="material-tile-content" style="text-align:left;">
-                                <span>contribution</span>
-                            </div>
+                            <material-item-content>
+                                <div class="material-tile-left">
+                                    <i class="fa fa-lightbulb-o fa-2x"></i>
+                                </div>
+                                <div class="material-tile-content" style="text-align:left;">
+                                    <span>contribution</span>
+                                </div>
+                            </material-item-content>
                         </material-item>
                     </material-tab-label>
                 </material-tab>
                 <material-tab ng-disabled="moreData.followedProjects.length == 0">
                     <material-tab-label>
                         <material-item>
-                            <div class="material-tile-left">
-                                <i class="fa fa-lightbulb-o fa-2x"></i>
-                            </div>
-                            <div class="material-tile-content" style="text-align:left;">
-                                <span>followed</span>
-                            </div>
+                            <material-item-content>
+                                <div class="material-tile-left">
+                                    <i class="fa fa-lightbulb-o fa-2x"></i>
+                                </div>
+                                <div class="material-tile-content" style="text-align:left;">
+                                    <span>followed</span>
+                                </div>
+                            </material-item-content>
                         </material-item>
                     </material-tab-label>
                 </material-tab>

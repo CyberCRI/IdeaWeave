@@ -16,10 +16,6 @@ angular.module('cri.profile')
                     }],
                     profile : ['Profile','$stateParams',function(Profile,$stateParams){
                         return Profile.getProfile($stateParams.uid);
-                    }],
-                    recommandations : ['Recommandations','$stateParams',function(Recommandations,$stateParams){
-                       // return Recommandations.fetchUser($stateParams.uid);
-                        return [];
                     }]
                 }
             });

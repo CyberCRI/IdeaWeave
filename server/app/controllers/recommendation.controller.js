@@ -10,69 +10,95 @@ var q = require('q'),
     _ = require('lodash');
 
 
+function reduceTags(tags){
+    if(!tags){
+        tags = [];
+    }else if(typeof tags  == 'string') {
+        var temp = [];
+        temp.push(tags);
+        tags = temp;
+    }
+    var response = tags.map(function(tag){
+        return JSON.parse(tag)._id
+    });
+    return response;
+}
 
 
 exports.fetchUsers = function(req,res){
+    var tags = reduceTags(req.query.tags);
     q.all([
-        User.find({tags : {$in : req.user.tags}}).populate('_id').execQ(),
+        User.random({tags : {$in : tags}}),
         User.find({ _id : req.user._id}).populate('followings').execQ()
     ]).then(function(data){
         var followings = data[1],
             users = data[0];
         followings.forEach(function(following,k){
-            users.filter(function(user){
-                return user._id == following;
+            users.forEach(function(user,k){
+                if(user._id == following){
+                    users.splice(k,1);
+                }
             })
+        });
+        users.forEach(function(user,k){
+            if(user._id == req.user._id){
+                users.splice(k,1);
+            }
         });
         res.json(users);
     }).fail(function(err){
+        console.log(err)
         res.json(400,err);
     });
 };
 
 exports.fetchProjects = function(req,res){
+    var tags = reduceTags(req.query.tags)
     q.all([
-        Project.find({tags : {$in : req.user.tags}}).populate('_id').execQ(),
-        Project.find({owner : req.user._id}).populate('_id').execQ(),
+        Project.random({tags : {$in : tags}}),
         User.find({_id : req.user._id}).populate('followings').execQ()
     ]).then(function(data){
         var projects = data[0],
-            myProjects = data[1],
-            followings = data[2];
+            followings = data[1];
         followings.forEach(function(following){
-            projects.filter(function(project){
-                return project._d == following;
+            projects.forEach(function(project,k){
+                if(project._id == following){
+                    projects.splice(k,1);
+                }
             })
         });
-        myProjects.forEach(function(mProject){
-            projects.filter(function(project){
-                return project._id == mProject._id
-            })
+        projects.forEach(function(project,k){
+            if(project.owner == req.user._id){
+                projects.splice(k,1);
+            }
         });
         res.json(projects)
     }).fail(function(err){
+        console.log(err)
+
         res.json(400,err);
     });
 };
 
 exports.fetchChallenges = function(req,res){
+    var tags = reduceTags(req.query.tags)
     q.all([
-        Challenge.find({tags : {$in : req.user.tags}}).populate('_id').execQ(),
-        Challenge.find({owner : req.user._id}).populate('_id').execQ(),
+        Challenge.random({tags : {$in : tags}}),
         User.find({_id : req.user._id}).populate('followings').execQ()
     ]).then(function(data){
         var challenges = data[0],
-            myChallenges = data[1],
-            followings = data[2];
+            followings = data[1];
         followings.forEach(function(following){
-            challenges.filter(function(challenge){
-                return challenge._d == following;
+            challenges.forEach(function(challenge,k){
+                 if(challenge._d == following){
+                     challenges.splice(k,1)
+                 }
             })
         });
-        myChallenges.forEach(function(mChallenge){
-            challenges.filter(function(challenge){
-                return challenge._id == mChallenge._id
-            })
+        challenges.filter(function(challenge,k){
+            if(challenge.owner == req.user._id){
+                challenges.splice(k,1)
+            }
         });
         res.json(challenges)
     }).fail(function(err){
@@ -86,14 +112,12 @@ exports.popular = function(req,res){
         Challenge.find().sort('-projectNumber').limit(3).execQ(),
         Project.find().sort('-projectNumber').limit(10).execQ()
     ]).then(function(data){
-        console.log('success Mothafuck')
         var response = {
             challenges : data[0],
             projects : data[1]
         };
         res.json(response);
     }).catch(function(err){
-        console.log("err",err)
         res.json(400,err);
     })
 
