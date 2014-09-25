@@ -1,6 +1,6 @@
 <section style="min-height:400px;" ng-controller="chatCtrl" layout="vertical">
     <div class="chat-zone" layout="vertical">
-        <p ng-repeat="message in messages" layout="horizontal">
+        <div ng-repeat="message in messages" layout="horizontal">
             <user-info user-id="message.owner"></user-info>
             &nbsp;
             :
@@ -9,7 +9,7 @@
                 {{ message.content }}
             </span>
             <i class="fa fa-times my-btn"></i>
-        </p>
+        </div>
     </div>
     <div ng-if="currentUser" layout="horizontal" layout-align="start end">
         <material-input-group flex>

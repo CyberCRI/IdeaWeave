@@ -48,7 +48,8 @@ angular.module('cri.profile')
                 var defered = $q.defer();
                 var url = Config.apiServer + '/profile/'+id;
                 $http.get(url).success(function(data){
-                        defered.resolve(data);
+                    service.data = data.data;
+                    defered.resolve(data);
                     }).error(function(err){
                         defered.reject(err);
                     });

@@ -18,23 +18,10 @@ angular.module('cri.challenge', [])
             mySocket.socket.emit('chat::newMessage',message);
         };
     }])
-    .controller('ChallengesCtrl',['$scope','$materialSidenav','Tag',function($scope,$materialSidenav,Tag){
-        var leftNav;
-        $scope.$on('showTags',function(){
-            leftNav = $materialSidenav('left');
-            leftNav.toggle();
-        });
-
-        Tag.fetch().then(function(tags){
-            $scope.tags = tags;
-        }).catch(function(err){
-            console.log(err);
-        });
-
-        $scope.toggle = function(){
-            leftNav.toggle();
+    .controller('ChallengesCtrl',['$scope','$rootScope',function($scope,$rootScope){
+        $scope.toggleLeft = function(){
+            $rootScope.$broadcast('toggleLeft')
         };
-
     }])
     .controller('ChallengesListCtrl',['$scope','challenges','Notification','Challenge','Project','$stateParams','Config','$materialDialog',function($scope,challenges,Notification,Challenge,Project,$stateParams,Config,$materialDialog){
         $scope.challenges = challenges;

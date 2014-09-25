@@ -94,8 +94,9 @@ material-card {
   material-card showtags {
     font-size: 0.7em; }
 
-.material-sidenav-right {
-  background-color: #fdfff8 !important; }
+.material-sidenav-right, .material-sidenav-left {
+  background-color: #fdfff8 !important;
+  z-index: 25 !important; }
 
 material-toast {
   min-height: 64px !important;
@@ -121,9 +122,6 @@ material-dialog {
 .material-button-fab .fa {
   margin: auto auto;
   position: relative; }
-
-.material-sidenav-left {
-  padding-left: 20px; }
 
 .material-sidenav-right.open, .material-sidenav-right.open {
   z-index: 25 !important; }
@@ -416,7 +414,7 @@ body, html {
   overflow-y: hidden !important;
   height: 100%;
   max-width: 100%;
-  font-family: 'Fira Sans'; }
+  font-family: 'Fira Sans' !important; }
 
 .main-header {
   z-index: 15;
@@ -435,6 +433,8 @@ header {
   font-size: 1.1em; }
 
 @media all and (min-width: 700px) {
+  .sidenav-container {
+    width: 350px; }
   .project-modal {
     max-height: 800px; }
   .profile-picture {

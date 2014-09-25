@@ -49,7 +49,7 @@
                 <article class="html-content" flex ng-bind-html="challenge.home">
 
                 </article>
-                <div class="chat-container" flex ng-include="'modules/challenge/templates/chat.tpl.html'"></div>
+                <div class="chat-container" flex ng-include="'modules/challenge/templates/chat.tpl.html'" style="resize: horizontal;"></div>
             </section>
             <div class="participate-btn">
                 <material-button  ng-if="currentUser"  ng-click="participate()" class="material-button-raised material-button-colored">

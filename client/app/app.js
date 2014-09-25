@@ -85,4 +85,119 @@ angular.module('cri', [
             rightNav.toggle();
             Notification.display('You have been logged out');
         }
+    }).controller('LeftNavCtrl',function($scope,$materialSidenav,$state,Profile,Tag,Recommendation,$q){
+        function getRecomendation(){
+            var defered = $q.defer();
+            $q.all([
+                Recommendation.fetchUsers($scope.currentUser._id,$scope.currentUser.tags,'user'),
+                Recommendation.fetchChallenges($scope.currentUser._id,$scope.currentUser.tags,'user'),
+                Recommendation.fetchProjects($scope.currentUser._id,$scope.currentUser.tags,'user')
+            ]).then(function(recommendations){
+                if(recommendations[0].length > 0){
+                    $scope.recommandedUsers = recommendations[0];
+                }
+                if(recommendations[2].length > 0){
+                    $scope.recommandedProjects = recommendations[2];
+                }
+                if(recommendations[1].length > 0){
+                    $scope.recommandedChallenges = recommendations[1];
+                }
+                defered.resolve();
+            }).catch(function(err){
+                defered.reject(err);
+            });
+            return defered.promise;
+        }
+
+        function getTags(){
+            var defered = $q.defer();
+            Tag.fetch().then(function(tags) {
+                $scope.tags = tags;
+                defered.resolve();
+            }).catch(function(err){
+                defered.reject(err)
+                console.log(err);
+            });
+            return defered.promise;
+        }
+
+        console.log($state)
+        $scope.$watch(function(){
+            return $state.params.uid;
+        },function(){
+            $scope.profile = Profile.data;
+        });
+
+        $scope.$watch(function(){
+            return $state.current.name;
+        },function(state){
+            console.log(state)
+            switch(state){
+                case 'profile':
+                   getRecomendation().then(function(){
+                       $scope.profile = Profile.data;
+                       $scope.sideNavTemplateUrl = 'modules/common/leftNav/profile.tpl.html';
+                   });
+                    break;
+                case 'projects.list':
+                    getTags().then(function(){
+                        $scope.sideNavTemplateUrl = 'modules/common/leftNav/tags-projects.tpl.html';
+                    });
+                    break;
+                case 'challenges.list':
+                    getTags().then(function(){
+                        $scope.sideNavTemplateUrl = 'modules/common/leftNav/tags-challenges.tpl.html';
+                    });
+                    break;
+                case 'profileAdmin':
+
+                    break;
+                case 'projectAdmin':
+
+                    break;
+                case 'challengeAdmin':
+
+                    break;
+            }
+        });
+//
+        var leftNav = $materialSidenav('left');
+        $scope.$on('toggleLeft',function(e){
+            leftNav.toggle();
+        });
+        $scope.toggle = function(){
+            leftNav.toggle();
+        };
+        $scope.$on('side:close-left',function(){
+            leftNav.toggle();
+        });
+    }).controller('MainCtrl',function($scope,$state){
+        $scope.leftNav = true;
+        $scope.$watch(function(){
+            return $state.current.name;
+        },function(state){
+            switch(state){
+                case 'home':
+                    $scope.leftNav = false;
+                    break;
+                case 'workspace':
+                    $scope.leftNav = false;
+                    break;
+                case 'workspace.note.discussion':
+                    $scope.leftNav = false;
+                    break;
+                case 'workspace.note.file':
+                    $scope.leftNav = false;
+                    break;
+                case 'workspace.note.resources':
+                    $scope.leftNav = false;
+                    break;
+                case 'workspace.note.hackpad':
+                    $scope.leftNav = false;
+                    break;
+                default :
+                    $scope.leftNav = true;
+                    break;
+            }
+        })
     });

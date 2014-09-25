@@ -55,7 +55,6 @@
         <div>
             <i class="fa fa-2x fa-tags my-btn" hide-md ui-route="/challenges/[A-Za-z0-9_.]*" ng-class="{ 'hidden' : !$uiRoute }" ng-click="sideNavToggle('showTags')"></i>
             <i class="fa fa-2x fa-tags my-btn" hide-md ui-route="/projects/[A-Za-z0-9_.]*" ng-class="{ 'hidden' : !$uiRoute }" ng-click="sideNavToggle('showTags')"></i>
-            <i class="fa fa-2x fa-user my-btn" hide-md ui-route="/profile/[A-Za-z0-9_.]*" ng-class="{ 'hidden' : !$uiRoute }" ng-click="sideNavToggle('showProfile')"></i>
             <i class="fa fa-2x fa-cogs my-btn" hide-md ui-route="/project/[A-Za-z0-9_.]*/notelab" ng-class="{ 'hidden' : !$uiRoute }" ng-click="sideNavToggle('showWorkspace')"></i>
             <i class="fa fa-2x fa-gears my-btn" hide-md ui-route="/admin/project/[A-Za-z0-9_.]*" ng-class="{ 'hidden' : !$uiRoute }" ng-click="sideNavToggle('showAdmin')"></i>
             <i class="fa fa-2x fa-gears my-btn" hide-md ui-route="/admin/challenge/[A-Za-z0-9_.]*" ng-class="{ 'hidden' : !$uiRoute }" ng-click="sideNavToggle('showAdmin')"></i>
@@ -86,7 +85,17 @@
     </div>
 </material-toolbar>
 
-<section ui-view="mainView" layout="vertical" layout-fill></section>
+<section layout="horizontal" layout-fill ng-controller="MainCtrl">
+    <div ng-if="leftNav"  style="height:100%;" class="sidenav-container">
+        <material-sidenav class="material-sidenav-left material-whiteframe-z2" component-id="left" style="height:100%;">
+            <div ng-controller="LeftNavCtrl" style="height:100%;">
+                <ng-include src="sideNavTemplateUrl" flex layout="vertical" layout-fill>
+                </ng-include>
+            </div>
+        </material-sidenav>
+    </div>
+    <section ui-view="mainView" layout="vertical" layout-fill class="right-part"></section>
+</section>
 
 <script src="vendors/tinymce/tinymce.min.js"></script>
 <script src="vendors/tinymce/themes/modern/theme.min.js"></script>

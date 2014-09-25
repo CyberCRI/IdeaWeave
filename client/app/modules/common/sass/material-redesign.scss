@@ -74,8 +74,9 @@ material-card{
 
 
 
-.material-sidenav-right{
+.material-sidenav-right, .material-sidenav-left{
   background-color: $material-card-background !important;
+  z-index :25 !important;
 }
 
 
@@ -119,7 +120,7 @@ material-dialog{
 }
 
 .material-sidenav-left{
-  padding-left: 20px;
+//  padding-left: 20px;
 }
 .material-sidenav-right.open,.material-sidenav-right.open{
   z-index:25 !important;

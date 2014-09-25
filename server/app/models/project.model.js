@@ -4,7 +4,8 @@
  * Module dependencies.
  */
 var mongoose = require('mongoose-q')(),
-    Schema = mongoose.Schema;
+    Schema = mongoose.Schema,
+    Q = require('q');;
 
 /**
  * Project Schema

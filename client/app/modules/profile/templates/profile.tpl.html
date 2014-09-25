@@ -1,191 +1,141 @@
-<section layout="horizontal" layout-fill>
-    <material-sidenav class="material-sidenav-left material-whiteframe-z2 left" component-id="left">
-        <material-content style="padding-left: 20px;text-align:left;" layout="vertical" >
-            <material-toolbar layout="horizontal">
-                <div class="material-toolbar-tools">
-                    <i class="fa fa-caret-left fa-2x my-btn" hide-md style="color:black;" ng-click="toggle()" flex></i>
-                    <div>
-                        <i class="fa fa-user"> Profile Page</i>
+<section layout="vertical" layout-fill>
+    <material-toolbar scroll-shrink class="material-theme-green" style="position:relative;">
+        <h1 style="margin-top:0;margin-bottom:0; padding-left:25px;">
+           {{ profile.realname || profile.username }}
+            <i style="color:yellow" class="fa" ng-class="{ 'fa-star' : isFollowing }"></i>
+        </h1>
+        <p style="text-align:right;">
+            {{ profile.followers.length }} followers . {{ profile.followings.length }} following
+        </p>
+        <material-button class="material-button-fab material-theme-green" ng-click="showMore()" style="bottom:-24px;position:absolute; left:20px;z-index : inherit" hide-md>
+            <i class="fa fa-bars"></i>
+        </material-button>
+        <material-button class="material-button-fab material-theme-green" ng-click="follow()" style="bottom:-24px;position:absolute; right:20px;z-index : inherit" ng-if="!isOwner">
+            <i class="fa" ng-class="{ 'fa-thumbs-up' : !isFollowing, 'fa-thumbs-down' : isFollowing }"></i>
+        </material-button>
+    </material-toolbar>
+    <material-content flex>
+        <showtags entity="profile" style="margin-left: 50px;"></showtags>
+        <material-tabs style="padding-left:0;">
+            <material-tab  class="material-theme-white" >
+                <material-tab-label>
+                    <div flex>
+                        Presentation
                     </div>
-                </div>
-            </material-toolbar>
-
-            <div layout="horizontal">
-                <div flex>
-                    <img ng-src="{{profile.poster || 'images/avater.jpg'}}" class="profile-picture"  flex-md>
-                </div>
-            </div>
-            <h1 ng-bind="profile.realname || profile.username"></h1>
-            <div layout="horizontal" >
-                <i class="fa fa-map-marker fa-2x"></i>
-                <span ng-bind="profile.localisation.formatted_address" class="text-muted" flex></span>
-            </div>
-            <div ng-if="!isOwner">
-                <material-button ng-if="!isFollowing" ng-click="follow()" class="material-button-raised material-button-colored">
-                    <i class="fa fa-thumbs-up">follow</i>
-                </material-button>
-                <material-button  ng-if="isFollowing" ng-click="unfollow()"  class="material-button-raised material-button-colored ">
-                    <i class="fa fa-thumbs-down">unfollow</i>
-                </material-button>
-            </div>
-            <section layout="vertical" ng-if="isOwner">
-                <article ng-if="recommandedUsers">
-                    <h4>
-                        You should speak with :
-                    </h4>
-                    <div layout="horizontal" layout-align="space-between">
-                        <user-block my-user="user" height="'50px'" width="'50px'" ng-repeat="user in recommandedUsers"></user-block>
+                </material-tab-label>
+                <material-content style="height:400px;" class="material-theme-white">
+                    <div ng-bind-html="profile.secureBrief"></div>
+                </material-content>
+            </material-tab>
+            <material-tab class="material-theme-white" >
+                <material-tab-label>
+                    <div flex>
+                        Activity
                     </div>
-                </article>
-                <article ng-if="recommandedChallenges">
-                    <h4>
-                        You should participate to :
-                    </h4>
-                    <div layout="horizontal" layout-align="space-between">
-                        <challenge-block height="'50px'" width="'50px'" ng-repeat="challenge in recommandedChallenges" my-challenge="challenge"></challenge-block>
-                    </div>
-                </article>
-                <article ng-if="recommandedProjects">
-                    <h4>
-                        You should take a look to :
-                    </h4>
-                    <div layout="horizontal" layout-align="space-between">
-                        <project-block height="'50px'" width="'50px'" ng-repeat="project in recommandedProjects" my-project="project"></project-block>
-                    </div>
-                </article>
-            </section>
-        </material-content>
-    </material-sidenav>
-    <section layout="vertical" layout-fill>
-        <material-toolbar scroll-shrink class="material-theme-green">
-            <h1 ng-bind="profile.realname || profile.username" class="center" style="margin-top:0;margin-bottom:0;"></h1>
-            <p class="text-muted">
-                {{ profile.followers.length }} followers . {{ profile.followings.length }} following
-            </p>
-        </material-toolbar>
-        <material-content flex>
-            <showtags entity="profile"></showtags>
-            <material-tabs style="padding-left:0;">
-                <material-tab  class="material-theme-white" >
-                    <material-tab-label>
-                        <div flex>
-                            Presentation
+                </material-tab-label>
+                <material-content style="height:400px;" class="material-theme-white">
+                    <material-list>
+                        <div ng-repeat="notif in activities">
+                            <ng-include src="'modules/profile/templates/include/challenge-activity.tpl.html'" ng-if="notif.type == 'challenge'"></ng-include>
+                            <ng-include src="'modules/profile/templates/include/project-activity.tpl.html'" ng-if="notif.type == 'project'"></ng-include>
+                            <ng-include src="'modules/notification/templates/include/file-notif.tpl.html'" ng-if="notif.type == 'file'"></ng-include>
+                            <ng-include src="'modules/notification/templates/include/url-notif.tpl.html'" ng-if="notif.type == 'url'"></ng-include>
+                            <ng-include src="'modules/profile/templates/include/note-activity.tpl.html'" ng-if="notif.type == 'note'"></ng-include>
+                            <ng-include src="'modules/notification/templates/include/member-notif.tpl.html'" ng-if="notif.type == 'member'"></ng-include>
                         </div>
-                    </material-tab-label>
-                    <material-content style="height:400px;" class="material-theme-white">
-                        <div ng-bind-html="profile.secureBrief"></div>
-                    </material-content>
-                </material-tab>
-                <material-tab class="material-theme-white" >
-                    <material-tab-label>
-                        <div flex>
-                            Activity
-                        </div>
-                    </material-tab-label>
-                    <material-content style="height:400px;" class="material-theme-white">
-                        <material-list>
-                            <div ng-repeat="notif in activities">
-                                <ng-include src="'modules/profile/templates/include/challenge-activity.tpl.html'" ng-if="notif.type == 'challenge'"></ng-include>
-                                <ng-include src="'modules/profile/templates/include/project-activity.tpl.html'" ng-if="notif.type == 'project'"></ng-include>
-                                <ng-include src="'modules/notification/templates/include/file-notif.tpl.html'" ng-if="notif.type == 'file'"></ng-include>
-                                <ng-include src="'modules/notification/templates/include/url-notif.tpl.html'" ng-if="notif.type == 'url'"></ng-include>
-                                <ng-include src="'modules/profile/templates/include/note-activity.tpl.html'" ng-if="notif.type == 'note'"></ng-include>
-                                <ng-include src="'modules/notification/templates/include/member-notif.tpl.html'" ng-if="notif.type == 'member'"></ng-include>
+                    </material-list>
+                </material-content>
+            </material-tab>
+        </material-tabs>
+        <material-tabs selected="selectedIndex"   style="padding-left:0;">
+            <material-tab ng-disabled="moreData.challenges.length == 0" class="material-theme-white" >
+                <material-tab-label>
+                    <material-item>
+                        <material-item-content>
+                            <div class="material-tile-left">
+                                <i class="fa fa-trophy fa-2x"></i>
                             </div>
-                        </material-list>
-                    </material-content>
-                </material-tab>
-            </material-tabs>
-            <material-tabs selected="selectedIndex"   style="padding-left:0;">
-                <material-tab ng-disabled="moreData.challenges.length == 0" class="material-theme-white" >
-                    <material-tab-label>
-                        <material-item>
-                            <material-item-content>
-                                <div class="material-tile-left">
-                                    <i class="fa fa-trophy fa-2x"></i>
-                                </div>
-                                <div class="material-tile-content" style="text-align:left;">
-                                    <span>created</span>
-                                </div>
-                            </material-item-content>
-                        </material-item>
-                    </material-tab-label>
-                </material-tab>
-                <material-tab ng-disabled="moreData.followedChallenges.length == 0">
-                    <material-tab-label>
-                        <material-item>
-                            <material-item-content>
-                                <div class="material-tile-left">
-                                    <i class="fa fa-trophy fa-2x"></i>
-                                </div>
-                                <div class="material-tile-content" style="text-align:left;">
-                                    <span>followed</span>
-                                </div>
-                            </material-item-content>
-                        </material-item>
-                    </material-tab-label>
-                </material-tab>
-                <material-tab ng-disabled="moreData.projects.length == 0">
-                    <material-tab-label>
-                        <material-item>
-                            <material-item-content>
+                            <div class="material-tile-content" style="text-align:left;">
+                                <span>created</span>
+                            </div>
+                        </material-item-content>
+                    </material-item>
+                </material-tab-label>
+            </material-tab>
+            <material-tab ng-disabled="moreData.followedChallenges.length == 0">
+                <material-tab-label>
+                    <material-item>
+                        <material-item-content>
+                            <div class="material-tile-left">
+                                <i class="fa fa-trophy fa-2x"></i>
+                            </div>
+                            <div class="material-tile-content" style="text-align:left;">
+                                <span>followed</span>
+                            </div>
+                        </material-item-content>
+                    </material-item>
+                </material-tab-label>
+            </material-tab>
+            <material-tab ng-disabled="moreData.projects.length == 0">
+                <material-tab-label>
+                    <material-item>
+                        <material-item-content>
 
-                                <div class="material-tile-left">
-                                    <i class="fa fa-lightbulb-o fa-2x"></i>
-                                </div>
-                                <div class="material-tile-content" style="text-align:left;">
-                                    <span>created</span>
-                                </div>
-                            </material-item-content>
-                        </material-item>
-                    </material-tab-label>
-                </material-tab>
-                <material-tab ng-disabled="moreData.memberProjects.length == 0">
-                    <material-tab-label>
-                        <material-item>
-                            <material-item-content>
-                                <div class="material-tile-left">
-                                    <i class="fa fa-lightbulb-o fa-2x"></i>
-                                </div>
-                                <div class="material-tile-content" style="text-align:left;">
-                                    <span>contribution</span>
-                                </div>
-                            </material-item-content>
-                        </material-item>
-                    </material-tab-label>
-                </material-tab>
-                <material-tab ng-disabled="moreData.followedProjects.length == 0">
-                    <material-tab-label>
-                        <material-item>
-                            <material-item-content>
-                                <div class="material-tile-left">
-                                    <i class="fa fa-lightbulb-o fa-2x"></i>
-                                </div>
-                                <div class="material-tile-content" style="text-align:left;">
-                                    <span>followed</span>
-                                </div>
-                            </material-item-content>
-                        </material-item>
-                    </material-tab-label>
-                </material-tab>
-            </material-tabs>
-            <section class="animate-switch-container" ng-switch on="selectedIndex" style="height:300px; margin-left:10%;; margin-right: 10%;">
-                <div class="animate-switch blueArea" ng-switch-when="0">
-                    <challenge-card ng-repeat="challenge in moreData.challenges" admin="true" challenge-id="challenge._id" inline-block></challenge-card>
-                </div>
-                <div class="animate-switch " ng-switch-when="1">
-                    <challenge-card ng-repeat="challenge in moreData.followedChallenges" challenge-id="challenge._id" inline-block></challenge-card>
-                </div>
-                <div class="animate-switch greenArea" ng-switch-when="2">
-                    <project-card ng-repeat="project in moreData.projects" admin="true" project-id="project._id" inline-block></project-card>
-                </div>
-                <div class="animate-switch grayArea" ng-switch-when="3">
-                    <project-card ng-repeat="project in moreData.memberProjects" project-id="project._id" inline-block></project-card>
-                </div>
-                <div class="animate-switch grayArea" ng-switch-when="4">
-                    <project-card ng-repeat="project in moreData.followedProjects" project-id="project._id" inline-block></project-card>
-                </div>
-            </section>
-        </material-content>
-    </section>
+                            <div class="material-tile-left">
+                                <i class="fa fa-lightbulb-o fa-2x"></i>
+                            </div>
+                            <div class="material-tile-content" style="text-align:left;">
+                                <span>created</span>
+                            </div>
+                        </material-item-content>
+                    </material-item>
+                </material-tab-label>
+            </material-tab>
+            <material-tab ng-disabled="moreData.memberProjects.length == 0">
+                <material-tab-label>
+                    <material-item>
+                        <material-item-content>
+                            <div class="material-tile-left">
+                                <i class="fa fa-lightbulb-o fa-2x"></i>
+                            </div>
+                            <div class="material-tile-content" style="text-align:left;">
+                                <span>contribution</span>
+                            </div>
+                        </material-item-content>
+                    </material-item>
+                </material-tab-label>
+            </material-tab>
+            <material-tab ng-disabled="moreData.followedProjects.length == 0">
+                <material-tab-label>
+                    <material-item>
+                        <material-item-content>
+                            <div class="material-tile-left">
+                                <i class="fa fa-lightbulb-o fa-2x"></i>
+                            </div>
+                            <div class="material-tile-content" style="text-align:left;">
+                                <span>followed</span>
+                            </div>
+                        </material-item-content>
+                    </material-item>
+                </material-tab-label>
+            </material-tab>
+        </material-tabs>
+        <section class="animate-switch-container" ng-switch on="selectedIndex" style="height:300px; margin-left:10%;; margin-right: 10%;">
+            <div class="animate-switch blueArea" ng-switch-when="0">
+                <challenge-card ng-repeat="challenge in moreData.challenges" admin="true" challenge-id="challenge._id" inline-block></challenge-card>
+            </div>
+            <div class="animate-switch " ng-switch-when="1">
+                <challenge-card ng-repeat="challenge in moreData.followedChallenges" challenge-id="challenge._id" inline-block></challenge-card>
+            </div>
+            <div class="animate-switch greenArea" ng-switch-when="2">
+                <project-card ng-repeat="project in moreData.projects" admin="true" project-id="project._id" inline-block></project-card>
+            </div>
+            <div class="animate-switch grayArea" ng-switch-when="3">
+                <project-card ng-repeat="project in moreData.memberProjects" project-id="project._id" inline-block></project-card>
+            </div>
+            <div class="animate-switch grayArea" ng-switch-when="4">
+                <project-card ng-repeat="project in moreData.followedProjects" project-id="project._id" inline-block></project-card>
+            </div>
+        </section>
+    </material-content>
 </section>
