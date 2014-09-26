@@ -40,6 +40,7 @@ angular.module('cri.challenge')
                 $http.get(url,{
                     params : param
                 }).success(function(data){
+                    service.data = data[0];
                     defered.resolve(data);
                 }).error(function(err){
                     defered.reject(err);

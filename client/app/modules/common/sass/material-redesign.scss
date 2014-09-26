@@ -125,6 +125,16 @@ material-dialog{
 .material-sidenav-right.open,.material-sidenav-right.open{
   z-index:25 !important;
 }
+
+.material-sidenav-left{
+  material-button{
+    i{
+      display: inline-block;
+      width: 100%;
+      text-align: right;
+    }
+  }
+}
 //@media (min-width: 960px) {
 //  material-sidenav {
 //    position: absolute !important;

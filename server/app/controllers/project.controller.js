@@ -3,6 +3,7 @@ var q = require('q'),
     Project = mongoose.model('Project'),
     Challenge = mongoose.model('Challenge'),
     Notification = mongoose.model('Notification'),
+    NoteLab = mongoose.model('NoteLab'),
     Files = mongoose.model('File'),
     Url = mongoose.model('Url'),
     Tags = mongoose.model('Tag'),
@@ -11,6 +12,15 @@ var q = require('q'),
     _ = require('lodash'),
     io = require('../../server').io;
 
+
+
+exports.getPublications = function(req,res){
+    NoteLab.findQ({ public : true, project  : req.params.id }).then(function(publications){
+        res.json(publications);
+    }).fail(function(err){
+        res.json(400,err);
+    })
+}
 
 exports.getByTag = function(req,res){
     if(req.params.tag == 'all'){

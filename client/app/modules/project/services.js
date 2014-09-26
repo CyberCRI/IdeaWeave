@@ -13,6 +13,15 @@ angular.module('cri.project')
             });
             return defered.promise;
         },
+        getPublications : function(id){
+            var defered = $q.defer();
+            $http.get(Config.apiServer+'/project/publications/'+id).success(function(data){
+                defered.resolve(data);
+            }).error(function(err){
+                defered.reject(err);
+            });
+            return defered.promise;
+        },
         fetchUrls : function(id){
             var defered = $q.defer();
             $http.get(Config.apiServer+'/project/urls/'+id).success(function(data){
@@ -54,6 +63,7 @@ angular.module('cri.project')
             var defered = $q.defer(),
                 url = Config.apiServer+'/projects';
             $http.get(url,{params : param}).success(function(data){
+                service.data = data[0];
                 defered.resolve(data);
             }).error(function(err){
                 defered.reject(err);

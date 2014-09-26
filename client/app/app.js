@@ -85,7 +85,7 @@ angular.module('cri', [
             rightNav.toggle();
             Notification.display('You have been logged out');
         }
-    }).controller('LeftNavCtrl',function($scope,$materialSidenav,$state,Profile,Tag,Recommendation,$q){
+    }).controller('LeftNavCtrl',function($scope,$materialSidenav,$state,Profile,Tag,Recommendation,$q,Project,Challenge){
         function getRecomendation(){
             var defered = $q.defer();
             $q.all([
@@ -121,12 +121,25 @@ angular.module('cri', [
             return defered.promise;
         }
 
-        console.log($state)
         $scope.$watch(function(){
             return $state.params.uid;
         },function(){
             $scope.profile = Profile.data;
         });
+
+        $scope.$watch(function(){
+            return $state.params.cid;
+        },function(){
+            $scope.challenge = Challenge.data;
+        });
+
+
+        $scope.$watch(function(){
+            return $state.params.pid;
+        },function(){
+            $scope.profile = Project.data;
+        });
+
 
         $scope.$watch(function(){
             return $state.current.name;
@@ -156,6 +169,31 @@ angular.module('cri', [
 
                     break;
                 case 'challengeAdmin':
+
+                    break;
+                case 'project.home':
+                    Project.getPublications(Project.data._id).then(function(publications){
+                        $scope.project = Project.data;
+                        $scope.publications = publications;
+                        $scope.sideNavTemplateUrl = 'modules/common/leftNav/publications.tpl.html';
+                    }).catch(function(err){
+                        console.log(err);
+                    });
+                    if($scope.currentUser){
+                        if($scope.currentUser._id == Project.data.owner._id){
+                            $scope.isOwner = true;
+                            $scope.isMember = true;
+                        }else{
+                            angular.forEach(Project.data.members,function(member){
+                                if(member._id == $scope.currentUser._id){
+                                    $scope.isVisitor = false;
+                                    $scope.isMember=true;
+                                }
+                            });
+                        }
+                    }
+                    break;
+                case 'project.trello':
 
                     break;
             }

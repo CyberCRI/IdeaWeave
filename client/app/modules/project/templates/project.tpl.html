@@ -1,62 +1,52 @@
 <section layout="vertical" layout-fill>
-    <material-toolbar scroll-shrink class="home-header"  style="background-image: url({{ challenge.banner || 'http://placehold.it/900x150'  }}) !important;" >
+    <material-toolbar scroll-shrink class="home-header"  style="background-image: url({{ challenge.banner || 'http://placehold.it/900x150'  }}) !important;position : relative;">
         <div layout="vertical" class="content">
             <h1 style="margin: 0;">
                 {{ project.title }}
+                <i class="fa fa-star" style="color:yellow;" ng-if="isFollow"></i>
             </h1>
-            <div layout="horizontal" flex>
-                <div flex>
-                      <span>
-                        {{ project.followers.length }}
-                    </span>
-                        &nbsp;
-                    <span class="text-muted">
-                        followers
-                    </span>
-                        &nbsp;
-                    <span>
-                        . {{ project.members.length }}
-                    </span>
-                        &nbsp;
-                    <span class="text-muted">
-                        members
-                    </span>
+            <div class="material-toolbar-tools" layout="horizontal">
+                <div flex></div>
+                <div>
+                    <div>
+                        <span>
+                            {{ project.followers.length }}
+                        </span>
+                            &nbsp;
+                        <span class="text-muted">
+                            followers
+                        </span>
+                            &nbsp;
+                        <span>
+                            {{ project.members.length }}
+                        </span>
+                            &nbsp;
+                        <span class="text-muted">
+                            members
+                        </span>
+                    </div>
                 </div>
-                <div ng-if="isMember">
-                    <material-button ui-sref="workspace({ pid : project.accessUrl })">
-                        <i class='fa fa-cogs'>&nbsp;WorkSpace</i>
-                    </material-button>
-                    <material-button ui-sref="project.trello({ pid : project.accessUrl })">
-                        <i class='fa fa-trello'>&nbsp;Trello</i>
-                    </material-button>
-                </div>
-                <div ng-if="currentUser">
-                    <material-button  ng-if="!isOwner && !isFollow"  ng-click="follow()" class="material-button-raised material-button-colored rotation">
-                        <i class="fa fa-thumbs-up">follow</i>
 
-                    </material-button>
-                    <material-button  ng-if="!isOwner && isFollow" ng-click="unfollow()" class="material-button-raised material-button-colored rotation">
-                        <i class="fa fa-thumbs-down">unfollow</i>
 
-                    </material-button>
-                    <material-button class="material-button-raised material-button-colored" ng-click="openApplyModal($event)" ng-if="!isMember">
-                        Join Us !
-                    </material-button>
-                </div>
+
+                <!--<div ng-if="currentUser">-->
+                    <!--<material-button  ng-if="!isOwner && !isFollow"  ng-click="follow()" class="material-button-raised material-button-colored rotation">-->
+                        <!--<i class="fa fa-thumbs-up">follow</i>-->
+
+                    <!--</material-button>-->
+                    <!--<material-button  ng-if="!isOwner && isFollow" ng-click="unfollow()" class="material-button-raised material-button-colored rotation">-->
+                        <!--<i class="fa fa-thumbs-down">unfollow</i>-->
+                    <!--</material-button>-->
+                    <!--<material-button class="material-button-raised material-button-colored" ng-click="openApplyModal($event)" ng-if="!isMember">-->
+                        <!--Join Us !-->
+                    <!--</material-button>-->
+                <!--</div>-->
+
             </div>
         </div>
-        <material-tabs selected="selectedIndex"  ng-if="isMember">
-            <material-tab  ui-sref="project.home({pid : project.accessUrl})"  ui-route="project/[A-Za-z0-9_.]*/home" ng-class="{ 'active' : $uiRoute }">
-                <material-label >
-                    <i class='fa fa-home fa-2x'>&nbsp;Home</i>
-                </material-label>
-            </material-tab>
-            <material-tab >
-                <material-label>
-                    <i class='fa fa-trello fa-2x'>Publication</i>
-                </material-label>
-            </material-tab>
-        </material-tabs>
+        <material-button class="material-button-fab" ng-click="follow()" style="bottom:-24px;position:absolute; right:20px;z-index : inherit" ng-if="!isOwner">
+            <i class="fa" ng-class="{ 'fa-thumbs-up' : !isFollow, 'fa-thumbs-down' : isFollow }"></i>
+        </material-button>
     </material-toolbar>
     <material-content flex>
         <section >

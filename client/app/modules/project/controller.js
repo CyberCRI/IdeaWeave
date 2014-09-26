@@ -3,6 +3,7 @@ angular.module('cri.project',[])
         $scope.isVisitor = true;
         $scope.project = project[0];
         if($scope.currentUser){
+            console.log($scope.currentUser._id,$scope.project.owner._id)
             if($scope.currentUser._id == $scope.project.owner._id){
                 $scope.isMember = true;
                 $scope.isOwner = true;
@@ -81,31 +82,31 @@ angular.module('cri.project',[])
         };
 
         $scope.follow=function(){
-            var param = {
+            if($scope.isFollow){
+                var param = {
                     follower : $scope.currentUser._id,
                     following : $scope.project._id
                 };
-            Project.follow(param).then(function(result){
-                Notification.display('You will now be notified about this project');
-                $scope.project.followers.push($scope.currentUser._id);
-                $scope.isFollow=true;
-            }).catch(function(err){
-                Notification.display(err.message);
-            });
-        };
-
-        $scope.unfollow=function(){
-            var param = {
-                follower : $scope.currentUser._id,
-                following : $scope.project._id
-            };
-            Project.unfollow(param).then(function(result){
-                Notification.display('you will no longuer receive notification about this');
-                $scope.project.followers.splice($scope.project.followers.indexOf($scope.currentUser._id),1);
-                $scope.isFollow=false;
-            }).catch(function(err){
-                Notification.display(err.message);
-            });
+                Project.unfollow(param).then(function(result){
+                    Notification.display('you will no longuer receive notification about this');
+                    $scope.project.followers.splice($scope.project.followers.indexOf($scope.currentUser._id),1);
+                    $scope.isFollow=false;
+                }).catch(function(err){
+                    Notification.display(err.message);
+                });
+            }else{
+                var param = {
+                    follower : $scope.currentUser._id,
+                    following : $scope.project._id
+                };
+                Project.follow(param).then(function(result){
+                    Notification.display('You will now be notified about this project');
+                    $scope.project.followers.push($scope.currentUser._id);
+                    $scope.isFollow=true;
+                }).catch(function(err){
+                    Notification.display(err.message);
+                });
+            }
         };
     }])
     .controller('ProjectsCtrl',['$scope','$rootScope',function($scope,$rootScope){

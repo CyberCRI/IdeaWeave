@@ -3,7 +3,7 @@
 /**
  * Module dependencies.
  */
-var project = require('../controllers/project.controller.js'),
+var project = require('../controllers/project.controller'),
     utils = require('../services/utils.service');
 
 module.exports = function(app) {
@@ -34,5 +34,7 @@ module.exports = function(app) {
     app.get('/project/files/:id',project.getFiles);
 
     app.get('/projects/tag/:tag',project.getByTag);
+
+    app.get('/project/publications/:id',project.getPublications);
 
 };

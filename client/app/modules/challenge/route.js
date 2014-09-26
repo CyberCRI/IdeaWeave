@@ -37,11 +37,11 @@ angular.module('cri.challenge')
                 }
             })
             .state('challenge',{
-                url : '/challenge/:pid',
+                url : '/challenge/:cid',
                 resolve: {
                     challenge:  ['$stateParams', 'Challenge',function ($stateParams, Challenge) {
                         var option = {
-                            accessUrl : $stateParams.pid
+                            accessUrl : $stateParams.cid
                         };
 
                         return Challenge.fetch(option);

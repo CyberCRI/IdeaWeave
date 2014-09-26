@@ -70,18 +70,4 @@ angular.module('cri.project')
                     }
                 }
             })
-            .state('project.join',{
-                url : '/join/:id',
-                views :{
-                    projectView : {
-                        templateUrl:'modules/project/templates/join-project.tpl.html',
-                        controller: 'ProjectJoinCtrl'
-                    }
-                },
-                resolve : {
-                    project : ['Project', '$stateParams',function(Project, $stateParams){
-                        return Project.fetch({id : $stateParams.pid});
-                    }]
-                }
-            });
     }]);

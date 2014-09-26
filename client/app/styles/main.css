@@ -126,6 +126,11 @@ material-dialog {
 .material-sidenav-right.open, .material-sidenav-right.open {
   z-index: 25 !important; }
 
+.material-sidenav-left material-button i {
+  display: inline-block;
+  width: 100%;
+  text-align: right; }
+
 form label {
   color: black;
   font-size: 1.2em; }
@@ -439,8 +444,6 @@ header {
     max-height: 800px; }
   .profile-picture {
     width: 40%; }
-  .right-part {
-    margin-left: 20px; }
   .carousel-body {
     padding-left: 100px; }
   material-card {
