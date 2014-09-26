@@ -1,68 +1,37 @@
-<!-- first section - Home -->
 <material-content layout="vertical" layout-fill>
-    <ul rn-carousel rn-carousel-control="" style="width:100%;">
-        <!--ng-style="{backgroundImage : 'url(images/carousel/fond' +$index+ '.png)'}"-->
+    <ul rn-carousel rn-carousel-control="" style="height: 100%;">
         <li class="list-carousel-challenge" ng-repeat="challenge in challenges" >
-
-            <section class="carousel-body" id="firstSlide" ng-if="challenge.intro == 1" layout="vertical" layout-align="start center" >
-                <h1 class="center" style="font-size: 3em;">
-                    IdeaWeaves
+            <section class="carousel-body carousel-home center" ng-if="challenge.intro == 1" >
+                <img src="images/svg/logocaroussel.svg" alt="ideaWeaveLogo"/>
+                <h1  >
+                    Ideaweave is a plateform for exchanging ideas and forming groups around exciting projects and solve problems.
                 </h1>
-                <section layout="vertical" layout-md="horizontal" >
-                    <article >
-                        <p>
-                            IdeaWeaves is a platform for exchanging ideas and forming groups around exciting projects to solve problems.
-                        </p>
-                    </article>
-                    <div hide block-md flex-md="20">
-
-                    </div>
-                    <article layout layout-align="start end" >
-                        <p>
-                            Organizations or individuals pose challenges, which are like competitions, and people suggest projects that meet this challenge. Anyone can follow and join a project to help develop it.
-                        </p>
-
-                    </article>
-                </section>
-                <d3-tag-cloud hide block-md  tags="tags" on-click="showTag(item)" options="{ width : 900,height : 300,center : true}" ></d3-tag-cloud>
-                <div>
-                    <material-button ng-click="toSignUp()" ng-if="!currentUser" class="material-button-raised material-button-colored">Join us</material-button>
-                </div>
-            </section>
-            <section class="carousel-body" ng-if="challenge.intro == 2"  layout="vertical" layout-align="center center">
-                <article>
-                    <p style="text-align: center; font-size:2em;">
-                        You would like to showcase your project to a growing public in order to find supporters, get advice from experts or simply test if you are communicating comprehensively?
-                        Ideaweaves provides you with a dedicated space and feedback tools that are easy to use.
+                <article hide block-md>
+                    <p>
+                        Organizations or individuals post challenges, which are like competitions, and people suggest projects that meet this challenge. Anyone can follow and join a project to help develop it.
                     </p>
                 </article>
-            </section>
-            <section  layout="vertical"  class="carousel-body" ng-if="challenge.intro == 3">
-                <h2 class="center">Ideastorm provides a simple collaborative working environment, the possibility to organise and archive discussions, a clear visibility on the taks to be performed and the resources needed.</h2> <hr />
-                <div layout="vertical" layout-md="horizontal" layout-align="center center">
-                    <div layout="vertical" flex-md>
-                        <div class="center">
-                            <i class="fa fa-lightbulb-o fa-5x"> </i>
-                            <h4>Innovation</h4>
-                            <p >Organizations or individuals pose challenges, which are like competitions, and people suggest projects that meet this challenge. Anyone can follow and join a project to help develop it.
-                            </p>
-                            <p>
-                                An open Api (read more on github...)
-                            </p>
-
-                        </div>
-                    </div>
-
-                    <div layout="vertical" flex-md class="center">
-                        <i class="fa fa-users fa-5x"> </i>
-                        <h4>Team Work</h4>
-                        <p>You and your team want to collaborate effectively without sending back and forth millions of e-mails and documents ?
-                        </p>
-                        Numerous collaboration tools : HackPad, GoogleDrive...
-                    </div>
+                <div>
+                    <material-button ng-click="toSignUp()"  class="material-button-raised material-button-colored">GET INVOLVED</material-button>
                 </div>
             </section>
-            <section style="height:100%;" ng-if="$index > 2" class="carousel-body" >
+                <!--<d3-tag-cloud hide block-md  tags="tags" on-click="showTag(item)" options="{ width : 900,height : 300,center : true}" ></d3-tag-cloud>-->
+            <section class="carousel-body carousel-home center" ng-if="challenge.intro == 2" >
+                <img src="images/svg/logocaroussel.svg" alt="ideaWeaveLogo"/>
+                <article>
+                    <h1>
+                        You would like to showcase your project to a growing public in order to find supporters, get advice from experts or simply test if you are communicating comprehensively?
+                        Ideaweaves provides you with a dedicated space and feedback tools that are easy to use.
+                    </h1>
+                </article>
+            </section>
+            <section  layout="vertical"  class="carousel-body carousel-home center" ng-if="challenge.intro == 3">
+                <img src="images/svg/logocaroussel.svg" alt="ideaWeaveLogo"/>
+                <article>
+                    <h1 class="center">Ideastorm provides a simple collaborative working environment, the possibility to organise and archive discussions, a clear visibility on the taks to be performed and the resources needed.</h1>
+                </article>
+            </section>
+            <section  ng-if="$index > 2" class="carousel-body" >
                 <article >
                     <h1 class="center">
                         <a ui-sref="challenge.details({ pid : challenge.accessUrl })">{{challenge.title}}</a>
@@ -91,7 +60,70 @@
 
 
     </article>
-    <ng-include id="signup" src="'modules/auth/templates/signup.tpl.html'"></ng-include>
-    <ng-include src="'modules/footer/templates/footer.tpl.html'"></ng-include>
+    <form name="signupForm"  ng-controller="RegisterCtrl"  flex-sm="50" ng-submit="registerUser(signup)" style="margin:auto;width:80%;">
+        <div class="center">
+            <img src="images/svg/Joinus.svg" alt="Join Us"/>
+        </div>
+        <material-input-group>
+            <label for="username">Username</label>
+            <material-input id="username" type="text" ng-model="signup.username" required name="username"/>
+        </material-input-group>
+        <div ng-messages="signupForm.username.$error" ng-if="!signupForm.username.$pristine">
+            <div ng-message="required" class="form-message">
+                username is required
+            </div>
+        </div>
+        <material-input-group>
+            <label for="emailS">Email</label>
+            <material-input id="emailS" type="text" ng-model="signup.email" required name="email"/>
+        </material-input-group>
+        <div ng-messages="signupForm.email.$error" ng-if="!signupForm.email.$pristine">
+            <div ng-message="required" class="form-message">
+                email is required
+            </div>
+        </div>
+        <tag-manager entity="signup"></tag-manager>
+        <material-input-group>
+            <label for="passwordR">Password</label>
+            <material-input id="passwordR" type="password" ng-model="signup.password" required name="password"/>
+        </material-input-group>
+        <div ng-messages="signupForm.password.$error" ng-if="!signupForm.password.$pristine">
+            <div ng-message="required" class="form-message">
+                password is required
+            </div>
+        </div>
+        <material-input-group >
+            <label for="passwordCheck">Repeat your password</label>
+            <material-input id="passwordCheck" type="password" ng-model="check.password" required name="passwordR"/>
+        </material-input-group>
+        <div ng-messages="signupForm.passwordR.$error" ng-if="!signupForm.passwordR.$pristine">
+            <div ng-message="required" class="form-message">
+                password is required
+            </div>
+        </div>
+        <div>
+            <ui-select ng-model="signup.localisation"
+                       theme="selectize"
+                       reset-search-input="false">
+                <ui-select-match placeholder="Enter an address...">{{$select.selected.formatted_address}}</ui-select-match>
+                <ui-select-choices repeat="address in addresses track by $index"
+                                   refresh="refreshAddresses($select.search)"
+                                   refresh-delay="0">
+                    <div ng-bind-html="address.formatted_address | highlight: $select.search"></div>
+                </ui-select-choices>
+            </ui-select>
+        </div>
+        <material-checkbox name="read" required>
+            <small>
+                i have read the terms of services
+            </small>
+        </material-checkbox>
+        <div ng-messages="signupForm.read.$error" ng-if="!signupForm.passwordR.$pristine">
+            <div ng-message="required" class="form-message">
+                you must check the box
+            </div>
+        </div>
+        <material-button style="width:100%;" class="material-button-raised" type="submit" ng-disabled="signupForm.$invalid">Register</material-button>
+    </form>    <!--<ng-include src="'modules/footer/templates/footer.tpl.html'"></ng-include>-->
 
 </material-content>

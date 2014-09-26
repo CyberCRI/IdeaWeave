@@ -1,4 +1,4 @@
-<section layout="vertical" layout-fill>
+<section layout="vertical" >
     <div div layout="horizontal" layout-align="center center">
         <img ng-src="{{ currentUser.poster || 'images/avater.jpg' }}" alt="{{ currentUser.username }}'s photo" width="50%" height="50%" class="img-rounded"/>
     </div>
@@ -6,15 +6,8 @@
         <!--{{ currentUser.realname || currentUser.username }}-->
     <!--</h2>-->
 
-    <div layout="horizontal" >
-        <div class=" text-muted" flex>
-            <p>You're logged as {{ currentUser.username }}</p>
-        </div>
-        <material-button ng-click="signout()" layout layout-align="center center">
-            <i class="fa fa-sign-out">Signout</i>
-        </material-button>
-    </div>
-    <div class="menu">
+
+    <div class="menu" >
         <!--<material-button ui-sref="admin"  ng-class="{'material-theme-red':$uiRoute}" ui-route="/admin">-->
             <!--Admin-->
         <!--</material-button>-->
@@ -34,5 +27,13 @@
             Edit Profile
         </material-button>
     </div>
-
+    <div flex></div>
+    <div layout="horizontal" >
+        <div class=" text-muted" flex>
+            <p>You're logged as {{ currentUser.username }}</p>
+        </div>
+        <material-button ng-click="signout()" layout layout-align="center center">
+            <i class="fa fa-sign-out">Signout</i>
+        </material-button>
+    </div>
 </section>

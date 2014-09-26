@@ -52,21 +52,28 @@
 
 <material-toolbar ng-controller="HeaderCtrl" class="main-header">
     <div class="material-toolbar-tools">
-        <div>
-            <a style="cursor : pointer;padding-top: 0px;"  ui-sref="home" hide block-md>
-                <img src="images/ideaweavelogo.png" height="50px" alt="IdeaWeaves"/>
+        <div hide block-md>
+            <a style="cursor : pointer;padding-top: 0px;"  ui-sref="home">
+                <img src="images/svg/logoheader.svg" height="50px" alt="IdeaWeaves"/>
             </a>
         </div>
-        <div hide-md>
-            <i class="fa fa-home fa-2x my-btn" ui-sref="home"></i>
-        </div>
         <div layout="horizontal" layout-align="start end" >
-            <i ui-sref="challenges.list({ tag :'all' })" class="fa fa-trophy fa-2x my-btn" ui-route="/challenges/all"  ng-class="{'menu-active': $uiRoute}"></i>
+            <div style="cursor:pointer;"  ui-sref="challenges.list({ tag :'all' })" >
+                <material-icon icon="images/svg/challengesIn.svg">
+                </material-icon>
+            </div>
             <img src="images/plus.png" width="15%" height="15%" class="plus-icon" ui-sref="challengeSuggest" ng-if="currentUser._id" alt="add"/>
-            <i ui-sref="projects.list({ tag : 'all' })" class="fa fa-lightbulb-o fa-2x my-btn" ui-route="/projects"  ng-class="{'menu-active': $uiRoute}"></i>
+            <div style="cursor:pointer;"  ui-route="/projects/all"  ng-class="{'menu-active': $uiRoute}"  ui-sref="projects.list({ tag :'all' })">
+                <material-icon icon="images/svg/projects.svg"  >
+                </material-icon>
+            </div>
         </div>
-        <div flex hide-md></div>
        <search-bar hide block-md flex></search-bar>
+        <div hide-md flex style="text-align: center">
+            <a style="cursor : pointer;padding-top: 0px;"  ui-sref="home">
+                <img src="images/svg/logoheader.svg" height="50px" alt="IdeaWeaves"/>
+            </a>
+        </div>
         <div>
             <a href="">
                 <i class="fa fa-caret-left fa-2x" ng-click="toggleRight('menu')" ng-if="currentUser"></i>

@@ -193,6 +193,9 @@ textarea {
   .search-bar .result-item {
     showtags-font-size: 0.6em; }
 
+.svg-active {
+  border-bottom: 1px solid #000000; }
+
 .plus-icon {
   cursor: pointer; }
 
@@ -314,41 +317,33 @@ material-tabs {
   border: 1.5px #828282 dashed;
   height: 300px; }
 
-#services {
-  background-color: #62c1c1;
-  color: #ffffff; }
-
-#services .fa {
-  border: 2px solid #FFFFFF;
-  border-radius: 50%;
-  display: inline-block;
-  font-size: 60px;
-  height: 140px;
-  line-height: 140px;
-  text-align: center;
-  vertical-align: middle;
-  width: 140px; }
-
 .list-carousel-challenge {
   width: 100%;
   background-repeat: no-repeat;
   background-size: cover; }
+
+.carousel-home {
+  height: 100%;
+  background-color: #152661;
+  padding-left: 20px;
+  padding-right: 20px;
+  color: white; }
 
 .carousel-body {
   height: 100%; }
 
 .rn-carousel-control {
   color: black !important;
+  opacity: 0.7 !important;
   font-size: 5em !important; }
-
-.rn-carousel-indicator {
-  height: 50px !important;
-  bottom: 20px;
-  background-color: #c9c9c9; }
 
 .home-project-container {
   margin-top: 20px;
   margin-bottom: 20px; }
+
+#carousel-1 {
+  height: 100%;
+  width: 100% !important; }
 
 .d3-tag {
   -webkit-transition: font-size 0.3s ease-in-out;
@@ -428,13 +423,14 @@ header {
   font-size: 1.1em; }
 
 @media all and (min-width: 700px) {
+  .carousel-home {
+    padding-left: 10%;
+    padding-right: 10%; }
   .sidenav-container {
     width: 350px; }
   .project-modal {
     max-height: 800px; }
   .profile-picture {
     width: 40%; }
-  .carousel-body {
-    padding-left: 100px; }
   material-card {
     width: 180px; } }

@@ -1,5 +1,10 @@
 @media all and (min-width:700px){
 
+  .carousel-home{
+    padding-left:10%;
+    padding-right:10%;
+  }
+
   .sidenav-container{
     width:350px;
   }
@@ -12,18 +17,8 @@
     width:40%;
   }
 
-  .right-part{
-//    margin-left : 20px;
-  }
-
-  .carousel-body {
-    padding-left : 100px;
-  }
   material-card{
     width: 180px;
   }
-//  material-dialog{
-//    width:60%;
-//    height: 900px;
-//  }
+
 }
