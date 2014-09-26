@@ -21,27 +21,17 @@
                         &nbsp;projects
                     </span>
                 </div>
-                <!--<div ng-if="currentUser">-->
-                    <!--<material-button  ng-if="!isOwner && !isFollow"  ng-click="follow()" class="rotation">-->
-                        <!--<i class="fa fa-thumbs-up"></i>-->
-                        <!--follow-->
-                    <!--</material-button>-->
-                    <!--<material-button  ng-if="!isOwner && isFollow" ng-click="unfollow()" class="rotation">-->
-                        <!--<i class="fa fa-thumbs-down" ></i>-->
-                        <!--unfollow-->
-                    <!--</material-button>-->
-                <!--</div>-->
             </div>
-
             <!--<span ng-if="challenge.startDate < now && challenge.endDate > now" >-->
                 <!--<timer end-time="challenge.endDate" >End in :{{days}} d, {{hours}} : {{minutes}} : {{seconds}}</timer>-->
             <!--</span>-->
             <!--<span ng-if="challenge.startDate > now" >-->
                 <!--<timer end-time="challenge.endDate" >Start in : {{days}} d, {{hours}} : {{minutes}} : {{seconds}}</timer>-->
             <!--</span>-->
-
-
         </div>
+        <material-button class="material-button-fab" ng-click="toggleLeft()" style="bottom:-24px;position:absolute; left:20px;z-index : inherit" hide-md>
+            <i class="fa fa-bars"></i>
+        </material-button>
         <material-button class="material-button-fab" ng-click="follow()" style="bottom:-24px;position:absolute; right:20px;z-index : inherit" ng-if="!isOwner">
             <i class="fa" ng-class="{ 'fa-thumbs-up' : !isFollow, 'fa-thumbs-down' : isFollow }"></i>
         </material-button>

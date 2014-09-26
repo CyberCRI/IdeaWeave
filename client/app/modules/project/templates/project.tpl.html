@@ -26,6 +26,9 @@
                 </div>
             </div>
         </div>
+        <material-button class="material-button-fab" ng-click="toggleLeft()" style="bottom:-24px;position:absolute; left:20px;z-index : inherit" hide-md>
+            <i class="fa fa-bars"></i>
+        </material-button>
         <material-button class="material-button-fab" ng-click="follow()" style="bottom:-24px;position:absolute; right:20px;z-index : inherit" ng-if="!isOwner">
             <i class="fa" ng-class="{ 'fa-thumbs-up' : !isFollow, 'fa-thumbs-down' : isFollow }"></i>
         </material-button>

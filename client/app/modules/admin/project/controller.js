@@ -101,7 +101,7 @@ angular.module('cri.admin.project',[])
         };
         $scope.popUpEdit = function(){
             $materialDialog({
-                templateUrl : 'modules/admin/challenge/templates/modal/challenge-edit-modal.tpl.html',
+                templateUrl : 'modules/admin/project/templates/modal/homePageModal.tpl.html',
                 locals : {
                     project : $scope.project
                 },

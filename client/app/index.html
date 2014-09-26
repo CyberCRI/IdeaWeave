@@ -53,13 +53,6 @@
 <material-toolbar ng-controller="HeaderCtrl" class="main-header">
     <div class="material-toolbar-tools">
         <div>
-            <i class="fa fa-2x fa-tags my-btn" hide-md ui-route="/challenges/[A-Za-z0-9_.]*" ng-class="{ 'hidden' : !$uiRoute }" ng-click="sideNavToggle('showTags')"></i>
-            <i class="fa fa-2x fa-tags my-btn" hide-md ui-route="/projects/[A-Za-z0-9_.]*" ng-class="{ 'hidden' : !$uiRoute }" ng-click="sideNavToggle('showTags')"></i>
-            <i class="fa fa-2x fa-cogs my-btn" hide-md ui-route="/project/[A-Za-z0-9_.]*/notelab" ng-class="{ 'hidden' : !$uiRoute }" ng-click="sideNavToggle('showWorkspace')"></i>
-            <i class="fa fa-2x fa-gears my-btn" hide-md ui-route="/admin/project/[A-Za-z0-9_.]*" ng-class="{ 'hidden' : !$uiRoute }" ng-click="sideNavToggle('showAdmin')"></i>
-            <i class="fa fa-2x fa-gears my-btn" hide-md ui-route="/admin/challenge/[A-Za-z0-9_.]*" ng-class="{ 'hidden' : !$uiRoute }" ng-click="sideNavToggle('showAdmin')"></i>
-        </div>
-        <div>
             <a style="cursor : pointer;padding-top: 0px;"  ui-sref="home" hide block-md>
                 <img src="images/ideaweavelogo.png" height="50px" alt="IdeaWeaves"/>
             </a>
@@ -86,7 +79,7 @@
 </material-toolbar>
 
 <section layout="horizontal" layout-fill ng-controller="MainCtrl" style="padding-bottom:63px;">
-    <div ng-if="leftNav"  style="height:100%;" class="sidenav-container">
+    <div ng-show="leftNav"  style="height:100%;" class="sidenav-container">
         <material-sidenav class="material-sidenav-left material-whiteframe-z2" component-id="left" style="height:100%;">
             <div ng-controller="LeftNavCtrl" style="height:100%;">
                 <ng-include src="sideNavTemplateUrl" flex layout="vertical" layout-fill style="padding-left: 15px;">

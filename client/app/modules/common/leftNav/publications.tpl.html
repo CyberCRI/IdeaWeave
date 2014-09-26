@@ -13,10 +13,25 @@
             <i class='fa fa-cog'>&nbsp;Admin</i>
         </material-button>
     </div>
+    <div ng-if="recommandedUsers.length > 0">
+        <h3>
+            <i class="fa fa-users">Talk with :</i>
+        </h3>
+        <div layout="horizontal" layout-align="space-between" style="padding-right: 5px;padding-left:5px;">
+            <user-block ng-repeat="user in recommandedUsers" my-user="user" width="'50px'" height="'50px'" inline-block></user-block>
+        </div>
+    </div>
+    <div ng-if="recommandedProjects.length > 0">
+        <h3>
+            <i class="fa fa-lightbulb-o">Take a look at :</i>
+        </h3>
+        <div layout="horizontal" layout-align="space-between" style="padding-right: 5px;padding-left:5px;">
+            <project-block ng-repeat="project in recommandedProjects" my-project="project" width="'50px'" height="'50px'"></project-block>
+        </div>
+    </div>
 </material-toolbar>
+<h2>Publication</h2>
 <material-content>
-
-    <h2>Publication</h2>
     <material-list>
         <material-item ng-repeat="publication in publications">
             <material-item-content>

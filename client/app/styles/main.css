@@ -93,10 +93,6 @@ material-card {
   material-card showtags {
     font-size: 0.7em; }
 
-.material-sidenav-right, .material-sidenav-left {
-  background-color: #fdfff8 !important;
-  z-index: 25 !important; }
-
 material-toast {
   min-height: 64px !important;
   z-index: 100; }
@@ -108,21 +104,18 @@ material-ink-bar {
   background-color: #5f9ea0 !important;
   height: 4px !important; }
 
-material-dialog {
-  width: 90%;
-  height: 300px; }
-  material-dialog material-toolbar {
-    border-bottom: solid 1px black; }
-  material-dialog material-content {
-    padding-left: 15px;
-    padding-bottom: 10px;
-    padding-top: 10px; }
+material-dialog material-toolbar {
+  border-bottom: solid 1px black; }
+material-dialog material-content {
+  padding-left: 15px;
+  padding-bottom: 10px;
+  padding-top: 10px; }
 
 .material-button-fab .fa {
   margin: auto auto;
   position: relative; }
 
-.material-sidenav-right.open, .material-sidenav-right.open {
+.material-sidenav-right.open, .material-sidenav-left.open {
   z-index: 25 !important; }
 
 .material-sidenav-left material-button i {
@@ -444,7 +437,4 @@ header {
   .carousel-body {
     padding-left: 100px; }
   material-card {
-    width: 180px; }
-  material-dialog {
-    width: 60%;
-    height: 900px; } }
+    width: 180px; } }

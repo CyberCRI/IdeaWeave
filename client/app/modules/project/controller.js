@@ -1,9 +1,8 @@
 angular.module('cri.project',[])
-    .controller('ProjectCtrl',['$scope','Project','project', 'Notification','$sce','$materialDialog',function($scope,Project,project, Notification,$sce,$materialDialog){
+    .controller('ProjectCtrl',['$scope','Project','project', 'Notification','$sce','$materialDialog','$rootScope',function($scope,Project,project, Notification,$sce,$materialDialog,$rootScope){
         $scope.isVisitor = true;
         $scope.project = project[0];
         if($scope.currentUser){
-            console.log($scope.currentUser._id,$scope.project.owner._id)
             if($scope.currentUser._id == $scope.project.owner._id){
                 $scope.isMember = true;
                 $scope.isOwner = true;
@@ -23,6 +22,10 @@ angular.module('cri.project',[])
                 });
             }
         }
+
+        $scope.toggleLeft = function(){
+            $rootScope.$broadcast('toggleLeft');
+        };
 
         $scope.proccess = ($scope.project.score/9).toFixed(2);
 

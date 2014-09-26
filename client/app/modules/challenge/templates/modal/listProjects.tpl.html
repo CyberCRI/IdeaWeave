@@ -1,32 +1,34 @@
 <material-dialog>
-    <material-toolbar layout="horizontal" layout-align="">
-        <div layout layout-align="end end">
-            <material-button class="material-button-fab">
+    <material-toolbar>
+        <div class="material-toolbar-tools">
+            <material-button flex>
                 {{ challenge.title }}
             </material-button>
+            <material-button class="material-button-fab" ng-click="cancel()">
+                <i class="fa fa-times"></i>
+            </material-button>
         </div>
-        <material-button class ng-click="cancel()">
-            <i class="fa fa-times"></i>
-        </material-button>
     </material-toolbar>
     <material-content>
         <material-list>
             <material-item ng-repeat="project in projects">
-                <div class="material-tile-left">
-                    <img ng-src="{{ project.poster }}" alt="{{ project.title }}'s poster" class="img-rounded" width="100px" height="100px"/>
-                </div>
-                <div class="material-tile-content" ui-sref="project.home({ pid : project.acessUrl })">
-                    <div>
-                        {{ project.title }}
+                <material-item-content>
+                    <div class="material-tile-left">
+                        <img ng-src="{{ project.poster || 'http://placehold.it/100x100' }}" alt="{{ project.title }}'s poster" class="img-rounded" width="100px" height="100px"/>
                     </div>
-                    <div>
-                        {{ project.brief }}
+                    <div class="material-tile-content">
+                        <div>
+                            {{ project.title }}
+                        </div>
+                        <div>
+                            {{ project.brief }}
+                        </div>
                     </div>
-                </div>
-                <div class="material-tile-right">
-                    {{ project.noteNumber }}
-                    &nbsp;publication
-                </div>
+                    <div class="material-tile-right">
+                        {{ project.noteNumber }}
+                        &nbsp;publication
+                    </div>
+                </material-item-content>
             </material-item>
         </material-list>
         <!--<project-block my-project="project" ng-repeat="project in projects" width="'100px'" height="'100px'"></project-block>-->

@@ -53,8 +53,8 @@ var ChallengeSchema = new Schema({
     banner : {
         type : String
     },
-    presentation : {
-        type :String,
+    home : {
+        type : String,
         default : ''
     },
     followers : [

@@ -5,8 +5,9 @@
                 <div  flex class="center">
                     <i class="fa fa-warning">Warning</i>
                 </div>
+                <i class="fa fa-check fa-2x" style="color:green;" ng-if="removeChallengeForm.title.$valid"></i>
                 <material-button class="material-button-fab material-theme-red" ng-click="deleteProject()" ng-disabled="removeChallengeForm.$invalid">
-                    <i class="fa fa-ban" style="color : red;"></i>
+                    <i class="fa fa-ban"></i>
                 </material-button>
                 <material-button class="material-button-fab" ng-click="cancel()">
                     <i class="fa fa-times"></i>
@@ -19,13 +20,13 @@
             </div>
                 <material-input-group>
                     <label for="titleR">your challenge's name</label>
-                    <material-input type="text" ng-model="challengeTest.title" id="titleR" name="title" pattern="{{ challengeTitle }}" required></material-input>
+                    <material-input type="text" ng-model="challengeTest.title" id="titleR" name="title" ng-pattern="challengeTitle" required></material-input>
                 </material-input-group>
-                <div ng-messages="removeChallengeForm.title.$error">
+                <div ng-messages="removeChallengeForm.title.$error" ng-if="!removeChallengeForm.title.$pristine">
                     <div ng-message="pattern">
                         this is not yout challenge's name
                     </div>
-                    <div ng-message="pattern">
+                    <div ng-message="required">
                         you must fill yout challenge's name
                     </div>
                 </div>

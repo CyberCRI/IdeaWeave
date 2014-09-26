@@ -109,7 +109,7 @@ angular.module('cri.challenge', [])
             });
         };
     }])
-.controller('ChallengeCtrl',['$scope','Challenge','challenge','Notification','$state','Project',function($scope,Challenge,challenge,Notification,$state,Project){
+.controller('ChallengeCtrl',['$scope','Challenge','challenge','Notification','$state','Project','$rootScope',function($scope,Challenge,challenge,Notification,$state,Project,$rootScope){
         $scope.challenge = challenge[0];
         if($scope.currentUser){
             if($scope.currentUser._id == $scope.challenge.owner){
@@ -122,6 +122,9 @@ angular.module('cri.challenge', [])
                 }
             });
         };
+        $scope.toggleLeft = function(){
+            $rootScope.$broadcast('toggleLeft');
+        }
 
         $scope.participate = function(){
             if($scope.currentUser){

@@ -147,13 +147,12 @@ angular.module('cri', [
         $scope.$watch(function(){
             return $state.current.name;
         },function(state){
-            console.log(state)
             switch(state){
                 case 'profile':
-                   getRecomendation(Profile.data._id).then(function(){
-                       $scope.profile = Profile.data;
-                       $scope.sideNavTemplateUrl = 'modules/common/leftNav/profile.tpl.html';
-                   });
+                    getRecomendation(Profile.data._id).then(function(){
+                        $scope.profile = Profile.data;
+                        $scope.sideNavTemplateUrl = 'modules/common/leftNav/profile.tpl.html';
+                    });
                     break;
                 case 'projects.list':
                     getTags().then(function(){
@@ -166,15 +165,13 @@ angular.module('cri', [
                     });
                     break;
                 case 'profileAdmin':
-
-                    break;
-                case 'projectAdmin':
-
+                    $scope.sideNavTemplateUrl = 'modules/common/leftNav/admin-profile.tpl.html';
                     break;
                 case 'challengeAdmin':
-
+                    $scope.sideNavTemplateUrl = 'modules/common/leftNav/admin-challenges.tpl.html';
                     break;
                 case 'project.home':
+                    getRecomendation(Project.data._id);
                     Project.getPublications(Project.data._id).then(function(publications){
                         $scope.project = Project.data;
                         $scope.publications = publications;
@@ -201,6 +198,7 @@ angular.module('cri', [
                     break;
                 case 'challenge':
                     getRecomendation(Challenge.data._id).then(function() {
+                        $scope.challenge = Challenge.data;
                         $scope.sideNavTemplateUrl = 'modules/common/leftNav/chat.tpl.html';
                     });
                     break
@@ -226,22 +224,14 @@ angular.module('cri', [
                 case 'home':
                     $scope.leftNav = false;
                     break;
-                case 'workspace':
+                case 'projectAdmin':
                     $scope.leftNav = false;
                     break;
-                case 'workspace.note.discussion':
-                    $scope.leftNav = false;
-                    break;
-                case 'workspace.note.file':
-                    $scope.leftNav = false;
-                    break;
-                case 'workspace.note.resources':
-                    $scope.leftNav = false;
-                    break;
-                case 'workspace.note.hackpad':
+                case 'profileAdmin':
                     $scope.leftNav = false;
                     break;
                 default :
+                    console.log('default')
                     $scope.leftNav = true;
                     break;
             }
