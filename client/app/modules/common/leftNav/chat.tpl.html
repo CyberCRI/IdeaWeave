@@ -1,0 +1,39 @@
+<section ng-controller="chatCtrl" layout="vertical" layout-fill>
+    <div ng-if="recommandedUsers.length > 0" hide block-md>
+        <h3>
+            <i class="fa fa-users">Talk with :</i>
+        </h3>
+        <div layout="horizontal" layout-align="space-between" style="padding-right: 5px;padding-left:5px;">
+            <user-block ng-repeat="user in recommandedUsers" my-user="user" width="'50px'" height="'50px'" inline-block></user-block>
+        </div>
+    </div>
+    <div ng-if="recommandedChallenges.length > 0" hide block-md>
+        <h3>
+            <i class="fa fa-trophy">Take a look at :</i>
+        </h3>
+        <div layout="horizontal" layout-align="space-between" style="padding-right: 5px;padding-left:5px;">
+            <challenge-block ng-repeat="challenge in recommandedChallenges" my-challenge="challenge" width="'50px'" height="'50px'"></challenge-block>
+        </div>
+    </div>
+
+    <h2>
+        <i class="fa fa-comments">Discussion</i>
+    </h2>
+    <material-content class="chat-zone" flex style="margin-bottom:20px;">
+        <div ng-repeat="message in messages" layout="horizontal">
+            <user-info user-id="message.owner"></user-info>
+            &nbsp;
+            :
+            &nbsp;
+            <span flex>
+                {{ message.content }}
+            </span>
+            <i class="fa fa-times my-btn"></i>
+        </div>
+    </material-content>
+        <form name="messageForm" ng-submit="postMessage(message)">
+            <textarea name="message" class="pretty-area"  rows="5" required ng-model="message.content"></textarea>
+            <material-button type="submit" ng-disabled="messageForm.$invalid" style="width:100%;">Send</material-button>
+        </form>
+
+</section>

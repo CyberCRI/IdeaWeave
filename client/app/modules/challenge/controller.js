@@ -1,22 +1,23 @@
 angular.module('cri.challenge', [])
     .controller('chatCtrl',['$scope','Challenge','mySocket',function($scope,Challenge,mySocket){
 //        mySocket.on('chat_'+$scope.challenge._id+'::created',function(message){
-        mySocket.socket.on('chat_'+$scope.challenge._id+'::newMessage',function(message){
-            $scope.messages.push(message);
-        });
+        if($scope.currentUser){
+            mySocket.socket.on('chat_'+Challenge.data._id+'::newMessage',function(message){
+                $scope.messages.push(message);
+            });
+            $scope.postMessage = function(message){
+                message.container = $scope.challenge._id;
+                message.owner = $scope.currentUser._id;
+                message.createDate = new Date().getTime();
+                mySocket.socket.emit('chat::newMessage',message);
+            };
+        }
 
-        Challenge.getMessage($scope.challenge._id ).then(function(messages){
+        Challenge.getMessage(Challenge.data._id ).then(function(messages){
             $scope.messages = messages;
         }).catch(function(err){
             console.log(err);
         });
-
-        $scope.postMessage = function(message){
-            message.container = $scope.challenge._id;
-            message.owner = $scope.currentUser._id;
-            message.createDate = new Date().getTime();
-            mySocket.socket.emit('chat::newMessage',message);
-        };
     }])
     .controller('ChallengesCtrl',['$scope','$rootScope',function($scope,$rootScope){
         $scope.toggleLeft = function(){
@@ -115,11 +116,12 @@ angular.module('cri.challenge', [])
                 $scope.isOwner = true;
 
             }
-            if ($scope.challenge.followers.indexOf($scope.currentUser._id) !== -1) {
-                $scope.isFollow = true;
-
-            }
-        }
+            angular.forEach($scope.challenge.followers,function(user){
+                if(user._id == $scope.currentUser._id){
+                    $scope.isFollow = true;
+                }
+            });
+        };
 
         $scope.participate = function(){
             if($scope.currentUser){
@@ -144,24 +146,25 @@ angular.module('cri.challenge', [])
 //        };
 
         $scope.follow = function () {
-            Challenge.follow($scope.currentUser._id,$scope.challenge._id).then(function (result) {
-                Notification.display('You are now following this challenge');
-                $scope.challenge.followers.push($scope.currentUser._id);
-                $scope.isFollow = true;
-            }).catch(function(err){
-                Notification.display(err.message);
-            });
-        };
+            if($scope.isFollow){
+                Challenge.unfollow($scope.currentUser._id,$scope.challenge._id).then(function (result) {
+                    Notification.display('You are not following this challenge anymore');
+                    $scope.challenge.followers.splice($scope.challenge.followers.indexOf($scope.currentUser._id), 1);
+                    $scope.isFollow = false;
 
-        $scope.unfollow = function () {
-            Challenge.unfollow($scope.currentUser._id,$scope.challenge._id).then(function (result) {
-                Notification.display('You are not following this challenge anymore');
-                $scope.challenge.followers.splice($scope.challenge.followers.indexOf($scope.currentUser._id), 1);
-                $scope.isFollow = false;
+                }).catch(function(err){
+                    Notification.display(err.message);
+                });
+            }else{
+                Challenge.follow($scope.currentUser._id,$scope.challenge._id).then(function (result) {
+                    Notification.display('You are now following this challenge');
+                    $scope.challenge.followers.push($scope.currentUser._id);
+                    $scope.isFollow = true;
+                }).catch(function(err){
+                    Notification.display(err.message);
+                });
+            }
 
-            }).catch(function(err){
-                Notification.display(err.message);
-            });
         };
     }])
 

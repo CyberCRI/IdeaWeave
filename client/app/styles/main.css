@@ -21,18 +21,17 @@
   display: inline-block;
   margin-right: 15px;
   width: 100%; }
-  .item-block-container .item-block {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    background-color: rgba(160, 166, 161, 0.4); }
-  .item-block-container .ng-enter {
-    -webkit-animation: fadeInDown 0.3s ease-in-out;
-    animation: fadeInDown 0.3s ease-in-out; }
-  .item-block-container .ng-leave {
-    -webkit-animation: fadeOutUp 0.3s ease-in-out;
-    animation: fadeOutUp 0.3s ease-in-out; }
+  .item-block-container:hover {
+    opacity: 0.8; }
+
+*::-webkit-scrollbar {
+  width: 12px;
+  background-color: #F5F5F5; }
+
+*::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: #555; }
 
 .rotation.ng-enter {
   -webkit-animation: flipInX 1s;
@@ -240,7 +239,6 @@ textarea {
 .chat-zone {
   background-color: white;
   height: 350px;
-  margin-right: 15px !important;
   overflow: auto; }
 
 .challenge-home {
@@ -404,7 +402,6 @@ material-tabs {
 .chat-zone {
   background-color: white;
   height: 350px;
-  margin-right: 15px !important;
   overflow: auto; }
 
 .challenge-home {

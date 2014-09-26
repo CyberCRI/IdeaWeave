@@ -18,10 +18,7 @@ function reduceTags(tags){
         temp.push(tags);
         tags = temp;
     }
-    var response = tags.map(function(tag){
-        return JSON.parse(tag)._id
-    });
-    return response;
+    return tags;
 }
 
 
@@ -95,7 +92,7 @@ exports.fetchChallenges = function(req,res){
                  }
             })
         });
-        challenges.filter(function(challenge,k){
+        challenges.forEach(function(challenge,k){
             if(challenge.owner == req.user._id){
                 challenges.splice(k,1)
             }

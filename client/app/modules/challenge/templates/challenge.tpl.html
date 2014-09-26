@@ -1,11 +1,13 @@
 <section layout="vertical" layout-fill>
-    <material-toolbar scroll-shrink class="home-header"  style="background-image: url({{ challenge.banner || 'http://placehold.it/900x150'  }}) !important;" >
-        <div layout="vertical">
+    <material-toolbar scroll-shrink class="home-header"  style="background-image: url({{ challenge.banner || 'http://placehold.it/900x150'  }}) !important;position:relative;" >
+        <div layout="vertical" class="content">
             <h1>
                 {{ challenge.title }}
+                <i class="fa fa-star" style="color:yellow;" ng-if="isFollow"></i>
             </h1>
             <div layout="horizontal" style="height:37px;box-shadow: none">
-                <div flex>
+                <div flex></div>
+                <div>
                     <span>
                         {{ challenge.followers.length }}
                     </span>
@@ -19,16 +21,16 @@
                         &nbsp;projects
                     </span>
                 </div>
-                <div ng-if="currentUser">
-                    <material-button  ng-if="!isOwner && !isFollow"  ng-click="follow()" class="rotation">
-                        <i class="fa fa-thumbs-up"></i>
-                        follow
-                    </material-button>
-                    <material-button  ng-if="!isOwner && isFollow" ng-click="unfollow()" class="rotation">
-                        <i class="fa fa-thumbs-down" ></i>
-                        unfollow
-                    </material-button>
-                </div>
+                <!--<div ng-if="currentUser">-->
+                    <!--<material-button  ng-if="!isOwner && !isFollow"  ng-click="follow()" class="rotation">-->
+                        <!--<i class="fa fa-thumbs-up"></i>-->
+                        <!--follow-->
+                    <!--</material-button>-->
+                    <!--<material-button  ng-if="!isOwner && isFollow" ng-click="unfollow()" class="rotation">-->
+                        <!--<i class="fa fa-thumbs-down" ></i>-->
+                        <!--unfollow-->
+                    <!--</material-button>-->
+                <!--</div>-->
             </div>
 
             <!--<span ng-if="challenge.startDate < now && challenge.endDate > now" >-->
@@ -40,17 +42,17 @@
 
 
         </div>
+        <material-button class="material-button-fab" ng-click="follow()" style="bottom:-24px;position:absolute; right:20px;z-index : inherit" ng-if="!isOwner">
+            <i class="fa" ng-class="{ 'fa-thumbs-up' : !isFollow, 'fa-thumbs-down' : isFollow }"></i>
+        </material-button>
     </material-toolbar>
 
     <material-content flex >
         <showtags entity="challenge"></showtags>
         <section class="challenge-home" layout="vertical">
-            <section layout="vertical"  layout-md="horizontal">
-                <article class="html-content" flex ng-bind-html="challenge.home">
+            <article class="html-content" flex ng-bind-html="challenge.home">
 
-                </article>
-                <div class="chat-container" flex ng-include="'modules/challenge/templates/chat.tpl.html'" style="resize: horizontal;"></div>
-            </section>
+            </article>
             <div class="participate-btn">
                 <material-button  ng-if="currentUser"  ng-click="participate()" class="material-button-raised material-button-colored">
                     Participate to this challenge

@@ -8,40 +8,22 @@
             <div class="material-toolbar-tools" layout="horizontal">
                 <div flex></div>
                 <div>
-                    <div>
-                        <span>
-                            {{ project.followers.length }}
-                        </span>
-                            &nbsp;
-                        <span class="text-muted">
-                            followers
-                        </span>
-                            &nbsp;
-                        <span>
-                            {{ project.members.length }}
-                        </span>
-                            &nbsp;
-                        <span class="text-muted">
-                            members
-                        </span>
-                    </div>
+                    <span>
+                        {{ project.followers.length }}
+                    </span>
+                        &nbsp;
+                    <span class="text-muted">
+                        followers
+                    </span>
+                        &nbsp;
+                    <span>
+                        {{ project.members.length }}
+                    </span>
+                        &nbsp;
+                    <span class="text-muted">
+                        members
+                    </span>
                 </div>
-
-
-
-                <!--<div ng-if="currentUser">-->
-                    <!--<material-button  ng-if="!isOwner && !isFollow"  ng-click="follow()" class="material-button-raised material-button-colored rotation">-->
-                        <!--<i class="fa fa-thumbs-up">follow</i>-->
-
-                    <!--</material-button>-->
-                    <!--<material-button  ng-if="!isOwner && isFollow" ng-click="unfollow()" class="material-button-raised material-button-colored rotation">-->
-                        <!--<i class="fa fa-thumbs-down">unfollow</i>-->
-                    <!--</material-button>-->
-                    <!--<material-button class="material-button-raised material-button-colored" ng-click="openApplyModal($event)" ng-if="!isMember">-->
-                        <!--Join Us !-->
-                    <!--</material-button>-->
-                <!--</div>-->
-
             </div>
         </div>
         <material-button class="material-button-fab" ng-click="follow()" style="bottom:-24px;position:absolute; right:20px;z-index : inherit" ng-if="!isOwner">

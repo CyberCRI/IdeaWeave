@@ -42,7 +42,9 @@ angular.module('cri', [
     .run(['Profile','mySocket','$rootScope', function (Profile,mySocket,$rootScope) {
         Profile.getMe().then(function(me){
 //            $rootScope.currentUser = me;
+            console.log('lol')
             mySocket.init(me);
+
             Profile.getPoster(me._id).then(function(data){
                 $rootScope.currentUser.poster = data.poster;
             }).catch(function(err){
@@ -86,13 +88,14 @@ angular.module('cri', [
             Notification.display('You have been logged out');
         }
     }).controller('LeftNavCtrl',function($scope,$materialSidenav,$state,Profile,Tag,Recommendation,$q,Project,Challenge){
-        function getRecomendation(){
+        function getRecomendation(id){
             var defered = $q.defer();
             $q.all([
-                Recommendation.fetchUsers($scope.currentUser._id,$scope.currentUser.tags,'user'),
-                Recommendation.fetchChallenges($scope.currentUser._id,$scope.currentUser.tags,'user'),
-                Recommendation.fetchProjects($scope.currentUser._id,$scope.currentUser.tags,'user')
+                Recommendation.fetchUsers(id,$scope.currentUser.tags),
+                Recommendation.fetchChallenges(id,$scope.currentUser.tags),
+                Recommendation.fetchProjects(id,$scope.currentUser.tags)
             ]).then(function(recommendations){
+                console.log(recommendations)
                 if(recommendations[0].length > 0){
                     $scope.recommandedUsers = recommendations[0];
                 }
@@ -147,7 +150,7 @@ angular.module('cri', [
             console.log(state)
             switch(state){
                 case 'profile':
-                   getRecomendation().then(function(){
+                   getRecomendation(Profile.data._id).then(function(){
                        $scope.profile = Profile.data;
                        $scope.sideNavTemplateUrl = 'modules/common/leftNav/profile.tpl.html';
                    });
@@ -194,8 +197,13 @@ angular.module('cri', [
                     }
                     break;
                 case 'project.trello':
-
+                    $scope.sideNavTemplateUrl = 'modules/common/leftNav/publications.tpl.html';
                     break;
+                case 'challenge':
+                    getRecomendation(Challenge.data._id).then(function() {
+                        $scope.sideNavTemplateUrl = 'modules/common/leftNav/chat.tpl.html';
+                    });
+                    break
             }
         });
 //
