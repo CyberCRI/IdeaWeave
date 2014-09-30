@@ -1,15 +1,20 @@
 <material-toolbar>
     <material-item>
-        <div class="material-tile-left">
-        </div>
-        <div class="material-content" flex>
+        <material-item-content>
+            <div class="material-tile-left">
+                <material-button ng-click="toPdf()">
+                    <i class="fa fa-file-pdf-o" >Export</i>
+                </material-button>
+            </div>
+            <div class="material-content" flex>
 
-        </div>
-        <div class="material-tile-right">
-            <material-button ng-click="toPdf()">
-                <i class="fa fa-file-pdf-o" >Export</i>
-            </material-button>
-        </div>
+            </div>
+            <div class="material-tile-right">
+                <material-switch ng-model="data.cb1" aria-label="Switch 1">
+                    Switch 1: {{ data.cb1 }}
+                </material-switch>
+            </div>
+        </material-item-content>
     </material-item>
 </material-toolbar>
 <article ng-bind-html="myNote.text" id="note" style="font-size: 1.2em;width:100%;"></article>

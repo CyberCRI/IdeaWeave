@@ -16,7 +16,7 @@ module.exports = function(app) {
         .delete(utils.ensureAuthenticated,challenge.remove);
     app.route('/challenge/template/:id')
         .post(utils.ensureAuthenticated,challenge.createTemplate)
-        .get(challenge.getTemplates);
+        .get(utils.ensureAuthenticated,challenge.getTemplates);
 
     app.get('/challenges/tag/:tag',challenge.getByTag);
 

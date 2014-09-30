@@ -13,7 +13,7 @@ module.exports = function(app) {
         .post(utils.ensureAuthenticated,project.create);
 
     app.route('/projects/:id')
-        .get(utils.ensureAuthenticated,project.fetchOne)
+        .get(project.fetchOne)
         .put(utils.ensureAuthenticated,project.update)
         .delete(utils.ensureAuthenticated,project.remove);
 

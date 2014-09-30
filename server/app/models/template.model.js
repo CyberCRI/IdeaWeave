@@ -14,9 +14,6 @@ var TemplateSchema = new Schema({
         type: Date,
         default: Date.now
     },
-    url : {
-        type : String
-    },
     title : {
         type : String
     },

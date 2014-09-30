@@ -201,7 +201,7 @@ angular.module('cri', [
                         $scope.challenge = Challenge.data;
                         $scope.sideNavTemplateUrl = 'modules/common/leftNav/chat.tpl.html';
                     });
-                    break
+                    break;
             }
         });
 //
@@ -220,6 +220,7 @@ angular.module('cri', [
         $scope.$watch(function(){
             return $state.current.name;
         },function(state){
+            console.log(state)
             switch(state){
                 case 'home':
                     $scope.leftNav = false;
@@ -236,4 +237,4 @@ angular.module('cri', [
                     break;
             }
         })
-    });
+    })

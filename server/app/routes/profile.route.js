@@ -5,7 +5,7 @@ module.exports = function(app) {
     var profile = require('../controllers/profile.controller.js');
     app.get('/profile/:id',profile.profile);
 
-    app.get('/profile/poster/:id',utils.ensureAuthenticated,profile.getPoster);
+    app.get('/profile/poster/:id'.getPoster);
 
     app.get('/profile/activity/:id',utils.ensureAuthenticated,profile.getActivity);
 

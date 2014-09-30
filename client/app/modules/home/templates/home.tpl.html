@@ -1,9 +1,9 @@
-<material-content layout="vertical" layout-fill>
-    <ul rn-carousel rn-carousel-control="" style="height: 100%;">
-        <li class="list-carousel-challenge" ng-repeat="challenge in challenges" >
-            <section class="carousel-body carousel-home center" ng-if="challenge.intro == 1" >
+<material-content style="overflow-x:hidden;" class="my-carousel">
+    <ul rn-carousel rn-carousel-control="" class="my-carousel">
+        <li class="my-carousel" ng-repeat="challenge in challenges" >
+            <section class="carousel-home center my-carousel" ng-if="challenge.intro == 1">
                 <img src="images/svg/logocaroussel.svg" alt="ideaWeaveLogo"/>
-                <h1  >
+                <h1>
                     Ideaweave is a plateform for exchanging ideas and forming groups around exciting projects and solve problems.
                 </h1>
                 <article hide block-md>
@@ -16,7 +16,7 @@
                 </div>
             </section>
                 <!--<d3-tag-cloud hide block-md  tags="tags" on-click="showTag(item)" options="{ width : 900,height : 300,center : true}" ></d3-tag-cloud>-->
-            <section class="carousel-body carousel-home center" ng-if="challenge.intro == 2" >
+            <section class="my-carousel carousel-home  center" ng-if="challenge.intro == 2" >
                 <img src="images/svg/logocaroussel.svg" alt="ideaWeaveLogo"/>
                 <article>
                     <h1>
@@ -25,13 +25,13 @@
                     </h1>
                 </article>
             </section>
-            <section  layout="vertical"  class="carousel-body carousel-home center" ng-if="challenge.intro == 3">
+            <section  layout="vertical"  class="my-carousel carousel-home center" ng-if="challenge.intro == 3">
                 <img src="images/svg/logocaroussel.svg" alt="ideaWeaveLogo"/>
                 <article>
                     <h1 class="center">Ideastorm provides a simple collaborative working environment, the possibility to organise and archive discussions, a clear visibility on the taks to be performed and the resources needed.</h1>
                 </article>
             </section>
-            <section  ng-if="$index > 2" class="carousel-body" >
+            <section  ng-if="$index > 2" class="my-carousel carousel-home" >
                 <article >
                     <h1 class="center">
                         <a ui-sref="challenge.details({ pid : challenge.accessUrl })">{{challenge.title}}</a>
@@ -50,10 +50,10 @@
         </li>
     </ul>
 
-    <article  ng-if="projects.length >= 3">
+    <article >
         <h1 class="center" >Popular Projects</h1>
         <section style="text-align: center">
-            <project-card style="text-align: left;" ng-repeat="project in projects" my-project="project" inline-block>
+            <project-card ng-repeat="project in projects" my-project="project" inline-block>
 
             </project-card>
         </section>
