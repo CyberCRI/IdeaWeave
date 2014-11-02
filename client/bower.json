@@ -15,7 +15,7 @@
     "angular-socket-io": "0.6.0",
     "underscore": "*",
     "socket.io-client": "1.0.0-pre2",
-    "pdfjs": "*",
+    "pdfjs": "https://github.com/mozilla/pdf.js.git",
     "animatecss": "https://github.com/daneden/animate.css.git",
     "Font-Awesome": "4.1",
     "font-awesome-animation": "*",
