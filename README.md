@@ -1,12 +1,10 @@
 # IdeaWeave 
 
-Ideaweave is a collaborative platform intended to help people sharing idea and organise themself in team.
+IdeaWeave is a collaborative platform intended to help people sharing idea and organise themself in team. It has two separate components, a server and a client.
 
 ## Javascript fullstack
 ![nodejs](http://nodejs.org/images/logos/nodejs.png)
 ![Angularjs](https://raw.githubusercontent.com/angular/angular.js/master/images/logo/AngularJS.exports/AngularJS-small.png)
-
-
 
 ## Dependancies
 - [NodeJs](http://nodejs.org/)
@@ -19,21 +17,27 @@ Ideaweave is a collaborative platform intended to help people sharing idea and o
 - [Mongoose](http://mongoosejs.com/)
 - [socket.io](http://socket.io/)
 
-`cd server`
-`npm install`
-`node server.js`
+Make sure MongoDB is up and running. Then:
+
+- `cd server`
+- `npm install`
+- `node server.js`
 
 ## Running frontend
 ![gulp](http://ih3.redbubble.net/image.15786709.1011/sticker,375x360.png)
 
-`npm install`
-`bower install`
-`gulp dev`
+- `cd client`
+- `npm install`
+- `bower install` (Choose the latest version of AngularJS)
+- `gulp dev`
 
-### build front-end
-`gulp build`
+Now visit http://localhost:5000/ to see IdeaWeave site!
 
-## deploy
-go back to the root of the project
-`npm install`
-`grunt deploy`
+### Build front-end
+
+- `gulp build`
+
+## Deploy
+Go back to the root of the project
+- `npm install`
+- `grunt deploy`
