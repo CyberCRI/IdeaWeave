@@ -31,7 +31,7 @@ Make sure MongoDB is up and running. Then:
 - `bower install` (Choose the latest version of AngularJS)
 - `gulp dev`
 
-Now visit http://localhost:5000/ to see IdeaWeave site!
+Now visit [http://localhost:5000/](http://localhost:5000/) to see your IdeaWeave site!
 
 ### Build front-end
 
