@@ -6,6 +6,6 @@ client/dist
 client/node_modules
 client/app/styles/main.css
 client/app/modules/common/config.js
-#client/app/vendors
+client/app/vendors
 !client/app/vendors/satellizer/satellizer.js
 .idea
