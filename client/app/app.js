@@ -90,6 +90,8 @@ angular.module('cri', [
     }).controller('LeftNavCtrl',function($scope,$materialSidenav,$state,Profile,Tag,Recommendation,$q,Project,Challenge){
         function getRecomendation(id){
             var defered = $q.defer();
+            if(!$scope.currentUser) return defered.promise;
+
             $q.all([
                 Recommendation.fetchUsers(id,$scope.currentUser.tags),
                 Recommendation.fetchChallenges(id,$scope.currentUser.tags),
