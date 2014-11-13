@@ -1,0 +1,6 @@
+PrivateConfig = {
+    env: 'prod',
+    apiServer: 'http://ideastorm.io',
+    githubClient: '',
+    googleClient: ''
+};

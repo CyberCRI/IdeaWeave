@@ -23,13 +23,10 @@ var gulp = require('gulp'),
 require('gulp-grunt')(gulp);
 
 
-
-
-
 // Dev tasks
 
 gulp.task('lint', function() {
-    gulp.src('./app/modules/**/*.js')
+    gulp.src(['./app/modules/**/*.js'])
         .pipe(refresh(lrserver))
         .pipe(jshint())
         .pipe(jshint.reporter('default'));

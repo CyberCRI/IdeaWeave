@@ -13,7 +13,7 @@
     "angular-image-crop": "*",
     "ng-file-upload ": "*",
     "angular-socket-io": "0.6.0",
-    "underscore": "*",
+    "underscore": "~1.7.0",
     "socket.io-client": "1.0.0-pre2",
     "pdfjs": "https://github.com/mozilla/pdf.js.git",
     "animatecss": "https://github.com/daneden/animate.css.git",
@@ -25,8 +25,8 @@
     "satellizer": "0.3.1",
     "opentip": "2.4.6",
     "angular-timeago": "0.1.2",
-    "jspdf" : "*",
-    "ng-messages" : "*"
+    "jspdf": "*",
+    "ng-messages": "*"
   },
   "devDependencies": {}
 }

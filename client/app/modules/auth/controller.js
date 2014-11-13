@@ -4,10 +4,6 @@ angular.module('cri.auth',[
 ]).config(function($authProvider,ConfigProvider){
         var Config = ConfigProvider.$get();
 
-        /*$authProvider.setConfig({
-            loginUrl: Config.apiServer+'/auth/login',
-            signupUrl: Config.apiServer+'/auth/signup'
-        });*/
         $authProvider.config.loginUrl = Config.apiServer+'/auth/login';
         $authProvider.config.signupUrl = Config.apiServer+'/auth/signup';
 

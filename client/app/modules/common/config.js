@@ -1,5 +1,5 @@
 angular.module('cri.common',[])
-    .provider('Config',function($windowProvider){
+    .provider('Config', function() {
         var config = {
             tinymceOptions : {
                 height : '500px',
@@ -25,19 +25,10 @@ angular.module('cri.common',[])
                 }
             }
         };
-        var $window = $windowProvider.$get();
-        if($window.location.host == 'localhost:5000'){
-            config.env = 'dev';
-            config.apiServer = 'http://localhost:5011';
-            config.githubClient = 'a7b3f0d3bbda1a42f26e';
-            config.googleClient = '372552657598-hdg4o1pqc15amejp9jlr2qs016k0m6ve.apps.googleusercontent.com';
 
-        }else{
-            config.env = 'prod';
-            config.apiServer = 'http://ideastorm.io:5011';
-            config.githubClient = 'a0de9026823b0f3c405e';
-            config.googleClient = '659220840623-qft0lcgjtbjp6651159nualku81uvns1.apps.googleusercontent.com';
-        }
+        // Copy in options from config file
+        _.extend(config, PrivateConfig);
+
         this.$get = function(){
             return config;
         };
