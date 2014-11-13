@@ -136,10 +136,12 @@ exports.fetch = function(req,res){
 
 exports.create = function(req,res){
     var tagsId = [];
-    req.body.tags.forEach(function(tag,k){
-        tagsId.push(tag._id)
-    });
-    req.body.tags = tagsId;
+    if(req.body.tags) {
+        req.body.tags.forEach(function(tag,k){
+            tagsId.push(tag._id)
+        });
+        req.body.tags = tagsId;
+    }
     var challenge = new Challenge(req.body);
     challenge.saveQ().then(function(data){
         var myNotif =  new Notification({
@@ -147,13 +149,18 @@ exports.create = function(req,res){
             owner : data.owner,
             entity : data._id
         });
+        console.log("Saving notification...");
         myNotif.saveQ().then(function(notif){
+            console.log("Saving notification.");
             io.sockets.emit('newChallenge',notif);
+            console.log("Sent notification.");
             res.json(data);
+        }).fail(function(err) {
+            res.json(500, err);
         });
     }).fail(function(err){
         res.json(400,err);
-    })
+    });
 };
 
 exports.update = function(req,res){

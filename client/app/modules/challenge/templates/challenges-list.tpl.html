@@ -1,5 +1,8 @@
 <material-content layout="vertical" scroller loading-method="loadMoreChallenges()" style="overflow-x:hidden;">
-    <material-list>
+    <div ng-show="challenges.length == 0">
+        Nothing to show yet... 
+    </div>
+    <material-list ng-show="challenges.length > 0">
         <material-item ng-repeat="challenge in challenges" class="item-list">
             <material-item-content>
                 <div class="material-tile-left" flex="40" flex-sm="30" flex-md="25" flex-lg="15">

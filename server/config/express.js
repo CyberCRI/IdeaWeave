@@ -58,6 +58,8 @@ module.exports = function(db) {
 //	app.use(bodyParser.urlencoded());
 //	app.use(bodyParser.json());
     app.use(bodyParser.json({limit: '50mb'}));
+    
+    // Can't use urlencoded along with json decoder?
     app.use(bodyParser.urlencoded({limit: '50mb'}));
 	app.use(methodOverride());
 
