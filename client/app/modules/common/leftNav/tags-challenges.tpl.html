@@ -11,8 +11,8 @@
     </div>
 </material-toolbar>
 <material-content>
-    <material-button style="width:100%;text-align:right;" ui-route="/projects/all" ng-class="{ 'material-button-raised' : $uiRoute }"  ui-sref="projects.list({ tag : 'all' })">ALL</material-button>
+    <material-button style="width:100%;text-align:right;" ui-route="/challenges/all" ng-class="{ 'material-button-raised' : $uiRoute }"  ui-sref="challenges.list({ tag : 'all' })">ALL</material-button>
     <div ng-repeat="tag in tags">
-        <material-button style="width:100%;text-align:right;" ui-route="/projects/{{tag.title}}" ng-class="{ 'material-button-raised' : $uiRoute }"  ui-sref="projects.list({ tag : tag.title })">{{tag.title}}</material-button>
+        <material-button style="width:100%;text-align:right;" ui-route="/challenges/{{tag.title}}" ng-class="{ 'material-button-raised' : $uiRoute }"  ui-sref="challenges.list({ tag : tag.title })">{{tag.title}}</material-button>
     </div>
 </material-content>
