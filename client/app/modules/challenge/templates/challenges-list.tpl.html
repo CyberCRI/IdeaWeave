@@ -12,7 +12,7 @@
     </material-toolbar>
     <material-content>
         
-        <material-content layout="vertical" scroller style="overflow-x:hidden;"> <!-- loading-method="loadMoreChallenges()"  -->
+        <material-content layout="vertical" scroller loading-method="loadMoreChallenges()" style="overflow-x:hidden;"> 
             <div ng-show="challenges.length == 0">
                 Nothing to show yet... 
             </div>
@@ -66,6 +66,6 @@
                 </material-item>
             </material-list>
         </material-content>
-        
+
     </material-content>
 </section>
