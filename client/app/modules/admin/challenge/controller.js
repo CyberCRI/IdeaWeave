@@ -102,7 +102,7 @@ angular.module('cri.admin.challenge',[])
                     challenge : Challenge.data
                 },
                 controller : ['$scope','$hideDialog','challenge',function($scope,$hideDialog,challenge){
-                    $scope.challengeTitle = challenge.title;
+                    $scope.challengeTitle = challenge.title
 
 
                     $scope.delete = function(test){

@@ -1,10 +1,19 @@
 angular.module('cri.challenge')
     .config(['$stateProvider', function ($stateProvider) {
         $stateProvider
-            .state('challengesList',{
-                url : '/challenges/:tag',
+            .state('challenges',{
+                url : '/challenges',
                 views : {
-                    mainView : {
+                    mainView :{
+                        templateUrl: 'modules/challenge/templates/challenges.tpl.html',
+                        controller : 'ChallengesCtrl'
+                    }
+                }
+            })
+            .state('challenges.list',{
+                url : '/:tag',
+                views : {
+                    challengesView : {
                         templateUrl: 'modules/challenge/templates/challenges-list.tpl.html',
                         controller: 'ChallengesListCtrl'
                     }

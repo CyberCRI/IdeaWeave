@@ -39,11 +39,10 @@ angular.module('cri', [
 //        dev
 
     }])
-    .run(['Profile','mySocket','$rootScope','$auth', function (Profile,mySocket,$rootScope,$auth) {
-        // If there is no user signed in by default, don't grab the profile which will end up redirecting to /login
-        if(!$auth.isAuthenticated()) return;
-
+    .run(['Profile','mySocket','$rootScope', function (Profile,mySocket,$rootScope) {
         Profile.getMe().then(function(me){
+//            $rootScope.currentUser = me;
+            console.log('lol')
             mySocket.init(me);
 
             Profile.getPoster(me._id).then(function(data){
@@ -162,7 +161,7 @@ angular.module('cri', [
                         $scope.sideNavTemplateUrl = 'modules/common/leftNav/tags-projects.tpl.html';
                     });
                     break;
-                case 'challengesList':
+                case 'challenges.list':
                     getTags().then(function(){
                         $scope.sideNavTemplateUrl = 'modules/common/leftNav/tags-challenges.tpl.html';
                     });

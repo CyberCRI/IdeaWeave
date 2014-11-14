@@ -85,9 +85,8 @@ angular.module('cri.project',[])
         };
 
         $scope.follow=function(){
-            var param;
             if($scope.isFollow){
-                param = {
+                var param = {
                     follower : $scope.currentUser._id,
                     following : $scope.project._id
                 };
@@ -99,7 +98,7 @@ angular.module('cri.project',[])
                     Notification.display(err.message);
                 });
             }else{
-                param = {
+                var param = {
                     follower : $scope.currentUser._id,
                     following : $scope.project._id
                 };

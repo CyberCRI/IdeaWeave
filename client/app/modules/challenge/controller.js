@@ -19,18 +19,19 @@ angular.module('cri.challenge', [])
             console.log(err);
         });
     }])
+    .controller('ChallengesCtrl',['$scope','$rootScope',function($scope,$rootScope){
+        $scope.toggleLeft = function(){
+            $rootScope.$broadcast('toggleLeft')
+        };
+    }])
     .controller('ChallengesListCtrl',['$scope','challenges','Notification','Challenge','Project','$stateParams','Config','$materialDialog',function($scope,challenges,Notification,Challenge,Project,$stateParams,Config,$materialDialog){
         $scope.challenges = challenges;
+
 
         $scope.noPage = 0;
         $scope.isEnd = false;
         $scope.now = new Date().getTime();
         var option = { limit : Config.paginateChallenge };
-
-        $scope.toggleLeft = function(){
-            $rootScope.$broadcast('toggleLeft');
-        };
-
         $scope.loadMoreChallenges = function () {
             $scope.noPage++;
             option.skip = Config.paginateChallenge * $scope.noPage;
@@ -78,6 +79,7 @@ angular.module('cri.challenge', [])
                 Notification.display(err.message);
             });
         };
+
     }])
     .controller('ChallengeSuggestCtrl', ['$scope', 'Challenge','$upload','$state','Notification','Gmap','Files','Config', function ($scope, Challenge,$upload,$state,Notification,Gmap,Files,Config) {
 
@@ -101,7 +103,7 @@ angular.module('cri.challenge', [])
                 challenge.endDate = challenge.endDate.getTime();
             }
             Challenge.create(challenge).then(function(){
-                $state.go("challengesList",{tag : 'all'});
+                $state.go("challenges.list",{tag : 'all'});
             }).catch(function(err){
                 Notification.display(err.message);
             });
@@ -119,11 +121,10 @@ angular.module('cri.challenge', [])
                     $scope.isFollow = true;
                 }
             });
-        }
-
+        };
         $scope.toggleLeft = function(){
             $rootScope.$broadcast('toggleLeft');
-        };
+        }
 
         $scope.participate = function(){
             if($scope.currentUser){
