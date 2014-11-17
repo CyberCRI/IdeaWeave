@@ -4,6 +4,7 @@ server/public/
 server/node_modules
 client/dist
 client/node_modules
+client/app/env/config.js
 client/app/styles/main.css
 client/app/modules/common/config.js
 client/app/vendors

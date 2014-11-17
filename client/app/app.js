@@ -225,7 +225,7 @@ angular.module('cri', [
         $scope.$watch(function(){
             return $state.current.name;
         },function(state){
-            console.log(state)
+            console.log("Switching to state", state)
             switch(state){
                 case 'home':
                     $scope.leftNav = false;
@@ -237,7 +237,6 @@ angular.module('cri', [
                     $scope.leftNav = false;
                     break;
                 default :
-                    console.log('default')
                     $scope.leftNav = true;
                     break;
             }
