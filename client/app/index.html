@@ -70,11 +70,10 @@
             </div>
         </material-toolbar>
 
-
-        <section layout="horizontal" layout-fill ng-controller="MainCtrl" style="padding-bottom:63px;">
-            <div ng-show="leftNav"  style="height:100%;" class="sidenav-container">
+        <section layout="horizontal" layout-fill ng-controller="LeftNavCtrl" style="padding-bottom:63px;">
+            <div ng-show="sideNavTemplateUrl" style="height:100%;" class="sidenav-container">
                 <material-sidenav class="material-sidenav-left material-whiteframe-z2" component-id="left" style="height:100%;">
-                    <div ng-controller="LeftNavCtrl" style="height:100%;">
+                    <div style="height:100%;">
                         <ng-include src="sideNavTemplateUrl" flex layout="vertical" layout-fill style="padding-left: 15px;">
                         </ng-include>
                     </div>

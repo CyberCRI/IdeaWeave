@@ -62,6 +62,7 @@ angular.module('cri', [
         };
     }]).controller('RightNavCtrl',function($scope,$materialSidenav,$auth,Notification){
         var rightNav = $materialSidenav('right');
+        $scope.sideNavTemplateUrl = "";
 
         $scope.$on('toggleRight',function(e,type){
             switch(type){
@@ -132,6 +133,11 @@ angular.module('cri', [
             return defered.promise;
         }
 
+        function getLeftNav() { 
+            return $materialSidenav('left'); 
+        }
+
+
         $scope.$watch(function(){
             return $state.params.uid;
         },function(){
@@ -155,6 +161,9 @@ angular.module('cri', [
         $scope.$watch(function(){
             return $state.current.name;
         },function(state){
+            // Clear the side nav by default, unless set later in this function
+            $scope.sideNavTemplateUrl = "";
+
             switch(state){
                 case 'profile':
                     getRecomendation(Profile.data._id).then(function(){
@@ -174,7 +183,7 @@ angular.module('cri', [
                     });
                     break;
                 case 'profileAdmin':
-                    $scope.sideNavTemplateUrl = 'modules/common/leftNav/admin-profile.tpl.html';
+                    //$scope.sideNavTemplateUrl = 'modules/common/leftNav/admin-profile.tpl.html';
                     break;
                 case 'challengeAdmin':
                     $scope.sideNavTemplateUrl = 'modules/common/leftNav/admin-challenges.tpl.html';
@@ -213,41 +222,16 @@ angular.module('cri', [
                     break;
             }
         });
-//
-        var leftNav = $materialSidenav('left');
+
         $scope.$on('toggleLeft',function(e){
-            leftNav.toggle();
+            getLeftNav().toggle();
         });
         $scope.toggle = function(){
-            leftNav.toggle();
+            getLeftNav().toggle();
         };
         $scope.$on('side:close-left',function(){
-            leftNav.toggle();
+            getLeftNav().toggle();
         });
-    }).controller('MainCtrl',function($scope,$state){
-        $scope.leftNav = true;
-        $scope.$watch(function(){
-            return $state.current.name;
-        },function(state){
-            console.log("Switching to state", state)
-            switch(state){
-                case 'home':
-                    $scope.leftNav = false;
-                    break;
-                case 'projectAdmin':
-                    $scope.leftNav = false;
-                    break;
-                case 'profileAdmin':
-                    $scope.leftNav = false;
-                    break;
-                case 'profile':
-                    $scope.leftNav = false;
-                    break;
-                default :
-                    $scope.leftNav = true;
-                    break;
-            }
-        })
     }).controller('BodyCtrl', function($scope, $materialSidenav) {
         $scope.rightSidenavIsOpen = function() {
             return $materialSidenav('right').isOpen();
