@@ -160,7 +160,8 @@ angular.module('cri', [
                 case 'profile':
                     getRecomendation(Profile.data._id).then(function(){
                         $scope.profile = Profile.data;
-                        $scope.sideNavTemplateUrl = 'modules/common/leftNav/profile.tpl.html';
+                        // TODO: put this back when profile sidebar is restored
+                        //$scope.sideNavTemplateUrl = 'modules/common/leftNav/profile.tpl.html';
                     });
                     break;
                 case 'projects.list':
@@ -225,7 +226,7 @@ angular.module('cri', [
             leftNav.toggle();
         });
     }).controller('MainCtrl',function($scope,$state){
-        $scope.leftNav = true;
+        $scope.leftNav = false;
         $scope.$watch(function(){
             return $state.current.name;
         },function(state){
