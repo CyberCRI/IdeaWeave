@@ -9,13 +9,13 @@ var chat = require('../controllers/chat.controller'),
     io =require('../../server').io;
 module.exports = function(){
     io.on('connection', function (socket) {
-        socket.on('init',function(userId){
+        socket.on('init', function(userId){
+            console.log("Detected WS conection for user", userId);    
             q.all([
                 Project.find( { owner : userId } ).select('_id').execQ(),
                 Project.find( { members : userId }).select('_id').execQ(),
                 Challenge.find({ owner : userId }).select('_id').execQ()
             ]).then(function(data){
-
                 var projects = data[0].concat(data[1]),
                     challenges = data[2];
                 projects.forEach(function(project){
@@ -31,9 +31,12 @@ module.exports = function(){
         });
 
         socket.on('chat::newMessage', function (message) {
+            console.log("Chat message recieved", message);                
             chat.create(message).then(function(notif){
-                socket.emit('chat_'+message.container+'::newMessage',notif);
+                console.log("Sending chat message", notif);                
+                socket.broadcast.emit('chat_'+message.container+'::newMessage',notif);
                 socket.broadcast.emit('challenge::newMessage',notif);
+                console.log("Done");                
             }).fail(function(err){
                 socket.emit('error',err);
             })

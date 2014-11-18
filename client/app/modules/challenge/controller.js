@@ -10,6 +10,8 @@ angular.module('cri.challenge', [])
                 message.owner = $scope.currentUser._id;
                 message.createDate = new Date().getTime();
                 mySocket.socket.emit('chat::newMessage',message);
+                $scope.messages.push(message);
+                $scope.message = "";
             };
         }
 

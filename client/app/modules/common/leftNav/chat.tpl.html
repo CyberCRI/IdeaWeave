@@ -31,9 +31,10 @@
             <i class="fa fa-times my-btn"></i>
         </div>
     </material-content>
-        <form name="messageForm" ng-submit="postMessage(message)">
-            <textarea name="message" class="pretty-area"  rows="5" required ng-model="message.content" placeholder="your message here ..."></textarea>
-            <material-button type="submit" ng-disabled="messageForm.$invalid" style="width:100%;">Send</material-button>
-        </form>
+
+    <form name="messageForm" ng-submit="postMessage(message)">
+        <textarea name="message" class="pretty-area" rows="3" required ng-model="message.content" placeholder="your message here ..."></textarea>
+        <material-button type="submit" ng-disabled="messageForm.$invalid" style="width:100%;">Send</material-button>
+    </form>
 
 </section>

@@ -42,7 +42,7 @@ angular.module('cri', [
     }])
     .run(['Profile','mySocket','$rootScope','$auth', function (Profile,mySocket,$rootScope,$auth) {
         // If there is no user signed in by default, don't grab the profile which will end up redirecting to /login
-        if(!$auth.isAuthenticated()) return;
+        if(!localStorage.getItem("jwtToken")) return;
 
         Profile.getMe().then(function(me){
             mySocket.init(me);
