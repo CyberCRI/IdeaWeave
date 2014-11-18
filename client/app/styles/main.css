@@ -333,6 +333,9 @@ material-tabs {
   opacity: 0.7 !important;
   font-size: 5em !important; }
 
+#signupForm {
+  padding: 20px 0 20px 0; }
+
 .d3-tag {
   -webkit-transition: font-size 0.3s ease-in-out;
   -moz-transition: font-size 0.3s ease-in-out;

@@ -9,7 +9,7 @@
     <title>IdeaStorm </title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible"content="IE=9; IE=8; IE=7; IE=EDGE">
+    <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <base href="/"/>
     <link rel="stylesheet" href="//code.cdn.mozilla.net/fonts/fira.css">
@@ -25,7 +25,7 @@
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
 </head>
-<body layout="vertical" layout-fill>
+<body layout="horizontal" layout-fill ng-controller="BodyCtrl">
 <!--[if lt IE 10]>
       <p class="alert alert-warning">For better user experience,please use one of these browers :
     <a href="http://www.google.com/chrome/" target="_blank">Google Chrome</a>
@@ -34,203 +34,202 @@
       </p>
 <![endif]-->
 
-<material-sidenav class="material-sidenav-right material-whiteframe-z2" component-id="right" layout="vertical" >
-    <div ng-controller="RightNavCtrl">
-        <material-toolbar layout="horizontal">
+    <div layout="vertical" layout-fill>
+        <material-toolbar ng-controller="HeaderCtrl" class="main-header">
             <div class="material-toolbar-tools">
-                <div flex>
-                    <img src="images/svg/notification.svg" alt="notifications !"  ng-if="sideNavTemplateUrl == 'modules/header/templates/notifications.tpl.html'"/>
-                    <img src="images/svg/login.svg" alt="notifications !"  ng-if="sideNavTemplateUrl == 'modules/auth/templates/signin.tpl.html'"/>
+                <div hide block-md>
+                    <a style="cursor : pointer;padding-top: 0px;"  ui-sref="home">
+                        <img src="images/svg/logoheader.svg" height="50px" alt="IdeaWeaves"/>
+                    </a>
                 </div>
-                <i class="fa fa-caret-right fa-2x my-btn" style="color:black;" ng-click="toggleRight()"></i>
+                <div layout="horizontal" layout-align="start end" >
+                    <div style="cursor:pointer;"  ui-sref="challenges.list({ tag :'all' })" >
+                        <material-icon icon="images/svg/challenges.svg">
+                        </material-icon>
+                    </div>
+                    <img src="images/plus.png" width="15%" height="15%" class="plus-icon" ui-sref="challengeSuggest" ng-if="currentUser._id" alt="add"/>
+                    <div style="cursor:pointer;"  ui-route="/projects/all"  ng-class="{'menu-active': $uiRoute}"  ui-sref="projects.list({ tag :'all' })">
+                        <material-icon icon="images/svg/projects.svg"  >
+                        </material-icon>
+                    </div>
+                </div>
+               <search-bar hide block-md flex></search-bar>
+                <div hide-md flex style="text-align: center">
+                    <a style="cursor : pointer;padding-top: 0px;"  ui-sref="home">
+                        <img src="images/svg/logoheader.svg" height="50px" alt="IdeaWeaves"/>
+                    </a>
+                </div>
+                <div>
+                    <a href="">
+                        <i class="fa fa-caret-left fa-2x" ng-click="toggleRight('menu')" ng-if="currentUser"></i>
+                    </a>
+                    <a href="">
+                        <i class="fa fa-sign-in fa-2x" ng-click="toggleRight('login')" ng-if="!currentUser"></i>
+                    </a>
+                </div>
             </div>
         </material-toolbar>
-        <div ng-include="sideNavTemplateUrl" flex layout layout-fill>
-        </div>
-    </div>
-</material-sidenav>
 
-<material-toolbar ng-controller="HeaderCtrl" class="main-header">
-    <div class="material-toolbar-tools">
-        <div hide block-md>
-            <a style="cursor : pointer;padding-top: 0px;"  ui-sref="home">
-                <img src="images/svg/logoheader.svg" height="50px" alt="IdeaWeaves"/>
-            </a>
-        </div>
-        <div layout="horizontal" layout-align="start end" >
-            <div style="cursor:pointer;"  ui-sref="challenges.list({ tag :'all' })" >
-                <material-icon icon="images/svg/challenges.svg">
-                </material-icon>
+
+        <section layout="horizontal" layout-fill ng-controller="MainCtrl" style="padding-bottom:63px;">
+            <div ng-show="leftNav"  style="height:100%;" class="sidenav-container">
+                <material-sidenav class="material-sidenav-left material-whiteframe-z2" component-id="left" style="height:100%;">
+                    <div ng-controller="LeftNavCtrl" style="height:100%;">
+                        <ng-include src="sideNavTemplateUrl" flex layout="vertical" layout-fill style="padding-left: 15px;">
+                        </ng-include>
+                    </div>
+                </material-sidenav>
             </div>
-            <img src="images/plus.png" width="15%" height="15%" class="plus-icon" ui-sref="challengeSuggest" ng-if="currentUser._id" alt="add"/>
-            <div style="cursor:pointer;"  ui-route="/projects/all"  ng-class="{'menu-active': $uiRoute}"  ui-sref="projects.list({ tag :'all' })">
-                <material-icon icon="images/svg/projects.svg"  >
-                </material-icon>
-            </div>
-        </div>
-       <search-bar hide block-md flex></search-bar>
-        <div hide-md flex style="text-align: center">
-            <a style="cursor : pointer;padding-top: 0px;"  ui-sref="home">
-                <img src="images/svg/logoheader.svg" height="50px" alt="IdeaWeaves"/>
-            </a>
-        </div>
-        <div>
-            <a href="">
-                <i class="fa fa-caret-left fa-2x" ng-click="toggleRight('menu')" ng-if="currentUser"></i>
-            </a>
-            <a href="">
-                <i class="fa fa-sign-in fa-2x" ng-click="toggleRight('login')" ng-if="!currentUser"></i>
-            </a>
-        </div>
+            <section ui-view="mainView" layout="vertical" layout-fill class="right-part"></section>
+        </section>
     </div>
-</material-toolbar>
+
+    <material-sidenav class="material-sidenav-right material-whiteframe-z2" component-id="right" layout="vertical" ng-show="rightSidenavIsOpen()">
+        <div ng-controller="RightNavCtrl">
+            <material-toolbar layout="horizontal">
+                <div class="material-toolbar-tools">
+                    <div flex>
+                        <img src="images/svg/notification.svg" alt="notifications !"  ng-if="sideNavTemplateUrl == 'modules/header/templates/notifications.tpl.html'"/>
+                        <img src="images/svg/login.svg" alt="notifications !"  ng-if="sideNavTemplateUrl == 'modules/auth/templates/signin.tpl.html'"/>
+                    </div>
+                    <i class="fa fa-caret-right fa-2x my-btn" style="color:black;" ng-click="toggleRight()"></i>
+                </div>
+            </material-toolbar>
+            <div ng-include="sideNavTemplateUrl" flex layout layout-fill></div>
+        </div>
+    </material-sidenav>
+
+    <script src="vendors/tinymce/tinymce.min.js"></script>
+    <script src="vendors/tinymce/themes/modern/theme.min.js"></script>
+    <script src="vendors/tinymce/plugins/print/plugin.min.js"></script>
+    <script src="vendors/tinymce/plugins/textcolor/plugin.min.js"></script>
+    <!-- build:js scripts/scripts.js -->
+    <script src="vendors/hammerjs/hammer.js"></script>
+    <script src="vendors/jspdf/dist/jspdf.min.js"></script>
+    <script src="vendors/socket.io-client/socket.io.js"></script>
+    <script src="vendors/pdfjs/src/pdf.js"></script>
+    <script src="vendors/underscore/underscore.js"></script>
+    <script src="vendors/ng-file-upload/angular-file-upload-html5-shim.js"></script>
+    <script src="vendors/angular/angular.js"></script>
+    <script src="vendors/ng-messages/angular-messages.js"></script>
+    <script src="vendors/angular-touch/angular-touch.js"></script>
+    <script src="vendors/angular-carousel/dist/angular-carousel.js"></script>
+    <script src="vendors/angular-animate/angular-animate.js"></script>
+    <script src="vendors/angular-sanitize/angular-sanitize.js"></script>
+    <script src="vendors/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="vendors/ng-file-upload/angular-file-upload.js"></script>
+    <script src="vendors/angular-socket-io/socket.js"></script>
+    <script src="vendors/angular-translate/angular-translate.js"></script>
+    <script src="vendors/angular-ui-utils/ui-utils.js"></script>
+    <script src="vendors/angular-ui-tinymce/src/tinymce.js"></script>
+    <script src="vendors/angular-ui-select/dist/select.js"></script>
+    <script src="vendors/angular-image-crop/image-crop.js"></script>
+    <script src="vendors/angular-material/angular-material.js"></script>
+    <script src="vendors/angular-timer/dist/angular-timer.js"></script>
+    <script src="vendors/satellizer/satellizer.js"></script>
+    <script src="vendors/angular-timeago/src/timeAgo.js"></script>
+    <script src="vendors/underscore/underscore.js"></script>
+
+    <script src="env/config.js"></script>
+
+    <script src="app.js"></script>
+
+    <script src="modules/common/config.js"></script>
+    <script src="modules/common/iframe/iframe.js"></script>
+    <script src="modules/common/gmap/gMap.js"></script>
+    <script src="modules/common/socket/socket.js"></script>
+    <script src="modules/common/scroller/scroller.js"></script>
+    <script src="modules/common/pdf/pdf.js"></script>
+    <script src="modules/common/recommendation/recommendation.js"></script>
+
+    <script src="modules/common/lang.js"></script>
+
+    <script src="modules/d3/services.js"></script>
+    <script src="modules/d3/directives/tagGraph.js"></script>
+    <script src="modules/d3/directives/tagCloud.js"></script>
+
+    <script src="modules/hackpad/hackpad.js"></script>
+
+    <script src="modules/notification/notification.js"></script>
+
+    <script src="modules/files/services.js"></script>
+    <script src="modules/files/directives/googledocPreview.js"></script>
+
+    <script src="modules/home/controller.js"></script>
+    <script src="modules/home/route.js"></script>
+
+    <script src="modules/header/controller.js"></script>
+    <script src="modules/header/service.js"></script>
+
+    <script src="modules/footer/controller.js"></script>
+    <script src="modules/footer/route.js"></script>
+
+    <script src="modules/auth/controller.js"></script>
+    <script src="modules/auth/lang.js"></script>
+    <script src="modules/auth/route.js"></script>
+
+    <script src="modules/project/controller.js"></script>
+    <script src="modules/project/services.js"></script>
+    <script src="modules/project/route.js"></script>
+    <script src="modules/project/lang.js"></script>
+    <script src="modules/project/directives/projectBlock/directives.js"></script>
+
+    <script src="modules/workspace/controller.js"></script>
+    <script src="modules/workspace/services.js"></script>
+    <script src="modules/workspace/route.js"></script>
+    <script src="modules/workspace/lang.js"></script>
+    <script src="modules/workspace/directives/note-info.js"></script>
+    <script src="modules/workspace/comments/controller.js"></script>
+    <script src="modules/workspace/comments/services.js"></script>
+
+    <script src="modules/challenge/controller.js"></script>
+    <script src="modules/challenge/route.js"></script>
+    <script src="modules/challenge/lang.js"></script>
+    <script src="modules/challenge/services.js"></script>
+    <script src="modules/challenge/directives/challengeBlock/directives.js"></script>
+
+    <script src="modules/tag/controller.js"></script>
+    <script src="modules/tag/route.js"></script>
+    <script src="modules/tag/lang.js"></script>
+    <script src="modules/tag/services.js"></script>
+    <script src="modules/tag/directives/tagManager.js"></script>
+
+    <script src="modules/profile/controller.js"></script>
+    <script src="modules/profile/route.js"></script>
+    <script src="modules/profile/lang.js"></script>
+    <script src="modules/profile/services.js"></script>
+    <script src="modules/profile/directives/activity/directives.js"></script>
+    <script src="modules/profile/directives/userBlock/directives.js"></script>
 
 
-<section layout="horizontal" layout-fill ng-controller="MainCtrl" style="padding-bottom:63px;">
-    <div ng-show="leftNav"  style="height:100%;" class="sidenav-container">
-        <material-sidenav class="material-sidenav-left material-whiteframe-z2" component-id="left" style="height:100%;">
-            <div ng-controller="LeftNavCtrl" style="height:100%;">
-                <ng-include src="sideNavTemplateUrl" flex layout="vertical" layout-fill style="padding-left: 15px;">
-                </ng-include>
-            </div>
-        </material-sidenav>
-    </div>
-    <section ui-view="mainView" layout="vertical" layout-fill class="right-part"></section>
-</section>
+    <script src="modules/admin/profile/controller.js"></script>
+    <script src="modules/admin/profile/route.js"></script>
 
-<script src="vendors/tinymce/tinymce.min.js"></script>
-<script src="vendors/tinymce/themes/modern/theme.min.js"></script>
-<script src="vendors/tinymce/plugins/print/plugin.min.js"></script>
-<script src="vendors/tinymce/plugins/textcolor/plugin.min.js"></script>
-<!-- build:js scripts/scripts.js -->
-<script src="vendors/hammerjs/hammer.js"></script>
-<script src="vendors/jspdf/dist/jspdf.min.js"></script>
-<script src="vendors/socket.io-client/socket.io.js"></script>
-<script src="vendors/pdfjs/src/pdf.js"></script>
-<script src="vendors/underscore/underscore.js"></script>
-<script src="vendors/ng-file-upload/angular-file-upload-html5-shim.js"></script>
-<script src="vendors/angular/angular.js"></script>
-<script src="vendors/ng-messages/angular-messages.js"></script>
-<script src="vendors/angular-touch/angular-touch.js"></script>
-<script src="vendors/angular-carousel/dist/angular-carousel.js"></script>
-<script src="vendors/angular-animate/angular-animate.js"></script>
-<script src="vendors/angular-sanitize/angular-sanitize.js"></script>
-<script src="vendors/angular-ui-router/release/angular-ui-router.js"></script>
-<script src="vendors/ng-file-upload/angular-file-upload.js"></script>
-<script src="vendors/angular-socket-io/socket.js"></script>
-<script src="vendors/angular-translate/angular-translate.js"></script>
-<script src="vendors/angular-ui-utils/ui-utils.js"></script>
-<script src="vendors/angular-ui-tinymce/src/tinymce.js"></script>
-<script src="vendors/angular-ui-select/dist/select.js"></script>
-<script src="vendors/angular-image-crop/image-crop.js"></script>
-<script src="vendors/angular-material/angular-material.js"></script>
-<script src="vendors/angular-timer/dist/angular-timer.js"></script>
-<script src="vendors/satellizer/satellizer.js"></script>
-<script src="vendors/angular-timeago/src/timeAgo.js"></script>
-<script src="vendors/underscore/underscore.js"></script>
+    <script src="modules/admin/project/controller.js"></script>
+    <script src="modules/admin/project/route.js"></script>
 
-<script src="env/config.js"></script>
+    <script src="modules/admin/challenge/controller.js"></script>
+    <script src="modules/admin/challenge/route.js"></script>
 
-<script src="app.js"></script>
+    <script src="modules/admin/su/controller.js"></script>
 
-<script src="modules/common/config.js"></script>
-<script src="modules/common/iframe/iframe.js"></script>
-<script src="modules/common/gmap/gMap.js"></script>
-<script src="modules/common/socket/socket.js"></script>
-<script src="modules/common/scroller/scroller.js"></script>
-<script src="modules/common/pdf/pdf.js"></script>
-<script src="modules/common/recommendation/recommendation.js"></script>
+    <script src="modules/message/controller.js"></script>
+    <script src="modules/message/route.js"></script>
+    <script src="modules/message/service.js"></script>
+    <!-- endbuild -->
 
-<script src="modules/common/lang.js"></script>
-
-<script src="modules/d3/services.js"></script>
-<script src="modules/d3/directives/tagGraph.js"></script>
-<script src="modules/d3/directives/tagCloud.js"></script>
-
-<script src="modules/hackpad/hackpad.js"></script>
-
-<script src="modules/notification/notification.js"></script>
-
-<script src="modules/files/services.js"></script>
-<script src="modules/files/directives/googledocPreview.js"></script>
-
-<script src="modules/home/controller.js"></script>
-<script src="modules/home/route.js"></script>
-
-<script src="modules/header/controller.js"></script>
-<script src="modules/header/service.js"></script>
-
-<script src="modules/footer/controller.js"></script>
-<script src="modules/footer/route.js"></script>
-
-<script src="modules/auth/controller.js"></script>
-<script src="modules/auth/lang.js"></script>
-<script src="modules/auth/route.js"></script>
-
-<script src="modules/project/controller.js"></script>
-<script src="modules/project/services.js"></script>
-<script src="modules/project/route.js"></script>
-<script src="modules/project/lang.js"></script>
-<script src="modules/project/directives/projectBlock/directives.js"></script>
-
-<script src="modules/workspace/controller.js"></script>
-<script src="modules/workspace/services.js"></script>
-<script src="modules/workspace/route.js"></script>
-<script src="modules/workspace/lang.js"></script>
-<script src="modules/workspace/directives/note-info.js"></script>
-<script src="modules/workspace/comments/controller.js"></script>
-<script src="modules/workspace/comments/services.js"></script>
-
-<script src="modules/challenge/controller.js"></script>
-<script src="modules/challenge/route.js"></script>
-<script src="modules/challenge/lang.js"></script>
-<script src="modules/challenge/services.js"></script>
-<script src="modules/challenge/directives/challengeBlock/directives.js"></script>
-
-<script src="modules/tag/controller.js"></script>
-<script src="modules/tag/route.js"></script>
-<script src="modules/tag/lang.js"></script>
-<script src="modules/tag/services.js"></script>
-<script src="modules/tag/directives/tagManager.js"></script>
-
-<script src="modules/profile/controller.js"></script>
-<script src="modules/profile/route.js"></script>
-<script src="modules/profile/lang.js"></script>
-<script src="modules/profile/services.js"></script>
-<script src="modules/profile/directives/activity/directives.js"></script>
-<script src="modules/profile/directives/userBlock/directives.js"></script>
-
-
-<script src="modules/admin/profile/controller.js"></script>
-<script src="modules/admin/profile/route.js"></script>
-
-<script src="modules/admin/project/controller.js"></script>
-<script src="modules/admin/project/route.js"></script>
-
-<script src="modules/admin/challenge/controller.js"></script>
-<script src="modules/admin/challenge/route.js"></script>
-
-<script src="modules/admin/su/controller.js"></script>
-
-<script src="modules/message/controller.js"></script>
-<script src="modules/message/route.js"></script>
-<script src="modules/message/service.js"></script>
-<!-- endbuild -->
-
-
-<script type="text/javascript">
-    // google analystic
-    var _gaq = _gaq || [];
-    /* // only for production
-     _gaq.push(['_setAccount', 'UA-41577560-1']);
-     _gaq.push(['_trackPageview']);
-     (function() {
-     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-     })();
-     */
-</script>
-
+    <script type="text/javascript">
+        // google analystic
+        var _gaq = _gaq || [];
+        /* // only for production
+         _gaq.push(['_setAccount', 'UA-41577560-1']);
+         _gaq.push(['_trackPageview']);
+         (function() {
+         var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+         ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+         })();
+         */
+    </script>
 </body>
 </html>

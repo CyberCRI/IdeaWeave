@@ -63,6 +63,7 @@ angular.module('cri', [
         };
     }]).controller('RightNavCtrl',function($scope,$materialSidenav,$auth,Notification){
         var rightNav = $materialSidenav('right');
+
         $scope.$on('toggleRight',function(e,type){
             switch(type){
                 case 'login':
@@ -74,7 +75,6 @@ angular.module('cri', [
                     rightNav.toggle();
                     break;
             }
-
         });
         $scope.toggleRight = function(){
             rightNav.toggle();
@@ -89,6 +89,10 @@ angular.module('cri', [
             $auth.logout();
             rightNav.toggle();
             Notification.display('You have been logged out');
+        }
+
+        $scope.isOpen = function() {
+            return rightNav.isOpen();
         }
     }).controller('LeftNavCtrl',function($scope,$materialSidenav,$state,Profile,Tag,Recommendation,$q,Project,Challenge){
         function getRecomendation(id){
@@ -241,4 +245,8 @@ angular.module('cri', [
                     break;
             }
         })
-    })
+    }).controller('BodyCtrl', function($scope, $materialSidenav) {
+        $scope.rightSidenavIsOpen = function() {
+            return $materialSidenav('right').isOpen();
+        }
+    });
