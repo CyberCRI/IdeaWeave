@@ -27,12 +27,12 @@
 </head>
 <body layout="vertical" layout-fill>
 <!--[if lt IE 10]>
-      <p class="alert alert-warnning">For better user experience,please use one of these bowers :
+      <p class="alert alert-warning">For better user experience,please use one of these browers :
     <a href="http://www.google.com/chrome/" target="_blank">Google Chrome</a>
     <a href="www.mozilla.org/en-US/firefox/&lrm;" target="_blank">Firefox</a> /
         <a href="http://www.opera.com/" target="_blank">Opera</a></li>
       </p>
-    <![endif]-->
+<![endif]-->
 
 <material-sidenav class="material-sidenav-right material-whiteframe-z2" component-id="right" layout="vertical" >
     <div ng-controller="RightNavCtrl">
@@ -45,7 +45,7 @@
                 <i class="fa fa-caret-right fa-2x my-btn" style="color:black;" ng-click="toggleRight()"></i>
             </div>
         </material-toolbar>
-        <div ng-include="sideNavTemplateUrl"flex layout layout-fill>
+        <div ng-include="sideNavTemplateUrl" flex layout layout-fill>
         </div>
     </div>
 </material-sidenav>
@@ -84,6 +84,7 @@
         </div>
     </div>
 </material-toolbar>
+
 
 <section layout="horizontal" layout-fill ng-controller="MainCtrl" style="padding-bottom:63px;">
     <div ng-show="leftNav"  style="height:100%;" class="sidenav-container">
