@@ -76,7 +76,7 @@ angular.module('cri.auth',[
                 mySocket.init($scope.currentUser);
                 $scope.$emit('side:close-right');
             }).catch(function (err) {
-                Notification.display(err.message);
+                Notification.display(err.data.message || "An unknown error has occured");
             }).finally(function(){
                 $scope.loader.email = false;
             });
