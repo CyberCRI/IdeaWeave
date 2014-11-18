@@ -226,7 +226,7 @@ angular.module('cri', [
             leftNav.toggle();
         });
     }).controller('MainCtrl',function($scope,$state){
-        $scope.leftNav = false;
+        $scope.leftNav = true;
         $scope.$watch(function(){
             return $state.current.name;
         },function(state){
@@ -239,6 +239,9 @@ angular.module('cri', [
                     $scope.leftNav = false;
                     break;
                 case 'profileAdmin':
+                    $scope.leftNav = false;
+                    break;
+                case 'profile':
                     $scope.leftNav = false;
                     break;
                 default :

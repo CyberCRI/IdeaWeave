@@ -1,15 +1,15 @@
 <section  ng-controller="LoginCtrl" layout="vertical" class="signin-form">
     <form name="signinForm" layout="vertical">
         <material-input-group>
-            <label for="email">Account's Email</label>
+            <label for="email">Email</label>
             <material-input id="email" name="email" type="email" required ng-model="signin.email" />
         </material-input-group>
         <div ng-messages="signinForm.email.$error" ng-if="!signinForm.email.$pristine">
             <div ng-message="required" class="form-message">
-                email is required
+                Email is required
             </div>
             <div ng-message="email" class="form-message">
-                you must type a valid email
+                You must type a valid email
             </div>
         </div>
         <material-input-group>
@@ -18,10 +18,10 @@
         </material-input-group>
         <div ng-messages="signinForm.password.$error" ng-if="!signinForm.email.$pristine" ng-if="!signinForm.password.$pristine">
             <div class="form-message" ng-message="required">
-                password is required
+                Password is required
             </div>
             <div ng-message="pattern" class="form-message">
-                password must contain at least one maj
+                Password must contain at least one capital letter
             </div>
         </div>
         <div style="margin-top:10px;">
@@ -32,11 +32,13 @@
                 <i class="fa fa-sign-in">Sign-in</i>
             </material-button>
         </div>
+        <!--
         <div>
             <material-button class="material-button-raised material-theme-orange" disabled ng-click="authenticate('twitter')">
                 <i class="fa">Sign in with Personna (soon)</i>
             </material-button>
         </div>
+        -->
         <div>
             <material-button class="material-button-raised material-theme-indigo" ng-click="authenticate('github')">
                 <span class="faa-spin animated" ng-if="loader['github']">
@@ -54,25 +56,25 @@
         <br/>
         <div>
             <material-button ng-click="forgotPass()">
-                Forgot your password ?
+                Forgot your password?
             </material-button>
         </div>
     </form>
     <div ng-if="resetPassForm" layout="vertical">
         <div layout="horizontal" layout-align="end end">
             <material-input-group flex>
-                <label for="emailR">your email account</label>
+                <label for="emailR">Email account</label>
                 <material-input id="emailR" type="email" ng-model="resetPass.email" />
             </material-input-group>
             <i class="fa fa-2x fa-envelope my-btn"></i>
         </div>
         <material-input-group>
-            <label for="token">token you get by mail</label>
+            <label for="token">Token you have received by mail</label>
             <material-input id="token" type="text" ng-model="resetPass.token" />
         </material-input-group>
         <div layout="horizontal" layout-align="end end">
             <material-input-group flex>
-                <label for="new-password">your new password</label>
+                <label for="new-password">New password</label>
                 <material-input id="new-password" type="password" ng-model="resetPass.email" />
             </material-input-group>
             <i class="fa fa-2x fa-share my-btn"></i>

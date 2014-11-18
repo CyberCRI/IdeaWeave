@@ -46,9 +46,9 @@ angular.module('cri.auth',[
                                 Profile.update(user._id,$scope.profile).then(function(user){
                                     currentUser = user;
                                     $hideDialog();
-                                    Notification.display("Welcome you're logged in");
+                                    Notification.display("Welcome, you're logged in");
                                 }).catch(function(err){
-                                    Notification.display("error you are not logged in");
+                                    Notification.display("Error - you are not logged in");
                                 });
                             };
                         }]
@@ -66,9 +66,11 @@ angular.module('cri.auth',[
 
         $scope.login = function ($event) {
             $event.preventDefault();
+            if(!$scope.signin) return false; // Can occur if the form is empty
+
             $scope.loader.email = true;
             $auth.login({ email : $scope.signin.email, password : $scope.signin.password }).then(function () {
-                Notification.display("welcome you're logged in");
+                Notification.display("Welcome, you're logged in");
                 $scope.signin = {};
                 $state.go('home');
                 mySocket.init($scope.currentUser);
@@ -90,7 +92,7 @@ angular.module('cri.auth',[
             if(!$scope.emailSend){
                 Profile.getResetPassToken(email).then(function(data){
                     if (data.error) {
-                        Notification.display('an error occured sorry.');
+                        Notification.display('Sorry, an error occured.');
 
                     } else {
                         $scope.emailSend = true;
@@ -104,7 +106,7 @@ angular.module('cri.auth',[
         $scope.reSet = function (resetData) {
             Profile.resetPassword(resetData).then(function (data) {
                 if (data.error) {
-                    Notification.display('an error occured sorry.');
+                    Notification.display('Sorry, an error occured.');
                 } else {
                     Notification.display('Password reset successfull');
                 }

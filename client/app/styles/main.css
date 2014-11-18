@@ -336,6 +336,15 @@ material-tabs {
 #signupForm {
   padding: 20px 0 20px 0; }
 
+.material-dialog-container {
+  z-index: 100; }
+
+material-dialog {
+  border-color: black;
+  border-width: 1px;
+  border-style: solid;
+  padding: 10px; }
+
 .d3-tag {
   -webkit-transition: font-size 0.3s ease-in-out;
   -moz-transition: font-size 0.3s ease-in-out;

@@ -21,3 +21,15 @@
 #signupForm {
 	padding: 20px 0 20px 0;
 }
+
+// Put the dialog on top of everything else
+.material-dialog-container {
+	z-index: 100;
+}
+
+material-dialog {
+	border-color: black;
+	border-width: 1px;
+	border-style: solid;
+	padding: 10px;
+}
