@@ -24,6 +24,7 @@ angular.module('cri', [
     'cri.header',
     'cri.footer',
 	'cri.common',
+    'cri.message',
     'cri.project',
     'cri.workspace',
     'cri.auth',
@@ -44,8 +45,6 @@ angular.module('cri', [
         if(!$auth.isAuthenticated()) return;
 
         Profile.getMe().then(function(me){
-//            $rootScope.currentUser = me;
-            console.log('lol')
             mySocket.init(me);
 
             Profile.getPoster(me._id).then(function(data){
@@ -104,7 +103,7 @@ angular.module('cri', [
                 Recommendation.fetchChallenges(id,$scope.currentUser.tags),
                 Recommendation.fetchProjects(id,$scope.currentUser.tags)
             ]).then(function(recommendations){
-                console.log(recommendations)
+                // console.log(recommendations)
                 if(recommendations[0].length > 0){
                     $scope.recommandedUsers = recommendations[0];
                 }

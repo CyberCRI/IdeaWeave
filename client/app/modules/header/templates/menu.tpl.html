@@ -2,21 +2,23 @@
     <div div layout="horizontal" layout-align="center center">
         <img ng-src="{{ currentUser.poster || 'images/avater.jpg' }}" alt="{{ currentUser.username }}'s photo" width="50%" height="50%" class="img-rounded"/>
     </div>
-    <!--<h2 style="color:black;">-->
-        <!--{{ currentUser.realname || currentUser.username }}-->
-    <!--</h2>-->
 
+    <h2 style="color:black;" layout layout-align="center center">
+        {{ currentUser.realname || currentUser.username }}
+    </h2>
 
-    <div class="menu" >
+    <div class="menu">
         <!--<material-button ui-sref="admin"  ng-class="{'material-theme-red':$uiRoute}" ui-route="/admin">-->
             <!--Admin-->
         <!--</material-button>-->
         <material-button ui-sref="profile({uid : currentUser._id})"  ng-class="{'material-theme-green':$uiRoute}" ui-route="/profile/{{currentUser._id}}">
             Profile
         </material-button>
+        <!--
         <material-button ui-sref="message" ng-class="{'material-theme-orange':$uiRoute}" ui-route="/message">
             Messages
         </material-button>
+        -->
         <material-button ui-sref="challenges.list({ tag : 'all' })" ng-class="{'material-theme-indigo':$uiRoute}" ui-route="/challenges/[a-z]*">
             Challenges
         </material-button>
@@ -27,13 +29,8 @@
             Edit Profile
         </material-button>
     </div>
-    <div flex></div>
-    <div layout="horizontal" >
-        <div class=" text-muted" flex>
-            <p>You're logged as {{ currentUser.username }}</p>
-        </div>
-        <material-button ng-click="signout()" layout layout-align="center center">
-            <i class="fa fa-sign-out">Signout</i>
-        </material-button>
-    </div>
+
+    <material-button ng-click="signout()" layout layout-align="center center">
+        <i class="fa fa-sign-out">Signout</i>
+    </material-button>
 </section>
