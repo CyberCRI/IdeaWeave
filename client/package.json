@@ -1,7 +1,9 @@
 {
-  "name": "IdeaStorm-client",
+  "name": "IdeaWeave-client",
   "version": "0.0.1",
-  "dependencies": {},
+  "dependencies": {
+    "load-grunt-tasks": "^1.0.0"
+  },
   "devDependencies": {
     "connect-livereload": "^0.4.0",
     "express": "^4.8.5",
@@ -13,18 +15,17 @@
     "gulp-livereload": "^2.1.1",
     "gulp-util": "^3.0.0",
     "tiny-lr": "^0.1.0",
-    "gulp-sass" : "0.7.3",
-    "gulp-ng-annotate" : "*",
-    "gulp-usemin" : "*",
-    "gulp-minify-css" : "*",
-    "gulp-minify-html" : "*",
-    "gulp-copy" : "*",
-    "gulp-uglify" : "*",
-    "gulp-inline-angular-templates" : "*",
-    "gulp-rev" : "*",
-    "gulp-grunt" : "*",
-    "grunt-inline-angular-templates":"*"
-
+    "gulp-sass": "0.7.3",
+    "gulp-ng-annotate": "*",
+    "gulp-usemin": "*",
+    "gulp-minify-css": "*",
+    "gulp-minify-html": "*",
+    "gulp-copy": "*",
+    "gulp-uglify": "*",
+    "gulp-inline-angular-templates": "*",
+    "gulp-rev": "*",
+    "gulp-grunt": "*",
+    "grunt-inline-angular-templates": "*"
   },
   "engines": {
     "node": ">=0.8.0"

@@ -1,7 +1,7 @@
 angular.module('cri.common')
     .config(['$translateProvider',function ($translateProvider){
         $translateProvider.translations('en', {
-            'TITLE': 'IdeaStorm',
+            'TITLE': 'IdeaWeave',
             'HEAD_HOME':'Home',
             'HEAD_PROJECT': 'Project',
             'HEAD_CHALLENGE': 'Challenges',

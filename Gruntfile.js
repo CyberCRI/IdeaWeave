@@ -39,7 +39,7 @@ module.exports = function(grunt) {
             },
 
             npm_install_server: {
-                command: "cd " + deployConfig.serverPath + " && npm install",
+                command: "cd " + deployConfig.path + "/server" + " && npm install",
                 options: {
                     config: "prod"
                 }
@@ -51,7 +51,7 @@ module.exports = function(grunt) {
                     host: deployConfig.username + "@" + deployConfig.host,
                     src: "server/forever*.sh",
                     exclude: [],
-                    dest: deployConfig.serverPath,
+                    dest: deployConfig.path + "/server",
                     recursive: true,
                     syncDestIgnoreExcl: true
                 }
@@ -59,9 +59,9 @@ module.exports = function(grunt) {
             client: {
                 options: {
                     host: deployConfig.username + "@" + deployConfig.host,
-                    src: "client/dist/*",
-                    exclude: [],
-                    dest: deployConfig.clientPath,
+                    src: "client/*",
+                    exclude: ["node_modules", "app/env/config.js"],                    
+                    dest: deployConfig.path + "/client",
                     recursive: true,
                     syncDestIgnoreExcl: true
                 }
@@ -70,8 +70,8 @@ module.exports = function(grunt) {
                 options: {
                     host: deployConfig.username + "@" + deployConfig.host,
                     src: "server/*",
-                    exclude: ["node_modules"],
-                    dest: deployConfig.serverPath,
+                    exclude: ["node_modules", "db"],
+                    dest: deployConfig.path + "/server",
                     recursive: true,
                     syncDestIgnoreExcl: true
                 }
@@ -79,6 +79,14 @@ module.exports = function(grunt) {
         }
     })
     grunt.registerTask('deploy', [
+        'rsync:startStopScript',
+        'sshexec:stop',
+        'rsync:server',
+        'sshexec:npm_install_server',
+        'rsync:client',
+        'sshexec:start'
+    ]);
+    grunt.registerTask('clean_deploy', [
         'rsync:startStopScript',
         'sshexec:stop',
         'sshexec:clean',
