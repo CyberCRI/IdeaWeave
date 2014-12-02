@@ -1,24 +1,23 @@
-<section layout="vertical" layout-md="horizontal" layout-fill>
+<material-content layout="vertical" layout-md="horizontal" layout-fill>
     <material-sidenav class="material-sidenav-left material-whiteframe-z2 left" component-id="left" >
-        <material-content >
+        <material-content>
             <material-toolbar layout="horizontal">
                 <div class="material-toolbar-tools">
                     <i class="fa fa-caret-left fa-2x my-btn" hide-md style="color:black;" ng-click="toggle()" flex></i>
-                    <div>
-                        <i class="fa fa-question">&nbsp;Challenge us !</i>
-                    </div>
+                    <h>Challenge us!</div>
                 </div>
             </material-toolbar>
             <aside>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque eveniet iure magni neque quis! Ab assumenda, culpa cupiditate est exercitationem expedita facilis id illum, minus molestiae, nam quod suscipit tempora!
+                <p>Describe your challenge to us. Start with a catchy title. Then give us starting and ending dates, an address of where the challenge will take place, and a longer description of what your challenge is about.</p>
+                <p>Don't forget to enter tags for the challenge, and create them if they don't already exist. These tags will draw interested users to your challenge.</p>
             </aside>
         </material-content>
     </material-sidenav>
-    <section flex class="right-part">
-        <h2>Your challenge description</h2>
-        <form name="cform" layout="vertical" layout-align="">
+    <material-content flex class="right-part">
+        <h2>New Challenge</h2>
+        <material-form name="cform" layout="vertical" layout-align="">
             <material-input-group>
-                <label for="title">Description</label>
+                <label for="title">Title</label>
                 <material-input id="title" type="text" ng-model="pform.title" ng-change="titleChange(pform.title)"/>
             </material-input-group>
             <tag-manager entity="pform"></tag-manager>
@@ -41,20 +40,12 @@
                 <label for="endDate" style="padding-left:100px;">End date</label>
                 <material-input type="date" id="endDate" ng-model="pform.endDate"></material-input>
             </material-input-group>
-            <!--<material-input-group>-->
-                <!--<label for="enddate">Satrt date</label>-->
-                <!--<material-input type="date" id="startdate"></material-input>-->
-            <!--</material-input-group>-->
-            <!--<material-input-group>-->
-                <!--<label for="enddate">Satrt date</label>-->
-                <!--<material-input type="date" id="startdate"></material-input>-->
-            <!--</material-input-group>-->
 
-            <textarea placeholder="a short description of your challenge" ng-model="pform.brief" rows="5" style="width:100%;"></textarea>
+            <textarea placeholder="A short description of your challenge" ng-model="pform.brief" rows="5" style="width:100%;"></textarea>
 
             <div>
                 <material-button style="width:100%;" ng-click="createChallenge(pform)" class="material-button-raised">{{'BTN_SUBMIT'|translate}}</material-button>
             </div>
-        </form>
-    </section>
-</section>
+        </material-form>
+    </material-content>
+</material-content>

@@ -20,7 +20,7 @@ angular.module('cri.auth',[
     .controller('LoginCtrl', ['$scope', 'Profile','$state','Notification','$auth','$materialDialog','$rootScope','mySocket', function ($scope, Profile, $state,Notification,$auth,$materialDialog,$rootScope,mySocket) {
         $scope.loader = {};
         $scope.authenticate = function(provider) {
-            console.log('login',window.location.origin);
+            console.log('login with', provider);
             $scope.loader[provider] = true;
             $auth.authenticate(provider).then(function(user) {
                 $rootScope.$broadcast('side:close-right');
