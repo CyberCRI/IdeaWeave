@@ -1,4 +1,4 @@
-<section layout="horizontal" layout-fill>
+<material-content layout="horizontal" layout-fill>
     <material-sidenav class="material-sidenav-left material-whiteframe-z2 left" component-id="left" >
         <material-toolbar layout="horizontal">
             <div class="material-toolbar-tools">
@@ -9,17 +9,17 @@
             </div>
         </material-toolbar>
         <aside flex>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci aliquid assumenda aut blanditiis consectetur cumque doloribus eaque, expedita fugiat inventore molestias necessitatibus neque nihil odit, perspiciatis quasi quibusdam recusandae saepe!</p>
+            <p>Describe your project idea. Give it a title, a place (if applicable), and describe it in the web page section.</p>
         </aside>
     </material-sidenav>
 
-    <section  class="right-part" flex>
+    <material-content class="right-part" flex>
         <h2>
             Your project's description
         </h2>
         <form name="projectform" layout="vertical">
             <ui-select ng-model="newProject.container" theme="selectize">
-                <ui-select-match placeholder="The challenge who will own your project ...">{{$select.selected.title}}</ui-select-match>
+                <ui-select-match placeholder="The challenge that you are replying to...">{{$select.selected.title}}</ui-select-match>
                 <ui-select-choices repeat="challenge in challenges">
                     <img ng-src="{{ challenge.poster || 'http://placehold.it/25x25' }}" width="25px" alt="challenge's poster"/>
                     <small>
@@ -29,7 +29,7 @@
                 </ui-select-choices>
             </ui-select>
             <material-input-group>
-                <label for="title">Project Name</label>
+                <label for="title">Project Title</label>
                 <material-input id="title" type="text" ng-model="newProject.title" required="" ng-change="titleChange(newProject.title)" />
             </material-input-group>
             <tag-manager entity="newProject"></tag-manager>
@@ -43,7 +43,7 @@
                     <div ng-bind-html="address.formatted_address | highlight: $select.search"></div>
                 </ui-select-choices>
             </ui-select>
-            <label>Edit the web Page :</label>
+            <label>Edit the web page:</label>
             <textarea rows="5" style="width:100%;border:solid 1px darkgray" ng-model="newProject.brief"></textarea>
 
             <material-button  class="material-button-raised" type="button" ng-click="createProject(newProject)">
@@ -53,5 +53,5 @@
                 Create Project
             </material-button>
         </form>
-    </section>
-</section>
+    </material-content>
+</material-content>
