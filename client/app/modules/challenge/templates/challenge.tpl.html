@@ -15,7 +15,7 @@
                         &nbsp;followers
                     </span>
                     <span>
-                        . {{ challenge.projects.length }}
+                        {{ challenge.projects.length }}
                     </span>
                     <span class="text-muted">
                         &nbsp;projects
@@ -32,7 +32,7 @@
         <material-button class="material-button-fab" ng-click="toggleLeft()" style="bottom:-24px;position:absolute; left:20px;z-index : inherit" hide-md>
             <i class="fa fa-bars"></i>
         </material-button>
-        <material-button class="material-button-fab" ng-click="follow()" style="bottom:-24px;position:absolute; right:20px;z-index : inherit" ng-if="!isOwner">
+        <material-button class="material-button-fab" ng-click="follow()" style="position:absolute; right:20px; z-index: inherit" ng-if="!isOwner">
             <i class="fa" ng-class="{ 'fa-thumbs-up' : !isFollow, 'fa-thumbs-down' : isFollow }"></i>
         </material-button>
     </material-toolbar>
@@ -40,9 +40,7 @@
     <material-content flex >
         <showtags entity="challenge"></showtags>
         <section class="challenge-home" layout="vertical">
-            <article class="html-content" flex ng-bind-html="challenge.home">
-
-            </article>
+            <article class="html-content" flex ng-bind-html="challenge.home"></article>
             <div class="participate-btn">
                 <material-button  ng-if="currentUser"  ng-click="participate()" class="material-button-raised material-button-colored">
                     Participate in this challenge
