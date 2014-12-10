@@ -13,7 +13,7 @@ angular.module('cri', [
     'angularFileUpload',
     'angular-carousel',
     'ImageCropper',
-    'Satellizer',
+    'satellizer',
     'btford.socket-io',
     'yaru22.angular-timeago',
     'cri.admin',
@@ -42,7 +42,7 @@ angular.module('cri', [
     }])
     .run(['Profile','mySocket','$rootScope','$auth', function (Profile,mySocket,$rootScope,$auth) {
         // If there is no user signed in by default, don't grab the profile which will end up redirecting to /login
-        if(!localStorage.getItem("jwtToken")) return;
+        if(!$auth.getToken()) return;
 
         Profile.getMe().then(function(me){
             mySocket.init(me);

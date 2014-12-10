@@ -97,7 +97,7 @@ exports.googleAuth = function(req, res) {
                 });
                 user.saveQ(function() {
                     var token = utils.createJwtToken(user);
-                    res.send({ token: token });
+                    return res.json({ token: token });
                 });
             });
         });

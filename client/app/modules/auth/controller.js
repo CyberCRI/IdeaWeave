@@ -1,11 +1,11 @@
 angular.module('cri.auth',[
-    'Satellizer',
+    'satellizer',
     'cri.common'
 ]).config(function($authProvider,ConfigProvider){
         var Config = ConfigProvider.$get();
 
-        $authProvider.config.loginUrl = Config.apiServer+'/auth/login';
-        $authProvider.config.signupUrl = Config.apiServer+'/auth/signup';
+        $authProvider.loginUrl = Config.apiServer+'/auth/login';
+        $authProvider.signupUrl = Config.apiServer+'/auth/signup';
 
         $authProvider.google({
             url: Config.apiServer+'/auth/google',
