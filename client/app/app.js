@@ -43,6 +43,7 @@ angular.module('cri', [
     .run(['Profile','mySocket','$rootScope','$auth', function (Profile,mySocket,$rootScope,$auth) {
         // If there is no user signed in by default, don't grab the profile which will end up redirecting to /login
         if(!$auth.getToken()) return;
+        $rootScope.currentUser = $auth.getPayload().user;
 
         Profile.getMe().then(function(me){
             mySocket.init(me);
@@ -60,7 +61,7 @@ angular.module('cri', [
         $scope.closeToast = function() {
             $hideToast();
         };
-    }]).controller('RightNavCtrl',function($scope,$materialSidenav,$auth,Notification){
+    }]).controller('RightNavCtrl',function($scope,$materialSidenav,$auth,Notification,$rootScope){
         var rightNav = $materialSidenav('right');
         $scope.sideNavTemplateUrl = "";
 
@@ -85,8 +86,9 @@ angular.module('cri', [
         $scope.$on('side:close-right',function(){
             rightNav.toggle();
         });
-        $scope.signout =function() {
+        $scope.signout = function() {
             $auth.logout();
+            $rootScope.currentUser = null;
             rightNav.toggle();
             Notification.display('You have been logged out');
         }
