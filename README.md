@@ -9,13 +9,11 @@ IdeaWeave is a collaborative platform intended to help people sharing idea and o
 ## Dependancies
 - [NodeJs](http://nodejs.org/)
 - [MongoDb](http://www.mongodb.org/) 
-
-## Running backend
-
-### Main dependancies
 - [Express](http://expressjs.com/)
 - [Mongoose](http://mongoosejs.com/)
 - [socket.io](http://socket.io/)
+
+## Running backend
 
 Make sure MongoDB is up and running. Then install dependencies:
 
