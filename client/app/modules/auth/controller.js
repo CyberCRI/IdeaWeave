@@ -1,11 +1,11 @@
 angular.module('cri.auth',[
-    'Satellizer',
+    'satellizer',
     'cri.common'
 ]).config(function($authProvider,ConfigProvider){
         var Config = ConfigProvider.$get();
 
-        $authProvider.config.loginUrl = Config.apiServer+'/auth/login';
-        $authProvider.config.signupUrl = Config.apiServer+'/auth/signup';
+        $authProvider.loginUrl = Config.apiServer+'/auth/login';
+        $authProvider.signupUrl = Config.apiServer+'/auth/signup';
 
         $authProvider.google({
             url: Config.apiServer+'/auth/google',
@@ -22,9 +22,10 @@ angular.module('cri.auth',[
         $scope.authenticate = function(provider) {
             console.log('login with', provider);
             $scope.loader[provider] = true;
-            $auth.authenticate(provider).then(function(user) {
+            $auth.authenticate(provider).then(function() {
+                $rootScope.currentUser = $auth.getPayload().user;
                 $rootScope.$broadcast('side:close-right');
-                if(user.email){
+                if($rootScope.currentUser.email){
                     Notification.display("Welcome you're logged in");
                 }else{
                     $materialDialog({
@@ -43,8 +44,8 @@ angular.module('cri.auth',[
                                     username : $scope.currentUser.username,
                                     email : $scope.currentUser.email
                                 };
-                                Profile.update(user._id,$scope.profile).then(function(user){
-                                    currentUser = user;
+                                Profile.update($rootScope.currentUser._id,$scope.profile).then(function(user){
+                                    $rootScope.currentUser = user;
                                     $hideDialog();
                                     Notification.display("Welcome, you're logged in");
                                 }).catch(function(err){
@@ -70,6 +71,8 @@ angular.module('cri.auth',[
 
             $scope.loader.email = true;
             $auth.login({ email : $scope.signin.email, password : $scope.signin.password }).then(function () {
+                $rootScope.currentUser = $auth.getPayload().user; 
+                
                 Notification.display("Welcome, you're logged in");
                 $scope.signin = {};
                 $state.go('home');
