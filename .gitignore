@@ -2,6 +2,8 @@ deployConfig.json
 node_modules
 server/public/
 server/node_modules
+server/config/env/development.js
+server/config/env/production.js
 client/dist
 client/node_modules
 client/app/env/config.js
