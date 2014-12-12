@@ -76,11 +76,12 @@ angular.module('cri.admin.challenge',[])
                 controller : ['$scope','$hideDialog','challenge','Config',function($scope,$hideDialog,challenge,Config){
                     $scope.tinymceOption = Config.tinymceOptions;
                     $scope.newChallenge = {};
-                    $scope.newChallenge.brief = challenge.brief;
+                    $scope.newChallenge.home = challenge.home;
                     $scope.update = function(newChallenge){
                         $scope.isLoading = true;
                         Challenge.update(challenge._id,newChallenge).then(function(data){
                             Notification.display('Updated successfully');
+                            Challenge.data = data; // Update the challenge locally so that the next edit will take it into account
                         }).catch(function(err){
                             Notification.display(err.message);
                         }).finally(function(){
