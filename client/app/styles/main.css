@@ -424,6 +424,9 @@ header {
   cursor: pointer;
   font-size: 1.1em; }
 
+.baseColor {
+  color: #003366; }
+
 @media all and (min-width: 700px) {
   .sidenav-container {
     width: 350px; }

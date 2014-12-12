@@ -114,7 +114,7 @@ angular.module('cri.challenge', [])
 .controller('ChallengeCtrl',['$scope','Challenge','challenge','Notification','$state','Project','$rootScope',function($scope,Challenge,challenge,Notification,$state,Project,$rootScope){
         $scope.challenge = challenge[0];
         if($scope.currentUser){
-            if($scope.currentUser._id == $scope.challenge.owner){
+            if($scope.currentUser._id == $scope.challenge.owner._id){
                 $scope.isOwner = true;
 
             }
@@ -173,6 +173,7 @@ angular.module('cri.challenge', [])
         };
     }])
 
+// TODO: this is NOT USED. Remove it
 .controller('ChallengeSettingsCtrl',['$scope','Challenge','Notification',function($scope,Challenge,Notification){
 
         $scope.$watch('imageCropResult', function(newVal) {
@@ -185,7 +186,7 @@ angular.module('cri.challenge', [])
             }
         });
         $scope.updateChallenge = function(challenge){
-            Challenge.update(challenge.id,challenge).then(function(data){
+            Challenge.update(challenge.id, updatedChallenge).then(function(data){
                 Notification.display('Challenge updated successfully');
             }).catch(function(err){
                 Notification.display(err.message);

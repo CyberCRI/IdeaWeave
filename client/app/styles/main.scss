@@ -9,6 +9,8 @@ $opacityIndexHover : 0.9;
 $headerGrey : rgb(46,45,48);
 $headerYellow : rgb(245,230,24);
 
+$baseColor : rgb(0, 51, 102);
+
 @import "../modules/common/sass/common";
 @import "../modules/common/sass/animation";
 @import "../modules/common/sass/material-redesign";
@@ -51,5 +53,10 @@ header{
   cursor:pointer;
   font-size: 1.1em;
 }
+
+.baseColor {
+  color: $baseColor;
+}
+
 
 @import "../modules/common/sass/media-queries";

@@ -3,12 +3,15 @@
         <div class="material-toolbar-tools">
             <i class="fa fa-caret-left fa-2x my-btn" hide-md style="color:black;" ng-click="toggle()" flex></i>
             <div>
-                <i class="fa fa-trophy">Edition</i>
+                <i class="fa fa-trophy"> Settings</i>
             </div>
         </div>
     </material-toolbar>
     <material-content>
         <section layout="vertical" flex-md>
+            <material-button ui-sref="challenge({ cid : challenge.accessUrl })" class="material-theme-indigo">
+                View Challenge
+            </material-button>
             <material-button ng-click="popUpPoster($event)" class="material-button-raised">
                 Edit Poster
             </material-button>

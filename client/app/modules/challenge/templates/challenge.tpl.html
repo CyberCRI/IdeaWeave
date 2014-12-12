@@ -1,12 +1,14 @@
-<section layout="vertical" layout-fill>
+<material-content layout="vertical" layout-fill>
     <material-toolbar scroll-shrink class="home-header"  style="background-image: url({{ challenge.banner || 'http://placehold.it/900x150'  }}) !important;position:relative;" >
         <div layout="vertical" class="content">
             <h1>
                 {{ challenge.title }}
-                <i class="fa fa-star" style="color:yellow;" ng-if="isFollow"></i>
             </h1>
-            <div layout="horizontal" style="height:37px;box-shadow: none">
-                <div flex></div>
+            <h3>{{challenge.brief}}</h3>
+            <material-button ui-sref="challengeAdmin({ cid : challenge._id })" ng-if="isOwner">
+                <i class="fa fa-pencil-square-o baseColor"></i> Edit
+            </material-button>
+            <div layout="horizontal">
                 <div>
                     <span>
                         {{ challenge.followers.length }}
@@ -22,6 +24,9 @@
                     </span>
                 </div>
             </div>
+            <span>
+                <i class="fa fa-star baseColor" ng-if="isFollow"></i> Following
+            </span>
             <!--<span ng-if="challenge.startDate < now && challenge.endDate > now" >-->
                 <!--<timer end-time="challenge.endDate" >End in :{{days}} d, {{hours}} : {{minutes}} : {{seconds}}</timer>-->
             <!--</span>-->
@@ -42,7 +47,7 @@
         <section class="challenge-home" layout="vertical">
             <article class="html-content" flex ng-bind-html="challenge.home"></article>
             <div class="participate-btn">
-                <material-button  ng-if="currentUser"  ng-click="participate()" class="material-button-raised material-button-colored">
+                <material-button ng-if="currentUser" ng-click="participate()" class="material-button-raised material-button-colored">
                     Participate in this challenge
                 </material-button>
             </div>
@@ -51,4 +56,4 @@
             <project-card inline-block project-id="project" ng-repeat="project in challenge.projects"></project-card>
         </section>
     </material-content>
-</section>
+</material-content>

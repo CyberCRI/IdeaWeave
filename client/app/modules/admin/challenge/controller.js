@@ -175,10 +175,11 @@ angular.module('cri.admin.challenge',[])
         $scope.updateChallenge=function(){
             $scope.isBasicLoading = true;
             var data = {
-                title : $scope.challenge.title,
-                tags : $scope.challenge.tags
+                title: $scope.challenge.title,
+                tags: _.pluck($scope.challenge.tags, "_id"), // Just take the IDs of tags
+                brief: $scope.challenge.brief
             };
-            Challenge.update($scope.challenge.id,data).then(function(){
+            Challenge.update($scope.challenge._id,data).then(function(){
                 Notification.display('Challenge updated');
             }).catch(function(err){
                 Notification.display(err.message);

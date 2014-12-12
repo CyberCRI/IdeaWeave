@@ -1,6 +1,6 @@
 <material-toolbar scroll-shrink class="material-theme-indigo">
     <div class="center">
-        {{ challenge.title }}'s administration
+        {{ challenge.title }} Settings
     </div>
 </material-toolbar>
 <material-content class="right-part">
@@ -11,10 +11,10 @@
         </material-input-group>
         <div ng-messages="projectBasic.title.$error">
             <div ng-message="required">
-                title is required
+                Title is required
             </div>
         </div>
-        <textarea placeholder="a brief description of your project" rows="5" ng-model="project.brief" class="pretty-area"></textarea>
+        <textarea placeholder="A brief description of your project" rows="5" ng-model="challenge.brief" class="pretty-area"></textarea>
         <tag-manager entity="challenge" ng-model="challenge.tags"></tag-manager>
         <material-button class="material-theme-indigo"  ng-click="updateChallenge()" style="margin:auto;" ng-disabled="projectBasic.title.$invalid">
             <span class="faa-spin animated" ng-if="isBasicLoading">
@@ -64,14 +64,6 @@
                     </div>
                     <div class="material-tile-content">
                         <h4>{{ project.title }}</h4>
-                    </div>
-                    <div class="material-tile-right">
-                        <material-button ng-click="removeProject(project,$index)">
-                <span class="faa-spin animated" ng-if="isPLoading[$index]">
-                    <i class="fa fa-spinner"></i>
-                </span>
-                            <i class="fa fa-trash-o">Remove</i>
-                        </material-button>
                     </div>
                 </material-item>
             </material-list>
