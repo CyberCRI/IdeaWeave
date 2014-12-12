@@ -17,5 +17,6 @@ client/app/env/config.js
 client/app/styles/main.css
 client/app/modules/common/config.js
 client/app/vendors
+client/app/styles/main.css
 !client/app/vendors/satellizer/satellizer.js
 
