@@ -113,6 +113,7 @@ angular.module('cri.admin.project',[])
                         $scope.isLoading = true;
                         Project.update(project._id,newProject).then(function(data){
                             Notification.display('Updated successfully');
+                            _.extend(project, newProject);
                         }).catch(function(err){
                             Notification.display(err.message);
                         }).finally(function(){
