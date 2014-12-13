@@ -9,23 +9,24 @@ IdeaWeave is a collaborative platform intended to help people sharing idea and o
 ## Dependancies
 - [NodeJs](http://nodejs.org/)
 - [MongoDb](http://www.mongodb.org/) 
-
-## Running backend
-
-### Main dependancies
 - [Express](http://expressjs.com/)
 - [Mongoose](http://mongoosejs.com/)
 - [socket.io](http://socket.io/)
+
+## Running backend
 
 Make sure MongoDB is up and running. Then install dependencies:
 
 - `cd server`
 - `npm install`
 
-And then run the backend (by default, on port 5011):
+You can now configure your backend with the database URL and OAuth codes. In the `server/config/env` directory, copy over a config file like `development.sample.js` to `development.js`, and change the values in it.  
+
+Finally, run the backend (by default, on port 5011):
 
 - `node server.js`
 
+To change the config file used by the server at startup, set the NODE_ENV variable. For example, on a *nix machine,  `NODE_ENV=production node server.js` will load the `server/config/env/production.js` config file
 
 ## Running frontend
 ![gulp](http://ih3.redbubble.net/image.15786709.1011/sticker,375x360.png)
