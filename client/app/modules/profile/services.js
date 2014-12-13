@@ -125,9 +125,9 @@ angular.module('cri.profile')
                     });
                 return defered.promise;
             },
-            resetPassword : function(resetF){
+            resetPassword : function(passwordInfo){
                 var defered = $q.defer();
-                $http.post(Config.apiServer + '/datas/reset/', resetF)
+                $http.post(Config.apiServer + '/profile/password', passwordInfo)
                     .success(function(data){
                         defered.resolve(data);
                     })

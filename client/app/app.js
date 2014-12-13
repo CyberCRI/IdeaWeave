@@ -43,9 +43,9 @@ angular.module('cri', [
     .run(['Profile','mySocket','$rootScope','$auth', function (Profile,mySocket,$rootScope,$auth) {
         // If there is no user signed in by default, don't grab the profile which will end up redirecting to /login
         if(!$auth.getToken()) return;
-        $rootScope.currentUser = $auth.getPayload().user;
 
         Profile.getMe().then(function(me){
+            $rootScope.currentUser = me;
             mySocket.init(me);
 
             Profile.getPoster(me._id).then(function(data){

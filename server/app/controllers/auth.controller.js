@@ -53,7 +53,7 @@ exports.signin = function(req, res) {
             return res.status(401).send({ message: 'Wrong email and/or password' });
         }
         user.comparePassword(req.body.password, function(err, isMatch) {
-            if (!isMatch) {
+            if (err || !isMatch) {
                 return res.status(401).send({ message: 'Wrong email and/or password' });
             }
             user = user.toObject();

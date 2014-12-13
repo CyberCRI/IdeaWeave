@@ -117,9 +117,14 @@ UserSchema.pre('save', function(next) {
     });
 });
 UserSchema.methods.comparePassword = function(password, done) {
-    bcrypt.compare(password, this.password, function(err, isMatch) {
-        done(err, isMatch);
-    });
+    try {
+        bcrypt.compare(password, this.password, function(err, isMatch) {
+            done(err, isMatch);
+        });
+    } 
+    catch(err) {
+        done(err);
+    }
 };
 /**
  * Find possible not used username

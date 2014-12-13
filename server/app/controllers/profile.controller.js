@@ -82,51 +82,24 @@ exports.changePassword = function(req, res, next) {
     var passwordDetails = req.body;
     var message = null;
 
-    if (req.user) {
-        User.findOneQ({_id : req.user.id}).then(function(user) {
-            if (user) {
-                if (user.authenticate(passwordDetails.currentPassword)) {
-                    if (passwordDetails.newPassword === passwordDetails.verifyPassword) {
-                        user.password = passwordDetails.newPassword;
+    req.user.comparePassword(passwordDetails.currentPassword, function(err, isMatch) {
+        if (err || !isMatch) {
+            return res.status(400).send({ message: 'Current password is incorrect' });
+        }
 
-                        user.saveQ().then(function(err) {
-                            req.login(user, function(err) {
-                                if (err) {
-                                    res.send(400, err);
-                                } else {
-                                    res.send({
-                                        message: 'Password changed successfully'
-                                    });
-                                }
-                            });
-                        }).fail(function(err){
-                            return res.send(400, {
-                                message: getErrorMessage(err)
-                            });
-                        });
-                    } else {
-                        res.send(400, {
-                            message: 'Passwords do not match'
-                        });
-                    }
-                } else {
-                    res.send(400, {
-                        message: 'Current password is incorrect'
-                    });
-                }
-            } else {
-                res.send(400, {
-                    message: 'User is not found'
-                });
-            }
+        // The password will be hashed automatically
+        req.user.password = passwordDetails.newPassword;
+
+        req.user.saveQ().then(function() { 
+            res.send({
+                message: 'Password changed successfully'
+            });
         }).fail(function(err){
-            res.send(400,'DataBase error')
+            return res.send(400, {
+                message: getErrorMessage(err)
+            });
         });
-    } else {
-        res.send(400, {
-            message: 'User is not signed in'
-        });
-    }
+    });
 };
 
 
@@ -134,19 +107,7 @@ exports.changePassword = function(req, res, next) {
  * Send User
  */
 exports.me = function(req, res) {
-
-    q.all([
-        Challenge.find({ owner : req.user._id }).select('_id').execQ(),
-        Project.find({ owner : req.user._id }).select('_id').execQ(),
-        Project.find({ members : req.user._id }).select('members').execQ()
-    ]).then(function(data){
-        var response = req.user;
-        response.projects = data[1].concat(data[2]);
-        response.challenges = data[0];
-        res.json(req.user);
-    }).catch(function(err){
-        res.json(400,err);
-    });
+    return res.json(req.user);
 };
 
 

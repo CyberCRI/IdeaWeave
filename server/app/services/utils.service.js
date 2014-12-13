@@ -1,4 +1,6 @@
-var config = require('../../config/config'),
+var mongoose = require('mongoose-q')(),
+    User = mongoose.model('User'),
+    config = require('../../config/config'),
     jwt = require('jwt-simple'),
     moment = require('moment');
 
@@ -12,14 +14,19 @@ module.exports.ensureAuthenticated = function(req, res, next) {
     if (payload.exp <= Date.now()) {
         return res.status(401).send({ message: 'Token has expired' });
     }
-    req.user = payload.user;
-    next();
+
+    User.findOneQ({ _id : payload.user }).then(function(user){
+        req.user = user;
+        next();
+    }).fail(function(err){
+        res.json(err);
+    })
 }
 
 
 module.exports.createJwtToken = function(user) {
     var payload = {
-        user: user,
+        user: user._id,
         iat: moment().valueOf(),
         exp: moment().add(7, 'days').valueOf()
     };
