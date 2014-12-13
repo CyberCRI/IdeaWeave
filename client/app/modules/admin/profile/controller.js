@@ -1,11 +1,12 @@
 angular.module('cri.admin.profile',['cri.profile'])
-    .controller('AdminProfileCtrl',['$scope','Profile','Gmap','Notification','$materialDialog',function ($scope,Profile,Gmap,Notification,$materialDialog) {
+    .controller('AdminProfileCtrl',['$scope','$rootScope','Profile','Gmap','Notification','$materialDialog',function ($scope,$rootScope,Profile,Gmap,Notification,$materialDialog) {
         $scope.profile=angular.copy($scope.currentUser);
         delete $scope.profile._id;
         delete $scope.profile.poster;
-        if(!$scope.profile.tags){
-            $scope.profile.tags=[];
-        }
+        _.defaults($scope.profile, {
+            tags: [],
+            localisation: []
+        });
 
         $scope.refreshAddresses = function(address) {
             Gmap.getAdress(address).then(function(adresses){
@@ -98,6 +99,7 @@ angular.module('cri.admin.profile',['cri.profile'])
         $scope.updateProfile=function(user){
             Profile.update($scope.currentUser._id,user).then(function(data){
                 Notification.display('Updated successfully');
+                $rootScope.currentUser = data; // update the current user 
             }).catch(function(err){
                 Notification.display(err.message);
             });
