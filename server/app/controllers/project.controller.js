@@ -145,7 +145,7 @@ exports.fetch = function(req,res){
                 });
                 break;
             default :
-                Project.find({_id : req.query._id}).select('_id title brief accessUrl tags poster followers members owner').populate('tags').execQ().then(function(data){
+                Project.find({_id : req.query._id}).select('_id title brief accessUrl tags poster followers members owner localisation').populate('tags').execQ().then(function(data){
                     res.json(data);
                 }).catch(function(err){
                     res.json(400,err);
@@ -218,6 +218,11 @@ exports.create = function(req,res){
 };
 
 exports.update = function(req,res){
+    // Get just the IDs of tags
+    if(req.body.tags) {
+        req.body.tags = _.pluck(req.body.tags, "_id");
+    }
+
     Project.findOneAndUpdateQ({_id:req.params.id},req.body,function(data){
         res.json(data);
     }).fail(function(err){

@@ -154,14 +154,9 @@ angular.module('cri.admin.project',[])
             });
         };
 
-
-//        $scope.project=project;
-
-        //Update project
-        $scope.updateProject=function($event,project) {
-            $event.preventDefault();
-            Project.update($scope.project._id,project).then(function (result) {
-                Notification.display('Update Success!');
+        $scope.updateProject=function() {
+            Project.update($scope.project._id, $scope.project).then(function (result) {
+                Notification.display('Updated');
             }).catch(function (err) {
                 Notification.display(err.message);
             });
@@ -170,7 +165,7 @@ angular.module('cri.admin.project',[])
     .controller('ProjectMediaCtrl',['$scope', 'Notification','Files','Url','Config',function ($scope, Notification,Files,Url,Config) {
         $scope.removeFile = function(file){
             Files.remove(file.id).then(function(){
-                Notification.display('file remove succesfully');
+                Notification.display('File removed');
                 $scope.files.splice($scope.files.indexOf(file),1);
             }).catch(function(err){
                 Notification.display(err.message);
@@ -184,9 +179,9 @@ angular.module('cri.admin.project',[])
 
         $scope.updateUrl = function(url){
             Url.update(url).then(function(data){
-                Notification.display('url updated succesfully');
+                Notification.display('URL updated');
             }).catch(function(err){
-                Notification.display('update fail');
+                Notification.display('Update failed');
             });
         };
     }])
