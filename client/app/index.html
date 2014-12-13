@@ -47,11 +47,12 @@
                         <material-icon icon="images/svg/challenges.svg">
                         </material-icon>
                     </div>
-                    <img src="images/plus.png" width="15%" height="15%" class="plus-icon" ui-sref="challengeSuggest" ng-if="currentUser._id" alt="add"/>
+                    <img src="images/add.png" width="10%" height="10%" class="plus-icon" ui-sref="challengeSuggest" ng-if="currentUser._id" alt="add"/>
                     <div style="cursor:pointer;"  ui-route="/projects/all"  ng-class="{'menu-active': $uiRoute}"  ui-sref="projects.list({ tag :'all' })">
                         <material-icon icon="images/svg/projects.svg"  >
                         </material-icon>
                     </div>
+                    <img src="images/add.png" width="10%" height="10%" class="plus-icon" ui-sref="projectCreation" ng-if="currentUser._id" alt="add"/>
                 </div>
                <search-bar hide block-md flex></search-bar>
                 <div hide-md flex style="text-align: center">
