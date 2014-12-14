@@ -58,7 +58,7 @@ angular.module('cri.project',[])
                         Project.apply($scope.apply).then(function(data){
                             $scope.apply={};
                             $scope.cancel();
-                            Notification.display('Apply sent successfully');
+                            Notification.display('Application sent');
                         }).catch(function(err){
                             Notification.display(err.message);
                         });

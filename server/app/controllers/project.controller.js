@@ -281,22 +281,24 @@ exports.finishApply = function(req,res){
 };
 
 exports.addToTeam = function(req,res){
+    var projectId = req.params.id;
+    var ownerId = req.user._id;
+    var applierId = req.body.userId;
 
     var myNotif = new Notification({
-        entity : req.params.projectId,
-        owner : req.body.userId,
+        entity : projectId,
+        owner : ownerId,
         type : 'join'
     });
+
     q.all([
-        Project.findOneAndUpdateQ({ _id : req.params.projectId },{$push : { members : req.body.userId }}),
+        Project.findOneAndUpdateQ({ _id : projectId },{ $push : { members : applierId }}),
         myNotif.saveQ()
     ]).then(function(data){
-        io.sockets.in('project::'+req.params.projectId).emit('newMember',data[1]);
+        io.sockets.in('project::'+projectId).emit('newMember',applierId);
         res.send(200);
     }).fail(function(err){
-
         res.json(400,err);
-
     });
 };
 
