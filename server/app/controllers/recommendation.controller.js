@@ -106,8 +106,8 @@ exports.fetchChallenges = function(req,res){
 
 exports.popular = function(req,res){
     q.all([
-        Challenge.find().sort('-projectNumber').limit(3).execQ(),
-        Project.find().sort('-projectNumber').limit(10).execQ()
+        Challenge.find().sort('-projectNumber').limit(3).populate("tags").execQ(),
+        Project.find().sort('-projectNumber').limit(10).populate("tags").execQ()
     ]).then(function(data){
         var response = {
             challenges : data[0],

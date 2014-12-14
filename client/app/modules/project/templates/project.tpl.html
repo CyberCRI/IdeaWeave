@@ -1,5 +1,5 @@
 <material-content layout="vertical" layout-fill>
-    <material-toolbar scroll-shrink class="home-header"  style="background-image: url({{ project.banner || 'http://placehold.it/900x150'  }}) !important;position : relative;">
+    <material-toolbar scroll-shrink class="home-header">
         <div layout="vertical" class="content">
             <h1 style="margin: 0;">
                 {{ project.title }}
@@ -33,6 +33,9 @@
             <i class="fa" ng-class="{ 'fa-thumbs-up' : !isFollow, 'fa-thumbs-down' : isFollow }"></i>
         </material-button>
     </material-toolbar>
+
+    <img ng-if="project.banner" src="{{ project.banner }}">
+
     <material-content flex>
         <section >
             <showtags entity="project"></showtags>

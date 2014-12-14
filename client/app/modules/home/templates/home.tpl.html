@@ -27,7 +27,7 @@
                 </article>
             </section>
             <section  layout="vertical"  class="my-carousel carousel-home center" ng-if="challenge.intro == 3">
-                <img src="images/svg/logocaroussel.svg" alt="ideaWeaveLogo"/>
+                <img src="images/svg/logocaroussel.svg" alt="ideaWeaveLogo" />
                 <article>
                     <h1 class="center">IdeaWeave provides a simple collaborative working environment, the possibility to organise and archive discussions, a clear visibility on the taks to be performed and the resources needed.</h1>
                 </article>
@@ -35,11 +35,11 @@
             <section ng-if="$index > 2" class="my-carousel carousel-home center">
                 <article >
                     <h1 class="center">
-                        <a ui-sref="challenge.details({ pid : challenge.accessUrl })">{{challenge.title}}</a>
+                        <a ui-sref="challenge({cid : challenge.accessUrl})" style="color: white">{{challenge.title}}</a>
                     </h1>
-                    <img ng-if="challenge.banner" src="{{ challenge.banner }}" width="900" height="150">
+                    <img ng-if="challenge.banner" src="{{ challenge.banner }}" ui-sref="challenge({cid : challenge.accessUrl})">
                     <showtags entity="challenge"></showtags>
-                    <p class="carousel-brief"  ng-bind-html="challenge.home">
+                    <p class="carousel-brief" ng-bind-html="challenge.home">
                     </p>
 
                     <div layout="horizontal" layout-align="center center">
