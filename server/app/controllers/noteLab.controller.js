@@ -228,8 +228,6 @@ exports.fetchComment = function(req,res){
 exports.createComment = function(req,res){
     var myComment = new Comment(req.body);
     myComment.saveQ().then(function(comment){
-
-
         var myNotif =  new Notification({
             type : 'comment',
             owner : comment.owner,

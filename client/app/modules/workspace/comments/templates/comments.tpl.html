@@ -2,11 +2,11 @@
     <div layout="horizontal" layout-align="start center">
         <div flex>
             <material-button class="material-button-fab" ng-click="popUpComment($event)" ng-if="currentUser">
-                <material-icon class="fa fa-comment-o fa-2x" style="width: 24px; height: 24px;"></material-icon>
+                <i class="fa fa-comment-o fa-2x"></i>
             </material-button>
         </div>
         <div>
-            <material-button  ng-click="showComment()">{{ 'BTN_COMMENT' | translate }}({{comments.length}})</material-button>
+            <material-button  ng-click="showComment()">Comments ({{comments.length}})</material-button>
         </div>
     </div>
 </section>
@@ -25,11 +25,11 @@
                     <section layout="horizontal" layout-align="start center">
                         <div flex>
                             <material-button class="material-button-fab"  ng-click="popUpComment($event,true,comment._id)"  ng-if="currentUser">
-                                <material-icon class="fa fa-comment-o fa-2x" style="width: 24px; height: 24px;"></material-icon>
+                                <i class="fa fa-comment-o fa-2x"></i>
                             </material-button>
                         </div>
                         <div>
-                            <material-button  ng-click="showAnswer($index)">answers({{ comment.answer.length }})</material-button>
+                            <material-button  ng-click="showAnswer($index)">Answers ({{ comment.answer.length }})</material-button>
                         </div>
                     </section>
                 </div>
