@@ -21,6 +21,7 @@
                 <article>
                     <h1>
                         You would like to showcase your project to a growing public in order to find supporters, get advice from experts or simply test if you are communicating comprehensively?
+                        <br>
                         Ideaweaves provides you with a dedicated space and feedback tools that are easy to use.
                     </h1>
                 </article>
@@ -31,18 +32,19 @@
                     <h1 class="center">IdeaWeave provides a simple collaborative working environment, the possibility to organise and archive discussions, a clear visibility on the taks to be performed and the resources needed.</h1>
                 </article>
             </section>
-            <section  ng-if="$index > 2" class="my-carousel carousel-home" >
+            <section ng-if="$index > 2" class="my-carousel carousel-home center">
                 <article >
                     <h1 class="center">
                         <a ui-sref="challenge.details({ pid : challenge.accessUrl })">{{challenge.title}}</a>
                     </h1>
+                    <img ng-if="challenge.banner" src="{{ challenge.banner }}" width="900" height="150">
                     <showtags entity="challenge"></showtags>
                     <p class="carousel-brief"  ng-bind-html="challenge.home">
                     </p>
 
-
-                    <div layout="horizontal">
-                        <material-button ui-sref="challenge({pid : challenge.accessUrl})" class="material-button-raised material-button-colored">Take a look</material-button>
+                    <div layout="horizontal" layout-align="center center">
+                        <material-button ui-sref="challenge({cid : challenge.accessUrl})" class="material-button-raised material-button-colored">Take a look</material-button>
+                        &nbsp;&nbsp;
                         <material-button ui-sref="challenges.list({tag : 'all'})" class="material-button-raised material-button-colored">See more challenges</material-button>
                     </div>
                 </article>
