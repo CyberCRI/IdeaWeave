@@ -30,7 +30,9 @@ angular.module('cri', [
     'cri.auth',
     'cri.challenge',
     'cri.tag',
-    'cri.profile'])
+    'cri.profile',
+    'angulartics', 
+    'angulartics.google.analytics'])
     .config(['$httpProvider','$locationProvider','$sceProvider',function ($httpProvider,$locationProvider,$sceProvider) {
 //        $httpProvider.defaults.withCredentials=true;
         $locationProvider.html5Mode(true);

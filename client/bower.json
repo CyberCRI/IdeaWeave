@@ -26,7 +26,8 @@
     "angular-timeago": "0.1.2",
     "jspdf": "*",
     "ng-messages": "*",
-    "angular-carousel": "~0.3.7"
+    "angular-carousel": "~0.3.7",
+    "angulartics": "~0.17.2"
   },
   "devDependencies": {},
   "resolutions": {
