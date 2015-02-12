@@ -59,7 +59,7 @@ exports.signin = function(req, res) {
             user = user.toObject();
             delete user.password;
             var token = utils.createJwtToken(user);
-            res.send({ token: token, id: _id });
+            res.send({ token: token, id: user._id });
         });
     });
 
