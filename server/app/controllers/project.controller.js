@@ -100,7 +100,6 @@ exports.getByChallenge = function(req,res){
 };
 
 exports.fetchOne = function(req,res){
-    console.log("in fetch");
     Project.findQ({ _id : req.params.id}).then(function(project){
         res.json(project[0]);
     }).fail(function(err){
