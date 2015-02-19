@@ -220,7 +220,7 @@ exports.update = function(req,res){
 };
 
 exports.remove = function(req,res){
-    Project.removeQ({_id : req.query.id}).then(function(data){
+    Project.removeQ({_id : req.params.id}).then(function(data){
         res.json(data);
     }).fail(function(err){
         res.json(400,err);
