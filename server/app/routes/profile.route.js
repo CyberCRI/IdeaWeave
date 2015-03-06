@@ -20,8 +20,6 @@ module.exports = function(app) {
 //	app.route('/profile/accounts').delete(users.removeOAuthProvider);
     app.get('/me',utils.ensureAuthenticated,profile.me);
     app.route('/users')
-        .get(profile.fetch)
+        .get(profile.fetchAll)
         .put(utils.ensureAuthenticated,profile.update);
-    app.route('/users')
-        .get(profile.fetchAll);
 };
