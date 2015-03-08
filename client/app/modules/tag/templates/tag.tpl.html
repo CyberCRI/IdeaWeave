@@ -1,4 +1,10 @@
 <material-content layout="vertical" layout-fill>
+    <material-toolbar scroll-shrink class="material-theme-indigo" layout="vertical" style="position:relative;z-index:10;">
+        <h1 class="center">
+            Results for "{{ tag }}"
+        </h1>
+    </material-toolbar>
+
     <div ng-if="isLoading">
         Loading...
         <material-linear-progress mode="indeterminate"></material-linear-progress>
