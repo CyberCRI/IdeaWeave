@@ -40,31 +40,8 @@ exports.all = function(req,res){
             users : _.uniq(data[0].concat(data[1])),
             tags : data[4]
         };
-        if(response.projects.length >0){
-            response.projects.unshift({
-                separator : 'Projects'
-            });
-        }
-        if(response.challenges.length >0){
-            response.challenges.unshift({
-                separator : 'Challenges'
-            });
-        }
-        if(response.users.length >0){
-            response.users.unshift({
-                separator : 'Users'
-            });
-        }
-        if(response.users.length >0){
-            response.tags.unshift({
-                separator : 'Tags'
-            });
-        }
 
-        var truc = []
-        truc = response.projects.concat(response.challenges,response.users,response.tags);
-
-        res.json(truc);
+        res.json(response);
     }).catch(function(err){
         res.json(400,err);
     })

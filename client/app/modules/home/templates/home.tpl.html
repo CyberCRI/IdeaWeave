@@ -1,53 +1,42 @@
 <material-content style="overflow-x:hidden;" class="my-carousel">
-    <ul rn-carousel rn-carousel-controls rn-carousel-auto-slide="5" class="my-carousel">
+    <ul rn-carousel rn-carousel-controls rn-carousel-auto-slide="5" id="homeCarousel">
         <li class="my-carousel" ng-repeat="challenge in challenges" >
             <section class="carousel-home center my-carousel" ng-if="challenge.intro == 1">
                 <img src="images/svg/logocaroussel.svg" alt="ideaWeaveLogo"/>
                 <h1>
                     Ideaweave is a platform for exchanging ideas and forming groups around exciting projects and solve problems.
                 </h1>
-                <article hide block-md>
-                    <p>
-                        Organizations or individuals post challenges, which are like competitions, and people suggest projects that meet this challenge. Anyone can follow and join a project to help develop it.
-                    </p>
-                </article>
+                <p>
+                    Organizations or individuals post challenges, which are like competitions, and people suggest projects that meet this challenge. Anyone can follow and join a project to help develop it.
+                </p>
                 <div>
                     <material-button ng-click="toSignUp()"  class="material-button-raised material-button-colored">GET INVOLVED</material-button>
                 </div>
             </section>
-                <!--<d3-tag-cloud hide block-md  tags="tags" on-click="showTag(item)" options="{ width : 900,height : 300,center : true}" ></d3-tag-cloud>-->
             <section class="my-carousel carousel-home  center" ng-if="challenge.intro == 2" >
                 <img src="images/svg/logocaroussel.svg" alt="ideaWeaveLogo"/>
-                <article>
-                    <h1>
-                        You would like to showcase your project to a growing public in order to find supporters, get advice from experts or simply test if you are communicating comprehensively?
-                        <br>
-                        Ideaweaves provides you with a dedicated space and feedback tools that are easy to use.
-                    </h1>
-                </article>
+                <h1>
+                    You would like to showcase your project to a growing public in order to find supporters, get advice from experts or simply test if you are communicating comprehensively?
+                    <br>
+                    Ideaweaves provides you with a dedicated space and feedback tools that are easy to use.
+                </h1>
             </section>
             <section  layout="vertical"  class="my-carousel carousel-home center" ng-if="challenge.intro == 3">
                 <img src="images/svg/logocaroussel.svg" alt="ideaWeaveLogo" />
-                <article>
-                    <h1 class="center">IdeaWeave provides a simple collaborative working environment, the possibility to organise and archive discussions, a clear visibility on the taks to be performed and the resources needed.</h1>
-                </article>
+                <h1 class="center">IdeaWeave provides a simple collaborative working environment, the possibility to organise and archive discussions, a clear visibility on the taks to be performed and the resources needed.</h1>
             </section>
             <section ng-if="$index > 2" class="my-carousel carousel-home center">
-                <article >
-                    <h1 class="center">
-                        <a ui-sref="challenge({cid : challenge.accessUrl})" style="color: white">{{challenge.title}}</a>
-                    </h1>
+                <a ui-sref="challenge({cid : challenge.accessUrl})">
+                    <h1 class="center">{{challenge.title}}</h1>
                     <img ng-if="challenge.banner" src="{{ challenge.banner }}" ui-sref="challenge({cid : challenge.accessUrl})">
-                    <showtags entity="challenge"></showtags>
-                    <p class="carousel-brief" ng-bind-html="challenge.home">
-                    </p>
+                </a>
+                <showtags entity="challenge"></showtags>
 
-                    <div layout="horizontal" layout-align="center center">
-                        <material-button ui-sref="challenge({cid : challenge.accessUrl})" class="material-button-raised material-button-colored">Take a look</material-button>
-                        &nbsp;&nbsp;
-                        <material-button ui-sref="challenges.list({tag : 'all'})" class="material-button-raised material-button-colored">See more challenges</material-button>
-                    </div>
-                </article>
+                <div layout="horizontal" layout-align="center center">
+                    <material-button ui-sref="challenge({cid : challenge.accessUrl})" class="material-button-raised material-button-colored">Take a look</material-button>
+                    &nbsp;&nbsp;
+                    <material-button ui-sref="challenges.list({tag : 'all'})" class="material-button-raised material-button-colored">See more challenges</material-button>
+                </div>
             </section>
         </li>
     </ul>

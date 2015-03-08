@@ -1,10 +1,14 @@
 <material-card class="challenge-card">
-    <img ng-src="{{project.poster || 'http://placehold.it/100x100'}}" alt="..." class="material-card-image">
+    <a ui-sref="project.home({ pid : project.accessUrl })">
+        <img ng-src="{{project.poster || 'http://placehold.it/100x100'}}" alt="..." class="material-card-image">
+    </a>
     <material-button ng-if="admin && isHovered" ui-sref="projectAdmin({ pid : project._id })">
         <i class="fa fa-gears"></i>
         Admin
     </material-button>
-    <h4 ui-sref="project.home({ pid : project.accessUrl })">{{ project.title }}</h4>
+    <a ui-sref="project.home({ pid : project.accessUrl })">
+        <h4>{{ project.title }}</h4>
+    </a>
     <div class="text-muted" layout="horizontal">
         <div>
             By :
@@ -31,13 +35,8 @@
             </span>
             &nbsp;
             <span class="text-muted">
-                Member
+                Members
             </span>
-        </div>
-    </div>
-    <div layout="horizontal" layout-align="center">
-        <div>
-            ici le score
         </div>
     </div>
 </material-card>

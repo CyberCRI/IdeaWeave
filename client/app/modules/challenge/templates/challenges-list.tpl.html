@@ -6,12 +6,14 @@
         <material-item ng-repeat="challenge in challenges" class="item-list">
             <material-item-content>
                 <div class="material-tile-left" flex="40" flex-sm="30" flex-md="25" flex-lg="15">
-                    <img ng-src="{{ challenge.poster || 'http://placehold.it/90x90' }}" class="" width="100%" alt="challenge's poster" />
+                    <a ui-sref="challenge({ cid : challenge.accessUrl })">
+                        <img ng-src="{{ challenge.poster || 'http://placehold.it/90x90' }}" class="" width="100%" alt="challenge's poster" />
+                    </a>
                 </div>
                 <article class="material-tile-content">
-                    <h1 ui-sref="challenge({ cid : challenge.accessUrl })">
-                        {{ challenge.title }}
-                    </h1>
+                    <a ui-sref="challenge({ cid : challenge.accessUrl })">
+                        <h1>{{ challenge.title }}</h1>
+                    </a>
                     <showtags entity="challenge"></showtags>
                     <div hide block-md>
                         <p ng-bind-html="challenge.brief"></p>

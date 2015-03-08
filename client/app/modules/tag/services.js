@@ -17,24 +17,22 @@ angular.module('cri.tag')
                 return defered.promise;
             },
             search : function(tagTitle){
+                // Make 3 simultaneous requests
+                var challengeRequest = $http.get(Config.apiServer + '/challenges/tag/' + tagTitle);
+                var projectRequest = $http.get(Config.apiServer + '/projects/tag/' + tagTitle);
+                var userRequest = $http.get(Config.apiServer + '/profile/tag/' + tagTitle);
+
+                // Return this promise
                 var defered = $q.defer();
-                var url = Config.apiServer+'/datas/searchTag/'+tagTitle;
-                $http.get(url).success(function(data){
-                    defered.resolve(data);
-                }).error(function(err){
+                $q.all([challengeRequest, projectRequest, userRequest]).then(function(responses) {
+                    defered.resolve({
+                        challenges: responses[0].data,
+                        projects: responses[1].data,
+                        users: responses[2].data
+                    });
+                }).catch(function(err){
                     defered.reject(err);
                 });
-                return defered.promise;
-            },
-            fetchold : function(tag){
-                var defered = $q.defer();
-                $http.get(Config.apiServer+'/datas/searchTag/'+tag)
-                    .success(function(data){
-                        defered.resolve(data);
-                    })
-                    .error(function(err){
-                        defered.reject(err);
-                    });
                 return defered.promise;
             },
             create : function(tag){

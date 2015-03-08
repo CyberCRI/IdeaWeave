@@ -59,7 +59,7 @@ angular.module('cri.project')
             });
             return defered.promise;
         },
-        fetch :function(param){
+        fetch : function(param){
             var defered = $q.defer(),
                 url = Config.apiServer+'/projects';
             $http.get(url,{params : param}).success(function(data){

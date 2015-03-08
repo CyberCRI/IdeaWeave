@@ -54,4 +54,8 @@
 
 project-card {
   vertical-align: top;
+
+  h4 {
+    word-break: normal;
+  }
 }

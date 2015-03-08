@@ -1,52 +1,36 @@
-<!--<section class="col-md-6">-->
-    <!--<cri-d3-tag d3-tag-data="d3TagData" on-click="d3OnClick(item)"></cri-d3-tag>-->
-<!--</section>-->
-<!--<section class="col-md-6 tag-detail" ng-if="showDetailPanel">-->
-    <!--<h3 ng-bind="detailItem.name"></h3>-->
-    <!--<a ui-sref="profile({ cid : detailItem.id })" ng-if="detailItem.group == 2">-->
-        <!--<img ng-src="{{ detailItem.poster }}" alt="" class="pull-left" style="width:30%"/>-->
-    <!--</a>-->
-    <!--<a ui-sref="project({ pid : detailItem.url })" ng-if="detailItem.group == 4">-->
-        <!--<img ng-src="{{ detailItem.poster }}" alt="" class="pull-left" style="width:30%"/>-->
-    <!--</a>-->
-    <!--<a ui-sref="challenge({ pid : detailItem.url })" ng-if="detailItem.group == 3">-->
-        <!--<img ng-src="{{ detailItem.poster }}" alt="" class="pull-left" style="width:30%"/>-->
-    <!--</a>-->
-    <!--<p ng-bind-html="detailItem.secureBrief"></p>-->
-<!--</section>-->
+<material-content layout="vertical" layout-fill>
+    <material-toolbar scroll-shrink class="material-theme-indigo" layout="vertical" style="position:relative;z-index:10;">
+        <h1 class="center">
+            Results for "{{ tag }}"
+        </h1>
+    </material-toolbar>
 
-<section class="container">
-    <div class="row">
-        <div class="col-xs-6">
-            <div class="input-group">
-                <label class="sr-only" for="searchField">search</label>
-                <input type="search" class="form-control" ng-model="searchTag" id="searchField" placeholder="user/challenge/project">
-                <span class="input-group-addon" ng-click="queryTag(searchTag)"><i class="fa fa-search"></i></span>
-            </div>
-        </div>
+    <div ng-if="isLoading">
+        Loading...
+        <material-linear-progress mode="indeterminate"></material-linear-progress>
     </div>
-    <tabset>
+
+    <tabset ng-if="!isLoading">
         <tab heading="List">
             <!-- list users-->
             <h3 class="solid pbm">{{ 'TAG_USER' | translate }}</h3>
-            <div ng-hide="tagdatas.users">
+            <div ng-hide="tagData.users">
                 <div class="alert alert-info">{{ 'TAG_NOT_MATCH' | translate }}</div>
             </div>
-            <div ng-show="tagdatas.users">
+            <div ng-show="tagData.users.length == 0">No users</div>
+            <div ng-show="tagData.users">
                 <ul class="list-unstyled">
-                    <li ng-repeat="user in tagdatas.users" >
+                    <li ng-repeat="user in tagData.users" >
                         <div class="media">
                             <div owner-block="user.id" class="pull-left" ></div>
                             <div class="media-body">
                                 <blockquote class="pam">
                                     <div>
-                                        <a ng-init="isCollapsed=true" ng-click="isCollapsed = !isCollapsed">{{user.username}}</a>
-                                        <i class="fa fa-external-link pull-right my-btn" ui-sref="profile.brief({ uid : user.id })"></i>
+                                        <a ui-sref="profile({ uid : user._id })">{{user.username}}</a>
                                     </div>
                                     <div class="text-muted" ng-bind-html="user.brief" collapse="isCollapsed" ></div>
                                 </blockquote>
                             </div>
-                            <!--<div owner-block='user.id' class="inline"></div><span class="pts mlm"><b>{{user.username}}</b></span>-->
                         </div>
                     </li>
                 </ul>
@@ -54,22 +38,21 @@
 
             <!-- list Challenge-->
             <h3 class="solid pbm">{{ 'TAG_CHALLENGE' | translate }}</h3>
-            <div ng-hide="tagdatas.challenges">
+            <div ng-hide="tagData.challenges">
                 <div class="alert alert-info">{{ 'TAG_NOT_MATCH' | translate }}</div>
             </div>
-            <div ng-show="tagdatas.challenges">
-
+            <div ng-show="tagData.challenges.length == 0">No challenges</div>
+            <div ng-show="tagData.challenges">
                 <ul class="list-unstyled">
-                    <li ng-repeat="challenge in tagdatas.challenges">
+                    <li ng-repeat="challenge in tagData.challenges">
                         <div class="media">
                             <div owner-block="challenge.owner" class="pull-left" ></div>
                             <div class="media-body">
                                 <blockquote class="pam">
                                     <div>
-                                        <a ng-init="isCollapsed=true" ng-click="isCollapsed = !isCollapsed">{{challenge.title}}</a>
-                                        <i class="fa fa-external-link pull-right my-btn" ui-sref="challenge.details({ pid : challenge.accessUrl })"></i>
+                                        <a ui-sref="challenge({ cid : challenge.accessUrl })">{{challenge.title}}</a>
                                     </div>
-                                    <div class="text-muted" ng-bind-html="challenge.brief" collapse="isCollapsed" ></div>
+                                    <div class="text-muted" ng-bind-html="challenge.brief" ng-show="isCollapsed" ></div>
                                 </blockquote>
                             </div>
                         </div>
@@ -80,21 +63,21 @@
 
             <!-- list projects-->
             <h3 class="solid pbm">{{ 'TAG_PROJECT' | translate }}</h3>
-            <div ng-hide="tagdatas.projects">
+            <div ng-hide="tagData.projects">
                 <div class="alert alert-info">
                     {{ 'TAG_NOT_MATCH' | translate }}
                 </div>
             </div>
-            <div ng-show="tagdatas.projects">
+            <div ng-show="tagData.projects.length == 0">No projects</div>
+            <div ng-show="tagData.projects">
                 <ul class="list-unstyled">
-                    <li ng-repeat="project in tagdatas.projects">
+                    <li ng-repeat="project in tagData.projects">
                         <div class="media">
                             <div owner-block="project.owner" class="pull-left" ></div>
                             <div class="media-body">
                                 <blockquote class="pam">
                                     <div>
-                                        <a ng-init="isCollapsed=true" ng-click="isCollapsed = !isCollapsed">{{project.title}}</a>
-                                            <i class="fa fa-external-link my-btn pull-right" ui-sref="project({ pid : project.accessUrl })"></i>
+                                        <a ui-sref="project.home({ pid : project.accessUrl })">{{project.title}}</a>
                                     </div>
                                     <div class="text-muted" ng-bind-html="project.brief" collapse="isCollapsed"></div>
                                 </blockquote>
@@ -106,7 +89,7 @@
         </tab>
         <tab heading="graf">
             <section class="col-md-6">
-                <cri-d3-tag d3-tag-data="d3TagData" on-click="d3OnClick(item)" options="{}"></cri-d3-tag>
+                <cri-d3-tag d3-tag-data="d3tagData" on-click="d3OnClick(item)" options="{}"></cri-d3-tag>
             </section>
             <section class="col-md-6 tag-detail" ng-if="showDetailPanel">
                 <h3 ng-bind="detailItem.name"></h3>
@@ -115,4 +98,4 @@
             </section>
         </tab>
     </tabset>
-</section>
+</material-content>
