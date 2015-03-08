@@ -29,7 +29,6 @@ angular.module('cri.challenge', [])
     .controller('ChallengesListCtrl',['$scope','challenges','Notification','Challenge','Project','$stateParams','Config','$materialDialog',function($scope,challenges,Notification,Challenge,Project,$stateParams,Config,$materialDialog){
         $scope.challenges = challenges;
 
-
         $scope.noPage = 0;
         $scope.isEnd = false;
         $scope.now = new Date().getTime();
@@ -111,7 +110,7 @@ angular.module('cri.challenge', [])
             });
         };
     }])
-.controller('ChallengeCtrl',['$scope','Challenge','challenge','Notification','$state','Project','$rootScope',function($scope,Challenge,challenge,Notification,$state,Project,$rootScope){
+    .controller('ChallengeCtrl',['$scope','Challenge','challenge','Notification','$state','Project','$rootScope',function($scope,Challenge,challenge,Notification,$state,Project,$rootScope){
         $scope.challenge = challenge[0];
         if($scope.currentUser){
             if($scope.currentUser._id == $scope.challenge.owner._id){
@@ -138,18 +137,6 @@ angular.module('cri.challenge', [])
             }
         };
 
-//        $scope.d3Tags = [];
-//        angular.forEach($scope.challenge.tags,function(v,k){
-//            $scope.d3Tags.push({
-//                title : v,
-//                number : 1
-//            })
-//        });
-//
-//        $scope.showTag = function(e){
-//            $state.go('tag',{title : e.text})
-//        };
-
         $scope.follow = function () {
             if($scope.isFollow){
                 Challenge.unfollow($scope.currentUser._id,$scope.challenge._id).then(function (result) {
@@ -173,9 +160,8 @@ angular.module('cri.challenge', [])
         };
     }])
 
-// TODO: this is NOT USED. Remove it
-.controller('ChallengeSettingsCtrl',['$scope','Challenge','Notification',function($scope,Challenge,Notification){
-
+    // TODO: this is NOT USED. Remove it
+    .controller('ChallengeSettingsCtrl',['$scope','Challenge','Notification',function($scope,Challenge,Notification){
         $scope.$watch('imageCropResult', function(newVal) {
             if (newVal) {
                 Challenge.update($scope.challenge.id,{ poster : newVal }).then(function(){

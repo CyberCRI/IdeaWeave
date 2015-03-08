@@ -91,8 +91,7 @@ exports.unfollow = function(req,res){
 };
 
 exports.getByChallenge = function(req,res){
-;
-    Project.find({ container : req.params.challenge }).select('_id title poster tags').populate('tags').execQ().then(function(projects){
+    Project.find({ container : req.params.challenge }).select('_id title poster tags accessUrl brief').populate('tags').execQ().then(function(projects){
         res.json(projects);
     }).fail(function(err){
         res.json(500,err);
