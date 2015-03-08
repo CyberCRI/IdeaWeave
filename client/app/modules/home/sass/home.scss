@@ -33,3 +33,24 @@ material-dialog {
 	border-style: solid;
 	padding: 10px;
 }
+
+
+/* Show Font awesome arrows instead of chevrons */
+.rn-carousel-control.rn-carousel-control-prev:before {
+  content: "\f053";
+  font-family: FontAwesome; 
+  color: #DDD;
+  font-size: 40pt;
+}
+
+.rn-carousel-control.rn-carousel-control-next:before {
+  color: #DDD; 
+  content: "\f054";
+  font-size: 40pt;
+  font-family: FontAwesome; 
+  color: #DDD;
+}
+
+.my-carousel h1 {
+  margin: 0 140px 0 140px;
+}
