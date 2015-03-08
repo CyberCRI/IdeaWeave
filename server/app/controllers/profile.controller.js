@@ -8,6 +8,7 @@ var mongoose = require('mongoose-q')(),
     Project = mongoose.model('Project'),
     Challenge= mongoose.model('Challenge'),
     Notification = mongoose.model('Notification'),
+    Tags = mongoose.model('Tag'),
     q = require('q');
 
 
@@ -188,4 +189,25 @@ exports.profile = function(req,res){
             res.json(500,err);
         });
 //    {brief:{$regex:tag+".*"
+};
+
+exports.getByTag = function(req,res){
+    if(req.params.tag == 'all'){
+        User.find().limit(req.query.limit).skip(req.query.skip).sort('-createDate').populate('tags').sort('-createDate').execQ().then(function(profiles){
+            res.json(profiles);
+        }).fail(function(err){
+            res.json(400,err);
+        })
+    }else{
+        Tags.findQ({ title : req.params.tag }).then(function(tag){
+            User.find({ tags : tag[0]._id }).limit(req.query.limit).skip(req.query.skip).populate('tags').sort('-createDate').execQ().then(function(profiles){
+
+                res.json(profiles);
+            }).fail(function(err){
+                res.json(400,err);
+            })
+        }).fail(function(err){
+            res.json(400,err);
+        })
+    }
 };

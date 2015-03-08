@@ -26,13 +26,13 @@ angular.module('cri.header',[])
                     $state.go('profile',{ uid : result._id });
                     break;
                 case "project": 
-                    $state.go('project',{ pid : result.accessUrl });
+                    $state.go('project.home',{ pid : result.accessUrl });
                     break;
                 case "challenge": 
-                    $state.go('challenge',{ pid : result.accessUrl });
+                    $state.go('challenge',{ cid : result.accessUrl });
                     break;
                 case "tag":
-                    // TODO
+                    $state.go('tag', { title: result.title });
                     break;
                 default:
                     throw new Error("Cannot goto type " + type);

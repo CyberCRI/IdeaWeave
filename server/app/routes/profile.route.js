@@ -5,7 +5,9 @@ module.exports = function(app) {
     var profile = require('../controllers/profile.controller.js');
     app.get('/profile/:id',profile.profile);
 
-    app.get('/profile/poster/:id'.getPoster);
+    app.get('/profile/poster/:id', profile.getPoster);
+
+    app.get('/profile/tag/:tag', profile.getByTag);
 
     app.get('/profile/activity/:id',profile.getActivity);
 
