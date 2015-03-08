@@ -60,3 +60,20 @@
   -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
   background-color: #555;
 }
+
+
+// Suggested by https://github.com/CyberCRI/IdeaWeave/issues/50
+material-content section {
+  padding-left: 30px;
+}
+
+material-item article {
+  margin-left: 5%;
+  font-size: 14pt;
+  margin-right: 8%;
+}
+
+section > material-toolbar > div {
+  font-size: 32pt;
+  font-weight: 600;
+}
