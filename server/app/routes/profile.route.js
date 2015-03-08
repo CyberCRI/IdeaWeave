@@ -7,7 +7,7 @@ module.exports = function(app) {
 
     app.get('/profile/poster/:id'.getPoster);
 
-    app.get('/profile/activity/:id',utils.ensureAuthenticated,profile.getActivity);
+    app.get('/profile/activity/:id',profile.getActivity);
 
 
     app.post('/profile/follow',utils.ensureAuthenticated,profile.follow);
