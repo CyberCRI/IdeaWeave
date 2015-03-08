@@ -27,10 +27,10 @@
                 <h1 class="center">IdeaWeave provides a simple collaborative working environment, the possibility to organise and archive discussions, a clear visibility on the taks to be performed and the resources needed.</h1>
             </section>
             <section ng-if="$index > 2" class="my-carousel carousel-home center">
-                <h1 class="center">
-                    <a ui-sref="challenge({cid : challenge.accessUrl})" style="color: white">{{challenge.title}}</a>
-                </h1>
-                <img ng-if="challenge.banner" src="{{ challenge.banner }}" ui-sref="challenge({cid : challenge.accessUrl})">
+                <a ui-sref="challenge({cid : challenge.accessUrl})">
+                    <h1 class="center">{{challenge.title}}</h1>
+                    <img ng-if="challenge.banner" src="{{ challenge.banner }}" ui-sref="challenge({cid : challenge.accessUrl})">
+                </a>
                 <showtags entity="challenge"></showtags>
                 <p class="carousel-brief" ng-bind-html="challenge.home">
                 </p>
