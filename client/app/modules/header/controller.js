@@ -21,12 +21,21 @@ angular.module('cri.header',[])
         };
 
         $scope.goTo = function(result){
-            if(result.username){
-                $state.go('profile',{ uid : result._id });
-            }else if(result.container){
-                $state.go('project',{ pid : result.accessUrl });
-            }else{
-                $state.go('challenge',{ pid : result.accessUrl });
+            switch(result.type) {
+                case "user": 
+                    $state.go('profile',{ uid : result._id });
+                    break;
+                case "project": 
+                    $state.go('project',{ pid : result.accessUrl });
+                    break;
+                case "challenge": 
+                    $state.go('challenge',{ pid : result.accessUrl });
+                    break;
+                case "tag":
+                    // TODO
+                    break;
+                default:
+                    throw new Error("Cannot goto type " + type);
             }
         };
     }]);
