@@ -8,7 +8,9 @@
         </div>
     </material-toolbar>
 
-    <img ng-if="challenge.banner" src="{{ challenge.banner }}" style="margin: auto;">
+    <section>
+        <img ng-if="challenge.banner" src="{{ challenge.banner }}" style="margin: auto;">
+    </section>
 
     <div layout="vertical">
         <material-button ui-sref="challengeAdmin({ cid : challenge._id })" ng-if="isOwner">
@@ -31,15 +33,10 @@
                 </span>
             </div>
         </div>
-        <span>
-            <i class="fa fa-star baseColor" ng-if="isFollow"></i> Following
-        </span>
-            <!--<span ng-if="challenge.startDate < now && challenge.endDate > now" >-->
-                <!--<timer end-time="challenge.endDate" >End in :{{days}} d, {{hours}} : {{minutes}} : {{seconds}}</timer>-->
-            <!--</span>-->
-            <!--<span ng-if="challenge.startDate > now" >-->
-                <!--<timer end-time="challenge.endDate" >Start in : {{days}} d, {{hours}} : {{minutes}} : {{seconds}}</timer>-->
-            <!--</span>-->
+
+        <div ng-if="isFollow">
+            <i class="fa fa-star baseColor"></i> Following
+        </div>
 
         <material-button class="material-button-fab" ng-click="toggleLeft()" style="bottom:-24px;position:absolute; left:20px;z-index : inherit" hide-md>
             <i class="fa fa-bars"></i>
