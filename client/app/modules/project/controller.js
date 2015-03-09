@@ -179,7 +179,7 @@ angular.module('cri.project',[])
             newProject.owner = $scope.currentUser._id;
             newProject.container = $scope.newProject.container._id;
             Project.create($scope.newProject).then(function(data){
-                $state.go('project',{ pid : data.accessUrl });
+                $state.go('project.home',{ pid : data.accessUrl });
             }).catch(function(err){
                 Notification.display(err.message);
             }).finally(function(){

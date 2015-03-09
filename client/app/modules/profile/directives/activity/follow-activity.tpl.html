@@ -8,7 +8,7 @@
     <span>{{ entity.title }}</span>
 </article>
 
-<article class="center"  ng-if="type=='projects'" style="height:70px;cursor:pointer;" ui-sref="project({ pid : project.accessUrl })">
+<article class="center"  ng-if="type=='projects'" style="height:70px;cursor:pointer;" ui-sref="project.home({ pid : project.accessUrl })">
     {{ message }}
     <span>{{ entity.title }}</span>
 </article>

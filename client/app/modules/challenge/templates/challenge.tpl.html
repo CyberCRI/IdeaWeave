@@ -8,9 +8,7 @@
         </div>
     </material-toolbar>
 
-    <section>
-        <img ng-if="challenge.banner" src="{{ challenge.banner }}" style="margin: auto;">
-    </section>
+    <img ng-if="challenge.banner" src="{{ challenge.banner }}" style="margin: auto;">
 
     <div layout="vertical">
         <material-button ui-sref="challengeAdmin({ cid : challenge._id })" ng-if="isOwner">

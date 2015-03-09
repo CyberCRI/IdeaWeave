@@ -24,6 +24,7 @@ angular.module('cri.project')
                     }]
                 }
             })
+            // TODO: remove this parent state, we alway use project.home
             .state('project',{
                 url : '/project/:pid',
                 views : {
