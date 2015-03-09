@@ -9,7 +9,7 @@
             </div>
         </material-toolbar>
         <aside flex>
-            <p>Describe your project idea. Give it a title, a place (if applicable), and describe it in the web page section.</p>
+            <p>Describe your project idea. Give it a title, a place (if applicable), and describe it in the home page section.</p>
         </aside>
     </material-sidenav>
 
@@ -43,7 +43,7 @@
                     <div ng-bind-html="address.formatted_address | highlight: $select.search"></div>
                 </ui-select-choices>
             </ui-select>
-            <label>Edit the web page:</label>
+            <label>Brief description:</label>
             <textarea rows="5" style="width:100%;border:solid 1px darkgray" ng-model="newProject.brief"></textarea>
 
             <material-button  class="material-button-raised" type="button" ng-click="createProject(newProject)">
