@@ -12,7 +12,7 @@ angular.module('cri.challenge')
             controller : ['$scope','Challenge',function($scope,Challenge){
 
                 if($scope.challengeId){
-                    Challenge.fetch( { id : $scope.projectId, type : 'block' }).then(function(challenge){
+                    Challenge.fetch( { id : $scope.challengeId, type : 'block' }).then(function(challenge){
                         $scope.challenge = challenge[0];
                     }).catch(function(err){
                         console.log('error',err);
@@ -59,7 +59,7 @@ angular.module('cri.challenge')
             templateUrl:'modules/challenge/directives/challengeBlock/challenge-info.tpl.html',
             controller : ['$scope','Challenge',function($scope,Challenge){
                 if($scope.challengeId){
-                    Challenge.fetch( { _id : $scope.projectId, type : 'info' }).then(function(challenge){
+                    Challenge.fetch( { _id : $scope.challengeId, type : 'info' }).then(function(challenge){
                         $scope.challenge = challenge[0];
                     }).catch(function(err){
                         console.log('error',err);
