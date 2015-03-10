@@ -1,5 +1,5 @@
 angular.module('cri.admin.challenge',[])
-    .controller('ChallengeAdminLeftCtrl',function($scope,$materialDialog,Challenge,Notification){
+    .controller('ChallengeAdminLeftCtrl',function($scope,$materialDialog,$state,Challenge,Notification){
 
 
         $scope.popUpPoster = function($event){
@@ -106,16 +106,15 @@ angular.module('cri.admin.challenge',[])
                     $scope.challengeTitle = challenge.title
 
 
-                    $scope.delete = function(test){
-                        if(test.title == challenge.title){
-                            Challenge.remove(challenge._id).then(function(){
-                                Notification.display(challenge.title+' succesly removed');
-                            }).catch(function(err){
-                                Notification.display('error, the challenge is not removed');
-                            }).finally(function(){
-                                $hideDialog();
-                            });
-                        }
+                    $scope.delete = function(){
+                        Challenge.remove(challenge._id).then(function(){
+                            Notification.display(challenge.title+' successfully removed');
+                            $state.go("home");
+                        }).catch(function(err){
+                            Notification.display('Error, the challenge was not removed');
+                        }).finally(function(){
+                            $hideDialog();
+                        });
                     };
                     $scope.cancel = function(){
                         $hideDialog();
