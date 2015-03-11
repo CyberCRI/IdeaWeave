@@ -184,7 +184,7 @@ exports.create = function(req,res){
                 var myNotif =  new Notification({
                     type : 'project',
                     owner : project.owner,
-                    entity : project,
+                    entity : project._id,
                     container : project.container
                 });
                 myNotif.saveQ().then(function(notif){

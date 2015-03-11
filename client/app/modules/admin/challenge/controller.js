@@ -1,7 +1,6 @@
 angular.module('cri.admin.challenge',[])
     .controller('ChallengeAdminLeftCtrl',function($scope,$materialDialog,$state,Challenge,Notification){
 
-
         $scope.popUpPoster = function($event){
             $materialDialog({
                 templateUrl : 'modules/admin/challenge/templates/modal/challenge-crop-poster-modal.tpl.html',
@@ -26,7 +25,6 @@ angular.module('cri.admin.challenge',[])
                             });
                         }
                     });
-
 
                     $scope.cancel = function(){
                         $hideDialog();
@@ -104,7 +102,6 @@ angular.module('cri.admin.challenge',[])
                 },
                 controller : ['$scope','$hideDialog','challenge',function($scope,$hideDialog,challenge){
                     $scope.challengeTitle = challenge.title
-
 
                     $scope.delete = function(){
                         Challenge.remove(challenge._id).then(function(){
