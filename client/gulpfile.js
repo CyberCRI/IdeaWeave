@@ -17,6 +17,7 @@ var gulp = require('gulp'),
     minifyHtml = require('gulp-minify-html'),
     rev = require('gulp-rev'),
     inlineAngularTemplates = require('gulp-inline-angular-templates'),
+    merge = require('merge-stream'),
     livereloadport = 35729,
     serverport = 5000;
 
@@ -98,21 +99,20 @@ gulp.task('temp',function(){
 });
 
 gulp.task('build', function() {
-    gulp.src('./app/index.html')
-        .pipe(usemin({
-            css: [minifyCss()],
-            html: [minifyHtml({empty: true})],
-            js: [anotate(),uglify(),rev()]
-        }))
-        .pipe(gulp.dest('./dist'))
-    gulp.src('./app/images/**')
-        .pipe(copy('./dist/images/',{prefix : 2}));
-    gulp.src('./app/vendors/tinymce/**')
-        .pipe(copy('./dist/vendors/tinymce/',{prefix : 3}));
-    gulp.src('./app/vendors/Font-Awesome/fonts/**')
-        .pipe(copy('./dist/',{prefix : 3}));
-//    gulp.src('./app/modules/**/*.tpl.html')
-//        .pipe(minifyHtml())
-//        .pipe(gulp.dest('./temp'));
-//    gulp.src('./app/modules/**/*.html')
+    // Wait on the combination of all these tasks
+    return merge(
+        gulp.src('./app/index.html')
+            .pipe(usemin({
+                css: [minifyCss()],
+                html: [minifyHtml({empty: true})],
+                js: [anotate(),uglify(),rev()]
+            }))
+            .pipe(gulp.dest('./dist')),
+        gulp.src('./app/images/**')
+            .pipe(copy('./dist/images/',{prefix : 2})),
+        gulp.src('./app/vendors/tinymce/**')
+            .pipe(copy('./dist/vendors/tinymce/',{prefix : 3})),
+        gulp.src('./app/vendors/Font-Awesome/fonts/**')
+            .pipe(copy('./dist/',{prefix : 3}))
+    );
 });
