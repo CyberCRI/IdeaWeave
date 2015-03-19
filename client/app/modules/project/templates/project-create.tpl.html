@@ -9,7 +9,7 @@
             </div>
         </material-toolbar>
         <aside flex>
-            <p>Describe your project idea. Give it a title, a place (if applicable), and describe it in the web page section.</p>
+            <p>Describe your project idea. Give it a title, a place (if applicable), and describe it briefly.</p>
         </aside>
     </material-sidenav>
 
@@ -18,6 +18,7 @@
             Your project's description
         </h2>
         <form name="projectform" layout="vertical">
+            <label>The challenge you are taking on</label>
             <ui-select ng-model="newProject.container" theme="selectize">
                 <ui-select-match placeholder="The challenge that you are replying to...">{{$select.selected.title}}</ui-select-match>
                 <ui-select-choices repeat="challenge in challenges">
@@ -33,6 +34,8 @@
                 <material-input id="title" type="text" ng-model="newProject.title" required="" ng-change="titleChange(newProject.title)" />
             </material-input-group>
             <tag-manager entity="newProject"></tag-manager>
+
+            <label>Where your project is based</label>
             <ui-select ng-model="newProject.localisation"
                        theme="selectize"
                        reset-search-input="false">
@@ -43,7 +46,8 @@
                     <div ng-bind-html="address.formatted_address | highlight: $select.search"></div>
                 </ui-select-choices>
             </ui-select>
-            <label>Edit the web page:</label>
+
+            <label>Brief description:</label>
             <textarea rows="5" style="width:100%;border:solid 1px darkgray" ng-model="newProject.brief"></textarea>
 
             <material-button  class="material-button-raised" type="button" ng-click="createProject(newProject)">

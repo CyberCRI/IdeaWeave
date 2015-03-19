@@ -5,8 +5,7 @@
                 <div  flex class="center">
                     <i class="fa fa-warning">Warning</i>
                 </div>
-                <i class="fa fa-check fa-2x" style="color:green;" ng-if="removeChallengeForm.title.$valid"></i>
-                <material-button class="material-button-fab material-theme-red" ng-click="deleteProject()" ng-disabled="removeChallengeForm.$invalid">
+                <material-button class="material-button-fab material-theme-red" ng-click="delete()" ng-disabled="removeChallengeForm.$invalid">
                     <i class="fa fa-ban"></i>
                 </material-button>
                 <material-button class="material-button-fab" ng-click="cancel()">
@@ -16,18 +15,17 @@
         </material-toolbar>
         <material-content>
             <div>
-                This operation could not undo. Please back up the information before you confirm.
+                <p>By clicking the confirm button above, you will delete your challenge. There is no way to recover the data associated with it.</p>
+
+                <p>If you are sure, please type in the name of your challenge below and then click the confirm button</p>
             </div>
                 <material-input-group>
-                    <label for="titleR">your challenge's name</label>
+                    <label for="titleR">Name of your challenge</label>
                     <material-input type="text" ng-model="challengeTest.title" id="titleR" name="title" ng-pattern="challengeTitle" required></material-input>
                 </material-input-group>
                 <div ng-messages="removeChallengeForm.title.$error" ng-if="!removeChallengeForm.title.$pristine">
                     <div ng-message="pattern">
-                        this is not yout challenge's name
-                    </div>
-                    <div ng-message="required">
-                        you must fill yout challenge's name
+                        This is not the name of your challenge.
                     </div>
                 </div>
         </material-content>

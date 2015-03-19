@@ -130,22 +130,22 @@ angular.module('cri.admin.project',[])
 
         $scope.popUpRemove = function(){
             $materialDialog({
-                templateUrl : 'modules/admin/challenge/templates/challenge-remove-modal.tpl.html',
+                templateUrl : 'modules/admin/project/templates/modal/project-remove-modal.tpl.html',
                 locals : {
                     project : $scope.project
                 },
                 controller : ['$scope','$hideDialog','project',function($scope,$hideDialog,project){
+                    $scope.projectTitle = project.title
 
-                    $scope.delete = function(test){
-                        if(test.title == project.title){
-                            Project.remove(project._id).then(function(){
-                                Notification.display(challenge.title+' succesly removed');
-                            }).catch(function(err){
-                                Notification.display('error, the challenge is not removed');
-                            }).finally(function(){
-                                $hideDialog();
-                            });
-                        }
+                    $scope.delete = function(){
+                        Project.delete(project._id).then(function(){
+                            Notification.display(project.title+' successfully removed');
+                            $state.go("home");
+                        }).catch(function(err){
+                            Notification.display('Error, the project was not removed');
+                        }).finally(function(){
+                            $hideDialog();
+                        });
                     };
                     $scope.cancel = function(){
                         $hideDialog();
