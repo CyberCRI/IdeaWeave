@@ -110,8 +110,16 @@ angular.module('cri.challenge', [])
             });
         };
     }])
-    .controller('ChallengeCtrl',['$scope','Challenge','challenge','Notification','$state','Project','$rootScope',function($scope,Challenge,challenge,Notification,$state,Project,$rootScope){
+    .controller('ChallengeCtrl',function($scope,Challenge,challenge,Notification,$state,Project,$rootScope,NoteLab){
         $scope.challenge = challenge[0];
+
+        // Get notes
+        NoteLab.listNotes({ challenge: $scope.challenge._id }).then(function(data){
+            $scope.challenge.notes = data;
+        }).catch(function(err){
+            Notification.display(err.message);
+        });
+
         if($scope.currentUser){
             if($scope.currentUser._id == $scope.challenge.owner._id){
                 $scope.isOwner = true;
@@ -158,7 +166,7 @@ angular.module('cri.challenge', [])
             }
 
         };
-    }])
+    })
 
     // TODO: this is NOT USED. Remove it
     .controller('ChallengeSettingsCtrl',['$scope','Challenge','Notification',function($scope,Challenge,Notification){

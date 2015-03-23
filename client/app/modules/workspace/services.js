@@ -1,16 +1,29 @@
 angular.module('cri.workspace')
 .factory('NoteLab',['$http','$q','Config','$upload','$stateParams','mySocket','$rootScope',function($http,$q,Config,$upload,$stateParams,mySocket,$rootScope){
-
         var service = {
-            exportHackPad : function(id){
+            // Params should be { challenge: <id> } or { project: <id> }
+            listNotes : function(params){
                 var defered = $q.defer();
-                $http.get(Config.apiServer+'/note/hackpad/'+id).success(function(data){
+                $http.get(Config.apiServer+'/notes',{
+                    params : params
+                }).success(function(data){
+                    service.data = data;
                     defered.resolve(data);
                 }).error(function(err){
                     defered.reject(err);
                 });
                 return defered.promise;
             },
+            createNote : function(note){
+                var defered = $q.defer();
+                $http.post(Config.apiServer+'/notes',note).success(function(newNote){
+                    defered.resolve(newNote);
+                }).error(function(err){
+                    defered.reject(err);
+                });
+                return defered.promise;
+            },
+
             fetch : function(param){
                 var defered = $q.defer();
                 $http.get(Config.apiServer+'/note',{
@@ -23,19 +36,17 @@ angular.module('cri.workspace')
                 });
                 return defered.promise;
             },
-            createNote : function(note){
+
+            exportHackPad : function(id){
                 var defered = $q.defer();
-                $http.post(Config.apiServer+'/note',note).success(function(newNote){
-                    defered.resolve(newNote);
+                $http.get(Config.apiServer+'/note/hackpad/'+id).success(function(data){
+                    defered.resolve(data);
                 }).error(function(err){
                     defered.reject(err);
                 });
-//                mySocket.socket.emit('notelab::newNote',note);
-//                mySocket.socket.on('newNote',function(newNote){
-//                    defered.resolve(newNote);
-//                });
                 return defered.promise;
             },
+
             fetchUrl : function(noteId){
                 var defered = $q.defer();
                 $http.get(Config.apiServer+'/note/'+noteId+'/url').success(function(data){

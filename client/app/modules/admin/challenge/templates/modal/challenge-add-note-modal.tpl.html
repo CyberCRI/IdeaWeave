@@ -1,0 +1,21 @@
+<material-dialog>
+    <material-toolbar layout="horizontal" layout-align="">
+        <div layout layout-align="start center">
+            <div flex>Add Publication</div>
+            <span class="faa-spin animated" ng-if="isLoading">
+                <i class="fa fa-spinner"></i>
+            </span>
+            <material-button class="material-button-fab" ng-click="addNote(noteText)">
+                <i class="fa fa-save"></i>
+            </material-button>
+            <material-button class="material-button-fab" ng-click="cancel()">
+                <i class="fa fa-times"></i>
+            </material-button>
+        </div>
+    </material-toolbar>
+    <material-content>
+        <form name="descriptionForm">
+            <textarea ui-tinymce="tinymceOption" ng-model="noteText"/></textarea>
+        </form>
+    </material-content>
+</material-dialog>
