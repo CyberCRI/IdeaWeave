@@ -13,6 +13,8 @@ var fs = require('fs'),
     io = require('../../server').io;
 
 
+// NOTES
+
 // Return if the current user is allowed to modify the given note
 function canModifyNote(user, note) {
     // Cast both to strings in order to avoid ObjectID differences
@@ -20,7 +22,6 @@ function canModifyNote(user, note) {
     return note.owner.toString() == user._id.toString();
 }
 
-// NOTES
 exports.listNotes = function(req,res){
     if(req.query.project){
         NoteLab.findQ({ project : req.query.project }).then(function(notes){
@@ -119,75 +120,105 @@ exports.removeNote = function(req,res){
     });
 };
 
-//comment
+
+// COMMENTS
+
+// Return if the current user is allowed to modify the given note
+function canModifyComment(user, comment) {
+    // Cast both to strings in order to avoid ObjectID differences
+    // TODO: Allow project or challenge owners to modify other's comments?
+    return comment.owner.toString() == user._id.toString();
+}
 
 exports.listComments = function(req,res){
-    Comment.find({ container : req.query.container })
-        .sort({ 'createDate' : 1})
-        .populate('answer')
-        .execQ()
-        .then(function(notes){
-            var response = [];
-            notes.forEach(function(note,key){
-                if(!note.parent){
-                    response.push(note)
-                }
-            });
-            res.json(response);
-        }).fail(function(err){
-            res.json(500,err);
-        })
+    NoteLab.findOneQ({ _id : req.params.id }).then(function(note){
+        if(!note) return res.send(400);
+        res.json(note.comments);
+    }).fail(function(err){
+        res.json(500,err);
+    });
 };
 
 exports.fetchComment = function(req,res){
-    Comment.find({ container : req.query.container })
-        .sort({ 'createDate' : 1})
-        .populate('answer')
-        .execQ()
-        .then(function(notes){
-            var response = [];
-            notes.forEach(function(note,key){
-                if(!note.parent){
-                    response.push(note)
-                }
-            });
-            res.json(response);
-        }).fail(function(err){
-            res.json(500,err);
-        })
+    NoteLab.findOneQ({ _id : req.params.noteId }).then(function(note){
+        if(!note) return res.send(400);
+
+        var comment = note.comments.id(req.params.commentId);
+        if(!comment) return res.send(400);
+
+        res.json(comment);
+    }).fail(function(err){
+        res.json(500,err);
+    });
 };
 
 exports.createComment = function(req,res){
-    var myComment = new Comment(req.body);
-    myComment.saveQ().then(function(comment){
-        var myNotif =  new Notification({
-            type : 'comment',
-            owner : comment.owner,
-            entity : comment._id,
-            container : comment.container,
-            project : comment.project
-        });
-        q.all([
-            myNotif.saveQ(),
-            Comment.findOneAndUpdateQ({ _id : comment.parent },{$push : { answer : comment._id }})
-        ]).then(function(data){
-            io.sockets.in('project::'+myNotif.project).emit('comment',data[0]);
-            io.sockets.emit('notelab_'+comment.container+'::newComment',comment);
-            res.send(200);
-        }).fail(function(err){
+    // Get note
+    NoteLab.findOneQ({ _id : req.params.id }).then(function(note){
+        if(!note) return res.send(400);
+
+        // TODO: Check that the current user can comment notes in this project or challenge (is owner or contributor)
+
+        // Comment will be owned by the current user
+        var newComment = note.comments.create(req.body);
+        newComment.owner = req.user._id; 
+
+        note.comments.push(newComment);
+
+        note.saveQ().then(function(data) {
+            // The last comment is the one we added
+            var commentData = data.comments[data.comments.length - 1];
+            res.json(200, commentData);
+        }).fail(function(err) {
             res.json(500,err);
-        })
+        });
     }).fail(function(err){
         res.json(500,err);
     });
 };
 
 exports.updateComment = function(req,res){
+    NoteLab.findOneQ({ _id : req.params.noteId }).then(function(note){
+        if(!note) return res.send(400);
 
+        var comment = note.comments.id(req.params.commentId);
+        if(!comment) return res.send(400);
+        if(!canModifyComment(req.user, comment)) return res.json(403, "You are not allowed to modify this comment");
+
+        // Update the text and modification date
+        comment.text = req.body.text;
+        comment.modifiedDate = new Date();
+
+        note.saveQ().then(function(data) {
+            // Get the comment we modified
+            var commentData = data.comments.id(req.params.commentId);
+            res.json(200, commentData);
+        }).fail(function(err) {
+            res.json(500,err);
+        });
+    }).fail(function(err){
+        res.json(500,err);
+    });
 };
 
 exports.removeComment = function(req,res){
+    NoteLab.findOneQ({ _id : req.params.noteId }).then(function(note){
+        if(!note) return res.send(400);
 
+        var comment = note.comments.id(req.params.commentId);
+        if(!comment) return res.send(400);
+        if(!canModifyComment(req.user, comment)) return res.json(403, "You are not allowed to modify this comment");
+
+        comment.remove();
+
+        note.saveQ().then(function(data) {
+            res.send(200);
+        }).fail(function(err) {
+            res.json(500,err);
+        });
+    }).fail(function(err){
+        res.json(500,err);
+    });
 };
 
 
