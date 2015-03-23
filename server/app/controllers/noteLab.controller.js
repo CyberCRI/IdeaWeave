@@ -24,13 +24,13 @@ function canModifyNote(user, note) {
 
 exports.listNotes = function(req,res){
     if(req.query.project){
-        NoteLab.findQ({ project : req.query.project }).then(function(notes){
+        NoteLab.find({ project : req.query.project }).populate("owner", "username").populate("comments.owner", "username").execQ().then(function(notes){
             res.json(notes);
         }).fail(function(err){
             res.json(500, err);
         });
     } else if(req.query.challenge) {
-        NoteLab.findQ({ challenge : req.query.challenge }).then(function(notes){
+        NoteLab.find({ challenge : req.query.challenge }).populate("owner", "username").populate("comments.owner", "username").execQ().then(function(notes){
             res.json(notes);
         }).fail(function(err){
             res.json(500, err);
@@ -41,7 +41,7 @@ exports.listNotes = function(req,res){
 };
 
 exports.fetchNote = function(req,res){
-    NoteLab.findOneQ({ _id : req.params.id }).then(function(note){
+    NoteLab.findOne({ _id : req.params.id }).populate("owner", "username").populate("comments.owner", "username").execQ().then(function(note){
         if(!note) return res.send(400);
         res.json(note);
     }).fail(function(err){
@@ -131,8 +131,9 @@ function canModifyComment(user, comment) {
 }
 
 exports.listComments = function(req,res){
-    NoteLab.findOneQ({ _id : req.params.id }).then(function(note){
+    NoteLab.findOne({ _id : req.params.id }).populate("comments.owner", "username").execQ().then(function(note){
         if(!note) return res.send(400);
+
         res.json(note.comments);
     }).fail(function(err){
         res.json(500,err);
@@ -140,7 +141,7 @@ exports.listComments = function(req,res){
 };
 
 exports.fetchComment = function(req,res){
-    NoteLab.findOneQ({ _id : req.params.noteId }).then(function(note){
+    NoteLab.findOne({ _id : req.params.noteId }).populate("comments.owner", "username").execQ().then(function(note){
         if(!note) return res.send(400);
 
         var comment = note.comments.id(req.params.commentId);

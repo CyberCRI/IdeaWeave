@@ -23,6 +23,21 @@ angular.module('cri.workspace')
                 });
                 return defered.promise;
             },
+            createComment : function(noteId, commentText){
+                var comment = {
+                    text: commentText
+                };
+
+                var defered = $q.defer();
+                var url = Config.apiServer + '/notes/' + noteId + "/comments";
+                $http.post(url, comment).success(function(newComment){
+                    defered.resolve(newComment);
+                }).error(function(err){
+                    defered.reject(err);
+                });
+                return defered.promise;
+            },
+
 
             fetch : function(param){
                 var defered = $q.defer();

@@ -116,9 +116,26 @@ angular.module('cri.challenge', [])
         // Get notes
         NoteLab.listNotes({ challenge: $scope.challenge._id }).then(function(data){
             $scope.challenge.notes = data;
+            
+            // Add newComment field
+            angular.forEach($scope.challenge.notes, function(note) {
+                note.newComment = "";
+            });
         }).catch(function(err){
             Notification.display(err.message);
         });
+
+        $scope.postComment = function(note) {
+            NoteLab.createComment(note._id, note.newComment).then(function(data){
+                Notification.display("Comment posted");
+
+                // Add the new comment and clear the field
+                note.comments.push(data);
+                note.newComment = "";
+            }).catch(function(err){
+                Notification.display(err.message);
+            });
+        };
 
         if($scope.currentUser){
             if($scope.currentUser._id == $scope.challenge.owner._id){
@@ -133,7 +150,7 @@ angular.module('cri.challenge', [])
         };
         $scope.toggleLeft = function(){
             $rootScope.$broadcast('toggleLeft');
-        }
+        };
 
         $scope.participate = function(){
             if($scope.currentUser){
