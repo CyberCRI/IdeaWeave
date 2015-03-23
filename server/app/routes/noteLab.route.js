@@ -8,19 +8,30 @@ var noteLab = require('../controllers/noteLab.controller.js'),
     utils = require('../services/utils.service');
 
 module.exports = function(app) {
-    //CRUD
+    app.route('/notes')
+        .get(noteLab.listNotes)
+        .post(utils.ensureAuthenticated,noteLab.createNote);
 
-    app.route('/note')
+    app.route('/notes/:id')
         .get(noteLab.fetchNote)
-        .post(utils.ensureAuthenticated,noteLab.createNote)
         .put(utils.ensureAuthenticated,noteLab.updateNote)
         .delete(utils.ensureAuthenticated,noteLab.removeNote);
 
-    app.route('/note/:id/comments')
-        .get(noteLab.fetchComment)
+    app.route('/notes/:id/comments')
+        .get(noteLab.listComments)
         .post(utils.ensureAuthenticated,noteLab.createComment);
-//        .put(noteLab.updateComment)
-//        .delete(noteLab.removeComment);
+
+    app.route('/notes/:noteId/comments/:commentId')
+        .get(noteLab.fetchComment)
+        .put(utils.ensureAuthenticated,noteLab.updateComment)
+        .delete(utils.ensureAuthenticated,noteLab.removeComment);
+
+
+    app.route('/notes/:id/url')
+        .get(utils.ensureAuthenticated,noteLab.fetchUrl)
+        .post(utils.ensureAuthenticated,noteLab.createUrl);
+//        .put(utils.ensureAuthenticated,noteLab.updateUrl)
+//        .delete(utils.ensureAuthenticated,noteLab.removeUrl);
 
     app.route('/upload')
         .get(utils.ensureAuthenticated,noteLab.fetchFile)
@@ -28,13 +39,7 @@ module.exports = function(app) {
         .put(utils.ensureAuthenticated,noteLab.updateFile)
         .delete(utils.ensureAuthenticated,noteLab.removeFile);
 
-    app.route('/note/:id/url')
-        .get(utils.ensureAuthenticated,noteLab.fetchUrl)
-        .post(utils.ensureAuthenticated,noteLab.createUrl);
-//        .put(utils.ensureAuthenticated,noteLab.updateUrl)
-//        .delete(utils.ensureAuthenticated,noteLab.removeUrl);
-
-    app.route('/note/hackpad/:id')
+    app.route('/notes/hackpad/:id')
         .get(utils.ensureAuthenticated,hackPad.getContent);
 
     app.get('/hackpad/embed/:id',utils.ensureAuthenticated,hackPad.getIframe);

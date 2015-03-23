@@ -7,10 +7,188 @@ var fs = require('fs'),
     Url = mongoose.model('Url'),
     NoteLab = mongoose.model('NoteLab'),
     Project = mongoose.model('Project'),
-    Comment = mongoose.model('Comment'),
+    Challenge = mongoose.model('Challenge'),
     Notification = mongoose.model('Notification'),
     HackPadClient = require('../controllers/hackPad.controller').client,
     io = require('../../server').io;
+
+
+// Return if the current user is allowed to modify the given note
+function canModifyNote(user, note) {
+    // Cast both to strings in order to avoid ObjectID differences
+    // TODO: Allow project or challenge owners to modify other's notes?
+    return note.owner.toString() == user._id.toString();
+}
+
+// NOTES
+exports.listNotes = function(req,res){
+    if(req.query.project){
+        NoteLab.findQ({ project : req.query.project }).then(function(notes){
+            res.json(notes);
+        }).fail(function(err){
+            res.json(500, err);
+        });
+    } else if(req.query.challenge) {
+        NoteLab.findQ({ challenge : req.query.challenge }).then(function(notes){
+            res.json(notes);
+        }).fail(function(err){
+            res.json(500, err);
+        });        
+    } else {
+        res.json(403, "Please specify a project or challenge");
+    }
+};
+
+exports.fetchNote = function(req,res){
+    NoteLab.findOneQ({ _id : req.params.id }).then(function(note){
+        if(!note) return res.send(400);
+        res.json(note);
+    }).fail(function(err){
+        res.json(500,err);
+    })
+};
+
+exports.createNote = function(req,res){
+    // Notes are attached to projects or challenges
+    var containerUpdateQuery;
+    if(req.body.project){
+        containerUpdateQuery = Project.findOneAndUpdateQ({_id:req.body.project},{$inc:{noteNumber : 1}});
+    } else if(req.body.challenge) {
+        containerUpdateQuery = Challenge.findOneAndUpdateQ({_id:req.body.challenge},{$inc:{noteNumber : 1}});
+    } else {
+        res.json(403, "Please specify a project or challenge");
+    }
+
+    // TODO: Check that the current user can write notes in this project or challenge (is owner or contributor)
+
+    // Note will be owned by the current user
+    var newNote = new NoteLab(req.body);
+    newNote.owner = req.user._id; 
+
+    q.all([newNote.saveQ(), containerUpdateQuery]).then(function(data) {
+        res.json(200, data[0]);
+    }).fail(function(err) {
+        res.json(400,err);
+    });
+};
+
+exports.updateNote = function(req,res){
+    // Get the current note
+    NoteLab.findOneQ({ _id : req.params.id }).then(function(note){
+        if(!note) return res.send(400);
+        if(!canModifyNote(req.user, note)) return res.json(403, "You are not allowed to modify this note");
+
+        // Update the text and modification date
+        note.text = req.body.text;
+        note.modifiedDate = new Date();
+        note.increment();
+
+        note.saveQ().then(function(newNote) {
+            res.json(200, newNote);
+        }).fail(function(err){
+            res.json(500,err);
+        });
+    }).fail(function(err){
+        res.json(500,err);
+    });
+};
+
+exports.removeNote = function(req,res){
+    // Get the current note
+    NoteLab.findOneQ({ _id : req.params.id }).then(function(note){
+        if(!note) return res.send(400);
+        if(!canModifyNote(req.user, note)) return res.json(403, "You are not allowed to modify this note");
+
+        // Notes are attached to projects or challenges
+        var containerUpdateQuery;
+        if(note.project){
+            containerUpdateQuery = Project.findOneAndUpdateQ({_id:req.body.project},{$dec:{noteNumber : 1}});
+        } else if(note.challenge) {
+            containerUpdateQuery = Challenge.findOneAndUpdateQ({_id:req.body.challenge},{$dec:{noteNumber : 1}});
+        } else {
+            res.json(500, "Note does not specify a project or challenge");
+        }
+
+        q.all([note.removeQ(), containerUpdateQuery]).then(function() {
+            res.send(200);
+        }).fail(function(err){
+            res.json(500,err);
+        });
+    }).fail(function(err){
+        res.json(500,err);
+    });
+};
+
+//comment
+
+exports.listComments = function(req,res){
+    Comment.find({ container : req.query.container })
+        .sort({ 'createDate' : 1})
+        .populate('answer')
+        .execQ()
+        .then(function(notes){
+            var response = [];
+            notes.forEach(function(note,key){
+                if(!note.parent){
+                    response.push(note)
+                }
+            });
+            res.json(response);
+        }).fail(function(err){
+            res.json(500,err);
+        })
+};
+
+exports.fetchComment = function(req,res){
+    Comment.find({ container : req.query.container })
+        .sort({ 'createDate' : 1})
+        .populate('answer')
+        .execQ()
+        .then(function(notes){
+            var response = [];
+            notes.forEach(function(note,key){
+                if(!note.parent){
+                    response.push(note)
+                }
+            });
+            res.json(response);
+        }).fail(function(err){
+            res.json(500,err);
+        })
+};
+
+exports.createComment = function(req,res){
+    var myComment = new Comment(req.body);
+    myComment.saveQ().then(function(comment){
+        var myNotif =  new Notification({
+            type : 'comment',
+            owner : comment.owner,
+            entity : comment._id,
+            container : comment.container,
+            project : comment.project
+        });
+        q.all([
+            myNotif.saveQ(),
+            Comment.findOneAndUpdateQ({ _id : comment.parent },{$push : { answer : comment._id }})
+        ]).then(function(data){
+            io.sockets.in('project::'+myNotif.project).emit('comment',data[0]);
+            io.sockets.emit('notelab_'+comment.container+'::newComment',comment);
+            res.send(200);
+        }).fail(function(err){
+            res.json(500,err);
+        })
+    }).fail(function(err){
+        res.json(500,err);
+    });
+};
+
+exports.updateComment = function(req,res){
+
+};
+
+exports.removeComment = function(req,res){
+
+};
 
 
 //file upload
@@ -134,126 +312,5 @@ exports.updateUrl = function(req,res){
 };
 
 exports.removeUrl = function(req,res){
-
-};
-
-//note
-exports.fetchNote = function(req,res){
-    console.log(1,req.query)
-    if(req.query.projectUrl){
-        Project.find({accessUrl : req.query.projectUrl}).populate('_id').execQ().then(function(project) {
-            console.log(2,project)
-            NoteLab.findQ({ project : project[0]._id }).then(function(notes){
-                console.log(3,notes)
-                res.json(notes);
-            }).fail(function(err){
-                res.json(500,err);
-            })
-        })
-    }else if(req.query.id){
-        NoteLab.findQ({ _id : req.query.id }).then(function(notes){
-            res.json(notes);
-        }).fail(function(err){
-            res.json(500,err);
-        })
-    }
-};
-
-exports.createNote = function(req,res){
-    var myNote = new NoteLab(req.body);
-        q.all([
-        myNote.saveQ(),
-        Project.findOneAndUpdateQ({_id:req.body.project},{$inc:{noteNumber : 1}})
-    ]).then(function(data){
-        var myNotif =  new Notification({
-            type : 'note',
-            owner : data[0].owner,
-            entity : data[0]._id,
-            container : data[0].project
-        });
-        myNotif.saveQ().then(function(notif){
-            console.log('la')
-            HackPadClient.create(data[0].text,'text/html',function(err,resp){
-                if(err){
-                    console.log(1,err)
-                    res.json(400,err);
-                }else{
-                    NoteLab.findOneAndUpdateQ({ _id  :data[0]._id },{ hackPadId : resp.padId }).then(function(note){
-                        io.sockets.in('project::'+req.body.project).emit('newNote',notif,note);
-                        res.send(200);
-                    }).fail(function(err){
-                        console.log(2,err)
-                        res.json(400,err)
-                    })
-                }
-            });
-        }).fail(function(err){
-            console.log(3,err)
-            res.json(400,err);
-        });
-    }).fail(function(err){
-        console.log(4,err)
-        res.json(400,err);
-    });
-};
-
-exports.updateNote = function(req,res){
-
-};
-
-exports.removeNote = function(req,res){
-
-};
-
-//comment
-
-exports.fetchComment = function(req,res){
-    Comment.find({ container : req.query.container })
-        .sort({ 'createDate' : 1})
-        .populate('answer')
-        .execQ()
-        .then(function(notes){
-            var response = [];
-            notes.forEach(function(note,key){
-                if(!note.parent){
-                    response.push(note)
-                }
-            });
-            res.json(response);
-        }).fail(function(err){
-            res.json(500,err);
-        })
-};
-
-exports.createComment = function(req,res){
-    var myComment = new Comment(req.body);
-    myComment.saveQ().then(function(comment){
-        var myNotif =  new Notification({
-            type : 'comment',
-            owner : comment.owner,
-            entity : comment._id,
-            container : comment.container,
-            project : comment.project
-        });
-        q.all([
-            myNotif.saveQ(),
-            Comment.findOneAndUpdateQ({ _id : comment.parent },{$push : { answer : comment._id }})
-        ]).then(function(data){
-            io.sockets.in('project::'+myNotif.project).emit('comment',data[0]);
-            io.sockets.emit('notelab_'+comment.container+'::newComment',comment);
-            res.send(200);
-        }).fail(function(err){
-            res.json(500,err);
-        })
-    }).fail(function(err){
-        res.json(500,err);
-    });
-};
-
-exports.updateComment = function(req,res){
-
-};
-
-exports.removeComment = function(req,res){
 
 };
