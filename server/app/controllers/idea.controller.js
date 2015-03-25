@@ -71,7 +71,7 @@ exports.create = function(req, res) {
 exports.remove = function(req, res) {
 	Idea.findOneAndRemoveQ({_id : req.params.id}).then(function(data) {
 		res.json(data);
-	}).fail(functiono(err) {
+	}).fail(function(err) {
 		res.json(400, err);
 	});
 };
