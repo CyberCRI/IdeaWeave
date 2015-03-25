@@ -11,9 +11,32 @@ var mongoose = require('mongoose-q')(),
 	_ = require('lodash'),
 	q = require('q');
 
-exports.fetch = functiono(req, res) {
-	
-}
+exports.fetch = function(req, res) {
+	if(req.query.accessUrl) {
+		Idea
+			.find({accessUrl : req.query.accessUrl})
+			.populate('tags')
+			.populate('followers')
+			.populate('owner')
+			.execQ()
+			.then(function(idea) {
+				res.json(idea);
+			}).catch(function(err) {
+				res.json(500, err);
+			});
+	}
+	else {
+		Idea
+			.find()
+			.populate('tags')
+			.execQ()
+			.then(function(idea) {
+				res.json(idea);
+			}).fail(function(err) {
+				res.json(500, err);
+			});
+	}
+};
 
 exports.create = function(req, res) {
 	if(req.body.tags) {
