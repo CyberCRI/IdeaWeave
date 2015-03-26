@@ -76,6 +76,14 @@ exports.create = function(req, res) {
 	});
 };
 
+exports.update = function(req, res) {
+	Idea.findOneAndUpdateQ({_id : req.params.id}, req.body).then(function(data) {
+		res.json(data);
+	}).fail(function(err) {
+		res.json(400, err);
+	});
+};
+
 exports.remove = function(req, res) {
 	Idea.findOneAndRemoveQ({_id : req.params.id}).then(function(data) {
 		res.json(data);
