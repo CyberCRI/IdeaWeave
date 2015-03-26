@@ -73,7 +73,6 @@ exports.unfollow = function(req,res){
 
 exports.fetch = function(req,res){
 
-
     if(req.query.accessUrl) {
         if(req.query.accessUrl){
             Challenge

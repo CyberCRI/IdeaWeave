@@ -9,7 +9,7 @@ var idea = require('../controllers/idea.controller.js'),
 module.exports = function(app) {
 	app.route('/ideas')
 		.get(idea.fetch)
-		.post(idea.create);
+		.post(utils.ensureAuthenticated, idea.create);
 	app.route('/idea/:id')
 		.delete(utils.ensureAuthenticated, idea.remove);
 };
