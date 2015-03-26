@@ -11,6 +11,14 @@ var mongoose = require('mongoose-q')(),
 	_ = require('lodash'),
 	q = require('q');
 
+exports.fetchOne = function(req, res) {
+	Idea.findOneQ({_id : req.params.id}).then(function(idea) {
+		res.json(idea);
+	}).fail(function(err) {
+		res.json(400, err);
+	});
+};
+
 exports.fetch = function(req, res) {
 	if(req.query.accessUrl) {
 		Idea
@@ -35,17 +43,17 @@ exports.fetch = function(req, res) {
 			}).fail(function(err) {
 				res.json(500, err);
 			});
-	}
+	};
 };
 
 exports.create = function(req, res) {
 	if(req.body.tags) {
 		var tagsId = [];
 		req.body.tags.forEach(function(tag, k) {
-			tagsId.push(tag._id)
+			tagsId.push(tag._id);
 		});
 		req.body.tags = tagsId;
-	}
+	};
 
 	var idea = new Idea(req.body);
 	idea.saveQ().then(function(idea) {

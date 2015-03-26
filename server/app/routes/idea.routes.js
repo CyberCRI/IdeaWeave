@@ -11,5 +11,6 @@ module.exports = function(app) {
 		.get(idea.fetch)
 		.post(utils.ensureAuthenticated, idea.create);
 	app.route('/ideas/:id')
+		.get(idea.fetchOne)
 		.delete(utils.ensureAuthenticated, idea.remove);
 };
