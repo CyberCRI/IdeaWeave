@@ -41,18 +41,15 @@ var IdeaSchema = new Schema({
 	},
 	likes : {
 		type : Number,
-		default : 0,
-		required : true
+		default : 0
 	},
 	dislikes : {
 		type : Number,
-		default : 0,
-		required : true
+		default : 0
 	},
 	reports : {
 		type : Number,
-		default : 0,
-		required : true
+		default : 0
 	},
 	follow : {
 		type : Number,
@@ -85,8 +82,9 @@ var IdeaSchema = new Schema({
 			ref : 'Tag',
 			unique : true
 		}
-	],
+	]
 });
+
 IdeaSchema.statics.random = function() {
 	var defered = Q.defer()
 	this.count(function(err, count) {
