@@ -10,6 +10,6 @@ module.exports = function(app) {
 	app.route('/ideas')
 		.get(idea.fetch)
 		.post(utils.ensureAuthenticated, idea.create);
-	app.route('/idea/:id')
+	app.route('/ideas/:id')
 		.delete(utils.ensureAuthenticated, idea.remove);
 };
