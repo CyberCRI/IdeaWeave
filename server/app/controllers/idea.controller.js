@@ -123,7 +123,7 @@ exports.remove = function(req, res) {
 };
 
 exports.follow = function(req, res) {
-	Idea.findOneAndUpdateQ({_id : req.body.following}, 
+	Idea.findOneAndUpdateQ({_id : req.params.id}, 
 		{$push : {followers : req.body.follower}})
 		.then(function(idea) {
 			var myNotif = new Notification({
@@ -136,6 +136,24 @@ exports.follow = function(req, res) {
 				res.json(idea);
 			}).fail(function(err) {
 				res.json(400, err);
+			});
+		}).fail(function(err) {
+			res.json(400, err);
+		});
+};
+
+exports.unfollow = function(req, res) {
+	Idea.findOneAndUpdateQ({_id : req.params.id},
+		{$pull : {followers : req.body.follower}})
+		.then(function(idea) {
+			var myNotif = new Notification({
+				type : 'unfollow',
+				owner : req.body.follower,
+				entity : idea._id,
+				entityType : 'idea'
+			});
+			myNotif.saveQ().then(function() {
+				res.json(idea);
 			});
 		}).fail(function(err) {
 			res.json(400, err);

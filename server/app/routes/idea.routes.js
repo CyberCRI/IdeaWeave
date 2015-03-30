@@ -15,4 +15,5 @@ module.exports = function(app) {
 		.put(utils.ensureAuthenticated, idea.update)
 		.delete(utils.ensureAuthenticated, idea.remove);
 	app.put('/ideas/:id/follow', utils.ensureAuthenticated, idea.follow);
+	app.put('/ideas/:id/unfollow', utils.ensureAuthenticated, idea.unfollow);
 };
