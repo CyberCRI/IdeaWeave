@@ -159,3 +159,41 @@ exports.unfollow = function(req, res) {
 			res.json(400, err);
 		});
 };
+
+exports.like = function(req, res) {
+	Idea.findOneAndUpdateQ({_id : req.params.id},
+		{$push : {likers : req.body.liker},
+		$pull : {dislikers : req.body.liker}})
+		.then(function(idea) {
+			var myNotif = new Notification({
+				type : 'like',
+				owner : req.body.liker,
+				entity : idea._id,
+				entityType : 'idea'
+			});
+			myNotif.saveQ().then(function() {
+				res.json(idea);
+			});
+		}).fail(function(err) {
+			res.json(400, err);
+		});
+};
+
+exports.dislike = function(req, res) {
+	Idea.findOneAndUpdateQ({_id : req.params.id},
+		{$push : {dislikers : req.body.disliker},
+		$pull : {likers : req.body.disliker}})
+		.then(function(idea) {
+			var myNotif = new Notification({
+				type : 'dislike',
+				owner : req.body.disliker,
+				entity : idea._id,
+				entityType : 'idea'
+			});
+			myNotif.saveQ().then(function() {
+				res.json(idea);
+			});
+		}).fail(function(err) {
+			res.json(400, err);
+		});
+};
