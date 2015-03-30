@@ -13,9 +13,9 @@ var IdeaSchema = new Schema({
 		type : Date,
 		default : Date.now
 	},
-	accessUrl : {
-		type : String,
-		required : true
+	modifiedDate : {
+		type : Date,
+		default : Date.now
 	},
 	title : {
 		type : String,
@@ -30,31 +30,25 @@ var IdeaSchema = new Schema({
 		type : Schema.ObjectId,
 		ref : 'User'
 	},
-	contactInfo : {
-		type : String,
-		default : ''
-	},
 	language : {
 		type : String,
 		default : 'English',
 		required : 'A language needs to be selected'
 	},
-	likes : {
-		type : Number,
-		default : 0
-	},
-	dislikes : {
-		type : Number,
-		default : 0
-	},
-	reports : {
-		type : Number,
-		default : 0
-	},
-	follow : {
-		type : Number,
-		default : 0
-	},
+	likes : [
+		{
+			type : Schema.ObjectId,
+			ref : 'User',
+			unique : true
+		}
+	],
+	dislikes : [
+		{
+			type : Schema.ObjectId,
+			ref : 'User',
+			unique : true
+		}
+	],
 	followers : [
 		{
 			type : Schema.ObjectId,

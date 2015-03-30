@@ -11,6 +11,10 @@ var mongoose = require('mongoose-q')(),
 	_ = require('lodash'),
 	q = require('q');
 
+function canModifyIdea(user, idea) {
+	return user._id.toString() == idea.owner.toString();
+};
+
 exports.fetchOne = function(req, res) {
 	Idea.findOneQ({_id : req.params.id}).then(function(idea) {
 		res.json(idea);
@@ -77,10 +81,19 @@ exports.create = function(req, res) {
 };
 
 exports.update = function(req, res) {
-	Idea.findOneAndUpdateQ({_id : req.params.id}, req.body).then(function(data) {
-		res.json(data);
-	}).fail(function(err) {
-		res.json(400, err);
+	Idea.findOneQ({_id : req.params.id}).then(function(idea) {
+		if(!canModifyIdea(req.user, idea)) {
+			return res.json(403, "You are not allowed to modify this idea");
+		};
+		idea.brief = req.body.brief;
+		idea.language = req.body.language;
+		idea.tags = req.body.tags;
+		idea.modifiedDate = new Date();
+		idea.saveQ().then(function(modifiedIdea) {
+			res.json(200, modifiedIdea);
+		}).fail(function(err) {
+			res.json(400, err);
+		});
 	});
 };
 
