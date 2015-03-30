@@ -25,7 +25,7 @@ var NotificationSchema = new Schema({
     entityType : {
         type : String,
         required : 'entity type cannot be blank'
-    }
+    },
     owner: {
         type: Schema.ObjectId,
         ref: 'User',
