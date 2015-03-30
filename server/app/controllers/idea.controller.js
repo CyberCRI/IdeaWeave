@@ -91,3 +91,22 @@ exports.remove = function(req, res) {
 		res.json(400, err);
 	});
 };
+
+exports.follow = function(req, res) {
+	Idea.findOneAndUpdateQ({_id : req.body.following}, 
+		{$push : {followers : req.body.follower}})
+		.then(function(idea) {
+			var myNotif = new Notification({
+				type : 'followI',
+				owner : idea.owner,
+				entity : idea._id
+			});
+			myNotif.saveQ().then(function() {
+				res.json(idea);
+			}).fail(function(err) {
+				res.json(400, err);
+			});
+		}).fail(function(err) {
+			res.json(400, err);
+		});
+};
