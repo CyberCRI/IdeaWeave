@@ -63,17 +63,16 @@ exports.getFiles = function(req,res){
 };
 
 exports.follow = function(req,res){
-
     Project.findOneAndUpdateQ({ _id : req.body.following },{$push : { followers : req.body.follower }}).then(function(project){
         var myNotif =  new Notification({
-            type : 'followP',
-            owner : project.owner,
-            entity : project._id
+            type : 'follow',
+            owner : req.body.follower,
+            entity : project._id,
+            entityType : 'project'
         });
         myNotif.saveQ().then(function(){
             res.json(project)
         }).fail(function(err){
-
             res.json(400,err);
         });
     }).fail(function(err){
@@ -84,14 +83,21 @@ exports.follow = function(req,res){
 
 exports.unfollow = function(req,res){
     Project.findOneAndUpdateQ({ _id : req.body.following },{$pull : { followers : req.body.follower }}).then(function(project){
-        res.json(project)
+        var myNotif = new Notification({
+            type : 'unfollow',
+            owner : req.body.follower,
+            entity : project._id,
+            entityType : 'project'
+        });
+        myNotif.saveQ().then(function() {
+            res.json(project);
+        });
     }).fail(function(err){
         res.json(500,err)
     })
 };
 
 exports.getByChallenge = function(req,res){
-;
     Project.find({ container : req.params.challenge }).select('_id title poster tags').populate('tags').execQ().then(function(projects){
         res.json(projects);
     }).fail(function(err){
@@ -168,7 +174,6 @@ exports.fetch = function(req,res){
 };
 
 exports.create = function(req,res){
-
     if(req.body.tags){
         var tagsId = [];
         req.body.tags.forEach(function(tag,k){
@@ -183,10 +188,10 @@ exports.create = function(req,res){
         if(project.container){
             Challenge.findOneAndUpdateQ({_id : project.container},{ $push : { projects : project._id },$inc : { projectNumber : 1 }}).then(function(challenge){
                 var myNotif =  new Notification({
-                    type : 'project',
+                    type : 'create',
                     owner : project.owner,
-                    entity : project,
-                    container : project.container
+                    entity :  project._id,
+                    entityType : 'project'
                 });
                 myNotif.saveQ().then(function(notif){
                     io.sockets.in('challenge::'+project.container).emit('newProject',notif);
@@ -213,7 +218,15 @@ exports.update = function(req,res){
     }
 
     Project.findOneAndUpdateQ({_id:req.params.id}, req.body, function(data) {
-        res.json(data);
+        var myNotif = new Notification({
+            type : 'update',
+            owner : data.owner,
+            entity : data._id,
+            entityType : 'project'
+        });
+        myNotif.saveQ().then(function() {
+            res.json(data);
+        });
     }).fail(function(err){
         res.json(400,err)
     });
@@ -221,7 +234,15 @@ exports.update = function(req,res){
 
 exports.remove = function(req,res){
     Project.findOneAndRemoveQ({_id : req.params.id}).then(function(data){
-        res.json(data);
+        var myNotif = new Notification({
+            type : 'remove',
+            owner : data.owner,
+            entity : data._id,
+            entityType : 'project'
+        });
+        myNotif.saveQ().then(function() {
+            res.json(data);
+        });
     }).fail(function(err){
         res.json(400,err);
     })
@@ -288,7 +309,8 @@ exports.addToTeam = function(req,res){
     var myNotif = new Notification({
         entity : projectId,
         owner : ownerId,
-        type : 'join'
+        type : 'join',
+        entityType : 'project'
     });
 
     q.all([
@@ -306,7 +328,8 @@ exports.banFromTeam = function(req,res) {
     var myNotif = new Notification({
         entity : req.params.id,
         owner : req.body.member,
-        type : 'join'
+        type : 'ban',
+        entityType : 'project'
     });
     q.all([
         Project.findOneAndUpdateQ({ _id: req.params.id }, {$pull: { members: req.body.member }}),

@@ -62,9 +62,10 @@ exports.create = function(req, res) {
 	var idea = new Idea(req.body);
 	idea.saveQ().then(function(idea) {
 		var myNotif = new Notification({
-			type : 'idea',
+			type : 'create',
 			owner : idea.owner,
-			entity : idea._id
+			entity : idea._id,
+			entityType : 'idea'
 		});
 		console.log("Saving notification...");
 		myNotif.saveQ().then(function(notif) {
@@ -90,7 +91,15 @@ exports.update = function(req, res) {
 		idea.tags = req.body.tags;
 		idea.modifiedDate = new Date();
 		idea.saveQ().then(function(modifiedIdea) {
-			res.json(200, modifiedIdea);
+			var myNotif = new Notification({
+				type : 'update',
+				owner : modifiedIdea.owner,
+				entity : modifiedIdea._id,
+				entityType : 'idea'
+			});
+			myNotif.saveQ().then(function() {
+				res.json(200, modifiedIdea);
+			});
 		}).fail(function(err) {
 			res.json(400, err);
 		});
@@ -98,8 +107,16 @@ exports.update = function(req, res) {
 };
 
 exports.remove = function(req, res) {
-	Idea.findOneAndRemoveQ({_id : req.params.id}).then(function(data) {
-		res.json(data);
+	Idea.findOneAndRemoveQ({_id : req.params.id}).then(function(idea) {
+		var myNotif = new Notification({
+			type : 'remove',
+			owner : idea.owner,
+			entity : idea._id,
+			entityType : 'idea'
+		});
+		myNotif.saveQ().then(function() {
+			res.json(idea);
+		});
 	}).fail(function(err) {
 		res.json(400, err);
 	});
@@ -110,9 +127,10 @@ exports.follow = function(req, res) {
 		{$push : {followers : req.body.follower}})
 		.then(function(idea) {
 			var myNotif = new Notification({
-				type : 'followI',
-				owner : idea.owner,
-				entity : idea._id
+				type : 'follow',
+				owner : req.body.follower,
+				entity : idea._id,
+				entityType : 'idea'
 			});
 			myNotif.saveQ().then(function() {
 				res.json(idea);

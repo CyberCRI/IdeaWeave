@@ -4,12 +4,13 @@ var q = require('q'),
     mongoose = require('mongoose'),
     Notification = mongoose.model('Notification');
 
-exports.create = function(owner,type,entity){
+exports.create = function(owner,type,entity, entityType){
     var defered = q.defer(),
         myNotif = new Notification({
             owner : owner,
             type : type,
-            entity : entity
+            entity : entity,
+            entityType : entityType
         });
     myNotif.saveQ().then(function(notif){
         defered.resolve(notif)
