@@ -58,13 +58,13 @@
         <section>
             <h2>Publications</h2>
             <article ng-repeat="note in challenge.notes">
-                <p>Posted by {{ note.owner.username }} on {{ note.createDate | date : medium }}</p>
-                <p ng-bind-html="note.text"></p>
+                <p>Posted by {{ note.owner.username }} on {{ note.createDate | date: "medium" }}</p>
+                <p ng-bind-html="note.text | linky" class="show-line-breaks"></p>
 
                 <h3>Comments</h3>
                 <article ng-repeat="comment in note.comments">
-                    <p>Posted by {{ note.owner.username }} on {{ note.createDate | date : medium }}</p>
-                    <p ng-bind-html="comment.text"></p>
+                    <p>Posted by {{ note.owner.username }} on {{ note.createDate | date: "medium" }}</p>
+                    <p ng-bind-html="comment.text | linky" class="show-line-breaks"></p>
                 </article>
 
                 <form name="commentForm" ng-submit="postComment(note)">

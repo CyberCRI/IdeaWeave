@@ -1,4 +1,4 @@
-angular.module('cri.challenge', [])
+angular.module('cri.challenge', ['ngSanitize'])
     .controller('chatCtrl',['$scope','Challenge','mySocket',function($scope,Challenge,mySocket){
 //        mySocket.on('chat_'+$scope.challenge._id+'::created',function(message){
         if($scope.currentUser){
