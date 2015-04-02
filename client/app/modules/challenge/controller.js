@@ -82,8 +82,7 @@ angular.module('cri.challenge', ['ngSanitize'])
         };
 
     }])
-    .controller('ChallengeSuggestCtrl', ['$scope', 'Challenge','$upload','$state','Notification','Gmap','Files','Config', function ($scope, Challenge,$upload,$state,Notification,Gmap,Files,Config) {
-
+    .controller('ChallengeSuggestCtrl', function ($scope, Challenge,$upload,$state,Notification,Gmap,Files,Config) {
         $scope.hasDuration = false;
         $scope.pform = {};
         $scope.pform.tags = [];
@@ -109,16 +108,16 @@ angular.module('cri.challenge', ['ngSanitize'])
                 Notification.display(err.message);
             });
         };
-    }])
-    .controller('ChallengeCtrl',function($scope,Challenge,challenge,Notification,$state,Project,$rootScope,NoteLab){
+    })
+    .controller('ChallengeCtrl', function($scope,Challenge,challenge,Notification,$state,Project,$rootScope,NoteLab) {
         $scope.challenge = challenge[0];
 
         // Get notes
         NoteLab.listNotes({ challenge: $scope.challenge._id }).then(function(data){
             $scope.challenge.notes = data;
             
-            // Add newComment field
             angular.forEach($scope.challenge.notes, function(note) {
+                // Add newComment field
                 note.newComment = "";
             });
         }).catch(function(err){

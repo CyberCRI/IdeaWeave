@@ -23,21 +23,21 @@ function canModifyNote(user, note) {
 }
 
 exports.listNotes = function(req,res){
+    var query;
     if(req.query.project){
-        NoteLab.find({ project : req.query.project }).populate("owner", "username").populate("comments.owner", "username").execQ().then(function(notes){
-            res.json(notes);
-        }).fail(function(err){
-            res.json(500, err);
-        });
+        query = NoteLab.find({ project : req.query.project });
     } else if(req.query.challenge) {
-        NoteLab.find({ challenge : req.query.challenge }).populate("owner", "username").populate("comments.owner", "username").execQ().then(function(notes){
-            res.json(notes);
-        }).fail(function(err){
-            res.json(500, err);
-        });        
+        query = NoteLab.find({ challenge : req.query.challenge });
     } else {
-        res.json(403, "Please specify a project or challenge");
+        return res.json(403, "Please specify a project or challenge");
     }
+
+    query.sort("-createDate").populate("owner", "username").populate("comments.owner", "username").execQ().then(function(notes){
+        res.json(notes);
+    }).fail(function(err){
+        res.json(500, err);
+    });        
+
 };
 
 exports.fetchNote = function(req,res){
