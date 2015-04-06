@@ -59,6 +59,7 @@
             <h2>Publications</h2>
             <article ng-repeat="note in challenge.notes">
                 <p>Posted by {{ note.owner.username }} on {{ note.createDate | date: "medium" }}</p>
+                <material-button ng-if="note.owner._id == currentUser._id" ng-click="deleteNote(note)">Delete</material-button>
                 <p ng-bind-html="note.text"></p>
 
                 <h3>Comments</h3>

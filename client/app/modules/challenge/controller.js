@@ -112,7 +112,7 @@ angular.module('cri.challenge', ['ngSanitize'])
     .controller('ChallengeCtrl', function($scope,Challenge,challenge,Notification,$state,Project,$rootScope,NoteLab) {
         $scope.challenge = challenge[0];
 
-        // Get notes
+        // HANDLE NOTES AND COMMENTS:
         NoteLab.listNotes({ challenge: $scope.challenge._id }).then(function(data){
             $scope.challenge.notes = data;
             
@@ -135,6 +135,13 @@ angular.module('cri.challenge', ['ngSanitize'])
                 Notification.display(err.message);
             });
         };
+
+        $scope.deleteNote = function(note) {
+            NoteLab.deleteNote(note._id).then(function() {
+                Notification.display("Publication deleted");
+            });
+        }
+        // END NOTE HANGLING
 
         if($scope.currentUser){
             if($scope.currentUser._id == $scope.challenge.owner._id){
