@@ -16,6 +16,8 @@ module.exports = function(app) {
 		.delete(utils.ensureAuthenticated, idea.remove);
 	app.put('/ideas/:id/follow', utils.ensureAuthenticated, idea.follow);
 	app.put('/ideas/:id/unfollow', utils.ensureAuthenticated, idea.unfollow);
-	app.put('/ideas/:id/like', utils.ensureAuthenticated, idea.like);
+	app.route('/ideas/:id/like')
+		.get(idea.getLikes)
+		.put(utils.ensureAuthenticated, idea.like);
 	app.put('/ideas/:id/dislike', utils.ensureAuthenticated, idea.dislike);
 };
