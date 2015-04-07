@@ -50,10 +50,10 @@ exports.upload = function(req,res) {
                         myFile.project = req.body.project;
                         myFile.saveQ().then(function(data){
                             var myNotif =  new Notification({
-                                type : 'noteLabF',
+                                type : 'upload',
                                 owner : data.owner,
                                 entity : data._id,
-                                container : data.container
+                                entityType : 'noteLab'
                             });
                             myNotif.saveQ().then(function(notif){
                                 io.sockets.in('project::'+myFile.project).emit('file',notif);
@@ -112,10 +112,10 @@ exports.createUrl = function(req,res){
     var myUrl = new Url(req.body);
     myUrl.saveQ().then(function(data){
         var myNotif =  new Notification({
-            type : 'noteLabU',
+            type : 'createUrl',
             owner : data.owner,
             entity : data._id,
-            container : data.container
+            entityType : 'noteLab'
         });
         myNotif.saveQ().then(function(notif){
             io.sockets.in('project::'+req.body.project).emit('url',notif);
@@ -166,10 +166,10 @@ exports.createNote = function(req,res){
         Project.findOneAndUpdateQ({_id:req.body.project},{$inc:{noteNumber : 1}})
     ]).then(function(data){
         var myNotif =  new Notification({
-            type : 'note',
+            type : 'createNote',
             owner : data[0].owner,
             entity : data[0]._id,
-            container : data[0].project
+            entityType : 'noteLab'
         });
         myNotif.saveQ().then(function(notif){
             console.log('la')
@@ -229,11 +229,10 @@ exports.createComment = function(req,res){
     var myComment = new Comment(req.body);
     myComment.saveQ().then(function(comment){
         var myNotif =  new Notification({
-            type : 'comment',
+            type : 'createComment',
             owner : comment.owner,
             entity : comment._id,
-            container : comment.container,
-            project : comment.project
+            entityType : 'noteLab'
         });
         q.all([
             myNotif.saveQ(),

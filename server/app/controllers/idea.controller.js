@@ -1,0 +1,236 @@
+/**
+ * Module dependencies
+ */
+var mongoose = require('mongoose-q')(),
+	Idea = mongoose.model('Idea'),
+	Challenge = mongoose.model('Challenge'),
+	Project = mongoose.model('Project'),
+	Tags = mongoose.model('Tag'),
+	Notification = mongoose.model('Notification'),
+	io = require('../../server').io,
+	_ = require('lodash'),
+	q = require('q');
+
+function canModifyIdea(user, idea) {
+	return user._id.toString() == idea.owner.toString();
+};
+
+exports.fetchOne = function(req, res) {
+	Idea.findOneQ({_id : req.params.id}).then(function(idea) {
+		res.json(idea);
+	}).fail(function(err) {
+		res.json(400, err);
+	});
+};
+
+exports.fetch = function(req, res) {
+	if(req.query.accessUrl) {
+		Idea
+			.find({accessUrl : req.query.accessUrl})
+			.populate('tags')
+			.populate('followers')
+			.populate('owner')
+			.execQ()
+			.then(function(idea) {
+				res.json(idea);
+			}).catch(function(err) {
+				res.json(500, err);
+			});
+	}
+	else {
+		Idea
+			.find()
+			.populate('tags')
+			.execQ()
+			.then(function(idea) {
+				res.json(idea);
+			}).fail(function(err) {
+				res.json(500, err);
+			});
+	};
+};
+
+exports.create = function(req, res) {
+	if(req.body.tags) {
+		var tagsId = [];
+		req.body.tags.forEach(function(tag, k) {
+			tagsId.push(tag._id);
+		});
+		req.body.tags = tagsId;
+	};
+
+	var idea = new Idea(req.body);
+	idea.saveQ().then(function(idea) {
+		var myNotif = new Notification({
+			type : 'create',
+			owner : idea.owner,
+			entity : idea._id,
+			entityType : 'idea'
+		});
+		console.log("Saving notification...");
+		myNotif.saveQ().then(function(notif) {
+			console.log("Saving notification.");
+			io.sockets.emit('newIdea', notif);
+			console.log("Sent notification.");
+			res.json(idea);
+		}).fail(function(err) {
+			res.json(500, err);
+		});
+	}).fail(function(err) {
+		res.json(400, err);
+	});
+};
+
+exports.update = function(req, res) {
+	Idea.findOneQ({_id : req.params.id}).then(function(idea) {
+		if(!canModifyIdea(req.user, idea)) {
+			return res.json(403, "You are not allowed to modify this idea");
+		};
+		idea.brief = req.body.brief;
+		idea.language = req.body.language;
+		idea.tags = req.body.tags;
+		idea.modifiedDate = new Date();
+		idea.saveQ().then(function(modifiedIdea) {
+			var myNotif = new Notification({
+				type : 'update',
+				owner : modifiedIdea.owner,
+				entity : modifiedIdea._id,
+				entityType : 'idea'
+			});
+			myNotif.saveQ().then(function() {
+				res.json(200, modifiedIdea);
+			});
+		}).fail(function(err) {
+			res.json(400, err);
+		});
+	});
+};
+
+exports.remove = function(req, res) {
+	Idea.findOneAndRemoveQ({_id : req.params.id}).then(function(idea) {
+		var myNotif = new Notification({
+			type : 'remove',
+			owner : idea.owner,
+			entity : idea._id,
+			entityType : 'idea'
+		});
+		myNotif.saveQ().then(function() {
+			res.json(idea);
+		});
+	}).fail(function(err) {
+		res.json(400, err);
+	});
+};
+
+exports.follow = function(req, res) {
+	Idea.findOneAndUpdateQ({_id : req.params.id}, 
+		{$push : {followers : req.body.follower}})
+		.then(function(idea) {
+			var myNotif = new Notification({
+				type : 'follow',
+				owner : req.body.follower,
+				entity : idea._id,
+				entityType : 'idea'
+			});
+			myNotif.saveQ().then(function() {
+				res.json(idea);
+			}).fail(function(err) {
+				res.json(400, err);
+			});
+		}).fail(function(err) {
+			res.json(400, err);
+		});
+};
+
+exports.unfollow = function(req, res) {
+	Idea.findOneAndUpdateQ({_id : req.params.id},
+		{$pull : {followers : req.body.follower}})
+		.then(function(idea) {
+			var myNotif = new Notification({
+				type : 'unfollow',
+				owner : req.body.follower,
+				entity : idea._id,
+				entityType : 'idea'
+			});
+			myNotif.saveQ().then(function() {
+				res.json(idea);
+			});
+		}).fail(function(err) {
+			res.json(400, err);
+		});
+};
+
+exports.like = function(req, res) {
+	Idea.findOneQ({_id : req.params.id}).then(function(data) {
+		if(data.likers.indexOf(req.body.liker) < 0) {
+			Idea.findOneAndUpdateQ({_id : req.params.id}, 
+				{$push : {likers : req.body.liker},
+				$pull : {dislikers : req.body.liker}})
+				.then(function(idea) {
+					var myNotif = new Notification({
+						type : 'like',
+						owner : req.body.liker,
+						entity : idea._id,
+						entityType : 'idea'
+					});
+					myNotif.saveQ().then(function() {
+						res.json(idea);
+					});
+				}).fail(function(err) {
+					res.json(400, err);
+				});
+		}
+		else {
+			res.json("already liked");
+		};
+	});
+};
+
+exports.getLikes = function(req, res) {
+	Idea.findOneQ({_id : req.params.id}).then(function(idea) {
+		var count = '0';
+		if(typeof idea.likers != 'undefined' && idea.likers.length > 0) {
+			console.log('defined');
+			count = idea.likers.length.toString();
+		};
+		res.json(count);
+	});
+};
+
+exports.dislike = function(req, res) {
+	Idea.findOneQ({_id : req.params.id}).then(function(data) {
+		if(data.dislikers.indexOf(req.body.disliker) < 0) {
+			Idea.findOneAndUpdateQ({_id : req.params.id},
+				{$push : {dislikers : req.body.disliker},
+				$pull : {likers : req.body.disliker}})
+				.then(function(idea) {
+					var myNotif = new Notification({
+					type : 'dislike',
+					owner : req.body.disliker,
+					entity : idea._id,
+					entityType : 'idea'
+				});
+				myNotif.saveQ().then(function() {
+					res.json(idea);
+				});
+			}).fail(function(err) {
+				res.json(400, err);
+			});
+		}
+		else {
+			res.json("already disliked");
+		};
+	});
+};
+
+exports.getDislikes = function(req, res) {
+	Idea.findOneQ({_id : req.params.id}).then(function(idea) {
+		var count = '0';
+		if(typeof idea.dislikers != 'undefined' && idea.dislikers.length > 0) {
+			console.log('defined');
+			count = idea.dislikers.length.toString();
+		}
+		res.json(count);
+	});
+};
+
