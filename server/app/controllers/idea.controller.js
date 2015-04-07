@@ -188,26 +188,49 @@ exports.like = function(req, res) {
 
 exports.getLikes = function(req, res) {
 	Idea.findOneQ({_id : req.params.id}).then(function(idea) {
-		var count = idea.likers.length;
+		var count = '0';
+		if(typeof idea.likers != 'undefined' && idea.likers.length > 0) {
+			console.log('defined');
+			count = idea.likers.length.toString();
+		};
 		res.json(count);
 	});
 };
 
 exports.dislike = function(req, res) {
-	Idea.findOneAndUpdateQ({_id : req.params.id},
-		{$push : {dislikers : req.body.disliker},
-		$pull : {likers : req.body.disliker}})
-		.then(function(idea) {
-			var myNotif = new Notification({
-				type : 'dislike',
-				owner : req.body.disliker,
-				entity : idea._id,
-				entityType : 'idea'
+	Idea.findOneQ({_id : req.params.id}).then(function(data) {
+		if(data.dislikers.indexOf(req.body.disliker) < 0) {
+			Idea.findOneAndUpdateQ({_id : req.params.id},
+				{$push : {dislikers : req.body.disliker},
+				$pull : {likers : req.body.disliker}})
+				.then(function(idea) {
+					var myNotif = new Notification({
+					type : 'dislike',
+					owner : req.body.disliker,
+					entity : idea._id,
+					entityType : 'idea'
+				});
+				myNotif.saveQ().then(function() {
+					res.json(idea);
+				});
+			}).fail(function(err) {
+				res.json(400, err);
 			});
-			myNotif.saveQ().then(function() {
-				res.json(idea);
-			});
-		}).fail(function(err) {
-			res.json(400, err);
-		});
+		}
+		else {
+			res.json("already disliked");
+		};
+	});
 };
+
+exports.getDislikes = function(req, res) {
+	Idea.findOneQ({_id : req.params.id}).then(function(idea) {
+		var count = '0';
+		if(typeof idea.dislikers != 'undefined' && idea.dislikers.length > 0) {
+			console.log('defined');
+			count = idea.dislikers.length.toString();
+		}
+		res.json(count);
+	});
+};
+

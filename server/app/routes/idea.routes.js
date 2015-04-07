@@ -19,5 +19,7 @@ module.exports = function(app) {
 	app.route('/ideas/:id/like')
 		.get(idea.getLikes)
 		.put(utils.ensureAuthenticated, idea.like);
-	app.put('/ideas/:id/dislike', utils.ensureAuthenticated, idea.dislike);
+	app.route('/ideas/:id/dislike')
+		.get(idea.getDislikes)
+		.put(utils.ensureAuthenticated, idea.dislike);
 };
