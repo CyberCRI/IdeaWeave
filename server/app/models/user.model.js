@@ -82,7 +82,21 @@ var UserSchema = new Schema({
     google: String,
     github: String,
     linkedin: String,
-    twitter: String
+    twitter: String,
+    likes : [
+        {
+            type : Schema.ObjectId,
+            ref : 'Idea',
+            unique : true
+        }
+    ],
+    dislikes : [
+        {
+            type : Schema.ObjectId,
+            ref : 'Idea',
+            unique : true
+        }
+    ]
 });
 
 UserSchema.statics.random = function() {

@@ -35,20 +35,14 @@ var IdeaSchema = new Schema({
 		default : 'English',
 		required : 'A language needs to be selected'
 	},
-	likers : [
-		{
-			type : Schema.ObjectId,
-			ref : 'User',
-			unique : true
-		}
-	],
-	dislikers : [
-		{	
-			type : Schema.ObjectId,
-			ref : 'User',
-			unique : true
-		}
-	],
+	likes : {
+		type : Number,
+		default : 0
+	},
+	dislikes : {	
+		type : Number,
+		default : 0
+	},
 	followers : [
 		{
 			type : Schema.ObjectId,
