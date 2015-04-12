@@ -13,10 +13,6 @@ var mongoose = require('mongoose-q')(),
  * User Schema
  */
 var UserSchema = new Schema({
-	realname: {
-		type: String,
-		default: ''
-	},
 	email: {
 		type: String
 	},

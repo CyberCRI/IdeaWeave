@@ -216,12 +216,6 @@ angular.module('cri', [
                 case 'project.trello':
                     $scope.sideNavTemplateUrl = 'modules/common/leftNav/publications.tpl.html';
                     break;
-                case 'challenge':
-                    getRecomendation(Challenge.data._id).then(function() {
-                        $scope.challenge = Challenge.data;
-                        $scope.sideNavTemplateUrl = 'modules/common/leftNav/chat.tpl.html';
-                    });
-                    break;
             }
         });
 

@@ -36,12 +36,12 @@ angular.module('cri.profile')
                 $http.get(url,{
                     params : param
                 })
-                    .success(function(data){
-                        defered.resolve(data);
-                    })
-                    .error(function(err){
-                        defered.reject(err);
-                    });
+                .success(function(data){
+                    defered.resolve(data);
+                })
+                .error(function(err){
+                    defered.reject(err);
+                });
                 return defered.promise;
             },
             getProfile : function(id){

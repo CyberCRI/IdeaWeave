@@ -112,14 +112,6 @@ exports.me = function(req, res) {
 };
 
 
-exports.fetchAll = function(req,res){
-    User.findQ().then(function(users){
-        res.json(users);
-    }).fail(function(err){
-        res.json(500,err);
-    })
-};
-
 exports.fetch = function(req,res){
     if(req.query._id){
         if(req.query.type){
