@@ -7,6 +7,7 @@ var mongoose = require('mongoose-q')(),
     User = mongoose.model('User'),
     Project = mongoose.model('Project'),
     Challenge= mongoose.model('Challenge'),
+    Idea = mongoose.model('Idea'),
     Notification = mongoose.model('Notification'),
     Tags = mongoose.model('Tag'),
     q = require('q');
@@ -227,4 +228,21 @@ exports.getByTag = function(req,res){
             res.json(400,err);
         })
     }
+};
+
+exports.getIdeas = function(req, res) {
+    Idea.find({owner : req.params.id}).execQ().then(function(ideas) {
+        res.json(ideas);
+    }).fail(function(err) {
+        res.json(400, err);
+    });
+};
+
+exports.getLikes = function(req, res) {
+    User.findQ({_id : req.params.id}).then(function(user) {
+        var result = user.likes; 
+        res.json(result);
+    }).fail(function(err) {
+        res.json(400, err);
+    });
 };

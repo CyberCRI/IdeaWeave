@@ -98,11 +98,7 @@ exports.unfollow = function(req,res){
 };
 
 exports.getByChallenge = function(req,res){
-<<<<<<< HEAD
     Project.find({ container : req.params.challenge }).select('_id title poster tags accessUrl brief').populate('tags').execQ().then(function(projects){
-=======
-    Project.find({ container : req.params.challenge }).select('_id title poster tags').populate('tags').execQ().then(function(projects){
->>>>>>> idea_concept
         res.json(projects);
     }).fail(function(err){
         res.json(500,err);
@@ -194,13 +190,8 @@ exports.create = function(req,res){
                 var myNotif =  new Notification({
                     type : 'create',
                     owner : project.owner,
-<<<<<<< HEAD
-                    entity : project._id,
-                    container : project.container
-=======
                     entity :  project._id,
                     entityType : 'project'
->>>>>>> idea_concept
                 });
                 myNotif.saveQ().then(function(notif){
                     io.sockets.in('challenge::'+project.container).emit('newProject',notif);

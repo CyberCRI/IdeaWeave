@@ -3,6 +3,7 @@
  */
 var mongoose = require('mongoose-q')(),
 	Idea = mongoose.model('Idea'),
+	User = mongoose.model('User'),
 	Challenge = mongoose.model('Challenge'),
 	Project = mongoose.model('Project'),
 	Tags = mongoose.model('Tag'),
@@ -161,12 +162,24 @@ exports.unfollow = function(req, res) {
 };
 
 exports.like = function(req, res) {
-	Idea.findOneQ({_id : req.params.id}).then(function(data) {
-		if(data.likers.indexOf(req.body.liker) < 0) {
-			Idea.findOneAndUpdateQ({_id : req.params.id}, 
-				{$push : {likers : req.body.liker},
-				$pull : {dislikers : req.body.liker}})
+	User.findOneQ({_id : req.body.liker}).then(function(user) {
+		if(user.likes.indexOf(req.params.id) < 0) {
+			Idea.findOneQ({_id : req.params.id})
 				.then(function(idea) {
+					if(user.dislikes.indexOf(req.params.id) < 0) {
+						idea.likes = idea.likes + 1;
+						idea.saveQ();
+						User.findOneAndUpdateQ({_id : req.body.liker}, 
+							{$push : {likes : req.params.id}});
+					}
+					else {
+						idea.likes = idea.likes + 1;
+						idea.dislikes = idea.dislikes - 1;
+						idea.saveQ();
+						User.findOneAndUpdateQ({_id : req.body.liker},
+							{$push : {likes : req.params.id},
+							$pull : {dislikes : req.params.id}});
+					};
 					var myNotif = new Notification({
 						type : 'like',
 						owner : req.body.liker,
@@ -188,34 +201,41 @@ exports.like = function(req, res) {
 
 exports.getLikes = function(req, res) {
 	Idea.findOneQ({_id : req.params.id}).then(function(idea) {
-		var count = '0';
-		if(typeof idea.likers != 'undefined' && idea.likers.length > 0) {
-			console.log('defined');
-			count = idea.likers.length.toString();
-		};
-		res.json(count);
+		res.json(idea.likes.toString());
 	});
 };
 
 exports.dislike = function(req, res) {
-	Idea.findOneQ({_id : req.params.id}).then(function(data) {
-		if(data.dislikers.indexOf(req.body.disliker) < 0) {
-			Idea.findOneAndUpdateQ({_id : req.params.id},
-				{$push : {dislikers : req.body.disliker},
-				$pull : {likers : req.body.disliker}})
+	User.findOneQ({_id : req.body.disliker}).then(function(user) {
+		if(user.dislikes.indexOf(req.params.id) < 0) {
+			Idea.findOneQ({_id : req.params.id})
 				.then(function(idea) {
+					if(user.likes.indexOf(req.params.id) < 0) {
+						idea.dislikes = idea.dislikes + 1;
+						idea.saveQ();
+						User.findOneAndUpdateQ({_id : req.body.disliker}, 
+							{$push : {dislikes : req.params.id}});
+					}
+					else {
+						idea.dislikes = idea.dislikes + 1;
+						idea.likes = idea.likes - 1;
+						idea.saveQ();
+						User.findOneAndUpdateQ({_id : req.body.disliker},
+							{$push : {dislikes : req.params.id},
+							$pull : {likes : req.params.id}});
+					};
 					var myNotif = new Notification({
-					type : 'dislike',
-					owner : req.body.disliker,
-					entity : idea._id,
-					entityType : 'idea'
+						type : 'dislike',
+						owner : req.body.disliker,
+						entity : idea._id,
+						entityType : 'idea'
+					});
+					myNotif.saveQ().then(function() {
+						res.json(idea);
+					});
+				}).fail(function(err) {
+					res.json(400, err);
 				});
-				myNotif.saveQ().then(function() {
-					res.json(idea);
-				});
-			}).fail(function(err) {
-				res.json(400, err);
-			});
 		}
 		else {
 			res.json("already disliked");
@@ -225,12 +245,6 @@ exports.dislike = function(req, res) {
 
 exports.getDislikes = function(req, res) {
 	Idea.findOneQ({_id : req.params.id}).then(function(idea) {
-		var count = '0';
-		if(typeof idea.dislikers != 'undefined' && idea.dislikers.length > 0) {
-			console.log('defined');
-			count = idea.dislikers.length.toString();
-		}
-		res.json(count);
+		res.json(idea.dislikes.toString());
 	});
 };
-
