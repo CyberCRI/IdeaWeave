@@ -231,7 +231,7 @@ exports.getByTag = function(req,res){
 };
 
 exports.getIdeas = function(req, res) {
-    Idea.find({owner : req.params.id}).execQ().then(function(ideas) {
+    Idea.findQ({owner : req.params.id}).then(function(ideas) {
         res.json(ideas);
     }).fail(function(err) {
         res.json(400, err);
@@ -239,9 +239,19 @@ exports.getIdeas = function(req, res) {
 };
 
 exports.getLikes = function(req, res) {
-    User.findQ({_id : req.params.id}).then(function(user) {
-        var result = user.likes; 
-        res.json(result);
+    var likes = [];
+    Idea.findQ().then(function(ideas) {
+        for(var i = 0; i < ideas.length; i++) {
+            var ids = ideas[i].likerIds;
+            for(var j = 0; j < ids.length; j++) {
+                if(ids[j] == req.params.id) {
+                    likes.push(ideas[i].id);
+                    break;
+                };
+            };
+        };
+    }).then(function() {
+            res.json(likes);
     }).fail(function(err) {
         res.json(400, err);
     });

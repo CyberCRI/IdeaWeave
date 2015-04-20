@@ -162,6 +162,30 @@ exports.unfollow = function(req, res) {
 };
 
 exports.like = function(req, res) {
+	Idea.findOneQ({_id : req.params.id}).then(function(idea) {
+		if(idea.owner != req.body.liker && idea.likerIds.indexOf(req.body.liker) < 0) {
+			Idea.findOneAndUpdateQ({_id : req.params.id}, 
+				{$push : {likerIds : req.body.liker}, 
+				$pull : {dislikerIds : req.body.liker}}).then(function(updated) {
+					var myNotif = new Notification({
+						type : 'like',
+						owner : req.body.liker,
+						entity : idea._id,
+						entityType : 'idea'
+					});
+					myNotif.saveQ().then(function() {
+						res.json(updated);
+					});
+				}).fail(function(err) {
+					res.json(400, err);
+				});
+		}
+		else {
+			res.json("already liked");
+		};
+	});
+
+/*
 	User.findOneQ({_id : req.body.liker}).then(function(user) {
 		if(user.likes.indexOf(req.params.id) < 0) {
 			Idea.findOneQ({_id : req.params.id})
@@ -196,17 +220,44 @@ exports.like = function(req, res) {
 		else {
 			res.json("already liked");
 		};
-	});
+	});*/
 };
 
 exports.getLikes = function(req, res) {
 	Idea.findOneQ({_id : req.params.id}).then(function(idea) {
-		res.json(idea.likes.toString());
+		var count = '0';
+		if(typeof idea.likerIds != 'undefined' && idea.likerIds.length > 0) {
+			count = idea.likerIds.length.toString();
+		};
+		res.json(count);
 	});
 };
 
 exports.dislike = function(req, res) {
-	User.findOneQ({_id : req.body.disliker}).then(function(user) {
+	Idea.findOneQ({_id : req.params.id}).then(function(idea) {
+		if(idea.owner != req.body.disliker && idea.dislikerIds.indexOf(req.body.disliker) < 0) {
+			Idea.findOneAndUpdateQ({_id : req.params.id}, 
+				{$push : {dislikerIds : req.body.disliker}, 
+				$pull : {likerIds : req.body.disliker}}).then(function(updated) {
+					var myNotif = new Notification({
+						type : 'dislike',
+						owner : req.body.disliker,
+						entity : idea._id,
+						entityType : 'idea'
+					});
+					myNotif.saveQ().then(function() {
+						res.json(updated);
+					});
+				}).fail(function(err) {
+					res.json(400, err);
+				});
+		}
+		else {
+			res.json("already disliked");
+		};
+	});
+
+	/*User.findOneQ({_id : req.body.disliker}).then(function(user) {
 		if(user.dislikes.indexOf(req.params.id) < 0) {
 			Idea.findOneQ({_id : req.params.id})
 				.then(function(idea) {
@@ -240,11 +291,15 @@ exports.dislike = function(req, res) {
 		else {
 			res.json("already disliked");
 		};
-	});
+	});*/
 };
 
 exports.getDislikes = function(req, res) {
 	Idea.findOneQ({_id : req.params.id}).then(function(idea) {
-		res.json(idea.dislikes.toString());
+		var count = '0';
+		if(typeof idea.dislikerIds != 'undefined' && idea.dislikerIds.length > 0) {
+			count = idea.dislikerIds.length.toString();
+		}
+		res.json(count);
 	});
 };
