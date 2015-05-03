@@ -139,6 +139,10 @@ angular.module('cri.challenge', ['ngSanitize'])
         $scope.deleteNote = function(note) {
             NoteLab.deleteNote(note._id).then(function() {
                 Notification.display("Publication deleted");
+
+                // Delete the note from the list
+                var noteIndex = $scope.challenge.notes.indexOf(note);
+                $scope.challenge.notes.splice(noteIndex, 1);
             });
         }
         // END NOTE HANGLING
