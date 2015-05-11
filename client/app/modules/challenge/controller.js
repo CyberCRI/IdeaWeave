@@ -136,6 +136,18 @@ angular.module('cri.challenge', ['ngSanitize'])
             });
         };
 
+        $scope.deleteComment = function(note, comment) {
+            NoteLab.deleteComment(note._id, comment._id).then(function(){
+                Notification.display("Comment deleted");
+
+                // Delete the comment from the list
+                var commentIndex = note.comments.indexOf(comment);
+                note.comments.splice(commentIndex, 1);
+            }).catch(function(err){
+                Notification.display(err.message);
+            });
+        };
+
         $scope.deleteNote = function(note) {
             NoteLab.deleteNote(note._id).then(function() {
                 Notification.display("Publication deleted");
@@ -145,7 +157,7 @@ angular.module('cri.challenge', ['ngSanitize'])
                 $scope.challenge.notes.splice(noteIndex, 1);
             });
         }
-        // END NOTE HANGLING
+        // END NOTE HANDLING
 
         if($scope.currentUser){
             if($scope.currentUser._id == $scope.challenge.owner._id){

@@ -46,7 +46,15 @@ angular.module('cri.workspace')
                 });
                 return defered.promise;
             },
-
+            deleteComment : function(noteId, commentId){
+                var defered = $q.defer();
+                $http.delete(Config.apiServer+'/notes/'+noteId+'/comments/'+commentId).success(function(){
+                    defered.resolve();
+                }).error(function(err){
+                    defered.reject(err);
+                });
+                return defered.promise;
+            },
 
             fetch : function(param){
                 var defered = $q.defer();

@@ -58,13 +58,14 @@
         <section>
             <h2>Publications</h2>
             <article ng-repeat="note in challenge.notes">
-                <p>Posted by {{ note.owner.username }} on {{ note.createDate | date: "medium" }}</p>
+                <p>Note posted by {{ note.owner.username }} on {{ note.createDate | date: "medium" }}</p>
                 <material-button ng-if="note.owner._id == currentUser._id" ng-click="deleteNote(note)">Delete</material-button>
                 <p ng-bind-html="note.text"></p>
 
                 <h3>Comments</h3>
                 <article ng-repeat="comment in note.comments">
-                    <p>Posted by {{ note.owner.username }} on {{ comment.createDate | date: "medium" }}</p>
+                    <p>Comment posted by {{ note.owner.username }} on {{ comment.createDate | date: "medium" }}</p>
+                    <material-button ng-if="note.owner._id == currentUser._id || comment.owner._id == currentUser._id" ng-click="deleteComment(note, comment)">Delete</material-button>
                     <p ng-bind-html="comment.text | linky" class="show-line-breaks"></p>
                 </article>
 
