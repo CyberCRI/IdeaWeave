@@ -22,7 +22,7 @@ module.exports = function(app) {
 //	app.route('/profile/accounts').delete(users.removeOAuthProvider);
     app.get('/me',utils.ensureAuthenticated,profile.me);
     app.route('/users')
-        .get(profile.fetchAll)
+        .get(profile.fetch)
         .put(utils.ensureAuthenticated,profile.update);
     app.get('/profile/:id/ideas', utils.ensureAuthenticated, profile.getIdeas);
     app.get('/profile/:id/likes', utils.ensureAuthenticated, profile.getLikes);

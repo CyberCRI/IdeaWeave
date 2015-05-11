@@ -79,7 +79,11 @@ var ChallengeSchema = new Schema({
         type : Schema.ObjectId,
         ref : 'Tag',
         unique : true
-    }]
+    }],
+    noteNumber : {
+        type : Number,
+        default : 0
+    }
 });
 ChallengeSchema.statics.random = function() {
     var defered = Q.defer()

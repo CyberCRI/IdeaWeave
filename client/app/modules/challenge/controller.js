@@ -1,4 +1,4 @@
-angular.module('cri.challenge', [])
+angular.module('cri.challenge', ['ngSanitize'])
     .controller('chatCtrl',['$scope','Challenge','mySocket',function($scope,Challenge,mySocket){
 //        mySocket.on('chat_'+$scope.challenge._id+'::created',function(message){
         if($scope.currentUser){
@@ -82,8 +82,7 @@ angular.module('cri.challenge', [])
         };
 
     }])
-    .controller('ChallengeSuggestCtrl', ['$scope', 'Challenge','$upload','$state','Notification','Gmap','Files','Config', function ($scope, Challenge,$upload,$state,Notification,Gmap,Files,Config) {
-
+    .controller('ChallengeSuggestCtrl', function ($scope, Challenge,$upload,$state,Notification,Gmap,Files,Config) {
         $scope.hasDuration = false;
         $scope.pform = {};
         $scope.pform.tags = [];
@@ -109,9 +108,34 @@ angular.module('cri.challenge', [])
                 Notification.display(err.message);
             });
         };
-    }])
-    .controller('ChallengeCtrl',['$scope','Challenge','challenge','Notification','$state','Project','$rootScope',function($scope,Challenge,challenge,Notification,$state,Project,$rootScope){
+    })
+    .controller('ChallengeCtrl', function($scope,Challenge,challenge,Notification,$state,Project,$rootScope,NoteLab) {
         $scope.challenge = challenge[0];
+
+        // Get notes
+        NoteLab.listNotes({ challenge: $scope.challenge._id }).then(function(data){
+            $scope.challenge.notes = data;
+            
+            angular.forEach($scope.challenge.notes, function(note) {
+                // Add newComment field
+                note.newComment = "";
+            });
+        }).catch(function(err){
+            Notification.display(err.message);
+        });
+
+        $scope.postComment = function(note) {
+            NoteLab.createComment(note._id, note.newComment).then(function(data){
+                Notification.display("Comment posted");
+
+                // Add the new comment and clear the field
+                note.comments.push(data);
+                note.newComment = "";
+            }).catch(function(err){
+                Notification.display(err.message);
+            });
+        };
+
         if($scope.currentUser){
             if($scope.currentUser._id == $scope.challenge.owner._id){
                 $scope.isOwner = true;
@@ -125,7 +149,7 @@ angular.module('cri.challenge', [])
         };
         $scope.toggleLeft = function(){
             $rootScope.$broadcast('toggleLeft');
-        }
+        };
 
         $scope.participate = function(){
             if($scope.currentUser){
@@ -158,7 +182,7 @@ angular.module('cri.challenge', [])
             }
 
         };
-    }])
+    })
 
     // TODO: this is NOT USED. Remove it
     .controller('ChallengeSettingsCtrl',['$scope','Challenge','Notification',function($scope,Challenge,Notification){
