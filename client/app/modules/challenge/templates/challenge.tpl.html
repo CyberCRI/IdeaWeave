@@ -57,6 +57,8 @@
 
         <section>
             <h2>Publications</h2>
+            <material-button ng-if="isOwner" ng-click="popUpNewNote()">Post new publication</material-button>
+
             <article ng-repeat="note in challenge.notes">
                 <p class="note-info">Note posted by {{ note.owner.username }} on {{ note.createDate | date: "medium" }}</p>
                 <material-button ng-if="note.owner._id == currentUser._id" ng-click="deleteNote(note)">Delete Note</material-button>

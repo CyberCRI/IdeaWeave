@@ -1,5 +1,5 @@
 angular.module('cri.challenge', ['ngSanitize'])
-    .controller('chatCtrl',['$scope','Challenge','mySocket',function($scope,Challenge,mySocket){
+    .controller('chatCtrl',function($scope,Challenge,mySocket,$materialDialog){
 //        mySocket.on('chat_'+$scope.challenge._id+'::created',function(message){
         if($scope.currentUser){
             mySocket.socket.on('chat_'+Challenge.data._id+'::newMessage',function(message){
@@ -20,13 +20,13 @@ angular.module('cri.challenge', ['ngSanitize'])
         }).catch(function(err){
             console.log(err);
         });
-    }])
-    .controller('ChallengesCtrl',['$scope','$rootScope',function($scope,$rootScope){
+    })
+    .controller('ChallengesCtrl',function($scope,$rootScope){
         $scope.toggleLeft = function(){
             $rootScope.$broadcast('toggleLeft')
         };
-    }])
-    .controller('ChallengesListCtrl',['$scope','challenges','Notification','Challenge','Project','$stateParams','Config','$materialDialog',function($scope,challenges,Notification,Challenge,Project,$stateParams,Config,$materialDialog){
+    })
+    .controller('ChallengesListCtrl',function($scope,challenges,Notification,Challenge,Project,$stateParams,Config,$materialDialog){
         $scope.challenges = challenges;
 
         $scope.noPage = 0;
@@ -56,7 +56,7 @@ angular.module('cri.challenge', ['ngSanitize'])
             var challenge = $scope.challenges[index];
             $materialDialog({
                 templateUrl : 'modules/challenge/templates/modal/listProjects.tpl.html',
-                controller : ['$scope','Project','$hideDialog',function($scope,Project,$hideDialog){
+                controller : function($scope,Project,$hideDialog){
                     $scope.challenge = challenge;
                     Project.getByChallenge( id ).then(function(projects){
                         console.log('projects',projects);
@@ -68,7 +68,7 @@ angular.module('cri.challenge', ['ngSanitize'])
                     $scope.cancel = function(){
                         $hideDialog();
                     };
-                }]
+                }
             });
         };
 
@@ -81,7 +81,7 @@ angular.module('cri.challenge', ['ngSanitize'])
             });
         };
 
-    }])
+    })
     .controller('ChallengeSuggestCtrl', function ($scope, Challenge,$upload,$state,Notification,Gmap,Files,Config) {
         $scope.hasDuration = false;
         $scope.pform = {};
@@ -109,7 +109,7 @@ angular.module('cri.challenge', ['ngSanitize'])
             });
         };
     })
-    .controller('ChallengeCtrl', function($scope,Challenge,challenge,Notification,$state,Project,$rootScope,NoteLab) {
+    .controller('ChallengeCtrl', function($scope,Challenge,challenge,Notification,$state,Project,$rootScope,NoteLab,$materialDialog) {
         $scope.challenge = challenge[0];
 
         // HANDLE NOTES AND COMMENTS:
@@ -123,6 +123,51 @@ angular.module('cri.challenge', ['ngSanitize'])
         }).catch(function(err){
             Notification.display(err.message);
         });
+
+        $scope.popUpNewNote = function(){
+            $materialDialog({
+                templateUrl : 'modules/admin/challenge/templates/modal/challenge-add-note-modal.tpl.html',
+                locals : {
+                    challenge : Challenge.data
+                },
+                controller : function($scope,$hideDialog,challenge,Config){
+                    $scope.tinymceOption = Config.tinymceOptions;
+
+                    $scope.noteText = "";
+                    $scope.addNote = function(noteText){
+                        $scope.isLoading = true;
+
+                        var note = {
+                            challenge: challenge._id,
+                            text: noteText
+                        };
+
+                        NoteLab.createNote(note).then(function(data){
+                            Notification.display('Posted successfully');
+                            challenge.notes.unshift(data);
+                        }).catch(function(err){
+                            Notification.display(err.message);
+                        }).finally(function(){
+                            $scope.isLoading = false;
+                            $hideDialog();
+                        });
+                    };
+                    $scope.cancel = function(){
+                        $hideDialog();
+                    };
+                }
+            });
+        };
+        
+        $scope.deleteNote = function(note) {
+            NoteLab.deleteNote(note._id).then(function() {
+                Notification.display("Publication deleted");
+
+                // Delete the note from the list
+                var noteIndex = $scope.challenge.notes.indexOf(note);
+                $scope.challenge.notes.splice(noteIndex, 1);
+            });
+        };
 
         $scope.postComment = function(note) {
             NoteLab.createComment(note._id, note.newComment).then(function(data){
@@ -147,16 +192,6 @@ angular.module('cri.challenge', ['ngSanitize'])
                 Notification.display(err.message);
             });
         };
-
-        $scope.deleteNote = function(note) {
-            NoteLab.deleteNote(note._id).then(function() {
-                Notification.display("Publication deleted");
-
-                // Delete the note from the list
-                var noteIndex = $scope.challenge.notes.indexOf(note);
-                $scope.challenge.notes.splice(noteIndex, 1);
-            });
-        }
         // END NOTE HANDLING
 
         if($scope.currentUser){
@@ -208,7 +243,7 @@ angular.module('cri.challenge', ['ngSanitize'])
     })
 
     // TODO: this is NOT USED. Remove it
-    .controller('ChallengeSettingsCtrl',['$scope','Challenge','Notification',function($scope,Challenge,Notification){
+    .controller('ChallengeSettingsCtrl',function($scope,Challenge,Notification){
         $scope.$watch('imageCropResult', function(newVal) {
             if (newVal) {
                 Challenge.update($scope.challenge.id,{ poster : newVal }).then(function(){
@@ -225,4 +260,4 @@ angular.module('cri.challenge', ['ngSanitize'])
                 Notification.display(err.message);
             });
         };
-    }]);
+    });
