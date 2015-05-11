@@ -2,7 +2,6 @@ angular.module('cri.workspace',[])
     .controller('NoteHackpadCtrl',function($scope,Notification,NoteLab,$http,Config){
 
         $scope.myNote = NoteLab.data;
-        console.log($scope.currentUser);
 //        $scope.hackpadUrl = $sce.trustAsResourceUrl('https://hackpad.com/'+NoteLab.data.hackPadId);
 
         $scope.exportHackPad = function(){
@@ -18,29 +17,12 @@ angular.module('cri.workspace',[])
         $scope.$parent.noteId = $stateParams.tid;
         $scope.dropBoxHeight = "100px";
 
-        angular.forEach($scope.notes,function(note){
-            if(note._id == $stateParams.tid){
-                $scope.myNote = note;
-                NoteLab.data = $scope.myNote;
-            }
-        });
-
         $scope.toPdf = function(){
             Pdf.fromHtml();
         };
     }])
-    .controller('WorkspaceCtrl',['$scope','notes','$materialDialog','NoteLab','Challenge','$materialSidenav','project',function($scope,notes,$materialDialog,NoteLab,Challenge,$materialSidenav,project){
-        if(notes.length){
-            $scope.notes = notes;
-        }else{
-            $scope.notes = [];
-        }
-
+    .controller('WorkspaceCtrl',function($scope,$materialDialog,NoteLab,Challenge,$materialSidenav,project){
         $scope.project = project[0];
-
-        $scope.$on('newNote',function(e,note){
-            $scope.notes.push(note);
-        });
 
         var leftNav;
         $scope.toggle = function(){
@@ -52,100 +34,7 @@ angular.module('cri.workspace',[])
             leftNav.toggle();
         });
 
-
-        $scope.tf={};
-        $scope.filterTopics = function(value){
-            $scope.search = {
-                type : value
-            };
-            $scope.isActive = value;
-        };
-        $scope.categories = [
-            {
-                title : "All"
-            },
-            {
-                id: '1',
-                title: 'Discussion'
-            },
-            {
-                id: '2',
-                title: 'Protocole'
-            },
-            {
-                id: '3',
-                title: 'Experiment'
-            },
-            {
-                id: '4',
-                title: 'Result'
-            }
-        ];
-
-        $scope.popUpTopic = function(e) {
-
-            $materialDialog({
-                templateUrl: 'modules/workspace/templates/modal/addNoteModal.tpl.html',
-                targetEvent: e,
-                locals : {
-                    currentUser : $scope.currentUser,
-                    project : $scope.project
-                },
-                resolve : {
-                    templates : function(){
-                        return Challenge.getTemplates($scope.project.container);
-                    }
-                },
-                controller: ['$scope', 'NoteLab', 'Notification', '$hideDialog', 'Config','templates','currentUser','project', function ($scope, NoteLab, Notification, $hideDialog, Config,templates,currentUser,project) {
-                    $scope.categories = [
-                        {
-                            title : "All"
-                        },
-                        {
-                            id: '1',
-                            title: 'Discussion'
-                        },
-                        {
-                            id: '2',
-                            title: 'Protocole'
-                        },
-                        {
-                            id: '3',
-                            title: 'Experiment'
-                        },
-                        {
-                            id: '4',
-                            title: 'Result'
-                        }
-                    ];
-
-                    $scope.cancel = function(){
-                        $hideDialog();
-                    };
-
-                    $scope.tinymceOptions = angular.copy(Config.tinymceOptions);
-                    $scope.tinymceOptions.template_replace_values = {
-                        user : currentUser.username
-                    };
-                    $scope.tinymceOptions.templates = templates;
-
-                    $scope.createNote = function (note) {
-                        note.type = note.type.id;
-                        note.project = project._id;
-                        note.owner = currentUser._id;
-                        NoteLab.createNote(note).then(function (result) {
-                            Notification.display('Note created, now you can edit it with your team');
-//                            notes.push(result);
-                        }).catch(function (err) {
-                            Notification.display('error the note is not created');
-                        }).finally(function(){
-                            $hideDialog();
-                        });
-                    };
-                }]
-            });
-        };
-    }])
+    })
     .controller('NoteResourcesCtrl',function($scope,NoteLab,$stateParams,Notification,$materialDialog){
         $scope.addResourceModal = function(e) {
             $materialDialog({

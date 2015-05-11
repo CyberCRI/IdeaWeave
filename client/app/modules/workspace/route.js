@@ -12,9 +12,6 @@ angular.module('cri.workspace')
                 resolve:{
                     project : ['Project','$stateParams',function(Project,$stateParams){
                         return Project.fetch({ accessUrl : $stateParams.pid });
-                    }],
-                    notes:['NoteLab','$stateParams',function(NoteLab,$stateParams){
-                        return NoteLab.fetch({projectUrl: $stateParams.pid});
                     }]
                 }
             })
