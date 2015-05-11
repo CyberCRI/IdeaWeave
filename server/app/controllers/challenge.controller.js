@@ -49,9 +49,10 @@ exports.getByTag = function(req,res){
 exports.follow = function(req,res){
     Challenge.findOneAndUpdateQ({ _id : req.body.following },{$push : { followers : req.body.follower }}).then(function(challenge){
         var myNotif =  new Notification({
-            type : 'followC',
-            owner : challenge.owner,
-            entity : challenge._id
+            type : 'follow',
+            owner : req.body.follower,
+            entity : challenge._id,
+            entityType : 'challenge'
         });
         myNotif.saveQ().then(function(){
             res.json(challenge);
@@ -59,21 +60,25 @@ exports.follow = function(req,res){
     }).fail(function(err){
         res.json(400,err)
     })
-
 };
 
 exports.unfollow = function(req,res){
-
     Challenge.findOneAndUpdateQ({ _id : req.body.following },{$pull : { followers : req.body.follower }}).then(function(challenge){
-        res.json(challenge)
+        var myNotif = new Notification({
+            type : 'unfollow',
+            owner : req.body.follower,
+            entity : challenge._id,
+            entityType : 'challenge'
+        });
+        myNotif.saveQ().then(function() {
+            res.json(challenge);
+        });
     }).fail(function(err){
         res.json(400,err)
     })
 };
 
 exports.fetch = function(req,res){
-
-
     if(req.query.accessUrl) {
         if(req.query.accessUrl){
             Challenge
@@ -145,9 +150,10 @@ exports.create = function(req,res){
     var challenge = new Challenge(req.body);
     challenge.saveQ().then(function(data){
         var myNotif =  new Notification({
-            type : 'challenge',
+            type : 'create',
             owner : data.owner,
-            entity : data._id
+            entity : data._id,
+            entityType : 'challenge'
         });
         console.log("Saving notification...");
         myNotif.saveQ().then(function(notif){
@@ -165,7 +171,15 @@ exports.create = function(req,res){
 
 exports.update = function(req,res){
     Challenge.findOneAndUpdateQ({ _id : req.params.id },req.body).then(function(data){
-        res.json(data);
+        var myNotif = new Notification({
+            type : 'update',
+            owner : data.owner,
+            entity : data._id,
+            entityType : 'challenge'
+        });
+        myNotif.saveQ().then(function() {
+            res.json(data);
+        });
     }).fail(function(err){
         res.json(400,err);
     })
@@ -173,7 +187,15 @@ exports.update = function(req,res){
 
 exports.remove = function(req,res){
     Challenge.findOneAndRemoveQ({_id : req.params.id}).then(function(data){
-        res.json(data);
+        var myNotif = new Notification({
+            type : 'remove',
+            owner : data.owner,
+            entity : data._id,
+            entityType : 'challenge'
+        });
+        myNotif.saveQ().then(function() {
+            res.json(data);
+        });
     }).fail(function(err){
         res.json(400,err);
     })
