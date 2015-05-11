@@ -55,30 +55,7 @@
             </div>
         </section>
 
-        <section>
-            <h2>Publications</h2>
-            <material-button ng-if="isOwner" ng-click="popUpNewNote()">Post new publication</material-button>
-
-            <article ng-repeat="note in challenge.notes">
-                <p class="note-info">Note posted by {{ note.owner.username }} on {{ note.createDate | date: "medium" }}</p>
-                <material-button ng-if="note.owner._id == currentUser._id" ng-click="deleteNote(note)">Delete Note</material-button>
-                <p ng-bind-html="note.text"></p>
-
-                <div flex offset="10">
-                    <h3>Comments</h3>
-                    <article ng-repeat="comment in note.comments">
-                        <p class="note-info">Comment posted by {{ note.owner.username }} on {{ comment.createDate | date: "medium" }}</p>
-                        <material-button ng-if="note.owner._id == currentUser._id || comment.owner._id == currentUser._id" ng-click="deleteComment(note, comment)">Delete Comment</material-button>
-                        <p ng-bind-html="comment.text | linky" class="show-line-breaks"></p>
-                    </article>
-
-                    <form name="commentForm" ng-submit="postComment(note)">
-                        <textarea name="comment" class="pretty-area" rows="2" required ng-model="note.newComment" placeholder="Your comment here ..."></textarea>
-                        <material-button type="submit" ng-disabled="commentForm.$invalid" style="width:100%;">Send</material-button>
-                    </form> 
-                </div>
-            </article>
-        </section>
+        <list-notes challenge="challenge" current-user="currentUser"></list-notes>
 
         <section >
             <project-card inline-block project-id="project" ng-repeat="project in challenge.projects"></project-card>
