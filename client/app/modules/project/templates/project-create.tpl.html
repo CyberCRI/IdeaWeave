@@ -22,7 +22,7 @@
             <ui-select ng-model="newProject.container" theme="selectize">
                 <ui-select-match placeholder="The challenge that you are replying to...">{{$select.selected.title}}</ui-select-match>
                 <ui-select-choices repeat="challenge in challenges">
-                    <img ng-src="{{ challenge.poster || 'http://placehold.it/25x25' }}" width="25px" alt="challenge's poster"/>
+                    <img ng-src="{{ challenge.poster || '/images/placeholder25x25.png' }}" width="25px" alt="challenge's poster"/>
                     <small>
                         {{challenge.title}}
                     </small>
