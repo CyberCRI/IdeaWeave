@@ -80,14 +80,14 @@ angular.module('cri.workspace',[])
     })
     .controller('NoteFilesCtrl',function($scope,Files,NoteLab,$materialDialog,$stateParams,Notification){
         $scope.files = [];
-        NoteLab.fetchFile($stateParams.tid).then(function(data){
+        NoteLab.listFiles($scope.project._id).then(function(data){
             $scope.files = data || [];
             angular.forEach($scope.files,function(file){
                 Files.getPoster(file);
 //                file.url = Config.apiServer+'/fileUpload/topic/'+$stateParams.pid+'/'+file.filename;
             });
         }).catch(function(err){
-//            Notification.display(err.message);
+            Notification.display(err.message);
         });
 
 
@@ -132,9 +132,10 @@ angular.module('cri.workspace',[])
                 event : e,
                 locals : {
                     currentUser : $scope.currentUser,
-                    files : $scope.files
+                    files : $scope.files,
+                    project: $scope.project
                 },
-                controller : ['$scope','NoteLab','$hideDialog','Notification','Files','currentUser','files',function($scope,NoteLab,$hideDialog,Notification,Files,currentUser,files){
+                controller : function($scope,NoteLab,$hideDialog,Notification,Files,currentUser,files,project){
 
                     $scope.fileSelected = function($files){
                         $scope.file = $files[0];
@@ -154,8 +155,8 @@ angular.module('cri.workspace',[])
 
                     $scope.upload = function(file,description){
                         $scope.isUploading = true;
-                        NoteLab.uploadFile(NoteLab.data, file,description,currentUser._id).then(function(file){
-                            Notification.display('your file has been uploaded !!!');
+                        NoteLab.uploadFile(project._id, description, file).then(function(file){
+                            Notification.display('your file has been uploaded');
                             $scope.file = null;
                             $scope.fileUrl = null;
                             $scope.dropBoxHeight = "100px";
@@ -172,7 +173,7 @@ angular.module('cri.workspace',[])
                     $scope.cancel = function(){
                         $hideDialog();
                     };
-                }]
+                }
             });
         };
     });

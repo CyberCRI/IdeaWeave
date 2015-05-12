@@ -52,35 +52,34 @@ angular.module('cri.workspace')
             return defered.promise;
         },
 
-        uploadFile : function(note,file,description,ownerId){
+        uploadFile : function(projectId, description, file){
             var defered = $q.defer();
             $upload.upload({
-                url: Config.apiServer+'/upload',
+                url: Config.apiServer+'/project/'+projectId+'/file',
                 method: 'POST',
                 file: file,
                 data: {
-                    project:note.project,
-                    topic: note._id,
-                    projectUrl : $stateParams.pid,
                     description : description,
-                    owner : ownerId,
-                    container : $stateParams.tid
                 }
             }).progress(function(evt) {
-//                    $rootScope.$broadcast('upload::progress',evt)
                 console.log(evt);
             }).success(function(data, status, headers, config) {
                 defered.resolve(data);
             });
             return defered.promise;
         },
-        fetchFile : function(id){
+        listFiles : function(projectId){
             var defered = $q.defer();
-            $http.get(Config.apiServer+'/upload',{
-                params : {
-                    container : id
-                }
-            }).success(function(data){
+            $http.get(Config.apiServer+'/project/'+projectId+'/file').success(function(data){
+                defered.resolve(data);
+            }).error(function(err){
+                defered.reject(err);
+            });
+            return defered.promise;
+        },
+        fetchFile : function(projectId, fileId) {
+            var defered = $q.defer();
+            $http.get(Config.apiServer+'/project/'+projectId+'/file/'+fileId).success(function(data){
                defered.resolve(data);
             }).error(function(err){
                 defered.reject(err);

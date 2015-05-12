@@ -4,7 +4,7 @@ var q = require('q'),
     Challenge = mongoose.model('Challenge'),
     Notification = mongoose.model('Notification'),
     NoteLab = mongoose.model('NoteLab'),
-    Files = mongoose.model('File'),
+    File = mongoose.model('File'),
     Url = mongoose.model('Url'),
     Tags = mongoose.model('Tag'),
     Apply = mongoose.model('Apply'),
@@ -96,12 +96,11 @@ exports.fetchUrl = function(req,res){
 };
 
 exports.removeUrl = function(req,res){
-    // Get the current note
-    Url.findOneQ({ _id : req.params.urlId }).then(function(note){
-        if(!note) return res.send(400);
+    Url.findOneQ({ _id : req.params.urlId }).then(function(url){
+        if(!url) return res.send(400);
         // TODO: check if you are allowed to remove the URL
 
-        note.removeQ().then(function() {
+        url.removeQ().then(function() {
             res.send(200);
         }).fail(function(err){
             res.json(500,err);
@@ -112,14 +111,72 @@ exports.removeUrl = function(req,res){
 };
 
 
+// FILES
 
-exports.getFiles = function(req,res){
-    Files.findQ({ project : req.params.id }).then(function(files){
+exports.listFiles = function(req,res){
+    File.find({ project : req.params.projectId }).populate("owner").execQ().then(function(files){
         res.json(files);
     }).fail(function(err){
-        res.json(400,err);
+        res.json(400, err);
+    });
+};
+
+exports.uploadFile = function(req,res) {
+    console.log("Files: ", req.files);
+    if (!req.files) return req.json(300, "No message recieved");
+
+    var myFile = new File(req.files.file);
+    myFile.name = req.files.file.name;
+    myFile.type = req.files.file.mimetype;
+    myFile.originalName = req.files.file.originalname;
+    myFile.description = req.body.description;
+    myFile.owner = req.user._id; 
+    myFile.project = req.params.projectId; 
+
+    console.log("File ready to save", myFile);
+
+    myFile.saveQ().then(function(data){
+        var myNotif =  new Notification({
+            type : 'upload',
+            owner : data.owner,
+            entity : data._id,
+            entityType : 'noteLab'
+        });
+        myNotif.saveQ().then(function(notif){
+            io.sockets.in('project::'+myFile.project).emit('file',notif);
+            res.json(data);
+        }).catch(function(err){
+            res.json(400,err)
+        })
+    }).fail(function(err){
+        res.json(500,err);
+    });
+};
+
+exports.fetchFile = function(req,res){
+    Url.findOneQ({ _id : req.params.urlId }).populate("owner").then(function(note){
+        if(!note) return res.send(400);
+        res.json(note);
+    }).fail(function(err){
+        res.json(500,err);
     })
 };
+
+exports.removeFile = function(req,res){
+    Url.findOneQ({ _id : req.params.urlId }).then(function(file){
+        if(!file) return res.send(400);
+        // TODO: check if you are allowed to remove the file
+
+        file.removeQ().then(function() {
+            res.send(200);
+        }).fail(function(err){
+            res.json(500,err);
+        });
+    }).fail(function(err){
+        res.json(500,err);
+    });
+};
+
 
 exports.follow = function(req,res){
     Project.findOneAndUpdateQ({ _id : req.body.following },{$push : { followers : req.body.follower }}).then(function(project){

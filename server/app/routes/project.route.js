@@ -40,6 +40,10 @@ module.exports = function(app) {
         .get(utils.ensureAuthenticated,project.fetchUrl)
         .delete(utils.ensureAuthenticated,project.removeUrl);
 
-  app.get('/project/files/:id',project.getFiles);
-  
+    app.route('/project/:projectId/file')
+        .get(utils.ensureAuthenticated,project.listFiles)
+        .post(utils.ensureAuthenticated,project.uploadFile);
+    app.route('/project/:projectId/file/:fileId')
+        .get(utils.ensureAuthenticated,project.fetchFile)
+        .delete(utils.ensureAuthenticated,project.removeFile);  
 };

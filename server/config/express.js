@@ -90,7 +90,8 @@ module.exports = function(db) {
     })
 
 	// Setting the app router and static folder
-	app.use(express.static(path.resolve('./public')));
+	console.log("Serving static files from", path.resolve('public'));
+	app.use("/files", express.static("public"));
 
 	// Globbing routing files
 

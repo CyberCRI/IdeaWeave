@@ -14,13 +14,8 @@ var FileSchema = new Schema({
         type: Date,
         default: Date.now
     },
-    container : {
-        type : Schema.ObjectId,
-        ref: 'NoteLab'
-    },
-    projectUrl : String,
     project : {
-      type : Schema.ObjectId,
+        type : Schema.ObjectId,
         ref : 'Project'
     },
     description : String,
@@ -28,10 +23,8 @@ var FileSchema = new Schema({
         type : Schema.ObjectId,
         ref: 'User'
     },
-    url : String,
-    path : String,
     name : String,
-    originalname : String,
+    originalName: String,
     size : Number,
     type : String
 });

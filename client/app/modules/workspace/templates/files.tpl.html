@@ -8,7 +8,7 @@
     </material-input-group>
 </material-toolbar>
 <material-list class="list-resource">
-    <material-item ng-repeat="file in files |filter:fileFilter">
+    <material-item ng-repeat="file in files | filter:fileFilter">
         <div class="material-tile-left">
             <i class="fa {{ file.class }} fa-2x icon-file" ng-class="{ 'file-selected' : file.id == fileDetails.id  }" ng-click="showFileDetails(file)" ></i>
         </div>

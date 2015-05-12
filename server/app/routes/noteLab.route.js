@@ -26,12 +26,6 @@ module.exports = function(app) {
         .put(utils.ensureAuthenticated,noteLab.updateComment)
         .delete(utils.ensureAuthenticated,noteLab.removeComment);
 
-    app.route('/upload')
-        .get(utils.ensureAuthenticated,noteLab.fetchFile)
-        .post(utils.ensureAuthenticated,noteLab.upload)
-        .put(utils.ensureAuthenticated,noteLab.updateFile)
-        .delete(utils.ensureAuthenticated,noteLab.removeFile);
-
     app.route('/notes/hackpad/:id')
         .get(utils.ensureAuthenticated,hackPad.getContent);
 
