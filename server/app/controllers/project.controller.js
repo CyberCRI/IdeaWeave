@@ -46,13 +46,72 @@ exports.getByTag = function(req,res){
     }
 };
 
-exports.getUrls = function(req,res){
-    Url.findQ({ project : req.params.id }).then(function(urls){
+
+// URLS
+
+exports.listUrls = function(req,res){
+    Url.find({ project : req.params.projectId }).populate("owner").execQ().then(function(urls){
         res.json(urls)
     }).fail(function(err){
         res.json(400,err)
     })
 };
+
+exports.createUrl = function(req,res){
+    // TODO: Check that the current user can write URLs in this project or challenge (is owner or contributor)
+
+    // Note will be owned by the current user
+    req.body.owner = req.user._id; 
+    req.body.project = req.params.projectId; 
+
+    var myUrl = new Url(req.body);
+
+    myUrl.saveQ().then(function(data){
+        var myNotif =  new Notification({
+            type : 'createUrl',
+            owner : data.owner,
+            entity : data._id,
+            entityType : 'noteLab'
+        });
+        myNotif.saveQ().then(function(notif){
+            io.sockets.in('project::'+req.body.project).emit('url',notif);
+            res.json(data);
+        }).catch(function(err){
+            res.json(500,err);
+        });
+        
+        res.json(data);
+    }).fail(function(err){
+        res.json(500,err);
+    })
+};
+
+exports.fetchUrl = function(req,res){
+    Url.findOneQ({ _id : req.params.urlId }).populate("owner").then(function(note){
+        if(!note) return res.send(400);
+        res.json(note);
+    }).fail(function(err){
+        res.json(500,err);
+    })
+};
+
+exports.removeUrl = function(req,res){
+    // Get the current note
+    Url.findOneQ({ _id : req.params.urlId }).then(function(note){
+        if(!note) return res.send(400);
+        // TODO: check if you are allowed to remove the URL
+
+        note.removeQ().then(function() {
+            res.send(200);
+        }).fail(function(err){
+            res.json(500,err);
+        });
+    }).fail(function(err){
+        res.json(500,err);
+    });
+};
+
+
 
 exports.getFiles = function(req,res){
     Files.findQ({ project : req.params.id }).then(function(files){

@@ -14,18 +14,16 @@ var UrlSchema = new Schema({
         type: Date,
         default: Date.now
     },
-    container : {
-        type : Schema.ObjectId,
-        ref : 'NoteLab'
-    },
     description : String,
     owner : {
         type : Schema.ObjectId,
-        ref:'User'
+        ref:'User',
+        required: "Owner is required"
     },
     project : {
         type : Schema.ObjectId,
-        ref : 'Project'
+        ref : 'Project',
+        required: "Project is required"
     },
     text : String,
     title : String

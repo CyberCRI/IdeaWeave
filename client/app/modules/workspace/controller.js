@@ -42,31 +42,39 @@ angular.module('cri.workspace',[])
                 event: e,
                 locals : {
                     urls : $scope.urls,
-                    currentUser : $scope.currentUser
+                    currentUser : $scope.currentUser,
+                    project: $scope.project
                 },
-                controller: ['$scope', 'NoteLab', '$hideDialog','urls', function ($scope, NoteLab, $hideDialog, urls, currentUser) {
+                controller: function ($scope, NoteLab, $hideDialog, urls, currentUser, project) {
                     $scope.cancel = function () {
                         $hideDialog();
                     };
                     $scope.addUrl = function(url){
-                        url.project = NoteLab.data._id;
-                        url.container = $stateParams.tid;
-                        url.owner = currentUser._id;
-
-                        NoteLab.addUrl(url).then(function(data){
-                            urls.push(url);
+                        NoteLab.addUrl(project._id, url).then(function(data){
+                            urls.push(data);
                             $hideDialog();
                         }).catch(function(err){
                             Notification.display(err.message);
                         });
                     };
-                }]
+                }
             });
         };
-        NoteLab.fetchUrl($stateParams.tid).then(function(data){
+
+        $scope.removeUrl = function(url) {
+            NoteLab.removeUrl($scope.project._id, url._id).then(function() {
+                // Delete the URL from the list
+                var urlIndex = $scope.urls.indexOf(url);
+                $scope.urls.splice(urlIndex, 1);
+            }).catch(function(err) {
+                Notification.display(err);
+            });
+        };
+
+        NoteLab.listUrls($scope.project._id).then(function(data){
             $scope.urls = data;
         }).catch(function(err){
-            Notification.display(err.message);
+            Notification.display(err);
         });
     })
     .controller('NoteFilesCtrl',function($scope,Files,NoteLab,$materialDialog,$stateParams,Notification){

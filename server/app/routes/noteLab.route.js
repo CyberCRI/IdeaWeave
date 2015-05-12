@@ -26,13 +26,6 @@ module.exports = function(app) {
         .put(utils.ensureAuthenticated,noteLab.updateComment)
         .delete(utils.ensureAuthenticated,noteLab.removeComment);
 
-
-    app.route('/notes/:id/url')
-        .get(utils.ensureAuthenticated,noteLab.fetchUrl)
-        .post(utils.ensureAuthenticated,noteLab.createUrl);
-//        .put(utils.ensureAuthenticated,noteLab.updateUrl)
-//        .delete(utils.ensureAuthenticated,noteLab.removeUrl);
-
     app.route('/upload')
         .get(utils.ensureAuthenticated,noteLab.fetchFile)
         .post(utils.ensureAuthenticated,noteLab.upload)

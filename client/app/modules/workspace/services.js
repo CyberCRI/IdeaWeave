@@ -24,24 +24,34 @@ angular.module('cri.workspace')
                 return defered.promise;
             },
 
-            fetchUrl : function(noteId){
+            listUrls : function(projectId){
                 var defered = $q.defer();
-                $http.get(Config.apiServer+'/note/'+noteId+'/url').success(function(data){
+                $http.get(Config.apiServer+'/project/'+projectId+'/url').success(function(data){
                     defered.resolve(data);
                 }).error(function(err){
                     defered.reject(err);
                 });
                 return defered.promise;
             },
-            addUrl : function(url){
+            addUrl : function(projectId, url){
                 var defered = $q.defer();
-                $http.post(Config.apiServer+'/note/'+url.container+'/url', url).success(function(data){
+                $http.post(Config.apiServer+'/project/'+projectId+'/url', url).success(function(data){
                     defered.resolve(data);
                 }).error(function(err){
                     defered.reject(err);
                 });
                 return defered.promise;
             },
+            removeUrl : function(projectId, urlId){
+                var defered = $q.defer();
+                $http.delete(Config.apiServer+'/project/'+projectId+'/url/'+urlId).success(function(data){
+                    defered.resolve(data);
+                }).error(function(err){
+                    defered.reject(err);
+                });
+                return defered.promise;
+            },
+
             uploadFile : function(note,file,description,ownerId){
                 var defered = $q.defer();
                 $upload.upload({

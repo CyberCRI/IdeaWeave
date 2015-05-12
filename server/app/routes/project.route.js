@@ -7,12 +7,11 @@ var project = require('../controllers/project.controller'),
     utils = require('../services/utils.service');
 
 module.exports = function(app) {
-    //CRUD
     app.route('/projects')
         .get(project.fetch)
         .post(utils.ensureAuthenticated,project.create);
 
-    app.route('/projects/:id')
+   app.route('/projects/:id')
         .get(project.fetchOne)
         .put(utils.ensureAuthenticated,project.update)
         .delete(utils.ensureAuthenticated,project.remove);
@@ -30,11 +29,17 @@ module.exports = function(app) {
     app.put('/project/add/:id',utils.ensureAuthenticated,project.addToTeam);
     app.put('/project/ban/:id',utils.ensureAuthenticated,project.banFromTeam);
 
-    app.get('/project/urls/:id',project.getUrls);
-    app.get('/project/files/:id',project.getFiles);
-
     app.get('/projects/tag/:tag',project.getByTag);
 
     app.get('/project/publications/:id',project.getPublications);
 
+    app.route('/project/:projectId/url')
+        .get(utils.ensureAuthenticated,project.listUrls)
+        .post(utils.ensureAuthenticated,project.createUrl);
+    app.route('/project/:projectId/url/:urlId')
+        .get(utils.ensureAuthenticated,project.fetchUrl)
+        .delete(utils.ensureAuthenticated,project.removeUrl);
+
+  app.get('/project/files/:id',project.getFiles);
+  
 };
