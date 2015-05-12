@@ -78,12 +78,13 @@ angular.module('cri.workspace',[])
             Notification.display(err);
         });
     })
-    .controller('NoteFilesCtrl',function($scope,Files,NoteLab,$materialDialog,$stateParams,Notification){
+    .controller('NoteFilesCtrl',function($scope,Files,NoteLab,$materialDialog,$stateParams,Notification,Config){
         $scope.files = [];
         NoteLab.listFiles($scope.project._id).then(function(data){
             $scope.files = data || [];
             angular.forEach($scope.files,function(file){
                 Files.getPoster(file);
+                file.url = Config.apiServer + "/files/" + file.name;
 //                file.url = Config.apiServer+'/fileUpload/topic/'+$stateParams.pid+'/'+file.filename;
             });
         }).catch(function(err){
@@ -95,11 +96,28 @@ angular.module('cri.workspace',[])
             $materialDialog({
                 templateUrl: 'modules/workspace/templates/modal/fileDetailModal.tpl.html',
                 event: e,
-                controller: ['$scope','$hideDialog','Files', function ($scope,$hideDialog,Files) {
+                locals : {
+                    currentUser : $scope.currentUser,
+                    files : $scope.files,
+                    project: $scope.project
+                },
+                controller: function ($scope,$hideDialog,Files,project,files) {
                     $scope.fileDetails = file;
                     $scope.cancel = function(){
                         $hideDialog();
                     };
+
+                    $scope.removeFile = function() {
+                        NoteLab.removeFile(project._id, file._id).then(function() {
+                            // Delete the file from the list
+                            var fileIndex = files.indexOf(file);
+                            files.splice(fileIndex, 1);
+                            $hideDialog();
+                        }).catch(function(err) {
+                            Notification.display(err);
+                        });
+                    };
+
                     $scope.isImage = function(file){
                         return Files.isImage(file);
                     };
@@ -116,7 +134,7 @@ angular.module('cri.workspace',[])
                         return Files.isOfficeDoc(file);
                     };
 
-                }]
+                }
             });
         };
 

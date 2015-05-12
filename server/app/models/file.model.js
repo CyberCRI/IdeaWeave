@@ -24,6 +24,7 @@ var FileSchema = new Schema({
         ref: 'User'
     },
     name : String,
+    path: String,
     originalName: String,
     size : Number,
     type : String

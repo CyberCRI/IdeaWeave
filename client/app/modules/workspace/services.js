@@ -77,15 +77,15 @@ angular.module('cri.workspace')
             });
             return defered.promise;
         },
-        fetchFile : function(projectId, fileId) {
+        removeFile : function(projectId, fileId){
             var defered = $q.defer();
-            $http.get(Config.apiServer+'/project/'+projectId+'/file/'+fileId).success(function(data){
-               defered.resolve(data);
+            $http.delete(Config.apiServer+'/project/'+projectId+'/file/'+fileId).success(function(data){
+                defered.resolve(data);
             }).error(function(err){
                 defered.reject(err);
             });
             return defered.promise;
-        }
+        },
     };
     return service;
 }]);

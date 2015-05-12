@@ -154,7 +154,7 @@ exports.uploadFile = function(req,res) {
 };
 
 exports.fetchFile = function(req,res){
-    Url.findOneQ({ _id : req.params.urlId }).populate("owner").then(function(note){
+    File.findOneQ({ _id : req.params.fileId }).populate("owner").then(function(note){
         if(!note) return res.send(400);
         res.json(note);
     }).fail(function(err){
@@ -163,11 +163,14 @@ exports.fetchFile = function(req,res){
 };
 
 exports.removeFile = function(req,res){
-    Url.findOneQ({ _id : req.params.urlId }).then(function(file){
+    console.log("Removing file", req.params.fileId);
+    File.findOneQ({ _id : req.params.fileId }).then(function(file){
         if(!file) return res.send(400);
         // TODO: check if you are allowed to remove the file
 
-        file.removeQ().then(function() {
+        var unlink = q.denodeify(fs.unlink);
+
+        q.all([unlink(file.path), file.removeQ()]).then(function() {
             res.send(200);
         }).fail(function(err){
             res.json(500,err);
