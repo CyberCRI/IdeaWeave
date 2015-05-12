@@ -14,5 +14,35 @@
             </blockquote>
         </div>
     </material-sidenav>
-    <div ui-view="noteView" style="width:100%;" layout="vertical"></div>
+    <div style="width:100%;" layout="vertical">
+        <material-toolbar class="material-theme-black" scroll-shrink>
+            <div display="vertical">
+                <div class="center" flex>
+                    {{ project.title }} workspace
+                </div>
+                <material-tabs center selected="selectedTabIndex">
+                    {{ note.title }}
+                    <material-tab ui-sref="workspace.hackpad">
+                        <material-label>
+                            <i class='fa fa-trello fa-2x'></i>
+                        </material-label>
+                    </material-tab>
+                    <material-tab ui-sref="workspace.file">
+                        <material-label>
+                            <i class='fa fa-file fa-2x'></i>
+                        </material-label>
+                    </material-tab>
+                    <material-tab ui-sref="workspace.resources">
+                        <material-label style="font-size:2em">
+                            @
+                        </material-label>
+                    </material-tab>
+                </material-tabs>
+            </div>
+        </material-toolbar>
+
+        <material-content >
+            <section ui-view="noteDetailsView" style="width:100%; height: 90%;" ></section>
+        </material-content>
+    </div>
 </section>

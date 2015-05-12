@@ -1,27 +1,5 @@
 angular.module('cri.workspace',[])
-    .controller('NoteHackpadCtrl',function($scope,Notification,NoteLab,$http,Config){
-
-        $scope.myNote = NoteLab.data;
-//        $scope.hackpadUrl = $sce.trustAsResourceUrl('https://hackpad.com/'+NoteLab.data.hackPadId);
-
-        $scope.exportHackPad = function(){
-            NoteLab.exportHackPad($scope.myNote.hackPadId).then(function(data){
-                Notification.display('note successfully saved');
-            }).catch(function(err){
-                console.log('error',err);
-            });
-        };
-    })
-    .controller('NoteCtrl',['$scope','$stateParams','NoteLab','Pdf','Notification',function($scope,$stateParams,NoteLab,Pdf,Notification){
-        $scope.$parent.projectId = $stateParams.pid;
-        $scope.$parent.noteId = $stateParams.tid;
-        $scope.dropBoxHeight = "100px";
-
-        $scope.toPdf = function(){
-            Pdf.fromHtml();
-        };
-    }])
-    .controller('WorkspaceCtrl',function($scope,$materialDialog,NoteLab,Challenge,$materialSidenav,project){
+    .controller('WorkspaceCtrl',function($scope,$materialDialog,NoteLab,Challenge,$materialSidenav,project,$state){
         $scope.project = project[0];
 
         var leftNav;
@@ -34,6 +12,29 @@ angular.module('cri.workspace',[])
             leftNav.toggle();
         });
 
+        $scope.toPdf = function(){
+            Pdf.fromHtml();
+        };
+
+        $scope.dropBoxHeight = "100px";
+
+        // Set initial selected tab
+        if($state.current.name == "workspace.hackpad") $scope.selectedTabIndex = 0;
+        else if($state.current.name == "workspace.file") $scope.selectedTabIndex = 1;
+        else if($state.current.name == "workspace.resources") $scope.selectedTabIndex = 2;
+        else $scope.selectedTabIndex = -1;
+    }).controller('NoteHackpadCtrl',function($scope,Notification,NoteLab,$http,Config){
+
+        $scope.myNote = NoteLab.data;
+//        $scope.hackpadUrl = $sce.trustAsResourceUrl('https://hackpad.com/'+NoteLab.data.hackPadId);
+
+        $scope.exportHackPad = function(){
+            NoteLab.exportHackPad($scope.myNote.hackPadId).then(function(data){
+                Notification.display('note successfully saved');
+            }).catch(function(err){
+                console.log('error',err);
+            });
+        };
     })
     .controller('NoteResourcesCtrl',function($scope,NoteLab,$stateParams,Notification,$materialDialog){
         $scope.addResourceModal = function(e) {
