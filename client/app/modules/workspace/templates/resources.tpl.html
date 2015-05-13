@@ -1,17 +1,15 @@
 <section layout="vertical">
-    <div layout="horizontal" layout-align="start center">
-        <material-button ng-click="addResourceModal($event)" flex>
-            <span>
-                Add a link
-            </span>
-            <i class="material-button-icon fa fa-plus fa-2x"></i>
-        </material-button>
+    <material-button ng-click="addResourceModal($event)">
+        <i class="material-button-icon fa fa-plus fa-2x"></i>
+        <span>
+            Add a link
+        </span>
+    </material-button>
 
-        <material-input-group >
-            <label for="urlFilter">Filter by title <i class="fa fa-search fa-2x"></i></label>
-            <material-input type="text" ng-model="urlFilter.title" id="urlFilter"/>
-        </material-input-group>
-    </div>
+    <material-input-group >
+        <label for="urlFilter"><i class="fa fa-search fa-2x"></i> Filter by title</label>
+        <material-input type="text" ng-model="urlFilter.title" id="urlFilter"/>
+    </material-input-group>
 
     <material-list class="list-resource">
         <material-item ng-repeat="url in urls | filter:urlFilter">

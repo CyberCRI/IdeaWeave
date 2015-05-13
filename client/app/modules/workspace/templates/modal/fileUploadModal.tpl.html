@@ -26,11 +26,10 @@
             <div>
                 <input ng-if="!file" type="file" ng-file-select="fileSelected($files)"/>
             </div>
-            <!--<img ng-src="{{ fileUrl }}"  ng-show="fileUrl" width="100%"/>-->
-            <material-input-group ng-if="file">
-                <label for="fileDescription">file description...</label>
-                <material-input id="fileDescription" type="text"  ng-model="file.description" style="width:100%"/>
-            </material-input-group>
         </div>
+        <material-input-group ng-if="file">
+            <label for="fileDescription">file description...</label>
+            <material-input id="fileDescription" type="text"  ng-model="file.description" style="width:100%"/>
+        </material-input-group>
     </material-content>
 </material-dialog>
