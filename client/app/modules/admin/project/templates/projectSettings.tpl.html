@@ -8,11 +8,6 @@
         </material-tab>
         <material-tab>
             <material-label>
-                <i class='fa fa-cogs'>Workspace</i>
-            </material-label>
-        </material-tab>
-        <material-tab>
-            <material-label>
                 <i class='fa fa-users'>Team</i>
             </material-label>
         </material-tab>
@@ -22,10 +17,7 @@
         <div class="animate-switch blueArea" ng-switch-when="0">
             <ng-include src="'modules/admin/project/templates/edit.tpl.html'" ng-controller="ProjectEditCtrl"></ng-include>
         </div>
-        <div class="animate-switch redArea" ng-switch-when="1">
-            <ng-include src="'modules/admin/project/templates/media.tpl.html'" ng-controller="ProjectMediaCtrl"></ng-include>
-        </div>
-        <div class="animate-switch greenArea" ng-switch-when="2">
+        <div class="animate-switch greenArea" ng-switch-when="1">
             <ng-include src="'modules/admin/project/templates/team.tpl.html'" ng-controller="ProjectTeamCtrl"></ng-include>
         </div>
     </div>
