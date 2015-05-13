@@ -33,7 +33,7 @@ angular.module('cri.workspace')
                     }
                 }
             })
-            .state('workspace.file',{
+            .state('workspace.files',{
                 url : '/files',
                 views : {
                     noteDetailsView: {

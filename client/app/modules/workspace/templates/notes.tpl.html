@@ -1,48 +1,29 @@
-<section layout="horizontal" layout-fill>
-    <material-sidenav class="material-sidenav-left material-whiteframe-z2 left" component-id="left" style="overflow-y:auto;">
-        <div style="padding-left: 20px;" layout="vertical" >
-            <material-toolbar layout="horizontal">
-                <div class="material-toolbar-tools">
-                    <i class="fa fa-caret-left fa-2x my-btn" hide-md style="color:black;" ng-click="toggle()" flex></i>
-                    <div>
-                        <i class="fa fa-user"> Publication</i>
-                    </div>
-                </div>
-            </material-toolbar>
-            <blockquote>
-                Welcome to your workspace, here you can share a Hackpad, links and files.
-            </blockquote>
+<material-toolbar class="material-theme-black" scroll-shrink>
+    <div display="vertical">
+        <div class="center" flex>
+            {{ project.title }} workspace
         </div>
-    </material-sidenav>
-    <div style="width:100%;" layout="vertical">
-        <material-toolbar class="material-theme-black" scroll-shrink>
-            <div display="vertical">
-                <div class="center" flex>
-                    {{ project.title }} workspace
-                </div>
-                <material-tabs center selected="selectedTabIndex">
-                    {{ note.title }}
-                    <material-tab ui-sref="workspace.hackpad">
-                        <material-label>
-                            <i class='fa fa-trello fa-2x'></i>
-                        </material-label>
-                    </material-tab>
-                    <material-tab ui-sref="workspace.file">
-                        <material-label>
-                            <i class='fa fa-file fa-2x'></i>
-                        </material-label>
-                    </material-tab>
-                    <material-tab ui-sref="workspace.resources">
-                        <material-label style="font-size:2em">
-                            @
-                        </material-label>
-                    </material-tab>
-                </material-tabs>
-            </div>
-        </material-toolbar>
-
-        <material-content >
-            <section ui-view="noteDetailsView" style="width:100%; height: 90%;" ></section>
-        </material-content>
+        <material-tabs center selected="selectedTabIndex">
+            {{ note.title }}
+            <material-tab ui-sref="workspace.hackpad">
+                <material-label>
+                    <i class='fa fa-trello fa-2x'></i>
+                </material-label>
+            </material-tab>
+            <material-tab ui-sref="workspace.files">
+                <material-label>
+                    <i class='fa fa-file fa-2x'></i>
+                </material-label>
+            </material-tab>
+            <material-tab ui-sref="workspace.resources">
+                <material-label style="font-size:2em">
+                    @
+                </material-label>
+            </material-tab>
+        </material-tabs>
     </div>
-</section>
+</material-toolbar>
+
+<material-content >
+    <section ui-view="noteDetailsView" style="width:100%; height: 90%;" ></section>
+</material-content>

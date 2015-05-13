@@ -9,26 +9,8 @@
         <material-button ui-sref="workspace({ pid : project.accessUrl })">
             <i class='fa fa-cogs'>&nbsp;WorkSpace</i>
         </material-button>
-        <material-button ui-sref="projectAdmin({ pid : project._id })" ng-if="isOwner">
+        <material-button ui-sref="project.admin({ pid : project.accessUrl })" ng-if="isOwner">
             <i class='fa fa-cog'>&nbsp;Admin</i>
         </material-button>
     </div>
-    <!--
-    <div ng-if="recommandedUsers.length > 0">
-        <h3>
-            <i class="fa fa-users">Talk with :</i>
-        </h3>
-        <div layout="horizontal" layout-align="space-between" style="padding-right: 5px;padding-left:5px;">
-            <user-block ng-repeat="user in recommandedUsers" my-user="user" width="'50px'" height="'50px'" inline-block></user-block>
-        </div>
-    </div>
-    <div ng-if="recommandedProjects.length > 0">
-        <h3>
-            <i class="fa fa-lightbulb-o">Take a look at :</i>
-        </h3>
-        <div layout="horizontal" layout-align="space-between" style="padding-right: 5px;padding-left:5px;">
-            <project-block ng-repeat="project in recommandedProjects" my-project="project" width="'50px'" height="'50px'"></project-block>
-        </div>
-    </div>
-    -->
 </material-toolbar>

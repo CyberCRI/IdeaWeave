@@ -57,6 +57,15 @@ angular.module('cri.project')
                     }
                 }
             })
+            .state('project.admin',{
+              url : '/admin',
+                views :{
+                    projectView : {
+                        templateUrl:'modules/admin/project/templates/projectSettings.tpl.html',
+                        controller: 'AdminProjectCtrl'
+                    }
+                }
+            })
             .state('projectCreation',{
                 url : '/projectCreation',
                 resolve : {
