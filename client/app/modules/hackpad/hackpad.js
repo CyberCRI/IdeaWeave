@@ -1,5 +1,7 @@
 angular.module('cri.hackpad',[])
 
+// This code is mostly taken from https://hackpad.com/static/hackpad.js
+
 .directive('hackpad',function($window,$sce,$document,$http,$templateCache,Config,NoteLab,$rootScope){
         return {
             restrict : 'EA',

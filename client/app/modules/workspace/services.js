@@ -14,16 +14,6 @@ angular.module('cri.workspace')
             return defered.promise;
         },
 
-        exportHackPad : function(id){
-            var defered = $q.defer();
-            $http.get(Config.apiServer+'/note/hackpad/'+id).success(function(data){
-                defered.resolve(data);
-            }).error(function(err){
-                defered.reject(err);
-            });
-            return defered.promise;
-        },
-
         listUrls : function(projectId){
             var defered = $q.defer();
             $http.get(Config.apiServer+'/project/'+projectId+'/url').success(function(data){

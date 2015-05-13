@@ -34,4 +34,4 @@ server.listen(config.port);
 exports.app = app;
 
 // Logging initialization
-console.log('IdeaStorm api started on port ' + config.port);
+console.log('IdeaWeave API started on port ' + config.port);

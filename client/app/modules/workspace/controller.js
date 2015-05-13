@@ -24,17 +24,8 @@ angular.module('cri.workspace',[])
         else if($state.current.name == "workspace.resources") $scope.selectedTabIndex = 2;
         else $scope.selectedTabIndex = -1;
     }).controller('NoteHackpadCtrl',function($scope,Notification,NoteLab,$http,Config){
-
-        $scope.myNote = NoteLab.data;
-//        $scope.hackpadUrl = $sce.trustAsResourceUrl('https://hackpad.com/'+NoteLab.data.hackPadId);
-
-        $scope.exportHackPad = function(){
-            NoteLab.exportHackPad($scope.myNote.hackPadId).then(function(data){
-                Notification.display('note successfully saved');
-            }).catch(function(err){
-                console.log('error',err);
-            });
-        };
+        // The project id is a bit too long, but we can use a shorter version as a pad ID (22 chars seems to work well)
+        $scope.padId = $scope.project._id.slice($scope.project._id.length - 22);
     })
     .controller('NoteResourcesCtrl',function($scope,NoteLab,$stateParams,Notification,$materialDialog){
         $scope.addResourceModal = function(e) {
