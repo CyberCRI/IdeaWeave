@@ -24,4 +24,6 @@ module.exports = function(app) {
     app.route('/users')
         .get(profile.fetch)
         .put(utils.ensureAuthenticated,profile.update);
+    app.get('/profile/:id/ideas', utils.ensureAuthenticated, profile.getIdeas);
+    app.get('/profile/:id/likes', utils.ensureAuthenticated, profile.getLikes);
 };

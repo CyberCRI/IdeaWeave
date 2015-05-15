@@ -96,40 +96,6 @@ angular.module('cri.admin.challenge',[])
             });
         };
 
-        $scope.popUpNewNote = function(){
-            $materialDialog({
-                templateUrl : 'modules/admin/challenge/templates/modal/challenge-add-note-modal.tpl.html',
-                locals : {
-                    challenge : Challenge.data
-                },
-                controller : ['$scope','$hideDialog','challenge','Config',function($scope,$hideDialog,challenge,Config){
-                    $scope.tinymceOption = Config.tinymceOptions;
-
-                    $scope.noteText = "";
-                    $scope.addNote = function(noteText){
-                        $scope.isLoading = true;
-
-                        var note = {
-                            challenge: challenge._id,
-                            text: noteText
-                        };
-
-                        NoteLab.createNote(note).then(function(data){
-                            Notification.display('Posted successfully');
-                        }).catch(function(err){
-                            Notification.display(err.message);
-                        }).finally(function(){
-                            $scope.isLoading = false;
-                            $hideDialog();
-                        });
-                    };
-                    $scope.cancel = function(){
-                        $hideDialog();
-                    };
-                }]
-            });
-        };
-
         $scope.popUpRemove = function(){
             $materialDialog({
                 templateUrl : 'modules/admin/challenge/templates/modal/challenge-remove-modal.tpl.html',

@@ -1,16 +1,7 @@
 angular.module('cri.admin.project',[])
-    .controller('AdminProjectCtrl',['$scope','project','Project','$q',function($scope,project,Project,$q){
+    .controller('AdminProjectCtrl', function($scope,project,Project,$q){
         $scope.project = project[0];
-        $q.all([
-            Project.fetchUrls($scope.project._id),
-            Project.fetchFiles($scope.project._id)
-        ]).then(function(data){
-            $scope.files = data[1];
-            $scope.urls = data[0];
-        }).catch(function(err){
-            console.log(err);
-        });
-    }])
+    })
     .controller('ProjectEditCtrl',['$scope','$stateParams','Project','$state','Notification','Config','$materialDialog','$materialSidenav','Gmap',function ($scope,$stateParams,Project,$state,Notification,Config,$materialDialog,$materialSidenav,Gmap) {
 
         var leftNav;

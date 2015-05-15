@@ -7,6 +7,7 @@ var mongoose = require('mongoose-q')(),
     User = mongoose.model('User'),
     Project = mongoose.model('Project'),
     Challenge= mongoose.model('Challenge'),
+    Idea = mongoose.model('Idea'),
     Notification = mongoose.model('Notification'),
     Tags = mongoose.model('Tag'),
     q = require('q');
@@ -35,9 +36,10 @@ exports.follow = function(req,res){
         User.findOneAndUpdateQ({ _id : req.body.follower },{$push : { followings : req.body.following }})
     ]).then(function(data){
         var myNotif =  new Notification({
-            type : 'followU',
+            type : 'follow',
             owner : req.body.follower,
-            entity : req.body.following
+            entity : req.body.following,
+            entityType : 'profile'
         });
         myNotif.saveQ().then(function(){
             res.send(200);
@@ -52,7 +54,15 @@ exports.unfollow = function(req,res){
         User.findOneAndUpdateQ({ _id : req.body.following },{$pull : { followers : req.body.follower }}),
         User.findOneAndUpdateQ({ _id : req.body.follower },{$pull : { followings : req.body.following }})
     ]).then(function(user){
-        res.json(user)
+        var myNotif = new Notification({
+            type : 'unfollow',
+            owner : req.body.follower,
+            entity : user._id,
+            entityType : 'profile'
+        });
+        myNotif.saveQ().then(function() {
+            res.json(user);
+        });
     }).catch(function(err){
         res.json(500,err)
     })
@@ -69,7 +79,15 @@ exports.update = function(req, res) {
         });
     }
     User.findOneAndUpdateQ({ _id : req.params.id },req.body).then(function(user){
-        res.json(user);
+        var myNotif = new Notification({
+            type : 'update',
+            owner : user._id,
+            entity : user._id,
+            entityType : 'profile'
+        });
+        myNotif.saveQ().then(function() {
+            res.json(user);
+        });
     }).catch(function(err){
         res.json(400,err);
     })
@@ -202,4 +220,31 @@ exports.getByTag = function(req,res){
             res.json(400,err);
         })
     }
+};
+
+exports.getIdeas = function(req, res) {
+    Idea.findQ({owner : req.params.id}).then(function(ideas) {
+        res.json(ideas);
+    }).fail(function(err) {
+        res.json(400, err);
+    });
+};
+
+exports.getLikes = function(req, res) {
+    var likes = [];
+    Idea.findQ().then(function(ideas) {
+        for(var i = 0; i < ideas.length; i++) {
+            var ids = ideas[i].likerIds;
+            for(var j = 0; j < ids.length; j++) {
+                if(ids[j] == req.params.id) {
+                    likes.push(ideas[i].id);
+                    break;
+                };
+            };
+        };
+    }).then(function() {
+            res.json(likes);
+    }).fail(function(err) {
+        res.json(400, err);
+    });
 };

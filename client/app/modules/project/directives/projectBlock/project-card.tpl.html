@@ -1,6 +1,6 @@
 <material-card class="challenge-card">
     <a ui-sref="project.home({ pid : project.accessUrl })">
-        <img ng-src="{{project.poster || 'http://placehold.it/100x100'}}" alt="..." class="material-card-image">
+        <img ng-src="{{project.poster || '/images/placeholder100x100.png'}}" alt="..." class="material-card-image">
     </a>
     <material-button ng-if="admin && isHovered" ui-sref="projectAdmin({ pid : project._id })">
         <i class="fa fa-gears"></i>

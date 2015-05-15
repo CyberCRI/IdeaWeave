@@ -1,5 +1,5 @@
 angular.module('cri.challenge', ['ngSanitize'])
-    .controller('chatCtrl',['$scope','Challenge','mySocket',function($scope,Challenge,mySocket){
+    .controller('chatCtrl',function($scope,Challenge,mySocket,$materialDialog){
 //        mySocket.on('chat_'+$scope.challenge._id+'::created',function(message){
         if($scope.currentUser){
             mySocket.socket.on('chat_'+Challenge.data._id+'::newMessage',function(message){
@@ -20,13 +20,13 @@ angular.module('cri.challenge', ['ngSanitize'])
         }).catch(function(err){
             console.log(err);
         });
-    }])
-    .controller('ChallengesCtrl',['$scope','$rootScope',function($scope,$rootScope){
+    })
+    .controller('ChallengesCtrl',function($scope,$rootScope){
         $scope.toggleLeft = function(){
             $rootScope.$broadcast('toggleLeft')
         };
-    }])
-    .controller('ChallengesListCtrl',['$scope','challenges','Notification','Challenge','Project','$stateParams','Config','$materialDialog',function($scope,challenges,Notification,Challenge,Project,$stateParams,Config,$materialDialog){
+    })
+    .controller('ChallengesListCtrl',function($scope,challenges,Notification,Challenge,Project,$stateParams,Config,$materialDialog){
         $scope.challenges = challenges;
 
         $scope.noPage = 0;
@@ -56,7 +56,7 @@ angular.module('cri.challenge', ['ngSanitize'])
             var challenge = $scope.challenges[index];
             $materialDialog({
                 templateUrl : 'modules/challenge/templates/modal/listProjects.tpl.html',
-                controller : ['$scope','Project','$hideDialog',function($scope,Project,$hideDialog){
+                controller : function($scope,Project,$hideDialog){
                     $scope.challenge = challenge;
                     Project.getByChallenge( id ).then(function(projects){
                         console.log('projects',projects);
@@ -68,7 +68,7 @@ angular.module('cri.challenge', ['ngSanitize'])
                     $scope.cancel = function(){
                         $hideDialog();
                     };
-                }]
+                }
             });
         };
 
@@ -81,7 +81,7 @@ angular.module('cri.challenge', ['ngSanitize'])
             });
         };
 
-    }])
+    })
     .controller('ChallengeSuggestCtrl', function ($scope, Challenge,$upload,$state,Notification,Gmap,Files,Config) {
         $scope.hasDuration = false;
         $scope.pform = {};
@@ -109,32 +109,8 @@ angular.module('cri.challenge', ['ngSanitize'])
             });
         };
     })
-    .controller('ChallengeCtrl', function($scope,Challenge,challenge,Notification,$state,Project,$rootScope,NoteLab) {
+    .controller('ChallengeCtrl', function($scope,Challenge,challenge,Notification,$state,Project,$rootScope,NoteLab,$materialDialog) {
         $scope.challenge = challenge[0];
-
-        // Get notes
-        NoteLab.listNotes({ challenge: $scope.challenge._id }).then(function(data){
-            $scope.challenge.notes = data;
-            
-            angular.forEach($scope.challenge.notes, function(note) {
-                // Add newComment field
-                note.newComment = "";
-            });
-        }).catch(function(err){
-            Notification.display(err.message);
-        });
-
-        $scope.postComment = function(note) {
-            NoteLab.createComment(note._id, note.newComment).then(function(data){
-                Notification.display("Comment posted");
-
-                // Add the new comment and clear the field
-                note.comments.push(data);
-                note.newComment = "";
-            }).catch(function(err){
-                Notification.display(err.message);
-            });
-        };
 
         if($scope.currentUser){
             if($scope.currentUser._id == $scope.challenge.owner._id){
@@ -185,7 +161,7 @@ angular.module('cri.challenge', ['ngSanitize'])
     })
 
     // TODO: this is NOT USED. Remove it
-    .controller('ChallengeSettingsCtrl',['$scope','Challenge','Notification',function($scope,Challenge,Notification){
+    .controller('ChallengeSettingsCtrl',function($scope,Challenge,Notification){
         $scope.$watch('imageCropResult', function(newVal) {
             if (newVal) {
                 Challenge.update($scope.challenge.id,{ poster : newVal }).then(function(){
@@ -202,4 +178,4 @@ angular.module('cri.challenge', ['ngSanitize'])
                 Notification.display(err.message);
             });
         };
-    }]);
+    });

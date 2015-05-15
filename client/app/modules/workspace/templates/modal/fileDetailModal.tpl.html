@@ -5,12 +5,18 @@
             <material-button class="material-button-fab" ng-href="{{ fileDetails.url }}" target="_blank">
                 <i class="fa fa-download"></i>
             </material-button>
+            <material-button ng-click="removeFile()" target="_blank">
+                Delete
+            </material-button>
             <material-button class="material-button-fab" ng-click="cancel()">
                 <i class="fa fa-times"></i>
             </material-button>
         </div>
     </material-toolbar>
     <material-content>
+        <section>
+            {{ fileDetails.originalName }}
+        </section>
         <section layout="horizontal">
             <p ng-bind="fileDetails.description" flex></p>
         </section>

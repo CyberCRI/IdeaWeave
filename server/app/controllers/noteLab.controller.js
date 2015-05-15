@@ -63,9 +63,9 @@ exports.createNote = function(req,res){
     // TODO: Check that the current user can write notes in this project or challenge (is owner or contributor)
 
     // Note will be owned by the current user
-    var newNote = new NoteLab(req.body);
-    newNote.owner = req.user._id; 
+    req.body.owner = req.user._id; 
 
+    var newNote = new NoteLab(req.body);
     q.all([newNote.saveQ(), containerUpdateQuery]).then(function(data) {
         res.json(200, data[0]);
     }).fail(function(err) {
@@ -222,127 +222,3 @@ exports.removeComment = function(req,res){
     });
 };
 
-
-//file upload
-exports.fetchFile = function(req,res){
-    if(req.query.projectUrl){
-        Project.find({accessUrl : req.query.projectUrl}).populate('_id').execQ().then(function(project){
-            File.find({ project : project[0]._id}).execQ().then(function(files){
-                res.json(files);
-            }).fail(function(err){
-                res.json(500,err);
-            })
-        })
-    }else{
-        File.find({ container : req.query.container }).execQ().then(function(files){
-            res.json(files);
-        }).fail(function(err){
-            res.json(500,err);
-        })
-    }
-};
-
-exports.upload = function(req,res) {
-
-    if (req.files) {
-;
-        fs.exists(req.files.file.path, function (exists,err) {
-            if (exists) {
-                fs.rename(req.files.file.path,'public/workspaceFile/'+req.files.file.name,function(err){
-                    console.log(err)
-                    if(!err){
-                        var myFile = new File(req.files.file);
-                        myFile.url = 'http://ideastorm.io:5011/workspaceFile/'+req.files.file.name;
-                        myFile.type = req.files.file.mimetype;
-                        myFile.owner = req.body.owner;
-                        myFile.descripion = req.body.description;
-                        myFile.container = req.body.container;
-                        myFile.project = req.body.project;
-                        myFile.saveQ().then(function(data){
-                            var myNotif =  new Notification({
-                                type : 'noteLabF',
-                                owner : data.owner,
-                                entity : data._id,
-                                container : data.container
-                            });
-                            myNotif.saveQ().then(function(notif){
-                                io.sockets.in('project::'+myFile.project).emit('file',notif);
-                                res.json(data);
-                            }).catch(function(err){
-
-                                res.json(400,err)
-                            })
-                        }).fail(function(err){
-
-                            res.json(500,err);
-                        });
-                    }else{
-;
-                        res.json(400,err)
-                    }
-                });
-            } else {
-;
-                res.json(400,err)
-            }
-        },function(err){
-            res.json(400,err)
-        });
-    }
-};
-exports.updateFile = function(req,res){
-
-};
-
-exports.removeFile = function(req,res){
-
-};
-
-
-exports.fetchUrl = function(req,res){
-//url ressources
-    if(req.query.projectUrl){
-        Project.find({accessUrl : req.query.projectUrl}).populate('_id').execQ().then(function(project) {
-            Url.findQ({ project : project[0]._id}).then(function(urls){
-                res.json(urls);
-            }).fail(function(err){
-                res.json(500,err);
-            })
-        })
-    }else{
-        Url.findQ({ container : req.params.id}).then(function(urls){
-            res.json(urls);
-        }).fail(function(err){
-            res.json(500,err);
-        })
-    }
-};
-
-exports.createUrl = function(req,res){
-    var myUrl = new Url(req.body);
-    myUrl.saveQ().then(function(data){
-        var myNotif =  new Notification({
-            type : 'noteLabU',
-            owner : data.owner,
-            entity : data._id,
-            container : data.container
-        });
-        myNotif.saveQ().then(function(notif){
-            io.sockets.in('project::'+req.body.project).emit('url',notif);
-            res.json(data);
-        }).catch(function(err){
-            res.json(500,err);
-        });
-        res.json(data);
-    }).fail(function(err){
-        res.json(500,err);
-    })
-};
-
-exports.updateUrl = function(req,res){
-
-};
-
-exports.removeUrl = function(req,res){
-
-};

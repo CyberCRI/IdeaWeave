@@ -78,7 +78,7 @@ var UserSchema = new Schema({
     google: String,
     github: String,
     linkedin: String,
-    twitter: String
+    twitter: String,
 });
 
 UserSchema.statics.random = function() {

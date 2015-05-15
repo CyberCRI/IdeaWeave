@@ -9,33 +9,13 @@ angular.module('cri.workspace')
                         controller: 'WorkspaceCtrl'
                     }
                 },
-                resolve:{
-                    project : ['Project','$stateParams',function(Project,$stateParams){
+                resolve: {
+                    project: function(Project,$stateParams){
                         return Project.fetch({ accessUrl : $stateParams.pid });
-                    }],
-                    notes:['NoteLab','$stateParams',function(NoteLab,$stateParams){
-                        return NoteLab.fetch({projectUrl: $stateParams.pid});
-                    }]
-                }
-            })
-            .state('workspace.note',{
-                url : '/:tid',
-                views : {
-                    noteView: {
-                        templateUrl:'modules/workspace/templates/noteMenu.tpl.html',
-                        controller: 'NoteCtrl'
                     }
                 }
             })
-            .state('workspace.note.discussion',{
-                url : '/discussion',
-                views : {
-                    noteDetailsView: {
-                        templateUrl:'modules/workspace/templates/note.tpl.html'
-                    }
-                }
-            })
-            .state('workspace.note.hackpad',{
+            .state('workspace.hackpad',{
                 url : '/hackpad',
                 views : {
                     noteDetailsView: {
@@ -44,7 +24,7 @@ angular.module('cri.workspace')
                     }
                 }
             })
-            .state('workspace.note.resources',{
+            .state('workspace.resources',{
                 url : '/resources',
                 views : {
                     noteDetailsView: {
@@ -53,7 +33,7 @@ angular.module('cri.workspace')
                     }
                 }
             })
-            .state('workspace.note.file',{
+            .state('workspace.files',{
                 url : '/files',
                 views : {
                     noteDetailsView: {

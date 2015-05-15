@@ -4,7 +4,7 @@ var q = require('q'),
     Challenge = mongoose.model('Challenge'),
     Notification = mongoose.model('Notification'),
     NoteLab = mongoose.model('NoteLab'),
-    Files = mongoose.model('File'),
+    File = mongoose.model('File'),
     Url = mongoose.model('Url'),
     Tags = mongoose.model('Tag'),
     Apply = mongoose.model('Apply'),
@@ -46,34 +46,152 @@ exports.getByTag = function(req,res){
     }
 };
 
-exports.getUrls = function(req,res){
-    Url.findQ({ project : req.params.id }).then(function(urls){
+
+// URLS
+
+exports.listUrls = function(req,res){
+    Url.find({ project : req.params.projectId }).populate("owner").execQ().then(function(urls){
         res.json(urls)
     }).fail(function(err){
         res.json(400,err)
     })
 };
 
-exports.getFiles = function(req,res){
-    Files.findQ({ project : req.params.id }).then(function(files){
-        res.json(files);
+exports.createUrl = function(req,res){
+    // TODO: Check that the current user can write URLs in this project or challenge (is owner or contributor)
+
+    // Note will be owned by the current user
+    req.body.owner = req.user._id; 
+    req.body.project = req.params.projectId; 
+
+    var myUrl = new Url(req.body);
+
+    myUrl.saveQ().then(function(data){
+        var myNotif =  new Notification({
+            type : 'createUrl',
+            owner : data.owner,
+            entity : data._id,
+            entityType : 'noteLab'
+        });
+        myNotif.saveQ().then(function(notif){
+            io.sockets.in('project::'+req.body.project).emit('url',notif);
+            res.json(data);
+        }).catch(function(err){
+            res.json(500,err);
+        });
+        
+        res.json(data);
     }).fail(function(err){
-        res.json(400,err);
+        res.json(500,err);
     })
 };
 
-exports.follow = function(req,res){
+exports.fetchUrl = function(req,res){
+    Url.findOneQ({ _id : req.params.urlId }).populate("owner").then(function(note){
+        if(!note) return res.send(400);
+        res.json(note);
+    }).fail(function(err){
+        res.json(500,err);
+    })
+};
 
+exports.removeUrl = function(req,res){
+    Url.findOneQ({ _id : req.params.urlId }).then(function(url){
+        if(!url) return res.send(400);
+        // TODO: check if you are allowed to remove the URL
+
+        url.removeQ().then(function() {
+            res.send(200);
+        }).fail(function(err){
+            res.json(500,err);
+        });
+    }).fail(function(err){
+        res.json(500,err);
+    });
+};
+
+
+// FILES
+
+exports.listFiles = function(req,res){
+    File.find({ project : req.params.projectId }).populate("owner").execQ().then(function(files){
+        res.json(files);
+    }).fail(function(err){
+        res.json(400, err);
+    });
+};
+
+exports.uploadFile = function(req,res) {
+    console.log("Files: ", req.files);
+    if (!req.files) return req.json(300, "No message recieved");
+
+    var myFile = new File(req.files.file);
+    myFile.name = req.files.file.name;
+    myFile.type = req.files.file.mimetype;
+    myFile.originalName = req.files.file.originalname;
+    myFile.description = req.body.description;
+    myFile.owner = req.user._id; 
+    myFile.project = req.params.projectId; 
+
+    console.log("File ready to save", myFile);
+
+    myFile.saveQ().then(function(data){
+        var myNotif =  new Notification({
+            type : 'upload',
+            owner : data.owner,
+            entity : data._id,
+            entityType : 'noteLab'
+        });
+        myNotif.saveQ().then(function(notif){
+            io.sockets.in('project::'+myFile.project).emit('file',notif);
+            res.json(data);
+        }).catch(function(err){
+            res.json(400,err)
+        })
+    }).fail(function(err){
+        res.json(500,err);
+    });
+};
+
+exports.fetchFile = function(req,res){
+    File.findOneQ({ _id : req.params.fileId }).populate("owner").then(function(note){
+        if(!note) return res.send(400);
+        res.json(note);
+    }).fail(function(err){
+        res.json(500,err);
+    })
+};
+
+exports.removeFile = function(req,res){
+    console.log("Removing file", req.params.fileId);
+    File.findOneQ({ _id : req.params.fileId }).then(function(file){
+        if(!file) return res.send(400);
+        // TODO: check if you are allowed to remove the file
+
+        var unlink = q.denodeify(fs.unlink);
+
+        q.all([unlink(file.path), file.removeQ()]).then(function() {
+            res.send(200);
+        }).fail(function(err){
+            res.json(500,err);
+        });
+    }).fail(function(err){
+        res.json(500,err);
+    });
+};
+
+
+exports.follow = function(req,res){
     Project.findOneAndUpdateQ({ _id : req.body.following },{$push : { followers : req.body.follower }}).then(function(project){
         var myNotif =  new Notification({
-            type : 'followP',
-            owner : project.owner,
-            entity : project._id
+            type : 'follow',
+            owner : req.body.follower,
+            entity : project._id,
+            entityType : 'project'
         });
         myNotif.saveQ().then(function(){
             res.json(project)
         }).fail(function(err){
-
             res.json(400,err);
         });
     }).fail(function(err){
@@ -84,7 +202,15 @@ exports.follow = function(req,res){
 
 exports.unfollow = function(req,res){
     Project.findOneAndUpdateQ({ _id : req.body.following },{$pull : { followers : req.body.follower }}).then(function(project){
-        res.json(project)
+        var myNotif = new Notification({
+            type : 'unfollow',
+            owner : req.body.follower,
+            entity : project._id,
+            entityType : 'project'
+        });
+        myNotif.saveQ().then(function() {
+            res.json(project);
+        });
     }).fail(function(err){
         res.json(500,err)
     })
@@ -167,7 +293,6 @@ exports.fetch = function(req,res){
 };
 
 exports.create = function(req,res){
-
     if(req.body.tags){
         var tagsId = [];
         req.body.tags.forEach(function(tag,k){
@@ -182,10 +307,10 @@ exports.create = function(req,res){
         if(project.container){
             Challenge.findOneAndUpdateQ({_id : project.container},{ $push : { projects : project._id },$inc : { projectNumber : 1 }}).then(function(challenge){
                 var myNotif =  new Notification({
-                    type : 'project',
+                    type : 'create',
                     owner : project.owner,
-                    entity : project._id,
-                    container : project.container
+                    entity :  project._id,
+                    entityType : 'project'
                 });
                 myNotif.saveQ().then(function(notif){
                     io.sockets.in('challenge::'+project.container).emit('newProject',notif);
@@ -210,8 +335,17 @@ exports.update = function(req,res){
     if(req.body.tags) {
         req.body.tags = _.pluck(req.body.tags, "_id");
     }
+    if(req.body.members) {
+        req.body.members = _.pluck(req.body.members, "_id");
+    }
+    if(req.body.followers) {
+        req.body.followers = _.pluck(req.body.followers, "_id");
+    }
+    if(req.body.owner) {
+        req.body.owner = req.body.owner._id;
+    }
 
-    Project.findOneAndUpdateQ({_id:req.params.id}, req.body, function(data) {
+    Project.findOneAndUpdateQ({_id:req.params.id}, req.body).then(function(data) {
         res.json(data);
     }).fail(function(err){
         res.json(400,err)
@@ -220,7 +354,15 @@ exports.update = function(req,res){
 
 exports.remove = function(req,res){
     Project.findOneAndRemoveQ({_id : req.params.id}).then(function(data){
-        res.json(data);
+        var myNotif = new Notification({
+            type : 'remove',
+            owner : data.owner,
+            entity : data._id,
+            entityType : 'project'
+        });
+        myNotif.saveQ().then(function() {
+            res.json(data);
+        });
     }).fail(function(err){
         res.json(400,err);
     })
@@ -287,7 +429,8 @@ exports.addToTeam = function(req,res){
     var myNotif = new Notification({
         entity : projectId,
         owner : ownerId,
-        type : 'join'
+        type : 'join',
+        entityType : 'project'
     });
 
     q.all([
@@ -305,7 +448,8 @@ exports.banFromTeam = function(req,res) {
     var myNotif = new Notification({
         entity : req.params.id,
         owner : req.body.member,
-        type : 'join'
+        type : 'ban',
+        entityType : 'project'
     });
     q.all([
         Project.findOneAndUpdateQ({ _id: req.params.id }, {$pull: { members: req.body.member }}),

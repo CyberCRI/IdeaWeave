@@ -30,7 +30,8 @@ angular.module('cri', [
     'cri.auth',
     'cri.challenge',
     'cri.tag',
-    'cri.profile'])
+    'cri.profile',
+    'cri.notes'])
     .config(['$httpProvider','$locationProvider','$sceProvider',function ($httpProvider,$locationProvider,$sceProvider) {
 //        $httpProvider.defaults.withCredentials=true;
         $locationProvider.html5Mode(true);
@@ -190,20 +191,21 @@ angular.module('cri', [
                 case 'challengeAdmin':
                     $scope.sideNavTemplateUrl = 'modules/common/leftNav/admin-challenges.tpl.html';
                     break;
+                
                 case 'project.home':
-                    getRecomendation(Project.data._id);
-                    Project.getPublications(Project.data._id).then(function(publications){
-                        $scope.project = Project.data;
-                        $scope.publications = publications;
-                        $scope.sideNavTemplateUrl = 'modules/common/leftNav/publications.tpl.html';
-                    }).catch(function(err){
-                        console.log(err);
-                    });
+                case 'project.trello':
+                case 'project.admin':
+                case 'workspace':
+                case 'workspace.hackpad':
+                case 'workspace.files':
+                case 'workspace.resources':
+                    $scope.project = Project.data;
+
                     if($scope.currentUser){
                         if($scope.currentUser._id == Project.data.owner._id){
                             $scope.isOwner = true;
                             $scope.isMember = true;
-                        }else{
+                        } else{
                             angular.forEach(Project.data.members,function(member){
                                 if(member._id == $scope.currentUser._id){
                                     $scope.isVisitor = false;
@@ -212,10 +214,10 @@ angular.module('cri', [
                             });
                         }
                     }
-                    break;
-                case 'project.trello':
                     $scope.sideNavTemplateUrl = 'modules/common/leftNav/publications.tpl.html';
+
                     break;
+
             }
         });
 
