@@ -1,4 +1,6 @@
-<h2 class="center">
-    Trello
-</h2>
-<trello id="{{project.trello}}" height="100%"></trello>
+<section layout="vertical" flex>
+	<h2 class="center">Trello</h2>
+
+	<trello ng-if="project.trello" id="{{project.trello}}" height="100%" flex></trello>
+	<p ng-if="!project.trello">Please set your Trello ID in the project settings</p>
+</section>
