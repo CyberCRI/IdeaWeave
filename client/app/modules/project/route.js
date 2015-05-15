@@ -34,10 +34,10 @@ angular.module('cri.project')
                     }
 
                 },
-                resolve:{
-                    project:['Project','$stateParams',function(Project,$stateParams){
+                resolve: {
+                    project: function(Project,$stateParams){
                         return Project.fetch( { accessUrl : $stateParams.pid});
-                    }]
+                    }
                 }
             })
 

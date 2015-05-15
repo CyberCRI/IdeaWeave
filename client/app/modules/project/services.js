@@ -22,24 +22,6 @@ angular.module('cri.project')
             });
             return defered.promise;
         },
-        fetchUrls : function(id){
-            var defered = $q.defer();
-            $http.get(Config.apiServer+'/project/urls/'+id).success(function(data){
-                defered.resolve(data);
-            }).error(function(err){
-                defered.reject(err);
-            });
-            return defered.promise;
-        },
-        fetchFiles : function(id){
-            var defered = $q.defer();
-            $http.get(Config.apiServer+'/project/files/'+id).success(function(data){
-                defered.resolve(data);
-            }).error(function(err){
-                defered.reject(err);
-            });
-            return defered.promise;
-        },
         update : function(id,param){
             var defered = $q.defer(),
                 url = Config.apiServer + '/projects/'+id;

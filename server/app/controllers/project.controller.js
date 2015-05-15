@@ -335,17 +335,18 @@ exports.update = function(req,res){
     if(req.body.tags) {
         req.body.tags = _.pluck(req.body.tags, "_id");
     }
+    if(req.body.members) {
+        req.body.members = _.pluck(req.body.members, "_id");
+    }
+    if(req.body.followers) {
+        req.body.followers = _.pluck(req.body.followers, "_id");
+    }
+    if(req.body.owner) {
+        req.body.owner = req.body.owner._id;
+    }
 
-    Project.findOneAndUpdateQ({_id:req.params.id}, req.body, function(data) {
-        var myNotif = new Notification({
-            type : 'update',
-            owner : data.owner,
-            entity : data._id,
-            entityType : 'project'
-        });
-        myNotif.saveQ().then(function() {
-            res.json(data);
-        });
+    Project.findOneAndUpdateQ({_id:req.params.id}, req.body).then(function(data) {
+        res.json(data);
     }).fail(function(err){
         res.json(400,err)
     });
