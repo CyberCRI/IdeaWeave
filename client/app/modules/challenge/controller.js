@@ -103,7 +103,7 @@ angular.module('cri.challenge', ['ngSanitize'])
                 challenge.endDate = challenge.endDate.getTime();
             }
             Challenge.create(challenge).then(function(data){
-                $state.go('challenge', { cid : data.accessUrl });
+                $state.go('challenge', { cid : data._id });
             }).catch(function(err){
                 Notification.display(err.message);
             });

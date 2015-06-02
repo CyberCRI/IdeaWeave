@@ -1,0 +1,56 @@
+<material-content layout="vertical" scroller loading-method="loadMoreChallenges()" style="overflow-x:hidden;">
+    <div ng-show="challenges.length == 0">
+        Nothing to show yet... 
+    </div>
+    <material-list ng-show="challenges.length > 0">
+        <material-item ng-repeat="challenge in challenges" class="item-list">
+            <material-item-content>
+                <div class="material-tile-left" flex="40" flex-sm="30" flex-md="25" flex-lg="15">
+                    <a ui-sref="challenge({ cid : challenge.accessUrl })">
+                        <img ng-src="{{ challenge.poster || '/images/placeholder90x90.png' }}" class="" width="100%" alt="challenge's poster" />
+                    </a>
+                </div>
+                <article class="material-tile-content">
+                    <a ui-sref="challenge({ cid : challenge.accessUrl })">
+                        <h1>{{ challenge.title }}</h1>
+                    </a>
+                    <showtags entity="challenge"></showtags>
+                    <div hide block-md>
+                        <p ng-bind-html="challenge.brief"></p>
+                        <div layout="horizontal">
+                            <div flex>
+                                <span>
+                                {{ challenge.followers.length }}
+                                </span>
+                                <span>
+                                    Followers
+                                </span>
+                                        </div>
+                                        <div flex>
+                                <span>
+                                {{ challenge.projects.length }}
+                                </span>
+                                <span>
+                                    Projects
+                                </span>
+                            </div>
+                            <div flex>
+                                <p ng-if="challenge.startDate < now && challenge.endDate > now" >
+                                    <timer end-time="challenge.endDate" >End in :{{days}} d, {{hours}} : {{minutes}} : {{seconds}}</timer>
+                                </p>
+                                <p ng-if="challenge.startDate > now" >
+                                    <timer end-time="challenge.endDate" >Start in : {{days}} d, {{hours}} : {{minutes}} : {{seconds}}</timer>
+                                </p>
+                            </div>
+                        </div>
+                        <material-button ng-click="showProjects(challenge._id,$index)" >
+                            show related projects
+                        </material-button>
+                    </div>
+
+
+                </article>
+            </material-item-content>
+        </material-item>
+    </material-list>
+</material-content>

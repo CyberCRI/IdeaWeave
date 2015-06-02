@@ -1,0 +1,64 @@
+<material-content layout="vertical" layout-fill>
+    <material-toolbar scroll-shrink class="home-header">
+        <div layout="vertical" class="content">
+            <h1>
+                {{ challenge.title }}
+            </h1>
+            <h3>{{challenge.brief}}</h3>
+        </div>
+    </material-toolbar>
+
+    <img ng-if="challenge.banner" src="{{ challenge.banner }}" style="margin: auto;">
+
+    <div layout="vertical">
+        <material-button ui-sref="challengeAdmin({ cid : challenge._id })" ng-if="isOwner">
+            <i class="fa fa-pencil-square-o baseColor"></i> Edit
+        </material-button>
+
+        <div layout="horizontal">
+            <div>
+                <span>
+                    {{ challenge.followers.length }}
+                </span>
+                <span class="text-muted">
+                    &nbsp;followers
+                </span>
+                <span>
+                    {{ challenge.projects.length }}
+                </span>
+                <span class="text-muted">
+                    &nbsp;projects
+                </span>
+            </div>
+        </div>
+
+        <div ng-if="isFollow">
+            <i class="fa fa-star baseColor"></i> Following
+        </div>
+
+        <material-button class="material-button-fab" ng-click="toggleLeft()" style="bottom:-24px;position:absolute; left:20px;z-index : inherit" hide-md>
+            <i class="fa fa-bars"></i>
+        </material-button>
+        <material-button class="material-button-fab" ng-click="follow()" style="position:absolute; right:20px; z-index: inherit" ng-if="!isOwner">
+            <i class="fa" ng-class="{ 'fa-thumbs-up' : !isFollow, 'fa-thumbs-down' : isFollow }"></i>
+        </material-button>
+    </div>
+
+    <div flex>
+        <showtags entity="challenge"></showtags>
+        <section class="challenge-home" layout="vertical">
+            <article class="html-content" flex ng-bind-html="challenge.home"></article>
+            <div class="participate-btn">
+                <material-button ng-if="currentUser" ng-click="participate()" class="material-button-raised material-button-colored">
+                    Participate in this challenge
+                </material-button>
+            </div>
+        </section>
+
+        <list-notes challenge="challenge" current-user="currentUser"></list-notes>
+
+        <section >
+            <project-card inline-block project-id="project" ng-repeat="project in challenge.projects"></project-card>
+        </section>
+    </div>
+</material-content>

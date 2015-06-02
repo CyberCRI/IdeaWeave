@@ -43,10 +43,10 @@
                     </a>
                 </div>
                 <div layout="horizontal" layout-align="start end" >
-                    <a ui-sref="ideas.list({ tag :'all' })" class="top-bar-icon">
-                        <material-icon icon="images/svg/projects.svg"></material-icon>
+                    <a ui-sref="ideas({ tag :'all' })" class="top-bar-icon">
+                        <material-icon icon="images/svg/ideas.svg"></material-icon>
                     </a>
-                    <a ui-sref="ideaCreation" ng-if="currentUser._id">
+                    <a ui-sref="createIdea" ng-if="currentUser._id">
                         <img src="images/add.png" class="add-icon"/>
                     </a>
 
@@ -227,6 +227,10 @@
 
     <script src="modules/notes/directives.js"></script>
     <script src="modules/notes/services.js"></script>
+
+    <script src="modules/idea/controller.js"></script>
+    <script src="modules/idea/route.js"></script>    
+    <script src="modules/idea/services.js"></script>    
     <!-- endbuild -->
 
     <script type="text/javascript">
