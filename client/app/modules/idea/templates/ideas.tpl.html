@@ -1,31 +1,67 @@
 <section layout="vertical" layout-fill>
-    <material-toolbar scroll-shrink class="material-theme-green" style="position:relative;">
+    <material-toolbar scroll-shrink class="material-theme-green">
         <h1>Ideas</h1>
+        <material-button class="material-button-fab material-theme-green" ng-click="toggleLeft()" style="color:black;bottom:-24px;position:absolute; left :20px;z-index : inherit" hide-md>
+            <i class="fa fa-bars" style="font-size: 1.2em; top:3px;position:relative;z-index: 50"></i>
+        </material-button>
+        <material-button class="material-button-fab material-button-fab-bottom-right material-theme-green" ui-sref="ideaSuggest" ng-if="currentUser" style="color:black;bottom:-24px;position:absolute; right:20px;z-index : inherit">
+            <i class="fa fa-plus" style="font-size: 1.2em; top:3px;position:relative;z-index: 50"></i>
+        </material-button>
     </material-toolbar>
     <material-content flex>
-        <div>a</div>
-        <div>a</div>
-        <div>a</div>
-        <div>a</div>
-        <div>a</div>
-        <div>a</div>
-        <div>a</div>
-        <div>a</div>
-        <div>a</div>
-        <div>a</div>
-        <div>a</div>
-        <div>a</div>
-        <div>a</div>
-        <div>a</div>
-        <div>a</div>
-        <div>a</div>
-        <div>a</div>
-        <div>a</div>
-        <div>a</div>
-        <div>a</div>
-        <div>a</div>
-        <div>a</div>
-        <div>a</div>
-        <div>a</div>
+        <div ng-show="ideas.length == 0">
+            Nothing to show yet... 
+        </div>
+        <material-list ng-show="ideas.length > 0">
+            <material-item ng-repeat="idea in ideas" class="item-list">
+                <material-item-content>
+                    <div class="material-tile-left" flex="40" flex-sm="30" flex-md="25" flex-lg="15">
+                        <a ui-sref="idea({ iid : idea._id })">
+                            <img ng-src="{{ idea.poster || '/images/placeholder90x90.png' }}" class="" width="100%" alt="idea's poster" />
+                        </a>
+                    </div>
+                    <article class="material-tile-content">
+                        <a ui-sref="idea({ iid : idea._id })">
+                            <h1>{{ idea.title }}</h1>
+                        </a>
+                        <showtags entity="idea"></showtags>
+                        <div hide block-md>
+                            <p ng-bind-html="idea.brief"></p>
+                            <div layout="horizontal">
+                                <div flex>
+                                    <span>
+                                    {{ idea.followers.length }}
+                                    </span>
+                                    <span>
+                                        Followers
+                                    </span>
+                                </div>
+                                <div flex>
+                                    <span>
+                                    {{ idea.challenges.length }}
+                                    </span>
+                                    <span>
+                                        Challenges
+                                    </span>
+                                </div>
+                                <div flex>
+                                    <span>
+                                    {{ idea.projects.length }}
+                                    </span>
+                                    <span>
+                                        Projects
+                                    </span>
+                                </div>
+                            </div>
+                            <material-button ng-click="showProjects(idea._id,$index)" >
+                                show related projects
+                            </material-button>
+                        </div>
+
+
+                    </article>
+                </material-item-content>
+            </material-item>
+        </material-list>
     </material-content>
 </section>
