@@ -59,5 +59,17 @@ header{
   color: $baseColor;
 }
 
+.add-icon {
+  width: 10px;
+}
+
+.idea-icon {
+  font-size: 30px;
+  color: $baseColor;
+}
+
+.top-bar-icon {
+  margin-left: 10px;
+}
 
 @import "../modules/common/sass/media-queries";
