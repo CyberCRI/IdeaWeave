@@ -25,30 +25,17 @@ exports.fetchOne = function(req, res) {
 };
 
 exports.fetch = function(req, res) {
-    if(req.query.accessUrl) {
-        Idea
-            .find({accessUrl : req.query.accessUrl})
-            .populate('tags')
-            .populate('followers')
-            .populate('owner')
-            .execQ()
-            .then(function(idea) {
-                res.json(idea);
-            }).catch(function(err) {
-                res.json(500, err);
-            });
-    }
-    else {
-        Idea
-            .find()
-            .populate('tags')
-            .execQ()
-            .then(function(idea) {
-                res.json(idea);
-            }).fail(function(err) {
-                res.json(500, err);
-            });
-    };
+    Idea
+        .find()
+        .populate('tags')
+        .populate('followers')
+        .populate('owner')
+        .execQ()
+        .then(function(idea) {
+            res.json(idea);
+        }).fail(function(err) {
+            res.json(500, err);
+        });
 };
 
 exports.getByTag = function(req,res){

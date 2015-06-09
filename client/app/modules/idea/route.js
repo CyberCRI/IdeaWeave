@@ -28,17 +28,13 @@ angular.module('cri.idea')
                 url : '/idea/:iid',
                 resolve: {
                     idea: function ($stateParams, Idea) {
-                        var option = {
-                            accessUrl : $stateParams.iid
-                        };
-
-                        return Idea.fetch(option);
+                        return Idea.fetch($stateParams.iid);
                     }
                 },
                 views :{
                   mainView :{
                       templateUrl: 'modules/idea/templates/idea.tpl.html',
-                      controller : 'NewChallengeCtrl'
+                      controller : 'IdeaCtrl'
                   }
                 }
             });

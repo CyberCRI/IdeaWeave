@@ -13,15 +13,13 @@ angular.module('cri.idea')
             });
             return defered.promise;
         },
-        fetch : function(param,id){
+        fetch : function(id){
             var defered = $q.defer();
             var url = Config.apiServer+URI;
             if(id) {
                 url += '/'+id;
             }
-            $http.get(url,{
-                params : param
-            }).success(function(data){
+            $http.get(url).success(function(data){
                 service.data = data[0];
                 defered.resolve(data);
             }).error(function(err){

@@ -13,5 +13,6 @@ angular.module('cri.idea', ['ngSanitize'])
             });
         }
     })
-    .controller('IdeaCtrl', function($scope) {
+    .controller('IdeaCtrl', function($scope, idea) {
+        $scope.idea = idea;
     });
