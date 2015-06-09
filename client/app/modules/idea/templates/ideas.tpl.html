@@ -15,11 +15,6 @@
         <material-list ng-show="ideas.length > 0">
             <material-item ng-repeat="idea in ideas" class="item-list">
                 <material-item-content>
-                    <div class="material-tile-left" flex="40" flex-sm="30" flex-md="25" flex-lg="15">
-                        <a ui-sref="idea({ iid : idea._id })">
-                            <img ng-src="{{ idea.poster || '/images/placeholder90x90.png' }}" class="" width="100%" alt="idea's poster" />
-                        </a>
-                    </div>
                     <article class="material-tile-content">
                         <a ui-sref="idea({ iid : idea._id })">
                             <h1>{{ idea.title }}</h1>
