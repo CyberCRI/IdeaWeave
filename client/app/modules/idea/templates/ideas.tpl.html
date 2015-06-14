@@ -1,10 +1,10 @@
 <section layout="vertical" layout-fill>
     <material-toolbar scroll-shrink class="material-theme-green">
-        <h1>Ideas</h1>
+        <div class="center">Ideas</div>
         <material-button class="material-button-fab material-theme-green" ng-click="toggleLeft()" style="color:black;bottom:-24px;position:absolute; left :20px;z-index : inherit" hide-md>
             <i class="fa fa-bars" style="font-size: 1.2em; top:3px;position:relative;z-index: 50"></i>
         </material-button>
-        <material-button class="material-button-fab material-button-fab-bottom-right material-theme-green" ui-sref="ideaSuggest" ng-if="currentUser" style="color:black;bottom:-24px;position:absolute; right:20px;z-index : inherit">
+        <material-button class="material-button-fab material-button-fab-bottom-right material-theme-green" ui-sref="createIdea" ng-if="currentUser" style="color:black;bottom:-24px;position:absolute; right:20px;z-index : inherit">
             <i class="fa fa-plus" style="font-size: 1.2em; top:3px;position:relative;z-index: 50"></i>
         </material-button>
     </material-toolbar>
@@ -48,9 +48,12 @@
                                     </span>
                                 </div>
                             </div>
-                            <material-button ng-click="showProjects(idea._id,$index)" >
+                            <!-- <material-button ng-click="showProjects(idea._id,$index)" >
                                 show related projects
                             </material-button>
+                            <material-button ng-click="showProjects(idea._id,$index)" >
+                                show related challenges
+                            </material-button> -->
                         </div>
 
 
