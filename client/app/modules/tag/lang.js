@@ -3,8 +3,9 @@ angular.module('cri.tag')
         $translateProvider.translations('en', {
             'TAG_TITLE': 'Jizhi Search',
             'TAG_USER':'User:',
-            'TAG_CHALLENGE':'Challenge:',
-            'TAG_PROJECT':'Project:',
+            'TAG_CHALLENGE':'Challenges:',
+            'TAG_PROJECT':'Projects:',
+            'TAG_IDEA':'Ideas:',
             'TAG_NOT_MATCH':'No result match.',
         });
 

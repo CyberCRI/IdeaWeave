@@ -21,14 +21,16 @@ angular.module('cri.tag')
                 var challengeRequest = $http.get(Config.apiServer + '/challenges/tag/' + tagTitle);
                 var projectRequest = $http.get(Config.apiServer + '/projects/tag/' + tagTitle);
                 var userRequest = $http.get(Config.apiServer + '/profile/tag/' + tagTitle);
+                var ideaRequest = $http.get(Config.apiServer + '/ideas/tag/' + tagTitle);
 
                 // Return this promise
                 var defered = $q.defer();
-                $q.all([challengeRequest, projectRequest, userRequest]).then(function(responses) {
+                $q.all([challengeRequest, projectRequest, userRequest, ideaRequest]).then(function(responses) {
                     defered.resolve({
                         challenges: responses[0].data,
                         projects: responses[1].data,
-                        users: responses[2].data
+                        users: responses[2].data,
+                        ideas: responses[3].data
                     });
                 }).catch(function(err){
                     defered.reject(err);
