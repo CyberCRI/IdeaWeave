@@ -57,30 +57,24 @@ angular.module('cri.idea')
             });
             return defered.promise;
         },
-        /*follow : function(follower,following){
+        follow : function(id){
             var defered = $q.defer();
-            $http.post(Config.apiServer + '/ideas/follow',{
-                follower : follower,
-                following : following
-            }).success(function(data){
+            $http.post(Config.apiServer+URI+'/'+id+'/follow').success(function(data){
                 defered.resolve(data);
             }).error(function(err){
                 defered.reject(err);
             });
             return defered.promise;
         },
-        unfollow : function(follower,following){
+        unfollow : function(id){
             var defered = $q.defer();
-            $http.post(Config.apiServer + '/ideas/unfollow',{
-                follower : follower,
-                following : following
-        }).success(function(data){
+            $http.post(Config.apiServer+URI+'/'+id+'/unfollow').success(function(data){
                 defered.resolve(data);
             }).error(function(err){
                 defered.reject(err);
             });
             return defered.promise;
-        },
+        } /*,
         getFollowing : function(userId){
             var defered = $q.defer();
             $http.get(Config.apiServer+'/datas/fIdeas/'+userId).success(function(data){

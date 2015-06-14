@@ -24,7 +24,7 @@ angular.module('cri.notes', ['ngSanitize'])
             };
 
             $scope.canDeleteComment = function(note, comment) {
-                return $scope.currentUser && note.owner._id == $scope.currentUser._id || comment.owner._id == $scope.currentUser._id;
+                return $scope.currentUser && (note.owner._id == $scope.currentUser._id || comment.owner._id == $scope.currentUser._id);
             };
 
             $scope.refreshNotes = function() {

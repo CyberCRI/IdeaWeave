@@ -18,8 +18,8 @@ module.exports = function(app) {
     
     app.get('/ideas/tag/:tag', idea.getByTag);
 
-    app.put('/ideas/:id/follow', utils.ensureAuthenticated, idea.follow);
-    app.put('/ideas/:id/unfollow', utils.ensureAuthenticated, idea.unfollow);
+    app.post('/ideas/:id/follow', utils.ensureAuthenticated, idea.follow);
+    app.post('/ideas/:id/unfollow', utils.ensureAuthenticated, idea.unfollow);
     
     app.route('/ideas/:id/like')
         .get(idea.getLikes)

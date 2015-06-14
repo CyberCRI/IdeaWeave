@@ -14,9 +14,21 @@ angular.module('cri.idea', ['ngSanitize'])
             });
         }
     })
-    .controller('IdeaCtrl', function ($scope, idea) {
+    .controller('IdeaCtrl', function ($scope, Idea, idea) {
         $scope.idea = idea;
-        $scope.isOwner = ($scope.currentUser._id == idea.owner._id);
+        $scope.isOwner = ($scope.currentUser && $scope.currentUser._id == idea.owner._id);
+
+        $scope.isFollowing = function() {
+            if(!$scope.currentUser) return false;
+            return !!_.findWhere(idea.followers, { _id: $scope.currentUser._id });
+        }
+
+        $scope.follow = function () {
+            var promise = $scope.isFollowing() ? Idea.unfollow(idea._id) : Idea.follow(idea._id);
+            promise.then(function(data) {
+                idea.followers = data.followers;
+            });
+        };
     })
     .controller('IdeaEditCtrl', function ($scope, Idea, idea, Notification, $state) {
         $scope.idea = idea;

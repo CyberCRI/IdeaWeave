@@ -138,12 +138,13 @@ exports.remove = function(req, res) {
 };
 
 exports.follow = function(req, res) {
-    Idea.findOneAndUpdateQ({_id : req.params.id}, 
-        {$push : {followers : req.body.follower}})
+    Idea.findOneAndUpdate({_id : req.params.id}, {$addToSet : {followers: req.user._id}})
+        .populate("followers")
+        .execQ()
         .then(function(idea) {
             var myNotif = new Notification({
                 type : 'follow',
-                owner : req.body.follower,
+                owner : req.user._id,
                 entity : idea._id,
                 entityType : 'idea'
             });
@@ -158,12 +159,13 @@ exports.follow = function(req, res) {
 };
 
 exports.unfollow = function(req, res) {
-    Idea.findOneAndUpdateQ({_id : req.params.id},
-        {$pull : {followers : req.body.follower}})
+    Idea.findOneAndUpdate({_id : req.params.id}, {$pull : {followers: req.user._id}})
+        .populate("followers")
+        .execQ()
         .then(function(idea) {
             var myNotif = new Notification({
                 type : 'unfollow',
-                owner : req.body.follower,
+                owner : req.user._id,
                 entity : idea._id,
                 entityType : 'idea'
             });
