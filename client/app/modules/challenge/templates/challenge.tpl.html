@@ -13,8 +13,8 @@
         <material-button class="material-button-fab" ng-click="toggleLeft()" style="bottom:-24px;position:absolute; left:20px;z-index : inherit" hide-md>
             <i class="fa fa-bars"></i>
         </material-button>
-        <material-button class="material-button-fab" ng-click="follow()" style="position:absolute; right:20px; z-index: inherit" ng-if="!isOwner">
-            <i class="fa" ng-class="{ 'fa-thumbs-up' : !isFollow, 'fa-thumbs-down' : isFollow }"></i>
+        <material-button class="material-button-fab material-button-raised" ng-click="follow()" style="position:absolute; right:20px; z-index: inherit" ng-class="{ 'material-theme-indigo' : isFollow }" ng-if="currentUser && !isOwner">
+            <i class="fa fa-thumbs-up"></i>
         </material-button>
     </material-toolbar>
 
