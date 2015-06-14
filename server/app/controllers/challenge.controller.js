@@ -26,23 +26,26 @@ exports.getTemplates = function(req,res){
 };
 
 exports.getByTag = function(req,res){
-    if(req.params.tag == 'all'){
-        Challenge.find().limit(req.query.limit).skip(req.query.skip).sort('-createDate').populate('tags').sort('-createDate').execQ().then(function(challenges){
-            res.json(challenges);
-        }).fail(function(err){
-            res.json(400,err);
-        })
-    }else{
-        Tags.findQ({ title : req.params.tag }).then(function(tag){
-            Challenge.find({ tags : tag[0]._id }).limit(req.query.limit).skip(req.query.skip).populate('tags').sort('-createDate').execQ().then(function(challenges){
-
+    function completeQuery(query) {
+        query.limit(req.query.limit)
+            .skip(req.query.skip)
+            .select('_id createDate accessUrl title brief owner tags followers projects poster')
+            .sort('-createDate')
+            .populate('tags')
+            .sort('-createDate')
+            .execQ().then(function(challenges) {
                 res.json(challenges);
-            }).fail(function(err){
+            }).fail(function (err){
                 res.json(400,err);
-            })
-        }).fail(function(err){
-            res.json(400,err);
-        })
+            });
+    }
+
+    if(req.params.tag == 'all'){
+        completeQuery(Challenge.find());
+    } else{
+        Tags.findQ({ title : req.params.tag }).then(function (tag) {
+            completeQuery(Challenge.find({ tags : tag[0]._id }));
+        });
     }
 };
 
