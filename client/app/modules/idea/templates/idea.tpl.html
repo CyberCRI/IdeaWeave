@@ -18,7 +18,7 @@
         </material-button>
     </material-toolbar>
 
-    <h3>{{ idea.brief }}</h3>
+    <h3 class="show-line-breaks">{{ idea.brief }}</h3>
 
     <div layout="vertical">
         <material-button ui-sref="ideaAdmin({ iid : idea._id })" ng-if="isOwner">
