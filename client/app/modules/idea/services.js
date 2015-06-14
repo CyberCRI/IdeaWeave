@@ -37,8 +37,11 @@ angular.module('cri.idea')
             return defered.promise;
         },
         update : function(id,idea){
+            var copiedIdea = angular.copy(idea);
+            copiedIdea.tags = _.pluck(idea.tags, "_id");
+
             var defered = $q.defer();
-            $http.put(Config.apiServer+URI+'/'+id,idea).success(function(data){
+            $http.put(Config.apiServer+URI+'/'+id, copiedIdea).success(function(data){
                 defered.resolve(data);
             }).error(function(err){
                 defered.reject(err);

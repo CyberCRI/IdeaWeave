@@ -37,5 +37,19 @@ angular.module('cri.idea')
                       controller : 'IdeaCtrl'
                   }
                 }
+            })
+            .state('editIdea',{
+                url : '/editIdea/:iid',
+                resolve: {
+                    idea: function ($stateParams, Idea) {
+                        return Idea.fetch($stateParams.iid);
+                    }
+                },
+                views :{
+                  mainView :{
+                      templateUrl: 'modules/idea/templates/idea-create.tpl.html',
+                      controller : 'IdeaEditCtrl'
+                  }
+                }
             });
     }]);

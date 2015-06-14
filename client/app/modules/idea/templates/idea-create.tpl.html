@@ -1,5 +1,5 @@
 <material-content flex>
-    <h2>Create a New Idea</h2>
+    <h2>{{ title }}</h2>
     <material-form layout="vertical">
         <material-input-group>
             <label for="title">Title</label>
@@ -10,7 +10,7 @@
         <textarea placeholder="What's your idea?" ng-model="idea.brief" rows="5"></textarea>
 
         <div>
-            <material-button style="width:100%;" ng-click="createIdea()" class="material-button-raised">Submit Idea</material-button>
+            <material-button style="width:100%;" ng-click="onDone()" class="material-button-raised">Submit Idea</material-button>
         </div>
     </material-form>
 </material-content>

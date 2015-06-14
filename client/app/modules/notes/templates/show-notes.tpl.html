@@ -1,6 +1,6 @@
 <section>
     <h2>Notes</h2>
-    <material-button ng-if="canPostNote()" ng-click="popUpNewNote()"><i class="fa fa-pencil-square"></i> Post new note</material-button>
+    <material-button ng-if="canPostNote()" ng-click="popUpNewNote()"><i class="fa fa-pencil-square-o"></i> Post new note</material-button>
 
     <article ng-repeat="note in notes">
         <p class="note-info">Note posted by {{ note.owner.username }} on {{ note.createDate | date: "medium" }}</p>

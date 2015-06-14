@@ -21,7 +21,7 @@
     <h3 class="show-line-breaks">{{ idea.brief }}</h3>
 
     <div layout="vertical">
-        <material-button ui-sref="ideaAdmin({ iid : idea._id })" ng-if="isOwner">
+        <material-button ui-sref="editIdea({ iid : idea._id })" ng-if="isOwner">
             <i class="fa fa-pencil-square-o baseColor"></i> Edit
         </material-button>
 
