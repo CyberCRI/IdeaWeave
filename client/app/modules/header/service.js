@@ -15,6 +15,7 @@ angular.module('cri.header')
                     // First, assign each result its type
                     _.each(searchResult.projects, function(element) { element.type = "project"; });
                     _.each(searchResult.challenges, function(element) { element.type = "challenge"; });
+                    _.each(searchResult.ideas, function(element) { element.type = "idea"; });
                     _.each(searchResult.users, function(element) { element.type = "user"; });
                     _.each(searchResult.tags, function(element) { element.type = "tag"; });
 
@@ -29,6 +30,11 @@ angular.module('cri.header')
                             separator : 'Challenges'
                         });
                     }
+                    if(searchResult.ideas.length >0){
+                        searchResult.ideas.unshift({
+                            separator : 'Ideas'
+                        });
+                    }
                     if(searchResult.users.length >0){
                         searchResult.users.unshift({
                             separator : 'Users'
@@ -41,7 +47,7 @@ angular.module('cri.header')
                     }
 
                     // Finally, combine the elements into a list and return the result
-                    var flatList = searchResult.projects.concat(searchResult.challenges,searchResult.users,searchResult.tags);
+                    var flatList = searchResult.projects.concat(searchResult.challenges,searchResult.ideas,searchResult.users,searchResult.tags);
                     defered.resolve(flatList);
                 }).error(function(err){
                     defered.reject(err);
