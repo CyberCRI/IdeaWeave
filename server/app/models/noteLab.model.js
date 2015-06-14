@@ -53,6 +53,10 @@ var NoteLabSchema = new Schema({
         type: Schema.ObjectId,
         ref: 'Challenge'
     },
+    idea: {
+        type: Schema.ObjectId,
+        ref: 'Idea'
+    },
     text: {
         type: String,
         required: 'text cannot be blank'

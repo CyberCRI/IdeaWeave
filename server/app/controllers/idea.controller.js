@@ -17,11 +17,15 @@ function canModifyIdea(user, idea) {
 };
 
 exports.fetchOne = function(req, res) {
-    Idea.findOneQ({_id : req.params.id}).then(function(idea) {
-        res.json(idea);
-    }).fail(function(err) {
-        res.json(400, err);
-    });
+    Idea.findOne({_id : req.params.id})
+        .populate('tags')
+        .populate('followers')
+        .populate('owner')
+        .execQ().then(function(idea) {
+            res.json(idea);
+        }).fail(function(err) {
+            res.json(400, err);
+        });
 };
 
 exports.fetch = function(req, res) {
@@ -194,43 +198,6 @@ exports.like = function(req, res) {
             res.json("already liked");
         };
     });
-
-/*
-    User.findOneQ({_id : req.body.liker}).then(function(user) {
-        if(user.likes.indexOf(req.params.id) < 0) {
-            Idea.findOneQ({_id : req.params.id})
-                .then(function(idea) {
-                    if(user.dislikes.indexOf(req.params.id) < 0) {
-                        idea.likes = idea.likes + 1;
-                        idea.saveQ();
-                        User.findOneAndUpdateQ({_id : req.body.liker}, 
-                            {$push : {likes : req.params.id}});
-                    }
-                    else {
-                        idea.likes = idea.likes + 1;
-                        idea.dislikes = idea.dislikes - 1;
-                        idea.saveQ();
-                        User.findOneAndUpdateQ({_id : req.body.liker},
-                            {$push : {likes : req.params.id},
-                            $pull : {dislikes : req.params.id}});
-                    };
-                    var myNotif = new Notification({
-                        type : 'like',
-                        owner : req.body.liker,
-                        entity : idea._id,
-                        entityType : 'idea'
-                    });
-                    myNotif.saveQ().then(function() {
-                        res.json(idea);
-                    });
-                }).fail(function(err) {
-                    res.json(400, err);
-                });
-        }
-        else {
-            res.json("already liked");
-        };
-    });*/
 };
 
 exports.getLikes = function(req, res) {
@@ -266,42 +233,6 @@ exports.dislike = function(req, res) {
             res.json("already disliked");
         };
     });
-
-    /*User.findOneQ({_id : req.body.disliker}).then(function(user) {
-        if(user.dislikes.indexOf(req.params.id) < 0) {
-            Idea.findOneQ({_id : req.params.id})
-                .then(function(idea) {
-                    if(user.likes.indexOf(req.params.id) < 0) {
-                        idea.dislikes = idea.dislikes + 1;
-                        idea.saveQ();
-                        User.findOneAndUpdateQ({_id : req.body.disliker}, 
-                            {$push : {dislikes : req.params.id}});
-                    }
-                    else {
-                        idea.dislikes = idea.dislikes + 1;
-                        idea.likes = idea.likes - 1;
-                        idea.saveQ();
-                        User.findOneAndUpdateQ({_id : req.body.disliker},
-                            {$push : {dislikes : req.params.id},
-                            $pull : {likes : req.params.id}});
-                    };
-                    var myNotif = new Notification({
-                        type : 'dislike',
-                        owner : req.body.disliker,
-                        entity : idea._id,
-                        entityType : 'idea'
-                    });
-                    myNotif.saveQ().then(function() {
-                        res.json(idea);
-                    });
-                }).fail(function(err) {
-                    res.json(400, err);
-                });
-        }
-        else {
-            res.json("already disliked");
-        };
-    });*/
 };
 
 exports.getDislikes = function(req, res) {

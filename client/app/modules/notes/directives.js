@@ -5,16 +5,17 @@ angular.module('cri.notes', ['ngSanitize'])
         scope: {
             challenge: "=",
             project: "=",
+            idea: "=",
             currentUser: "="
         },
         templateUrl: "modules/notes/templates/show-notes.tpl.html",
         controller: function($scope, Notification, Notes, $materialDialog) {
             $scope.canPostNote = function() {
-                return $scope.currentUser._id == $scope.container.owner._id ;
+                return $scope.currentUser && $scope.currentUser._id == $scope.container.owner._id;
             };
 
             $scope.canDeleteNote = function(note) {
-                return note.owner._id == $scope.currentUser._id;
+                return $scope.currentUser && note.owner._id == $scope.currentUser._id;
             };
 
             $scope.canPostComment = function(note) {
@@ -23,7 +24,7 @@ angular.module('cri.notes', ['ngSanitize'])
             };
 
             $scope.canDeleteComment = function(note, comment) {
-                return note.owner._id == $scope.currentUser._id || comment.owner._id == $scope.currentUser._id;
+                return $scope.currentUser && note.owner._id == $scope.currentUser._id || comment.owner._id == $scope.currentUser._id;
             };
 
             $scope.refreshNotes = function() {
@@ -122,8 +123,11 @@ angular.module('cri.notes', ['ngSanitize'])
             } else if($scope.project) {
                 $scope.container = $scope.project;
                 $scope.containerType = "project";
+            } else if($scope.idea) {
+                $scope.container = $scope.idea;
+                $scope.containerType = "idea";
             } else {
-                throw new Exception("No container specified");
+                throw new Error("No container specified");
             }
 
             $scope.refreshNotes();
