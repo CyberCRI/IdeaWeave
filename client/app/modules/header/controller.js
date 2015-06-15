@@ -34,6 +34,9 @@ angular.module('cri.header',[])
                 case "tag":
                     $state.go('tag', { title: result.title });
                     break;
+                case "idea":
+                    $state.go('idea', { iid: result._id });
+                    break;
                 default:
                     throw new Error("Cannot goto type " + type);
             }

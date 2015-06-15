@@ -8,6 +8,7 @@ var fs = require('fs'),
     NoteLab = mongoose.model('NoteLab'),
     Project = mongoose.model('Project'),
     Challenge = mongoose.model('Challenge'),
+    Idea = mongoose.model('Idea'),
     Notification = mongoose.model('Notification'),
     HackPadClient = require('../controllers/hackPad.controller').client,
     io = require('../../server').io;
@@ -28,8 +29,10 @@ exports.listNotes = function(req,res){
         query = NoteLab.find({ project : req.query.project });
     } else if(req.query.challenge) {
         query = NoteLab.find({ challenge : req.query.challenge });
+    } else if(req.query.idea) {
+        query = NoteLab.find({ idea : req.query.idea });
     } else {
-        return res.json(403, "Please specify a project or challenge");
+        return res.json(403, "Please specify a project, challenge, or idea");
     }
 
     query.sort("-createDate").populate("owner", "username").populate("comments.owner", "username").execQ().then(function(notes){
@@ -50,14 +53,16 @@ exports.fetchNote = function(req,res){
 };
 
 exports.createNote = function(req,res){
-    // Notes are attached to projects or challenges
+    // Notes are attached to projects, challenges, or ideas
     var containerUpdateQuery;
     if(req.body.project){
         containerUpdateQuery = Project.findOneAndUpdateQ({_id:req.body.project},{$inc:{noteNumber : 1}});
     } else if(req.body.challenge) {
         containerUpdateQuery = Challenge.findOneAndUpdateQ({_id:req.body.challenge},{$inc:{noteNumber : 1}});
+    } else if(req.body.idea) {
+        containerUpdateQuery = Idea.findOneAndUpdateQ({_id:req.body.idea},{$inc:{noteNumber : 1}});
     } else {
-        res.json(403, "Please specify a project or challenge");
+        res.json(403, "Please specify a project, challenge, or idea");
     }
 
     // TODO: Check that the current user can write notes in this project or challenge (is owner or contributor)
@@ -106,8 +111,10 @@ exports.removeNote = function(req,res){
             containerUpdateQuery = Project.findOneAndUpdateQ({_id:req.body.project},{$dec:{noteNumber : 1}});
         } else if(note.challenge) {
             containerUpdateQuery = Challenge.findOneAndUpdateQ({_id:req.body.challenge},{$dec:{noteNumber : 1}});
+        } else if(note.idea) {
+            ideaUpdateQuery = Idea.findOneAndUpdateQ({_id:req.body.challenge},{$dec:{noteNumber : 1}});
         } else {
-            res.json(500, "Note does not specify a project or challenge");
+            res.json(500, "Note does not specify a project, challenge, or idea");
         }
 
         q.all([note.removeQ(), containerUpdateQuery]).then(function() {
@@ -158,7 +165,7 @@ exports.createComment = function(req,res){
     NoteLab.findOneQ({ _id : req.params.id }).then(function(note){
         if(!note) return res.send(400);
 
-        // TODO: Check that the current user can comment notes in this project or challenge (is owner or contributor)
+        // TODO: Check that the current user can comment notes in this project, challenge, or idea (is owner or contributor)
 
         // Comment will be owned by the current user
         var newComment = note.comments.create(req.body);

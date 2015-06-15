@@ -13,8 +13,9 @@ angular.module('cri.common',[])
                 image_advtab: true,
                 extended_valid_elements:"iframe[src|title|width|height|allowfullscreen|frameborder|class|id],object[classid|width|height|codebase|*],param[name|value|_value|*],embed[type|width|height|src|*]"
             },
-            paginateChallenge : 10,
-            paginateProject : 10,
+            paginateChallenge : 100,
+            paginateProject : 100,
+            paginateIdea : 100,
             activityLimit : 40,
             tinyMceOptions : {
                 popUp :{

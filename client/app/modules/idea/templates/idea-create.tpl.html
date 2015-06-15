@@ -1,0 +1,16 @@
+<material-content flex>
+    <h2>{{ title }}</h2>
+    <material-form layout="vertical">
+        <material-input-group>
+            <label for="title">Title</label>
+            <material-input id="title" type="text" ng-model="idea.title" />
+        </material-input-group>
+        <tag-manager entity="idea"></tag-manager>
+
+        <textarea placeholder="What's your idea?" ng-model="idea.brief" rows="5"></textarea>
+
+        <div>
+            <material-button style="width:100%;" ng-click="onDone()" class="material-button-raised">Submit Idea</material-button>
+        </div>
+    </material-form>
+</material-content>

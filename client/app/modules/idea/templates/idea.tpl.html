@@ -1,0 +1,64 @@
+<material-content layout="vertical" layout-fill>
+    <material-toolbar scroll-shrink class="home-header">
+        <div layout="vertical" class="content">
+            <h1>
+                {{ idea.title }}
+            </h1>
+        </div>
+
+        <div ng-if="isFollow">
+            <i class="fa fa-star baseColor"></i> Following
+        </div>
+
+        <material-button class="material-button-fab" ng-click="toggleLeft()" style="bottom:-24px;position:absolute; left:20px;z-index : inherit" hide-md>
+            <i class="fa fa-bars"></i>
+        </material-button>
+        <material-button class="material-button-fab material-button-raised" ng-click="follow()" style="position:absolute; right:20px; z-index: inherit" ng-class="{ 'material-theme-indigo' : isFollowing() }"ng-if="currentUser && !isOwner">
+            <i class="fa fa-thumbs-up"></i>
+        </material-button>
+    </material-toolbar>
+
+    <h3 class="show-line-breaks">{{ idea.brief }}</h3>
+
+    <div layout="vertical">
+        <material-button ui-sref="editIdea({ iid : idea._id })" ng-if="isOwner">
+            <i class="fa fa-pencil-square-o baseColor"></i> Edit
+        </material-button>
+
+        <div layout="horizontal">
+            <div>
+                <span>
+                    {{ idea.followers.length }}
+                </span>
+                <span class="text-muted">
+                    &nbsp;followers
+                </span>
+                <span>
+                    {{ idea.challenges.length }}
+                </span>
+                <span class="text-muted">
+                    &nbsp;challenges
+                </span>
+                <span>
+                    {{ idea.projects.length }}
+                </span>
+                <span class="text-muted">
+                    &nbsp;projects
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div flex>
+        <showtags entity="idea"></showtags>
+
+        <list-notes idea="idea" current-user="currentUser"></list-notes>
+
+        <section>
+            <challenge-card inline-block challenge-id="project" ng-repeat="challenge in idea.challenges"></project-card>
+        </section>
+        <section>
+            <project-card inline-block project-id="project" ng-repeat="project in idea.projects"></project-card>
+        </section>
+    </div>
+</material-content>

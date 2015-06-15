@@ -31,7 +31,8 @@ angular.module('cri', [
     'cri.challenge',
     'cri.tag',
     'cri.profile',
-    'cri.notes'])
+    'cri.notes',
+    'cri.idea'])
     .config(['$httpProvider','$locationProvider','$sceProvider',function ($httpProvider,$locationProvider,$sceProvider) {
 //        $httpProvider.defaults.withCredentials=true;
         $locationProvider.html5Mode(true);
@@ -183,6 +184,11 @@ angular.module('cri', [
                 case 'challenges.list':
                     getTags().then(function(){
                         $scope.sideNavTemplateUrl = 'modules/common/leftNav/tags-challenges.tpl.html';
+                    });
+                    break;
+                case 'ideas':
+                    getTags().then(function(){
+                        $scope.sideNavTemplateUrl = 'modules/idea/templates/tags-ideas.tpl.html';
                     });
                     break;
                 case 'profileAdmin':
