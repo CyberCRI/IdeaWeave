@@ -25,8 +25,4 @@ module.exports = function(app) {
         .get(noteLab.fetchComment)
         .put(utils.ensureAuthenticated,noteLab.updateComment)
         .delete(utils.ensureAuthenticated,noteLab.removeComment);
-
-    app.get('/hackpad/embed/:id',utils.ensureAuthenticated,hackPad.getIframe);
-    app.get('/hackpad/auth',utils.ensureAuthenticated,hackPad.auth);
-
 };

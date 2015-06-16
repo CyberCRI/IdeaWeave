@@ -8,12 +8,11 @@
     "npm": "1.4.x"
   },
   "dependencies": {
-      "underscore":"*",
-    "oauth-client": "~0.3.0",
     "bcryptjs": "^0.7.12",
     "body-parser": "~1.2.0",
     "compression": "~1.0.1",
     "cookie-parser": "~1.1.0",
+    "etherpad-lite-client": "^0.7.0",
     "express": "~4.2.0",
     "forever": "~0.11.0",
     "glob": "~3.2.9",
@@ -25,13 +24,14 @@
     "moment": "^2.8.1",
     "mongoose": "~3.8.8",
     "mongoose-q": "0.0.10",
-    "mongoose-random" : "*",
+    "mongoose-random": "*",
     "morgan": "~1.1.0",
     "multer": "^0.1.4",
+    "nodemailer": "1.2.1",
+    "oauth-client": "~0.3.0",
     "q": "1.0.1",
     "request": "^2.40.0",
     "socket.io": "1.0",
-    "nodemailer" : "1.2.1",
-    "hackpad" : "*"
+    "underscore": "*"
   }
 }
