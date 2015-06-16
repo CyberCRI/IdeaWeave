@@ -10,7 +10,6 @@ var fs = require('fs'),
     Challenge = mongoose.model('Challenge'),
     Idea = mongoose.model('Idea'),
     Notification = mongoose.model('Notification'),
-    HackPadClient = require('../controllers/hackPad.controller').client,
     io = require('../../server').io;
 
 

@@ -4,7 +4,6 @@
  * Module dependencies.
  */
 var noteLab = require('../controllers/noteLab.controller.js'),
-    hackPad = require('../controllers/hackPad.controller.js'),
     utils = require('../services/utils.service');
 
 module.exports = function(app) {

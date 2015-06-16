@@ -3,10 +3,10 @@
 /**
  * Module dependencies.
  */
-var etherpad = require('../controllers/etherpad.controller'),
+var etherpad = require("../controllers/etherpad.controller.js"),
     utils = require('../services/utils.service');
 
 module.exports = function(app) {
-    app.route('/etherpad/embed')
-        .get(utils.ensureAuthenticated, etherpad.embed);
+    app.route('/etherpad/embedInfo')
+        .get(utils.ensureAuthenticated, etherpad.getPadInfo);
 };
