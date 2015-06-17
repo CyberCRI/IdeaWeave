@@ -21,24 +21,27 @@ exports.getPadInfo = function(req,res) {
     });
 
     // Start by getting the etherpad ID of the group
-    q.fcall(etherpad.createGroupIfNotExistsFor, { groupMapper: groupName })
+    q.ninvoke(etherpad, "createGroupIfNotExistsFor", { groupMapper: groupName })
     // Next, check if the group already has a pad
     .then(function(groupData) {
-        return q.fcall(etherpad.listPads, { groupID: groupData.groupID })
-            .then(function(groupPads) {
-                if(groupPads.padIDs.length > 0) {
-                    // Pad already exists, use it
-                    return { groupId: groupData.groupID, padId: groupPads.padIDs[0] };
-                } else {
-                    // Pad doesn't exist, create it
-                    return q.fcall(etherpad.createGroupPad, { groupID: groupData.groupID, padName: "pad"})
-                    // and now get the name 
-                        .then(q.fcall(etherpad.listPads, { groupID: groupData.groupID }))
-                        .then(function(groupPads) {
-                           return { groupId: groupData.groupID, padId: groupPads.padIDs[0] };
-                        });
-                }
-            });
+        console.log("listing pads for group", groupData);
+        return q.ninvoke(etherpad, "listPads", { groupID: groupData.groupID })
+        .then(function(groupPads) {
+            console.log("found group pads", groupPads);
+            if(groupPads.padIDs.length > 0) {
+                // Pad already exists, use it
+                return { groupId: groupData.groupID, padId: groupPads.padIDs[0] };
+            } else {
+                // Pad doesn't exist, create it
+                console.log("creating group pad");
+                return q.ninvoke(etherpad, "createGroupPad", { groupID: groupData.groupID, padName: "pad"})
+                // and now get the name 
+                .then(function(newGroupPad) {
+                    console.log("created new group pad", newGroupPad);
+                    return { groupId: groupData.groupID, padId: newGroupPad.padID };
+                });
+            }
+        });
     }).then(function(groupPadInfo) {
         res.json(groupPadInfo);
     }).catch(function(err) {
