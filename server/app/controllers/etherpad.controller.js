@@ -2,7 +2,77 @@ var etherpadApi = require('etherpad-lite-client')
     config = require('../../config/config'),
     q = require('q');
 
+// Length of sessions in seconds
+var SESSION_TIMEOUT = 60 * 60 * 24; // one day = 60 sec/min * 60 min/hour * 24 hours
+
 exports.getPadInfo = function(req,res) {
+    function getGroupId(groupName) {
+        // Start by getting the etherpad ID of the group
+        return q.ninvoke(etherpad, "createGroupIfNotExistsFor", { groupMapper: groupName })
+        .then(function(groupData) {
+            return groupData.groupID;
+        }).catch(function(err) {
+            console.error("Can't retrieve group ID for group", groupName);
+        });
+    }
+
+    function getGroupPadId(groupId) {
+        return q.ninvoke(etherpad, "listPads", { groupID: groupId })
+        .then(function(groupPads) {
+            // console.log("found group pads", groupPads);
+            if(groupPads.padIDs.length > 0) {
+                // Pad already exists, use it
+                return groupPads.padIDs[0];
+            } else {
+                // Pad doesn't exist, create it
+                // console.log("creating group pad");
+                return q.ninvoke(etherpad, "createGroupPad", { groupID: groupId, padName: "pad" })
+                // and now get the name 
+                .then(function(newGroupPad) {
+                    // console.log("created new group pad", newGroupPad);
+                    return newGroupPad.padID;
+                });
+            }
+        }).catch(function(err) {
+            console.error("Can't retrieve group pad ID for group", groupName);
+        });
+    }
+
+    function getAuthorId(userId, userName) {
+        return q.ninvoke(etherpad, "createAuthorIfNotExistsFor", { authorMapper: userId, name: userName })
+        .then(function(userData) {
+            return userData.authorID;
+        }).catch(function(err) {
+            console.error("Can't retrieve author ID for user", userId, userName);
+        });
+    }
+
+    function getSessionId(groupId, authorId) {
+        // First, check if the author already has a session with the group
+        return q.ninvoke(etherpad, "listSessionsOfAuthor", { authorID: authorId })
+        .then(function(sessionData) {
+            // console.log("found session data", sessionData);
+            for(sessionId in sessionData) {
+                if(sessionData[sessionId].groupID == groupId) {
+                    // Found it!
+                    return sessionId;
+                }
+            }
+
+            // Nope, need to create a new session
+            // console.log("creating new session");
+            var validUntil = Math.floor(Date.now() / 1000) + SESSION_TIMEOUT;
+
+            return q.ninvoke(etherpad, "createSession", { authorID: authorId, groupID: groupId, validUntil: validUntil })
+            .then(function(newSession) {
+                // console.log("created new session", newSession);
+                return newSession.sessionID;
+            });
+        }).catch(function(err) {
+            console.error("Can't retrieve session ID for group", groupId, "author", authorId, err);
+        });
+    }
+
     var groupName;
     if(req.query.project){
         groupName = "project-" + req.query.project;
@@ -20,34 +90,15 @@ exports.getPadInfo = function(req,res) {
         port: config.etherpad.port
     });
 
-    // Start by getting the etherpad ID of the group
-    q.ninvoke(etherpad, "createGroupIfNotExistsFor", { groupMapper: groupName })
-    // Next, check if the group already has a pad
-    .then(function(groupData) {
-        console.log("listing pads for group", groupData);
-        return q.ninvoke(etherpad, "listPads", { groupID: groupData.groupID })
-        .then(function(groupPads) {
-            console.log("found group pads", groupPads);
-            if(groupPads.padIDs.length > 0) {
-                // Pad already exists, use it
-                return { groupId: groupData.groupID, padId: groupPads.padIDs[0] };
-            } else {
-                // Pad doesn't exist, create it
-                console.log("creating group pad");
-                return q.ninvoke(etherpad, "createGroupPad", { groupID: groupData.groupID, padName: "pad"})
-                // and now get the name 
-                .then(function(newGroupPad) {
-                    console.log("created new group pad", newGroupPad);
-                    return { groupId: groupData.groupID, padId: newGroupPad.padID };
-                });
-            }
+    q.spread([getGroupId(groupName), getAuthorId(req.user._id, req.user.username)], function(groupId, authorId) {
+        return q.spread([getGroupPadId(groupId), getSessionId(groupId, authorId)], function(groupPadId, sessionId) {
+            res.json({
+                padId: groupPadId,
+                sessionId: sessionId
+            });
         });
-    }).then(function(groupPadInfo) {
-        res.json(groupPadInfo);
     }).catch(function(err) {
-        console.error('Error creating or finding group pad: ' + err.message);
-        res.json(500, err);
+        console.error('Error retrieving group, pad, or session: ', err);
+        res.json(500, err.message);
     });
-
-    // TODO: create author and sessions
 };
