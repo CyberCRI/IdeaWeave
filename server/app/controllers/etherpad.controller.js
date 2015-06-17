@@ -12,7 +12,8 @@ exports.getPadInfo = function(req,res) {
         .then(function(groupData) {
             return groupData.groupID;
         }).catch(function(err) {
-            console.error("Can't retrieve group ID for group", groupName);
+            console.error("Can't retrieve group ID for group", groupName, err);
+            throw err;
         });
     }
 
@@ -34,7 +35,8 @@ exports.getPadInfo = function(req,res) {
                 });
             }
         }).catch(function(err) {
-            console.error("Can't retrieve group pad ID for group", groupName);
+            console.error("Can't retrieve group pad ID for group", groupName, err);
+            throw err;
         });
     }
 
@@ -43,7 +45,8 @@ exports.getPadInfo = function(req,res) {
         .then(function(userData) {
             return userData.authorID;
         }).catch(function(err) {
-            console.error("Can't retrieve author ID for user", userId, userName);
+            console.error("Can't retrieve author ID for user", userId, userName, err);
+            throw err;
         });
     }
 
@@ -70,6 +73,7 @@ exports.getPadInfo = function(req,res) {
             });
         }).catch(function(err) {
             console.error("Can't retrieve session ID for group", groupId, "author", authorId, err);
+            throw err;
         });
     }
 

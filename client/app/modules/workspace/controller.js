@@ -23,8 +23,8 @@ angular.module('cri.workspace',[])
         else if($state.current.name == "workspace.file") $scope.selectedTabIndex = 1;
         else if($state.current.name == "workspace.resources") $scope.selectedTabIndex = 2;
         else $scope.selectedTabIndex = -1;
-    }).controller('NoteHackpadCtrl',function($scope){
-        // Nothing so far
+    }).controller('NoteHackpadCtrl', function($scope) {
+        // Nothing here yet...
     })
     .controller('NoteResourcesCtrl',function($scope,NoteLab,$stateParams,Notification,$materialDialog){
         $scope.addResourceModal = function(e) {

@@ -1,16 +1,24 @@
 angular.module('cri.hackpad',[])
 
-.directive('hackpad',function ($window,$sce,$document,$http,$templateCache,Config,NoteLab,$rootScope){
+.directive('hackpad',function ($sce, $http, Config){
         return {
-            restrict : 'EA',
-            scope : {
-                curentUser : '=',
-                projectId : '='
+            restrict: 'EA',
+            scope: {
+                user: '=',
+                projectId: '='
             },
-            templateUrl : 'modules/hackpad/templates/hackpad.tpl.html',
+            templateUrl: 'modules/hackpad/templates/hackpad.tpl.html',
+            link: function(scope, element) {
+                var containerId = scope.projectId;
 
-            link : function(scope,element) {
-                scope.url = $sce.trustAsResourceUrl("http://etherpad.ideaweave.io/p/123");
+                // Get pad ID from server
+                $http.get(Config.apiServer+'/etherpad/embedInfo?project='+containerId)
+                .success(function(data) {
+                    // TODO: set up cookies
+                    scope.url = $sce.trustAsResourceUrl(Config.etherpadServer+"/p/" + data.padId);
+                }).error(function(data, status) {
+                    console.error("Cannot access etherpad for project", scope.project, "user", scope.user);
+                });
             }
         };
     });
