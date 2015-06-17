@@ -5,7 +5,7 @@ var etherpadApi = require('etherpad-lite-client')
 // Length of sessions in seconds
 var SESSION_TIMEOUT = 60 * 60 * 24; // one day = 60 sec/min * 60 min/hour * 24 hours
 
-exports.getPadInfo = function(req,res) {
+exports.getPadInfo = function(req, res) {
     function getGroupId(groupName) {
         // Start by getting the etherpad ID of the group
         return q.ninvoke(etherpad, "createGroupIfNotExistsFor", { groupMapper: groupName })
@@ -103,6 +103,53 @@ exports.getPadInfo = function(req,res) {
         });
     }).catch(function(err) {
         console.error('Error retrieving group, pad, or session: ', err);
+        res.json(500, err.message);
+    });
+};
+
+exports.getUserSessionString = function(req, res) {
+    function getAuthorId(userId, userName) {
+        return q.ninvoke(etherpad, "createAuthorIfNotExistsFor", { authorMapper: userId, name: userName })
+        .then(function(userData) {
+            return userData.authorID;
+        }).catch(function(err) {
+            console.error("Can't retrieve author ID for user", userId, userName, err);
+            throw err;
+        });
+    }
+
+    function getSessionString(authorId) {
+        // First, check if the author already has a session with the group
+        return q.ninvoke(etherpad, "listSessionsOfAuthor", { authorID: authorId })
+        .then(function(sessionData) {
+            var sessionIds = [];
+            // console.log("found session data", sessionData);
+            for(sessionId in sessionData) {
+                sessionIds.push(sessionId);
+            }
+
+            return sessionIds.join(",");
+        }).catch(function(err) {
+            console.error("Can't retrieve session ID for author", authorId, err);
+            throw err;
+        });
+    }
+
+    etherpad = etherpadApi.connect({
+        apikey: config.etherpad.apiKey,
+        host: config.etherpad.host,
+        port: config.etherpad.port
+    });
+
+    getAuthorId(req.user._id, req.user.username)
+    .then(getSessionString)
+    .then(function(sessionString) {
+        res.json({
+            padId: groupPadId,
+            sessionId: sessionId
+        });
+    }).catch(function(err) {
+        console.error('Error retrieving author or session: ', err);
         res.json(500, err.message);
     });
 };
