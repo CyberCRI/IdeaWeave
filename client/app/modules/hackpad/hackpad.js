@@ -1,6 +1,6 @@
 angular.module('cri.hackpad',[])
 
-.directive('hackpad',function ($sce, $http, Config){
+.directive('hackpad',function ($sce, $http, $cookies, Config){
         return {
             restrict: 'EA',
             scope: {
@@ -13,10 +13,14 @@ angular.module('cri.hackpad',[])
 
                 // Get pad ID from server
                 $http.get(Config.apiServer+'/etherpad/embedInfo?project='+containerId)
-                .success(function(data) {
-                    // TODO: set up cookies
-                    scope.url = $sce.trustAsResourceUrl(Config.etherpadServer+"/p/" + data.padId);
-                }).error(function(data, status) {
+                .then(function(padData) {
+                    // Set up cookies
+                    return $http.get(Config.apiServer+'/etherpad/session')
+                    .then(function(sessionData) {
+                        $cookies.sessionID = sessionData.data.sessionString;
+                        scope.url = "/etherpad/p/" + padData.data.padId;
+                    });
+                }).catch(function(data) {
                     console.error("Cannot access etherpad for project", scope.project, "user", scope.user);
                 });
             }

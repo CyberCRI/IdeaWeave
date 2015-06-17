@@ -32,7 +32,8 @@ angular.module('cri', [
     'cri.tag',
     'cri.profile',
     'cri.notes',
-    'cri.idea'])
+    'cri.idea',
+    'ngCookies'])
     .config(['$httpProvider','$locationProvider','$sceProvider',function ($httpProvider,$locationProvider,$sceProvider) {
 //        $httpProvider.defaults.withCredentials=true;
         $locationProvider.html5Mode(true);

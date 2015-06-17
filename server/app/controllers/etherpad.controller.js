@@ -91,7 +91,8 @@ exports.getPadInfo = function(req, res) {
     etherpad = etherpadApi.connect({
         apikey: config.etherpad.apiKey,
         host: config.etherpad.host,
-        port: config.etherpad.port
+        port: config.etherpad.port,
+        rootPath: config.etherpad.rootPath
     });
 
     q.spread([getGroupId(groupName), getAuthorId(req.user._id, req.user.username)], function(groupId, authorId) {
@@ -138,15 +139,16 @@ exports.getUserSessionString = function(req, res) {
     etherpad = etherpadApi.connect({
         apikey: config.etherpad.apiKey,
         host: config.etherpad.host,
-        port: config.etherpad.port
+        port: config.etherpad.port,
+        rootPath: config.etherpad.rootPath
     });
 
     getAuthorId(req.user._id, req.user.username)
     .then(getSessionString)
     .then(function(sessionString) {
+        res.cookie("sessionID", sessionString);
         res.json({
-            padId: groupPadId,
-            sessionId: sessionId
+            sessionString: sessionString
         });
     }).catch(function(err) {
         console.error('Error retrieving author or session: ', err);

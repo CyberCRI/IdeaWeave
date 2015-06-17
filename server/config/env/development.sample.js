@@ -7,7 +7,7 @@ module.exports = {
     GOOGLE_SECRET: '',
     etherpad: {
         host: "localhost",
-        port: 9001,
+        rootPath: "/etherpad/api/1.2.9/",
+        port: 9090,
         apiKey: "xxx"
-    }
-};
+    }};

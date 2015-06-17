@@ -6,7 +6,8 @@ module.exports = {
     TOKEN_SECRET: 'mysecret',
     GOOGLE_SECRET: '',
     etherpad: {
-        host: "etherpad.ideaweave.io",
+        host: "ideaweave.io",
         port: 80,
+        rootPath: "/etherpad/api/1.2.9/",
         apiKey: "xxx"
     }};

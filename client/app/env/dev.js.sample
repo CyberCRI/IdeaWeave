@@ -1,7 +1,5 @@
 PrivateConfig = {
     env: 'dev',
     apiServer: 'http://localhost:5011',
-    githubClient: '',
-    googleClient: '',
-    etherpadServer: 'http://localhost:9001'
+    githubClient: ''
 };
