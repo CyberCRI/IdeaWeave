@@ -15,12 +15,12 @@ angular.module('cri.workspace')
                     }
                 }
             })
-            .state('workspace.hackpad',{
-                url : '/hackpad',
+            .state('workspace.etherpad',{
+                url : '/etherpad',
                 views : {
                     noteDetailsView: {
-                        templateUrl:'modules/workspace/templates/hackpad.tpl.html',
-                        controller: 'NoteHackpadCtrl'
+                        templateUrl:'modules/workspace/templates/etherpad.tpl.html',
+                        controller: 'NoteEtherpadCtrl'
                     }
                 }
             })

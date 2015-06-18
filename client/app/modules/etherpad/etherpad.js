@@ -1,13 +1,13 @@
-angular.module('cri.hackpad',[])
+angular.module('cri.etherpad',[])
 
-.directive('hackpad',function ($sce, $http, $cookies, Config){
+.directive('etherpad',function ($sce, $http, $cookies, Config){
         return {
             restrict: 'EA',
             scope: {
                 user: '=',
                 projectId: '='
             },
-            templateUrl: 'modules/hackpad/templates/hackpad.tpl.html',
+            templateUrl: 'modules/etherpad/templates/etherpad.tpl.html',
             link: function(scope, element) {
                 var containerId = scope.projectId;
 

@@ -18,7 +18,7 @@ angular.module('cri', [
     'yaru22.angular-timeago',
     'cri.admin',
     'cri.d3',
-    'cri.hackpad',
+    'cri.etherpad',
     'cri.files',
     'cri.home',
     'cri.header',
@@ -203,7 +203,7 @@ angular.module('cri', [
                 case 'project.trello':
                 case 'project.admin':
                 case 'workspace':
-                case 'workspace.hackpad':
+                case 'workspace.etherpad':
                 case 'workspace.files':
                 case 'workspace.resources':
                     $scope.project = Project.data;
