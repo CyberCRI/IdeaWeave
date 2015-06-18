@@ -4,8 +4,8 @@
  * Module dependencies.
  */
 var init = require('./config/init')(),
-	config = require('./config/config'),
-	mongoose = require('mongoose-q')(),
+    config = require('./config/config'),
+    mongoose = require('mongoose-q')(),
     path = require('path');
 
 

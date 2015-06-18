@@ -19,13 +19,12 @@ angular.module('cri.workspace',[])
         $scope.dropBoxHeight = "100px";
 
         // Set initial selected tab
-        if($state.current.name == "workspace.hackpad") $scope.selectedTabIndex = 0;
+        if($state.current.name == "workspace.etherpad") $scope.selectedTabIndex = 0;
         else if($state.current.name == "workspace.file") $scope.selectedTabIndex = 1;
         else if($state.current.name == "workspace.resources") $scope.selectedTabIndex = 2;
         else $scope.selectedTabIndex = -1;
-    }).controller('NoteHackpadCtrl',function($scope,Notification,NoteLab,$http,Config){
-        // The project id is a bit too long, but we can use a shorter version as a pad ID (22 chars seems to work well)
-        $scope.padId = $scope.project._id.slice($scope.project._id.length - 22);
+    }).controller('NoteEtherpadCtrl', function($scope) {
+        // Nothing here yet...
     })
     .controller('NoteResourcesCtrl',function($scope,NoteLab,$stateParams,Notification,$materialDialog){
         $scope.addResourceModal = function(e) {

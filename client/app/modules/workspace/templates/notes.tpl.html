@@ -5,7 +5,7 @@
         </div>
         <material-tabs center selected="selectedTabIndex">
             {{ note.title }}
-            <material-tab ui-sref="workspace.hackpad">
+            <material-tab ui-sref="workspace.etherpad">
                 <material-label>
                     <i class='fa fa-trello fa-2x'></i>
                 </material-label>
@@ -24,6 +24,6 @@
     </div>
 </material-toolbar>
 
-<material-content >
-    <section ui-view="noteDetailsView" style="width:100%; height: 90%;" ></section>
+<material-content flex>
+    <section ui-view="noteDetailsView" flex></section>
 </material-content>

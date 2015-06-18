@@ -3,7 +3,7 @@
   "description": "social and collaborative tool",
   "version": "0.0.1",
   "dependencies": {
-    "angular": "*",
+    "angular": "~1.3.15",
     "angular-translate": "1.1.1",
     "angular-sanitize": "~1.2.16",
     "angular-ui-router": "*",
@@ -26,10 +26,8 @@
     "angular-timeago": "0.1.2",
     "jspdf": "1.0.x",
     "ng-messages": "*",
-    "angular-carousel": "~0.3.7"
+    "angular-carousel": "~0.3.7",
+    "angular-cookies": "~1.3.15"
   },
-  "devDependencies": {},
-  "resolutions": {
-    "angular": "1.3.3"
-  }
+  "devDependencies": {}
 }

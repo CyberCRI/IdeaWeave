@@ -4,7 +4,6 @@
  * Module dependencies.
  */
 var noteLab = require('../controllers/noteLab.controller.js'),
-    hackPad = require('../controllers/hackPad.controller.js'),
     utils = require('../services/utils.service');
 
 module.exports = function(app) {
@@ -25,8 +24,4 @@ module.exports = function(app) {
         .get(noteLab.fetchComment)
         .put(utils.ensureAuthenticated,noteLab.updateComment)
         .delete(utils.ensureAuthenticated,noteLab.removeComment);
-
-    app.get('/hackpad/embed/:id',utils.ensureAuthenticated,hackPad.getIframe);
-    app.get('/hackpad/auth',utils.ensureAuthenticated,hackPad.auth);
-
 };
