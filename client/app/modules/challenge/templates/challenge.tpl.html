@@ -60,8 +60,16 @@
 
         <list-notes challenge="challenge" current-user="currentUser"></list-notes>
 
-        <section >
+        <h3>Related Projects</h3>
+
+        <section>
             <project-card inline-block project-id="project" ng-repeat="project in challenge.projects"></project-card>
+        </section>
+
+        <h3>Related Ideas</h3>
+
+        <section>
+            <idea-card inline-block idea-id="idea" ng-repeat="idea in challenge.ideas"></idea-card>
         </section>
     </div>
 </material-content>

@@ -11,4 +11,10 @@
     </div>
 
     <list-notes project="project" current-user="currentUser"></list-notes>
+
+    <h3>Related Ideas</h3>
+
+    <section>
+        <idea-card inline-block idea-id="idea" ng-repeat="idea in project.ideas"></idea-card>
+    </section>
 </section>

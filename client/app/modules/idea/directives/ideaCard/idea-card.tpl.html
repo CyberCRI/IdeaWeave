@@ -1,0 +1,24 @@
+<material-card class="idea-card">
+    <a ui-sref="idea({ iid : idea._id })">
+        <h4>{{ idea.title }}</h4>
+    </a>
+    <div class="text-muted" layout="horizontal">
+        <div>
+            By:
+        </div>
+        <user-info my-user="idea.owner" flex></user-info>
+    </div>
+    <p class="text-muted" ng-bind="idea.brief" style="max-height:200px;overflow:hidden;" ></p>
+    <showtags entity="idea"></showtags>
+    <div layout="horizontal">
+        <div flex layout="horizontal" class="text-muted">
+            <span>
+                {{ idea.followers.length }}
+            </span>
+            &nbsp;
+            <span>
+                Followers
+            </span>
+        </div>
+    </div>
+</material-card>
