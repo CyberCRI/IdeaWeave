@@ -8,6 +8,7 @@ var mongoose = require('mongoose-q')(),
     Project = mongoose.model('Project'),
     Tags = mongoose.model('Tag'),
     Notification = mongoose.model('Notification'),
+    NoteLab = mongoose.model('NoteLab'),
     io = require('../../server').io,
     _ = require('lodash'),
     q = require('q');
@@ -74,6 +75,9 @@ exports.create = function(req, res) {
     // Idea will be owned by the current user
     req.body.owner = req.user._id; 
 
+    // Idea will have one note at start
+    req.body.noteNumber = 1;
+
     var idea = new Idea(req.body);
     idea.saveQ().then(function(idea) {
         var myNotif = new Notification({
@@ -83,13 +87,19 @@ exports.create = function(req, res) {
             entityType : 'idea'
         });
         console.log("Saving notification...");
-        myNotif.saveQ().then(function(notif) {
+        return myNotif.saveQ().then(function(notif) {
             console.log("Saving notification.");
             io.sockets.emit('newIdea', notif);
             console.log("Sent notification.");
             res.json(idea);
-        }).fail(function(err) {
-            res.json(500, err);
+        }).then(function() {
+            // Create 1st discussion
+            var newNote = new NoteLab({
+                owner: req.user._id,
+                idea: idea._id,
+                text: idea.title
+            });
+            return newNote.saveQ();;
         });
     }).fail(function(err) {
         res.json(400, err);
