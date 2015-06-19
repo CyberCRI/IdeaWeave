@@ -83,8 +83,16 @@ var ChallengeSchema = new Schema({
     noteNumber : {
         type : Number,
         default : 0
-    }
+    },
+    ideas : [
+        {
+            type : Schema.ObjectId,
+            ref : 'Idea',
+            unique : true
+        }
+    ]
 });
+
 ChallengeSchema.statics.random = function() {
     var defered = Q.defer()
     this.count(function(err, count) {

@@ -256,3 +256,55 @@ exports.getDislikes = function(req, res) {
         res.json(count);
     });
 };
+
+exports.createLink = function(req, res) {
+    var ideaUpdateQuery, containerUpdateQuery;
+    if(req.query.project){
+        ideaUpdateQuery = Idea.findOneAndUpdateQ({_id : req.params.id}, { $addToSet : {projects: req.query.project }});
+        containerUpdateQuery = Project.findOneAndUpdateQ({_id:req.query.project},{$addToSet : {ideas: req.params.id}});
+    } else if(req.query.challenge) {
+        ideaUpdateQuery = Idea.findOneAndUpdateQ({_id : req.params.id}, { $addToSet : {challenges: req.query.challenge }});
+        containerUpdateQuery = Challenge.findOneAndUpdateQ({_id:req.query.challenge},{$addToSet : {ideas: req.params.id}});
+    } else {
+        return res.json(403, "Please specify a project or challenge");
+    }
+
+    q.all([ideaUpdateQuery, containerUpdateQuery])
+    .then(function() {
+        return Idea.findOne({_id : req.params.id})
+        .populate('tags')
+        .populate('followers')
+        .populate('owner')
+        .execQ();
+    }).then(function(idea) {
+        res.json(idea);
+    }).fail(function(err) {
+        res.json(400, err);
+    });
+};
+
+exports.removeLink = function(req, res) {
+    var ideaUpdateQuery, containerUpdateQuery;
+    if(req.query.project){
+        ideaUpdateQuery = Idea.findOneAndUpdateQ({_id : req.params.id}, { $pull : {projects: req.query.project }});
+        containerUpdateQuery = Project.findOneAndUpdateQ({_id:req.query.project},{$pull : {ideas: req.params.id}});
+    } else if(req.query.challenge) {
+        ideaUpdateQuery = Idea.findOneAndUpdateQ({_id : req.params.id}, { $pull : {challenges: req.query.challenge }});
+        containerUpdateQuery = Challenge.findOneAndUpdateQ({_id:req.query.challenge},{$pull : {ideas: req.params.id}});
+    } else {
+        return res.json(403, "Please specify a project or challenge");
+    }
+
+    q.all([ideaUpdateQuery, containerUpdateQuery])
+    .then(function() {
+        return Idea.findOne({_id : req.params.id})
+        .populate('tags')
+        .populate('followers')
+        .populate('owner')
+        .execQ();
+    }).then(function(idea) {
+        res.json(idea);
+    }).fail(function(err) {
+        res.json(400, err);
+    });
+};

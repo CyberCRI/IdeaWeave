@@ -29,7 +29,9 @@ angular.module('cri.idea')
                 resolve: {
                     idea: function ($stateParams, Idea) {
                         return Idea.fetch($stateParams.iid);
-                    }
+                    },
+                    challenges: function(Challenge) { return Challenge.fetch() },
+                    projects: function(Project) { return Project.fetch(); }
                 },
                 views :{
                   mainView :{

@@ -281,7 +281,7 @@ exports.fetch = function(req,res){
         Project
             .find()
             .populate('tags')
-            .select('_id title members')
+            .select('_id title members poster')
             .execQ()
             .then(function(project){
                 res.json(project);

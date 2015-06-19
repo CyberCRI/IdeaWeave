@@ -27,4 +27,8 @@ module.exports = function(app) {
     app.route('/ideas/:id/dislike')
         .get(idea.getDislikes)
         .put(utils.ensureAuthenticated, idea.dislike);
+
+    app.route("/ideas/:id/link")
+        .post(utils.ensureAuthenticated, idea.createLink)
+        .delete(utils.ensureAuthenticated, idea.removeLink);
 };

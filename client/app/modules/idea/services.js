@@ -74,7 +74,44 @@ angular.module('cri.idea')
                 defered.reject(err);
             });
             return defered.promise;
-        } /*,
+        }, 
+        addLinkToProject : function(id, projectId){
+            var defered = $q.defer();
+            $http.post(Config.apiServer+URI+'/'+id+'/link?project='+projectId).success(function(data){
+                defered.resolve(data);
+            }).error(function(err){
+                defered.reject(err);
+            });
+            return defered.promise;
+        },
+        removeLinkToProject : function(id, projectId){
+            var defered = $q.defer();
+            $http.delete(Config.apiServer+URI+'/'+id+'/link?project='+projectId).success(function(data){
+                defered.resolve(data);
+            }).error(function(err){
+                defered.reject(err);
+            });
+            return defered.promise;
+        },
+        addLinkToChallenge : function(id, challengeId){
+            var defered = $q.defer();
+            $http.post(Config.apiServer+URI+'/'+id+'/link?challenge='+challengeId).success(function(data){
+                defered.resolve(data);
+            }).error(function(err){
+                defered.reject(err);
+            });
+            return defered.promise;
+        },
+        removeLinkToChallenge : function(id, challengeId){
+            var defered = $q.defer();
+            $http.delete(Config.apiServer+URI+'/'+id+'/link?challenge='+challengeId).success(function(data){
+                defered.resolve(data);
+            }).error(function(err){
+                defered.reject(err);
+            });
+            return defered.promise;
+        },  
+        /*,
         getFollowing : function(userId){
             var defered = $q.defer();
             $http.get(Config.apiServer+'/datas/fIdeas/'+userId).success(function(data){
