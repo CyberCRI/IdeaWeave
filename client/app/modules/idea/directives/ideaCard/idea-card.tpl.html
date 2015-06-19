@@ -6,8 +6,10 @@
         <div>
             By:
         </div>
-        <user-info my-user="idea.owner" flex></user-info>
-    </div>
+        <material-button ui-sref="profile({ uid : idea.owner._id})">
+            {{ idea.owner.username }}
+        </material-button>
+    </div> 
     <p class="text-muted" ng-bind="idea.brief" style="max-height:200px;overflow:hidden;" ></p>
     <showtags entity="idea"></showtags>
     <div layout="horizontal">
