@@ -5,6 +5,21 @@ var etherpadApi = require('etherpad-lite-client')
 // Length of sessions in seconds
 var SESSION_TIMEOUT = 60 * 60 * 24; // one day = 60 sec/min * 60 min/hour * 24 hours
 
+function currentDateInSeconds() {
+    return Math.floor(Date.now() / 1000);
+};
+
+function findSessionForGroup(sessionData, groupId) {
+    for(sessionId in sessionData) {
+        if(sessionData[sessionId].groupID == groupId) {
+            // Found it!
+            return sessionId;
+        }
+    }
+
+    return null;
+}
+
 exports.getPadInfo = function(req, res) {
     function getGroupId(groupName) {
         // Start by getting the etherpad ID of the group
@@ -54,25 +69,44 @@ exports.getPadInfo = function(req, res) {
         // First, check if the author already has a session with the group
         return q.ninvoke(etherpad, "listSessionsOfAuthor", { authorID: authorId })
         .then(function(sessionData) {
-            // console.log("found session data", sessionData);
-            for(sessionId in sessionData) {
-                if(sessionData[sessionId].groupID == groupId) {
-                    // Found it!
-                    return sessionId;
+            //console.log("found session data", sessionData);
+            var existingSessionId = findSessionForGroup(sessionData, groupId);
+            //console.log("found existing session", existingSessionId);
+            if(existingSessionId) {
+                // Check if existing session is still valid 
+                if(sessionData[existingSessionId].validUntil > currentDateInSeconds()) {
+                    // Yup, still good!
+                    //console.log("Session still valid", existingSessionId);
+                    return existingSessionId;
+                } else {
+                    // Remove old session
+                    //console.log("Session invalid", existingSessionId);
+                    return q.ninvoke(etherpad, "deleteSession", { sessionID: existingSessionId })
+                    .then(function() { 
+                        return createSession(groupId, authorId);
+                    });
                 }
+            } else {
+                // No session found, time to create a new one
+                //console.log("No session found");
+                return createSession(groupId, authorId);
             }
-
-            // Nope, need to create a new session
-            // console.log("creating new session");
-            var validUntil = Math.floor(Date.now() / 1000) + SESSION_TIMEOUT;
-
-            return q.ninvoke(etherpad, "createSession", { authorID: authorId, groupID: groupId, validUntil: validUntil })
-            .then(function(newSession) {
-                // console.log("created new session", newSession);
-                return newSession.sessionID;
-            });
         }).catch(function(err) {
             console.error("Can't retrieve session ID for group", groupId, "author", authorId, err);
+            throw err;
+        });
+    }
+
+    function createSession(groupId, authorId) {
+        // console.log("creating new session");
+        var validUntil = currentDateInSeconds() + SESSION_TIMEOUT;
+
+        return q.ninvoke(etherpad, "createSession", { authorID: authorId, groupID: groupId, validUntil: validUntil })
+        .then(function(newSession) {
+            // console.log("created new session", newSession);
+            return newSession.sessionID;
+        }).catch(function(err) {
+            console.error("Can't create session for group", groupId, "author", authorId, err);
             throw err;
         });
     }
