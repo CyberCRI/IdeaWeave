@@ -18,6 +18,9 @@ angular.module('cri.common')
                 });
             },
             displaySocketNotif : function(notif){
+                // TEMPORARILY DISABLING SOCKET NOTIFICATIONS
+                
+                /*
                 $materialToast({
                     controller: ['$scope','$hideToast','$q','NoteLab',function($scope, $hideToast,$q,NoteLab) {
                         $scope.notif = notif;
@@ -42,6 +45,7 @@ angular.module('cri.common')
                     duration: 50000,
                     position: 'top right'
                 });
+                */
             }
         };
         return service;

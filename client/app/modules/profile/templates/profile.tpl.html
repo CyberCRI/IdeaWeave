@@ -91,18 +91,105 @@
         </div>
 
         <h3>Activity</h3>
-        <material-content style="height:400px;" class="material-theme-white">
-            <material-list>
-                <div ng-repeat="notif in activities">
-                    <ng-include src="'modules/profile/templates/include/challenge-activity.tpl.html'" ng-if="notif.type == 'challenge'"></ng-include>
-                    <ng-include src="'modules/profile/templates/include/project-activity.tpl.html'" ng-if="notif.type == 'project'"></ng-include>
-                    <ng-include src="'modules/notification/templates/include/file-notif.tpl.html'" ng-if="notif.type == 'file'"></ng-include>
-                    <ng-include src="'modules/notification/templates/include/url-notif.tpl.html'" ng-if="notif.type == 'url'"></ng-include>
-                    <ng-include src="'modules/profile/templates/include/note-activity.tpl.html'" ng-if="notif.type == 'note'"></ng-include>
-                    <ng-include src="'modules/notification/templates/include/member-notif.tpl.html'" ng-if="notif.type == 'member'"></ng-include>
-                </div>
-            </material-list>
-        </material-content>
+        <material-list>
+            <div ng-repeat="notif in activities">
+                <material-item>
+                    <div class="material-tile-left">
+                        <span time-ago from-time="{{ notif.createDate }}"></span>
+                    </div>
 
+                    {{ notif.entityType }} {{ notif.type}}
+
+                    <material-tile-content ng-if="notif.entityType == 'challenge' && notif.type == 'create'" layout="horizontal" layout-align="center center">
+                        <span>
+                            Created a new challenge
+                        </span>
+                        <challenge-info challenge-id="notif.entity"></challenge-info>
+                    </material-tile-content>
+
+                    <material-tile-content ng-if="notif.entityType == 'challenge' && notif.type == 'update'" layout="horizontal" layout-align="center center">
+                        <span>
+                            Updated the challenge
+                        </span>
+                        <challenge-info challenge-id="notif.entity"></challenge-info>
+                    </material-tile-content>
+
+                    <material-tile-content ng-if="notif.entityType == 'challenge' && notif.type == 'remove'" layout="horizontal" layout-align="center center">
+                        <span>
+                            Removed the challenge
+                        </span>
+                        <challenge-info challenge-id="notif.entity"></challenge-info>
+                    </material-tile-content>
+
+                    <material-tile-content ng-if="notif.entityType == 'challenge' && notif.type == 'follow'" layout="horizontal" layout-align="center center">
+                        <span>
+                            Followed the challenge
+                        </span>
+                        <challenge-info challenge-id="notif.entity"></challenge-info>
+                    </material-tile-content>
+
+                    <material-tile-content ng-if="notif.entityType == 'challenge' && notif.type == 'unfollow'" layout="horizontal" layout-align="center center">
+                        <span>
+                            Unfollowed the challenge
+                        </span>
+                        <challenge-info challenge-id="notif.entity"></challenge-info>
+                    </material-tile-content>
+
+
+                    <material-tile-content ng-if="notif.entityType == 'project' && notif.type == 'create'" layout="horizontal" layout-align="center center">
+                        <span>
+                            Created a new project
+                        </span>
+                        <project-info project-id="notif.entity"></project-info>
+                    </material-tile-content>
+
+                    <material-tile-content ng-if="notif.entityType == 'project' && notif.type == 'update'" layout="horizontal" layout-align="center center">
+                        <span>
+                            Updated the project
+                        </span>
+                        <project-info project-id="notif.entity"></project-info>
+                    </material-tile-content>
+
+                    <material-tile-content ng-if="notif.entityType == 'project' && notif.type == 'remove'" layout="horizontal" layout-align="center center">
+                        <span>
+                            Removed the project
+                        </span>
+                        <project-info project-id="notif.entity"></project-info>
+                    </material-tile-content>
+
+                    <material-tile-content ng-if="notif.entityType == 'project' && notif.type == 'follow'" layout="horizontal" layout-align="center center">
+                        <span>
+                            Followed the project
+                        </span>
+                        <project-info project-id="notif.entity"></project-info>
+                    </material-tile-content>
+
+                    <material-tile-content ng-if="notif.entityType == 'project' && notif.type == 'unfollow'" layout="horizontal" layout-align="center center">
+                        <span>
+                            Unfollowed the project
+                        </span>
+                        <project-info project-id="notif.entity"></project-info>
+                    </material-tile-content>
+
+                    <material-tile-content ng-if="notif.entityType == 'project' && notif.type == 'join'" layout="horizontal" layout-align="center center">
+                        <span>
+                            Joined the project
+                        </span>
+                        <project-info project-id="notif.entity"></project-info>
+                    </material-tile-content>
+
+
+                </material-item>
+
+                <!--
+
+                <ng-include src="'modules/notification/templates/include/file-notif.tpl.html'" ng-if="notif.entityType == 'file'"></ng-include>
+                <ng-include src="'modules/notification/templates/include/url-notif.tpl.html'" ng-if="notif.entityType == 'url'"></ng-include>
+                <ng-include src="'modules/profile/templates/include/note-activity.tpl.html'" ng-if="notif.entityType == 'note'"></ng-include>
+                <ng-include src="'modules/notification/templates/include/member-notif.tpl.html'" ng-if="notif.entityType == 'member'"></ng-include>
+
+                -->
+            </div>
+        </material-list>
     </material-content>
 </section>
