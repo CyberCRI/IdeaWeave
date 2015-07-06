@@ -184,7 +184,9 @@ exports.profile = function(req,res){
                 Project.findQ({'followers':  myProfile._id },'_id'),
                 Project.findQ({'members':  myProfile._id },'_id'),
                 Project.findQ({owner : myProfile._id},'_id'),
-                Challenge.findQ({owner : myProfile._id},'_id')
+                Challenge.findQ({owner : myProfile._id},'_id'),
+                Idea.findQ({owner: myProfile._id},'_id'),
+                Idea.findQ({followers: myProfile._id},'_id')
             ]).then(function(data){
                 var moreData = {};
                 moreData.followedUsers = data[0];
@@ -193,6 +195,8 @@ exports.profile = function(req,res){
                 moreData.memberProjects = data[3];
                 moreData.projects = data[4];
                 moreData.challenges = data[5];
+                moreData.ideas = data[6];
+                moreData.followedIdeas = data[7];
                 var response = {
                     data : myProfile,
                     moreData : moreData
