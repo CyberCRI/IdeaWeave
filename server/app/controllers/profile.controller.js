@@ -126,7 +126,15 @@ exports.changePassword = function(req, res, next) {
  * Send User
  */
 exports.me = function(req, res) {
-    return res.json(req.user);
+    User.findOne({ _id : req.user._id })
+    .populate('followers')
+    .populate('tags')
+    .execQ()
+    .then(function(data){
+        res.json(data);
+    }).catch(function(err){
+        res.json(500, err);
+    });
 };
 
 

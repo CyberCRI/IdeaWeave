@@ -16,37 +16,24 @@
     </material-toolbar>
     <material-content flex>
         <showtags entity="profile" style="margin-left: 50px;"></showtags>
-        <material-tabs style="padding-left:0;">
-            <material-tab  class="material-theme-white" >
-                <material-tab-label>
-                    <div flex>
-                        Presentation
-                    </div>
-                </material-tab-label>
-                <material-content style="height:400px;" class="material-theme-white">
-                    <div ng-bind-html="profile.secureBrief"></div>
-                </material-content>
-            </material-tab>
-            <material-tab class="material-theme-white" >
-                <material-tab-label>
-                    <div flex>
-                        Activity
-                    </div>
-                </material-tab-label>
-                <material-content style="height:400px;" class="material-theme-white">
-                    <material-list>
-                        <div ng-repeat="notif in activities">
-                            <ng-include src="'modules/profile/templates/include/challenge-activity.tpl.html'" ng-if="notif.type == 'challenge'"></ng-include>
-                            <ng-include src="'modules/profile/templates/include/project-activity.tpl.html'" ng-if="notif.type == 'project'"></ng-include>
-                            <ng-include src="'modules/notification/templates/include/file-notif.tpl.html'" ng-if="notif.type == 'file'"></ng-include>
-                            <ng-include src="'modules/notification/templates/include/url-notif.tpl.html'" ng-if="notif.type == 'url'"></ng-include>
-                            <ng-include src="'modules/profile/templates/include/note-activity.tpl.html'" ng-if="notif.type == 'note'"></ng-include>
-                            <ng-include src="'modules/notification/templates/include/member-notif.tpl.html'" ng-if="notif.type == 'member'"></ng-include>
-                        </div>
-                    </material-list>
-                </material-content>
-            </material-tab>
-        </material-tabs>
+        <h3>Presentation</h3>
+        <div ng-bind-html="profile.secureBrief"></div>
+
+
+        <h3>Activity</h3>
+        <material-content style="height:400px;" class="material-theme-white">
+            <material-list>
+                <div ng-repeat="notif in activities">
+                    <ng-include src="'modules/profile/templates/include/challenge-activity.tpl.html'" ng-if="notif.type == 'challenge'"></ng-include>
+                    <ng-include src="'modules/profile/templates/include/project-activity.tpl.html'" ng-if="notif.type == 'project'"></ng-include>
+                    <ng-include src="'modules/notification/templates/include/file-notif.tpl.html'" ng-if="notif.type == 'file'"></ng-include>
+                    <ng-include src="'modules/notification/templates/include/url-notif.tpl.html'" ng-if="notif.type == 'url'"></ng-include>
+                    <ng-include src="'modules/profile/templates/include/note-activity.tpl.html'" ng-if="notif.type == 'note'"></ng-include>
+                    <ng-include src="'modules/notification/templates/include/member-notif.tpl.html'" ng-if="notif.type == 'member'"></ng-include>
+                </div>
+            </material-list>
+        </material-content>
+
         <material-tabs selected="selectedIndex"   style="padding-left:0;">
             <material-tab ng-disabled="moreData.challenges.length == 0" class="material-theme-white" >
                 <material-tab-label>

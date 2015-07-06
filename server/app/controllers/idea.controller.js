@@ -82,7 +82,7 @@ exports.create = function(req, res) {
     idea.saveQ().then(function(idea) {
         var myNotif = new Notification({
             type : 'create',
-            owner : idea.owner,
+            owner : req.user._id,
             entity : idea._id,
             entityType : 'idea'
         });
@@ -118,7 +118,7 @@ exports.update = function(req, res) {
         idea.saveQ().then(function(modifiedIdea) {
             var myNotif = new Notification({
                 type : 'update',
-                owner : modifiedIdea.owner,
+                owner : req.user._id,
                 entity : modifiedIdea._id,
                 entityType : 'idea'
             });
@@ -135,7 +135,7 @@ exports.remove = function(req, res) {
     Idea.findOneAndRemoveQ({_id : req.params.id}).then(function(idea) {
         var myNotif = new Notification({
             type : 'remove',
-            owner : idea.owner,
+            owner : req.user._id,
             entity : idea._id,
             entityType : 'idea'
         });
@@ -195,7 +195,7 @@ exports.like = function(req, res) {
                 $pull : {dislikerIds : req.body.liker}}).then(function(updated) {
                     var myNotif = new Notification({
                         type : 'like',
-                        owner : req.body.liker,
+                        owner : req.user._id,
                         entity : idea._id,
                         entityType : 'idea'
                     });
@@ -230,7 +230,7 @@ exports.dislike = function(req, res) {
                 $pull : {likerIds : req.body.disliker}}).then(function(updated) {
                     var myNotif = new Notification({
                         type : 'dislike',
-                        owner : req.body.disliker,
+                        owner : req.user._id,
                         entity : idea._id,
                         entityType : 'idea'
                     });
