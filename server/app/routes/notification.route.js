@@ -3,10 +3,10 @@
 /**
  * Module dependencies.
  */
-var notification = require('../controllers/notification.controller.js');
+var notification = require('../controllers/notification.controller.js'),
+    utils = require('../services/utils.service');
 
 module.exports = function(app) {
-    //CRUD
-    app.get('/notification',notification.fetch);
-    app.get('/notification/all',notification.fetchAll);
+    app.route('/notifications/me')
+        .get(utils.ensureAuthenticated, notification.listForUser);
 };

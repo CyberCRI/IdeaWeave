@@ -170,6 +170,7 @@ exports.fetch = function(req,res){
             });
     }
 };
+
 exports.profile = function(req,res){
     User.find({ _id : req.params.id })
         .populate('followers')
