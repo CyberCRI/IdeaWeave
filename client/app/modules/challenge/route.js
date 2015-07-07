@@ -54,6 +54,24 @@ angular.module('cri.challenge')
                   }
                 }
             })
+            .state('challengeById',{
+                url : '/challenge/id/:cid',
+                resolve: {
+                    challenge:  ['$stateParams', 'Challenge',function ($stateParams, Challenge) {
+                        var option = {
+                            _id : $stateParams.cid
+                        };
+
+                        return Challenge.fetch(option);
+                    }]
+                },
+                views :{
+                  mainView :{
+                      templateUrl: 'modules/challenge/templates/challenge.tpl.html',
+                      controller : 'ChallengeCtrl'
+                  }
+                }
+            })
             .state('challenge.projectCreation',{
                 url : '/projectCreation',
                 views : {

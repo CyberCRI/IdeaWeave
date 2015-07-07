@@ -133,6 +133,41 @@ angular.module('cri.notes', ['ngSanitize'])
             $scope.refreshNotes();
         }
     };
+})
+.directive('noteInfo', function () {
+    return {
+        restrict:'EA',
+        replace: true,
+        scope: {
+            noteId: '='
+        },
+        controller: function ($scope, Notes, $state) {
+            Notes.fetchNote($scope.noteId).then(function(note) {
+                var MAX_TEXT_LENGTH = 30;
+
+                if(note.text[0] == "<") 
+                    // To get text, turn it into an element and ask for inner text
+                    $scope.text = angular.element(note.text).text();
+                else
+                    $scope.text = note.text;
+
+                // Cut off text that's too long
+                if($scope.text.length > MAX_TEXT_LENGTH) {
+                    $scope.text = $scope.text.slice(0, MAX_TEXT_LENGTH - 4) + " ...";
+                }
+
+                $scope.onClick = function() {
+                    if(note.project) $state.go("project.home", { pid: note.project });
+                    else if(note.challenge) $state.go("challengeById", { cid: note.challenge });
+                    else if(note.idea) $state.go("idea", { iid: note.idea });
+                    else throw new Error("Note is not attached to project, challenge, or idea");
+                }
+            }).catch(function(err) {
+                console.log('error', err);
+            });
+        },
+        templateUrl: 'modules/notes/templates/note-info.tpl.html'
+    };
 });
 
 

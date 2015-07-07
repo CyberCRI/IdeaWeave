@@ -97,7 +97,7 @@
                     <div class="material-tile-left">
                         <span time-ago from-time="{{ notif.createDate }}"></span>
                     </div>
-                    
+
                     <material-tile-content ng-if="notif.entityType == 'idea' && notif.type == 'create'" layout="horizontal" layout-align="center center">
                         <span>
                             Created a new idea
@@ -199,34 +199,47 @@
                         </span>
                         <project-info project-id="notif.entity"></project-info>
                     </material-tile-content>
+                    <material-tile-content ng-if="notif.entityType == 'project' && notif.type == 'removeFile'" layout="horizontal" layout-align="center center">
+                        <span>
+                            Removed a file from the project
+                        </span>
+                        <project-info project-id="notif.entity"></project-info>
+                    </material-tile-content>
                     <material-tile-content ng-if="notif.entityType == 'project' && notif.type == 'createUrl'" layout="horizontal" layout-align="center center">
                         <span>
                             Added a URL to the project
                         </span>
                         <project-info project-id="notif.entity"></project-info>
                     </material-tile-content>
+                    <material-tile-content ng-if="notif.entityType == 'project' && notif.type == 'removeUrl'" layout="horizontal" layout-align="center center">
+                        <span>
+                            Removed a URL from the project
+                        </span>
+                        <project-info project-id="notif.entity"></project-info>
+                    </material-tile-content>
 
                     <material-tile-content ng-if="notif.entityType == 'note' && notif.type == 'createNote'" layout="horizontal" layout-align="center center">
                         <span>Added a note</span>
-                        <note-info node-id="notif.entity"></note-info>
+                        <note-info note-id="notif.entity"></note-info>
                     </material-tile-content>
                     <material-tile-content ng-if="notif.entityType == 'note' && notif.type == 'updateNote'" layout="horizontal" layout-align="center center">
                         <span>Updated the note</span>
-                        <note-info node-id="notif.entity"></note-info>
+                        <note-info note-id="notif.entity"></note-info>
                     </material-tile-content>
                     <material-tile-content ng-if="notif.entityType == 'note' && notif.type == 'removeNote'" layout="horizontal" layout-align="center center">
                         <span>Removed a note</span>
                     </material-tile-content>
                     <material-tile-content ng-if="notif.entityType == 'note' && notif.type == 'createComment'" layout="horizontal" layout-align="center center">
-                        <span>Added a comment</span>
-                        <note-info node-id="notif.entity"></note-info>
+                        <span>Added a comment on</span>
+                        <note-info note-id="notif.entity"></note-info>
                     </material-tile-content>
                     <material-tile-content ng-if="notif.entityType == 'note' && notif.type == 'updateComment'" layout="horizontal" layout-align="center center">
-                        <span>Updated the comment</span>
-                        <note-info node-id="notif.entity"></note-info>
+                        <span>Updated the comment on</span>
+                        <note-info note-id="notif.entity"></note-info>
                     </material-tile-content>
                     <material-tile-content ng-if="notif.entityType == 'note' && notif.type == 'removeComment'" layout="horizontal" layout-align="center center">
-                        <span>Removed a comment</span>
+                        <span>Removed a comment on</span>
+                        <note-info note-id="notif.entity"></note-info>
                     </material-tile-content>
 
                     <material-tile-content ng-if="notif.entityType == 'profile' && notif.type == 'follow'" layout="horizontal" layout-align="center center">
