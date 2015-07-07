@@ -71,7 +71,17 @@ exports.createNote = function(req,res){
 
     var newNote = new NoteLab(req.body);
     q.all([newNote.saveQ(), containerUpdateQuery]).then(function(data) {
-        res.json(200, data[0]);
+        var notification = new Notification({
+            type : 'createNote',
+            owner : req.user._id,
+            entity : data[0]._id,
+            entityType : 'note'
+        });
+
+        return notification.saveQ().then(function(notif){
+            //io.sockets.in('project::'+req.body.project).emit('url',notif);
+            res.json(200, data[0]);
+        });
     }).fail(function(err) {
         res.json(400,err);
     });
@@ -88,10 +98,18 @@ exports.updateNote = function(req,res){
         note.modifiedDate = new Date();
         note.increment();
 
-        note.saveQ().then(function(newNote) {
-            res.json(200, newNote);
-        }).fail(function(err){
-            res.json(500,err);
+        return note.saveQ().then(function(newNote) {
+            var notification = new Notification({
+                type : 'updateNote',
+                owner : req.user._id,
+                entity : req.params.id,
+                entityType : 'note'
+            });
+
+            return notification.saveQ().then(function(notif){
+                //io.sockets.in('project::'+req.body.project).emit('url',notif);
+                res.json(200, newNote);
+            });
         });
     }).fail(function(err){
         res.json(500,err);
@@ -116,10 +134,18 @@ exports.removeNote = function(req,res){
             res.json(500, "Note does not specify a project, challenge, or idea");
         }
 
-        q.all([note.removeQ(), containerUpdateQuery]).then(function() {
-            res.send(200);
-        }).fail(function(err){
-            res.json(500,err);
+        return q.all([note.removeQ(), containerUpdateQuery]).then(function() {
+            var notification = new Notification({
+                type : 'removeNote',
+                owner : req.user._id,
+                entity : req.params.id,
+                entityType : 'note'
+            });
+
+            return notification.saveQ().then(function(notif) {
+                //io.sockets.in('project::'+req.body.project).emit('url',notif);            res.send(200);
+                res.send(200);
+            });
         });
     }).fail(function(err){
         res.json(500,err);
@@ -172,12 +198,21 @@ exports.createComment = function(req,res){
 
         note.comments.push(newComment);
 
-        note.saveQ().then(function(data) {
+        return note.saveQ().then(function(data) {
             // The last comment is the one we added
             var commentData = data.comments[data.comments.length - 1];
-            res.json(200, commentData);
-        }).fail(function(err) {
-            res.json(500,err);
+
+            var notification = new Notification({
+                type : 'createComment',
+                owner : req.user._id,
+                entity : req.params.id,
+                entityType : 'note'
+            });
+
+            return notification.saveQ().then(function(notif){
+                //io.sockets.in('project::'+req.body.project).emit('url',notif);
+                res.json(200, commentData);
+            });
         });
     }).fail(function(err){
         res.json(500,err);
@@ -196,12 +231,21 @@ exports.updateComment = function(req,res){
         comment.text = req.body.text;
         comment.modifiedDate = new Date();
 
-        note.saveQ().then(function(data) {
+        return note.saveQ().then(function(data) {
             // Get the comment we modified
             var commentData = data.comments.id(req.params.commentId);
-            res.json(200, commentData);
-        }).fail(function(err) {
-            res.json(500,err);
+
+            var notification = new Notification({
+                type : 'updateComment',
+                owner : req.user._id,
+                entity : req.params.noteId,
+                entityType : 'note'
+            });
+
+            return notification.saveQ().then(function(notif){
+                //io.sockets.in('project::'+req.body.project).emit('url',notif);
+                res.json(200, commentData);
+            });
         });
     }).fail(function(err){
         res.json(500,err);
@@ -218,10 +262,18 @@ exports.removeComment = function(req,res){
 
         comment.remove();
 
-        note.saveQ().then(function(data) {
-            res.send(200);
-        }).fail(function(err) {
-            res.json(500,err);
+        return note.saveQ().then(function(data) {
+            var notification = new Notification({
+                type : 'removeComment',
+                owner : req.user._id,
+                entity : req.params.noteId,
+                entityType : 'note'
+            });
+
+            return notification.saveQ().then(function(notif){
+                //io.sockets.in('project::'+req.body.project).emit('url',notif);
+                res.send(200);
+            });
         });
     }).fail(function(err){
         res.json(500,err);

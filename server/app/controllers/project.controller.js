@@ -109,8 +109,6 @@ exports.removeUrl = function(req,res){
                 //io.sockets.in('project::'+req.body.project).emit('url',notif);
                 res.send(200);
             });
-        });
-
         }).fail(function(err){
             res.json(500,err);
         });
@@ -183,7 +181,7 @@ exports.removeFile = function(req,res){
             var myNotif =  new Notification({
                 type : 'removeFile',
                 owner : req.user._id,
-                entity : req.params.projectId,
+                entity : req.params.projectId   ,
                 entityType : 'project'
             });
             return myNotif.saveQ().then(function(notif){
