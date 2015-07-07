@@ -141,7 +141,7 @@ angular.module('cri.notes', ['ngSanitize'])
         scope: {
             noteId: '='
         },
-        controller: function ($scope, Notes, $state) {
+        controller: function ($scope, Notes, $state, Project, Challenge) {
             Notes.fetchNote($scope.noteId).then(function(note) {
                 var MAX_TEXT_LENGTH = 30;
 
@@ -157,10 +157,23 @@ angular.module('cri.notes', ['ngSanitize'])
                 }
 
                 $scope.onClick = function() {
-                    if(note.project) $state.go("project.home", { pid: note.project });
-                    else if(note.challenge) $state.go("challengeById", { cid: note.challenge });
-                    else if(note.idea) $state.go("idea", { iid: note.idea });
-                    else throw new Error("Note is not attached to project, challenge, or idea");
+                    // Projects and notes need their access URLs 
+                    if(note.project) {
+                        Project.fetch({ _id: note.project }).then(function(projects) {
+                            $state.go("project.home", { pid: projects[0].accessUrl });
+                        });
+                    }
+                    else if(note.challenge) {
+                        Challenge.fetch({ _id: note.challenge }).then(function(challenges) {
+                            $state.go("challenge", { pid: challenges[0].accessUrl });
+                        });
+                    }
+                    else if(note.idea) {
+                        $state.go("idea", { iid: note.idea });
+                    }
+                    else {
+                        throw new Error("Note is not attached to project, challenge, or idea");
+                    }
                 }
             }).catch(function(err) {
                 console.log('error', err);
