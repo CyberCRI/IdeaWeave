@@ -68,18 +68,17 @@ exports.createUrl = function(req,res){
     myUrl.saveQ().then(function(data){
         var myNotif =  new Notification({
             type : 'createUrl',
-            owner : data.owner,
-            entity : data._id,
-            entityType : 'noteLab'
+            owner : req.user._id,
+            entity : req.params.projectId,
+            entityType : 'project'
         });
-        myNotif.saveQ().then(function(notif){
+
+        return myNotif.saveQ().then(function(notif){
             io.sockets.in('project::'+req.body.project).emit('url',notif);
             res.json(data);
         }).catch(function(err){
             res.json(500,err);
         });
-        
-        res.json(data);
     }).fail(function(err){
         res.json(500,err);
     })
@@ -100,7 +99,16 @@ exports.removeUrl = function(req,res){
         // TODO: check if you are allowed to remove the URL
 
         url.removeQ().then(function() {
-            res.send(200);
+            var myNotif =  new Notification({
+                type : 'removeUrl',
+                owner : req.user._id,
+                entity : req.params.projectId,
+                entityType : 'project'
+            });
+            return myNotif.saveQ().then(function(){
+                //io.sockets.in('project::'+req.body.project).emit('url',notif);
+                res.send(200);
+            });
         }).fail(function(err){
             res.json(500,err);
         });
@@ -136,12 +144,12 @@ exports.uploadFile = function(req,res) {
 
     myFile.saveQ().then(function(data){
         var myNotif =  new Notification({
-            type : 'upload',
-            owner : data.owner,
-            entity : data._id,
-            entityType : 'noteLab'
+            type : 'uploadFile',
+            owner : req.user._id,
+            entity : req.params.projectId,
+            entityType : 'project'
         });
-        myNotif.saveQ().then(function(notif){
+        return myNotif.saveQ().then(function(notif){
             io.sockets.in('project::'+myFile.project).emit('file',notif);
             res.json(data);
         }).catch(function(err){
@@ -169,10 +177,16 @@ exports.removeFile = function(req,res){
 
         var unlink = q.denodeify(fs.unlink);
 
-        q.all([unlink(file.path), file.removeQ()]).then(function() {
-            res.send(200);
-        }).fail(function(err){
-            res.json(500,err);
+        return q.all([unlink(file.path), file.removeQ()]).then(function() {
+            var myNotif =  new Notification({
+                type : 'removeFile',
+                owner : req.user._id,
+                entity : req.params.projectId   ,
+                entityType : 'project'
+            });
+            return myNotif.saveQ().then(function(notif){
+                res.send(200);
+            });
         });
     }).fail(function(err){
         res.json(500,err);
@@ -181,6 +195,8 @@ exports.removeFile = function(req,res){
 
 
 exports.follow = function(req,res){
+    req.body.follower = req.user._id;
+
     Project.findOneAndUpdateQ({ _id : req.body.following },{$push : { followers : req.body.follower }}).then(function(project){
         var myNotif =  new Notification({
             type : 'follow',
@@ -188,18 +204,17 @@ exports.follow = function(req,res){
             entity : project._id,
             entityType : 'project'
         });
-        myNotif.saveQ().then(function(){
+        return myNotif.saveQ().then(function(){
             res.json(project)
-        }).fail(function(err){
-            res.json(400,err);
         });
     }).fail(function(err){
-
         res.json(400,err)
     })
 };
 
 exports.unfollow = function(req,res){
+    req.body.follower = req.user._id;
+
     Project.findOneAndUpdateQ({ _id : req.body.following },{$pull : { followers : req.body.follower }}).then(function(project){
         var myNotif = new Notification({
             type : 'unfollow',
@@ -207,7 +222,7 @@ exports.unfollow = function(req,res){
             entity : project._id,
             entityType : 'project'
         });
-        myNotif.saveQ().then(function() {
+        return myNotif.saveQ().then(function() {
             res.json(project);
         });
     }).fail(function(err){
@@ -301,7 +316,9 @@ exports.create = function(req,res){
         req.body.tags = tagsId;
     }
 
+    req.body.owner = req.user._id;
     var project = new Project(req.body);
+
     project.saveQ().then(function(project){
         if(project.container){
             Challenge.findOneAndUpdateQ({_id : project.container},{ $push : { projects : project._id },$inc : { projectNumber : 1 }}).then(function(challenge){
@@ -345,7 +362,15 @@ exports.update = function(req,res){
     }
 
     Project.findOneAndUpdateQ({_id:req.params.id}, req.body).then(function(data) {
-        res.json(data);
+        var myNotif = new Notification({
+            type : 'update',
+            owner : req.user._id,
+            entity :  data._id,
+            entityType : 'project'
+        });
+        return myNotif.saveQ().then(function(notif){
+            res.json(data);
+        });
     }).fail(function(err){
         res.json(400,err)
     });
@@ -355,11 +380,11 @@ exports.remove = function(req,res){
     Project.findOneAndRemoveQ({_id : req.params.id}).then(function(data){
         var myNotif = new Notification({
             type : 'remove',
-            owner : data.owner,
+            owner : req.user._id,
             entity : data._id,
             entityType : 'project'
         });
-        myNotif.saveQ().then(function() {
+        return myNotif.saveQ().then(function() {
             res.json(data);
         });
     }).fail(function(err){

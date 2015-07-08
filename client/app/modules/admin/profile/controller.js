@@ -50,15 +50,19 @@ angular.module('cri.admin.profile',['cri.profile'])
                 $materialDialog({
                     templateUrl : 'modules/admin/profile/templates/modal/editPageModal.tpl.html',
                     locals : {
-                        currentUser : $scope.currentUser
+                        currentUser: $scope.currentUser,
+                        profile: $scope.profile
                     },
-                    controller : ['$scope','Config','Profile','$hideDialog','currentUser',function($scope,Config,Profile,$hideDialog,currentUser){
+                    controller : function($scope,Config,Profile,$hideDialog,currentUser, profile) {
+                        $scope.brief = profile.brief;
+
                         $scope.tinymceOption = Config.tinymceOptions;
                         $scope.cancel = function(){
                             $hideDialog();
                         };
-                        $scope.updateProfile=function(user){
-                            Profile.update(currentUser._id,user).then(function(data){
+                        $scope.updateProfile=function(){
+                            profile.brief = $scope.brief;
+                            Profile.update(currentUser._id, profile).then(function(data){
                                 Notification.display('Updated successfully');
                             }).catch(function(err){
                                 Notification.display(err.message);
@@ -66,7 +70,7 @@ angular.module('cri.admin.profile',['cri.profile'])
                                 $hideDialog();
                             });
                         };
-                    }]
+                    }
                 });
             };
 

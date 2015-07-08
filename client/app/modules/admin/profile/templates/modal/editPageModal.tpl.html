@@ -4,8 +4,8 @@
     <material-toolbar layout="horizontal" layout-align="">
         <div layout layout-align="start center">
             <span flex>Profile edition</span>
-            <material-button class="material-button-fab">
-                <i class="fa fa-check" ng-click="updateProfile(profile)" style="color:green;"></i>
+            <material-button class="material-button-fab" ng-click="updateProfile()">
+                <i class="fa fa-check" style="color:green;"></i>
             </material-button>
             <material-button class="material-button-fab" ng-click="cancel()">
                 <i class="fa fa-times" ></i>
@@ -14,7 +14,7 @@
     </material-toolbar>
     <material-content>
         <form name="descriptionForm">
-            <textarea ui-tinymce="tinymceOption" name='brief' ng-model="profile.brief"/></textarea>
+            <textarea ui-tinymce="tinymceOption" name="brief" ng-model="brief"/></textarea>
         </form>
     </material-content>
 </material-dialog>

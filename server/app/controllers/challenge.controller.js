@@ -150,11 +150,14 @@ exports.create = function(req,res){
         });
         req.body.tags = tagsId;
     }
+
+    req.body.owner = req.user._id;
     var challenge = new Challenge(req.body);
+
     challenge.saveQ().then(function(data){
         var myNotif =  new Notification({
             type : 'create',
-            owner : data.owner,
+            owner : req.user._id,
             entity : data._id,
             entityType : 'challenge'
         });
@@ -176,7 +179,7 @@ exports.update = function(req,res){
     Challenge.findOneAndUpdateQ({ _id : req.params.id },req.body).then(function(data){
         var myNotif = new Notification({
             type : 'update',
-            owner : data.owner,
+            owner : req.user._id,
             entity : data._id,
             entityType : 'challenge'
         });
@@ -192,7 +195,7 @@ exports.remove = function(req,res){
     Challenge.findOneAndRemoveQ({_id : req.params.id}).then(function(data){
         var myNotif = new Notification({
             type : 'remove',
-            owner : data.owner,
+            owner : req.user._id,
             entity : data._id,
             entityType : 'challenge'
         });

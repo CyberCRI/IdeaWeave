@@ -1,6 +1,16 @@
 angular.module('cri.notes')
 .factory('Notes', function($http, $q, Config) {
     return {
+        fetchNote : function(id){
+            var defered = $q.defer();
+            $http.get(Config.apiServer+'/notes/' + id)
+            .success(function(data){
+                defered.resolve(data);
+            }).error(function(err){
+                defered.reject(err);
+            });
+            return defered.promise;
+        },
         // Params should be { challenge: <id> } or { project: <id> }
         listNotes : function(params){
             var defered = $q.defer();

@@ -133,6 +133,54 @@ angular.module('cri.notes', ['ngSanitize'])
             $scope.refreshNotes();
         }
     };
+})
+.directive('noteInfo', function () {
+    return {
+        restrict:'EA',
+        replace: true,
+        scope: {
+            noteId: '='
+        },
+        controller: function ($scope, Notes, $state, Project, Challenge) {
+            Notes.fetchNote($scope.noteId).then(function(note) {
+                var MAX_TEXT_LENGTH = 30;
+
+                if(note.text[0] == "<") 
+                    // To get text, turn it into an element and ask for inner text
+                    $scope.text = angular.element(note.text).text();
+                else
+                    $scope.text = note.text;
+
+                // Cut off text that's too long
+                if($scope.text.length > MAX_TEXT_LENGTH) {
+                    $scope.text = $scope.text.slice(0, MAX_TEXT_LENGTH - 4) + " ...";
+                }
+
+                $scope.onClick = function() {
+                    // Projects and notes need their access URLs 
+                    if(note.project) {
+                        Project.fetch({ _id: note.project }).then(function(projects) {
+                            $state.go("project.home", { pid: projects[0].accessUrl });
+                        });
+                    }
+                    else if(note.challenge) {
+                        Challenge.fetch({ _id: note.challenge }).then(function(challenges) {
+                            $state.go("challenge", { pid: challenges[0].accessUrl });
+                        });
+                    }
+                    else if(note.idea) {
+                        $state.go("idea", { iid: note.idea });
+                    }
+                    else {
+                        throw new Error("Note is not attached to project, challenge, or idea");
+                    }
+                }
+            }).catch(function(err) {
+                console.log('error', err);
+            });
+        },
+        templateUrl: 'modules/notes/templates/note-info.tpl.html'
+    };
 });
 
 
