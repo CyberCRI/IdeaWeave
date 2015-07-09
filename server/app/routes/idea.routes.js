@@ -10,6 +10,7 @@ module.exports = function(app) {
 	app.route('/ideas')
 		.get(idea.fetch)
 		.post(utils.ensureAuthenticated, idea.create);
+	app.get('/ideas/popular', idea.popularIdea);
 	app.route('/ideas/:id')
 		.get(idea.fetchOne)
 		.put(utils.ensureAuthenticated, idea.update)

@@ -163,13 +163,13 @@ exports.unfollow = function(req, res) {
 
 exports.like = function(req, res) {
 	Idea.findOneQ({_id : req.params.id}).then(function(idea) {
-		if(idea.owner != req.body.liker && idea.likerIds.indexOf(req.body.liker) < 0) {
+		if(idea.owner != req.query.liker && idea.likerIds.indexOf(req.query.liker) < 0) {
 			Idea.findOneAndUpdateQ({_id : req.params.id}, 
-				{$push : {likerIds : req.body.liker}, 
-				$pull : {dislikerIds : req.body.liker}}).then(function(updated) {
+				{$push : {likerIds : req.query.liker}, 
+				$pull : {dislikerIds : req.query.liker}}).then(function(updated) {
 					var myNotif = new Notification({
 						type : 'like',
-						owner : req.body.liker,
+						owner : req.query.liker,
 						entity : idea._id,
 						entityType : 'idea'
 					});
@@ -181,7 +181,7 @@ exports.like = function(req, res) {
 				});
 		}
 		else {
-			res.json("already liked");
+			res.json(idea);
 		};
 	});
 
@@ -220,7 +220,7 @@ exports.like = function(req, res) {
 		else {
 			res.json("already liked");
 		};
-	});*/
+	});*/	
 };
 
 exports.getLikes = function(req, res) {
@@ -235,13 +235,13 @@ exports.getLikes = function(req, res) {
 
 exports.dislike = function(req, res) {
 	Idea.findOneQ({_id : req.params.id}).then(function(idea) {
-		if(idea.owner != req.body.disliker && idea.dislikerIds.indexOf(req.body.disliker) < 0) {
+		if(idea.owner != req.query.disliker && idea.dislikerIds.indexOf(req.query.disliker) < 0) {
 			Idea.findOneAndUpdateQ({_id : req.params.id}, 
-				{$push : {dislikerIds : req.body.disliker}, 
-				$pull : {likerIds : req.body.disliker}}).then(function(updated) {
+				{$push : {dislikerIds : req.query.disliker}, 
+				$pull : {likerIds : req.query.disliker}}).then(function(updated) {
 					var myNotif = new Notification({
 						type : 'dislike',
-						owner : req.body.disliker,
+						owner : req.query.disliker,
 						entity : idea._id,
 						entityType : 'idea'
 					});
@@ -253,7 +253,7 @@ exports.dislike = function(req, res) {
 				});
 		}
 		else {
-			res.json("already disliked");
+			res.json(idea);
 		};
 	});
 
@@ -302,4 +302,14 @@ exports.getDislikes = function(req, res) {
 		}
 		res.json(count);
 	});
+};
+
+exports.popularIdea = function(req, res) {
+	Idea.find()
+		.execQ()
+			.then(function(idea) {
+				res.json(idea[0]);
+			}).fail(function(err) {
+				res.json(500, err);
+			});
 };
