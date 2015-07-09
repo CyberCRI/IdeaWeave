@@ -43,6 +43,12 @@ Install dependencies:
 - `npm install`
 - `bower install` (Choose the latest version of AngularJS)
 
+Currently, you need a manual fix for one of the dependencies. Change line 1013 of `vendors/angular-material/angular-material.js` to be 
+
+```
+    inputDirective.link.pre(scope, {
+```
+
 Now you need to configure your frontend to tell it where to find the server. In the `client/app/env` directory, copy over a config file like `dev.js.sample` to `config.js`. Notice that the `apiServer` attribute is set to access your backend on port 5011.
 
 To build the frontend and run a test server:
