@@ -126,17 +126,17 @@ exports.changePassword = function(req, res, next) {
  * Send User
  */
 exports.me = function(req, res) {
-    return res.json(req.user);
+    User.findOne({ _id : req.user._id })
+    .populate('followers')
+    .populate('tags')
+    .execQ()
+    .then(function(data){
+        res.json(data);
+    }).catch(function(err){
+        res.json(500, err);
+    });
 };
 
-
-exports.fetchAll = function(req,res){
-    User.findQ().then(function(users){
-        res.json(users);
-    }).fail(function(err){
-        res.json(500,err);
-    })
-};
 
 exports.fetch = function(req,res){
     if(req.query._id){
@@ -170,6 +170,7 @@ exports.fetch = function(req,res){
             });
     }
 };
+
 exports.profile = function(req,res){
     User.find({ _id : req.params.id })
         .populate('followers')
@@ -184,7 +185,9 @@ exports.profile = function(req,res){
                 Project.findQ({'followers':  myProfile._id },'_id'),
                 Project.findQ({'members':  myProfile._id },'_id'),
                 Project.findQ({owner : myProfile._id},'_id'),
-                Challenge.findQ({owner : myProfile._id},'_id')
+                Challenge.findQ({owner : myProfile._id},'_id'),
+                Idea.findQ({owner: myProfile._id},'_id'),
+                Idea.findQ({followers: myProfile._id},'_id')
             ]).then(function(data){
                 var moreData = {};
                 moreData.followedUsers = data[0];
@@ -193,6 +196,8 @@ exports.profile = function(req,res){
                 moreData.memberProjects = data[3];
                 moreData.projects = data[4];
                 moreData.challenges = data[5];
+                moreData.ideas = data[6];
+                moreData.followedIdeas = data[7];
                 var response = {
                     data : myProfile,
                     moreData : moreData

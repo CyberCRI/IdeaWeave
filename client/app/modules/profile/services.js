@@ -36,12 +36,12 @@ angular.module('cri.profile')
                 $http.get(url,{
                     params : param
                 })
-                    .success(function(data){
-                        defered.resolve(data);
-                    })
-                    .error(function(err){
-                        defered.reject(err);
-                    });
+                .success(function(data){
+                    defered.resolve(data);
+                })
+                .error(function(err){
+                    defered.reject(err);
+                });
                 return defered.promise;
             },
             getProfile : function(id){
@@ -144,7 +144,16 @@ angular.module('cri.profile')
                     defered.reject(err);
                 });
                 return defered.promise;
-            }
+            },
+            getFeed: function() {
+                var defered = $q.defer();
+                $http.get(Config.apiServer+'/notifications/me').success(function(data){
+                    defered.resolve(data);
+                }).error(function(err){
+                    defered.reject(err);
+                });
+                return defered.promise;
+            },
         };
         return service;
     }]);

@@ -15,16 +15,16 @@
     <material-content>
         <form name="resourceForm">
             <material-input-group>
-                <label for="description">Description of the resource</label>
-                <material-input type="text" id="description" ng-model="url.description" style="width:100%;"/>
-            </material-input-group>
-            <material-input-group>
-                <label for="title">name of the resource</label>
+                <label for="title">Link name</label>
                 <material-input type="text" id="title" ng-model="url.title" required style="width:100%;"/>
             </material-input-group>
-            <material-input-group flex>
-                <label for="url">url (http://...)</label>
+            <material-input-group>
+                <label for="url">URL (http://...)</label>
                 <material-input type="url" id="url" ng-model="url.text" required />
+            </material-input-group>
+            <material-input-group>
+                <label for="description">Description</label>
+                <material-input type="text" id="description" ng-model="url.description" style="width:100%;"/>
             </material-input-group>
         </form>
     </material-content>

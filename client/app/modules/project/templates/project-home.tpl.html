@@ -1,4 +1,4 @@
-<section style="background-color:rgb(240,241,241);" layout="vertical">
+<section layout="vertical">
     <section flex>
         <div ng-bind-html="project.home">
         </div>
@@ -9,4 +9,12 @@
             <material-button class="material-button-colored" ng-click="openShare()">Promote Project</material-button>
         </div>
     </div>
+
+    <list-notes project="project" current-user="currentUser"></list-notes>
+
+    <h3>Related Ideas</h3>
+
+    <section>
+        <idea-card inline-block idea-id="idea" ng-repeat="idea in project.ideas"></idea-card>
+    </section>
 </section>

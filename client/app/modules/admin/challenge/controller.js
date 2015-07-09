@@ -1,5 +1,5 @@
 angular.module('cri.admin.challenge',[])
-    .controller('ChallengeAdminLeftCtrl',function($scope,$materialDialog,$state,Challenge,Notification){
+    .controller('ChallengeAdminLeftCtrl',function($scope,$materialDialog,$state,Challenge,Notification,NoteLab){
 
         $scope.popUpPoster = function($event){
             $materialDialog({
@@ -16,6 +16,7 @@ angular.module('cri.admin.challenge',[])
                             var newChallenge = {
                                 poster : dataUri
                             };
+
                             Challenge.update(challenge._id,newChallenge).then(function(data){
                                 Notification.display('Updated successfully');
                             }).catch(function(err){
@@ -65,6 +66,7 @@ angular.module('cri.admin.challenge',[])
 
             });
         };
+
         $scope.popUpEdit = function(){
             $materialDialog({
                 templateUrl : 'modules/admin/challenge/templates/modal/challenge-edit-modal.tpl.html',

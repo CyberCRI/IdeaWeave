@@ -8,11 +8,11 @@
     <ui-select-choices repeat="result in searchResult track by $index"
                        refresh="refreshSearchBar($select.search)"
                        refresh-delay="0">
-        <material-divider ng-if="result.separator" style="text-align: center;" ng-class="{ 'material-theme-green' : result.separator == 'Users', 'material-theme-indigo' : result.separator == 'Challenges', 'material-theme-light' : result.separator == 'Projects' }">{{ result.separator }}</material-divider>
+        <material-divider ng-if="result.separator" style="text-align: center;" ng-class="{ 'material-theme-green' : result.separator == 'Users', 'material-theme-indigo' : result.separator == 'Challenges', 'material-theme-light' : result.separator == 'Projects' : result.separator == 'Ideas' }">{{ result.separator }}</material-divider>
         <material-item ng-if="!result.separator" class="result-item" ng-click="goTo(result)">
             <material-item-content>
                 <div class="material-tile-left">
-                    <img ng-src="{{result.poster || 'http://placehold.it/50x50'}}" class="img-rounded" style="height:50px;max-width: 100%">
+                    <img ng-src="{{result.poster || '/images/placeholder50x50.png'}}" class="img-rounded" style="height:50px;max-width: 100%">
                 </div>
                 <div class="material-tile-content">
                     <div>

@@ -1,10 +1,10 @@
 <material-card layout="vertical"  class="challenge-card">
-    <img ng-src="{{challenge.poster || 'http://placehold.it/100x100'}}" alt="..." class="material-card-image">
+    <img ng-src="{{challenge.poster || '/images/placeholder100x100.png'}}" alt="..." class="material-card-image">
     <material-button ng-if="admin && isHovered" ui-sref="challengeAdmin({ cid : challenge._id })">
         <i class="fa fa-gears"></i>
         Admin
     </material-button>
-    <h4 ui-sref="challenge({ pid : challenge.accessUrl })">{{ challenge.title }}</h4>
+    <h4 ui-sref="challenge({ cid : challenge.accessUrl })">{{ challenge.title }}</h4>
     <div layout="vertical" >
         <div class="text-muted" layout="horizontal" >
             <div>

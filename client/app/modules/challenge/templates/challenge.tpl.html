@@ -4,11 +4,25 @@
             <h1>
                 {{ challenge.title }}
             </h1>
-            <h3>{{challenge.brief}}</h3>
         </div>
+
+        <div ng-if="isFollow">
+            <i class="fa fa-star baseColor"></i> Following
+        </div>
+
+        <material-button class="material-button-fab" ng-click="toggleLeft()" style="bottom:-24px;position:absolute; left:20px;z-index : inherit" hide-md>
+            <i class="fa fa-bars"></i>
+        </material-button>
+        <material-button class="material-button-fab material-button-raised" ng-click="follow()" style="position:absolute; right:20px; z-index: inherit" ng-class="{ 'material-theme-indigo' : isFollow }" ng-if="currentUser && !isOwner">
+            <i class="fa fa-thumbs-up"></i>
+        </material-button>
     </material-toolbar>
 
-    <img ng-if="challenge.banner" src="{{ challenge.banner }}" style="margin: auto;">
+    <h3 class="show-line-breaks">{{ challenge.brief }}</h3>
+
+    <div layout="horizontal" layout-align="center center">
+        <img ng-if="challenge.banner" src="{{ challenge.banner }}" >
+    </div>
 
     <div layout="vertical">
         <material-button ui-sref="challengeAdmin({ cid : challenge._id })" ng-if="isOwner">
@@ -31,17 +45,6 @@
                 </span>
             </div>
         </div>
-
-        <div ng-if="isFollow">
-            <i class="fa fa-star baseColor"></i> Following
-        </div>
-
-        <material-button class="material-button-fab" ng-click="toggleLeft()" style="bottom:-24px;position:absolute; left:20px;z-index : inherit" hide-md>
-            <i class="fa fa-bars"></i>
-        </material-button>
-        <material-button class="material-button-fab" ng-click="follow()" style="position:absolute; right:20px; z-index: inherit" ng-if="!isOwner">
-            <i class="fa" ng-class="{ 'fa-thumbs-up' : !isFollow, 'fa-thumbs-down' : isFollow }"></i>
-        </material-button>
     </div>
 
     <div flex>
@@ -54,8 +57,19 @@
                 </material-button>
             </div>
         </section>
-        <section >
+
+        <list-notes challenge="challenge" current-user="currentUser"></list-notes>
+
+        <h3>Related Projects</h3>
+
+        <section>
             <project-card inline-block project-id="project" ng-repeat="project in challenge.projects"></project-card>
+        </section>
+
+        <h3>Related Ideas</h3>
+
+        <section>
+            <idea-card inline-block idea-id="idea" ng-repeat="idea in challenge.ideas"></idea-card>
         </section>
     </div>
 </material-content>

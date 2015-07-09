@@ -86,6 +86,32 @@
                     </li>
                 </ul>
             </div>
+
+            <!-- list ideas-->
+            <h3 class="solid pbm">{{ 'TAG_IDEA' | translate }}</h3>
+            <div ng-hide="tagData.projects">
+                <div class="alert alert-info">
+                    {{ 'TAG_NOT_MATCH' | translate }}
+                </div>
+            </div>
+            <div ng-show="tagData.ideas.length == 0">No ideas</div>
+            <div ng-show="tagData.ideas">
+                <ul class="list-unstyled">
+                    <li ng-repeat="idea in tagData.ideas">
+                        <div class="media">
+                            <div owner-block="idea.owner" class="pull-left" ></div>
+                            <div class="media-body">
+                                <blockquote class="pam">
+                                    <div>
+                                        <a ui-sref="idea({ iid : idea._id })">{{ idea.title }}</a>
+                                    </div>
+                                    <div class="text-muted" ng-bind-html="idea.brief" collapse="isCollapsed"></div>
+                                </blockquote>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
         </tab>
         <tab heading="graf">
             <section class="col-md-6">

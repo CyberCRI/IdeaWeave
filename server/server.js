@@ -1,10 +1,11 @@
+#!/usr/bin/env node
 'use strict';
 /**
  * Module dependencies.
  */
 var init = require('./config/init')(),
-	config = require('./config/config'),
-	mongoose = require('mongoose-q')(),
+    config = require('./config/config'),
+    mongoose = require('mongoose-q')(),
     path = require('path');
 
 
@@ -33,4 +34,4 @@ server.listen(config.port);
 exports.app = app;
 
 // Logging initialization
-console.log('IdeaStorm api started on port ' + config.port);
+console.log('IdeaWeave API started on port ' + config.port);

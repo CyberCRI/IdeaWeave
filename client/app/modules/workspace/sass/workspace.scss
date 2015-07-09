@@ -5,8 +5,6 @@ $visitorColor : #fff4f4;
 
 
 .list-resource {
-  max-height:200px;
-  overflow-y:auto;
   padding-right:20px;
   padding-left:20px;
 }
@@ -47,4 +45,8 @@ material-tabs{
 .dropbox-dragover{
   border : 1.5px #828282 dashed;
   height : 300px;
+}
+
+.url {
+  font-size: large;
 }

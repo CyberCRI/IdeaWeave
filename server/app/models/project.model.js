@@ -67,7 +67,14 @@ var ProjectSchema = new Schema({
     noteNumber : {
         type : Number,
         default : 0
-    }
+    },
+    ideas : [
+        {
+            type : Schema.ObjectId,
+            ref : 'Idea',
+            unique : true
+        }
+    ]
 });
 
 ProjectSchema.statics.random = function() {

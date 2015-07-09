@@ -1,0 +1,111 @@
+<material-content layout="vertical" layout-fill>
+    <material-toolbar scroll-shrink class="home-header">
+        <div layout="vertical" class="content">
+            <h1>
+                {{ idea.title }}
+            </h1>
+        </div>
+
+        <div ng-if="isFollow">
+            <i class="fa fa-star baseColor"></i> Following
+        </div>
+
+        <material-button class="material-button-fab" ng-click="toggleLeft()" style="bottom:-24px;position:absolute; left:20px;z-index : inherit" hide-md>
+            <i class="fa fa-bars"></i>
+        </material-button>
+        <material-button class="material-button-fab material-button-raised" ng-click="follow()" style="position:absolute; right:20px; z-index: inherit" ng-class="{ 'material-theme-indigo' : isFollowing() }"ng-if="currentUser && !isOwner">
+            <i class="fa fa-thumbs-up"></i>
+        </material-button>
+    </material-toolbar>
+
+    <div flex>
+        <h3 class="show-line-breaks">{{ idea.brief }}</h3>
+
+        <div layout="vertical">
+            <material-button ui-sref="editIdea({ iid : idea._id })" ng-if="isOwner">
+                <i class="fa fa-pencil-square-o baseColor"></i> Edit
+            </material-button>
+
+            <div layout="horizontal">
+                <div>
+                    <span>
+                        {{ idea.followers.length }}
+                    </span>
+                    <span class="text-muted">
+                        &nbsp;followers
+                    </span>
+                    <span>
+                        {{ idea.challenges.length }}
+                    </span>
+                    <span class="text-muted">
+                        &nbsp;challenges
+                    </span>
+                    <span>
+                        {{ idea.projects.length }}
+                    </span>
+                    <span class="text-muted">
+                        &nbsp;projects
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div layout="vertical">
+            <showtags entity="idea"></showtags>
+
+            <list-notes idea="idea" current-user="currentUser"></list-notes>
+        </div>
+
+        <div flex>
+            <h3>Related Projects</h3>
+
+            <div layout="horizontal">
+                <div ng-repeat="project in idea.projects" layout="vertical">
+                    <project-card inline-block project-id="project"></project-card>
+                    <material-button ng-click="removeLinkToProject(project)">
+                        <i class="fa fa-times baseColor"></i> Remove Project
+                    </material-button>
+                </div>
+            </div>
+
+            <ui-select ng-model="newLink.project" theme="selectize">
+                <ui-select-match placeholder="A related project...">{{$select.selected.title}}</ui-select-match>
+                <ui-select-choices repeat="project in projects">
+                    <img ng-src="{{ project.poster || '/images/placeholder25x25.png' }}" class="select-poster-image"/>
+                    <small>
+                        {{project.title}}
+                    </small>
+                </ui-select-choices>
+            </ui-select>
+
+            <material-button ng-click="addLinkToProject()">
+                <i class="fa fa-plus baseColor"></i> Add Project
+            </material-button>
+
+            <h3>Related Challenges</h3>
+
+            <div layout="horizontal">
+                <div ng-repeat="challenge in idea.challenges" layout="vertical">
+                    <challenge-card inline-block challenge-id="challenge"></challenge-card>
+                    <material-button ng-click="removeLinkToChallenge(challenge)">
+                        <i class="fa fa-times baseColor"></i> Remove Challenge
+                    </material-button>
+                </div>
+            </div>
+
+            <ui-select ng-model="newLink.challenge" theme="selectize">
+                <ui-select-match placeholder="A related challenge...">{{$select.selected.title}}</ui-select-match>
+                <ui-select-choices repeat="challenge in challenges">
+                    <img ng-src="{{ challenge.poster || '/images/placeholder25x25.png' }}" class="select-poster-image"/>
+                    <small>
+                        {{challenge.title}}
+                    </small>
+                </ui-select-choices>
+            </ui-select>
+
+            <material-button ng-click="addLinkToChallenge()">
+                <i class="fa fa-plus baseColor"></i> Add Challenge
+            </material-button>
+        </div>
+    </div>
+</material-content>

@@ -34,10 +34,10 @@ angular.module('cri.project')
                     }
 
                 },
-                resolve:{
-                    project:['Project','$stateParams',function(Project,$stateParams){
+                resolve: {
+                    project: function(Project,$stateParams){
                         return Project.fetch( { accessUrl : $stateParams.pid});
-                    }]
+                    }
                 }
             })
 
@@ -54,6 +54,15 @@ angular.module('cri.project')
                 views : {
                     projectView : {
                         templateUrl : 'modules/project/templates/trello.tpl.html'
+                    }
+                }
+            })
+            .state('project.admin',{
+              url : '/admin',
+                views :{
+                    projectView : {
+                        templateUrl:'modules/admin/project/templates/projectSettings.tpl.html',
+                        controller: 'AdminProjectCtrl'
                     }
                 }
             })

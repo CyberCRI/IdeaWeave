@@ -12,8 +12,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <base href="/"/>
-    <link rel="stylesheet" href="//code.cdn.mozilla.net/fonts/fira.css">
-    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.8.5/css/selectize.default.css">
+    <link rel="stylesheet" href="styles/fira.css">
+    <link rel="stylesheet" href="styles/selectize.default.css">
     <!-- build:css styles/main.css -->
     <link rel="stylesheet" href="vendors/Font-Awesome/css/font-awesome.css">
     <link rel="stylesheet" href="vendors/font-awesome-animation/dist/font-awesome-animation.css"/>
@@ -43,16 +43,26 @@
                     </a>
                 </div>
                 <div layout="horizontal" layout-align="start end" >
-                    <div style="cursor:pointer;"  ui-sref="challenges.list({ tag :'all' })" >
-                        <material-icon icon="images/svg/challenges.svg">
-                        </material-icon>
-                    </div>
-                    <img src="images/add.png" width="10%" height="10%" class="plus-icon" ui-sref="challengeSuggest" ng-if="currentUser._id" alt="add"/>
-                    <div style="cursor:pointer;"  ui-route="/projects/all"  ng-class="{'menu-active': $uiRoute}"  ui-sref="projects.list({ tag :'all' })">
-                        <material-icon icon="images/svg/projects.svg"  >
-                        </material-icon>
-                    </div>
-                    <img src="images/add.png" width="10%" height="10%" class="plus-icon" ui-sref="projectCreation" ng-if="currentUser._id" alt="add"/>
+                    <a ui-sref="ideas({ tag :'all' })" class="top-bar-icon">
+                        <material-icon icon="images/svg/ideas.svg"></material-icon>
+                    </a>
+                    <a ui-sref="createIdea" ng-if="currentUser._id">
+                        <img src="images/add.png" class="add-icon"/>
+                    </a>
+
+                    <a ui-sref="challenges.list({ tag :'all' })" class="top-bar-icon">
+                        <material-icon icon="images/svg/challenges.svg"></material-icon>
+                    </a>
+                    <a ui-sref="challengeSuggest" ng-if="currentUser._id">
+                        <img src="images/add.png" class="add-icon"/>
+                    </a>
+
+                    <a ui-sref="projects.list({ tag :'all' })" class="top-bar-icon">
+                        <i class="fa fa-rocket idea-icon"></i>
+                    </a>
+                    <a ui-sref="projectCreation" ng-if="currentUser._id">
+                        <img src="images/add.png" class="add-icon"/>
+                    </a>
                 </div>
                <search-bar hide block-md flex></search-bar>
                 <div hide-md flex style="text-align: center">
@@ -99,10 +109,10 @@
         </div>
     </material-sidenav>
 
-    <script src="vendors/tinymce/tinymce.min.js"></script>
-    <script src="vendors/tinymce/themes/modern/theme.min.js"></script>
-    <script src="vendors/tinymce/plugins/print/plugin.min.js"></script>
-    <script src="vendors/tinymce/plugins/textcolor/plugin.min.js"></script>
+    <script src="vendors/tinymce-dist/tinymce.min.js"></script>
+    <script src="vendors/tinymce-dist/themes/modern/theme.min.js"></script>
+    <script src="vendors/tinymce-dist/plugins/print/plugin.min.js"></script>
+    <script src="vendors/tinymce-dist/plugins/textcolor/plugin.min.js"></script>
     <!-- build:js scripts/scripts.js -->
     <script src="vendors/hammerjs/hammer.js"></script>
     <script src="vendors/jspdf/dist/jspdf.min.js"></script>
@@ -129,6 +139,7 @@
     <script src="vendors/satellizer/satellizer.js"></script>
     <script src="vendors/angular-timeago/src/timeAgo.js"></script>
     <script src="vendors/underscore/underscore.js"></script>
+    <script src="vendors/angular-cookies/angular-cookies.js"></script>
 
     <script src="env/config.js"></script>
 
@@ -148,9 +159,10 @@
     <script src="modules/d3/directives/tagGraph.js"></script>
     <script src="modules/d3/directives/tagCloud.js"></script>
 
-    <script src="modules/hackpad/hackpad.js"></script>
+    <script src="modules/etherpad/etherpad.js"></script>
 
     <script src="modules/notification/notification.js"></script>
+    <script src="modules/notification/notificationList/directives.js"></script>
 
     <script src="modules/files/services.js"></script>
     <script src="modules/files/directives/googledocPreview.js"></script>
@@ -178,9 +190,6 @@
     <script src="modules/workspace/services.js"></script>
     <script src="modules/workspace/route.js"></script>
     <script src="modules/workspace/lang.js"></script>
-    <script src="modules/workspace/directives/note-info.js"></script>
-    <script src="modules/workspace/comments/controller.js"></script>
-    <script src="modules/workspace/comments/services.js"></script>
 
     <script src="modules/challenge/controller.js"></script>
     <script src="modules/challenge/route.js"></script>
@@ -201,12 +210,10 @@
     <script src="modules/profile/directives/activity/directives.js"></script>
     <script src="modules/profile/directives/userBlock/directives.js"></script>
 
-
     <script src="modules/admin/profile/controller.js"></script>
     <script src="modules/admin/profile/route.js"></script>
 
     <script src="modules/admin/project/controller.js"></script>
-    <script src="modules/admin/project/route.js"></script>
 
     <script src="modules/admin/challenge/controller.js"></script>
     <script src="modules/admin/challenge/route.js"></script>
@@ -216,6 +223,15 @@
     <script src="modules/message/controller.js"></script>
     <script src="modules/message/route.js"></script>
     <script src="modules/message/service.js"></script>
+
+    <script src="modules/notes/directives.js"></script>
+    <script src="modules/notes/services.js"></script>
+
+    <script src="modules/idea/controller.js"></script>
+    <script src="modules/idea/route.js"></script>
+    <script src="modules/idea/services.js"></script>
+    <script src="modules/idea/directives/ideaCard/directives.js"></script>
+    <script src="modules/idea/directives/ideaInfo/directives.js"></script>
     <!-- endbuild -->
 
     <script type="text/javascript">

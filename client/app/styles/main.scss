@@ -25,6 +25,7 @@ $baseColor : rgb(0, 51, 102);
 @import "../modules/d3/sass/d3";
 @import "../modules/admin/challenge/sass/adminChallenge";
 @import "../modules/admin/profile/sass/adminProfile";
+@import "../modules/etherpad/sass/etherpad";
 
 
 body,html{
@@ -59,5 +60,22 @@ header{
   color: $baseColor;
 }
 
+.add-icon {
+  width: 10px;
+}
+
+.idea-icon {
+  font-size: 30px;
+  color: $baseColor;
+}
+
+.top-bar-icon {
+  margin-left: 10px;
+}
+
+.select-poster-image {
+  width: 25px;
+  height: 25px;
+}
 
 @import "../modules/common/sass/media-queries";

@@ -1,46 +1,47 @@
 <material-content layout="vertical" layout-fill>
     <material-toolbar scroll-shrink class="home-header">
         <div layout="vertical" class="content">
-            <h1 style="margin: 0;">
+            <h1>
                 {{ project.title }}
-                <i class="fa fa-star" style="color:yellow;" ng-if="isFollow"></i>
-            </h1>
-            <h3>{{ project.brief }}</h3>
-            <div class="material-toolbar-tools" layout="horizontal">
-                <div flex></div>
-                <div>
-                    <span>
-                        {{ project.followers.length }}
-                    </span>
-                        &nbsp;
-                    <span class="text-muted">
-                        followers
-                    </span>
-                        &nbsp;
-                    <span>
-                        {{ project.members.length }}
-                    </span>
-                        &nbsp;
-                    <span class="text-muted">
-                        members
-                    </span>
-                </div>
-            </div>
+            </h1>        
         </div>
+
         <material-button class="material-button-fab" ng-click="toggleLeft()" style="bottom:-24px;position:absolute; left:20px;z-index : inherit" hide-md>
             <i class="fa fa-bars"></i>
         </material-button>
-        <material-button class="material-button-fab" ng-click="follow()" style="bottom:-24px;position:absolute; right:20px;z-index : inherit" ng-if="!isOwner">
-            <i class="fa" ng-class="{ 'fa-thumbs-up' : !isFollow, 'fa-thumbs-down' : isFollow }"></i>
+        <material-button class="material-button-fab material-button-raised" ng-click="follow()" style="bottom:-24px;position:absolute; right:20px;z-index : inherit" ng-class="{ 'material-theme-indigo' : isFollow }" ng-if="currentUser && !isOwner">
+            <i class="fa fa-thumbs-up"></i>
         </material-button>
     </material-toolbar>
 
-    <img ng-if="project.banner" src="{{ project.banner }}">
+    <h3 class="show-line-breaks">{{ project.brief }}</h3>
 
-    <material-content flex>
-        <section >
-            <showtags entity="project"></showtags>
-        </section>
-        <section ui-view="projectView"></section>
-    </material-content>
+    <div layout="horizontal" layout-align="center center">
+        <img ng-if="project.banner" src="{{ project.banner }}" />
+    </div>
+
+    <div layout="horizontal">
+        <div flex></div>
+        <div>
+            <span>
+                {{ project.followers.length }}
+            </span>
+                &nbsp;
+            <span class="text-muted">
+                followers
+            </span>
+                &nbsp;
+            <span>
+                {{ project.members.length }}
+            </span>
+                &nbsp;
+            <span class="text-muted">
+                members
+            </span>
+        </div>
+    </div>
+
+    <showtags entity="project"></showtags>
+
+    <section flex ui-view="projectView"></section>
 </material-content>
