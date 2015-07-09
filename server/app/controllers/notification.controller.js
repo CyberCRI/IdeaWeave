@@ -6,7 +6,8 @@ var q = require('q'),
     User = mongoose.model('User'),
     Project = mongoose.model('Project'),
     Challenge= mongoose.model('Challenge'),
-    Idea = mongoose.model('Idea');
+    Idea = mongoose.model('Idea'),
+    Note = mongoose.model('NoteLab');
 
 exports.create = function(owner,type,entity, entityType){
     var defered = q.defer(),
@@ -35,7 +36,9 @@ exports.listForUser = function(req, res) {
         Project.findQ({ members:  req.user._id }, '_id'),
         Project.findQ({ owner : req.user._id}, '_id'),
         Idea.findQ({ owner: req.user._id}, '_id'),
-        Idea.findQ({ followers: req.user._id}, '_id')
+        Idea.findQ({ followers: req.user._id}, '_id'),
+        Note.findQ({ owner: req.user._id}, '_id'),
+        Note.findQ({ "comment.owner": req.user._id}, '_id'),
     ];
 
     q.all(requests)

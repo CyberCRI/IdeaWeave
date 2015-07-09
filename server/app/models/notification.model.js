@@ -6,9 +6,6 @@
 var mongoose = require('mongoose-q')(),
     Schema = mongoose.Schema;
 
-/**
- * Unotify Schema
- */
 var NotificationSchema = new Schema({
     createDate: {
         type: Date,

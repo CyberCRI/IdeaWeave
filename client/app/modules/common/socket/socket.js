@@ -9,34 +9,8 @@ angular.module('cri.common')
                     ioSocket: myIoSocket
                 });
                 service.socket.on('connect',function(){
-                    service.socket.emit('init',me._id);
-                    service.socket.on('rooms::ready',function(){
-                        service.socket.on('newProject',function(notif){
-                            Notification.displaySocketNotif(notif);
-                        });
-
-                        service.socket.on('newChallenge',function(notif){
-                            Notification.displaySocketNotif(notif);
-                        });
-
-                        service.socket.on('newMember',function(notif){
-                            Notification.displaySocketNotif(notif);
-                        });
-
-                        service.socket.on('newNote',function(notif,note){
-                            $rootScope.$broadcast('newNote',note);
-                            Notification.displaySocketNotif(notif);
-                        });
-
-                        service.socket.on('newFile',function(notif){
-                            Notification.displaySocketNotif(notif);
-                        });
-
-                        service.socket.on('newUrl',function(notif){
-                            Notification.displaySocketNotif(notif);
-                        });
-
-                    });
+                    service.socket.emit('init', me._id);
+                    service.socket.on("notification", Notification.displaySocketNotification);
                 });
 
             }
