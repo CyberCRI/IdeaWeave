@@ -9,8 +9,7 @@ var q = require('q'),
     Tags = mongoose.model('Tag'),
     Apply = mongoose.model('Apply'),
     Emailer = require('../services/mailer.service'),
-    _ = require('lodash'),
-    io = require('../../server').io;
+    _ = require('lodash');
 
 
 
@@ -74,7 +73,6 @@ exports.createUrl = function(req,res){
         });
 
         return myNotif.saveQ().then(function(notif){
-            io.sockets.in('project::'+req.body.project).emit('url',notif);
             res.json(data);
         }).catch(function(err){
             res.json(500,err);
@@ -106,7 +104,6 @@ exports.removeUrl = function(req,res){
                 entityType : 'project'
             });
             return myNotif.saveQ().then(function(){
-                //io.sockets.in('project::'+req.body.project).emit('url',notif);
                 res.send(200);
             });
         }).fail(function(err){
@@ -150,7 +147,6 @@ exports.uploadFile = function(req,res) {
             entityType : 'project'
         });
         return myNotif.saveQ().then(function(notif){
-            io.sockets.in('project::'+myFile.project).emit('file',notif);
             res.json(data);
         }).catch(function(err){
             res.json(400,err)
@@ -329,7 +325,6 @@ exports.create = function(req,res){
                     entityType : 'project'
                 });
                 myNotif.saveQ().then(function(notif){
-                    io.sockets.in('challenge::'+project.container).emit('newProject',notif);
                     res.json(project)
                 }).fail(function(err){
                     res.json(400,err);
@@ -460,7 +455,6 @@ exports.addToTeam = function(req,res){
         Project.findOneAndUpdateQ({ _id : projectId },{ $push : { members : applierId }}),
         myNotif.saveQ()
     ]).then(function(data){
-        io.sockets.in('project::'+projectId).emit('newMember',applierId);
         res.send(200);
     }).fail(function(err){
         res.json(400,err);
@@ -478,7 +472,6 @@ exports.banFromTeam = function(req,res) {
         Project.findOneAndUpdateQ({ _id: req.params.id }, {$pull: { members: req.body.member }}),
         myNotif.saveQ()
     ]).then(function(data){
-        io.sockets.in('project::'+req.params.id).emit('banMember',data[1]);
         res.send(200);
     }).fail(function(err){
 

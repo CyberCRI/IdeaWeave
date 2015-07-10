@@ -72,9 +72,6 @@ var UserSchema = new Schema({
         type : Boolean,
         default : true
     },
-    socketId : {
-        type :String
-    },
     google: String,
     github: String,
     linkedin: String,

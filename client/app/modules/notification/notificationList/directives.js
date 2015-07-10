@@ -1,5 +1,16 @@
 angular.module('cri.common')
-.directive('notificationList', function() {
+.directive('notification', function() {
+    return {
+        restrict: 'E',
+        scope: {
+            notification: '='
+        },
+        templateUrl:'modules/notification/notificationList/notification.tpl.html',
+        line: function(scope, element, attrs) {
+            scope.notification = attrs.notification;
+        }
+    };
+}).directive('notificationList', function() {
     return {
         restrict: 'E',
         scope: {
