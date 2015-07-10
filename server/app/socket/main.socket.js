@@ -51,35 +51,40 @@ function getUserIdsToNotify(notification) {
         case "project":
             return Project.findOneQ({ _id: notification.entity })
             .then(function(project) {
-                return [project.owner].concat(project.members).concat(project.followers);
+                return [project.owner.toString()].concat(toStringArray(project.members)).concat(toStringArray(project.followers));
             });
         case "challenge": 
             return Challenge.findOneQ({ _id: notification.entity })
             .then(function(challenge) {
-                return [challenge.owner].concat(challenge.followers);
+                return [challenge.owner.toString()].concat(toStringArray(challenge.followers));
             });
         case "idea": 
             return Idea.findOneQ({ _id: notification.entity })
             .then(function(idea) {
-                return [idea.owner].concat(idea.followers);
+                return [idea.owner.toString()].concat(toStringArray(idea.followers));
             });
         case "profile": 
             return User.findOneQ({ _id: notification.entity })
             .then(function(user) {
-                return [user._id].concat(user.followers);
+                return [user.id.toString()].concat(toStringArray(user.followers));
             });
         case "note": 
             return Note.findOneQ({ _id: notification.entity })
             .then(function(note) {
-                return [note.owner].concat(_.pluck(note.comments, "owner"));
+                var commentOwners = _.map(note.comments, function(comment) { return comment.owner.toString() });
+                return [note.owner.toString()].concat(commentOwners);
             });
         default:
             throw new Error("Unknown notification type");
     }
 }
 
-function cleanUpUserIds(notification, userIds) {
-    return _.chain(userIds).sortBy().uniq(true).without(notification.owner).value();
+function toStringArray(documentArray) {
+    return _.map(documentArray, function(doc) { return doc.toString() });
+}
+
+function cleanUpUserIds(notificationOwnerId, userIds) {
+    return _.chain(userIds).sortBy().uniq(true).without(notificationOwnerId).value();
 }
 
 function sendNotification(notification) {
@@ -87,7 +92,7 @@ function sendNotification(notification) {
     getUserIdsToNotify(notification)
     .then(function(userIds) {
         console.log("User IDs", userIds, "owner", notification.owner);
-        var cleanUserIds = cleanUpUserIds(notification, userIds);
+        var cleanUserIds = cleanUpUserIds(notification.owner.toString(), userIds);
         console.log("Sending notification to users", cleanUserIds);
 
         _.forEach(cleanUserIds, function(userId) {
