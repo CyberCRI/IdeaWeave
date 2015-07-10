@@ -1,27 +1,10 @@
 angular.module('cri.project',[])
     .controller('ProjectCtrl',['$scope','Project','project', 'Notification','$sce','$materialDialog','$rootScope',function($scope,Project,project, Notification,$sce,$materialDialog,$rootScope){
-        $scope.isVisitor = true;
         $scope.project = project[0];
-        if($scope.currentUser){
-            if($scope.currentUser._id == $scope.project.owner._id){
-                $scope.isMember = true;
-                $scope.isOwner = true;
-                $scope.isVisitor = false;
-            }else{
-                angular.forEach($scope.project.members,function(member){
-                    if(member._id == $scope.currentUser._id){
-                        $scope.isVisitor = false;
-                        $scope.isMember=true;
-                    }
-                });
-                angular.forEach($scope.project.followers,function(follower){
-                    if(follower._id == $scope.currentUser._id){
-                        $scope.isVisitor = false;
-                        $scope.isFollow=true;
-                    }
-                });
-            }
-        }
+        
+        $scope.isOwner = $scope.currentUser ? $scope.currentUser._id == $scope.project.owner._id : false;
+        $scope.isMember = $scope.currentUser ?  _.chain($scope.project.members).pluck("_id").contains($scope.currentUser._id).value() : false;
+        $scope.isFollow = $scope.currentUser ?  _.chain($scope.project.followers).pluck("_id").contains($scope.currentUser._id).value() : false;
 
         $scope.toggleLeft = function(){
             $rootScope.$broadcast('toggleLeft');
@@ -92,7 +75,7 @@ angular.module('cri.project',[])
                     following : $scope.project._id
                 };
                 Project.unfollow(param).then(function(result){
-                    Notification.display('you will no longuer receive notification about this');
+                    Notification.display('You will no longer be notified about this project');
                     $scope.project.followers.splice($scope.project.followers.indexOf($scope.currentUser._id),1);
                     $scope.isFollow=false;
                 }).catch(function(err){

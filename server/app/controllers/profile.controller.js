@@ -32,16 +32,16 @@ exports.getPoster = function(req,res){
 
 exports.follow = function(req,res){
     q.all([
-        User.findOneAndUpdateQ({ _id : req.body.following },{$push : { followers : req.body.follower }}),
-        User.findOneAndUpdateQ({ _id : req.body.follower },{$push : { followings : req.body.following }})
+        User.findOneAndUpdateQ({ _id : req.body.following },{$push : { followers : req.user._id }}),
+        User.findOneAndUpdateQ({ _id : req.user._id },{$push : { followings : req.body.following }})
     ]).then(function(data){
         var myNotif =  new Notification({
             type : 'follow',
-            owner : req.body.follower,
+            owner : req.user._id,
             entity : req.body.following,
             entityType : 'profile'
         });
-        myNotif.saveQ().then(function(){
+        return myNotif.saveQ().then(function(){
             res.send(200);
         });
     }).catch(function(err){
@@ -51,16 +51,16 @@ exports.follow = function(req,res){
 
 exports.unfollow = function(req,res){
     q.all([
-        User.findOneAndUpdateQ({ _id : req.body.following },{$pull : { followers : req.body.follower }}),
-        User.findOneAndUpdateQ({ _id : req.body.follower },{$pull : { followings : req.body.following }})
+        User.findOneAndUpdateQ({ _id : req.body.following },{$pull : { followers : req.user._id }}),
+        User.findOneAndUpdateQ({ _id : req.user._id },{$pull : { followings : req.body.following }})
     ]).then(function(user){
         var myNotif = new Notification({
             type : 'unfollow',
-            owner : req.body.follower,
-            entity : user._id,
+            owner : req.user._id,
+            entity : req.body.following,
             entityType : 'profile'
         });
-        myNotif.saveQ().then(function() {
+        return myNotif.saveQ().then(function() {
             res.json(user);
         });
     }).catch(function(err){
@@ -85,7 +85,7 @@ exports.update = function(req, res) {
             entity : user._id,
             entityType : 'profile'
         });
-        myNotif.saveQ().then(function() {
+        return myNotif.saveQ().then(function() {
             res.json(user);
         });
     }).catch(function(err){
@@ -109,7 +109,7 @@ exports.changePassword = function(req, res, next) {
         // The password will be hashed automatically
         req.user.password = passwordDetails.newPassword;
 
-        req.user.saveQ().then(function() { 
+        return req.user.saveQ().then(function() { 
             res.send({
                 message: 'Password changed successfully'
             });

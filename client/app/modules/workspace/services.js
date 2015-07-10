@@ -1,5 +1,5 @@
 angular.module('cri.workspace')
-.factory('NoteLab',['$http','$q','Config','$upload','$stateParams','mySocket','$rootScope',function($http,$q,Config,$upload,$stateParams,mySocket,$rootScope){
+.factory('NoteLab',function($http,$q,Config,$upload,$stateParams,$rootScope){
     var service = {
         fetch : function(param){
             var defered = $q.defer();
@@ -78,4 +78,4 @@ angular.module('cri.workspace')
         },
     };
     return service;
-}]);
+});

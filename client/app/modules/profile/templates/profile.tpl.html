@@ -15,6 +15,9 @@
         </material-button>
     </material-toolbar>
     <material-content flex>
+        <material-button ng-if="profile._id == currentUser._id" ui-sref="profileAdmin({uid: profile._id})">
+            <i class="fa fa-pencil-square-o baseColor"></i> Edit
+        </material-button>
         <showtags entity="profile" style="margin-left: 50px;"></showtags>
         <h3>Presentation</h3>
         <div ng-bind-html="profile.secureBrief"></div>
