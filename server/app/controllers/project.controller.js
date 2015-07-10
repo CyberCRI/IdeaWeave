@@ -347,16 +347,15 @@ exports.create = function(req,res){
 };
 
 exports.update = function(req,res){
+    // Remove properties that can't be updated this way
+    req.body = _.omit(req.body, "_id", "_v", "members", "followers");
+
     // Get just the IDs of tags
     if(req.body.tags) {
         req.body.tags = _.pluck(req.body.tags, "_id");
     }
-    if(req.body.members) {
-        req.body.members = _.pluck(req.body.members, "_id");
-    }
-    if(req.body.followers) {
-        req.body.followers = _.pluck(req.body.followers, "_id");
-    }
+
+    // Get just the ID of the owner
     if(req.body.owner) {
         req.body.owner = req.body.owner._id;
     }

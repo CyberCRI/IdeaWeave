@@ -179,36 +179,40 @@ angular.module('cri.admin.project',[])
     }])
 
 
-    .controller('ProjectTeamCtrl',['$scope','Project','Notification','$materialDialog',function ($scope,Project,Notification,$materialDialog) {
+    .controller('ProjectTeamCtrl',['$scope','Project','Notification','$materialDialog',function ($scope,Project,Notification,$materialDialog) {   
+        /* TEMPORARILY DEACTIVATED: missing server functionality
 
         $scope.inviteModal = function(e){
             $materialDialog({
                 templateUrl : 'modules/admin/project/templates/modal/inviteModal.tpl.html',
-                event : e,
-                controller : ['$scope','$hideDialog',function($scope,$hideDialog){
-                    $scope.invite={};
-                    $scope.sendInvite=function(){
-                        $scope.invite.pid=$scope.project._id;
+                locals : {
+                    project : $scope.project
+                },
+                controller : function($scope,$hideDialog,project){
+                    $scope.invite = {};
+                    $scope.sendInvite = function(){
+                        $scope.invite.pid = project._id;
                         Project.sendInvite($scope.invite).then(function(result){
-                            Notification.display('invitation send successfully');
+                            Notification.display('Invitation sent successfully');
                             $scope.invite.email="";
                         }).catch(function(err){
-                            Notification.display('Failed,Please try again later.');
+                            Notification.display('Failed, please try again later.');
                         });
                     };
                     $scope.cancel = function(){
                         $hideDialog();
                     };
-                }]
+                }
             });
         };
+        */
 
-        $scope.ban=function(user){
-            Project.banMember($scope.project._id,{member : user._id}).then(function(result){
+        $scope.ban=function(userId){
+            Project.banMember($scope.project._id, { member : userId }).then(function(result){
                 Notification.display('Successfully removed');
-                $scope.project.members.splice($scope.projects.members.indexOf(user._id),1);
+                $scope.project.members.splice($scope.project.members.indexOf(userId),1);
             }).catch(function(err){
-                Notification.display('Remove failed, please try again later');
+                Notification.display('Ban failed, please try again later');
             });
         };
 
