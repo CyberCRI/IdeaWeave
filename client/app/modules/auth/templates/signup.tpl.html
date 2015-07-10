@@ -52,11 +52,6 @@
                 </ui-select-choices>
             </ui-select>
         </div>
-        <material-checkbox name="read" required>
-            <small>
-                i have read the terms of services
-            </small>
-        </material-checkbox>
         <div ng-messages="signupForm.read.$error" ng-if="!signupForm.passwordR.$pristine">
             <div ng-message="required" class="form-message">
                 you must check the box

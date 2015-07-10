@@ -68,12 +68,12 @@
                <material-button ui-sref="signin" class="material-button-raised" ng-if="!currentUser">
                     <i class="fa fa-sign-in"> Sign In</i>
                 </material-button>
-                <div ui-sref="profile({ uid : currentUser._id })" class="cursor-hand" id="miniProfil" ng-if="currentUser">
+                <material-button ui-sref="profile({ uid : currentUser._id })" class="cursor-hand" id="miniProfil" ng-if="currentUser">
                     <div div layout="horizontal" layout-align="center center">
-                        <img ng-src="{{ currentUser.poster || 'images/avater.jpg' }}" alt="{{ currentUser.username }}'s photo" width="50%" height="50%" class="img-rounded"/>
-                        <p>{{ currentUser.realname || currentUser.username }}</p>
+                        <img ng-src="{{ currentUser.poster || 'images/avater.jpg' }}" alt="{{ currentUser.username }}'s photo" class="img-rounded"/>
+                        <p> {{ currentUser.realname || currentUser.username }}</p>
                     </div>
-                </div>
+                </material-button>
                 <div hide-md flex style="text-align: center">
                     <a style="cursor : pointer;padding-top: 0px;"  ui-sref="home">
                         <img src="images/svg/logoheader.svg" height="50px" alt="IdeaWeaves"/>

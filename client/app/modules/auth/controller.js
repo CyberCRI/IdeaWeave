@@ -140,6 +140,7 @@ angular.module('cri.auth',[
                 $scope.notMatch = false;
                 $auth.signup(user);
                 Notification.display("Welcome, you can login now");
+                $state.go('signin');
                 $scope.$emit('showLogin');
             }
         };

@@ -1,90 +1,92 @@
 <section  ng-controller="LoginCtrl" layout="vertical" class="signin-form">
-    <form name="signinForm" layout="vertical">
-        <material-input-group>
-            <label for="email">Email</label>
-            <material-input id="email" name="email" type="email" required ng-model="signin.email" />
-        </material-input-group>
-        <div ng-messages="signinForm.email.$error" ng-if="!signinForm.email.$pristine">
-            <div ng-message="required" class="form-message">
-                Email is required
+    <div id="signin-container" style="max-width: 900px; margin: auto;">    
+        <form name="signinForm" layout="vertical">
+            <material-input-group>
+                <label for="email">Email</label>
+                <material-input id="email" name="email" type="email" required ng-model="signin.email" />
+            </material-input-group>
+            <div ng-messages="signinForm.email.$error" ng-if="!signinForm.email.$pristine">
+                <div ng-message="required" class="form-message">
+                    Email is required
+                </div>
+                <div ng-message="email" class="form-message">
+                    You must type a valid email
+                </div>
             </div>
-            <div ng-message="email" class="form-message">
-                You must type a valid email
+            <material-input-group>
+                <label for="password">Password</label>
+                <material-input id="password" type="password" name="password" ng-model="signin.password" required pattern=""/>
+            </material-input-group>
+            <div ng-messages="signinForm.password.$error" ng-if="!signinForm.email.$pristine" ng-if="!signinForm.password.$pristine">
+                <div class="form-message" ng-message="required">
+                    Password is required
+                </div>
+                <div ng-message="pattern" class="form-message">
+                    Password must contain at least one capital letter
+                </div>
             </div>
-        </div>
-        <material-input-group>
-            <label for="password">Password</label>
-            <material-input id="password" type="password" name="password" ng-model="signin.password" required pattern=""/>
-        </material-input-group>
-        <div ng-messages="signinForm.password.$error" ng-if="!signinForm.email.$pristine" ng-if="!signinForm.password.$pristine">
-            <div class="form-message" ng-message="required">
-                Password is required
+            <div style="margin-top:10px;">
+                <material-button class="material-button-raised" ng-click="login($event)" ng-disabled="signinForm.$invalid">
+                    <span class="faa-spin animated" ng-if="loader['email']">
+                        <i class="fa fa-2x fa-spinner"></i>
+                    </span>
+                    <i class="fa fa-sign-in"> Sign In with Email</i>
+                </material-button>
             </div>
-            <div ng-message="pattern" class="form-message">
-                Password must contain at least one capital letter
+            <!--
+            <div>
+                <material-button class="material-button-raised material-theme-orange" disabled ng-click="authenticate('twitter')">
+                    <i class="fa">Sign in with Personna (soon)</i>
+                </material-button>
             </div>
-        </div>
-        <div style="margin-top:10px;">
-            <material-button class="material-button-raised" ng-click="login($event)" ng-disabled="signinForm.$invalid">
-                <span class="faa-spin animated" ng-if="loader['email']">
-                    <i class="fa fa-2x fa-spinner"></i>
-                </span>
-                <i class="fa fa-sign-in"> Sign In with Email</i>
-            </material-button>
-        </div>
-        <!--
-        <div>
-            <material-button class="material-button-raised material-theme-orange" disabled ng-click="authenticate('twitter')">
-                <i class="fa">Sign in with Personna (soon)</i>
-            </material-button>
-        </div>
-        -->
-        <!--
-        <div>
-            <material-button class="material-button-raised material-theme-indigo" ng-click="authenticate('github')">
-                <span class="faa-spin animated" ng-if="loader['github']">
-                    <i class="fa fa-2x fa-spinner"></i>
-                </span>
+            -->
+            <!--
+            <div>
+                <material-button class="material-button-raised material-theme-indigo" ng-click="authenticate('github')">
+                    <span class="faa-spin animated" ng-if="loader['github']">
+                        <i class="fa fa-2x fa-spinner"></i>
+                    </span>
 
-                <i class="fa fa-github">Sign in with GitHub</i>
+                    <i class="fa fa-github">Sign in with GitHub</i>
+                </material-button>
+            </div>
+            -->
+            <div style="margin-top: 10px;">
+                <material-button class="material-button-raised material-theme-red" ng-click="authenticate('google')">
+                    <i class="fa fa-google"> Sign in with Google</i>
+                </material-button>
+            </div>
+        <div style="margin-top:10px;">
+            <material-button ui-sref="signup" class="material-button-raised material-theme-green" ng-if="!currentUser">
+                <i class="fa fa-sign-in"> Register</i>
             </material-button>
         </div>
-        -->
-        <div style="margin-top: 10px;">
-            <material-button class="material-button-raised material-theme-red" ng-click="authenticate('google')">
-                <i class="fa fa-google"> Sign in with Google</i>
-            </material-button>
-        </div>
-    <div style="margin-top:10px;">
-        <material-button ui-sref="signin" class="material-button-raised material-theme-green" ng-if="!currentUser">
-            <i class="fa fa-sign-in"> Register</i>
-        </material-button>
-    </div>
-        <br/>
-        <div>
-            <material-button ng-click="forgotPass()">
-                Forgot your password?
-            </material-button>
-        </div>
-    </form>
-    <div ng-if="resetPassForm" layout="vertical">
-        <div layout="horizontal" layout-align="end end">
-            <material-input-group flex>
-                <label for="emailR">Email account</label>
-                <material-input id="emailR" type="email" ng-model="resetPass.email" />
+            <br/>
+            <div>
+                <material-button ng-click="forgotPass()">
+                    Forgot your password?
+                </material-button>
+            </div>
+        </form>
+        <div ng-if="resetPassForm" layout="vertical">
+            <div layout="horizontal" layout-align="end end">
+                <material-input-group flex>
+                    <label for="emailR">Email account</label>
+                    <material-input id="emailR" type="email" ng-model="resetPass.email" />
+                </material-input-group>
+                <i class="fa fa-2x fa-envelope my-btn"></i>
+            </div>
+            <material-input-group>
+                <label for="token">Token you have received by mail</label>
+                <material-input id="token" type="text" ng-model="resetPass.token" />
             </material-input-group>
-            <i class="fa fa-2x fa-envelope my-btn"></i>
-        </div>
-        <material-input-group>
-            <label for="token">Token you have received by mail</label>
-            <material-input id="token" type="text" ng-model="resetPass.token" />
-        </material-input-group>
-        <div layout="horizontal" layout-align="end end">
-            <material-input-group flex>
-                <label for="new-password">New password</label>
-                <material-input id="new-password" type="password" ng-model="resetPass.email" />
-            </material-input-group>
-            <i class="fa fa-2x fa-share my-btn"></i>
+            <div layout="horizontal" layout-align="end end">
+                <material-input-group flex>
+                    <label for="new-password">New password</label>
+                    <material-input id="new-password" type="password" ng-model="resetPass.email" />
+                </material-input-group>
+                <i class="fa fa-2x fa-share my-btn"></i>
+            </div>
         </div>
     </div>
 </section>

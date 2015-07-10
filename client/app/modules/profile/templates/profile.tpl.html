@@ -13,10 +13,13 @@
         <material-button class="material-button-fab material-theme-green" ng-click="follow()" style="bottom:-24px;position:absolute; right:20px;z-index : inherit" ng-if="!isOwner">
             <i class="fa" ng-class="{ 'fa-thumbs-up' : !isFollowing, 'fa-thumbs-down' : isFollowing }"></i>
         </material-button>
-        <material-button ng-click="signout()" layout layout-align="center center">
+    </material-toolbar>
+    <br>
+    <a href="" layout-align="center" style="text-align: right; margin-right: 10px;">
+        <material-button id="signout" class="material-button-raised material-theme-red" ng-click="signout()" >
             <i class="fa fa-sign-out">Signout</i>
         </material-button>
-    </material-toolbar>
+    </a>
     <material-content flex>
         <showtags entity="profile" style="margin-left: 50px;"></showtags>
         <h3>Presentation</h3>
