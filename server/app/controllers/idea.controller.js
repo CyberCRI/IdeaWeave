@@ -88,9 +88,6 @@ exports.create = function(req, res) {
         });
         console.log("Saving notification...");
         return myNotif.saveQ().then(function(notif) {
-            console.log("Saving notification.");
-            io.sockets.emit('newIdea', notif);
-            console.log("Sent notification.");
             res.json(idea);
         }).then(function() {
             // Create 1st discussion

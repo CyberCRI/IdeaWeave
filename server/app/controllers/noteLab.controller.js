@@ -9,9 +9,7 @@ var fs = require('fs'),
     Project = mongoose.model('Project'),
     Challenge = mongoose.model('Challenge'),
     Idea = mongoose.model('Idea'),
-    Notification = mongoose.model('Notification'),
-    io = require('../../server').io;
-
+    Notification = mongoose.model('Notification');
 
 // NOTES
 
@@ -79,7 +77,6 @@ exports.createNote = function(req,res){
         });
 
         return notification.saveQ().then(function(notif){
-            //io.sockets.in('project::'+req.body.project).emit('url',notif);
             res.json(200, data[0]);
         });
     }).fail(function(err) {
@@ -107,7 +104,6 @@ exports.updateNote = function(req,res){
             });
 
             return notification.saveQ().then(function(notif){
-                //io.sockets.in('project::'+req.body.project).emit('url',notif);
                 res.json(200, newNote);
             });
         });
@@ -143,7 +139,6 @@ exports.removeNote = function(req,res){
             });
 
             return notification.saveQ().then(function(notif) {
-                //io.sockets.in('project::'+req.body.project).emit('url',notif);            res.send(200);
                 res.send(200);
             });
         });
@@ -210,7 +205,6 @@ exports.createComment = function(req,res){
             });
 
             return notification.saveQ().then(function(notif){
-                //io.sockets.in('project::'+req.body.project).emit('url',notif);
                 res.json(200, commentData);
             });
         });
@@ -243,7 +237,6 @@ exports.updateComment = function(req,res){
             });
 
             return notification.saveQ().then(function(notif){
-                //io.sockets.in('project::'+req.body.project).emit('url',notif);
                 res.json(200, commentData);
             });
         });
@@ -271,7 +264,6 @@ exports.removeComment = function(req,res){
             });
 
             return notification.saveQ().then(function(notif){
-                //io.sockets.in('project::'+req.body.project).emit('url',notif);
                 res.send(200);
             });
         });
