@@ -4,15 +4,13 @@
             Current Team
         </h2>
         <div ng-if="project.members.length == 0 || !project.members" class="center">
-            You're alone in your project. Lets invite some folks!
+            You're alone in your project. But don't despair, just get some friends to join!
         </div>
-        <div>
-            <material-button ng-click="inviteModal($event)" style="width:100%">
-                Invite some people
-            </material-button>
-        </div>
-        <div ng-if="project.members.length > 0">
-            <user-card admin="true" style="width:250px;" delete="ban" inline-block ng-repeat="member in project.members" user-id="member"></user-card>
+        <div layout="horizontal">
+            <div ng-repeat="member in project.members" layout="vertical" style="width:250px;">
+                <user-card inline-block user-id="member._id"></user-card>
+                <material-button ng-click="ban(member._id)"><i class="fa fa-2x fa-ban"></i> Ban</material-button>
+            </div>
         </div>
     </section>
     <section layout="vertical" flex-md="40">
