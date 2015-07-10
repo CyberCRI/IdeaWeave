@@ -64,42 +64,7 @@ angular.module('cri', [
         $scope.closeToast = function() {
             $hideToast();
         };
-    }]).controller('RightNavCtrl',function($scope,$materialSidenav,$auth,Notification,$rootScope){
-        var rightNav = $materialSidenav('right');
-        $scope.sideNavTemplateUrl = "";
-
-        $scope.$on('toggleRight',function(e,type){
-            switch(type){
-                case 'login':
-                    $scope.sideNavTemplateUrl = 'modules/auth/templates/signin.tpl.html';
-                    rightNav.toggle();
-                    break;
-                case 'menu':
-                    $scope.sideNavTemplateUrl = 'modules/header/templates/menu.tpl.html';
-                    rightNav.toggle();
-                    break;
-            }
-        });
-        $scope.toggleRight = function(){
-            rightNav.toggle();
-        };
-        $scope.$on('showLogin',function(){
-            rightNav.toggle();
-        });
-        $scope.$on('side:close-right',function(){
-            rightNav.toggle();
-        });
-        $scope.signout = function() {
-            $auth.logout();
-            $rootScope.currentUser = null;
-            rightNav.toggle();
-            Notification.display('You have been logged out');
-        }
-
-        $scope.isOpen = function() {
-            return rightNav.isOpen();
-        }
-    }).controller('LeftNavCtrl',function($scope,$materialSidenav,$state,Profile,Tag,Recommendation,$q,Project,Challenge){
+    }]).controller('LeftNavCtrl',function($scope,$materialSidenav,$state,Profile,Tag,Recommendation,$q,Project,Challenge){
         function getRecomendation(id){
             var defered = $q.defer();
             if(!$scope.currentUser) return defered.promise;
