@@ -1,26 +1,4 @@
 angular.module('cri.challenge', ['ngSanitize'])
-    .controller('chatCtrl',function($scope,Challenge,mySocket,$materialDialog){
-//        mySocket.on('chat_'+$scope.challenge._id+'::created',function(message){
-        if($scope.currentUser){
-            mySocket.socket.on('chat_'+Challenge.data._id+'::newMessage',function(message){
-                $scope.messages.push(message);
-            });
-            $scope.postMessage = function(message){
-                message.container = $scope.challenge._id;
-                message.owner = $scope.currentUser._id;
-                message.createDate = new Date().getTime();
-                mySocket.socket.emit('chat::newMessage',message);
-                $scope.messages.push(message);
-                $scope.message = "";
-            };
-        }
-
-        Challenge.getMessage(Challenge.data._id ).then(function(messages){
-            $scope.messages = messages;
-        }).catch(function(err){
-            console.log(err);
-        });
-    })
     .controller('ChallengesCtrl',function($scope,$rootScope){
         $scope.toggleLeft = function(){
             $rootScope.$broadcast('toggleLeft')

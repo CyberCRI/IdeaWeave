@@ -75,7 +75,7 @@ angular.module('cri.project',[])
                     following : $scope.project._id
                 };
                 Project.unfollow(param).then(function(result){
-                    Notification.display('you will no longuer receive notification about this');
+                    Notification.display('You will no longer be notified about this project');
                     $scope.project.followers.splice($scope.project.followers.indexOf($scope.currentUser._id),1);
                     $scope.isFollow=false;
                 }).catch(function(err){

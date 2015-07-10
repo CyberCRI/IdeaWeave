@@ -43,7 +43,7 @@ angular.module('cri', [
 //        dev
 
     }])
-    .run(['Profile','mySocket','$rootScope','$auth', function (Profile,mySocket,$rootScope,$auth) {
+    .run(function (Profile,mySocket,$rootScope,$auth) {
         // If there is no user signed in by default, don't grab the profile which will end up redirecting to /login
         if(!$auth.getToken()) return;
 
@@ -59,7 +59,7 @@ angular.module('cri', [
         }).catch(function(err){
             console.log('err',err)
         });
-    }])
+    })
     .controller('ToastCtrl',['$scope','$hideToast',function($scope, $hideToast) {
         $scope.closeToast = function() {
             $hideToast();
