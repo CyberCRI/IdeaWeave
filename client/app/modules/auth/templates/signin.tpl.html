@@ -55,6 +55,11 @@
                 <i class="fa fa-google"> Sign in with Google</i>
             </material-button>
         </div>
+    <div style="margin-top:10px;">
+        <material-button ui-sref="signin" class="material-button-raised material-theme-green" ng-if="!currentUser">
+            <i class="fa fa-sign-in"> Register</i>
+        </material-button>
+    </div>
         <br/>
         <div>
             <material-button ng-click="forgotPass()">

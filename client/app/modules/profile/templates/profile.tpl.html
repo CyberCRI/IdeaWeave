@@ -13,6 +13,9 @@
         <material-button class="material-button-fab material-theme-green" ng-click="follow()" style="bottom:-24px;position:absolute; right:20px;z-index : inherit" ng-if="!isOwner">
             <i class="fa" ng-class="{ 'fa-thumbs-up' : !isFollowing, 'fa-thumbs-down' : isFollowing }"></i>
         </material-button>
+        <material-button ng-click="signout()" layout layout-align="center center">
+            <i class="fa fa-sign-out">Signout</i>
+        </material-button>
     </material-toolbar>
     <material-content flex>
         <showtags entity="profile" style="margin-left: 50px;"></showtags>

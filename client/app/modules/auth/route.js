@@ -19,5 +19,14 @@ angular.module('cri.auth')
                         controller: 'ActivateCtrl'
                     }
                 }
+            })
+            .state('signin',{
+                url : '/auth/signin',
+                views : {
+                    mainView: {
+                        templateUrl: 'modules/auth/templates/signin.tpl.html',
+                        controller: 'LoginCtrl'
+                    }
+                }
             });
     }]);

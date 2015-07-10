@@ -89,12 +89,6 @@ angular.module('cri', [
         $scope.$on('side:close-right',function(){
             rightNav.toggle();
         });
-        $scope.signout = function() {
-            $auth.logout();
-            $rootScope.currentUser = null;
-            rightNav.toggle();
-            Notification.display('You have been logged out');
-        }
 
         $scope.isOpen = function() {
             return rightNav.isOpen();

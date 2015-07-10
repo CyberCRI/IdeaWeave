@@ -1,5 +1,5 @@
 angular.module('cri.profile',[])
-    .controller('ProfileCtrl',function ($scope,Notification,profile,Profile,Recommendation,$state,$sce,activities,$rootScope,$q) {
+    .controller('ProfileCtrl',function ($scope,$auth,Notification,profile,Profile,Recommendation,$state,$sce,activities,$rootScope,$q) {
         $scope.profile = profile.data;
         $scope.moreData = profile.moreData;
         $scope.activities = [];
@@ -12,6 +12,13 @@ angular.module('cri.profile',[])
            activity.createDate = new Date(activity.createDate).toISOString();
             $scope.activities.push(activity);
         });
+
+        $scope.signout = function() {
+            $auth.logout();
+            $rootScope.currentUser = null;
+            rightNav.toggle();
+            Notification.display('You have been logged out');
+        }
 
         if($scope.profile.brief){
             $scope.profile.secureBrief = $sce.trustAsHtml($scope.profile.brief);
