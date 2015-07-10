@@ -336,11 +336,18 @@ exports.popularIdeas = function(req, res) {
     // TODO: maintain like count in DB in order to sort by it 
 
     // Get ideas that have not been liked or disliked by the user
-    Idea.findQ({ $and: [ { likerIds: { $nin: [ req.user._id ] } }, { dislikerIds: { $nin: [ req.user._id ] } } ] })
+    Idea.find({ $and: [ { likerIds: { $nin: [ req.user._id ] } }, { dislikerIds: { $nin: [ req.user._id ] } }, { owner: { $nin: [ req.user._id ] } } ] })
+    .populate('owner')
+    .execQ()
     .then(function(ideas) {
         // Sort ideas based on length of liker array
         var sortedIdeas =  _.sortBy(ideas, function(idea) { return -idea.likerIds.length; } );
-        res.json(sortedIdeas);
+        if(sortedIdeas.length > 0) {
+            res.json(sortedIdeas[0]);
+        }
+        else {
+            res.json(null);
+        }
     })
     .fail(function(err) {
         res.json(500, err);
