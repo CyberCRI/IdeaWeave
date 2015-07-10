@@ -331,19 +331,18 @@ exports.removeLink = function(req, res) {
     });
 };
 
-exports.popularIdea = function(req, res) {
-    Idea.find()
-    .execQ()
-    .then(function(idea) {
-        if(idea.length > 0) {
-            console.log("in if");
-            res.json(idea[0]);
-        }
-        else {
-            console.log("in else");
-            res.json(null);
-        }
-    }).fail(function(err) {
+exports.popularIdeas = function(req, res) {
+    // Get unrated ideas sorted by descending popularity (# likes)
+    // TODO: maintain like count in DB in order to sort by it 
+
+    // Get ideas that have not been liked or disliked by the user
+    Idea.findQ({ $and: [ { likerIds: { $nin: [ req.user._id ] } }, { dislikerIds: { $nin: [ req.user._id ] } } ] })
+    .then(function(ideas) {
+        // Sort ideas based on length of liker array
+        var sortedIdeas =  _.sortBy(ideas, function(idea) { return -idea.likerIds.length; } );
+        res.json(sortedIdeas);
+    })
+    .fail(function(err) {
         res.json(500, err);
     });
 };

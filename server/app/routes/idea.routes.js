@@ -11,7 +11,7 @@ module.exports = function(app) {
         .get(idea.fetch)
         .post(utils.ensureAuthenticated, idea.create);
     
-    app.get('/ideas/popular', idea.popularIdea);
+    app.get('/ideas/popular', utils.ensureAuthenticated, idea.popularIdeas);
 
     app.get('/ideas/:id/tags', idea.tagList);
 
