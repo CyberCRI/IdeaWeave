@@ -245,12 +245,15 @@ exports.getIdeas = function(req, res) {
 
 exports.getLikes = function(req, res) {
     var likes = [];
-    Idea.findQ().then(function(ideas) {
+    Idea.find()
+        .populate('owner')
+        .execQ()
+    .then(function(ideas) {
         for(var i = 0; i < ideas.length; i++) {
             var ids = ideas[i].likerIds;
             for(var j = 0; j < ids.length; j++) {
                 if(ids[j] == req.params.id) {
-                    likes.push(ideas[i].id);
+                    likes.push(ideas[i]);
                     break;
                 };
             };

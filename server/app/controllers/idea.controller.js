@@ -19,9 +19,6 @@ function canModifyIdea(user, idea) {
 
 exports.fetchOne = function(req, res) {
     Idea.findOne({_id : req.params.id})
-        .populate('tags')
-        .populate('followers')
-        .populate('owner')
         .execQ().then(function(idea) {
             res.json(idea);
         }).fail(function(err) {
@@ -186,27 +183,36 @@ exports.unfollow = function(req, res) {
 
 exports.like = function(req, res) {
     Idea.findOneQ({_id : req.params.id}).then(function(idea) {
-        if(idea.owner != req.body.liker && idea.likerIds.indexOf(req.body.liker) < 0) {
+        if(idea.owner != req.user._id && idea.likerIds.indexOf(req.user._id) < 0) {
             Idea.findOneAndUpdateQ({_id : req.params.id}, 
-                {$push : {likerIds : req.body.liker}, 
-                $pull : {dislikerIds : req.body.liker}}).then(function(updated) {
-                    var myNotif = new Notification({
-                        type : 'like',
-                        owner : req.user._id,
-                        entity : idea._id,
-                        entityType : 'idea'
-                    });
-                    myNotif.saveQ().then(function() {
-                        res.json(updated);
-                    });
-                }).fail(function(err) {
-                    res.json(400, err);
+            {$push : {likerIds : req.user._id}, 
+            $pull : {dislikerIds : req.user._id}}).then(function(updated) {
+                var myNotif = new Notification({
+                    type : 'like',
+                    owner : req.user._id,
+                    entity : idea._id,
+                    entityType : 'idea'
                 });
+                myNotif.saveQ().then(function() {
+                    res.json(updated);
+                });
+            }).fail(function(err) {
+                res.json(400, err);
+            });
         }
         else {
-            res.json("already liked");
+            res.json(idea);
         };
     });
+};
+
+exports.deleteLike = function(req, res) {
+    Idea.findOneAndUpdateQ({_id : req.params.id}, 
+        {$pull : {likerIds : req.user._id}}).then(function(updated) {
+            res.json(updated);
+        }).fail(function(err) {
+            res.json(400, err);
+        });
 };
 
 exports.getLikes = function(req, res) {
@@ -221,13 +227,13 @@ exports.getLikes = function(req, res) {
 
 exports.dislike = function(req, res) {
     Idea.findOneQ({_id : req.params.id}).then(function(idea) {
-        if(idea.owner != req.body.disliker && idea.dislikerIds.indexOf(req.body.disliker) < 0) {
+        if(idea.owner != req.query.disliker && idea.dislikerIds.indexOf(req.query.disliker) < 0) {
             Idea.findOneAndUpdateQ({_id : req.params.id}, 
-                {$push : {dislikerIds : req.body.disliker}, 
-                $pull : {likerIds : req.body.disliker}}).then(function(updated) {
+                {$push : {dislikerIds : req.query.disliker}, 
+                $pull : {likerIds : req.query.disliker}}).then(function(updated) {
                     var myNotif = new Notification({
                         type : 'dislike',
-                        owner : req.user._id,
+                        owner : req.query.disliker,
                         entity : idea._id,
                         entityType : 'idea'
                     });
@@ -239,7 +245,7 @@ exports.dislike = function(req, res) {
                 });
         }
         else {
-            res.json("already disliked");
+            res.json(idea);
         };
     });
 };
@@ -251,6 +257,22 @@ exports.getDislikes = function(req, res) {
             count = idea.dislikerIds.length.toString();
         }
         res.json(count);
+    });
+};
+
+exports.getRatings = function(req, res) {
+    Idea.findOneQ({_id : req.params.id}).then(function(idea) {
+        var countLike = 0;
+        var countDislike = 0;
+        if(typeof idea.likerIds != 'undefined' && idea.likerIds.length > 0) {
+            countLike = idea.likerIds.length.toString();
+        };
+        if(typeof idea.dislikerIds != 'undefined' && idea.dislikerIds.length > 0) {
+            countDislike = idea.dislikerIds.length.toString();
+        };
+        res.json([countLike, countDislike]);
+    }).fail(function(err) {
+        res.json(400, err);
     });
 };
 
@@ -304,4 +326,43 @@ exports.removeLink = function(req, res) {
     }).fail(function(err) {
         res.json(400, err);
     });
+};
+
+exports.popularIdeas = function(req, res) {
+    // Get unrated ideas sorted by descending popularity (# likes)
+    // TODO: maintain like count in DB in order to sort by it 
+
+    // Get ideas that have not been liked or disliked by the user
+    Idea.find({ $and: [ { likerIds: { $nin: [ req.user._id ] } }, { dislikerIds: { $nin: [ req.user._id ] } }, { owner: { $nin: [ req.user._id ] } } ] })
+    .populate('owner')
+    .execQ()
+    .then(function(ideas) {
+        // Sort ideas based on length of liker array
+        var sortedIdeas =  _.sortBy(ideas, function(idea) { return -idea.likerIds.length; } );
+        if(sortedIdeas.length > 0) {
+            res.json(sortedIdeas[0]);
+        }
+        else {
+            res.json(null);
+        }
+    })
+    .fail(function(err) {
+        res.json(500, err);
+    });
+};
+
+exports.tagList = function(req, res) {
+    Idea.findOne({_id : req.params.id})
+    .populate('tags')
+    .execQ()
+    .then(function(idea) {
+        var result = [];
+        for (var i = 0; i < idea.tags.length; i++) {
+            result[i] = idea.tags[i].title;
+        }
+        res.json(result);
+    }).fail(function(err) {
+        res.json(400, err);
+    });
+
 };
