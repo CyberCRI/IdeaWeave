@@ -333,6 +333,7 @@ exports.removeLink = function(req, res) {
 
 exports.popularIdea = function(req, res) {
     Idea.find()
+    .populate('owner')
     .execQ()
     .then(function(idea) {
         if(idea.length > 0) {
