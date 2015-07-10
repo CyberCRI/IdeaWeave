@@ -16,7 +16,6 @@ angular.module('cri.profile',[])
         $scope.signout = function() {
             $auth.logout();
             $rootScope.currentUser = null;
-            rightNav.toggle();
             Notification.display('You have been logged out');
         }
 
