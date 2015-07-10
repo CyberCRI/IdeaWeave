@@ -13,12 +13,6 @@ angular.module('cri.profile',[])
             $scope.activities.push(activity);
         });
 
-        $scope.signout = function() {
-            $auth.logout();
-            $rootScope.currentUser = null;
-            Notification.display('You have been logged out');
-        }
-
         if($scope.profile.brief){
             $scope.profile.secureBrief = $sce.trustAsHtml($scope.profile.brief);
         }

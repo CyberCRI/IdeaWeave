@@ -74,6 +74,12 @@
                         <p> {{ currentUser.realname || currentUser.username }}</p>
                     </div>
                 </material-button>
+                <material-button ui-sref="feed" ng-if="currentUser">
+                    <i class="fa fa-flag"></i>
+                </material-button>
+                <material-button ng-if="currentUser" id="signout" class="material-button-raised material-theme-red" ng-click="signout()" >
+                    <i class="fa fa-sign-out">Signout</i>
+                </material-button>
                 <div hide-md flex style="text-align: center">
                     <a style="cursor : pointer;padding-top: 0px;"  ui-sref="home">
                         <img src="images/svg/logoheader.svg" height="50px" alt="IdeaWeaves"/>
