@@ -314,14 +314,6 @@ exports.changePassword = function(req, res, next) {
 };
 
 /**
- * Signout
- */
-exports.signout = function(req, res) {
-	req.logout();
-	res.redirect('/');
-};
-
-/**
  * Send User
  */
 exports.me = function(req, res) {

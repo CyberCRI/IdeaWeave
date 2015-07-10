@@ -5,7 +5,7 @@
     </section>
     <div class="row center" style="margin-top: 60px;padding-bottom: 30px;">
         <div class="btn-group">
-            <material-button class="material-button-colored" ng-click="openApplyModal()">Join Project</material-button>
+            <material-button class="material-button-colored" ng-click="openApplyModal()" ng-if="!isOwner && !isMember">Join Project</material-button>
             <material-button class="material-button-colored" ng-click="openShare()">Promote Project</material-button>
         </div>
     </div>
