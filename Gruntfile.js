@@ -70,7 +70,7 @@ module.exports = function(grunt) {
                 options: {
                     host: deployConfig.username + "@" + deployConfig.host,
                     src: "server/*",
-                    exclude: ["node_modules", "db"],
+                    exclude: ["node_modules", "db", "public"],
                     dest: deployConfig.path + "/server",
                     recursive: true,
                     syncDestIgnoreExcl: true
