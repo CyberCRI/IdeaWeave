@@ -53,9 +53,6 @@
             </ui-select>
         </div>
         <div ng-messages="signupForm.read.$error" ng-if="!signupForm.passwordR.$pristine">
-            <div ng-message="required" class="form-message">
-                you must check the box
-            </div>
         </div>
         <material-button style="width:100%;" class="material-button-raised" type="submit" ng-disabled="signupForm.$invalid">Register</material-button>
     </form>
