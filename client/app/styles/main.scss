@@ -90,4 +90,8 @@ header{
   display: block;
 }
 
+.cursor-hand {
+  cursor: pointer;
+}
+
 @import "../modules/common/sass/media-queries";

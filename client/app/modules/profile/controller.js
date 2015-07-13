@@ -1,5 +1,5 @@
 angular.module('cri.profile',[])
-    .controller('ProfileCtrl',function ($scope,Notification,profile,Profile,Recommendation,$state,$sce,activities,$rootScope,$q) {
+    .controller('ProfileCtrl',function ($scope,$auth,Notification,profile,Profile,Recommendation,$state,$sce,activities,$rootScope,$q) {
         $scope.profile = profile.data;
         $scope.moreData = profile.moreData;
         $scope.activities = [];

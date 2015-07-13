@@ -11,6 +11,10 @@ module.exports = function(app) {
         .get(idea.fetch)
         .post(utils.ensureAuthenticated, idea.create);
     
+    app.get('/ideas/popular', utils.ensureAuthenticated, idea.popularIdeas);
+
+    app.get('/ideas/:id/tags', idea.tagList);
+
     app.route('/ideas/:id')
         .get(idea.fetchOne)
         .put(utils.ensureAuthenticated, idea.update)
@@ -23,10 +27,12 @@ module.exports = function(app) {
     
     app.route('/ideas/:id/like')
         .get(idea.getLikes)
-        .put(utils.ensureAuthenticated, idea.like);
+        .put(utils.ensureAuthenticated, idea.like)
+        .delete(utils.ensureAuthenticated, idea.deleteLike);
     app.route('/ideas/:id/dislike')
         .get(idea.getDislikes)
         .put(utils.ensureAuthenticated, idea.dislike);
+    app.get('/ideas/:id/ratings', idea.getRatings);
 
     app.route("/ideas/:id/link")
         .post(utils.ensureAuthenticated, idea.createLink)

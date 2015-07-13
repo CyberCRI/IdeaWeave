@@ -68,17 +68,24 @@
                     </a>
                 </div>
                <search-bar hide block-md flex></search-bar>
+               <material-button ui-sref="signin" class="material-button-raised" ng-if="!currentUser">
+                    <i class="fa fa-sign-in"> Sign In</i>
+                </material-button>
+                <material-button ui-sref="profile({ uid : currentUser._id })" class="cursor-hand" id="miniProfil" ng-if="currentUser">
+                    <div div layout="horizontal" layout-align="center center">
+                        <img ng-src="{{ currentUser.poster || 'images/avater.jpg' }}" alt="{{ currentUser.username }}'s photo" class="img-rounded"/>
+                        <p> {{ currentUser.realname || currentUser.username }}</p>
+                    </div>
+                </material-button>
+                <material-button ui-sref="feed" ng-if="currentUser">
+                    <i class="fa fa-flag"></i>
+                </material-button>
+                <material-button ng-if="currentUser" id="signout" class="material-button-raised material-theme-red" ng-click="signout()" >
+                    <i class="fa fa-sign-out">Signout</i>
+                </material-button>
                 <div hide-md flex style="text-align: center">
                     <a style="cursor : pointer;padding-top: 0px;"  ui-sref="home">
                         <img src="images/svg/logoheader.svg" height="50px" alt="IdeaWeaves"/>
-                    </a>
-                </div>
-                <div>
-                    <a href="">
-                        <i class="fa fa-caret-left fa-2x" ng-click="toggleRight('menu')" ng-if="currentUser"></i>
-                    </a>
-                    <a href="">
-                        <i class="fa fa-sign-in fa-2x" ng-click="toggleRight('login')" ng-if="!currentUser"></i>
                     </a>
                 </div>
             </div>
@@ -97,20 +104,6 @@
         </section>
     </div>
 
-    <material-sidenav class="material-sidenav-right material-whiteframe-z2" component-id="right" layout="vertical" ng-show="rightSidenavIsOpen()">
-        <div ng-controller="RightNavCtrl">
-            <material-toolbar layout="horizontal">
-                <div class="material-toolbar-tools">
-                    <div flex>
-                        <img src="images/svg/notification.svg" alt="notifications !"  ng-if="sideNavTemplateUrl == 'modules/header/templates/notifications.tpl.html'"/>
-                        <img src="images/svg/login.svg" alt="notifications !"  ng-if="sideNavTemplateUrl == 'modules/auth/templates/signin.tpl.html'"/>
-                    </div>
-                    <i class="fa fa-caret-right fa-2x my-btn" style="color:black;" ng-click="toggleRight()"></i>
-                </div>
-            </material-toolbar>
-            <div ng-include="sideNavTemplateUrl" flex layout layout-fill></div>
-        </div>
-    </material-sidenav>
 
     <script src="vendors/tinymce-dist/tinymce.min.js"></script>
     <script src="vendors/tinymce-dist/themes/modern/theme.min.js"></script>
@@ -234,7 +227,6 @@
     <script src="modules/idea/route.js"></script>
     <script src="modules/idea/services.js"></script>
     <script src="modules/idea/directives/ideaCard/directives.js"></script>
-    <script src="modules/idea/directives/ideaInfo/directives.js"></script>
     <!-- endbuild -->
 
     <script type="text/javascript">

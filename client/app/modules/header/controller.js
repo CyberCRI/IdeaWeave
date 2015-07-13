@@ -1,6 +1,6 @@
 angular.module('cri.header',[])
 
-    .controller('HeaderCtrl',['$scope','$state','Notification','SearchBar','$auth','$rootScope',function($scope,$state,Notification,SearchBar,$materialSidenav,$rootScope){
+    .controller('HeaderCtrl',function($scope,$auth,$state,Notification,SearchBar,$materialSidenav,$rootScope){
 
         $scope.sideNavToggle = function(event){
             $rootScope.$broadcast(event);
@@ -19,6 +19,12 @@ angular.module('cri.header',[])
                 });
             }
         };
+
+        $scope.signout = function() {
+            $auth.logout();
+            $rootScope.currentUser = null;
+            Notification.display('You have been logged out');
+        }
 
         $scope.goTo = function(result){
             switch(result.type) {
@@ -41,4 +47,4 @@ angular.module('cri.header',[])
                     throw new Error("Cannot goto type " + type);
             }
         };
-    }]);
+    });

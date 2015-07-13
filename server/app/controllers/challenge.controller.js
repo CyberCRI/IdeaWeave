@@ -163,9 +163,6 @@ exports.create = function(req,res){
         });
         console.log("Saving notification...");
         myNotif.saveQ().then(function(notif){
-            console.log("Saving notification.");
-            io.sockets.emit('newChallenge',notif);
-            console.log("Sent notification.");
             res.json(data);
         }).fail(function(err) {
             res.json(500, err);

@@ -6,6 +6,8 @@ angular.module('cri.auth',[
 
         $authProvider.loginUrl = Config.apiServer+'/auth/login';
         $authProvider.signupUrl = Config.apiServer+'/auth/signup';
+        $authProvider.signupRedirect = "/auth/signin";
+        $authProvider.loginOnSignup = false;
 
         $authProvider.google({
             url: Config.apiServer+'/auth/google',
@@ -129,18 +131,13 @@ angular.module('cri.auth',[
             });
         };
 
-        $scope.cancel = function(){
-            $state.go('challenges');
-        };
-
         $scope.registerUser = function (user) {
             if ($scope.check.password !== user.password) {
-                $scope.notMatch = true;
+                Notification.display("The passwords do not match");
             } else {
-                $scope.notMatch = false;
                 $auth.signup(user);
                 Notification.display("Welcome, you can login now");
-                $scope.$emit('showLogin');
+                $state.go('signin');
             }
         };
 
