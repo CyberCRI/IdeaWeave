@@ -107,8 +107,9 @@ angular.module('cri.admin.profile',['cri.profile'])
                     }]
                 });
             };
-            $scope.updateProfile=function(user){
-                Profile.update($scope.currentUser._id,user).then(function(data){
+
+            $scope.updateProfile=function(){
+                Profile.update($scope.currentUser._id, $scope.profile).then(function(data){
                     Notification.display('Updated successfully');
                     $rootScope.currentUser = data; // update the current user 
                 }).catch(function(err){

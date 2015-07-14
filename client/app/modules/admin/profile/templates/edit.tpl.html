@@ -25,13 +25,13 @@
                     <h3 class="center">Notifications</h3>
                 </header>
                 <section>
-                    <material-checkbox ng-model="profileN.emailNotify">
-                        E-mail notifications ?
+                    <material-checkbox ng-model="profile.liveNotification">
+                        Live
                     </material-checkbox>
-                    <material-checkbox ng-model="profileN.clasicNotify">
-                        Classic notifications ?
+                    <material-checkbox ng-model="profile.mailNotification">
+                        Email
                     </material-checkbox>
-                    <material-button class="material-button-raised" ng-click="updateProfile(profileN)" style="width:100%;">
+                    <material-button class="material-button-raised" ng-click="updateProfile()" style="width:100%;">
                         Save
                     </material-button>
                 </section>
