@@ -1,6 +1,6 @@
 angular.module('cri.header',[])
 
-    .controller('HeaderCtrl',function($scope,$auth,$state,Notification,SearchBar,$materialSidenav,$rootScope){
+    .controller('HeaderCtrl',function($scope,$auth,$state,Notification,SearchBar,$materialSidenav,$rootScope,mySocket){
 
         $scope.sideNavToggle = function(event){
             $rootScope.$broadcast(event);
@@ -23,6 +23,7 @@ angular.module('cri.header',[])
         $scope.signout = function() {
             $auth.logout();
             $rootScope.currentUser = null;
+            mySocket.socket.disconnect();
             Notification.display('You have been logged out');
         }
 
