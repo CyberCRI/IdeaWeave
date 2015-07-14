@@ -10,8 +10,6 @@ angular.module('cri.project',[])
             $rootScope.$broadcast('toggleLeft');
         };
 
-        $scope.proccess = ($scope.project.score/9).toFixed(2);
-
 //        $scope.d3Tags = [];
 //        angular.forEach($scope.project.tags,function(v,k){
 //            $scope.d3Tags.push({

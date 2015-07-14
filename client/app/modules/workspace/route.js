@@ -11,7 +11,7 @@ angular.module('cri.workspace')
                 },
                 resolve: {
                     project: function(Project,$stateParams){
-                        return Project.fetch({ accessUrl : $stateParams.pid });
+                        return Project.fetch({ accessUrl : decodeURIComponent($stateParams.pid) });
                     }
                 }
             })
