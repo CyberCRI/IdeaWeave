@@ -99,20 +99,27 @@ function sendNotification(notification) {
     // Send around to only those interested
     getUserIdsToNotify(notification)
     .then(function(userIds) {
-        console.log("User IDs", userIds, "owner", notification.owner);
+        // console.log("User IDs", userIds, "owner", notification.owner);
         var cleanUserIds = cleanUpUserIds(notification.owner.toString(), userIds);
         console.log("Sending notification to users", cleanUserIds);
 
         _.forEach(cleanUserIds, function(userId) {
-            if(!userIdToSocketIds.hasOwnProperty(userId)) {
-                console.log("User", userId, "is not connected")
-            } else {
-                var socketIds = userIdToSocketIds[userId];
-                console.log("Sending notification to sockets", socketIds);
-                _.forEach(socketIds, function(socketId) {
-                    io.sockets.to(socketId).emit('notification', notification);
-                });
-            }
+            User.findOneQ({ _id: userId }).then(function(user) { 
+                if(!userIdToSocketIds.hasOwnProperty(userId)) {
+                    console.log("User", userId, "is not connected");
+
+                    // TODO: send email if preferences allow
+                } else {
+                    // Only send notifications if the user wants them
+                    if(!user.liveNotification) return; 
+
+                    var socketIds = userIdToSocketIds[userId];
+                    console.log("Sending notification to sockets", socketIds);
+                    _.forEach(socketIds, function(socketId) {
+                        io.sockets.to(socketId).emit('notification', notification);
+                    });
+                }
+            });
         });
     })
     .fail(function(err) {
