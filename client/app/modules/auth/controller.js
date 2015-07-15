@@ -26,7 +26,6 @@ angular.module('cri.auth',[
             $scope.loader[provider] = true;
             $auth.authenticate(provider).then(Profile.getMe).then(function(me) {
                 $rootScope.currentUser = me;
-                $rootScope.$broadcast('side:close-right');
                 if($rootScope.currentUser.email){
                     Notification.display("Welcome you're logged in");
                 }else{
@@ -72,14 +71,14 @@ angular.module('cri.auth',[
             if(!$scope.signin) return false; // Can occur if the form is empty
 
             $scope.loader.email = true;
-            $auth.login({ email : $scope.signin.email, password : $scope.signin.password }).then(Profile.getMe).then(function (me) {
+            $auth.login({ email : $scope.signin.email, password : $scope.signin.password })
+            .then(Profile.getMe)
+            .then(function (me) {
                 $rootScope.currentUser = me; 
                 
                 Notification.display("Welcome, you're logged in");
-                $scope.signin = {};
-                $state.go('home');
                 mySocket.init($scope.currentUser);
-                $scope.$emit('side:close-right');
+                $state.go('home');
             }).catch(function (err) {
                 Notification.display(err.data && err.data.message || "An unknown error has occured");
             }).finally(function(){

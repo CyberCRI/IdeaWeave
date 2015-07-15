@@ -1,9 +1,6 @@
 angular.module('cri.common')
-.factory('Notification', function($window/*, $mdToast*/){
+.factory('Notification', function($window, $mdToast){
         var service = {
-            authorize : function(){
-
-            },
             display : function(message) {
                 $mdToast.show({
                     controller: function($scope) {
