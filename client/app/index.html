@@ -77,9 +77,10 @@
                         <p> {{ currentUser.realname || currentUser.username }}</p>
                     </div>
                 </material-button>
-                <material-button ui-sref="feed" ng-if="currentUser">
+                <a ui-sref="feed" class="top-bar-icon" ng-if="currentUser">
                     <i class="fa fa-flag"></i>
-                </material-button>
+                    <div class="tooltip-topbar-icon">notifications</div>
+                </a>
                 <material-button ng-if="currentUser" id="signout" class="material-button-raised material-theme-red" ng-click="signout()" >
                     <i class="fa fa-sign-out">Signout</i>
                 </material-button>
