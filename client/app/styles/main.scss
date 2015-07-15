@@ -11,10 +11,6 @@ $headerYellow : rgb(245,230,24);
 
 $baseColor : rgb(0, 51, 102);
 
-@import "../modules/common/sass/common";
-@import "../modules/common/sass/animation";
-@import "../modules/common/sass/md-redesign";
-@import "../modules/common/sass/form";
 @import "../modules/auth/sass/auth";
 @import "../modules/header/sass/header";
 @import "../modules/footer/sass/footer";
@@ -93,5 +89,3 @@ header{
 .cursor-hand {
   cursor: pointer;
 }
-
-@import "../modules/common/sass/media-queries";
