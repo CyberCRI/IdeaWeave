@@ -4,13 +4,12 @@ angular.module('cri', [
     'ngAnimate',
     'ngMaterial',
     'ngMessages',
-    'ui.utils',
     'ui.router',
     'ui.select',
     'ui.tinymce',
     'timer',
     'pascalprecht.translate',
-    'angularFileUpload',
+    'ngFileUpload',
     'angular-carousel',
     'ImageCropper',
     'satellizer',
@@ -64,7 +63,7 @@ angular.module('cri', [
         $scope.closeToast = function() {
             $hideToast();
         };
-    }]).controller('LeftNavCtrl',function($scope,$materialSidenav,$state,Profile,Tag,Recommendation,$q,Project,Challenge){
+    }]).controller('LeftNavCtrl',function($scope,$mdSidenav,$state,Profile,Tag,Recommendation,$q,Project,Challenge){
         function getRecomendation(id){
             var defered = $q.defer();
             if(!$scope.currentUser) return defered.promise;
@@ -104,7 +103,7 @@ angular.module('cri', [
         }
 
         function getLeftNav() { 
-            return $materialSidenav('left'); 
+            return $mdSidenav('left'); 
         }
 
 
@@ -202,8 +201,8 @@ angular.module('cri', [
         $scope.$on('side:close-left',function(){
             getLeftNav().toggle();
         });
-    }).controller('BodyCtrl', function($scope, $materialSidenav) {
+    }).controller('BodyCtrl', function($scope, $mdSidenav) {
         $scope.rightSidenavIsOpen = function() {
-            return $materialSidenav('right').isOpen();
+            return $mdSidenav('right').isOpen();
         }
     });

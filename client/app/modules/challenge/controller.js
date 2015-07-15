@@ -60,7 +60,7 @@ angular.module('cri.challenge', ['ngSanitize'])
         };
 
     })
-    .controller('ChallengeSuggestCtrl', function ($scope, Challenge,$upload,$state,Notification,Gmap,Files,Config) {
+    .controller('ChallengeSuggestCtrl', function ($scope, Challenge,Upload,$state,Notification,Gmap,Files,Config) {
         $scope.hasDuration = false;
         $scope.pform = {};
         $scope.pform.tags = [];

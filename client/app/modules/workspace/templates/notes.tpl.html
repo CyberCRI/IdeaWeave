@@ -1,29 +1,29 @@
-<material-toolbar class="material-theme-black" scroll-shrink>
+<md-toolbar class="md-theme-black" scroll-shrink>
     <div display="vertical">
         <div class="center" flex>
             {{ project.title }} workspace
         </div>
-        <material-tabs center selected="selectedTabIndex">
+        <md-tabs center selected="selectedTabIndex">
             {{ note.title }}
-            <material-tab ui-sref="workspace.etherpad">
-                <material-label>
+            <md-tab ui-sref="workspace.etherpad">
+                <md-label>
                     <i class='fa fa-file-text fa-2x'></i>
-                </material-label>
-            </material-tab>
-            <material-tab ui-sref="workspace.files">
-                <material-label>
+                </md-label>
+            </md-tab>
+            <md-tab ui-sref="workspace.files">
+                <md-label>
                     <i class='fa fa-paperclip fa-2x'></i>
-                </material-label>
-            </material-tab>
-            <material-tab ui-sref="workspace.resources">
-                <material-label>
+                </md-label>
+            </md-tab>
+            <md-tab ui-sref="workspace.resources">
+                <md-label>
                     <i class='fa fa-link fa-2x'></i>
-                </material-label>
-            </material-tab>
-        </material-tabs>
+                </md-label>
+            </md-tab>
+        </md-tabs>
     </div>
-</material-toolbar>
+</md-toolbar>
 
-<material-content flex>
+<md-content flex>
     <section ui-view="noteDetailsView" flex></section>
-</material-content>
+</md-content>

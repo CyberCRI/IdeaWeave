@@ -1,13 +1,13 @@
-<material-content layout="vertical" layout-fill>
-    <material-toolbar scroll-shrink class="material-theme-indigo" layout="vertical" style="position:relative;z-index:10;">
+<md-content layout="vertical" layout-fill>
+    <md-toolbar scroll-shrink class="md-theme-indigo" layout="vertical" style="position:relative;z-index:10;">
         <h1 class="center">
             Results for tag #{{ tag }}
         </h1>
-    </material-toolbar>
+    </md-toolbar>
 
     <div ng-if="isLoading">
         Loading...
-        <material-linear-progress mode="indeterminate"></material-linear-progress>
+        <md-linear-progress mode="indeterminate"></md-linear-progress>
     </div>
 
     <tabset ng-if="!isLoading">
@@ -124,4 +124,4 @@
             </section>
         </tab>
     </tabset>
-</material-content>
+</md-content>

@@ -1,6 +1,6 @@
 angular.module('cri.profile')
 
-    .service('Profile', ['$http', '$q','$upload','Config', function ($http, $q, $upload,Config) {
+    .service('Profile', ['$http', '$q','Upload','Config', function ($http, $q, Upload,Config) {
         var service = {
 
             getMe: function () {

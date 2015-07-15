@@ -9,7 +9,7 @@
         <div layout="horizontal">
             <div ng-repeat="member in project.members" layout="vertical" style="width:250px;">
                 <user-card inline-block user-id="member._id"></user-card>
-                <material-button ng-click="ban(member._id)"><i class="fa fa-2x fa-ban"></i> Ban</material-button>
+                <md-button ng-click="ban(member._id)"><i class="fa fa-2x fa-ban"></i> Ban</md-button>
             </div>
         </div>
     </section>
@@ -49,12 +49,12 @@
                     <div ng-hide="applyteam.status"  ><i class="fa fa-thumbs-down fa-2x"></i></div>
                 </div>
                 <div layout="vertical" flex="20" class="td">
-                    <material-button ng-hide="applyteam.status" ng-click="addToTeam(applyteam.owner,$index)" flex>
+                    <md-button ng-hide="applyteam.status" ng-click="addToTeam(applyteam.owner,$index)" flex>
                         <i class="fa fa-2x fa-check"></i>
-                    </material-button>
-                    <material-button ng-hide="applyteam.status" flex>
+                    </md-button>
+                    <md-button ng-hide="applyteam.status" flex>
                         <i class="fa fa-2x fa-ban"></i>
-                    </material-button>
+                    </md-button>
                 </div>
             </div>
         </div>

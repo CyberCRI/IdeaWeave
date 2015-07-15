@@ -1,4 +1,4 @@
-<material-card class="idea-card">
+<md-card class="idea-card">
     <a ui-sref="idea({ iid : idea._id })">
         <h4>{{ idea.title }}</h4>
     </a>
@@ -6,9 +6,9 @@
         <div>
             By:
         </div>
-        <material-button ui-sref="profile({ uid : idea.owner._id})">
+        <md-button ui-sref="profile({ uid : idea.owner._id})">
             {{ idea.owner.username }}
-        </material-button>
+        </md-button>
     </div> 
     <p class="text-muted" ng-bind="idea.brief" style="max-height:200px;overflow:hidden;" ></p>
     <showtags entity="idea"></showtags>
@@ -23,4 +23,4 @@
             </span>
         </div>
     </div>
-</material-card>
+</md-card>

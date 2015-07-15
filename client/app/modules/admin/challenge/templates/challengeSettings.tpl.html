@@ -1,14 +1,14 @@
-<material-toolbar scroll-shrink class="material-theme-indigo">
+<md-toolbar scroll-shrink class="md-theme-indigo">
     <div class="center">
         {{ challenge.title }} Settings
     </div>
-</material-toolbar>
-<material-content class="right-part">
+</md-toolbar>
+<md-content class="right-part">
     <form name="projectBasic" layout="vertical">
-        <material-input-group>
+        <md-input-group>
             <label for="title">Title</label>
-            <material-input type="text" id="title" name="title" ng-model="challenge.title" required></material-input>
-        </material-input-group>
+            <md-input type="text" id="title" name="title" ng-model="challenge.title" required></md-input>
+        </md-input-group>
         <div ng-messages="projectBasic.title.$error">
             <div ng-message="required">
                 Title is required
@@ -16,47 +16,47 @@
         </div>
         <textarea placeholder="A brief description of your project" rows="5" ng-model="challenge.brief" class="pretty-area"></textarea>
         <tag-manager entity="challenge" ng-model="challenge.tags"></tag-manager>
-        <material-button class="material-theme-indigo"  ng-click="updateChallenge()" style="margin:auto;" ng-disabled="projectBasic.title.$invalid">
+        <md-button class="md-theme-indigo"  ng-click="updateChallenge()" style="margin:auto;" ng-disabled="projectBasic.title.$invalid">
             <span class="faa-spin animated" ng-if="isBasicLoading">
                 <i class="fa fa-spin"></i>
             </span>
             Update Challenge
-        </material-button>
+        </md-button>
     </form>
     <section layout="vertical" layout-md="horizontal">
         <section flex-md layout="vertical">
             <header>
                 <h2 class="center">Workspace's templates</h2>
             </header>
-            <material-button style="width:100%" class="material-button-raised" ng-click="popUpTemplate()">
+            <md-button style="width:100%" class="md-button-raised" ng-click="popUpTemplate()">
                 New Template
-            </material-button>
-            <material-list>
-                <material-item ng-repeat="template in templates">
-                    <div class="material-tile-left">
+            </md-button>
+            <md-list>
+                <md-item ng-repeat="template in templates">
+                    <div class="md-tile-left">
 
                     </div>
-                    <div class="material-tile-content">
+                    <div class="md-tile-content">
                         <h4>{{ template.title }}</h4>
                     </div>
-                    <div class="material-tile-right">
-                        <material-button ng-click="removeTemplate(template,$index)">
+                    <div class="md-tile-right">
+                        <md-button ng-click="removeTemplate(template,$index)">
                         <span class="faa-spin animated" ng-if="isTLoading[$index]">
                             <i fa fa-spinner></i>
                         </span>
                         <i class="fa fa-trash-o">Remove</i>
-                        </material-button>
+                        </md-button>
                     </div>
-                </material-item>
-            </material-list>
+                </md-item>
+            </md-list>
         </section>
         <section flex-md layout="vertical">
             <header>
                 <h2 class="center">Projects</h2>
             </header>
-            <material-button style="width:100%" class="material-button-raised" ng-click="createProject()">
+            <md-button style="width:100%" class="md-button-raised" ng-click="createProject()">
                 New Project
-            </material-button>
+            </md-button>
         </section>
     </section>
-</material-content>
+</md-content>

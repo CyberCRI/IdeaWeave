@@ -1,5 +1,5 @@
 <section layout="vertical" layout-fill>
-    <material-toolbar scroll-shrink class="material-theme-green" style="position:relative;">
+    <md-toolbar scroll-shrink class="md-theme-green" style="position:relative;">
         <h1 style="margin-top:0;margin-bottom:0; padding-left:25px;">
            {{ profile.realname || profile.username }}
             <i style="color:yellow" class="fa" ng-class="{ 'fa-star' : isFollowing }"></i>
@@ -7,17 +7,17 @@
         <p style="text-align:right;">
             {{ profile.followers.length }} followers . {{ profile.followings.length }} following
         </p>
-        <material-button class="material-button-fab material-theme-green" ng-click="showMore()" style="bottom:-24px;position:absolute; left:20px;z-index : inherit" hide-md>
+        <md-button class="md-button-fab md-theme-green" ng-click="showMore()" style="bottom:-24px;position:absolute; left:20px;z-index : inherit" hide-md>
             <i class="fa fa-bars"></i>
-        </material-button>
-        <material-button class="material-button-fab material-theme-green" ng-click="follow()" style="bottom:-24px;position:absolute; right:20px;z-index : inherit" ng-if="!isOwner">
+        </md-button>
+        <md-button class="md-button-fab md-theme-green" ng-click="follow()" style="bottom:-24px;position:absolute; right:20px;z-index : inherit" ng-if="!isOwner">
             <i class="fa" ng-class="{ 'fa-thumbs-up' : !isFollowing, 'fa-thumbs-down' : isFollowing }"></i>
-        </material-button>
-    </material-toolbar>
-    <material-content flex>
-        <material-button ng-if="profile._id == currentUser._id" ui-sref="profileAdmin({uid: profile._id})" flex>
+        </md-button>
+    </md-toolbar>
+    <md-content flex>
+        <md-button ng-if="profile._id == currentUser._id" ui-sref="profileAdmin({uid: profile._id})" flex>
             <i class="fa fa-pencil-square-o baseColor"></i> Edit
-        </material-button>
+        </md-button>
         <showtags entity="profile" style="margin-left: 50px;"></showtags>
         <h3>Presentation</h3>
         <div ng-bind-html="profile.secureBrief"></div>
@@ -95,5 +95,5 @@
 
         <h3>Activity</h3>
         <notification-list notifications="activities"></notification-list>
-    </material-content>
+    </md-content>
 </section>

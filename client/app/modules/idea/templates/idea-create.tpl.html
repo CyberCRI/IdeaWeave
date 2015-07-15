@@ -1,16 +1,16 @@
-<material-content flex>
+<md-content flex>
     <h2>{{ title }}</h2>
-    <material-form layout="vertical">
-        <material-input-group>
+    <md-form layout="vertical">
+        <md-input-group>
             <label for="title">Title</label>
-            <material-input id="title" type="text" ng-model="idea.title" />
-        </material-input-group>
+            <md-input id="title" type="text" ng-model="idea.title" />
+        </md-input-group>
         <tag-manager entity="idea"></tag-manager>
 
         <textarea placeholder="What's your idea?" ng-model="idea.brief" rows="5"></textarea>
 
         <div>
-            <material-button style="width:100%;" ng-click="onDone()" class="material-button-raised">Submit Idea</material-button>
+            <md-button style="width:100%;" ng-click="onDone()" class="md-button-raised">Submit Idea</md-button>
         </div>
-    </material-form>
-</material-content>
+    </md-form>
+</md-content>

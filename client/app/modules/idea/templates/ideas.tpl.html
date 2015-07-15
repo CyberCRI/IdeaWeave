@@ -1,21 +1,21 @@
 <section layout="vertical" layout-fill>
-    <material-toolbar scroll-shrink class="material-theme-green">
+    <md-toolbar scroll-shrink class="md-theme-green">
         <div class="center">Ideas</div>
-        <material-button class="material-button-fab material-theme-green" ng-click="toggleLeft()" style="color:black;bottom:-24px;position:absolute; left :20px;z-index : inherit" hide-md>
+        <md-button class="md-button-fab md-theme-green" ng-click="toggleLeft()" style="color:black;bottom:-24px;position:absolute; left :20px;z-index : inherit" hide-md>
             <i class="fa fa-bars" style="font-size: 1.2em; top:3px;position:relative;z-index: 50"></i>
-        </material-button>
-        <material-button class="material-button-fab material-button-fab-bottom-right material-theme-green" ui-sref="createIdea" ng-if="currentUser" style="color:black;bottom:-24px;position:absolute; right:20px;z-index : inherit">
+        </md-button>
+        <md-button class="md-button-fab md-button-fab-bottom-right md-theme-green" ui-sref="createIdea" ng-if="currentUser" style="color:black;bottom:-24px;position:absolute; right:20px;z-index : inherit">
             <i class="fa fa-plus" style="font-size: 1.2em; top:3px;position:relative;z-index: 50"></i>
-        </material-button>
-    </material-toolbar>
-    <material-content flex>
+        </md-button>
+    </md-toolbar>
+    <md-content flex>
         <div ng-show="ideas.length == 0">
             Nothing to show yet... 
         </div>
-        <material-list ng-show="ideas.length > 0">
-            <material-item ng-repeat="idea in ideas" class="item-list">
-                <material-item-content>
-                    <article class="material-tile-content">
+        <md-list ng-show="ideas.length > 0">
+            <md-item ng-repeat="idea in ideas" class="item-list">
+                <md-item-content>
+                    <article class="md-tile-content">
                         <a ui-sref="idea({ iid : idea._id })">
                             <h1>{{ idea.title }}</h1>
                         </a>
@@ -48,18 +48,18 @@
                                     </span>
                                 </div>
                             </div>
-                            <!-- <material-button ng-click="showProjects(idea._id,$index)" >
+                            <!-- <md-button ng-click="showProjects(idea._id,$index)" >
                                 show related projects
-                            </material-button>
-                            <material-button ng-click="showProjects(idea._id,$index)" >
+                            </md-button>
+                            <md-button ng-click="showProjects(idea._id,$index)" >
                                 show related challenges
-                            </material-button> -->
+                            </md-button> -->
                         </div>
 
 
                     </article>
-                </material-item-content>
-            </material-item>
-        </material-list>
-    </material-content>
+                </md-item-content>
+            </md-item>
+        </md-list>
+    </md-content>
 </section>

@@ -1,17 +1,17 @@
-<material-content layout="vertical" >
-    <material-tabs selected="selectedIndex" center>
+<md-content layout="vertical" >
+    <md-tabs selected="selectedIndex" center>
         <h2 class="center">{{ project.title }} Administration</h2>
-        <material-tab>
-            <material-label>
+        <md-tab>
+            <md-label>
                 <i class='fa fa-list'>Edit</i>
-            </material-label>
-        </material-tab>
-        <material-tab>
-            <material-label>
+            </md-label>
+        </md-tab>
+        <md-tab>
+            <md-label>
                 <i class='fa fa-users'>Team</i>
-            </material-label>
-        </material-tab>
-    </material-tabs>
+            </md-label>
+        </md-tab>
+    </md-tabs>
 
     <div class="animate-switch-container" ng-switch on="selectedIndex" flex >
         <div class="animate-switch blueArea" ng-switch-when="0">
@@ -21,4 +21,4 @@
             <ng-include src="'modules/admin/project/templates/team.tpl.html'" ng-controller="ProjectTeamCtrl"></ng-include>
         </div>
     </div>
-</material-content>
+</md-content>

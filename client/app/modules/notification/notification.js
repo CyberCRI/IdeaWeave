@@ -1,29 +1,29 @@
 angular.module('cri.common')
-.factory('Notification',['$window','$materialToast',function($window,$materialToast){
+.factory('Notification', function($window/*, $mdToast*/){
         var service = {
             authorize : function(){
 
             },
-            display : function(message){
-                $materialToast({
-                    controller: ['$scope','$hideToast',function($scope, $hideToast) {
+            display : function(message) {
+                $mdToast.show({
+                    controller: function($scope) {
                         $scope.message = message;
                         $scope.closeToast = function() {
-                            $hideToast();
+                            $mdToast.hide();
                         };
-                    }],
+                    },
                     templateUrl: 'modules/notification/templates/toast.tpl.html',
                     duration: 5000,
                     position: 'top left'
                 });
             },
-            displaySocketNotification : function(notification){
-                $materialToast({
-                    controller: function($scope, $hideToast,$q,NoteLab) {
+            displaySocketNotification : function(notification) {
+                $mdToast.show({
+                    controller: function($scope) {
                         $scope.notification = notification;
 
                         $scope.closeToast = function() {
-                            $hideToast();
+                            $mdToast.hide();
                         };
                     },
                     templateUrl: 'modules/notification/templates/socketToast.tpl.html',
@@ -33,4 +33,4 @@ angular.module('cri.common')
             }
         };
         return service;
-    }]);
+    });

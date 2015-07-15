@@ -1,5 +1,5 @@
-<material-content layout="vertical" layout-fill>
-    <material-toolbar scroll-shrink class="home-header">
+<md-content layout="vertical" layout-fill>
+    <md-toolbar scroll-shrink class="home-header">
         <div layout="vertical" class="content">
             <h1>
                 {{ challenge.title }}
@@ -10,13 +10,13 @@
             <i class="fa fa-star baseColor"></i> Following
         </div>
 
-        <material-button class="material-button-fab" ng-click="toggleLeft()" style="bottom:-24px;position:absolute; left:20px;z-index : inherit" hide-md>
+        <md-button class="md-button-fab" ng-click="toggleLeft()" style="bottom:-24px;position:absolute; left:20px;z-index : inherit" hide-md>
             <i class="fa fa-bars"></i>
-        </material-button>
-        <material-button class="material-button-fab material-button-raised" ng-click="follow()" style="position:absolute; right:20px; z-index: inherit" ng-class="{ 'material-theme-indigo' : isFollow }" ng-if="currentUser && !isOwner">
+        </md-button>
+        <md-button class="md-button-fab md-button-raised" ng-click="follow()" style="position:absolute; right:20px; z-index: inherit" ng-class="{ 'md-theme-indigo' : isFollow }" ng-if="currentUser && !isOwner">
             <i class="fa fa-thumbs-up"></i>
-        </material-button>
-    </material-toolbar>
+        </md-button>
+    </md-toolbar>
 
     <h3 class="show-line-breaks">{{ challenge.brief }}</h3>
 
@@ -25,9 +25,9 @@
     </div>
 
     <div layout="vertical">
-        <material-button ui-sref="challengeAdmin({ cid : challenge._id })" ng-if="isOwner">
+        <md-button ui-sref="challengeAdmin({ cid : challenge._id })" ng-if="isOwner">
             <i class="fa fa-pencil-square-o baseColor"></i> Edit
-        </material-button>
+        </md-button>
 
         <div layout="horizontal">
             <div>
@@ -52,9 +52,9 @@
         <section class="challenge-home" layout="vertical">
             <article class="html-content" flex ng-bind-html="challenge.home"></article>
             <div class="participate-btn">
-                <material-button ng-if="currentUser" ng-click="participate()" class="material-button-raised material-button-colored">
+                <md-button ng-if="currentUser" ng-click="participate()" class="md-button-raised md-button-colored">
                     Participate in this challenge
-                </material-button>
+                </md-button>
             </div>
         </section>
 
@@ -72,4 +72,4 @@
             <idea-card inline-block idea-id="idea" ng-repeat="idea in challenge.ideas"></idea-card>
         </section>
     </div>
-</material-content>
+</md-content>

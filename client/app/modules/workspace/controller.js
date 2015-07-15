@@ -1,5 +1,5 @@
 angular.module('cri.workspace',[])
-    .controller('WorkspaceCtrl',function($scope,$materialDialog,NoteLab,Challenge,$materialSidenav,project,$state){
+    .controller('WorkspaceCtrl',function($scope,$materialDialog,NoteLab,Challenge,$mdSidenav,project,$state){
         $scope.project = project[0];
 
         var leftNav;
@@ -8,7 +8,7 @@ angular.module('cri.workspace',[])
         };
 
         $scope.$on('showWorkspace',function(){
-            leftNav = $materialSidenav('left');
+            leftNav = $mdSidenav('left');
             leftNav.toggle();
         });
 

@@ -1,13 +1,13 @@
-<material-content scroller loading-method="loadMoreProjects()" style="overflow-x:hidden;">
-    <material-list>
-        <material-item ng-repeat="project in projects" class="item-list">
-            <material-item-content>
-                <div class="material-tile-left" flex="40" flex-sm="30" flex-md="25" flex-lg="15">
+<md-content scroller loading-method="loadMoreProjects()" style="overflow-x:hidden;">
+    <md-list>
+        <md-item ng-repeat="project in projects" class="item-list">
+            <md-item-content>
+                <div class="md-tile-left" flex="40" flex-sm="30" flex-md="25" flex-lg="15">
                     <a ui-sref="project.home({ pid : project.accessUrl })">
                         <img ng-src="{{ project.poster || '/images/placeholder90x90.png' }}" class="" width="100%" alt="project's poster" />
                     </a>
                 </div>
-                <article class="material-tile-content">
+                <article class="md-tile-content">
                     <a ui-sref="project.home({ pid : project.accessUrl })">
                         <h1>{{ project.title }}</h1>
                     </a>
@@ -35,7 +35,7 @@
                         </div>
                     </div>
                 </article>
-            </material-item-content>
-        </material-item>
-    </material-list>
-</material-content>
+            </md-item-content>
+        </md-item>
+    </md-list>
+</md-content>

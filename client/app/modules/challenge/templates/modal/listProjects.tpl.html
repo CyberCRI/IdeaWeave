@@ -1,24 +1,24 @@
-<material-dialog>
-    <material-toolbar>
-        <div class="material-toolbar-tools">
+<md-dialog>
+    <md-toolbar>
+        <div class="md-toolbar-tools">
             <h1 flex>
                 {{ challenge.title }}
             </h1>
-            <material-button class="material-button-fab" ng-click="cancel()">
+            <md-button class="md-button-fab" ng-click="cancel()">
                 <i class="fa fa-times"></i>
-            </material-button>
+            </md-button>
         </div>
-    </material-toolbar>
-    <material-content>
-        <material-list>
-            <material-item ng-repeat="project in projects">
-                <material-item-content>
-                    <div class="material-tile-left">
+    </md-toolbar>
+    <md-content>
+        <md-list>
+            <md-item ng-repeat="project in projects">
+                <md-item-content>
+                    <div class="md-tile-left">
                         <a ui-sref="project.home({ pid : project.accessUrl })" ng-click="cancel()">
                             <img ng-src="{{ project.poster || '/images/placeholder100x100.png' }}" alt="{{ project.title }}'s poster" class="img-rounded" width="100px" height="100px"/>
                         </a>
                     </div>
-                    <div class="material-tile-content">
+                    <div class="md-tile-content">
                         <div>
                             <a ui-sref="project.home({ pid : project.accessUrl })" ng-click="cancel()">
                                 {{ project.title }}
@@ -29,8 +29,8 @@
                         </div>
                         </a>
                     </div>
-                </material-item-content>
-            </material-item>
-        </material-list>
-    </material-content>
-</material-dialog>
+                </md-item-content>
+            </md-item>
+        </md-list>
+    </md-content>
+</md-dialog>

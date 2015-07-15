@@ -1,9 +1,9 @@
-<material-card layout="vertical"  class="challenge-card">
-    <img ng-src="{{challenge.poster || '/images/placeholder100x100.png'}}" alt="..." class="material-card-image">
-    <material-button ng-if="admin && isHovered" ui-sref="challengeAdmin({ cid : challenge._id })">
+<md-card layout="vertical"  class="challenge-card">
+    <img ng-src="{{challenge.poster || '/images/placeholder100x100.png'}}" alt="..." class="md-card-image">
+    <md-button ng-if="admin && isHovered" ui-sref="challengeAdmin({ cid : challenge._id })">
         <i class="fa fa-gears"></i>
         Admin
-    </material-button>
+    </md-button>
     <h4 ui-sref="challenge({ cid : challenge.accessUrl })">{{ challenge.title }}</h4>
     <div layout="vertical" >
         <div class="text-muted" layout="horizontal" >
@@ -39,4 +39,4 @@
             </div>
         </div>
     </div>
-</material-card>
+</md-card>

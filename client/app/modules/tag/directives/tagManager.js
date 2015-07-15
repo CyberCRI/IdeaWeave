@@ -88,7 +88,7 @@ angular.module('cri.tag')
         return {
             restrict: 'EA',
             scope: { entity: '=' },
-            template:'<div ng-if="entity.tags.length >0"><i class="fa fa-tags fa-2x" ></i><material-button inline-block ng-repeat="tag in entity.tags" ui-sref="tag({title: tag.title})">#{{tag.title}}</material-button></div>'
+            template:'<div ng-if="entity.tags.length >0"><i class="fa fa-tags fa-2x" ></i><md-button inline-block ng-repeat="tag in entity.tags" ui-sref="tag({title: tag.title})">#{{tag.title}}</md-button></div>'
         };
     })
     .directive('tagSugestion',function(){

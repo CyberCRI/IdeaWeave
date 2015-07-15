@@ -1,18 +1,18 @@
-<material-content layout="vertical" layout-fill>
-    <material-toolbar scroll-shrink class="home-header">
+<md-content layout="vertical" layout-fill>
+    <md-toolbar scroll-shrink class="home-header">
         <div layout="vertical" class="content">
             <h1>
                 {{ project.title }}
             </h1>        
         </div>
 
-        <material-button class="material-button-fab" ng-click="toggleLeft()" style="bottom:-24px;position:absolute; left:20px;z-index : inherit" hide-md>
+        <md-button class="md-button-fab" ng-click="toggleLeft()" style="bottom:-24px;position:absolute; left:20px;z-index : inherit" hide-md>
             <i class="fa fa-bars"></i>
-        </material-button>
-        <material-button class="material-button-fab material-button-raised" ng-click="follow()" style="bottom:-24px;position:absolute; right:20px;z-index : inherit" ng-class="{ 'material-theme-indigo' : isFollow }" ng-if="currentUser && !isOwner">
+        </md-button>
+        <md-button class="md-button-fab md-button-raised" ng-click="follow()" style="bottom:-24px;position:absolute; right:20px;z-index : inherit" ng-class="{ 'md-theme-indigo' : isFollow }" ng-if="currentUser && !isOwner">
             <i class="fa fa-thumbs-up"></i>
-        </material-button>
-    </material-toolbar>
+        </md-button>
+    </md-toolbar>
 
     <h3 class="show-line-breaks">{{ project.brief }}</h3>
 
@@ -44,4 +44,4 @@
     <showtags entity="project"></showtags>
 
     <section flex ui-view="projectView"></section>
-</material-content>
+</md-content>

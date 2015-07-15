@@ -1,4 +1,4 @@
-<material-content style="overflow-x:hidden;" class="my-carousel">
+<md-content style="overflow-x:hidden;" class="my-carousel">
     <ul rn-carousel rn-carousel-controls rn-carousel-auto-slide="5" id="homeCarousel">
         <li class="my-carousel" ng-repeat="challenge in challenges" >
             <section class="carousel-home center my-carousel" ng-if="challenge.intro == 1">
@@ -10,7 +10,7 @@
                     Organizations or individuals post challenges, which are like competitions, and people suggest projects that meet this challenge. Anyone can follow and join a project to help develop it.
                 </p>
                 <div>
-                    <material-button ui-sref="signup" class="material-button-raised material-button-colored">GET INVOLVED</material-button>
+                    <md-button ui-sref="signup" class="md-button-raised md-button-colored">GET INVOLVED</md-button>
                 </div>
             </section>
             <section class="my-carousel carousel-home  center" ng-if="challenge.intro == 2" >
@@ -33,9 +33,9 @@
                 <showtags entity="challenge"></showtags>
 
                 <div layout="horizontal" layout-align="center center">
-                    <material-button ui-sref="challenge({cid : challenge.accessUrl})" class="material-button-raised material-button-colored">Take a look</material-button>
+                    <md-button ui-sref="challenge({cid : challenge.accessUrl})" class="md-button-raised md-button-colored">Take a look</md-button>
                     &nbsp;&nbsp;
-                    <material-button ui-sref="challenges.list({tag : 'all'})" class="material-button-raised material-button-colored">See more challenges</material-button>
+                    <md-button ui-sref="challenges.list({tag : 'all'})" class="md-button-raised md-button-colored">See more challenges</md-button>
                 </div>
             </section>
         </li>
@@ -57,4 +57,4 @@
 
     <!--<ng-include src="'modules/footer/templates/footer.tpl.html'"></ng-include>-->
 
-</material-content>
+</md-content>

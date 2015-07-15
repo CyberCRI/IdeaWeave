@@ -1,19 +1,19 @@
-<material-content layout="horizontal" layout-fill>
-    <material-sidenav class="material-sidenav-left material-whiteframe-z2 left" component-id="left" >
-        <material-toolbar layout="horizontal">
-            <div class="material-toolbar-tools">
+<md-content layout="horizontal" layout-fill>
+    <md-sidenav class="md-sidenav-left md-whiteframe-z2 left" component-id="left" >
+        <md-toolbar layout="horizontal">
+            <div class="md-toolbar-tools">
                 <i class="fa fa-caret-left fa-2x my-btn" hide-md style="color:black;" ng-click="toggle()" flex></i>
                 <div>
                     <i class="fa fa-lightbulb-o"> Describe your project</i>
                 </div>
             </div>
-        </material-toolbar>
+        </md-toolbar>
         <aside flex>
             <p>Describe your project idea. Give it a title, a place (if applicable), and describe it briefly.</p>
         </aside>
-    </material-sidenav>
+    </md-sidenav>
 
-    <material-content class="right-part" flex>
+    <md-content class="right-part" flex>
         <h2>
             Your project's description
         </h2>
@@ -29,10 +29,10 @@
                     <div showtags entity="challenge"></div>
                 </ui-select-choices>
             </ui-select>
-            <material-input-group>
+            <md-input-group>
                 <label for="title">Project Title</label>
-                <material-input id="title" type="text" ng-model="newProject.title" required="" ng-change="titleChange(newProject.title)" />
-            </material-input-group>
+                <md-input id="title" type="text" ng-model="newProject.title" required="" ng-change="titleChange(newProject.title)" />
+            </md-input-group>
             <tag-manager entity="newProject"></tag-manager>
 
             <label>Where your project is based</label>
@@ -50,12 +50,12 @@
             <label>Brief description:</label>
             <textarea rows="5" style="width:100%;border:solid 1px darkgray" ng-model="newProject.brief"></textarea>
 
-            <material-button  class="material-button-raised" type="button" ng-click="createProject(newProject)">
+            <md-button  class="md-button-raised" type="button" ng-click="createProject(newProject)">
                 <span class="faa-spin animated" ng-if="isLoading">
                     <i class="fa fa-spinner"></i>
                 </span>
                 Create Project
-            </material-button>
+            </md-button>
         </form>
-    </material-content>
-</material-content>
+    </md-content>
+</md-content>

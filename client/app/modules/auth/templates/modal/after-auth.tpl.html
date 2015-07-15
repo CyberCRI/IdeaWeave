@@ -1,20 +1,20 @@
-<material-dialog class="material-whiteframe-z1" layout="vertical"  style="z-index: 19; width:60%; padding-bottom:20px;">
-    <material-toolbar>
+<md-dialog class="md-whiteframe-z1" layout="vertical"  style="z-index: 19; width:60%; padding-bottom:20px;">
+    <md-toolbar>
         <div flex class="center">
             Additional information
         </div>
-        <material-button type="button" class="material-button-raised" ng-click="updateProfile()" style="width:100%">Update</material-button>
-    </material-toolbar>
-    <material-content>
+        <md-button type="button" class="md-button-raised" ng-click="updateProfile()" style="width:100%">Update</md-button>
+    </md-toolbar>
+    <md-content>
         <form name="afterForm" style="padding-left: 10px;">
-            <material-input-group>
+            <md-input-group>
                 <label for="additional-username">User name</label>
-                <material-input type="text" id="additional-username" ng-model="currentUser.username"></material-input>
-            </material-input-group>
-            <material-input-group>
+                <md-input type="text" id="additional-username" ng-model="currentUser.username"></md-input>
+            </md-input-group>
+            <md-input-group>
                 <label for="additional-email">Email</label>
-                <material-input id="additional-email" type="text" ng-model="currentUser.email"></material-input>
-            </material-input-group>
+                <md-input id="additional-email" type="text" ng-model="currentUser.email"></md-input>
+            </md-input-group>
         </form>
-    </material-content>
-</material-dialog>
+    </md-content>
+</md-dialog>

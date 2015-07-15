@@ -9,23 +9,23 @@
                 </div>
             </ui-select-choices>
         </ui-select flex>
-        <material-button ng-click="addTag()" type="button">
+        <md-button ng-click="addTag()" type="button">
             Add a new Tag
-        </material-button>
+        </md-button>
     </div>
     <div layout="horizontal" layout-align="start end" ng-if="formTag">
-        <material-input-group flex>
+        <md-input-group flex>
             <label for="newTag">New Tag</label>
-            <material-input id="newTag" type="text" ng-model="newTag.title" />
-        </material-input-group>
+            <md-input id="newTag" type="text" ng-model="newTag.title" />
+        </md-input-group>
         <i class="fa fa-plus fa-2x my-btn" ng-if="newTag.title" ng-click="addNew(newTag)"></i>
     </div>
     <div>
         <div ng-repeat="tag in entity.tags"  inline-block class="rotation">
             <div  layout="horizontal">
-                <material-button ui-sref="tag({ tag : tag.title })" type="button">
+                <md-button ui-sref="tag({ tag : tag.title })" type="button">
                     <span>#{{tag.title}}</span>
-                </material-button>
+                </md-button>
 
                 <i class="fa fa-times my-btn fa-2x" ng-click="remove($index)"></i>
             </div>

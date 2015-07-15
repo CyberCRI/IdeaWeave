@@ -1,16 +1,16 @@
-<material-dialog>
-    <material-toolbar>
+<md-dialog>
+    <md-toolbar>
         <div layout="horizontal">
             <h2 style="text-align: center;" flex>Introduce Yourself</h2>
-            <material-button class="material-button-fab" ng-click="applyTeamMsg()">
+            <md-button class="md-button-fab" ng-click="applyTeamMsg()">
                 <i class="fa fa-check"></i>
-            </material-button>
-            <material-button class="material-button-fab"  ng-click="cancel()">
+            </md-button>
+            <md-button class="md-button-fab"  ng-click="cancel()">
                 <i class="fa fa-times"></i>
-            </material-button>
+            </md-button>
         </div>
-    </material-toolbar>
-    <material-content>
+    </md-toolbar>
+    <md-content>
         <textarea placeholder="Present yourself" ui-tinymce style="min-height:300px; width:100%"  ng-model="apply.message"></textarea>
-    </material-content>
-</material-dialog>
+    </md-content>
+</md-dialog>

@@ -2,7 +2,7 @@ angular.module('cri.admin.project',[])
     .controller('AdminProjectCtrl', function($scope,project,Project,$q){
         $scope.project = project[0];
     })
-    .controller('ProjectEditCtrl',['$scope','$stateParams','Project','$state','Notification','Config','$materialDialog','$materialSidenav','Gmap',function ($scope,$stateParams,Project,$state,Notification,Config,$materialDialog,$materialSidenav,Gmap) {
+    .controller('ProjectEditCtrl',['$scope','$stateParams','Project','$state','Notification','Config','$materialDialog','$mdSidenav','Gmap',function ($scope,$stateParams,Project,$state,Notification,Config,$materialDialog,$mdSidenav,Gmap) {
 
         var leftNav;
         $scope.toggle = function(){
@@ -10,7 +10,7 @@ angular.module('cri.admin.project',[])
         };
 
         $scope.$on('showAdmin',function(){
-            leftNav = $materialSidenav('left');
+            leftNav = $mdSidenav('left');
             leftNav.toggle();
         });
 

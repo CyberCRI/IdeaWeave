@@ -1,27 +1,27 @@
-<material-dialog>
-    <material-toolbar layout="horizontal" layout-align="">
+<md-dialog>
+    <md-toolbar layout="horizontal" layout-align="">
         <div layout layout-align="start center">
             <div flex>Edit home page</div>
             <span class="faa-spin animated" ng-if="isLoading">
                 <i class="fa fa-spinner"></i>
             </span>
-            <material-button class="material-button-fab" ng-click="update(newChallenge)">
+            <md-button class="md-button-fab" ng-click="update(newChallenge)">
                 <i class="fa fa-save"></i>
-            </material-button>
-            <material-button class="material-button-fab" ng-click="cancel()">
+            </md-button>
+            <md-button class="md-button-fab" ng-click="cancel()">
                 <i class="fa fa-times"></i>
-            </material-button>
+            </md-button>
         </div>
-    </material-toolbar>
-    <material-content>
+    </md-toolbar>
+    <md-content>
         <form name="descriptionForm">
             <textarea ui-tinymce="tinymceOption" name='brief' ng-model="newChallenge.home"/></textarea>
-            <!--<material-button type="button" style="width:100%;" class="material-button-raised" ng-click="update(newChallenge)">-->
+            <!--<md-button type="button" style="width:100%;" class="md-button-raised" ng-click="update(newChallenge)">-->
             <!--<span class="faa-spin animated" ng-if="isLoading">-->
                 <!--<i class="fa fa-spinner"></i>-->
             <!--</span>-->
                 <!--Update-->
-            <!--</material-button>-->
+            <!--</md-button>-->
         </form>
-    </material-content>
-</material-dialog>
+    </md-content>
+</md-dialog>

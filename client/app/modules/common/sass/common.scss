@@ -14,7 +14,7 @@
     text-align:center;
     margin-top:0px;
   }
-  .material-tile-content{
+  .md-tile-content{
     padding-left:20px;
   }
 }
@@ -62,22 +62,22 @@
 
 
 // Suggested by https://github.com/CyberCRI/IdeaWeave/issues/50
-material-content section {
+md-content section {
   padding-left: 30px;
 }
 
-material-item article {
+md-item article {
   margin-left: 5%;
   font-size: 14pt;
   margin-right: 8%;
 }
 
-section > material-toolbar > div {
+section > md-toolbar > div {
   font-size: 32pt;
   font-weight: 600;
 }
 
-material-item .material-tile-left {
+md-item .md-tile-left {
   margin: 0px;
 }
 

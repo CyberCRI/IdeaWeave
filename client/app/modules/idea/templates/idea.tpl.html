@@ -1,5 +1,5 @@
-<material-content layout="vertical" layout-fill>
-    <material-toolbar scroll-shrink class="home-header">
+<md-content layout="vertical" layout-fill>
+    <md-toolbar scroll-shrink class="home-header">
         <div layout="vertical" class="content">
             <h1>
                 {{ idea.title }}
@@ -10,21 +10,21 @@
             <i class="fa fa-star baseColor"></i> Following
         </div>
 
-        <material-button class="material-button-fab" ng-click="toggleLeft()" style="bottom:-24px;position:absolute; left:20px;z-index : inherit" hide-md>
+        <md-button class="md-button-fab" ng-click="toggleLeft()" style="bottom:-24px;position:absolute; left:20px;z-index : inherit" hide-md>
             <i class="fa fa-bars"></i>
-        </material-button>
-        <material-button class="material-button-fab material-button-raised" ng-click="follow()" style="position:absolute; right:20px; z-index: inherit" ng-class="{ 'material-theme-indigo' : isFollowing() }"ng-if="currentUser && !isOwner">
+        </md-button>
+        <md-button class="md-button-fab md-button-raised" ng-click="follow()" style="position:absolute; right:20px; z-index: inherit" ng-class="{ 'md-theme-indigo' : isFollowing() }"ng-if="currentUser && !isOwner">
             <i class="fa fa-thumbs-up"></i>
-        </material-button>
-    </material-toolbar>
+        </md-button>
+    </md-toolbar>
 
     <div flex>
         <h3 class="show-line-breaks">{{ idea.brief }}</h3>
 
         <div layout="vertical">
-            <material-button ui-sref="editIdea({ iid : idea._id })" ng-if="isOwner">
+            <md-button ui-sref="editIdea({ iid : idea._id })" ng-if="isOwner">
                 <i class="fa fa-pencil-square-o baseColor"></i> Edit
-            </material-button>
+            </md-button>
 
             <div layout="horizontal">
                 <div>
@@ -62,9 +62,9 @@
             <div layout="horizontal">
                 <div ng-repeat="project in idea.projects" layout="vertical">
                     <project-card inline-block project-id="project"></project-card>
-                    <material-button ng-click="removeLinkToProject(project)">
+                    <md-button ng-click="removeLinkToProject(project)">
                         <i class="fa fa-times baseColor"></i> Remove Project
-                    </material-button>
+                    </md-button>
                 </div>
             </div>
 
@@ -78,18 +78,18 @@
                 </ui-select-choices>
             </ui-select>
 
-            <material-button ng-click="addLinkToProject()">
+            <md-button ng-click="addLinkToProject()">
                 <i class="fa fa-plus baseColor"></i> Add Project
-            </material-button>
+            </md-button>
 
             <h3>Related Challenges</h3>
 
             <div layout="horizontal">
                 <div ng-repeat="challenge in idea.challenges" layout="vertical">
                     <challenge-card inline-block challenge-id="challenge"></challenge-card>
-                    <material-button ng-click="removeLinkToChallenge(challenge)">
+                    <md-button ng-click="removeLinkToChallenge(challenge)">
                         <i class="fa fa-times baseColor"></i> Remove Challenge
-                    </material-button>
+                    </md-button>
                 </div>
             </div>
 
@@ -103,9 +103,9 @@
                 </ui-select-choices>
             </ui-select>
 
-            <material-button ng-click="addLinkToChallenge()">
+            <md-button ng-click="addLinkToChallenge()">
                 <i class="fa fa-plus baseColor"></i> Add Challenge
-            </material-button>
+            </md-button>
         </div>
     </div>
-</material-content>
+</md-content>
