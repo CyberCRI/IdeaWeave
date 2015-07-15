@@ -1,6 +1,6 @@
 <md-content flex>
     <h2>{{ title }}</h2>
-    <md-form layout="vertical">
+    <md-form layout="column">
         <md-input-group>
             <label for="title">Title</label>
             <md-input id="title" type="text" ng-model="idea.title" />
@@ -10,7 +10,7 @@
         <textarea placeholder="What's your idea?" ng-model="idea.brief" rows="5"></textarea>
 
         <div>
-            <md-button style="width:100%;" ng-click="onDone()" class="md-button-raised">Submit Idea</md-button>
+            <md-button style="width:100%;" ng-click="onDone()" class="md-raised">Submit Idea</md-button>
         </div>
     </md-form>
 </md-content>

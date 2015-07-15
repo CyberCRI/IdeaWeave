@@ -1,90 +1,67 @@
-<section  ng-controller="LoginCtrl" layout="vertical" class="signin-form">
+<section  ng-controller="LoginCtrl" layout="column" class="signin-form">
     <div id="signin-container" style="max-width: 900px; margin: auto;">    
-        <form name="signinForm" layout="vertical">
-            <md-input-group>
-                <label for="email">Email</label>
-                <md-input id="email" name="email" type="email" required ng-model="signin.email" />
-            </md-input-group>
+        <form name="signinForm" layout="column">
+            <md-input-container>
+                <label >Email</label>
+                <input id="email" name="email" type="email" required ng-model="signin.email" />
+            </md-input-container>
             <div ng-messages="signinForm.email.$error" ng-if="!signinForm.email.$pristine">
-                <div ng-message="required" class="form-message">
+                <div ng-message="required">
                     Email is required
                 </div>
-                <div ng-message="email" class="form-message">
+                <div ng-message="email">
                     You must type a valid email
                 </div>
             </div>
-            <md-input-group>
-                <label for="password">Password</label>
-                <md-input id="password" type="password" name="password" ng-model="signin.password" required pattern=""/>
-            </md-input-group>
+            <md-input-container>
+                <label>Password</label>
+                <input id="password" type="password" name="password" ng-model="signin.password" required pattern=""/>
+            </md-input-container>
             <div ng-messages="signinForm.password.$error" ng-if="!signinForm.email.$pristine" ng-if="!signinForm.password.$pristine">
-                <div class="form-message" ng-message="required">
+                <div ng-message="required">
                     Password is required
                 </div>
-                <div ng-message="pattern" class="form-message">
+                <div ng-message="pattern">
                     Password must contain at least one capital letter
                 </div>
             </div>
-            <div style="margin-top:10px;">
-                <md-button class="md-button-raised" ng-click="login($event)" ng-disabled="signinForm.$invalid">
-                    <span class="faa-spin animated" ng-if="loader['email']">
-                        <i class="fa fa-2x fa-spinner"></i>
-                    </span>
-                    <i class="fa fa-sign-in"> Sign In with Email</i>
-                </md-button>
-            </div>
-            <!--
+            <md-button class="md-raised md-primary" ng-click="login($event)" ng-disabled="signinForm.$invalid">
+                <span class="faa-spin animated" ng-if="loader['email']">
+                    <i class="fa fa-2x fa-spinner"></i>
+                </span>
+                <i class="fa fa-sign-in"> Sign In with Email</i>
+            </md-button>
             <div>
-                <md-button class="md-button-raised md-theme-orange" disabled ng-click="authenticate('twitter')">
-                    <i class="fa">Sign in with Personna (soon)</i>
-                </md-button>
-            </div>
-            -->
-            <!--
-            <div>
-                <md-button class="md-button-raised md-theme-indigo" ng-click="authenticate('github')">
-                    <span class="faa-spin animated" ng-if="loader['github']">
-                        <i class="fa fa-2x fa-spinner"></i>
-                    </span>
-
-                    <i class="fa fa-github">Sign in with GitHub</i>
-                </md-button>
-            </div>
-            -->
-            <div style="margin-top: 10px;">
-                <md-button class="md-button-raised md-theme-red" ng-click="authenticate('google')">
+                <md-button class="md-raised md-primary" ng-click="authenticate('google')">
                     <i class="fa fa-google"> Sign in with Google</i>
                 </md-button>
             </div>
-        <div style="margin-top:10px;">
-            <md-button ui-sref="signup" class="md-button-raised md-theme-green" ng-if="!currentUser">
-                <i class="fa fa-sign-in"> Register</i>
-            </md-button>
-        </div>
-            <br/>
             <div>
-                <md-button ng-click="forgotPass()">
-                    Forgot your password?
+                <md-button ui-sref="signup" class="md-raised md-theme-accent" ng-if="!currentUser">
+                    <i class="fa fa-sign-in"> Register</i>
                 </md-button>
             </div>
+            <md-button ng-click="forgotPass()">
+                Forgot your password?
+            </md-button>
         </form>
-        <div ng-if="resetPassForm" layout="vertical">
-            <div layout="horizontal" layout-align="end end">
-                <md-input-group flex>
+        <div ng-if="resetPassForm" layout="column">
+            <div layout="row" layout-align="end end">
+                <md-input-container flex>
                     <label for="emailR">Email account</label>
                     <md-input id="emailR" type="email" ng-model="resetPass.email" />
-                </md-input-group>
+                </md-input-container>
                 <i class="fa fa-2x fa-envelope my-btn"></i>
             </div>
-            <md-input-group>
+            <md-input-container>
                 <label for="token">Token you have received by mail</label>
-                <md-input id="token" type="text" ng-model="resetPass.token" />
-            </md-input-group>
-            <div layout="horizontal" layout-align="end end">
-                <md-input-group flex>
+                <input id="token" type="text" ng-model="resetPass.token" />
+            </md-input-container>
+            <div layout="row" layout-align="end end">
+                <md-input-container flex>
                     <label for="new-password">New password</label>
-                    <md-input id="new-password" type="password" ng-model="resetPass.email" />
-                </md-input-group>
+                    <input id="new-password" type="password" ng-model="resetPass.email" />
+                </md-input-container>
                 <i class="fa fa-2x fa-share my-btn"></i>
             </div>
         </div>

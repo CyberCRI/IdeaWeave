@@ -1,4 +1,4 @@
-<md-content layout="vertical" scroller loading-method="loadMoreChallenges()" style="overflow-x:hidden;">
+<md-content layout="column" scroller loading-method="loadMoreChallenges()" style="overflow-x:hidden;">
     <div ng-show="challenges.length == 0">
         Nothing to show yet... 
     </div>
@@ -17,7 +17,7 @@
                     <showtags entity="challenge"></showtags>
                     <div hide block-md>
                         <p ng-bind-html="challenge.brief"></p>
-                        <div layout="horizontal">
+                        <div layout="row">
                             <div flex>
                                 <span>
                                 {{ challenge.followers.length }}

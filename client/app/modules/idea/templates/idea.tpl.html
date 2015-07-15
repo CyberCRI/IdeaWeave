@@ -1,6 +1,6 @@
-<md-content layout="vertical" layout-fill>
+<md-content layout="column" layout-fill>
     <md-toolbar scroll-shrink class="home-header">
-        <div layout="vertical" class="content">
+        <div layout="column" class="content">
             <h1>
                 {{ idea.title }}
             </h1>
@@ -13,7 +13,7 @@
         <md-button class="md-button-fab" ng-click="toggleLeft()" style="bottom:-24px;position:absolute; left:20px;z-index : inherit" hide-md>
             <i class="fa fa-bars"></i>
         </md-button>
-        <md-button class="md-button-fab md-button-raised" ng-click="follow()" style="position:absolute; right:20px; z-index: inherit" ng-class="{ 'md-theme-indigo' : isFollowing() }"ng-if="currentUser && !isOwner">
+        <md-button class="md-button-fab md-raised" ng-click="follow()" style="position:absolute; right:20px; z-index: inherit" ng-class="{ 'md-theme-indigo' : isFollowing() }"ng-if="currentUser && !isOwner">
             <i class="fa fa-thumbs-up"></i>
         </md-button>
     </md-toolbar>
@@ -21,12 +21,12 @@
     <div flex>
         <h3 class="show-line-breaks">{{ idea.brief }}</h3>
 
-        <div layout="vertical">
+        <div layout="column">
             <md-button ui-sref="editIdea({ iid : idea._id })" ng-if="isOwner">
                 <i class="fa fa-pencil-square-o baseColor"></i> Edit
             </md-button>
 
-            <div layout="horizontal">
+            <div layout="row">
                 <div>
                     <span>
                         {{ idea.followers.length }}
@@ -50,7 +50,7 @@
             </div>
         </div>
 
-        <div layout="vertical">
+        <div layout="column">
             <showtags entity="idea"></showtags>
 
             <list-notes idea="idea" current-user="currentUser"></list-notes>
@@ -59,8 +59,8 @@
         <div flex>
             <h3>Related Projects</h3>
 
-            <div layout="horizontal">
-                <div ng-repeat="project in idea.projects" layout="vertical">
+            <div layout="row">
+                <div ng-repeat="project in idea.projects" layout="column">
                     <project-card inline-block project-id="project"></project-card>
                     <md-button ng-click="removeLinkToProject(project)">
                         <i class="fa fa-times baseColor"></i> Remove Project
@@ -84,8 +84,8 @@
 
             <h3>Related Challenges</h3>
 
-            <div layout="horizontal">
-                <div ng-repeat="challenge in idea.challenges" layout="vertical">
+            <div layout="row">
+                <div ng-repeat="challenge in idea.challenges" layout="column">
                     <challenge-card inline-block challenge-id="challenge"></challenge-card>
                     <md-button ng-click="removeLinkToChallenge(challenge)">
                         <i class="fa fa-times baseColor"></i> Remove Challenge

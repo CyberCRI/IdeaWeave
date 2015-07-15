@@ -1,6 +1,6 @@
-<md-content layout="horizontal" layout-fill>
+<md-content layout="row" layout-fill>
     <md-sidenav class="md-sidenav-left md-whiteframe-z2 left" component-id="left" >
-        <md-toolbar layout="horizontal">
+        <md-toolbar layout="row">
             <div class="md-toolbar-tools">
                 <i class="fa fa-caret-left fa-2x my-btn" hide-md style="color:black;" ng-click="toggle()" flex></i>
                 <div>
@@ -17,7 +17,7 @@
         <h2>
             Your project's description
         </h2>
-        <form name="projectform" layout="vertical">
+        <form name="projectform" layout="column">
             <label>The challenge you are taking on</label>
             <ui-select ng-model="newProject.container" theme="selectize">
                 <ui-select-match placeholder="The challenge that you are replying to...">{{$select.selected.title}}</ui-select-match>
@@ -50,7 +50,7 @@
             <label>Brief description:</label>
             <textarea rows="5" style="width:100%;border:solid 1px darkgray" ng-model="newProject.brief"></textarea>
 
-            <md-button  class="md-button-raised" type="button" ng-click="createProject(newProject)">
+            <md-button  class="md-raised" type="button" ng-click="createProject(newProject)">
                 <span class="faa-spin animated" ng-if="isLoading">
                     <i class="fa fa-spinner"></i>
                 </span>

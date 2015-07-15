@@ -1,12 +1,12 @@
-<md-card layout="vertical"  class="challenge-card">
+<md-card layout="column"  class="challenge-card">
     <img ng-src="{{challenge.poster || '/images/placeholder100x100.png'}}" alt="..." class="md-card-image">
     <md-button ng-if="admin && isHovered" ui-sref="challengeAdmin({ cid : challenge._id })">
         <i class="fa fa-gears"></i>
         Admin
     </md-button>
     <h4 ui-sref="challenge({ cid : challenge.accessUrl })">{{ challenge.title }}</h4>
-    <div layout="vertical" >
-        <div class="text-muted" layout="horizontal" >
+    <div layout="column" >
+        <div class="text-muted" layout="row" >
             <div>
                 By :
             </div>
@@ -14,8 +14,8 @@
         </div>
         <!--<p class="text-muted" ng-bind-html="challenge.brief" style="max-height:200px;overflow:hidden;" ></p>-->
         <showtags entity="challenge"></showtags>
-        <div layout="horizontal">
-            <div flex layout="horizontal" class="text-muted">
+        <div layout="row">
+            <div flex layout="row" class="text-muted">
                 <span>
                     {{ challenge.followers.length }}
                 </span>
@@ -26,8 +26,8 @@
             </div>
             &nbsp;
             &nbsp;
-            <div layout="horizontal">
-                <div flex layout="horizontal" class="text-muted">
+            <div layout="row">
+                <div flex layout="row" class="text-muted">
                     <span>
                         {{ challenge.projects.length }}
                     </span>

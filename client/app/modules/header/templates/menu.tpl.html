@@ -1,5 +1,5 @@
-<section layout="vertical" >
-    <div div layout="horizontal" layout-align="center center">
+<section layout="column" >
+    <div div layout="row" layout-align="center center">
         <img ng-src="{{ currentUser.poster || 'images/avater.jpg' }}" alt="{{ currentUser.username }}'s photo" width="50%" height="50%" class="img-rounded"/>
     </div>
 
@@ -8,7 +8,7 @@
     </h2>
 
     <div class="menu">
-        <!--<md-button ui-sref="admin"  ng-class="{'md-theme-red':$uiRoute}" ui-route="/admin">-->
+        <!--<md-button ui-sref="admin"  ng-class="{'md-warn':$uiRoute}" ui-route="/admin">-->
             <!--Admin-->
         <!--</md-button>-->
         <md-button ui-sref="profile({uid : currentUser._id})"  ng-class="{'md-theme-green':$uiRoute}" ui-route="/profile/{{currentUser._id}}">

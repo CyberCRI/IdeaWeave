@@ -1,9 +1,9 @@
-<section layout="vertical">
-    <div layout="horizontal">
+<section layout="column">
+    <div layout="row">
         <ui-select ng-model="myTag" theme="selectize" flex>
             <ui-select-match placeholder="Tags">{{$select.selected.title}}</ui-select-match>
             <ui-select-choices repeat="tag in tags | filter:$viewValue | limitTo:8">
-                <div layout="horizontal" layout-align="start center" ng-click="add(tag)">
+                <div layout="row" layout-align="start center" ng-click="add(tag)">
                     <div ng-bind="tag.title" flex></div>
                     <i class="fa fa-plus my-btn" ></i>
                 </div>
@@ -13,7 +13,7 @@
             Add a new Tag
         </md-button>
     </div>
-    <div layout="horizontal" layout-align="start end" ng-if="formTag">
+    <div layout="row" layout-align="start end" ng-if="formTag">
         <md-input-group flex>
             <label for="newTag">New Tag</label>
             <md-input id="newTag" type="text" ng-model="newTag.title" />
@@ -22,7 +22,7 @@
     </div>
     <div>
         <div ng-repeat="tag in entity.tags"  inline-block class="rotation">
-            <div  layout="horizontal">
+            <div  layout="row">
                 <md-button ui-sref="tag({ tag : tag.title })" type="button">
                     <span>#{{tag.title}}</span>
                 </md-button>

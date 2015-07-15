@@ -19,7 +19,7 @@ angular.module('cri.auth',[
             clientId: Config.githubClient
         });
     })
-    .controller('LoginCtrl', ['$scope', 'Profile','$state','Notification','$auth','$materialDialog','$rootScope','mySocket', function ($scope, Profile, $state,Notification,$auth,$materialDialog,$rootScope,mySocket) {
+    .controller('LoginCtrl', function ($scope, Profile, $state,Notification,$auth,$mdDialog,$rootScope,mySocket) {
         $scope.loader = {};
         $scope.authenticate = function(provider) {
             console.log('login with', provider);
@@ -30,16 +30,16 @@ angular.module('cri.auth',[
                 if($rootScope.currentUser.email){
                     Notification.display("Welcome you're logged in");
                 }else{
-                    $materialDialog({
+                    $mdDialog.show({
                         templateUrl : 'modules/auth/templates/modal/after-auth.tpl.html',
                         clickOutsideToClose : false,
                         escapeToClose : false,
                         locals : {
                             currentUser : $scope.currentUser
                         },
-                        controller : ['$scope','$hideDialog','Profile','currentUser',function($scope,$hideDialog,Profile,currentUser){
+                        controller : function($scope,$hideDialog,Profile,currentUser){
                             $scope.cancel = function(){
-                                $hideDialog();
+                                $mdDialog.hide();
                             };
                             $scope.updateProfile = function(){
                                 $scope.profile = {
@@ -54,7 +54,7 @@ angular.module('cri.auth',[
                                     Notification.display("Error - you are not logged in");
                                 });
                             };
-                        }]
+                        }
                     });
                 }
 
@@ -118,7 +118,7 @@ angular.module('cri.auth',[
             });
         };
 
-    }])
+    })
     .controller('RegisterCtrl', ['$scope','$state','Notification','Gmap','Files','$auth',  function ($scope, $state, Notification,Gmap,Files,$auth) {
 
         $scope.rgform = {};

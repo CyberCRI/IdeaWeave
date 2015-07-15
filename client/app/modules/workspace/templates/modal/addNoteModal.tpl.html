@@ -1,6 +1,6 @@
 <md-dialog>
     <md-toolbar>
-        <div layout="horizontal" layout-align="start center">
+        <div layout="row" layout-align="start center">
             <div>
                 <md-checkbox ng-model="note.public" aria-label="Checkbox 1">
                     Public ?
@@ -22,7 +22,7 @@
         </div>
     </md-toolbar>
     <md-content>
-        <form name="noteForm" layout="vertical">
+        <form name="noteForm" layout="column">
             <ui-select ng-model="note.type" theme="selectize" style="width: 100%;">
                 <ui-select-match placeholder="Select the type of note you want write">
                     <i class="fa fa-2x" ng-class="{'fa-comments' : $select.selected.id == 1,'fa-tasks' : $select.selected.id == 2, 'fa-flask' : $select.selected.id == 3,'fa-graduation-cap':$select.selected.id == 4 }"></i>

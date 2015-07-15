@@ -1,7 +1,7 @@
-<md-content layout="vertical" layout-md="horizontal" layout-fill>
+<md-content layout="column" layout-md="horizontal" layout-fill>
     <md-sidenav class="md-sidenav-left md-whiteframe-z2 left" component-id="left" >
         <md-content>
-            <md-toolbar layout="horizontal">
+            <md-toolbar layout="row">
                 <div class="md-toolbar-tools">
                     <i class="fa fa-caret-left fa-2x my-btn" hide-md style="color:black;" ng-click="toggle()" flex></i>
                     <i class="fa fa-lightbulb-o"> Challenge us!</i>
@@ -15,7 +15,7 @@
     </md-sidenav>
     <md-content flex class="right-part">
         <h2>New Challenge</h2>
-        <md-form name="cform" layout="vertical" layout-align="">
+        <md-form name="cform" layout="column" layout-align="">
             <md-input-group>
                 <label for="title">Title</label>
                 <md-input id="title" type="text" ng-model="pform.title" ng-change="titleChange(pform.title)"/>
@@ -44,7 +44,7 @@
             <textarea placeholder="A short description of your challenge" ng-model="pform.brief" rows="5" style="width:100%;"></textarea>
 
             <div>
-                <md-button style="width:100%;" ng-click="createChallenge(pform)" class="md-button-raised">{{'BTN_SUBMIT'|translate}}</md-button>
+                <md-button style="width:100%;" ng-click="createChallenge(pform)" class="md-raised">{{'BTN_SUBMIT'|translate}}</md-button>
             </div>
         </md-form>
     </md-content>

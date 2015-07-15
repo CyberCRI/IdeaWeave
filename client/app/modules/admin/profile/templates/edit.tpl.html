@@ -1,7 +1,7 @@
-<section layout="horizontal" layout-fill>
+<section layout="row" layout-fill>
     <md-sidenav class="md-sidenav-left md-whiteframe-z2 left" component-id="left">
-        <md-content style="padding-left: 20px;" layout="vertical" layout-fill>
-            <md-toolbar layout="horizontal">
+        <md-content style="padding-left: 20px;" layout="column" layout-fill>
+            <md-toolbar layout="row">
                 <div class="md-toolbar-tools">
                     <i class="fa fa-caret-left fa-2x my-btn" hide-md style="color:black;" ng-click="toggle()" flex></i>
                     <div>
@@ -9,7 +9,7 @@
                     </div>
                 </div>
             </md-toolbar>
-            <section layout="vertical">
+            <section layout="column">
                 <md-button ng-click="editPageModal()">
                     Edit your personal page
                 </md-button>
@@ -20,7 +20,7 @@
                     Reset Password
                 </md-button>
             </section>
-            <section layout="vertical">
+            <section layout="column">
                 <header>
                     <h3 class="center">Notifications</h3>
                 </header>
@@ -31,14 +31,14 @@
                     <md-checkbox ng-model="profile.mailNotification">
                         Email
                     </md-checkbox>
-                    <md-button class="md-button-raised" ng-click="updateProfile()" style="width:100%;">
+                    <md-button class="md-raised" ng-click="updateProfile()" style="width:100%;">
                         Save
                     </md-button>
                 </section>
             </section>
         </md-content>
     </md-sidenav>
-    <section layout="vertical" layout-fill>
+    <section layout="column" layout-fill>
         <md-toolbar class="md-theme-green" scroll-shrink>
             <h2 class="center">Edit your profile !</h2>
         </md-toolbar>
@@ -59,7 +59,7 @@
                     </ui-select-choices>
                 </ui-select>
                 <tag-manager entity='profile' ng-model='profile.tags'></tag-manager>
-                <md-button style="width:100%;" class="md-button-raised"  ng-click="updateProfile(profile)">Update Profile</md-button>
+                <md-button style="width:100%;" class="md-raised"  ng-click="updateProfile(profile)">Update Profile</md-button>
             </form>
         </md-content>
     </section>

@@ -1,6 +1,6 @@
 <md-dialog>
     <md-toolbar>
-        <div layout="horizontal">
+        <div layout="row">
             <div flex></div>
             <md-button class="md-button-fab" ng-href="{{ fileDetails.url }}" target="_blank">
                 <i class="fa fa-download"></i>
@@ -17,7 +17,7 @@
         <section>
             {{ fileDetails.originalName }}
         </section>
-        <section layout="horizontal">
+        <section layout="row">
             <p ng-bind="fileDetails.description" flex></p>
         </section>
         <section>

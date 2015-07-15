@@ -1,6 +1,6 @@
-<md-content layout="vertical" layout-fill>
+<md-content layout="column" layout-fill>
     <md-toolbar scroll-shrink class="home-header">
-        <div layout="vertical" class="content">
+        <div layout="column" class="content">
             <h1>
                 {{ project.title }}
             </h1>        
@@ -9,18 +9,18 @@
         <md-button class="md-button-fab" ng-click="toggleLeft()" style="bottom:-24px;position:absolute; left:20px;z-index : inherit" hide-md>
             <i class="fa fa-bars"></i>
         </md-button>
-        <md-button class="md-button-fab md-button-raised" ng-click="follow()" style="bottom:-24px;position:absolute; right:20px;z-index : inherit" ng-class="{ 'md-theme-indigo' : isFollow }" ng-if="currentUser && !isOwner">
+        <md-button class="md-button-fab md-raised" ng-click="follow()" style="bottom:-24px;position:absolute; right:20px;z-index : inherit" ng-class="{ 'md-theme-indigo' : isFollow }" ng-if="currentUser && !isOwner">
             <i class="fa fa-thumbs-up"></i>
         </md-button>
     </md-toolbar>
 
     <h3 class="show-line-breaks">{{ project.brief }}</h3>
 
-    <div layout="horizontal" layout-align="center center">
+    <div layout="row" layout-align="center center">
         <img ng-if="project.banner" src="{{ project.banner }}" />
     </div>
 
-    <div layout="horizontal">
+    <div layout="row">
         <div flex></div>
         <div>
             <span>

@@ -1,4 +1,4 @@
-<section layout="vertical">
+<section layout="column">
     <md-button ng-click="addResourceModal($event)">
         <i class="md-button-icon fa fa-plus fa-2x"></i>
         <span>
@@ -13,7 +13,7 @@
 
     <md-list class="list-resource">
         <md-item ng-repeat="url in urls | filter:urlFilter">
-            <div class="md-tile-content" layout="vertical" layout-align="start center">
+            <div class="md-tile-content" layout="column" layout-align="start center">
                 <p>
                     <a ng-href="{{ url.text }}" target="_blank" class="url">{{ url.title }}</a>
                     <md-button ng-click="removeUrl(url)"><i class="fa fa-times"></i></md-button>

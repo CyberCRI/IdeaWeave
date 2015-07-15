@@ -10,7 +10,7 @@
                     Organizations or individuals post challenges, which are like competitions, and people suggest projects that meet this challenge. Anyone can follow and join a project to help develop it.
                 </p>
                 <div>
-                    <md-button ui-sref="signup" class="md-button-raised md-button-colored">GET INVOLVED</md-button>
+                    <md-button ui-sref="signup" class="md-raised md-button-colored">GET INVOLVED</md-button>
                 </div>
             </section>
             <section class="my-carousel carousel-home  center" ng-if="challenge.intro == 2" >
@@ -21,7 +21,7 @@
                     Ideaweaves provides you with a dedicated space and feedback tools that are easy to use.
                 </h1>
             </section>
-            <section  layout="vertical"  class="my-carousel carousel-home center" ng-if="challenge.intro == 3">
+            <section  layout="column"  class="my-carousel carousel-home center" ng-if="challenge.intro == 3">
                 <img src="images/svg/logocaroussel.svg" alt="ideaWeaveLogo" />
                 <h1 class="center">IdeaWeave provides a simple collaborative working environment, the possibility to organise and archive discussions, a clear visibility on the taks to be performed and the resources needed.</h1>
             </section>
@@ -32,10 +32,10 @@
                 </a>
                 <showtags entity="challenge"></showtags>
 
-                <div layout="horizontal" layout-align="center center">
-                    <md-button ui-sref="challenge({cid : challenge.accessUrl})" class="md-button-raised md-button-colored">Take a look</md-button>
+                <div layout="row" layout-align="center center">
+                    <md-button ui-sref="challenge({cid : challenge.accessUrl})" class="md-raised md-button-colored">Take a look</md-button>
                     &nbsp;&nbsp;
-                    <md-button ui-sref="challenges.list({tag : 'all'})" class="md-button-raised md-button-colored">See more challenges</md-button>
+                    <md-button ui-sref="challenges.list({tag : 'all'})" class="md-raised md-button-colored">See more challenges</md-button>
                 </div>
             </section>
         </li>

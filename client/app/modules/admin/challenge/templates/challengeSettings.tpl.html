@@ -4,7 +4,7 @@
     </div>
 </md-toolbar>
 <md-content class="right-part">
-    <form name="projectBasic" layout="vertical">
+    <form name="projectBasic" layout="column">
         <md-input-group>
             <label for="title">Title</label>
             <md-input type="text" id="title" name="title" ng-model="challenge.title" required></md-input>
@@ -23,12 +23,12 @@
             Update Challenge
         </md-button>
     </form>
-    <section layout="vertical" layout-md="horizontal">
-        <section flex-md layout="vertical">
+    <section layout="column" layout-md="horizontal">
+        <section flex-md layout="column">
             <header>
                 <h2 class="center">Workspace's templates</h2>
             </header>
-            <md-button style="width:100%" class="md-button-raised" ng-click="popUpTemplate()">
+            <md-button style="width:100%" class="md-raised" ng-click="popUpTemplate()">
                 New Template
             </md-button>
             <md-list>
@@ -50,11 +50,11 @@
                 </md-item>
             </md-list>
         </section>
-        <section flex-md layout="vertical">
+        <section flex-md layout="column">
             <header>
                 <h2 class="center">Projects</h2>
             </header>
-            <md-button style="width:100%" class="md-button-raised" ng-click="createProject()">
+            <md-button style="width:100%" class="md-raised" ng-click="createProject()">
                 New Project
             </md-button>
         </section>

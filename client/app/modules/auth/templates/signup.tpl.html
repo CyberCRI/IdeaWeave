@@ -1,4 +1,4 @@
-<section layout="horizontal" layout-align="space-around">
+<section layout="row" layout-align="space-around">
     <form name="signupForm"  ng-controller="RegisterCtrl"  flex-sm="50" ng-submit="registerUser(signup)">
         <div class="center">
             <img src="images/svg/Joinus.svg" alt="Join Us"/>
@@ -54,6 +54,6 @@
         </div>
         <div ng-messages="signupForm.read.$error" ng-if="!signupForm.passwordR.$pristine">
         </div>
-        <md-button style="width:100%;" class="md-button-raised" type="submit" ng-disabled="signupForm.$invalid">Register</md-button>
+        <md-button style="width:100%;" class="md-raised" type="submit" ng-disabled="signupForm.$invalid">Register</md-button>
     </form>
 </section>

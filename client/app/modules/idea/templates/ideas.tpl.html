@@ -1,4 +1,4 @@
-<section layout="vertical" layout-fill>
+<section layout="column" layout-fill>
     <md-toolbar scroll-shrink class="md-theme-green">
         <div class="center">Ideas</div>
         <md-button class="md-button-fab md-theme-green" ng-click="toggleLeft()" style="color:black;bottom:-24px;position:absolute; left :20px;z-index : inherit" hide-md>
@@ -22,7 +22,7 @@
                         <showtags entity="idea"></showtags>
                         <div hide block-md>
                             <p ng-bind-html="idea.brief"></p>
-                            <div layout="horizontal">
+                            <div layout="row">
                                 <div flex>
                                     <span>
                                     {{ idea.followers.length }}
