@@ -41,13 +41,13 @@
         </li>
     </ul>
 
-    <article >
+    <article>
         <h1 class="center" >Popular Projects</h1>
-        <section style="text-align: center">
-            <project-card ng-repeat="project in projects" my-project="project" inline-block>
-
-            </project-card>
-        </section>
+        <md-grid-list md-cols="3" md-row-height="400px">
+            <md-grid-tile ng-repeat="project in projects">
+                <project-card-contents my-project="project" style="height: 400px;"></project-card-contents> 
+            </md-grid-tile>            
+        </md-grid-list>
 
 
     </article>

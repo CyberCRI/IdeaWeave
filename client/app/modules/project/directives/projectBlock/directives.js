@@ -71,6 +71,37 @@ angular.module('cri.project')
         return {
             restrict : 'EA',
             templateUrl : 'modules/project/directives/projectBlock/project-card.tpl.html',
+            // replace: true,
+            scope : {
+                projectId : '=',
+                myProject : '=',
+                admin : '='
+            },
+            controller : ['$scope','Project',function($scope,Project){
+                if($scope.projectId){
+                    Project.fetch( { _id : $scope.projectId, type : 'card' }).then(function(project){
+                        $scope.project = project[0];
+                    }).catch(function(err){
+                        console.log('error',err);
+                    });
+                }else{
+                    $scope.project = $scope.myProject;
+                }
+            }],
+            link:function(scope,element,attrs){
+                element.bind('mouseenter',function(e){
+                    scope.isHovered = true;
+                });
+                element.bind('mouseleave',function(e){
+                    scope.isHovered = false;
+                });
+            }
+        };
+    }])
+.directive('projectCardContents',[function(){
+        return {
+            restrict : 'EA',
+            templateUrl : 'modules/project/directives/projectBlock/project-card-contents.tpl.html',
             scope : {
                 projectId : '=',
                 myProject : '=',
