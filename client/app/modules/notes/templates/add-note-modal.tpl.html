@@ -1,17 +1,16 @@
 <md-dialog>
-    <md-toolbar layout="row" layout-align="">
-        <div layout layout-align="start center">
-            <div flex>Add Note</div>
-            <span class="faa-spin animated" ng-if="isLoading">
-                <i class="fa fa-spinner"></i>
-            </span>
-            <md-button class="md-button-fab" ng-click="addNote(noteText)">
-                <i class="fa fa-save"></i>
-            </md-button>
-            <md-button class="md-button-fab" ng-click="cancel()">
-                <i class="fa fa-times"></i>
-            </md-button>
-        </div>
+    <md-toolbar layout="row" layout-align="start center">
+        <div>Add Note</div>
+        <div flex></div>
+        <span class="faa-spin animated" ng-if="isLoading">
+            <i class="fa fa-spinner"></i>
+        </span>
+        <md-button class="md-fab" ng-click="addNote(noteText)">
+            <i class="fa fa-save"></i>
+        </md-button>
+        <md-button class="md-fab" ng-click="cancel()">
+            <i class="fa fa-times"></i>
+        </md-button>
     </md-toolbar>
     <md-content>
         <form name="descriptionForm">

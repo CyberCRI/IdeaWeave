@@ -1,9 +1,13 @@
 <section layout="column">
+    <md-button ui-sref="project.admin({ pid : project.accessUrl })" ng-if="isOwner">
+        <i class="fa fa-pencil-square-o baseColor"></i> Edit
+    </md-button>
+
     <section flex>
         <div ng-bind-html="project.home">
         </div>
     </section>
-    <div class="row center" style="margin-top: 60px;padding-bottom: 30px;">
+    <div class="row center">
         <div class="btn-group">
             <md-button class="md-button-colored" ng-click="openApplyModal()" ng-if="!isOwner && !isMember">Join Project</md-button>
             <md-button class="md-button-colored" ng-click="openShare()">Promote Project</md-button>

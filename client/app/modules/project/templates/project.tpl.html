@@ -1,19 +1,16 @@
+<md-toolbar scroll-shrinkF>
+    <div layout="column" class="content">
+        <h1>
+            {{ project.title }}
+        </h1>        
+    </div>
+
+    <md-button class="md-fab md-raised" ng-click="follow()" style="bottom:-24px;position:absolute; right:20px;z-index : inherit" ng-class="{ 'md-primary' : isFollow }" ng-if="currentUser && !isOwner">
+        <i class="fa fa-thumbs-up"></i>
+    </md-button>
+</md-toolbar>
+
 <md-content layout="column" layout-fill>
-    <md-toolbar scroll-shrink class="home-header">
-        <div layout="column" class="content">
-            <h1>
-                {{ project.title }}
-            </h1>        
-        </div>
-
-        <md-button class="md-button-fab" ng-click="toggleLeft()" style="bottom:-24px;position:absolute; left:20px;z-index : inherit" hide-md>
-            <i class="fa fa-bars"></i>
-        </md-button>
-        <md-button class="md-button-fab md-raised" ng-click="follow()" style="bottom:-24px;position:absolute; right:20px;z-index : inherit" ng-class="{ 'md-theme-indigo' : isFollow }" ng-if="currentUser && !isOwner">
-            <i class="fa fa-thumbs-up"></i>
-        </md-button>
-    </md-toolbar>
-
     <h3 class="show-line-breaks">{{ project.brief }}</h3>
 
     <div layout="row" layout-align="center center">
