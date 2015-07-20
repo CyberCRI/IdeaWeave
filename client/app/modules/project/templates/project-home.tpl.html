@@ -6,7 +6,17 @@
     <div class="row center" style="margin-top: 60px;padding-bottom: 30px;">
         <div class="btn-group">
             <material-button class="material-button-colored" ng-click="openApplyModal()" ng-if="!isOwner && !isMember">Join Project</material-button>
-            <material-button class="material-button-colored" ng-click="openShare()">Promote Project</material-button>
+            <span class='st_facebook_large' displayText='Facebook' st_title='project title'></span>
+            <span class='st_twitter_large' displayText='Tweet' st_title='project title'></span>
+            <span class='st_linkedin_large' displayText='LinkedIn' st_title='project title'></span>
+            <span class='st_googleplus_large' displayText='Google +' st_title='project title'></span>
+            <span class='st_email_large' displayText='Email' st_title='project title'></span>
+            <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
+            <script type="text/javascript">
+                stLight.options({
+                        publisher:'a0063f66-4da0-4218-ba21-08b5cb95253e',
+                });
+            </script>
         </div>
     </div>
 
