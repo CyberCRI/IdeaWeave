@@ -17,7 +17,7 @@ angular.module('cri.etherpad',[])
                     // Set up cookies
                     return $http.get(Config.apiServer+'/etherpad/session')
                     .then(function(sessionData) {
-                        $cookies.sessionID = sessionData.data.sessionString;
+                        $cookies.put("sessionID", sessionData.data.sessionString);
                         scope.url = "/etherpad/p/" + padData.data.padId;
                     });
                 }).catch(function(data) {
