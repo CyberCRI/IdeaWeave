@@ -29,10 +29,10 @@
                     <div showtags entity="challenge"></div>
                 </ui-select-choices>
             </ui-select>
-            <md-input-group>
+            <md-input-container>
                 <label for="title">Project Title</label>
-                <md-input id="title" type="text" ng-model="newProject.title" required="" ng-change="titleChange(newProject.title)" />
-            </md-input-group>
+                <input id="title" type="text" ng-model="newProject.title" required="" ng-change="titleChange(newProject.title)" />
+            </md-input-container>
             <tag-manager entity="newProject"></tag-manager>
 
             <label>Where your project is based</label>

@@ -12,14 +12,14 @@
     </md-toolbar>
     <md-content>
         <form name="inviteform">
-            <md-input-group>
+            <md-input-container>
                 <label for="email">Your friend's email</label>
-                <md-input id="email" type="text" ng-model="invite.email"></md-input>
-            </md-input-group>
-            <md-input-group>
+                <input id="email" type="text" ng-model="invite.email"></input>
+            </md-input-container>
+            <md-input-container>
                 <label for="subject">Subject</label>
-                <md-input type="text"  id="subject" ng-model="invite.subject"></md-input>
-            </md-input-group>
+                <input type="text"  id="subject" ng-model="invite.subject"></input>
+            </md-input-container>
             <textarea ui-tinymce  class="form-control" ng-model="invite.message"></textarea>
         </form>
     </md-content>

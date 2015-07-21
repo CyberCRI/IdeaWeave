@@ -33,10 +33,10 @@
                     <span ng-bind-html="category.title | highlight: $select.search"></span>
                 </ui-select-choices>
             </ui-select>
-            <md-input-group>
+            <md-input-container>
                 <label for="title">Title</label>
-                <md-input id="title" type="text" ng-model="note.title" />
-            </md-input-group>
+                <input id="title" type="text" ng-model="note.title" />
+            </md-input-container>
             <textarea ui-tinymce="tinymceOptions" ng-model="note.text"></textarea>
         </form>
     </md-content>

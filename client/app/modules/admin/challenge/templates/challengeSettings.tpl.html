@@ -5,10 +5,10 @@
 </md-toolbar>
 <md-content class="right-part">
     <form name="projectBasic" layout="column">
-        <md-input-group>
+        <md-input-container>
             <label for="title">Title</label>
-            <md-input type="text" id="title" name="title" ng-model="challenge.title" required></md-input>
-        </md-input-group>
+            <input type="text" id="title" name="title" ng-model="challenge.title" required></input>
+        </md-input-container>
         <div ng-messages="projectBasic.title.$error">
             <div ng-message="required">
                 Title is required

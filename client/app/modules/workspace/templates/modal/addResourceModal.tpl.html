@@ -14,18 +14,18 @@
     </md-toolbar>
     <md-content>
         <form name="resourceForm">
-            <md-input-group>
+            <md-input-container>
                 <label for="title">Link name</label>
-                <md-input type="text" id="title" ng-model="url.title" required style="width:100%;"/>
-            </md-input-group>
-            <md-input-group>
+                <input type="text" id="title" ng-model="url.title" required style="width:100%;"/>
+            </md-input-container>
+            <md-input-container>
                 <label for="url">URL (http://...)</label>
-                <md-input type="url" id="url" ng-model="url.text" required />
-            </md-input-group>
-            <md-input-group>
+                <input type="url" id="url" ng-model="url.text" required />
+            </md-input-container>
+            <md-input-container>
                 <label for="description">Description</label>
-                <md-input type="text" id="description" ng-model="url.description" style="width:100%;"/>
-            </md-input-group>
+                <input type="text" id="description" ng-model="url.description" style="width:100%;"/>
+            </md-input-container>
         </form>
     </md-content>
 </md-dialog>

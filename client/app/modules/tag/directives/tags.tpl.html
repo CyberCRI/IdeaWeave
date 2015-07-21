@@ -14,10 +14,10 @@
         </md-button>
     </div>
     <div layout="row" layout-align="start end" ng-if="formTag">
-        <md-input-group flex>
+        <md-input-container flex>
             <label for="newTag">New Tag</label>
-            <md-input id="newTag" type="text" ng-model="newTag.title" />
-        </md-input-group>
+            <input id="newTag" type="text" ng-model="newTag.title" />
+        </md-input-container>
         <i class="fa fa-plus fa-2x my-btn" ng-if="newTag.title" ng-click="addNew(newTag)"></i>
     </div>
     <div>

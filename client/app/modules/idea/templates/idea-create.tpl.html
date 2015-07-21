@@ -1,10 +1,10 @@
 <md-content flex>
     <h2>{{ title }}</h2>
     <md-form layout="column">
-        <md-input-group>
+        <md-input-container>
             <label for="title">Title</label>
-            <md-input id="title" type="text" ng-model="idea.title" />
-        </md-input-group>
+            <input id="title" type="text" ng-model="idea.title" />
+        </md-input-container>
         <tag-manager entity="idea"></tag-manager>
 
         <textarea placeholder="What's your idea?" ng-model="idea.brief" rows="5"></textarea>

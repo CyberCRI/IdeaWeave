@@ -7,14 +7,14 @@
     </md-toolbar>
     <md-content>
         <form name="afterForm" style="padding-left: 10px;">
-            <md-input-group>
+            <md-input-container>
                 <label for="additional-username">User name</label>
-                <md-input type="text" id="additional-username" ng-model="currentUser.username"></md-input>
-            </md-input-group>
-            <md-input-group>
+                <input type="text" id="additional-username" ng-model="currentUser.username"></input>
+            </md-input-container>
+            <md-input-container>
                 <label for="additional-email">Email</label>
-                <md-input id="additional-email" type="text" ng-model="currentUser.email"></md-input>
-            </md-input-group>
+                <input id="additional-email" type="text" ng-model="currentUser.email"></input>
+            </md-input-container>
         </form>
     </md-content>
 </md-dialog>

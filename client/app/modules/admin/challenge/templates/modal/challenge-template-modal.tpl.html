@@ -15,10 +15,10 @@
             </div>
         </md-toolbar>
         <md-content>
-                <md-input-group>
+                <md-input-container>
                     <!--<label for="title">Template's title</label>-->
-                    <md-input type="text" id="title" name="title" ng-model="newTemplate.title" required></md-input>
-                </md-input-group>
+                    <input type="text" id="title" name="title" ng-model="newTemplate.title" required></input>
+                </md-input-container>
                 <div ng-messages = "templateForm.title.$error" ng-if="!templateForm.title.$pristine">
                     <div ng-message="required">
                         title is required

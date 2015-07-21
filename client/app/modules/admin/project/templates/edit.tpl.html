@@ -1,29 +1,20 @@
-<md-content layout="row" layout-fill>
-    <md-sidenav class="md-sidenav-left md-whiteframe-z2 left" component-id="left">
-        <md-content style="padding-left: 20px;" layout="column" >
-            <md-toolbar layout="row">
-                <div class="md-toolbar-tools">
-                    <i class="fa fa-caret-left fa-2x my-btn" hide-md style="color:black;" ng-click="toggle()" flex></i>
-                    <div>
-                        <i class="fa fa-user">Edit your project</i>
-                    </div>
-                </div>
-            </md-toolbar>
-            <md-button ng-click="popUpEdit()">
-                Edit Home Page
-            </md-button>
-            <md-button ng-click="popUpPoster()">
-                Edit Poster
-            </md-button>
-            <md-button ng-click="popUpBanner()">
-                Edit Banner
-            </md-button>
-            <md-button class="md-warn" ng-click="popUpRemove()">
-                Delete
-            </md-button>
-        </md-content>
-    </md-sidenav>
-    <form name="projectBasic" layout="column" flex class="right-part">
+<md-content layout="column" layout-fill>
+    <div>
+        <md-button ng-click="popUpEdit()">
+            Edit Home Page
+        </md-button>
+        <md-button ng-click="popUpPoster()">
+            Edit Poster
+        </md-button>
+        <md-button ng-click="popUpBanner()">
+            Edit Banner
+        </md-button>
+        <md-button class="md-warn" ng-click="popUpRemove()">
+            Delete
+        </md-button>
+    </div>
+
+    <form name="projectBasic" layout="column" flex>
         <ui-select ng-model="project.localisation"
                    theme="selectize"
                    reset-search-input="false">
@@ -35,21 +26,23 @@
             </ui-select-choices>
         </ui-select>
         <tag-manager entity="project" ng-model="project.tags"></tag-manager>
-        <md-input-group>
+        <md-input-container>
             <label for="title">Title</label>
-            <md-input id="title" type="text" ng-model="project.title" name="title"/>
-        </md-input-group>
+            <input id="title" type="text" ng-model="project.title" name="title" required/>
+        </md-input-container>
         <div ng-messages="projectBasic.title.$error">
             <div ng-message="required">
-                title is required
+                Title is required
             </div>
         </div>
-        <label for="brief"></label>
-        <textarea  id="brief" rows="5" style="width:100%;" ng-model="project.brief"></textarea>
-        <md-input-group >
+        <md-input-container>
+            <label for="brief">Brief Description</label>
+            <textarea  id="brief" rows="5" style="width:100%;" ng-model="project.brief"></textarea>
+        </md-input-container>
+        <md-input-container >
             <label for="trello">Trello Id (like <code>U0aBsIQl</code>)</label>
-            <md-input id="trello" type="text"ng-model="project.trello" />
-        </md-input-group>
+            <input id="trello" type="text"ng-model="project.trello" />
+        </md-input-container>
         <md-button flex class="md-raised md-button-colored" type="button" ng-click="updateProject($event)" ng-disabled="">Update</md-button>
     </form>
 </md-content>

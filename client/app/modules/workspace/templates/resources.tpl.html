@@ -6,10 +6,10 @@
         </span>
     </md-button>
 
-    <md-input-group >
+    <md-input-container >
         <label for="urlFilter"><i class="fa fa-search fa-2x"></i> Filter by title</label>
-        <md-input type="text" ng-model="urlFilter.title" id="urlFilter"/>
-    </md-input-group>
+        <input type="text" ng-model="urlFilter.title" id="urlFilter"/>
+    </md-input-container>
 
     <md-list class="list-resource">
         <md-item ng-repeat="url in urls | filter:urlFilter">

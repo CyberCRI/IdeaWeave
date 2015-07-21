@@ -44,10 +44,10 @@
         </md-toolbar>
         <md-content flex class="right-part">
             <form name="basicForm">
-                <md-input-group>
+                <md-input-container>
                     <label for="username">User name</label>
-                    <md-input type="text" id="username" ng-model="profile.username"></md-input>
-                </md-input-group>
+                    <input type="text" id="username" ng-model="profile.username"></input>
+                </md-input-container>
                 <ui-select ng-model="profile.localisation"
                            theme="selectize"
                            reset-search-input="false">

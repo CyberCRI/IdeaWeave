@@ -16,10 +16,10 @@
     <md-content flex class="right-part">
         <h2>New Challenge</h2>
         <md-form name="cform" layout="column" layout-align="">
-            <md-input-group>
+            <md-input-container>
                 <label for="title">Title</label>
-                <md-input id="title" type="text" ng-model="pform.title" ng-change="titleChange(pform.title)"/>
-            </md-input-group>
+                <input id="title" type="text" ng-model="pform.title" ng-change="titleChange(pform.title)"/>
+            </md-input-container>
             <tag-manager entity="pform"></tag-manager>
             <ui-select ng-model="pform.localisation"
                        theme="selectize"
@@ -32,14 +32,14 @@
                     <div ng-bind-html="address.formatted_address | highlight: $select.search"></div>
                 </ui-select-choices>
             </ui-select>
-            <md-input-group>
+            <md-input-container>
                 <label for="startdate" style="padding-left:100px;">Start date</label>
-                <md-input type="date" id="startdate" ng-model="pform.startDate"></md-input>
-            </md-input-group>
-            <md-input-group>
+                <input type="date" id="startdate" ng-model="pform.startDate"></input>
+            </md-input-container>
+            <md-input-container>
                 <label for="endDate" style="padding-left:100px;">End date</label>
-                <md-input type="date" id="endDate" ng-model="pform.endDate"></md-input>
-            </md-input-group>
+                <input type="date" id="endDate" ng-model="pform.endDate"></input>
+            </md-input-container>
 
             <textarea placeholder="A short description of your challenge" ng-model="pform.brief" rows="5" style="width:100%;"></textarea>
 
