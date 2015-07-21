@@ -59,7 +59,7 @@
             <md-grid-list md-cols="3" md-row-height="400px">
                 <md-grid-tile ng-repeat="project in idea.projects">
                     <div layout="column" style="height: 400px;">
-                        <project-card-contents project-id="project"></project-card-contents>
+                        <project-card project-id="project"></project-card>
                         <md-button ng-click="removeLinkToProject(project)">
                             <i class="fa fa-times baseColor"></i> Remove Project
                         </md-button>

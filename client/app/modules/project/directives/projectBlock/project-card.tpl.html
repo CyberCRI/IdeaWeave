@@ -1,42 +1,40 @@
-<md-grid-tile>
-    <a ui-sref="project.home({ pid : project.accessUrl })">
-        <img ng-src="{{project.poster || '/images/placeholder100x100.png'}}" alt="..." class="md-card-image">
-    </a>
-    <md-button ng-if="admin && isHovered" ui-sref="projectAdmin({ pid : project._id })">
-        <i class="fa fa-gears"></i>
-        Admin
-    </md-button>
-    <a ui-sref="project.home({ pid : project.accessUrl })">
-        <h4>{{ project.title }}</h4>
-    </a>
-    <div class="text-muted" layout="row">
-        <div>
-            By :
-        </div>
-        <user-info ng-if="project.owner" user-id="project.owner" flex></user-info>
+<a ui-sref="project.home({ pid : project.accessUrl })">
+    <img ng-src="{{project.poster || '/images/placeholder100x100.png'}}" alt="Project poster" class="md-card-image" width="100px">
+</a>
+<md-button ng-if="admin && isHovered" ui-sref="projectAdmin({ pid : project._id })">
+    <i class="fa fa-gears"></i>
+    Admin
+</md-button>
+<a ui-sref="project.home({ pid : project.accessUrl })">
+    <h4>{{ project.title }}</h4>
+</a>
+<div class="text-muted" layout="row" layout-align="start center">
+    <div>
+        By:
     </div>
-    <p class="text-muted" ng-bind="project.brief" style="max-height:200px;overflow:hidden;" ></p>
-    <showtags entity="project"></showtags>
-    <div layout="row">
-        <div flex layout="row" class="text-muted">
-            <span>
-                {{ project.followers.length }}
-            </span>
-            &nbsp;
-            <span>
-                Followers
-            </span>
-        </div>
+    <user-info ng-if="project.owner" user-id="project.owner" flex></user-info>
+</div>
+<p class="text-muted" ng-bind="project.brief"></p>
+<showtags entity="project"></showtags>
+<div layout="row">
+    <div flex layout="row" class="text-muted">
+        <span>
+            {{ project.followers.length }}
+        </span>
         &nbsp;
-        &nbsp;
-        <div flex layout="row" class="text-muted">
-            <span>
-                {{ project.members.length }}
-            </span>
-            &nbsp;
-            <span class="text-muted">
-                Members
-            </span>
-        </div>
+        <span>
+            Followers
+        </span>
     </div>
-</md-grid-tile>
+    &nbsp;
+    &nbsp;
+    <div flex layout="row" class="text-muted">
+        <span>
+            {{ project.members.length }}
+        </span>
+        &nbsp;
+        <span class="text-muted">
+            Members
+        </span>
+    </div>
+</div>

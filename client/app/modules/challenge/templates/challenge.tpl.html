@@ -1,23 +1,20 @@
+<md-toolbar scroll-shrink>
+    <div layout="column" class="content">
+        <h1>
+            {{ challenge.title }}
+        </h1>
+    </div>
+
+    <div ng-if="isFollow">
+        <i class="fa fa-star baseColor"></i> Following
+    </div>
+
+    <md-button class="md-fab md-raised" ng-click="follow()" style="position:absolute; right:20px; z-index: inherit" ng-class="{ 'md-accent' : isFollow }" ng-if="currentUser && !isOwner">
+        <i class="fa fa-thumbs-up"></i>
+    </md-button>
+</md-toolbar>
+
 <md-content layout="column" layout-fill>
-    <md-toolbar scroll-shrink>
-        <div layout="column" class="content">
-            <h1>
-                {{ challenge.title }}
-            </h1>
-        </div>
-
-        <div ng-if="isFollow">
-            <i class="fa fa-star baseColor"></i> Following
-        </div>
-
-        <md-button class="md-fab" ng-click="toggleLeft()" style="bottom:-24px;position:absolute; left:20px;z-index : inherit" hide-md>
-            <i class="fa fa-bars"></i>
-        </md-button>
-        <md-button class="md-fab md-raised" ng-click="follow()" style="position:absolute; right:20px; z-index: inherit" ng-class="{ 'md-accent' : isFollow }" ng-if="currentUser && !isOwner">
-            <i class="fa fa-thumbs-up"></i>
-        </md-button>
-    </md-toolbar>
-
     <h3 class="show-line-breaks">{{ challenge.brief }}</h3>
 
     <div layout="row" layout-align="center center">
@@ -62,14 +59,18 @@
 
         <h3>Related Projects</h3>
 
-        <section>
-            <project-card inline-block project-id="project" ng-repeat="project in challenge.projects"></project-card>
-        </section>
+        <md-grid-list md-cols="3" md-row-height="400px">
+            <md-grid-tile ng-repeat="project in challenge.projects">
+                <project-card project-id="project" style="height: 400px;"></project-card>
+            </md-grid-tile>
+        </md-grid-list>
 
         <h3>Related Ideas</h3>
 
-        <section>
-            <idea-card inline-block idea-id="idea" ng-repeat="idea in challenge.ideas"></idea-card>
-        </section>
+        <md-grid-list md-cols="3" md-row-height="400px">
+            <md-grid-tile ng-repeat="idea in challenge.ideas">
+                <idea-card idea-id="idea" ng-repeat="idea in challenge.ideas" style="height: 400px;"></idea-card>
+            </md-grid-tile>
+        </md-grid-list>
     </div>
 </md-content>
