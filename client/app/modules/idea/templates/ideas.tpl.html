@@ -13,7 +13,7 @@
             <md-list-item ng-repeat="idea in ideas" class="item-list">
                 <article class="md-tile-content">
                     <a ui-sref="idea({ iid : idea._id })">
-                        <h1>{{ idea.title }}</h1>
+                        <h1 class="md-headline">{{ idea.title }}</h1>
                     </a>
                     <showtags entity="idea"></showtags>
                     <div hide block-md>

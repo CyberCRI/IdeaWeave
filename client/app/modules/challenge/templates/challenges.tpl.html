@@ -1,12 +1,9 @@
 <section layout="column" layout-fill>
-    <md-toolbar scroll-shrink class="md-accent" layout="column" style="position:relative;z-index:10;">
+    <md-toolbar scroll-shrink layout="column" style="position:relative;z-index:10;">
         <div class="center">
             Challenges 
         </div>
-        <md-button class="md-fab md-accent" ng-click="toggleLeft()" style="color:black;bottom:-24px;position:absolute; left :20px;z-index : inherit" hide-md>
-            <i class="fa fa-bars" style="font-size: 1.2em; top:3px;position:relative;z-index: 50"></i>
-        </md-button>
-        <md-button class="md-fab md-fab-bottom-right md-accent" ui-sref="challengeSuggest" ng-if="currentUser" style="color:black;bottom:-24px;position:absolute; right:20px;z-index : inherit">
+        <md-button class="md-fab md-accent" ui-sref="challengeSuggest" ng-if="currentUser" style="color:black;bottom:-24px;position:absolute; right:20px;z-index : inherit">
             <i class="fa fa-plus" style="font-size: 1.2em; top:3px;position:relative;z-index: 50"></i>
         </md-button>
     </md-toolbar>
