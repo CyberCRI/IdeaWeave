@@ -8,7 +8,7 @@
     <ui-select-choices repeat="result in searchResult track by $index"
                        refresh="refreshSearchBar($select.search)"
                        refresh-delay="0">
-        <md-divider ng-if="result.separator" style="text-align: center;" ng-class="{ 'md-theme-green' : result.separator == 'Users', 'md-theme-indigo' : result.separator == 'Challenges', 'md-theme-light' : result.separator == 'Projects' : result.separator == 'Ideas' }">{{ result.separator }}</md-divider>
+        <md-divider ng-if="result.separator" style="text-align: center;" ng-class="{ 'md-theme-green' : result.separator == 'Users', 'md-accent' : result.separator == 'Challenges', 'md-theme-light' : result.separator == 'Projects' : result.separator == 'Ideas' }">{{ result.separator }}</md-divider>
         <md-item ng-if="!result.separator" class="result-item" ng-click="goTo(result)">
             <md-item-content>
                 <div class="md-tile-left">

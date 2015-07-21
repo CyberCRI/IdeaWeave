@@ -10,10 +10,10 @@
             <i class="fa fa-star baseColor"></i> Following
         </div>
 
-        <md-button class="md-button-fab" ng-click="toggleLeft()" style="bottom:-24px;position:absolute; left:20px;z-index : inherit" hide-md>
+        <md-button class="md-fab" ng-click="toggleLeft()" style="bottom:-24px;position:absolute; left:20px;z-index : inherit" hide-md>
             <i class="fa fa-bars"></i>
         </md-button>
-        <md-button class="md-button-fab md-raised" ng-click="follow()" style="position:absolute; right:20px; z-index: inherit" ng-class="{ 'md-theme-indigo' : isFollow }" ng-if="currentUser && !isOwner">
+        <md-button class="md-fab md-raised" ng-click="follow()" style="position:absolute; right:20px; z-index: inherit" ng-class="{ 'md-accent' : isFollow }" ng-if="currentUser && !isOwner">
             <i class="fa fa-thumbs-up"></i>
         </md-button>
     </md-toolbar>

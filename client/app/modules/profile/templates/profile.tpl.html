@@ -7,10 +7,10 @@
         <p style="text-align:right;">
             {{ profile.followers.length }} followers . {{ profile.followings.length }} following
         </p>
-        <md-button class="md-button-fab md-theme-green" ng-click="showMore()" style="bottom:-24px;position:absolute; left:20px;z-index : inherit" hide-md>
+        <md-button class="md-fab md-theme-green" ng-click="showMore()" style="bottom:-24px;position:absolute; left:20px;z-index : inherit" hide-md>
             <i class="fa fa-bars"></i>
         </md-button>
-        <md-button class="md-button-fab md-theme-green" ng-click="follow()" style="bottom:-24px;position:absolute; right:20px;z-index : inherit" ng-if="!isOwner">
+        <md-button class="md-fab md-theme-green" ng-click="follow()" style="bottom:-24px;position:absolute; right:20px;z-index : inherit" ng-if="!isOwner">
             <i class="fa" ng-class="{ 'fa-thumbs-up' : !isFollowing, 'fa-thumbs-down' : isFollowing }"></i>
         </md-button>
     </md-toolbar>

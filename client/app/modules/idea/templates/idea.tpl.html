@@ -1,23 +1,20 @@
+<md-toolbar scroll-shrink>
+    <div layout="column" class="content">
+        <h1>
+            {{ idea.title }}
+        </h1>
+    </div>
+
+    <div ng-if="isFollow">
+        <i class="fa fa-star baseColor"></i> Following
+    </div>
+
+    <md-button class="md-fab md-raised" ng-click="follow()" style="position:absolute; right:20px; z-index: inherit" ng-class="{ 'md-accent' : isFollowing() }" ng-if="currentUser && !isOwner">
+        <i class="fa fa-thumbs-up"></i>
+    </md-button>
+</md-toolbar>
+
 <md-content layout="column" layout-fill>
-    <md-toolbar scroll-shrink>
-        <div layout="column" class="content">
-            <h1>
-                {{ idea.title }}
-            </h1>
-        </div>
-
-        <div ng-if="isFollow">
-            <i class="fa fa-star baseColor"></i> Following
-        </div>
-
-        <md-button class="md-button-fab" ng-click="toggleLeft()" style="bottom:-24px;position:absolute; left:20px;z-index : inherit" hide-md>
-            <i class="fa fa-bars"></i>
-        </md-button>
-        <md-button class="md-button-fab md-raised" ng-click="follow()" style="position:absolute; right:20px; z-index: inherit" ng-class="{ 'md-theme-indigo' : isFollowing() }"ng-if="currentUser && !isOwner">
-            <i class="fa fa-thumbs-up"></i>
-        </md-button>
-    </md-toolbar>
-
     <div flex>
         <h3 class="show-line-breaks">{{ idea.brief }}</h3>
 

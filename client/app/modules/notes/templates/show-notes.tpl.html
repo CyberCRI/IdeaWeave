@@ -16,7 +16,10 @@
             </article>
 
             <form ng-if="canPostComment(note)" name="commentForm" ng-submit="postComment(note)">
-                <textarea name="comment" class="pretty-area" rows="2" required ng-model="note.newComment" notiplaceholder="Your comment here ..."></textarea>
+                <md-input-container>
+                    <label>Your comment</label>
+                    <textarea name="comment" class="pretty-area" rows="2" required ng-model="note.newComment" notiplaceholder="Your comment here ..."></textarea>
+                </md-input-container>
                 <md-button type="submit" ng-disabled="commentForm.$invalid" style="width:100%;"><i class="fa fa-save"></i> Send</md-button>
             </form> 
         </div>
