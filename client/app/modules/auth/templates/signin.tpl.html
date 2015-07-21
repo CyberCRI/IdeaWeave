@@ -17,7 +17,7 @@
                 <label>Password</label>
                 <input id="password" type="password" name="password" ng-model="signin.password" required pattern=""/>
             </md-input-container>
-            <div ng-messages="signinForm.password.$error" >
+            <div ng-messages="signinForm.password.$error" ng-if="!signinForm.email.$pristine" ng-if="!signinForm.password.$pristine">
                 <div ng-message="required">
                     Password is required
                 </div>
