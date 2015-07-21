@@ -3,27 +3,27 @@
         <div class="center" flex>
             {{ project.title }} workspace
         </div>
-        <md-tabs center selected="selectedTabIndex">
-            {{ note.title }}
-            <md-tab ui-sref="workspace.etherpad">
-                <md-label>
-                    <i class='fa fa-file-text fa-2x'></i>
-                </md-label>
-            </md-tab>
-            <md-tab ui-sref="workspace.files">
-                <md-label>
-                    <i class='fa fa-paperclip fa-2x'></i>
-                </md-label>
-            </md-tab>
-            <md-tab ui-sref="workspace.resources">
-                <md-label>
-                    <i class='fa fa-link fa-2x'></i>
-                </md-label>
-            </md-tab>
-        </md-tabs>
     </div>
 </md-toolbar>
 
 <md-content flex>
+    <md-tabs>
+        <md-tab ui-sref="workspace.etherpad">
+            <md-label>
+                <i class='fa fa-file-text fa-2x'></i> Etherpad
+            </md-label>
+        </md-tab>
+        <md-tab ui-sref="workspace.files">
+            <md-label>
+                <i class='fa fa-paperclip fa-2x'></i> Files
+            </md-label>
+        </md-tab>
+        <md-tab ui-sref="workspace.resources">
+            <md-label>
+                <i class='fa fa-link fa-2x'></i> Links
+            </md-label>
+        </md-tab>
+    </md-tabs>
+
     <section ui-view="noteDetailsView" flex></section>
 </md-content>

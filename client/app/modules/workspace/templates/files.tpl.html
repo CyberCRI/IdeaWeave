@@ -1,12 +1,13 @@
-<md-toolbar>
+<div>
     <md-button ng-click="uploadFileModal($event)" >
-        <i class=" fa fa-upload">Upload</i>
+        <i class="fa fa-upload"></i> Upload
     </md-button>
     <md-input-container >
         <label for="filter" class="fa fa-search">Filter by name</label>
         <input type="text" ng-model="fileFilter.originalName" id="filter"/>
     </md-input-container>
-</md-toolbar>
+</div>
+
 <md-list class="list-resource">
     <md-item ng-repeat="file in files | filter:fileFilter">
         <div class="md-tile-content">

@@ -1,22 +1,20 @@
 <md-dialog>
-    <md-toolbar layout="row" layout-align="start end" style="text-align:right;">
-        <div layout="row">
-            <div flex></div>
-            <div class="faa-spin animated" ng-if="isUploding">
-                <i class="fa fa-spinner fa-2x"></i>
-            </div>
-            <div  ng-if="file">
-                <md-button class="md-fab" ng-click="upload(file,file.description)">
-                    <i class="fa fa-cloud-upload"></i>
-                </md-button>
-                <md-button class="md-fab" ng-click="cancelUpload()">
-                    <i  class="fa fa-2x fa-ban"></i>
-                </md-button>
-            </div>
-            <md-button class="md-fab" ng-click="cancel()">
-                <i class="fa fa-times"></i>
+    <md-toolbar layout="row" layout-align="start end">
+        <div flex></div>
+        <div class="faa-spin animated" ng-if="isUploding">
+            <i class="fa fa-spinner fa-2x"></i>
+        </div>
+        <div ng-if="file">
+            <md-button class="md-fab" ng-click="upload(file,file.description)">
+                <i class="fa fa-cloud-upload"></i>
+            </md-button>
+            <md-button class="md-fab" ng-click="cancelUpload()">
+                <i  class="fa fa-2x fa-ban"></i>
             </md-button>
         </div>
+        <md-button class="md-fab" ng-click="cancel()">
+            <i class="fa fa-times"></i>
+        </md-button>
     </md-toolbar>
     <md-content>
         <div class="dropbox"
