@@ -1,5 +1,5 @@
-<md-card layout="column"  class="challenge-card">
-    <img ng-src="{{challenge.poster || '/images/placeholder100x100.png'}}" alt="..." class="md-card-image">
+<div layout="column"  class="challenge-card">
+    <img ng-src="{{challenge.poster || '/images/placeholder100x100.png'}}" alt="..." class="md-card-image" width="100px">
     <md-button ng-if="admin && isHovered" ui-sref="challengeAdmin({ cid : challenge._id })">
         <i class="fa fa-gears"></i>
         Admin
@@ -39,4 +39,4 @@
             </div>
         </div>
     </div>
-</md-card>
+</div>

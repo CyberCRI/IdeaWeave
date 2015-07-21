@@ -56,14 +56,16 @@
         <div flex>
             <h3>Related Projects</h3>
 
-            <div layout="row">
-                <div ng-repeat="project in idea.projects" layout="column">
-                    <project-card inline-block project-id="project"></project-card>
-                    <md-button ng-click="removeLinkToProject(project)">
-                        <i class="fa fa-times baseColor"></i> Remove Project
-                    </md-button>
-                </div>
-            </div>
+            <md-grid-list md-cols="3" md-row-height="400px">
+                <md-grid-tile ng-repeat="project in idea.projects">
+                    <div layout="column" style="height: 400px;">
+                        <project-card-contents project-id="project"></project-card-contents>
+                        <md-button ng-click="removeLinkToProject(project)">
+                            <i class="fa fa-times baseColor"></i> Remove Project
+                        </md-button>
+                    </div>
+                </md-grid-tile>
+            </md-grid-list>
 
             <ui-select ng-model="newLink.project" theme="selectize">
                 <ui-select-match placeholder="A related project...">{{$select.selected.title}}</ui-select-match>
@@ -81,14 +83,16 @@
 
             <h3>Related Challenges</h3>
 
-            <div layout="row">
-                <div ng-repeat="challenge in idea.challenges" layout="column">
-                    <challenge-card inline-block challenge-id="challenge"></challenge-card>
-                    <md-button ng-click="removeLinkToChallenge(challenge)">
-                        <i class="fa fa-times baseColor"></i> Remove Challenge
-                    </md-button>
-                </div>
-            </div>
+            <md-grid-list md-cols="3" md-row-height="400px">
+                <md-grid-tile ng-repeat="challenge in idea.challenges">
+                    <div layout="column">
+                        <challenge-card challenge-id="challenge"></challenge-card>
+                        <md-button ng-click="removeLinkToChallenge(challenge)">
+                            <i class="fa fa-times baseColor"></i> Remove Challenge
+                        </md-button>
+                    </div>
+                </md-grid-tile>
+            </md-grid-list>
 
             <ui-select ng-model="newLink.challenge" theme="selectize">
                 <ui-select-match placeholder="A related challenge...">{{$select.selected.title}}</ui-select-match>
