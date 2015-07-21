@@ -137,7 +137,6 @@ angular.module('cri.notes', ['ngSanitize'])
 .directive('noteInfo', function () {
     return {
         restrict:'EA',
-        replace: true,
         scope: {
             noteId: '='
         },

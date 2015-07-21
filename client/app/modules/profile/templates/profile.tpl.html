@@ -1,99 +1,97 @@
-<section layout="column" layout-fill>
-    <md-toolbar scroll-shrink class="md-theme-green" style="position:relative;">
-        <h1 style="margin-top:0;margin-bottom:0; padding-left:25px;">
-           {{ profile.realname || profile.username }}
-            <i style="color:yellow" class="fa" ng-class="{ 'fa-star' : isFollowing }"></i>
-        </h1>
-        <p style="text-align:right;">
-            {{ profile.followers.length }} followers . {{ profile.followings.length }} following
-        </p>
-        <md-button class="md-fab md-theme-green" ng-click="showMore()" style="bottom:-24px;position:absolute; left:20px;z-index : inherit">
-            <i class="fa fa-bars"></i>
-        </md-button>
-        <md-button class="md-fab md-theme-green" ng-click="follow()" style="bottom:-24px;position:absolute; right:20px;z-index : inherit" ng-if="!isOwner">
-            <i class="fa" ng-class="{ 'fa-thumbs-up' : !isFollowing, 'fa-thumbs-down' : isFollowing }"></i>
-        </md-button>
-    </md-toolbar>
-    <md-content flex>
-        <md-button ng-if="profile._id == currentUser._id" ui-sref="profileAdmin({uid: profile._id})" flex>
-            <i class="fa fa-pencil-square-o baseColor"></i> Edit
-        </md-button>
-        <showtags entity="profile" style="margin-left: 50px;"></showtags>
-        <h3>Presentation</h3>
-        <div ng-bind-html="profile.secureBrief"></div>
+<md-toolbar scroll-shrink style="position:relative;">
+    <h1 style="margin-top:0;margin-bottom:0; padding-left:25px;">
+       {{ profile.realname || profile.username }}
+        <i style="color:yellow" class="fa" ng-class="{ 'fa-star' : isFollowing }"></i>
+    </h1>
+    <p style="text-align:right;">
+        {{ profile.followers.length }} followers . {{ profile.followings.length }} following
+    </p>
+    <md-button class="md-fab md-accent" ng-click="follow()" style="bottom:-24px;position:absolute; right:20px;z-index : inherit" ng-if="!isOwner">
+        <i class="fa" ng-class="{ 'fa-thumbs-up' : !isFollowing, 'fa-thumbs-down' : isFollowing }"></i>
+    </md-button>
+</md-toolbar>
 
-        <h3>Contributions</h3>
-        <div ng-if="moreData.challenges.length > 0">
-            <div>
-                <img src="images/svg/challenges.svg"> Created Challenges
-            </div>
+<md-content flex>
+    <md-button ng-if="profile._id == currentUser._id" ui-sref="profileAdmin({uid: profile._id})" flex>
+        <i class="fa fa-pencil-square-o baseColor"></i> Edit
+    </md-button>
+    <showtags entity="profile" style="margin-left: 50px;"></showtags>
 
-            <div>
-                <challenge-card ng-repeat="challenge in moreData.challenges" admin="true" challenge-id="challenge._id"></challenge-card>
-            </div>
+    <h3>Presentation</h3>
+    <div ng-bind-html="profile.secureBrief"></div>
+
+    <h3>Contributions</h3>
+    <div ng-if="moreData.challenges.length > 0">
+        <div>
+            <img src="images/svg/challenges.svg"> Created Challenges
         </div>
 
-        <div ng-if="moreData.followedChallenges.length > 0">
-            <div>
-                <img src="images/svg/challenges.svg"> Following Challenges
-            </div>
+        <div>
+            <challenge-card ng-repeat="challenge in moreData.challenges" admin="true" challenge-id="challenge._id"></challenge-card>
+        </div>
+    </div>
 
-            <div>
-                <challenge-card ng-repeat="challenge in moreData.followedChallenges" challenge-id="challenge._id"></challenge-card>
-            </div>
+    <div ng-if="moreData.followedChallenges.length > 0">
+        <div>
+            <img src="images/svg/challenges.svg"> Following Challenges
         </div>
 
-        <div ng-if="moreData.projects.length > 0">
-            <div>
-                <i class="fa fa-rocket fa-2x baseColor"></i> Created Projects
-            </div>
+        <div>
+            <challenge-card ng-repeat="challenge in moreData.followedChallenges" challenge-id="challenge._id"></challenge-card>
+        </div>
+    </div>
 
-            <div>
-                <project-card ng-repeat="project in moreData.projects" admin="true" project-id="project._id"></project-card>
-            </div>
+    <div ng-if="moreData.projects.length > 0">
+        <div>
+            <i class="fa fa-rocket fa-2x baseColor"></i> Created Projects
         </div>
 
-        <div ng-if="moreData.memberProjects.length > 0">
-            <div>
-                <i class="fa fa-rocket fa-2x baseColor"></i> Contributing to Projects
-            </div>
+        <div>
+            <project-card ng-repeat="project in moreData.projects" admin="true" project-id="project._id"></project-card>
+        </div>
+    </div>
 
-            <div>
-                <project-card ng-repeat="project in moreData.memberProjects" project-id="project._id"></project-card>
-            </div>
+    <div ng-if="moreData.memberProjects.length > 0">
+        <div>
+            <i class="fa fa-rocket fa-2x baseColor"></i> Contributing to Projects
         </div>
 
-        <div ng-if="moreData.followedProjects.length > 0">
-            <div>
-                <i class="fa fa-rocket fa-2x baseColor"></i> Following Projects
-            </div>
+        <div>
+            <project-card ng-repeat="project in moreData.memberProjects" project-id="project._id"></project-card>
+        </div>
+    </div>
 
-            <div>
-                <project-card ng-repeat="project in moreData.followedProjects" project-id="project._id"></project-card>
-            </div>
+    <div ng-if="moreData.followedProjects.length > 0">
+        <div>
+            <i class="fa fa-rocket fa-2x baseColor"></i> Following Projects
         </div>
 
-        <div ng-if="moreData.ideas.length > 0">
-            <div>
-                <img src="images/svg/ideas.svg"> Created Ideas
-            </div>
+        <div>
+            <project-card ng-repeat="project in moreData.followedProjects" project-id="project._id"></project-card>
+        </div>
+    </div>
 
-            <div>
-                <idea-card ng-repeat="idea in moreData.ideas" idea-id="idea._id"></idea-card>
-            </div>
+    <div ng-if="moreData.ideas.length > 0">
+        <div>
+            <img src="images/svg/ideas.svg"> Created Ideas
         </div>
 
-        <div ng-if="moreData.followedIdeas.length > 0">
-            <div>
-                <img src="images/svg/ideas.svg"> Following Ideas
-            </div>
+        <div>
+            <idea-card ng-repeat="idea in moreData.ideas" idea-id="idea._id"></idea-card>
+        </div>
+    </div>
 
-            <div>
-                <idea-card ng-repeat="idea in moreData.followedIdeas" idea-id="idea._id"></idea-card>
-            </div>
+    <div ng-if="moreData.followedIdeas.length > 0">
+        <div>
+            <img src="images/svg/ideas.svg"> Following Ideas
         </div>
 
-        <h3>Activity</h3>
-        <notification-list notifications="activities"></notification-list>
-    </md-content>
-</section>
+        <div>
+            <idea-card ng-repeat="idea in moreData.followedIdeas" idea-id="idea._id"></idea-card>
+        </div>
+    </div>
+
+    <h3>Activity</h3>
+    <notification-list notifications="activities"></notification-list>
+</md-content>
+
