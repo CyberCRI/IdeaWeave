@@ -14,7 +14,12 @@
                 Title is required
             </div>
         </div>
-        <textarea placeholder="A brief description of your project" rows="5" ng-model="challenge.brief" class="pretty-area"></textarea>
+
+        <md-input-container>
+            <label>Brief Description</label>
+            <textarea placeholder="A brief description of your project" rows="5" ng-model="challenge.brief" class="pretty-area"></textarea>
+        </md-input-container>
+
         <tag-manager entity="challenge" ng-model="challenge.tags"></tag-manager>
         <md-button class="md-accent"  ng-click="updateChallenge()" style="margin:auto;" ng-disabled="projectBasic.title.$invalid">
             <span class="faa-spin animated" ng-if="isBasicLoading">

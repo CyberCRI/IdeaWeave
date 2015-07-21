@@ -7,7 +7,7 @@
         <p style="text-align:right;">
             {{ profile.followers.length }} followers . {{ profile.followings.length }} following
         </p>
-        <md-button class="md-fab md-theme-green" ng-click="showMore()" style="bottom:-24px;position:absolute; left:20px;z-index : inherit" hide-md>
+        <md-button class="md-fab md-theme-green" ng-click="showMore()" style="bottom:-24px;position:absolute; left:20px;z-index : inherit">
             <i class="fa fa-bars"></i>
         </md-button>
         <md-button class="md-fab md-theme-green" ng-click="follow()" style="bottom:-24px;position:absolute; right:20px;z-index : inherit" ng-if="!isOwner">
@@ -29,7 +29,7 @@
             </div>
 
             <div>
-                <challenge-card ng-repeat="challenge in moreData.challenges" admin="true" challenge-id="challenge._id" inline-block></challenge-card>
+                <challenge-card ng-repeat="challenge in moreData.challenges" admin="true" challenge-id="challenge._id"></challenge-card>
             </div>
         </div>
 
@@ -39,7 +39,7 @@
             </div>
 
             <div>
-                <challenge-card ng-repeat="challenge in moreData.followedChallenges" challenge-id="challenge._id" inline-block></challenge-card>
+                <challenge-card ng-repeat="challenge in moreData.followedChallenges" challenge-id="challenge._id"></challenge-card>
             </div>
         </div>
 
@@ -49,7 +49,7 @@
             </div>
 
             <div>
-                <project-card ng-repeat="project in moreData.projects" admin="true" project-id="project._id" inline-block></project-card>
+                <project-card ng-repeat="project in moreData.projects" admin="true" project-id="project._id"></project-card>
             </div>
         </div>
 
@@ -59,7 +59,7 @@
             </div>
 
             <div>
-                <project-card ng-repeat="project in moreData.memberProjects" project-id="project._id" inline-block></project-card>
+                <project-card ng-repeat="project in moreData.memberProjects" project-id="project._id"></project-card>
             </div>
         </div>
 
@@ -69,7 +69,7 @@
             </div>
 
             <div>
-                <project-card ng-repeat="project in moreData.followedProjects" project-id="project._id" inline-block></project-card>
+                <project-card ng-repeat="project in moreData.followedProjects" project-id="project._id"></project-card>
             </div>
         </div>
 
@@ -79,7 +79,7 @@
             </div>
 
             <div>
-                <idea-card ng-repeat="idea in moreData.ideas" idea-id="idea._id" inline-block></idea-card>
+                <idea-card ng-repeat="idea in moreData.ideas" idea-id="idea._id"></idea-card>
             </div>
         </div>
 
@@ -89,7 +89,7 @@
             </div>
 
             <div>
-                <idea-card ng-repeat="idea in moreData.followedIdeas" idea-id="idea._id" inline-block></idea-card>
+                <idea-card ng-repeat="idea in moreData.followedIdeas" idea-id="idea._id"></idea-card>
             </div>
         </div>
 

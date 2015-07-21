@@ -1,41 +1,39 @@
-<md-content scroller loading-method="loadMoreProjects()" style="overflow-x:hidden;">
+<md-content scroller loading-method="loadMoreProjects()">
     <md-list>
-        <md-item ng-repeat="project in projects" class="item-list">
-            <md-item-content>
-                <div class="md-tile-left" flex="40" flex-sm="30" flex-md="25" flex-lg="15">
-                    <a ui-sref="project.home({ pid : project.accessUrl })">
-                        <img ng-src="{{ project.poster || '/images/placeholder90x90.png' }}" class="" width="100%" alt="project's poster" />
-                    </a>
-                </div>
-                <article class="md-tile-content">
-                    <a ui-sref="project.home({ pid : project.accessUrl })">
-                        <h1>{{ project.title }}</h1>
-                    </a>
-                    <showtags entity="project"></showtags>
-                    <div hide block-md>
-                        <p ng-bind-html="project.brief">
-                        </p>
-                        <div layout="row">
-                            <div flex>
-                            <span>
-                            {{ project.followers.length }}
-                            </span>
-                            <span>
-                                Followers
-                            </span>
-                            </div>
-                            <div flex>
-                            <span>
-                            {{ project.members.length }}
-                            </span>
-                            <span>
-                                Members
-                            </span>
-                            </div>
+        <md-list-item ng-repeat="project in projects" class="item-list">
+            <div class="md-tile-left" flex="40" flex-sm="30" flex-md="25" flex-lg="15">
+                <a ui-sref="project.home({ pid : project.accessUrl })">
+                    <img ng-src="{{ project.poster || '/images/placeholder90x90.png' }}" class="" width="100%" alt="project's poster" />
+                </a>
+            </div>
+            <article class="md-tile-content">
+                <a ui-sref="project.home({ pid : project.accessUrl })">
+                    <h1 class="md-headline">{{ project.title }}</h1>
+                </a>
+                <showtags entity="project"></showtags>
+                <div>
+                    <p ng-bind-html="project.brief">
+                    </p>
+                    <div layout="row">
+                        <div flex>
+                        <span>
+                        {{ project.followers.length }}
+                        </span>
+                        <span>
+                            Followers
+                        </span>
+                        </div>
+                        <div flex>
+                        <span>
+                        {{ project.members.length }}
+                        </span>
+                        <span>
+                            Members
+                        </span>
                         </div>
                     </div>
-                </article>
-            </md-item-content>
-        </md-item>
+                </div>
+            </article>
+        </md-list-item>
     </md-list>
 </md-content>
