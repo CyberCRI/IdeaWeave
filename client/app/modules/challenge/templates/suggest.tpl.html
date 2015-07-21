@@ -41,7 +41,10 @@
                 <input type="date" id="endDate" ng-model="pform.endDate"></input>
             </md-input-container>
 
-            <textarea placeholder="A short description of your challenge" ng-model="pform.brief" rows="5" style="width:100%;"></textarea>
+            <md-input-container>
+                <label>Short Description</label>
+                <textarea placeholder="A short description of your challenge" ng-model="pform.brief" rows="5" style="width:100%;"></textarea>
+            </md-input-container>
 
             <div>
                 <md-button style="width:100%;" ng-click="createChallenge(pform)" class="md-raised">{{'BTN_SUBMIT'|translate}}</md-button>

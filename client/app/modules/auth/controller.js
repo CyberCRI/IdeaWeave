@@ -36,7 +36,7 @@ angular.module('cri.auth',[
                         locals : {
                             currentUser : $scope.currentUser
                         },
-                        controller : function($scope,$hideDialog,Profile,currentUser){
+                        controller : function($scope,Profile,currentUser){
                             $scope.cancel = function(){
                                 $mdDialog.hide();
                             };
@@ -47,8 +47,8 @@ angular.module('cri.auth',[
                                 };
                                 Profile.update($rootScope.currentUser._id,$scope.profile).then(function(user){
                                     $rootScope.currentUser = user;
-                                    $hideDialog();
                                     Notification.display("Welcome, you're logged in");
+                                    $mdDialog.hide();
                                 }).catch(function(err){
                                     Notification.display("Error - you are not logged in");
                                 });

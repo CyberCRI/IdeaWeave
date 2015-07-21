@@ -4,8 +4,8 @@ angular.module('cri.admin.challenge',[])
         $scope.popUpPoster = function($event){
             $mdDialog.show({
                 templateUrl : 'modules/admin/challenge/templates/modal/challenge-crop-poster-modal.tpl.html',
-                escapeToClose : false,
-                clickOutsideToClose : false,
+                escapeToClose : true,
+                clickOutsideToClose : true,
                 locals : {
                     challenge : Challenge.data
                 },
@@ -22,7 +22,7 @@ angular.module('cri.admin.challenge',[])
                             }).catch(function(err){
                                 Notification.display(err.message);
                             }).finally(function(){
-                                $hideDialog();
+                                $mdDialog.hide();
                             });
                         }
                     });
@@ -37,8 +37,8 @@ angular.module('cri.admin.challenge',[])
         $scope.popUpBanner = function(){
             $mdDialog.show({
                 templateUrl : 'modules/admin/challenge/templates/modal/challenge-crop-banner-modal.tpl.html',
-                escapeToClose : false,
-                clickOutsideToClose : false,
+                escapeToClose : true,
+                clickOutsideToClose : true,
                 locals : {
                     challenge : Challenge.data
                 },
@@ -54,7 +54,7 @@ angular.module('cri.admin.challenge',[])
                             }).catch(function(err){
                                 Notification.display(err.message);
                             }).finally(function(){
-                                $hideDialog();
+                                $mdDialog.hide();
                             });
                         }
                     });
@@ -73,7 +73,7 @@ angular.module('cri.admin.challenge',[])
                 locals : {
                     challenge : Challenge.data
                 },
-                controller : ['$scope','$hideDialog','challenge','Config',function($scope,$hideDialog,challenge,Config){
+                controller : function($scope,challenge,Config){
                     $scope.tinymceOption = Config.tinymceOptions;
                     $scope.newChallenge = {};
                     $scope.newChallenge.home = challenge.home;
@@ -86,13 +86,13 @@ angular.module('cri.admin.challenge',[])
                             Notification.display(err.message);
                         }).finally(function(){
                             $scope.isLoading = false;
-                            $hideDialog();
+                            $mdDialog.hide();
                         });
                     };
                     $scope.cancel = function(){
                         $mdDialog.hide();
                     };
-                }]
+                }
             });
         };
 
@@ -112,7 +112,7 @@ angular.module('cri.admin.challenge',[])
                         }).catch(function(err){
                             Notification.display('Error, the challenge was not removed');
                         }).finally(function(){
-                            $hideDialog();
+                            $mdDialog.hide();
                         });
                     };
                     $scope.cancel = function(){
@@ -160,7 +160,7 @@ angular.module('cri.admin.challenge',[])
                         }).catch(function(err){
                             Notification.display('error template');
                         }).finally(function(){
-                           $hideDialog();
+                           $mdDialog.hide();
                         });
                     };
                     $scope.cancel = function(){

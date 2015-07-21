@@ -91,7 +91,7 @@ angular.module('cri.workspace',[])
                     files : $scope.files,
                     project: $scope.project
                 },
-                controller: function ($scope,$hideDialog,Files,project,files) {
+                controller: function ($scope,Files,project,files) {
                     $scope.fileDetails = file;
                     $scope.cancel = function(){
                         $mdDialog.hide();

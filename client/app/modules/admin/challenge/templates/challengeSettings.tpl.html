@@ -23,40 +23,4 @@
             Update Challenge
         </md-button>
     </form>
-    <section layout="column" layout-md="horizontal">
-        <section flex-md layout="column">
-            <header>
-                <h2 class="center">Workspace's templates</h2>
-            </header>
-            <md-button style="width:100%" class="md-raised" ng-click="popUpTemplate()">
-                New Template
-            </md-button>
-            <md-list>
-                <md-item ng-repeat="template in templates">
-                    <div class="md-tile-left">
-
-                    </div>
-                    <div class="md-tile-content">
-                        <h4>{{ template.title }}</h4>
-                    </div>
-                    <div class="md-tile-right">
-                        <md-button ng-click="removeTemplate(template,$index)">
-                        <span class="faa-spin animated" ng-if="isTLoading[$index]">
-                            <i fa fa-spinner></i>
-                        </span>
-                        <i class="fa fa-trash-o">Remove</i>
-                        </md-button>
-                    </div>
-                </md-item>
-            </md-list>
-        </section>
-        <section flex-md layout="column">
-            <header>
-                <h2 class="center">Projects</h2>
-            </header>
-            <md-button style="width:100%" class="md-raised" ng-click="createProject()">
-                New Project
-            </md-button>
-        </section>
-    </section>
 </md-content>

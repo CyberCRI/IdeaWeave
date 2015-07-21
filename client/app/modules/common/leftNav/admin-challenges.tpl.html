@@ -1,15 +1,14 @@
 <div ng-controller="ChallengeAdminLeftCtrl">
     <md-toolbar layout="row">
         <div class="md-toolbar-tools">
-            <i class="fa fa-caret-left fa-2x my-btn" hide-md style="color:black;" ng-click="toggle()" flex></i>
             <div>
                 <i class="fa fa-trophy"> Settings</i>
             </div>
         </div>
     </md-toolbar>
     <md-content>
-        <section layout="column" flex-md>
-            <md-button ui-sref="challenge({ cid : challenge.accessUrl })" class="md-accent">
+        <section layout="column">
+            <md-button ui-sref="challenge({ cid : challenge.accessUrl })" class="md-raised md-accent" style="width:100%;">
                 View Challenge
             </md-button>
             <md-button ng-click="popUpPoster($event)" class="md-raised">
@@ -21,7 +20,7 @@
             <md-button class="md-raised"  style="width:100%;" ng-click="popUpEdit()">
                 Edit Home Page
             </md-button>
-            <md-button class="md-button-colored md-warn" style="width:100%;" ng-click="popUpRemove()">
+            <md-button class="md-raised md-warn" style="width:100%;" ng-click="popUpRemove()">
                 Delete Challenge
             </md-button>
         </section>

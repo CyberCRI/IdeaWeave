@@ -102,11 +102,6 @@ angular.module('cri', [
             return defered.promise;
         }
 
-        function getLeftNav() { 
-            return $mdSidenav('left'); 
-        }
-
-
         $scope.$watch(function(){
             return $state.params.uid;
         },function(){
@@ -190,16 +185,6 @@ angular.module('cri', [
                     break;
 
             }
-        });
-
-        $scope.$on('toggleLeft',function(e){
-            getLeftNav().toggle();
-        });
-        $scope.toggle = function(){
-            getLeftNav().toggle();
-        };
-        $scope.$on('side:close-left',function(){
-            getLeftNav().toggle();
         });
     }).controller('BodyCtrl', function($scope, $mdSidenav) {
         $scope.rightSidenavIsOpen = function() {
