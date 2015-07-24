@@ -35,16 +35,12 @@ md-tabs{
   width : 70%;
   margin: auto;
   border : 1px #828282 solid;
-  -webkit-transition: height 0.5s;
-  -moz-transition: height 0.5s;
-  -ms-transition: height 0.5s;
-  -o-transition: height 0.5s;
-  transition: height 0.5s;
+  background-color: gray;
 }
 
 .dropbox-dragover{
-  border : 1.5px #828282 dashed;
-  height : 300px;
+  border : 3px black dashed;
+  background-color: $baseColor;
 }
 
 .url {

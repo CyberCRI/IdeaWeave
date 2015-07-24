@@ -144,32 +144,34 @@ angular.module('cri.workspace',[])
                     project: $scope.project
                 },
                 controller : function($scope,NoteLab,Notification,Files,currentUser,files,project){
+                    $scope.selectedFiles = null;
+                    $scope.file = null;
+                    $scope.fileUrl = null;
 
-                    $scope.fileSelected = function($files){
-                        $scope.file = $files[0];
+                    $scope.$watch('selectedFiles', function () {
+                        if(!$scope.selectedFiles || $scope.selectedFiles.length == 0) return;
+
+                        $scope.file = $scope.selectedFiles[0];
                         if(Files.isImage($scope.file)){
                             Files.getDataUrl($scope.file).then(function(dataUrl){
                                 $scope.fileUrl = dataUrl;
                             });
-                            $scope.dropBoxHeight = "300px";
                         }
-                    };
+                        $scope.selectedFiles = null;
+                    });
 
                     $scope.cancelUpload = function(){
                         $scope.file = null;
                         $scope.fileUrl = null;
-                        $scope.dropBoxHeight = "100px";
                     };
 
                     $scope.upload = function(file,description){
                         $scope.isUploading = true;
                         NoteLab.uploadFile(project._id, description, file).then(function(file){
-                            Notification.display('your file has been uploaded');
+                            Notification.display('Your file has been uploaded');
                             $scope.file = null;
                             $scope.fileUrl = null;
-                            $scope.dropBoxHeight = "100px";
                             Files.getPoster(file);
-//                data[0].url = Config.apiServer+'/fileUpload/topic/'+$stateParams.pid+'/'+data[0].filename;
                             files.push(file);
                         }).catch(function(err){
                             Notification.display(err.message);
