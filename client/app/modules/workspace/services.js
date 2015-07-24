@@ -48,8 +48,8 @@ angular.module('cri.workspace')
                 url: Config.apiServer+'/project/'+projectId+'/file',
                 method: 'POST',
                 file: file,
-                data: {
-                    description : description,
+                fields: {
+                    description: description,
                 }
             }).progress(function(evt) {
                 console.log(evt);

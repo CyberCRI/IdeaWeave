@@ -147,6 +147,7 @@ angular.module('cri.workspace',[])
                     $scope.selectedFiles = null;
                     $scope.file = null;
                     $scope.fileUrl = null;
+                    $scope.description = null;
 
                     $scope.$watch('selectedFiles', function () {
                         if(!$scope.selectedFiles || $scope.selectedFiles.length == 0) return;
@@ -163,11 +164,12 @@ angular.module('cri.workspace',[])
                     $scope.cancelUpload = function(){
                         $scope.file = null;
                         $scope.fileUrl = null;
+                        $scope.description = null;
                     };
 
-                    $scope.upload = function(file,description){
+                    $scope.upload = function(){
                         $scope.isUploading = true;
-                        NoteLab.uploadFile(project._id, description, file).then(function(file){
+                        NoteLab.uploadFile(project._id, $scope.description, $scope.file).then(function(file){
                             Notification.display('Your file has been uploaded');
                             $scope.file = null;
                             $scope.fileUrl = null;

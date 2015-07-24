@@ -36,6 +36,9 @@ md-tabs{
   margin: auto;
   border : 1px #828282 solid;
   background-color: gray;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: 50% 50%;
 }
 
 .dropbox-dragover{
