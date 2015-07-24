@@ -74,18 +74,6 @@ header{
   height: 25px;
 }
 
-.top-bar-icon .tooltip-topbar-icon {
-  display: none;
-  position: absolute;
-  color: white;
-  background-color: #152661;
-  border: 1px black solid;
-}
-
-.top-bar-icon:hover .tooltip-topbar-icon {
-  display: block;
-}
-
 .cursor-hand {
   cursor: pointer;
 }

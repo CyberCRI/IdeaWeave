@@ -42,16 +42,16 @@
                 </a>
                 <div layout="row" layout-align="start end" >
                     <a ui-sref="ideas({ tag :'all' })" class="top-bar-icon">
-                        <md-icon md-svg-src="images/svg/ideas.svg"></md-icon>
-                        <div class="tooltip-topbar-icon">ideas</div>
+                        <md-icon style="width: 24px; height: 31px;" md-svg-src="images/svg/ideas.svg"></md-icon>
+                        <md-tooltip>ideas</md-tooltip>
                     </a>
                     <a ui-sref="createIdea" ng-if="currentUser._id">
                         <img src="images/add.png" class="add-icon"/>
                     </a>
 
                     <a ui-sref="challenges.list({ tag :'all' })" class="top-bar-icon">
-                        <md-icon md-svg-src="images/svg/challenges.svg"></md-icon>
-                        <div class="tooltip-topbar-icon">challenges</div>
+                        <md-icon style="width: 24px; height: 31px;" md-svg-src="images/svg/challenges.svg"></md-icon>
+                        <md-tooltip>challenges</md-tooltip>
                     </a>
                     <a ui-sref="challengeSuggest" ng-if="currentUser._id">
                         <img src="images/add.png" class="add-icon"/>
@@ -59,11 +59,12 @@
 
                     <a ui-sref="projects.list({ tag :'all' })" class="top-bar-icon">
                         <i class="fa fa-rocket idea-icon"></i>
-                        <div class="tooltip-topbar-icon">projects</div>
+                        <md-tooltip>projects</md-tooltip>
                     </a>
                     <a ui-sref="projectCreation" ng-if="currentUser._id">
                         <img src="images/add.png" class="add-icon"/>
                     </a>
+                    &nbsp;
                 </div>
                 <search-bar flex></search-bar>
                 <md-button ui-sref="signin" class="md-raised md-primary" ng-if="!currentUser">
@@ -72,11 +73,15 @@
                 <md-button ui-sref="profile({ uid : currentUser._id })" class="cursor-hand md-primary" id="miniProfil" ng-if="currentUser">
                     <div div layout="row" layout-align="center center">
                         <img ng-src="{{ currentUser.poster || 'images/avater.jpg' }}" alt="{{ currentUser.username }}'s photo" class="img-rounded"/>
-                        <p> {{ currentUser.realname || currentUser.username }}</p>
+                        <p>&nbsp;{{ currentUser.realname || currentUser.username }}</p>
                     </div>
                 </md-button>
-                <md-button ui-sref="feed" ng-if="currentUser" class="md-primary">
-                    <i class="fa fa-flag"></i>
+                <md-button ui-sref="feed" ng-if="currentUser" class="md-icon-button md-primary">
+                    <i class="fa fa-flag">
+                        <md-tooltip>
+                            notification
+                        </md-tooltip>
+                    </i>
                 </md-button>
                 <md-button ng-if="currentUser" id="signout" class="md-raised md-warn" ng-click="signout()" >
                     <i class="fa fa-sign-out">Signout</i>
