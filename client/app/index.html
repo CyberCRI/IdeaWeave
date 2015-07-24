@@ -77,10 +77,11 @@
                     </div>
                 </md-button>
                 <md-button ui-sref="feed" ng-if="currentUser" class="md-icon-button md-primary">
-                    <i class="fa fa-flag"></i>
-                    <md-tooltip>
-                        notification
-                    </md-tooltip>
+                    <i class="fa fa-flag">
+                        <md-tooltip>
+                            notification
+                        </md-tooltip>
+                    </i>
                 </md-button>
                 <md-button ng-if="currentUser" id="signout" class="md-raised md-warn" ng-click="signout()" >
                     <i class="fa fa-sign-out">Signout</i>
