@@ -6,10 +6,10 @@
     </div>
 </md-toolbar>
 <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')">
-	<md-content>
-	    <md-button style="width:100%;text-align:left;" ui-sref="challenges.list({ tag : 'all' })">ALL</md-button>
-	    <div ng-repeat="tag in tags">
-	        <md-button style="width:100%;text-align:left;" ui-sref="challenges.list({ tag : tag.title })">{{tag.title}}</md-button>
-	    </div>
-	</md-content>
+    <md-content>
+        <md-button style="width:100%;text-align:left;" ui-sref="challenges.list({ tag : 'all' })">ALL</md-button>
+        <div ng-repeat="tag in tags">
+            <md-button style="width:100%;text-align:left;" ui-sref="challenges.list({ tag : tag.title })">{{tag.title}}</md-button>
+        </div>
+    </md-content>
 </md-sidenav>
