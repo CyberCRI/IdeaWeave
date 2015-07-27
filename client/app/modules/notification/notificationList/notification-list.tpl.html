@@ -1,5 +1,6 @@
 <md-list>
     <md-list-item ng-repeat="notif in notifications">
         <notification notification="notif"></notification>
+        <md-divider ng-if="!$last"></md-divider>
     </md-list-item>
 </md-list>
