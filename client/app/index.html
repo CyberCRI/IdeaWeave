@@ -67,30 +67,30 @@
                     &nbsp;
                 </div>
                 <search-bar flex></search-bar>
-                <md-button ui-sref="signin" class="md-raised md-primary" ng-if="!currentUser">
+                <md-button ng-cloak ui-sref="signin" class="md-raised md-primary" ng-if="!currentUser">
                     <i class="fa fa-sign-in"> Sign In</i>
                 </md-button>
                 <md-button ui-sref="profile({ uid : currentUser._id })" class="cursor-hand md-primary" id="miniProfil" ng-if="currentUser">
-                    <div div layout="row" layout-align="center center">
+                    <div div layout="row" ng-cloak layout-align="center center">
                         <img ng-src="{{ currentUser.poster || 'images/avater.jpg' }}" alt="{{ currentUser.username }}'s photo" class="img-rounded"/>
                         <p>&nbsp;{{ currentUser.realname || currentUser.username }}</p>
                     </div>
                 </md-button>
-                <md-button ui-sref="feed" ng-if="currentUser" class="md-icon-button md-primary">
+                <md-button ng-cloak ui-sref="feed" ng-if="currentUser" class="md-icon-button md-primary">
                     <i class="fa fa-flag">
                         <md-tooltip>
                             notification
                         </md-tooltip>
                     </i>
                 </md-button>
-                <md-button ng-if="currentUser" id="signout" class="md-raised md-warn" ng-click="signout()" >
+                <md-button ng-cloak ng-if="currentUser" id="signout" class="md-raised md-warn" ng-click="signout()" >
                     <i class="fa fa-sign-out">Signout</i>
                 </md-button>
             </div>
         </md-toolbar>
 
         <section layout="row" layout-fill ng-controller="LeftNavCtrl">
-            <md-sidenav ng-show="sideNavTemplateUrl" class="md-sidenav-left md-whiteframe-z2" component-id="left" md-is-locked-open="true">
+            <md-sidenav ng-cloak ng-show="sideNavTemplateUrl" class="md-sidenav-left md-whiteframe-z2" component-id="left" md-is-locked-open="true">
                 <ng-include src="sideNavTemplateUrl" flex layout="column" layout-fill>
                 </ng-include>
             </md-sidenav>
