@@ -8,6 +8,7 @@ angular.module('cri.auth',[
         $authProvider.signupUrl = Config.apiServer+'/auth/signup';
         $authProvider.signupRedirect = "/auth/signin";
         $authProvider.loginOnSignup = false;
+        $authProvider.withCredentials = false;
 
         $authProvider.google({
             url: Config.apiServer+'/auth/google',

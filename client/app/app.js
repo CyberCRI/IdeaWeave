@@ -34,13 +34,10 @@ angular.module('cri', [
     'cri.idea',
     'ngCookies'])
     .config(['$httpProvider','$locationProvider','$sceProvider',function ($httpProvider,$locationProvider,$sceProvider) {
-//        $httpProvider.defaults.withCredentials=true;
         $locationProvider.html5Mode(true);
         $locationProvider.hashPrefix('!');
 
         $sceProvider.enabled(false);
-//        dev
-
     }])
     .run(function (Profile,mySocket,$rootScope,$auth) {
         // If there is no user signed in by default, don't grab the profile which will end up redirecting to /login
