@@ -42,7 +42,7 @@
                 </a>
                 <div layout="row" layout-align="start end" >
                     <a ui-sref="ideas({ tag :'all' })" class="top-bar-icon">
-                        <md-icon style="width: 24px; height: 31px;" md-svg-src="images/svg/ideas.svg"></md-icon>
+                        <md-icon class="top-bar-icon-svg" md-svg-src="images/svg/ideas.svg"></md-icon>
                         <md-tooltip>ideas</md-tooltip>
                     </a>
                     <a ui-sref="createIdea" ng-if="currentUser._id">
@@ -50,7 +50,7 @@
                     </a>
 
                     <a ui-sref="challenges.list({ tag :'all' })" class="top-bar-icon">
-                        <md-icon style="width: 24px; height: 31px;" md-svg-src="images/svg/challenges.svg"></md-icon>
+                        <md-icon class="top-bar-icon-svg" md-svg-src="images/svg/challenges.svg"></md-icon>
                         <md-tooltip>challenges</md-tooltip>
                     </a>
                     <a ui-sref="challengeSuggest" ng-if="currentUser._id">
