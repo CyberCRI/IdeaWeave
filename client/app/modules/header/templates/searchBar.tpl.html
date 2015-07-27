@@ -8,19 +8,19 @@
     <ui-select-choices repeat="result in searchResult track by $index"
                        refresh="refreshSearchBar($select.search)"
                        refresh-delay="0">
-        <material-divider ng-if="result.separator" style="text-align: center;" ng-class="{ 'material-theme-green' : result.separator == 'Users', 'material-theme-indigo' : result.separator == 'Challenges', 'material-theme-light' : result.separator == 'Projects' : result.separator == 'Ideas' }">{{ result.separator }}</material-divider>
-        <material-item ng-if="!result.separator" class="result-item" ng-click="goTo(result)">
-            <material-item-content>
-                <div class="material-tile-left">
+        <md-divider ng-if="result.separator" style="text-align: center;" ng-class="{ 'md-theme-green' : result.separator == 'Users', 'md-accent' : result.separator == 'Challenges', 'md-theme-light' : result.separator == 'Projects' : result.separator == 'Ideas' }">{{ result.separator }}</md-divider>
+        <md-item ng-if="!result.separator" class="result-item" ng-click="goTo(result)">
+            <md-item-content>
+                <div class="md-tile-left">
                     <img ng-src="{{result.poster || '/images/placeholder50x50.png'}}" class="img-rounded" style="height:50px;max-width: 100%">
                 </div>
-                <div class="material-tile-content">
+                <div class="md-tile-content">
                     <div>
                         <div>{{result.title ||result.username}}</div>
                         <showtags entity="result" ></showtags>
                     </div>
                 </div>
-                <div class="material-tile-right" ng-if="result.tags">
+                <div class="md-tile-right" ng-if="result.tags">
                     <div ng-if="result.followers">
                             <span>
                                 {{ result.followers.length }}
@@ -49,8 +49,8 @@
                             </span>
                     </div>
                 </div>
-            </material-item-content>
+            </md-item-content>
 
-        </material-item>
+        </md-item>
     </ui-select-choices>
 </ui-select>

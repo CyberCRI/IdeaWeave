@@ -1,12 +1,12 @@
-<material-card style="position:relative;">
-    <img ng-src="{{user.poster || '/images/placeholder300x300.png'}}" class="material-card-image">
+<md-card style="position:relative;">
+    <img ng-src="{{user.poster || '/images/placeholder300x300.png'}}" class="md-card-image">
 
-    <material-button ui-sref="profile({ uid : user._id})">
+    <md-button ui-sref="profile({ uid : user._id})">
         {{ user.username }}
-    </material-button>
+    </md-button>
     <p ng-bind-html="user.brief" style="max-height:200px;overflow:hidden;"></p>
     <showtags entity="user"></showtags>
-    <div layout="vertical">
+    <div layout="column">
         <div flex class="text-muted">
             {{ user.followers.length }} Followers
         </div>
@@ -17,4 +17,4 @@
             {{ user.followings.length }} Following
         </div>
     </div>
-</material-card>
+</md-card>

@@ -1,53 +1,53 @@
-<section layout="horizontal" layout-fill>
-    <material-sidenav class="material-sidenav-left material-whiteframe-z2 left" component-id="left">
-        <material-content style="padding-left: 20px;" layout="vertical" layout-fill>
-            <material-toolbar layout="horizontal">
-                <div class="material-toolbar-tools">
-                    <i class="fa fa-caret-left fa-2x my-btn" hide-md style="color:black;" ng-click="toggle()" flex></i>
+<section layout="row" layout-fill>
+    <md-sidenav class="md-sidenav-left md-whiteframe-z2 left" component-id="left">
+        <md-content style="padding-left: 20px;" layout="column" layout-fill>
+            <md-toolbar layout="row">
+                <div class="md-toolbar-tools">
+                    <i class="fa fa-caret-left fa-2x my-btn" style="color:black;" ng-click="toggle()" flex></i>
                     <div>
                         <i class="fa fa-trophy">Edit your profile</i>
                     </div>
                 </div>
-            </material-toolbar>
-            <section layout="vertical">
-                <material-button ng-click="editPageModal()">
+            </md-toolbar>
+            <section layout="column">
+                <md-button ng-click="editPageModal()">
                     Edit your personal page
-                </material-button>
-                <material-button ng-click="cropPosterModal()">
+                </md-button>
+                <md-button ng-click="cropPosterModal()">
                     Change poster
-                </material-button>
-                <material-button ng-click="resetPassModal()">
+                </md-button>
+                <md-button ng-click="resetPassModal()">
                     Reset Password
-                </material-button>
+                </md-button>
             </section>
-            <section layout="vertical">
+            <section layout="column">
                 <header>
                     <h3 class="center">Notifications</h3>
                 </header>
                 <section>
-                    <material-checkbox ng-model="profile.liveNotification">
+                    <md-checkbox ng-model="profile.liveNotification">
                         Live
-                    </material-checkbox>
-                    <material-checkbox ng-model="profile.mailNotification">
+                    </md-checkbox>
+                    <md-checkbox ng-model="profile.mailNotification">
                         Email
-                    </material-checkbox>
-                    <material-button class="material-button-raised" ng-click="updateProfile()" style="width:100%;">
+                    </md-checkbox>
+                    <md-button class="md-raised" ng-click="updateProfile()" style="width:100%;">
                         Save
-                    </material-button>
+                    </md-button>
                 </section>
             </section>
-        </material-content>
-    </material-sidenav>
-    <section layout="vertical" layout-fill>
-        <material-toolbar class="material-theme-green" scroll-shrink>
+        </md-content>
+    </md-sidenav>
+    <section layout="column" layout-fill>
+        <md-toolbar class="md-theme-green" scroll-shrink>
             <h2 class="center">Edit your profile !</h2>
-        </material-toolbar>
-        <material-content flex class="right-part">
+        </md-toolbar>
+        <md-content flex class="right-part">
             <form name="basicForm">
-                <material-input-group>
+                <md-input-container>
                     <label for="username">User name</label>
-                    <material-input type="text" id="username" ng-model="profile.username"></material-input>
-                </material-input-group>
+                    <input type="text" id="username" ng-model="profile.username"></input>
+                </md-input-container>
                 <ui-select ng-model="profile.localisation"
                            theme="selectize"
                            reset-search-input="false">
@@ -59,8 +59,8 @@
                     </ui-select-choices>
                 </ui-select>
                 <tag-manager entity='profile' ng-model='profile.tags'></tag-manager>
-                <material-button style="width:100%;" class="material-button-raised"  ng-click="updateProfile(profile)">Update Profile</material-button>
+                <md-button style="width:100%;" class="md-raised"  ng-click="updateProfile(profile)">Update Profile</md-button>
             </form>
-        </material-content>
+        </md-content>
     </section>
 </section>

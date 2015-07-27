@@ -19,6 +19,9 @@ function canModifyIdea(user, idea) {
 
 exports.fetchOne = function(req, res) {
     Idea.findOne({_id : req.params.id})
+        .populate('tags')
+        .populate('followers')
+        .populate('owner')
         .execQ().then(function(idea) {
             res.json(idea);
         }).fail(function(err) {

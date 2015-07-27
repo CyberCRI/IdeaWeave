@@ -1,23 +1,9 @@
-<material-content layout="horizontal" layout-fill>
-    <material-sidenav class="material-sidenav-left material-whiteframe-z2 left" component-id="left" >
-        <material-toolbar layout="horizontal">
-            <div class="material-toolbar-tools">
-                <i class="fa fa-caret-left fa-2x my-btn" hide-md style="color:black;" ng-click="toggle()" flex></i>
-                <div>
-                    <i class="fa fa-lightbulb-o"> Describe your project</i>
-                </div>
-            </div>
-        </material-toolbar>
-        <aside flex>
-            <p>Describe your project idea. Give it a title, a place (if applicable), and describe it briefly.</p>
-        </aside>
-    </material-sidenav>
-
-    <material-content class="right-part" flex>
-        <h2>
-            Your project's description
-        </h2>
-        <form name="projectform" layout="vertical">
+<md-content layout="column" layout-fill>
+    <h2>
+        Your project's description
+    </h2>
+    <form name="projectform" layout="column">
+        <input-container>
             <label>The challenge you are taking on</label>
             <ui-select ng-model="newProject.container" theme="selectize">
                 <ui-select-match placeholder="The challenge that you are replying to...">{{$select.selected.title}}</ui-select-match>
@@ -29,12 +15,16 @@
                     <div showtags entity="challenge"></div>
                 </ui-select-choices>
             </ui-select>
-            <material-input-group>
-                <label for="title">Project Title</label>
-                <material-input id="title" type="text" ng-model="newProject.title" required="" ng-change="titleChange(newProject.title)" />
-            </material-input-group>
-            <tag-manager entity="newProject"></tag-manager>
+        </input-container>
 
+        <md-input-container>
+            <label for="title">Project Title</label>
+            <input id="title" type="text" ng-model="newProject.title" required="" ng-change="titleChange(newProject.title)" />
+        </md-input-container>
+        
+        <tag-manager entity="newProject"></tag-manager>
+
+        <input-container>
             <label>Where your project is based</label>
             <ui-select ng-model="newProject.localisation"
                        theme="selectize"
@@ -46,16 +36,18 @@
                     <div ng-bind-html="address.formatted_address | highlight: $select.search"></div>
                 </ui-select-choices>
             </ui-select>
+        </input-container>
 
+        <md-input-container>
             <label>Brief description:</label>
             <textarea rows="5" style="width:100%;border:solid 1px darkgray" ng-model="newProject.brief"></textarea>
+        </md-input-container>
 
-            <material-button  class="material-button-raised" type="button" ng-click="createProject(newProject)">
-                <span class="faa-spin animated" ng-if="isLoading">
-                    <i class="fa fa-spinner"></i>
-                </span>
-                Create Project
-            </material-button>
-        </form>
-    </material-content>
-</material-content>
+        <md-button  class="md-raised" type="button" ng-click="createProject(newProject)">
+            <span class="faa-spin animated" ng-if="isLoading">
+                <i class="fa fa-spinner"></i>
+            </span>
+            Create Project
+        </md-button>
+    </form>
+</md-content>

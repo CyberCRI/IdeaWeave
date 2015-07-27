@@ -11,10 +11,6 @@ $headerYellow : rgb(245,230,24);
 
 $baseColor : rgb(0, 51, 102);
 
-@import "../modules/common/sass/common";
-@import "../modules/common/sass/animation";
-@import "../modules/common/sass/material-redesign";
-@import "../modules/common/sass/form";
 @import "../modules/auth/sass/auth";
 @import "../modules/header/sass/header";
 @import "../modules/footer/sass/footer";
@@ -78,20 +74,15 @@ header{
   height: 25px;
 }
 
-.top-bar-icon .tooltip-topbar-icon {
-  display: none;
-  position: absolute;
-  color: white;
-  background-color: #152661;
-  border: 1px black solid;
-}
-
-.top-bar-icon:hover .tooltip-topbar-icon {
-  display: block;
-}
-
 .cursor-hand {
   cursor: pointer;
 }
 
-@import "../modules/common/sass/media-queries";
+.show-line-breaks {
+  white-space: pre-line;
+}
+
+.top-bar-icon-svg {
+  width: 24px; 
+  height: 31px;
+}

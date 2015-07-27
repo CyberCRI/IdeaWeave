@@ -9,7 +9,7 @@ angular.module('cri.notes', ['ngSanitize'])
             currentUser: "="
         },
         templateUrl: "modules/notes/templates/show-notes.tpl.html",
-        controller: function($scope, Notification, Notes, $materialDialog) {
+        controller: function($scope, Notification, Notes, $mdDialog) {
             $scope.canPostNote = function() {
                 return $scope.currentUser && $scope.currentUser._id == $scope.container.owner._id;
             };
@@ -45,13 +45,13 @@ angular.module('cri.notes', ['ngSanitize'])
 
             $scope.popUpNewNote = function(){
                 var notesInScope = $scope.notes;
-                $materialDialog({
+                $mdDialog.show({
                     templateUrl : 'modules/notes/templates/add-note-modal.tpl.html',
                     locals : {
                         container: $scope.container,
                         containerType: $scope.containerType
                     },
-                    controller : function($scope, $hideDialog, container, containerType, Config){
+                    controller : function($scope, container, containerType, Config){
                         $scope.tinymceOption = Config.tinymceOptions;
 
                         $scope.noteText = "";
@@ -71,11 +71,11 @@ angular.module('cri.notes', ['ngSanitize'])
                                 Notification.display(err.message);
                             }).finally(function(){
                                 $scope.isLoading = false;
-                                $hideDialog();
+                                $mdDialog.hide();
                             });
                         };
                         $scope.cancel = function(){
-                            $hideDialog();
+                            $mdDialog.hide();
                         };
                     }
                 });
@@ -137,7 +137,6 @@ angular.module('cri.notes', ['ngSanitize'])
 .directive('noteInfo', function () {
     return {
         restrict:'EA',
-        replace: true,
         scope: {
             noteId: '='
         },

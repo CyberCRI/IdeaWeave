@@ -19,27 +19,26 @@ angular.module('cri.auth',[
             clientId: Config.githubClient
         });
     })
-    .controller('LoginCtrl', ['$scope', 'Profile','$state','Notification','$auth','$materialDialog','$rootScope','mySocket', function ($scope, Profile, $state,Notification,$auth,$materialDialog,$rootScope,mySocket) {
+    .controller('LoginCtrl', function ($scope, Profile, $state,Notification,$auth,$mdDialog,$rootScope,mySocket) {
         $scope.loader = {};
         $scope.authenticate = function(provider) {
             console.log('login with', provider);
             $scope.loader[provider] = true;
             $auth.authenticate(provider).then(Profile.getMe).then(function(me) {
                 $rootScope.currentUser = me;
-                $rootScope.$broadcast('side:close-right');
                 if($rootScope.currentUser.email){
                     Notification.display("Welcome you're logged in");
                 }else{
-                    $materialDialog({
+                    $mdDialog.show({
                         templateUrl : 'modules/auth/templates/modal/after-auth.tpl.html',
                         clickOutsideToClose : false,
                         escapeToClose : false,
                         locals : {
                             currentUser : $scope.currentUser
                         },
-                        controller : ['$scope','$hideDialog','Profile','currentUser',function($scope,$hideDialog,Profile,currentUser){
+                        controller : function($scope,Profile,currentUser){
                             $scope.cancel = function(){
-                                $hideDialog();
+                                $mdDialog.hide();
                             };
                             $scope.updateProfile = function(){
                                 $scope.profile = {
@@ -48,13 +47,13 @@ angular.module('cri.auth',[
                                 };
                                 Profile.update($rootScope.currentUser._id,$scope.profile).then(function(user){
                                     $rootScope.currentUser = user;
-                                    $hideDialog();
                                     Notification.display("Welcome, you're logged in");
+                                    $mdDialog.hide();
                                 }).catch(function(err){
                                     Notification.display("Error - you are not logged in");
                                 });
                             };
-                        }]
+                        }
                     });
                 }
 
@@ -72,14 +71,14 @@ angular.module('cri.auth',[
             if(!$scope.signin) return false; // Can occur if the form is empty
 
             $scope.loader.email = true;
-            $auth.login({ email : $scope.signin.email, password : $scope.signin.password }).then(Profile.getMe).then(function (me) {
+            $auth.login({ email : $scope.signin.email, password : $scope.signin.password })
+            .then(Profile.getMe)
+            .then(function (me) {
                 $rootScope.currentUser = me; 
                 
                 Notification.display("Welcome, you're logged in");
-                $scope.signin = {};
-                $state.go('home');
                 mySocket.init($scope.currentUser);
-                $scope.$emit('side:close-right');
+                $state.go('home');
             }).catch(function (err) {
                 Notification.display(err.data && err.data.message || "An unknown error has occured");
             }).finally(function(){
@@ -118,7 +117,7 @@ angular.module('cri.auth',[
             });
         };
 
-    }])
+    })
     .controller('RegisterCtrl', ['$scope','$state','Notification','Gmap','Files','$auth',  function ($scope, $state, Notification,Gmap,Files,$auth) {
 
         $scope.rgform = {};

@@ -4,13 +4,12 @@ angular.module('cri', [
     'ngAnimate',
     'ngMaterial',
     'ngMessages',
-    'ui.utils',
     'ui.router',
     'ui.select',
     'ui.tinymce',
     'timer',
     'pascalprecht.translate',
-    'angularFileUpload',
+    'ngFileUpload',
     'angular-carousel',
     'ImageCropper',
     'satellizer',
@@ -64,7 +63,7 @@ angular.module('cri', [
         $scope.closeToast = function() {
             $hideToast();
         };
-    }]).controller('LeftNavCtrl',function($scope,$materialSidenav,$state,Profile,Tag,Recommendation,$q,Project,Challenge){
+    }]).controller('LeftNavCtrl',function($scope,$mdSidenav,$state,Profile,Tag,Recommendation,$q,Project,Challenge){
         function getRecomendation(id){
             var defered = $q.defer();
             if(!$scope.currentUser) return defered.promise;
@@ -102,11 +101,6 @@ angular.module('cri', [
             });
             return defered.promise;
         }
-
-        function getLeftNav() { 
-            return $materialSidenav('left'); 
-        }
-
 
         $scope.$watch(function(){
             return $state.params.uid;
@@ -192,18 +186,8 @@ angular.module('cri', [
 
             }
         });
-
-        $scope.$on('toggleLeft',function(e){
-            getLeftNav().toggle();
-        });
-        $scope.toggle = function(){
-            getLeftNav().toggle();
-        };
-        $scope.$on('side:close-left',function(){
-            getLeftNav().toggle();
-        });
-    }).controller('BodyCtrl', function($scope, $materialSidenav) {
+    }).controller('BodyCtrl', function($scope, $mdSidenav) {
         $scope.rightSidenavIsOpen = function() {
-            return $materialSidenav('right').isOpen();
+            return $mdSidenav('right').isOpen();
         }
     });

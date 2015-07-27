@@ -1,5 +1,5 @@
 angular.module('cri.challenge')
-.factory('Challenge',['$http','$q','$upload','Config',function($http,$q,$upload,Config){
+.factory('Challenge',['$http','$q','Upload','Config',function($http,$q,Upload,Config){
         var URI = '/challenges';
         var service  = {
             getTemplates :function(id){
