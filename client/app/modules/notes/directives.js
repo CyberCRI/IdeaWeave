@@ -11,11 +11,19 @@ angular.module('cri.notes', ['ngSanitize'])
         templateUrl: "modules/notes/templates/show-notes.tpl.html",
         controller: function($scope, Notification, Notes, $mdDialog) {
             $scope.canPostNote = function() {
-                return $scope.currentUser && $scope.currentUser._id == $scope.container.owner._id;
+                var isMember = false;
+                for(var i = $scope.container.members.length;i--;){
+                    if($scope.container.members[i]._id == $scope.currentUser._id){
+                        isMember = true;
+                    } else {
+                        isMember = false;
+                    }
+                }
+                return $scope.currentUser && isMember;
             };
 
             $scope.canDeleteNote = function(note) {
-                return $scope.currentUser && note.owner._id == $scope.currentUser._id;
+                return $scope.currentUser && note.owner._id == $scope.currentUser._id && isMember;
             };
 
             $scope.canPostComment = function(note) {
