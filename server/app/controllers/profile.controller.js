@@ -122,6 +122,16 @@ exports.changePassword = function(req, res, next) {
 };
 
 
+exports.forgotPassword = function(req, res) {
+    User.findOneQ({ _id : req.user._id })
+    .then(function(user) {
+        
+    }).catch(function(err){
+        res.json(400, err);
+    });
+};
+
+
 /**
  * Send User
  */

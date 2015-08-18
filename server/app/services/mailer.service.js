@@ -1,19 +1,12 @@
-emailer = require("nodemailer");
-fs      = require("fs");
-_       = require("lodash");
+var emailer = require("nodemailer"),
+    fs = require("fs"),
+    _ = require("lodash"),
+    config = require('../../config/config');
 
 var Emailer = function Emailer(options, data) {
     this.options = options;
     this.data = data;
 }
-
-Emailer.prototype.attachments = [
-    {
-        fileName: "logo.png",
-        filePath: "./public/images/email/logo.png",
-        cid: "logo@myapp"
-    }
-];
 
 Emailer.prototype.send = function(callback) {
     var attachments, html, messageData, transport;
@@ -22,7 +15,7 @@ Emailer.prototype.send = function(callback) {
     attachments = this.getAttachments(html);
     messageData = {
         to: "'" + this.options.pseudo + "' <" + this.options.email + ">",
-        from: "'Ideaweaves'",
+        from: "'IdeaWeave'",
         subject: this.options.subject,
         html: html,
         generateTextFromHTML: true,
@@ -33,13 +26,7 @@ Emailer.prototype.send = function(callback) {
 };
 
 Emailer.prototype.getTransport = function() {
-    return emailer.createTransport("SMTP", {
-        service: "Gmail",
-        auth: {
-            user: "ideaWeaves@gmail.com",
-            pass: "azerty1001"
-        }
-    });
+    return emailer.createTransport(config.email);
 };
 
 Emailer.prototype.getHtml = function(templateName, data) {
