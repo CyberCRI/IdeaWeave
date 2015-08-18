@@ -9,22 +9,13 @@ module.exports.ensureAuthenticated = function(req, res, next) {
     if (!req.headers.authorization) {
         return res.status(401).end();
     }
-
-    var userId;
-    try {
-        var token = req.headers.authorization.split(' ')[1];
-        var payload = jwt.decode(token, config.TOKEN_SECRET);
-        if (payload.exp <= Date.now()) {
-            return res.status(401).send({ message: 'Token has expired' });
-        }
-        userId = payload.user;
-    }
-    catch(err) {
-        console.error("Can't decode token", err);
-        return res.status(401).send({ message: err.message });
+    var token = req.headers.authorization.split(' ')[1];
+    var payload = jwt.decode(token, config.TOKEN_SECRET);
+    if (payload.exp <= Date.now()) {
+        return res.status(401).send({ message: 'Token has expired' });
     }
 
-    User.findOneQ({ _id : userId }).then(function(user){
+    User.findOneQ({ _id : payload.user }).then(function(user){
         req.user = user;
         next();
     }).fail(function(err){
