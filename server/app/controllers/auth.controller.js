@@ -79,9 +79,9 @@ exports.googleAuth = function(req, res) {
 // Step 1. Exchange authorization code for access token.
     console.log("Requesting google auth token", accessTokenUrl, params);
     request.post(accessTokenUrl, { json: true, form: params }, function(error, response, token) {
-        if(error) {
-            console.error("Error getting auth token", error);
-            return res.send(400, error);
+        if(error || token.error) {
+            console.error("Error getting auth token", error || token.error);
+            return res.send(400, error || token.error);
         }
 
         console.log("Received google token");
