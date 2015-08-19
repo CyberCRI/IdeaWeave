@@ -114,9 +114,9 @@ angular.module('cri.profile')
                 });
                 return defered.promise;
             },
-            getResetPassToken : function(email){
+            sendResetPasswordEmail : function(email){
                 var defered = $q.defer();
-                $http.post(Config.apiServer + '/datas/resetPass/' + email)
+                $http.post(Config.apiServer + '/auth/forgotPassword', { email: email })
                     .success(function(data){
                         defered.resolve(data);
                     })
@@ -125,9 +125,9 @@ angular.module('cri.profile')
                     });
                 return defered.promise;
             },
-            resetPassword : function(passwordInfo){
+            resetPassword : function(email, token, newPassword){
                 var defered = $q.defer();
-                $http.post(Config.apiServer + '/profile/password', passwordInfo)
+                $http.post(Config.apiServer + '/auth/resetPassword', { email: email, token: token, newPassword: newPassword })
                     .success(function(data){
                         defered.resolve(data);
                     })

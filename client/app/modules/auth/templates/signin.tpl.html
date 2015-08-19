@@ -41,29 +41,9 @@
                     <i class="fa fa-sign-in"> Register</i>
                 </md-button>
             </div>
-            <md-button ng-click="forgotPass()">
+            <md-button ui-sref="forgotPassword">
                 Forgot your password?
             </md-button>
         </form>
-        <div ng-if="resetPassForm" layout="column">
-            <div layout="row" layout-align="end end">
-                <md-input-container flex>
-                    <label for="emailR">Email account</label>
-                    <input id="emailR" type="email" ng-model="resetPass.email" />
-                </md-input-container>
-                <i class="fa fa-2x fa-envelope my-btn"></i>
-            </div>
-            <md-input-container>
-                <label for="token">Token you have received by mail</label>
-                <input id="token" type="text" ng-model="resetPass.token" />
-            </md-input-container>
-            <div layout="row" layout-align="end end">
-                <md-input-container flex>
-                    <label for="new-password">New password</label>
-                    <input id="new-password" type="password" ng-model="resetPass.email" />
-                </md-input-container>
-                <i class="fa fa-2x fa-share my-btn"></i>
-            </div>
-        </div>
     </div>
 </md-content>

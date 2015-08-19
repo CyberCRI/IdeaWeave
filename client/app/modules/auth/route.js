@@ -1,15 +1,6 @@
 angular.module('cri.auth')
     .config(['$stateProvider',function ($stateProvider) {
         $stateProvider
-            .state('activate',{
-                url : '/account/activate/:uid',
-                views : {
-                    mainView: {
-                        templateUrl: 'modules/auth/templates/activate.tpl.html',
-                        controller: 'ActivateCtrl'
-                    }
-                }
-            })
             .state('signin',{
                 url : '/auth/signin',
                 views : {
@@ -25,6 +16,24 @@ angular.module('cri.auth')
                     mainView: {
                         templateUrl: 'modules/auth/templates/signup.tpl.html',
                         controller: 'RegisterCtrl'
+                    }
+                }
+            })
+            .state('forgotPassword',{
+                url : '/auth/forgotPassword',
+                views : {
+                    mainView: {
+                        templateUrl: 'modules/auth/templates/forgotPassword.tpl.html',
+                        controller: 'ForgotPasswordCtrl'
+                    }
+                }
+            })
+            .state('resetPassword',{
+                url : '/auth/resetPassword?email&token',
+                views : {
+                    mainView: {
+                        templateUrl: 'modules/auth/templates/resetPassword.tpl.html',
+                        controller: 'ResetPasswordCtrl'
                     }
                 }
             });
