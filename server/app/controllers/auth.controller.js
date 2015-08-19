@@ -261,26 +261,26 @@ exports.update = function(req, res) {
 
 exports.forgotPassword = function(req, res) {
     // From http://stackoverflow.com/a/1349426/209505
-    function makeToken() {
+    function makeToken(length) {
         var text = "";
         var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
-        for( var i=0; i < 5; i++ )
+        for( var i=0; i < length; i++ )
             text += possible.charAt(Math.floor(Math.random() * possible.length));
 
         return text;
     }
 
     // Make a unique token for the given user and store it in the DB
-    var token = makeToken();
+    var token = makeToken(5);
     User.findOneAndUpdateQ({ email : req.body.email }, { passwordResetToken: token })
     .then(function(user) {
-        if(!user) return res.send(400, { message: "No user with that email found" });
+        if(!user) return res.json(400, { message: "No user with that email found" });
 
         // Send the token to the user via email
         var email = {
             to: user.username + "<" + user.email + ">",
-            subject: "IdeaWeave: Change your password",
+            subject: "IdeaWeave: Reset your password",
             text: "In order to change your password on IdeaWeave, please use the token: " + token
         }; 
         return emailer(email)
@@ -290,6 +290,27 @@ exports.forgotPassword = function(req, res) {
         });
     }).catch(function(err){
         res.json(400, err);
+    });
+};
+
+exports.resetPassword = function(req, res) {
+    // Check that the token matches the email provided
+    User.findOneQ({ email: req.body.email })
+    .then(function(user) {
+        if(!user) return res.json(400, { message: "No user that email found" });
+
+        // Check that the token matches the user
+        if(!user.passwordResetToken || user.passwordResetToken !== req.body.token) {
+            return res.json(400, { message: "The token does not match the email provided"});
+        } 
+
+        user.passwordResetToken = null;
+        user.password = req.body.newPassword;
+        user.saveQ().then(function() {
+            return res.send(200);
+        });
+    }).catch(function(err) {
+        return res.json(500, err);
     });
 };
 
