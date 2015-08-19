@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 var mongoose = require('mongoose-q')(),
-	Schema = mongoose.Schema,
+    Schema = mongoose.Schema,
     bcrypt = require('bcryptjs'),
     Q = require('q');
 
@@ -13,9 +13,9 @@ var mongoose = require('mongoose-q')(),
  * User Schema
  */
 var UserSchema = new Schema({
-	email: {
-		type: String
-	},
+    email: {
+        type: String
+    },
     status : {
         type : String,
         default : 0
@@ -46,24 +46,24 @@ var UserSchema = new Schema({
         unique : true
     }],
     localisation : {},
-	username: {
-		type: String,
-		unique: true,
-		trim: true
-	},
+    username: {
+        type: String,
+        unique: true,
+        trim: true
+    },
     poster : {
       type : String
     },
-	password: {
-		type: String
-	},
-	salt: {
-		type: String
-	},
-	createDate: {
-		type: Date,
-		default: Date.now
-	},
+    password: {
+        type: String
+    },
+    salt: {
+        type: String
+    },
+    createDate: {
+        type: Date,
+        default: Date.now
+    },
     mailNotification : {
         type : Boolean,
         default : true
@@ -76,6 +76,7 @@ var UserSchema = new Schema({
     github: String,
     linkedin: String,
     twitter: String,
+    passwordResetToken: String
 });
 
 UserSchema.statics.random = function() {
@@ -123,12 +124,12 @@ UserSchema.methods.comparePassword = function(password, done) {
  * Find possible not used username
  */
 UserSchema.statics.findUniqueUsername = function(username, suffix) {
-	var _this = this,
-	    possibleUsername = username + (suffix || ''),
+    var _this = this,
+        possibleUsername = username + (suffix || ''),
         defered = Q.defer();
 
-	_this.findOneQ({
-		username: possibleUsername
+    _this.findOneQ({
+        username: possibleUsername
     }).then(function (user) {
         if (!user) {
             defered.resolve(user);
