@@ -11,19 +11,27 @@ angular.module('cri.notes', ['ngSanitize'])
         templateUrl: "modules/notes/templates/show-notes.tpl.html",
         controller: function($scope, Notification, Notes, $mdDialog) {
             $scope.canPostNote = function() {
-                var isMember = false;
-                for(var i = $scope.container.members.length;i--;){
-                    if($scope.container.members[i]._id == $scope.currentUser._id){
-                        isMember = true;
-                    } else {
-                        isMember = false;
-                    }
-                }
-                return $scope.currentUser && isMember;
+                if(!$scope.currentUser) return false;
+
+                // The owner can always post notes
+                if($scope.container.owner._id == $scope.currentUser._id) return true;
+
+                // Members can also post notes
+                if($scope.container.members && _.contains(_.pluck($scope.container.members, "_id"), $scope.currentUser._id)) return true;
+
+                return false;
             };
 
             $scope.canDeleteNote = function(note) {
-                return $scope.currentUser && note.owner._id == $scope.currentUser._id && isMember;
+                if(!$scope.currentUser) return false;
+
+                // The owner can always remove notes
+                if($scope.container.owner._id == $scope.currentUser._id) return true;
+
+                // The creator of the note can remove it
+                return note.owner._id == $scope.currentUser._id;
+
+                return false;
             };
 
             $scope.canPostComment = function(note) {
@@ -124,7 +132,7 @@ angular.module('cri.notes', ['ngSanitize'])
             };
 
 
-            // Notes will belong to either a challenge or project
+            // Notes will belong to either a challenge, project, or idea
             if($scope.challenge) {
                 $scope.container = $scope.challenge;
                 $scope.containerType = "challenge";
