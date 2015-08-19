@@ -279,13 +279,13 @@ exports.forgotPassword = function(req, res) {
 
         // Send the token to the user via email
         var email = {
-            to: user.username + "<" + user.email + ">",
+            to: user.username + " <" + user.email + ">",
             subject: "IdeaWeave: Reset your password",
             text: "In order to change your password on IdeaWeave, please use the token: " + token
         }; 
         return emailer(email)
         .then(function(info) {
-            console.log("Mail sent", info);
+            console.log("Forgot password email sent", info);
             res.send(200);
         });
     }).catch(function(err){

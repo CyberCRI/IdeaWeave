@@ -28,6 +28,11 @@ module.exports.init = function(_socketIo) {
         });
 
         socket.on('disconnect', function() {
+            if(!socketIdToUserId.hasOwnProperty(socket.id)) {
+                console.error("Unknown socket disconnecting", socket.id);
+                return;
+            }
+
             var userId = socketIdToUserId[socket.id];
             console.log("Disconnected socket", socket.id, "for user", userId);
 
@@ -40,11 +45,11 @@ module.exports.init = function(_socketIo) {
     });
 };
 
-module.exports.sendNotification =  function(notification, userId) {
+module.exports.isConnected =  function(userId) {
     return userIdToSocketIds.hasOwnProperty(userId);
 }
 
-module.exports.isConnected =  function(userId) {
+module.exports.sendNotification =  function(notification, userId) {
     if(!userIdToSocketIds.hasOwnProperty(userId)) return;
 
     var socketIds = userIdToSocketIds[userId];

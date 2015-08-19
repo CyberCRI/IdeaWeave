@@ -11,6 +11,8 @@ function sendMail(options) {
         from: config.email.from 
     });
 
+    console.log("Sending email", options);
+
     return q.ninvoke(transporter, "sendMail", options);
 }
 
