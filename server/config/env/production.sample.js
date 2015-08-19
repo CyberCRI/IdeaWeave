@@ -10,4 +10,12 @@ module.exports = {
         port: 80,
         rootPath: "/etherpad/api/1.2.9/",
         apiKey: "xxx"
-    }};
+    }},
+    email: {
+        from: "IdeaWeave Robot <ideaweave-noreply@ideaweave.io>",
+        transport: {
+            service: "",
+            auth: {
+            }
+        }
+    };
