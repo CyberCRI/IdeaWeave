@@ -2,7 +2,7 @@
 
 module.exports = {
     db: 'mongodb://localhost/ideaweave',
-    clientBaseUrl : 'http://ideastorm.io',
+    clientBaseUrl : 'https://ideastorm.io',
     TOKEN_SECRET: 'mysecret',
     GOOGLE_SECRET: '',
     etherpad: {
