@@ -27,5 +27,13 @@ angular.module('cri.auth')
                         controller: 'RegisterCtrl'
                     }
                 }
+            }).state('terms',{
+                url : '/auth/terms',
+                views : {
+                    mainView: {
+                        templateUrl: 'modules/auth/templates/terms.tpl.html',
+                        controller: 'termsCtrl'
+                    }
+                }
             });
     }]);

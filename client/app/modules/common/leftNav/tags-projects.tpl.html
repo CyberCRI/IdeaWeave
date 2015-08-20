@@ -8,7 +8,7 @@
 <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')">
     <md-content>
         <md-button style="width:100%;text-align:left;" ui-sref="projects.list({ tag : 'all' })">ALL</md-button>
-        <div ng-repeat="tag in tags">
+        <div ng-repeat="tag in tags | orderBy:'title'">
             <md-button style="width:100%;text-align:left;" ui-sref="projects.list({ tag : tag.title })">{{tag.title}}</md-button>
         </div>
     </md-content>
