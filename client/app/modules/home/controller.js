@@ -1,7 +1,7 @@
 angular.module('cri.home',[])
 .controller('HomeCtrl',['$scope','$state','popularThings','tags','$location','$anchorScroll',
     function($scope,$state,popularThings,tags,$location, $anchorScroll){
-        var maximumCharBrief = 30;
+        var maximumCharBrief = 70;
         $scope.challenges = popularThings.data.challenges || [];
         $scope.challenges.unshift({intro : 3});
         $scope.challenges.unshift({intro : 2});
