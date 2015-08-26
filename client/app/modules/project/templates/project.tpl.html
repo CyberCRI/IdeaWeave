@@ -16,6 +16,16 @@
     <div layout="row" layout-align="center center">
         <img ng-if="project.banner" src="{{ project.banner }}" />
     </div>
+    
+    <div ng-if="project.progressIsTrue" layout="row" layout-align="center center">
+        <div class="c100 p{{ project.progress }} big">
+            <span>{{ project.progress }}%</span>
+            <div class="slice">
+                <div class="bar"></div>
+                <div class="fill"></div>
+            </div>
+        </div>
+    </div>
 
     <div layout="row">
         <div flex></div>

@@ -18,6 +18,8 @@ angular.module('cri.admin.project',[])
             focus: true
         };
 
+        console.log($scope.project.progressIsTrue)
+
         $scope.refreshAddresses = function(address) {
             Gmap.getAdress(address).then(function(adresses){
                 $scope.addresses = adresses;

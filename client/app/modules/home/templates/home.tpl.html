@@ -1,5 +1,5 @@
 <md-content style="overflow-x:hidden;" class="my-carousel">
-    <ul rn-carousel rn-carousel-controls rn-carousel-auto-slide="5" id="homeCarousel">
+    <ul rn-carousel rn-carousel-controls rn-carousel-auto-slide="8" id="homeCarousel">
         <li class="my-carousel" ng-repeat="challenge in challenges" >
             <section class="carousel-home center my-carousel" ng-if="challenge.intro == 1">
                 <img src="images/svg/logocaroussel.svg" alt="ideaWeaveLogo"/>
@@ -23,7 +23,7 @@
             </section>
             <section  layout="column"  class="my-carousel carousel-home center" ng-if="challenge.intro == 3">
                 <img src="images/svg/logocaroussel.svg" alt="ideaWeaveLogo" />
-                <h1 class="md-headline">IdeaWeave provides a simple collaborative working environment, the possibility to organise and archive discussions, a clear visibility on the taks to be performed and the resources needed.</h1>
+                <h1 class="md-headline">IdeaWeave provides a simple collaborative working environment, the possibility to organise and archive discussions, a clear visibility on the tasks to be performed and the resources needed.</h1>
             </section>
             <section ng-if="$index > 2" class="my-carousel carousel-home center">
                 <h1 class="md-headline">{{challenge.title}}</h1>

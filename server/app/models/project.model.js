@@ -64,6 +64,14 @@ var ProjectSchema = new Schema({
     trello : {
         type : String
     },
+    progressIsTrue : {
+        type : Boolean,
+        default : false
+    },
+    progress : {
+        type : Number,
+        default : 0
+    },
     noteNumber : {
         type : Number,
         default : 0

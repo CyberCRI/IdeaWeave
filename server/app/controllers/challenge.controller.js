@@ -124,7 +124,7 @@ exports.fetch = function(req,res){
                     });
                     break;
                 default:
-                    Challenge.find({_id : req.query._id}).select('_id title brief accessUrl tags poster followers owner home').populate('tags').execQ().then(function(data){
+                    Challenge.find({_id : req.query._id}).select('_id title brief accessUrl tags poster followers owner home progressIsTrue progress').populate('tags').execQ().then(function(data){
 
                         res.json(data);
                     }).catch(function(err){
