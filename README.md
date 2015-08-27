@@ -34,6 +34,36 @@ To change the config file used by the server at startup, set the NODE_ENV variab
 
 Follow the [instructions to install Etherpad](https://github.com/ether/etherpad-lite#installation) according to your platform. 
 
+After you run Etherpad for the first time, it will create a file called `APIKEY.txt` in it's home directly. You will need to copy the contents of this file (a long string) into the IdeaWeave config file (`development.js` and/or `production.js`). The section of the config file will look something like the following.
+
+```
+etherpad: {
+    host: "localhost",
+    rootPath: "/etherpad/api/1.2.9/",
+    port: 9090,
+    apiKey: "xxx"
+}
+```
+
+You might also need to change other properties such as the port and root path of the EtherPad API, depending on how you are deploying Etherpad.
+
+### Setting up email
+
+IdeaWeave uses [NodeMailer](http://www.nodemailer.com/) to send password reset and notification email. In order to get email to work, you need to tell IdeaWeave about it in your config file (`development.js` and/or `production.js`). Under the `email` attribute, include a `from` email address and a `transport` object that follows the format in the [Nodemailer documentation](http://www.nodemailer.com/). For example, the following configuration would send email from a fictional Gmail account:
+
+````
+email: {
+    from: "IdeaWeave Robot <gmail.user@gmail.com>",
+    transport: {
+        service: 'Gmail',
+        auth: {
+            user: 'gmail.user@gmail.com',
+            pass: 'userpass'
+        }
+    }
+}
+```
+
 ## Running frontend
 ![gulp](http://ih3.redbubble.net/image.15786709.1011/sticker,375x360.png)
 

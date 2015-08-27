@@ -148,9 +148,6 @@ angular.module('cri', [
                         $scope.sideNavTemplateUrl = 'modules/idea/templates/tags-ideas.tpl.html';
                     });
                     break;
-                case 'profileAdmin':
-                    //$scope.sideNavTemplateUrl = 'modules/common/leftNav/admin-profile.tpl.html';
-                    break;
                 case 'challengeAdmin':
                     $scope.sideNavTemplateUrl = 'modules/common/leftNav/admin-challenges.tpl.html';
                     break;
@@ -177,7 +174,7 @@ angular.module('cri', [
                             });
                         }
                     }
-                    $scope.sideNavTemplateUrl = 'modules/common/leftNav/publications.tpl.html';
+                    $scope.sideNavTemplateUrl = 'modules/common/leftNav/admin-project.tpl.html';
 
                     break;
 

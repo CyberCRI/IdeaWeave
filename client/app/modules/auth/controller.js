@@ -86,41 +86,8 @@ angular.module('cri.auth',[
                 $scope.loader.email = false;
             });
         };
-
-        $scope.resetPassForm = false;
-        $scope.forgotPass = function(){
-            $scope.resetPassForm = !$scope.resetPassForm;
-        };
-
-        $scope.resetF = {};
-        $scope.getToken = function (email) {
-            if(!$scope.emailSend){
-                Profile.getResetPassToken(email).then(function(data){
-                    if (data.error) {
-                        Notification.display('Sorry, an error occured.');
-
-                    } else {
-                        $scope.emailSend = true;
-                        Notification.display("Verification code has been sent successfully, please log in to view your mailbox");
-
-                    }
-                });
-            }
-
-        };
-        $scope.reSet = function (resetData) {
-            Profile.resetPassword(resetData).then(function (data) {
-                if (data.error) {
-                    Notification.display('Sorry, an error occured.');
-                } else {
-                    Notification.display('Password reset successfull');
-                }
-            });
-        };
-
     })
     .controller('RegisterCtrl', ['$scope','$state','Notification','Gmap','Files','$auth',  function ($scope, $state, Notification,Gmap,Files,$auth) {
-
         $scope.rgform = {};
 
         $scope.check = {};
@@ -142,12 +109,36 @@ angular.module('cri.auth',[
         };
 
     }])
-    .controller('ActivateCtrl',['$scope','Profile','$state','$stateParams','Notification',function($scope,Profile,$state,$stateParams,Notification){
-        $scope.activate = function(){
-            Profile.update($stateParams.uid,{ emailValidated : true }).then(function(){
-                $state.go('home');
-            }).catch(function(err){
+    .controller('ForgotPasswordCtrl', function ($scope, $state, Profile, Notification) {
+        $scope.email = "";
+
+        $scope.send = function() {
+            Profile.sendResetPasswordEmail($scope.email).then(function() {
+                Notification.display("Verification token has been sent");
+                $state.go("resetPassword", { email: $scope.email });
+            }).catch(function(err) {
+                console.error(err);
                 Notification.display(err.message);
             });
-        };
-    }]);
+        }
+    })
+    .controller('ResetPasswordCtrl', function ($scope, $state, $stateParams, Profile, Notification) {
+        // Initialize inputs with URL parameters
+        $scope.email = $stateParams.email || "";
+        $scope.token = $stateParams.token || "";
+
+        $scope.changePassword = function() {
+            if($scope.newPassword !== $scope.newPasswordCheck) {
+                return Notification.display("The passwords do not match");
+            }
+
+            Profile.resetPassword($scope.email, $scope.token, $scope.newPassword).then(function() {
+                Notification.display("Password changed. Please login with your new password");
+                $state.go("signin");
+            }).catch(function(err) {
+                console.error(err);
+                Notification.display(err.message);
+            });
+        }
+
+    });
