@@ -14,32 +14,5 @@ angular.module('cri.workspace')
                         return Project.fetch({ accessUrl : decodeURIComponent($stateParams.pid) });
                     }
                 }
-            })
-            .state('workspace.etherpad',{
-                url : '/etherpad',
-                views : {
-                    noteDetailsView: {
-                        templateUrl:'modules/workspace/templates/etherpad.tpl.html',
-                        controller: 'NoteEtherpadCtrl'
-                    }
-                }
-            })
-            .state('workspace.resources',{
-                url : '/resources',
-                views : {
-                    noteDetailsView: {
-                        templateUrl:'modules/workspace/templates/resources.tpl.html',
-                        controller: 'NoteResourcesCtrl'
-                    }
-                }
-            })
-            .state('workspace.files',{
-                url : '/files',
-                views : {
-                    noteDetailsView: {
-                        templateUrl:'modules/workspace/templates/files.tpl.html',
-                        controller: 'NoteFilesCtrl'
-                    }
-                }
             });
     }]);

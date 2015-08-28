@@ -156,9 +156,6 @@ angular.module('cri', [
                 case 'project.trello':
                 case 'project.admin':
                 case 'workspace':
-                case 'workspace.etherpad':
-                case 'workspace.files':
-                case 'workspace.resources':
                     $scope.project = Project.data;
 
                     if($scope.currentUser){
