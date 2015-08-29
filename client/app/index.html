@@ -84,7 +84,7 @@
         </md-toolbar>
 
         <section layout="row" layout-fill ng-controller="LeftNavCtrl">
-            <md-sidenav ng-cloak ng-show="sideNavTemplateUrl" class="md-sidenav-left md-whiteframe-z2" component-id="left" md-is-locked-open="true">
+            <md-sidenav ng-cloak ng-show="sideNavTemplateUrl" class="md-sidenav-left md-whiteframe-z2" md-is-locked-open="true">
                 <ng-include src="sideNavTemplateUrl" flex layout="column" layout-fill>
                 </ng-include>
             </md-sidenav>
