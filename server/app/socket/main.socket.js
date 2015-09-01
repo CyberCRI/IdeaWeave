@@ -8,6 +8,10 @@ var userIdToSocketIds = {};
 // Stores map from socket ID (defined by socket.io) to user ID (defined by DB)
 var socketIdToUserId = {};
 
+function printConnections() {
+    console.log("Currently", _.size(userIdToSocketIds), "users are connected across", _.size(socketIdToUserId), "sockets");
+}
+
 // Set by init()
 var socketIo;
 
@@ -25,6 +29,8 @@ module.exports.init = function(_socketIo) {
                 userIdToSocketIds[userId] = [];
             }
             userIdToSocketIds[userId].push(socket.id);
+
+            printConnections();
         });
 
         socket.on('disconnect', function() {
@@ -41,6 +47,8 @@ module.exports.init = function(_socketIo) {
             // Remove socket ID and clean up empty array if necessary
             _.pull(userIdToSocketIds[userId], socket.id);
             if(userIdToSocketIds[userId].length == 0) delete userIdToSocketIds[userId];
+
+            printConnections();
         });
     });
 };
@@ -49,7 +57,7 @@ module.exports.isConnected =  function(userId) {
     return userIdToSocketIds.hasOwnProperty(userId);
 }
 
-module.exports.sendNotification =  function(notification, userId) {
+module.exports.sendNotification = function(notification, userId) {
     if(!userIdToSocketIds.hasOwnProperty(userId)) return;
 
     var socketIds = userIdToSocketIds[userId];
