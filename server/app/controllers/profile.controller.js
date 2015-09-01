@@ -10,7 +10,8 @@ var mongoose = require('mongoose-q')(),
     Idea = mongoose.model('Idea'),
     Notification = mongoose.model('Notification'),
     Tags = mongoose.model('Tag'),
-    q = require('q');
+    q = require('q'),
+    _ = require('lodash');
 
 
 exports.getActivity = function(req,res){
@@ -78,6 +79,9 @@ exports.update = function(req, res) {
             req.body.tags[k] = tag._id
         });
     }
+    if(req.body.followers){
+        req.body.followers = _.pluck(req.body.followers, "_id");
+    }
     User.findOneAndUpdateQ({ _id : req.params.id },req.body).then(function(user){
         var myNotif = new Notification({
             type : 'update',
@@ -118,6 +122,16 @@ exports.changePassword = function(req, res, next) {
                 message: getErrorMessage(err)
             });
         });
+    });
+};
+
+
+exports.forgotPassword = function(req, res) {
+    User.findOneQ({ _id : req.user._id })
+    .then(function(user) {
+        
+    }).catch(function(err){
+        res.json(400, err);
     });
 };
 

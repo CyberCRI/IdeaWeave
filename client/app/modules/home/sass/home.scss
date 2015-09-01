@@ -23,11 +23,11 @@
 }
 
 // Put the dialog on top of everything else
-.material-dialog-container {
+.md-dialog-container {
 	z-index: 100;
 }
 
-material-dialog {
+md-dialog {
 	border-color: black;
 	border-width: 1px;
 	border-style: solid;
@@ -53,8 +53,4 @@ material-dialog {
 
 #homeCarousel h1 {
   margin: 0 140px 0 140px;
-}
-
-#homeCarousel a {
-  color: white;
 }

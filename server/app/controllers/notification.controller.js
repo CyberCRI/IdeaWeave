@@ -7,7 +7,8 @@ var q = require('q'),
     Project = mongoose.model('Project'),
     Challenge= mongoose.model('Challenge'),
     Idea = mongoose.model('Idea'),
-    Note = mongoose.model('NoteLab');
+    Note = mongoose.model('NoteLab'),
+    _ = require('lodash');
 
 exports.create = function(owner,type,entity, entityType){
     var defered = q.defer(),

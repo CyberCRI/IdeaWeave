@@ -56,6 +56,7 @@ exports.getPadInfo = function(req, res) {
     }
 
     function getAuthorId(userId, userName) {
+        // console.log("getAuthorId() userId", userId, "userName", userName);
         return q.ninvoke(etherpad, "createAuthorIfNotExistsFor", { authorMapper: userId, name: userName })
         .then(function(userData) {
             return userData.authorID;
@@ -129,8 +130,9 @@ exports.getPadInfo = function(req, res) {
         rootPath: config.etherpad.rootPath
     });
 
-    q.spread([getGroupId(groupName), getAuthorId(req.user._id, req.user.username)], function(groupId, authorId) {
+    q.spread([getGroupId(groupName), getAuthorId(req.user._id.toString(), req.user.username)], function(groupId, authorId) {
         return q.spread([getGroupPadId(groupId), getSessionId(groupId, authorId)], function(groupPadId, sessionId) {
+            // console.log("Returning etherpad session info: user", req.user._id, "author", authorId, "group", groupId, "groupPad", groupPadId, "session", sessionId);
             res.json({
                 padId: groupPadId,
                 sessionId: sessionId
@@ -177,7 +179,7 @@ exports.getUserSessionString = function(req, res) {
         rootPath: config.etherpad.rootPath
     });
 
-    getAuthorId(req.user._id, req.user.username)
+    getAuthorId(req.user._id.toString(), req.user.username)
     .then(getSessionString)
     .then(function(sessionString) {
         res.cookie("sessionID", sessionString);

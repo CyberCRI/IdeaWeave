@@ -1,31 +1,31 @@
-<material-dialog>
-    <material-toolbar>
-        <div layout="horizontal">
+<md-dialog>
+    <md-toolbar>
+        <div layout="row">
             <div flex></div>
-            <material-button class="material-button-fab" ng-click="addUrl(url)">
+            <md-button class="md-fab" ng-click="addUrl(url)">
                 <i class="fa fa-save"></i>
-            </material-button>
-            <material-button class="material-button-fab" ng-click="cancel()">
+            </md-button>
+            <md-button class="md-fab" ng-click="cancel()">
                 <i class="fa fa-times" ></i>
-            </material-button>
+            </md-button>
 
         </div>
 
-    </material-toolbar>
-    <material-content>
+    </md-toolbar>
+    <md-content>
         <form name="resourceForm">
-            <material-input-group>
+            <md-input-container>
                 <label for="title">Link name</label>
-                <material-input type="text" id="title" ng-model="url.title" required style="width:100%;"/>
-            </material-input-group>
-            <material-input-group>
+                <input type="text" id="title" ng-model="url.title" required style="width:100%;"/>
+            </md-input-container>
+            <md-input-container>
                 <label for="url">URL (http://...)</label>
-                <material-input type="url" id="url" ng-model="url.text" required />
-            </material-input-group>
-            <material-input-group>
+                <input type="url" id="url" ng-model="url.text" required />
+            </md-input-container>
+            <md-input-container>
                 <label for="description">Description</label>
-                <material-input type="text" id="description" ng-model="url.description" style="width:100%;"/>
-            </material-input-group>
+                <input type="text" id="description" ng-model="url.description" style="width:100%;"/>
+            </md-input-container>
         </form>
-    </material-content>
-</material-dialog>
+    </md-content>
+</md-dialog>

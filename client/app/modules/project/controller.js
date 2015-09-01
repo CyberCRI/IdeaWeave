@@ -1,5 +1,5 @@
 angular.module('cri.project',[])
-    .controller('ProjectCtrl',['$scope','Project','project', 'Notification','$sce','$materialDialog','$rootScope',function($scope,Project,project, Notification,$sce,$materialDialog,$rootScope){
+    .controller('ProjectCtrl', function($scope,Project,project, Notification,$mdDialog,$rootScope) {
         $scope.project = project[0];
         
         $scope.isOwner = $scope.currentUser ? $scope.currentUser._id == $scope.project.owner._id : false;
@@ -10,27 +10,15 @@ angular.module('cri.project',[])
             $rootScope.$broadcast('toggleLeft');
         };
 
-//        $scope.d3Tags = [];
-//        angular.forEach($scope.project.tags,function(v,k){
-//            $scope.d3Tags.push({
-//                title : v,
-//                number : 1
-//            })
-//        });
-//
-//        $scope.showTag = function(e){
-//            $state.go('tag',{title : e.text})
-//        }
-
         $scope.openApplyModal = function (e) {
-            $materialDialog({
+            $mdDialog.show({
                 templateUrl: 'modules/project/templates/modal/applyTeamModal.tpl.html',
                 targetEvent: e,
                 locals : {
                     project  : $scope.project,
                     currentUser : $scope.currentUser
                 },
-                controller: ['$scope','$hideDialog','project','currentUser',function($scope,$hideDialog,project,currentUser){
+                controller: function($scope,project,currentUser){
                     $scope.apply={};
                     $scope.applyTeamMsg=function(){
                         $scope.apply.container=project._id;
@@ -45,23 +33,23 @@ angular.module('cri.project',[])
                         });
                     };
                     $scope.cancel = function () {
-                        $hideDialog();
+                        $mdDialog.hide();
                     };
-                }]
+                }
             });
         };
 
         $scope.openShare = function (e) {
-            $materialDialog({
+            $mdDialog.show({
                 templateUrl: 'modules/project/templates/modal/shareModal.tpl.html',
                 targetEvent: e,
-                controller:['$scope','$hideDialog','$stateParams',function($scope,$hideDialog,$stateParams){
+                controller: function($scope,$stateParams){
                     $scope.pid = $stateParams.pid;
                     $scope.cid = $stateParams.cid;
                     $scope.cancel = function () {
-                        $hideDialog();
+                        $mdDialog.hide();
                     };
-                }]
+                }
             });
         };
 
@@ -93,13 +81,13 @@ angular.module('cri.project',[])
                 });
             }
         };
-    }])
+    })
     .controller('ProjectsCtrl',['$scope','$rootScope',function($scope,$rootScope){
         $scope.toggleLeft = function(){
             $rootScope.$broadcast('toggleLeft');
         };
     }])
-    .controller('ProjectsListCtrl',['$scope','projects','Notification','Project','$stateParams','Config','$materialDialog',function($scope,projects,Notification,Project,$stateParams,Config,$materialDialog){
+    .controller('ProjectsListCtrl', function($scope,projects,Notification,Project,$stateParams,Config){
         $scope.projects = projects;
         $scope.noPage = 0;
         $scope.isEnd = false;
@@ -123,7 +111,7 @@ angular.module('cri.project',[])
                 });
             }
         };
-    }])
+    })
 
     .controller('ProjectJoinCtrl',['$scope','Profile','Config','Project','$state','Notification','$stateParams','project',function ($scope,Profile,Config,Project,$state,Notification,$stateParams,project) {
         Project.data = project;

@@ -71,6 +71,7 @@ angular.module('cri.project')
         return {
             restrict : 'EA',
             templateUrl : 'modules/project/directives/projectBlock/project-card.tpl.html',
+            // replace: true,
             scope : {
                 projectId : '=',
                 myProject : '=',

@@ -4,7 +4,7 @@ angular.module('cri.challenge', ['ngSanitize'])
             $rootScope.$broadcast('toggleLeft')
         };
     })
-    .controller('ChallengesListCtrl',function($scope,challenges,Notification,Challenge,Project,$stateParams,Config,$materialDialog){
+    .controller('ChallengesListCtrl',function($scope,challenges,Notification,Challenge,Project,$stateParams,Config,$mdDialog){
         $scope.challenges = challenges;
 
         $scope.noPage = 0;
@@ -32,9 +32,9 @@ angular.module('cri.challenge', ['ngSanitize'])
 
         $scope.showProjects = function(id,index){
             var challenge = $scope.challenges[index];
-            $materialDialog({
+            $mdDialog.show({
                 templateUrl : 'modules/challenge/templates/modal/listProjects.tpl.html',
-                controller : function($scope,Project,$hideDialog){
+                controller : function($scope,Project){
                     $scope.challenge = challenge;
                     Project.getByChallenge( id ).then(function(projects){
                         console.log('projects',projects);
@@ -44,7 +44,7 @@ angular.module('cri.challenge', ['ngSanitize'])
                     });
 
                     $scope.cancel = function(){
-                        $hideDialog();
+                        $mdDialog.hide();
                     };
                 }
             });
@@ -60,7 +60,7 @@ angular.module('cri.challenge', ['ngSanitize'])
         };
 
     })
-    .controller('ChallengeSuggestCtrl', function ($scope, Challenge,$upload,$state,Notification,Gmap,Files,Config) {
+    .controller('ChallengeSuggestCtrl', function ($scope, Challenge,Upload,$state,Notification,Gmap,Files,Config) {
         $scope.hasDuration = false;
         $scope.pform = {};
         $scope.pform.tags = [];
@@ -87,7 +87,7 @@ angular.module('cri.challenge', ['ngSanitize'])
             });
         };
     })
-    .controller('ChallengeCtrl', function($scope,Challenge,challenge,Notification,$state,Project,$rootScope,NoteLab,$materialDialog) {
+    .controller('ChallengeCtrl', function($scope,Challenge,challenge,Notification,$state,Project,$rootScope,NoteLab,$mdDialog) {
         $scope.challenge = challenge[0];
 
         if($scope.currentUser){

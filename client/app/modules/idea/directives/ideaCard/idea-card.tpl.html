@@ -1,19 +1,19 @@
-<material-card class="idea-card">
+<div class="idea-card">
     <a ui-sref="idea({ iid : idea._id })">
         <h4>{{ idea.title }}</h4>
     </a>
-    <div class="text-muted" layout="horizontal">
+    <div class="text-muted" layout="row">
         <div>
             By:
         </div>
-        <material-button ui-sref="profile({ uid : idea.owner._id})">
+        <md-button ui-sref="profile({ uid : idea.owner._id})">
             {{ idea.owner.username }}
-        </material-button>
+        </md-button>
     </div> 
     <p class="text-muted" ng-bind="idea.brief" style="max-height:200px;overflow:hidden;" ></p>
     <showtags entity="idea"></showtags>
-    <div layout="horizontal">
-        <div flex layout="horizontal" class="text-muted">
+    <div layout="row">
+        <div flex layout="row" class="text-muted">
             <span>
                 {{ idea.followers.length }}
             </span>
@@ -23,4 +23,4 @@
             </span>
         </div>
     </div>
-</material-card>
+</div>

@@ -2,7 +2,7 @@
 
 module.exports = {
     db: 'mongodb://localhost/ideaweave',
-    crossOrigin : 'http://ideastorm.io',
+    clientBaseUrl : 'https://ideastorm.io',
     TOKEN_SECRET: 'mysecret',
     GOOGLE_SECRET: '',
     etherpad: {
@@ -10,4 +10,12 @@ module.exports = {
         port: 80,
         rootPath: "/etherpad/api/1.2.9/",
         apiKey: "xxx"
-    }};
+    }},
+    email: {
+        from: "IdeaWeave Robot <ideaweave-noreply@ideaweave.io>",
+        transport: {
+            service: "",
+            auth: {
+            }
+        }
+    };

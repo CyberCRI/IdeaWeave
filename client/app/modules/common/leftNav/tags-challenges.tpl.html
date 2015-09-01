@@ -1,18 +1,15 @@
-<material-toolbar>
-    <div class="material-toolbar-tools">
-        <div flex hide-md>
-            <material-button class="material-button-fab"   ng-click="toggle()">
-                <i class="fa fa-angle-left fa-2x"  style="color:black;" ></i>
-            </material-button>
-        </div>
+<md-toolbar>
+    <div class="md-toolbar-tools">
         <div>
             <i class="fa fa-tags"> Tags</i>
         </div>
     </div>
-</material-toolbar>
-<material-content>
-    <material-button style="width:100%;text-align:right;" ui-route="/challenges/all" ng-class="{ 'material-button-raised' : $uiRoute }"  ui-sref="challenges.list({ tag : 'all' })">ALL</material-button>
-    <div ng-repeat="tag in tags">
-        <material-button style="width:100%;text-align:right;" ui-route="/challenges/{{tag.title}}" ng-class="{ 'material-button-raised' : $uiRoute }"  ui-sref="challenges.list({ tag : tag.title })">{{tag.title}}</material-button>
-    </div>
-</material-content>
+</md-toolbar>
+<md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="true">
+    <md-content>
+        <md-button style="width:100%;text-align:left;" ui-sref="challenges.list({ tag : 'all' })">ALL</md-button>
+        <div ng-repeat="tag in tags">
+            <md-button style="width:100%;text-align:left;" ui-sref="challenges.list({ tag : tag.title })">{{tag.title}}</md-button>
+        </div>
+    </md-content>
+</md-sidenav>
