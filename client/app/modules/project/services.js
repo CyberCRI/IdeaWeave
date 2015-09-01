@@ -1,5 +1,5 @@
 angular.module('cri.project')
-    .service('Project',['$http','$q','$upload','Config', function($http,$q,$upload,Config){
+    .service('Project',['$http','$q','Upload','Config', function($http,$q,Upload,Config){
 
     var service = {
         getByTag : function(tag,param){
@@ -16,24 +16,6 @@ angular.module('cri.project')
         getPublications : function(id){
             var defered = $q.defer();
             $http.get(Config.apiServer+'/project/publications/'+id).success(function(data){
-                defered.resolve(data);
-            }).error(function(err){
-                defered.reject(err);
-            });
-            return defered.promise;
-        },
-        fetchUrls : function(id){
-            var defered = $q.defer();
-            $http.get(Config.apiServer+'/project/urls/'+id).success(function(data){
-                defered.resolve(data);
-            }).error(function(err){
-                defered.reject(err);
-            });
-            return defered.promise;
-        },
-        fetchFiles : function(id){
-            var defered = $q.defer();
-            $http.get(Config.apiServer+'/project/files/'+id).success(function(data){
                 defered.resolve(data);
             }).error(function(err){
                 defered.reject(err);
@@ -59,7 +41,7 @@ angular.module('cri.project')
             });
             return defered.promise;
         },
-        fetch :function(param){
+        fetch : function(param){
             var defered = $q.defer(),
                 url = Config.apiServer+'/projects';
             $http.get(url,{params : param}).success(function(data){

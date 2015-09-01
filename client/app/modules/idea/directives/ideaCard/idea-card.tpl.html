@@ -1,0 +1,26 @@
+<div class="idea-card">
+    <a ui-sref="idea({ iid : idea._id })">
+        <h4>{{ idea.title }}</h4>
+    </a>
+    <div class="text-muted" layout="row">
+        <div>
+            By:
+        </div>
+        <md-button ui-sref="profile({ uid : idea.owner._id})">
+            {{ idea.owner.username }}
+        </md-button>
+    </div> 
+    <p class="text-muted" ng-bind="idea.brief" style="max-height:200px;overflow:hidden;" ></p>
+    <showtags entity="idea"></showtags>
+    <div layout="row">
+        <div flex layout="row" class="text-muted">
+            <span>
+                {{ idea.followers.length }}
+            </span>
+            &nbsp;
+            <span>
+                Followers
+            </span>
+        </div>
+    </div>
+</div>

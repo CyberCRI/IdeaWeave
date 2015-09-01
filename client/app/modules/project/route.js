@@ -24,6 +24,7 @@ angular.module('cri.project')
                     }]
                 }
             })
+            // TODO: remove this parent state, we alway use project.home
             .state('project',{
                 url : '/project/:pid',
                 views : {
@@ -33,10 +34,10 @@ angular.module('cri.project')
                     }
 
                 },
-                resolve:{
-                    project:['Project','$stateParams',function(Project,$stateParams){
-                        return Project.fetch( { accessUrl : $stateParams.pid});
-                    }]
+                resolve: {
+                    project: function(Project,$stateParams){
+                        return Project.fetch({ accessUrl : decodeURIComponent($stateParams.pid) });
+                    }
                 }
             })
 
@@ -53,6 +54,15 @@ angular.module('cri.project')
                 views : {
                     projectView : {
                         templateUrl : 'modules/project/templates/trello.tpl.html'
+                    }
+                }
+            })
+            .state('project.admin',{
+              url : '/admin',
+                views :{
+                    projectView : {
+                        templateUrl:'modules/admin/project/templates/projectSettings.tpl.html',
+                        controller: 'AdminProjectCtrl'
                     }
                 }
             })

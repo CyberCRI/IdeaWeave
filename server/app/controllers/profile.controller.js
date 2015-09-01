@@ -7,8 +7,11 @@ var mongoose = require('mongoose-q')(),
     User = mongoose.model('User'),
     Project = mongoose.model('Project'),
     Challenge= mongoose.model('Challenge'),
+    Idea = mongoose.model('Idea'),
     Notification = mongoose.model('Notification'),
-    q = require('q');
+    Tags = mongoose.model('Tag'),
+    q = require('q'),
+    _ = require('lodash');
 
 
 exports.getActivity = function(req,res){
@@ -30,15 +33,16 @@ exports.getPoster = function(req,res){
 
 exports.follow = function(req,res){
     q.all([
-        User.findOneAndUpdateQ({ _id : req.body.following },{$push : { followers : req.body.follower }}),
-        User.findOneAndUpdateQ({ _id : req.body.follower },{$push : { followings : req.body.following }})
+        User.findOneAndUpdateQ({ _id : req.body.following },{$push : { followers : req.user._id }}),
+        User.findOneAndUpdateQ({ _id : req.user._id },{$push : { followings : req.body.following }})
     ]).then(function(data){
         var myNotif =  new Notification({
-            type : 'followU',
-            owner : req.body.follower,
-            entity : req.body.following
+            type : 'follow',
+            owner : req.user._id,
+            entity : req.body.following,
+            entityType : 'profile'
         });
-        myNotif.saveQ().then(function(){
+        return myNotif.saveQ().then(function(){
             res.send(200);
         });
     }).catch(function(err){
@@ -48,10 +52,18 @@ exports.follow = function(req,res){
 
 exports.unfollow = function(req,res){
     q.all([
-        User.findOneAndUpdateQ({ _id : req.body.following },{$pull : { followers : req.body.follower }}),
-        User.findOneAndUpdateQ({ _id : req.body.follower },{$pull : { followings : req.body.following }})
+        User.findOneAndUpdateQ({ _id : req.body.following },{$pull : { followers : req.user._id }}),
+        User.findOneAndUpdateQ({ _id : req.user._id },{$pull : { followings : req.body.following }})
     ]).then(function(user){
-        res.json(user)
+        var myNotif = new Notification({
+            type : 'unfollow',
+            owner : req.user._id,
+            entity : req.body.following,
+            entityType : 'profile'
+        });
+        return myNotif.saveQ().then(function() {
+            res.json(user);
+        });
     }).catch(function(err){
         res.json(500,err)
     })
@@ -67,8 +79,19 @@ exports.update = function(req, res) {
             req.body.tags[k] = tag._id
         });
     }
+    if(req.body.followers){
+        req.body.followers = _.pluck(req.body.followers, "_id");
+    }
     User.findOneAndUpdateQ({ _id : req.params.id },req.body).then(function(user){
-        res.json(user);
+        var myNotif = new Notification({
+            type : 'update',
+            owner : user._id,
+            entity : user._id,
+            entityType : 'profile'
+        });
+        return myNotif.saveQ().then(function() {
+            res.json(user);
+        });
     }).catch(function(err){
         res.json(400,err);
     })
@@ -90,7 +113,7 @@ exports.changePassword = function(req, res, next) {
         // The password will be hashed automatically
         req.user.password = passwordDetails.newPassword;
 
-        req.user.saveQ().then(function() { 
+        return req.user.saveQ().then(function() { 
             res.send({
                 message: 'Password changed successfully'
             });
@@ -103,21 +126,31 @@ exports.changePassword = function(req, res, next) {
 };
 
 
+exports.forgotPassword = function(req, res) {
+    User.findOneQ({ _id : req.user._id })
+    .then(function(user) {
+        
+    }).catch(function(err){
+        res.json(400, err);
+    });
+};
+
+
 /**
  * Send User
  */
 exports.me = function(req, res) {
-    return res.json(req.user);
+    User.findOne({ _id : req.user._id })
+    .populate('followers')
+    .populate('tags')
+    .execQ()
+    .then(function(data){
+        res.json(data);
+    }).catch(function(err){
+        res.json(500, err);
+    });
 };
 
-
-exports.fetchAll = function(req,res){
-    User.findQ().then(function(users){
-        res.json(users);
-    }).fail(function(err){
-        res.json(500,err);
-    })
-};
 
 exports.fetch = function(req,res){
     if(req.query._id){
@@ -151,6 +184,7 @@ exports.fetch = function(req,res){
             });
     }
 };
+
 exports.profile = function(req,res){
     User.find({ _id : req.params.id })
         .populate('followers')
@@ -165,7 +199,9 @@ exports.profile = function(req,res){
                 Project.findQ({'followers':  myProfile._id },'_id'),
                 Project.findQ({'members':  myProfile._id },'_id'),
                 Project.findQ({owner : myProfile._id},'_id'),
-                Challenge.findQ({owner : myProfile._id},'_id')
+                Challenge.findQ({owner : myProfile._id},'_id'),
+                Idea.findQ({owner: myProfile._id},'_id'),
+                Idea.findQ({followers: myProfile._id},'_id')
             ]).then(function(data){
                 var moreData = {};
                 moreData.followedUsers = data[0];
@@ -174,6 +210,8 @@ exports.profile = function(req,res){
                 moreData.memberProjects = data[3];
                 moreData.projects = data[4];
                 moreData.challenges = data[5];
+                moreData.ideas = data[6];
+                moreData.followedIdeas = data[7];
                 var response = {
                     data : myProfile,
                     moreData : moreData
@@ -188,4 +226,55 @@ exports.profile = function(req,res){
             res.json(500,err);
         });
 //    {brief:{$regex:tag+".*"
+};
+
+exports.getByTag = function(req,res){
+    if(req.params.tag == 'all'){
+        User.find().limit(req.query.limit).skip(req.query.skip).sort('-createDate').populate('tags').sort('-createDate').execQ().then(function(profiles){
+            res.json(profiles);
+        }).fail(function(err){
+            res.json(400,err);
+        })
+    }else{
+        Tags.findQ({ title : req.params.tag }).then(function(tag){
+            User.find({ tags : tag[0]._id }).limit(req.query.limit).skip(req.query.skip).populate('tags').sort('-createDate').execQ().then(function(profiles){
+
+                res.json(profiles);
+            }).fail(function(err){
+                res.json(400,err);
+            })
+        }).fail(function(err){
+            res.json(400,err);
+        })
+    }
+};
+
+exports.getIdeas = function(req, res) {
+    Idea.findQ({owner : req.params.id}).then(function(ideas) {
+        res.json(ideas);
+    }).fail(function(err) {
+        res.json(400, err);
+    });
+};
+
+exports.getLikes = function(req, res) {
+    var likes = [];
+    Idea.find()
+        .populate('owner')
+        .execQ()
+    .then(function(ideas) {
+        for(var i = 0; i < ideas.length; i++) {
+            var ids = ideas[i].likerIds;
+            for(var j = 0; j < ids.length; j++) {
+                if(ids[j] == req.params.id) {
+                    likes.push(ideas[i]);
+                    break;
+                };
+            };
+        };
+    }).then(function() {
+            res.json(likes);
+    }).fail(function(err) {
+        res.json(400, err);
+    });
 };

@@ -1,6 +1,5 @@
 PrivateConfig = {
     env: 'dev',
     apiServer: 'http://localhost:5011',
-    githubClient: '',
-    googleClient: ''
+    githubClient: ''
 };

@@ -1,16 +1,16 @@
-<material-dialog>
-    <material-toolbar>
-        <div class="material-toolbar-tools">
-            <span flex>Edit your project homepage</span>
-            <material-button ng-click="update(newProject)" class="material-button-fab">
+<md-dialog>
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <span flex>Edit your project home page</span>
+            <md-button ng-click="update(newProject)" class="md-fab">
                 <i class="fa fa-save"></i>
-            </material-button>
-            <material-button class="material-button-fab">
-                <i class="fa fa-times" ng-click="cancel()"></i>
-            </material-button>
+            </md-button>
+            <md-button class="md-fab" ng-click="cancel()">
+                <i class="fa fa-times"></i>
+            </md-button>
         </div>
-    </material-toolbar>
-    <material-content>
+    </md-toolbar>
+    <md-content>
         <textarea name="home" required ui-tinymce="tinymceOption" ng-model="newProject.home"></textarea>
-     </material-content>
-</material-dialog>
+     </md-content>
+</md-dialog>

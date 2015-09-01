@@ -9,42 +9,22 @@ angular.module('cri.workspace')
                         controller: 'WorkspaceCtrl'
                     }
                 },
-                resolve:{
-                    project : ['Project','$stateParams',function(Project,$stateParams){
-                        return Project.fetch({ accessUrl : $stateParams.pid });
-                    }],
-                    notes:['NoteLab','$stateParams',function(NoteLab,$stateParams){
-                        return NoteLab.fetch({projectUrl: $stateParams.pid});
-                    }]
-                }
-            })
-            .state('workspace.note',{
-                url : '/:tid',
-                views : {
-                    noteView: {
-                        templateUrl:'modules/workspace/templates/noteMenu.tpl.html',
-                        controller: 'NoteCtrl'
+                resolve: {
+                    project: function(Project,$stateParams){
+                        return Project.fetch({ accessUrl : decodeURIComponent($stateParams.pid) });
                     }
                 }
             })
-            .state('workspace.note.discussion',{
-                url : '/discussion',
+            .state('workspace.etherpad',{
+                url : '/etherpad',
                 views : {
                     noteDetailsView: {
-                        templateUrl:'modules/workspace/templates/note.tpl.html'
+                        templateUrl:'modules/workspace/templates/etherpad.tpl.html',
+                        controller: 'NoteEtherpadCtrl'
                     }
                 }
             })
-            .state('workspace.note.hackpad',{
-                url : '/hackpad',
-                views : {
-                    noteDetailsView: {
-                        templateUrl:'modules/workspace/templates/hackpad.tpl.html',
-                        controller: 'NoteHackpadCtrl'
-                    }
-                }
-            })
-            .state('workspace.note.resources',{
+            .state('workspace.resources',{
                 url : '/resources',
                 views : {
                     noteDetailsView: {
@@ -53,7 +33,7 @@ angular.module('cri.workspace')
                     }
                 }
             })
-            .state('workspace.note.file',{
+            .state('workspace.files',{
                 url : '/files',
                 views : {
                     noteDetailsView: {

@@ -26,32 +26,36 @@ exports.getTemplates = function(req,res){
 };
 
 exports.getByTag = function(req,res){
-    if(req.params.tag == 'all'){
-        Challenge.find().limit(req.query.limit).skip(req.query.skip).sort('-createDate').populate('tags').sort('-createDate').execQ().then(function(challenges){
-            res.json(challenges);
-        }).fail(function(err){
-            res.json(400,err);
-        })
-    }else{
-        Tags.findQ({ title : req.params.tag }).then(function(tag){
-            Challenge.find({ tags : tag[0]._id }).limit(req.query.limit).skip(req.query.skip).populate('tags').sort('-createDate').execQ().then(function(challenges){
-
+    function completeQuery(query) {
+        query.limit(req.query.limit)
+            .skip(req.query.skip)
+            .select('_id createDate accessUrl title brief owner tags followers projects poster')
+            .sort('-createDate')
+            .populate('tags')
+            .sort('-createDate')
+            .execQ().then(function(challenges) {
                 res.json(challenges);
-            }).fail(function(err){
+            }).fail(function (err){
                 res.json(400,err);
-            })
-        }).fail(function(err){
-            res.json(400,err);
-        })
+            });
+    }
+
+    if(req.params.tag == 'all'){
+        completeQuery(Challenge.find());
+    } else{
+        Tags.findQ({ title : req.params.tag }).then(function (tag) {
+            completeQuery(Challenge.find({ tags : tag[0]._id }));
+        });
     }
 };
 
 exports.follow = function(req,res){
     Challenge.findOneAndUpdateQ({ _id : req.body.following },{$push : { followers : req.body.follower }}).then(function(challenge){
         var myNotif =  new Notification({
-            type : 'followC',
-            owner : challenge.owner,
-            entity : challenge._id
+            type : 'follow',
+            owner : req.body.follower,
+            entity : challenge._id,
+            entityType : 'challenge'
         });
         myNotif.saveQ().then(function(){
             res.json(challenge);
@@ -59,21 +63,25 @@ exports.follow = function(req,res){
     }).fail(function(err){
         res.json(400,err)
     })
-
 };
 
 exports.unfollow = function(req,res){
-
     Challenge.findOneAndUpdateQ({ _id : req.body.following },{$pull : { followers : req.body.follower }}).then(function(challenge){
-        res.json(challenge)
+        var myNotif = new Notification({
+            type : 'unfollow',
+            owner : req.body.follower,
+            entity : challenge._id,
+            entityType : 'challenge'
+        });
+        myNotif.saveQ().then(function() {
+            res.json(challenge);
+        });
     }).fail(function(err){
         res.json(400,err)
     })
 };
 
 exports.fetch = function(req,res){
-
-
     if(req.query.accessUrl) {
         if(req.query.accessUrl){
             Challenge
@@ -142,18 +150,19 @@ exports.create = function(req,res){
         });
         req.body.tags = tagsId;
     }
+
+    req.body.owner = req.user._id;
     var challenge = new Challenge(req.body);
+
     challenge.saveQ().then(function(data){
         var myNotif =  new Notification({
-            type : 'challenge',
-            owner : data.owner,
-            entity : data._id
+            type : 'create',
+            owner : req.user._id,
+            entity : data._id,
+            entityType : 'challenge'
         });
         console.log("Saving notification...");
         myNotif.saveQ().then(function(notif){
-            console.log("Saving notification.");
-            io.sockets.emit('newChallenge',notif);
-            console.log("Sent notification.");
             res.json(data);
         }).fail(function(err) {
             res.json(500, err);
@@ -165,15 +174,31 @@ exports.create = function(req,res){
 
 exports.update = function(req,res){
     Challenge.findOneAndUpdateQ({ _id : req.params.id },req.body).then(function(data){
-        res.json(data);
+        var myNotif = new Notification({
+            type : 'update',
+            owner : req.user._id,
+            entity : data._id,
+            entityType : 'challenge'
+        });
+        myNotif.saveQ().then(function() {
+            res.json(data);
+        });
     }).fail(function(err){
         res.json(400,err);
     })
 };
 
 exports.remove = function(req,res){
-    Challenge.removeQ({_id : req.query.id}).then(function(data){
-        res.json(data);
+    Challenge.findOneAndRemoveQ({_id : req.params.id}).then(function(data){
+        var myNotif = new Notification({
+            type : 'remove',
+            owner : req.user._id,
+            entity : data._id,
+            entityType : 'challenge'
+        });
+        myNotif.saveQ().then(function() {
+            res.json(data);
+        });
     }).fail(function(err){
         res.json(400,err);
     })

@@ -1,0 +1,27 @@
+<section>
+    <h2>Notes</h2>
+    <md-button ng-if="canPostNote()" ng-click="popUpNewNote()"><i class="fa fa-pencil-square-o"></i> Post new note</md-button>
+
+    <article ng-repeat="note in notes">
+        <p class="note-info">Note posted by {{ note.owner.username }} <span timeago time-ago from-time="{{ note.createDate }}"></span></p>
+        <md-button ng-if="canDeleteNote(note)" ng-click="deleteNote(note)"><i class="fa fa-times"></i> Delete Note</md-button>
+        <p ng-bind-html="note.text"></p>
+
+        <div flex offset="10">
+            <h3>Comments</h3>
+            <article ng-repeat="comment in note.comments">
+                <p class="note-info">Comment posted by {{ note.owner.username }} <span timeago time-ago from-time="{{ comment.createDate }}"></span></p>
+                <md-button ng-if="canDeleteComment(note, comment)" ng-click="deleteComment(note, comment)"><i class="fa fa-times"></i> Delete Comment</md-button>
+                <p ng-bind-html="comment.text | linky" class="show-line-breaks"></p>
+            </article>
+
+            <form ng-if="canPostComment(note)" name="commentForm" ng-submit="postComment(note)">
+                <md-input-container>
+                    <label>Your comment</label>
+                    <textarea name="comment" class="pretty-area" rows="2" required ng-model="note.newComment" notiplaceholder="Your comment here ..."></textarea>
+                </md-input-container>
+                <md-button type="submit" ng-disabled="commentForm.$invalid" style="width:100%;"><i class="fa fa-save"></i> Send</md-button>
+            </form> 
+        </div>
+    </article>
+</section>

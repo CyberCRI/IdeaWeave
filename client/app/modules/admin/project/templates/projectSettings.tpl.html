@@ -1,32 +1,21 @@
-<material-content layout="vertical" >
-    <material-tabs selected="selectedIndex" center>
-        <h2 class="center">{{ project.title }} Administration</h2>
-        <material-tab>
-            <material-label>
+<md-content layout="column" >
+    <h2 class="center">{{ project.title }} Administration</h2>
+    <md-tabs>
+        <md-tab>
+            <md-label>
                 <i class='fa fa-list'>Edit</i>
-            </material-label>
-        </material-tab>
-        <material-tab>
-            <material-label>
-                <i class='fa fa-cogs'>Workspace</i>
-            </material-label>
-        </material-tab>
-        <material-tab>
-            <material-label>
+            </md-label>
+            <md-tab-body>
+                <ng-include src="'modules/admin/project/templates/edit.tpl.html'" ng-controller="ProjectEditCtrl"></ng-include>
+            </md-tab-body>
+        </md-tab>
+        <md-tab>
+            <md-label>
                 <i class='fa fa-users'>Team</i>
-            </material-label>
-        </material-tab>
-    </material-tabs>
-
-    <div class="animate-switch-container" ng-switch on="selectedIndex" flex >
-        <div class="animate-switch blueArea" ng-switch-when="0">
-            <ng-include src="'modules/admin/project/templates/edit.tpl.html'" ng-controller="ProjectEditCtrl"></ng-include>
-        </div>
-        <div class="animate-switch redArea" ng-switch-when="1">
-            <ng-include src="'modules/admin/project/templates/media.tpl.html'" ng-controller="ProjectMediaCtrl"></ng-include>
-        </div>
-        <div class="animate-switch greenArea" ng-switch-when="2">
-            <ng-include src="'modules/admin/project/templates/team.tpl.html'" ng-controller="ProjectTeamCtrl"></ng-include>
-        </div>
-    </div>
-</material-content>
+            </md-label>
+            <md-tab-body>
+                <ng-include src="'modules/admin/project/templates/team.tpl.html'" ng-controller="ProjectTeamCtrl"></ng-include>
+            </md-tab-body>
+        </md-tab>
+    </md-tabs>
+</md-content>

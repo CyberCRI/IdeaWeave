@@ -1,16 +1,13 @@
-<section layout="vertical" style="width:100%;">
-    <material-toolbar scroll-shrink class="material-theme-light" layout="vertical" style="position:relative;z-index:10;">
+<section layout="column" layout-fill>
+    <md-toolbar scroll-shrink class="md-theme-light" layout="column" style="position:relative;z-index:10;">
         <div class="center">
             Projects
         </div>
-        <material-button class="material-button-fab material-theme-light" ng-click="toggleLeft()" style="color:black;bottom:-24px;position:absolute; left :20px;z-index : inherit" hide-md>
-            <i class="fa fa-bars" style="font-size: 1.2em; top:3px;position:relative;z-index: 50"></i>
-        </material-button>
-        <material-button class="material-button-fab material-theme-light" ui-sref="projectCreation" ng-if="currentUser" style="color:black;bottom:-24px;position:absolute; right :20px;z-index : inherit">
+        <md-button class="md-fab md-theme-light" ui-sref="projectCreation" ng-if="currentUser" style="color:black;bottom:-24px;position:absolute; right :20px;z-index : inherit">
             <i class="fa fa-plus" style="font-size: 1.2em; top:3px;position:relative;z-index: 50"></i>
-        </material-button>
-    </material-toolbar>
-    <material-content>
+        </md-button>
+    </md-toolbar>
+    <md-content>
         <section ui-view="projectsView"></section>
-    </material-content>
+    </md-content>
 </section>

@@ -1,43 +1,43 @@
-<section layout="horizontal" layout-align="space-around">
-    <form name="signupForm"  ng-controller="RegisterCtrl"  flex-sm="50" ng-submit="registerUser(signup)">
+<md-content layout="row" layout-align="space-around">
+    <form name="signupForm"  ng-controller="RegisterCtrl" ng-submit="registerUser(signup)">
         <div class="center">
             <img src="images/svg/Joinus.svg" alt="Join Us"/>
         </div>
-        <material-input-group>
-            <label for="username">Username</label>
-            <material-input id="username" type="text" ng-model="signup.username" required name="username"/>
-        </material-input-group>
+        <md-input-container>
+            <label>Username</label>
+            <input id="username" type="text" ng-model="signup.username" required name="username"/>
+        </md-input-container>
         <div ng-messages="signupForm.username.$error" ng-if="!signupForm.username.$pristine">
             <div ng-message="required" class="form-message">
-                username is required
+                Username is required
             </div>
         </div>
-        <material-input-group>
-            <label for="emailS">Email</label>
-            <material-input id="emailS" type="text" ng-model="signup.email" required name="email"/>
-        </material-input-group>
+        <md-input-container>
+            <label>Email</label>
+            <input id="emailS" type="text" ng-model="signup.email" required name="email"/>
+        </md-input-container>
         <div ng-messages="signupForm.email.$error" ng-if="!signupForm.email.$pristine">
             <div ng-message="required" class="form-message">
-                email is required
+                Email is required
             </div>
         </div>
         <tag-manager entity="signup"></tag-manager>
-        <material-input-group>
+        <md-input-container>
             <label for="passwordR">Password</label>
-            <material-input id="passwordR" type="password" ng-model="signup.password" required name="password"/>
-        </material-input-group>
+            <input id="passwordR" type="password" ng-model="signup.password" required name="password"/>
+        </md-input-container>
         <div ng-messages="signupForm.password.$error" ng-if="!signupForm.password.$pristine">
             <div ng-message="required" class="form-message">
-                password is required
+                Password is required
             </div>
         </div>
-        <material-input-group >
+        <md-input-container >
             <label for="passwordCheck">Repeat your password</label>
-            <material-input id="passwordCheck" type="password" ng-model="check.password" required name="passwordR"/>
-        </material-input-group>
+            <input id="passwordCheck" type="password" ng-model="check.password" required name="passwordR"/>
+        </md-input-container>
         <div ng-messages="signupForm.passwordR.$error" ng-if="!signupForm.passwordR.$pristine">
             <div ng-message="required" class="form-message">
-                password is required
+                Password is required
             </div>
         </div>
         <div>
@@ -52,16 +52,8 @@
                 </ui-select-choices>
             </ui-select>
         </div>
-        <material-checkbox name="read" required>
-            <small>
-                i have read the terms of services
-            </small>
-        </material-checkbox>
         <div ng-messages="signupForm.read.$error" ng-if="!signupForm.passwordR.$pristine">
-            <div ng-message="required" class="form-message">
-                you must check the box
-            </div>
         </div>
-        <material-button style="width:100%;" class="material-button-raised" type="submit" ng-disabled="signupForm.$invalid">Register</material-button>
+        <md-button style="width:100%;" class="md-raised" type="submit" ng-disabled="signupForm.$invalid">Register</md-button>
     </form>
-</section>
+</md-content>

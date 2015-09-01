@@ -1,36 +1,28 @@
-<material-dialog>
-    <material-toolbar layout="horizontal" layout-align="start end" style="text-align:right;">
-        <div layout="horizontal">
-            <div flex></div>
-            <div class="faa-spin animated" ng-if="isUploding">
-                <i class="fa fa-spinner fa-2x"></i>
-            </div>
-            <div  ng-if="file">
-                <material-button class="material-button-fab" ng-click="upload(file,file.description)">
-                    <i class="fa fa-cloud-upload"></i>
-                </material-button>
-                <material-button class="material-button-fab" ng-click="cancelUpload()">
-                    <i  class="fa fa-2x fa-ban"></i>
-                </material-button>
-            </div>
-            <material-button class="material-button-fab" ng-click="cancel()">
-                <i class="fa fa-times"></i>
-            </material-button>
+<md-dialog class="upload-file-modal">
+    <md-toolbar layout="row" layout-align="start end">
+        <div flex></div>
+        <div class="faa-spin animated" ng-if="isUploading">
+            <i class="fa fa-spinner fa-2x"></i>
         </div>
-    </material-toolbar>
-    <material-content>
-        <div class="dropbox"
-             ng-file-drop="fileSelected($files)"
-             ng-file-drag-over-class="dropbox-dragover"
-             style="background-image:url({{ fileUrl }});background-repeat:no-repeat;background-size:contain;background-position:right;" flex>
-            <div>
-                <input ng-if="!file" type="file" ng-file-select="fileSelected($files)"/>
-            </div>
-            <!--<img ng-src="{{ fileUrl }}"  ng-show="fileUrl" width="100%"/>-->
-            <material-input-group ng-if="file">
-                <label for="fileDescription">file description...</label>
-                <material-input id="fileDescription" type="text"  ng-model="file.description" style="width:100%"/>
-            </material-input-group>
+        
+        <div ng-if="file">
+            <md-button class="md-fab" ng-click="upload(file, file.description)">
+                <i class="fa fa-cloud-upload"></i>
+            </md-button>
+            <md-button class="md-fab" ng-click="cancelUpload()">
+                <i  class="fa fa-2x fa-ban"></i>
+            </md-button>
         </div>
-    </material-content>
-</material-dialog>
+        <md-button class="md-fab" ng-click="cancel()">
+            <i class="fa fa-times"></i>
+        </md-button>
+    </md-toolbar>
+    <md-content>
+        <div class="dropbox" ngf-drop ng-model="selectedFiles" ngf-drag-over-class="dropbox-dragover" style="background-image:url({{ fileUrl }})" flex></div>
+        <md-button ngf-select ng-model="selectedFiles">Pick file or drop above</md-button>
+        <md-input-container>
+            <label >File description.</label>
+            <input type="text" ng-model="description" />
+        </md-input-container>
+    </md-content>
+</md-dialog>

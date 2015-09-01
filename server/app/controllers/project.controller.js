@@ -4,13 +4,12 @@ var q = require('q'),
     Challenge = mongoose.model('Challenge'),
     Notification = mongoose.model('Notification'),
     NoteLab = mongoose.model('NoteLab'),
-    Files = mongoose.model('File'),
+    File = mongoose.model('File'),
     Url = mongoose.model('Url'),
     Tags = mongoose.model('Tag'),
     Apply = mongoose.model('Apply'),
     Emailer = require('../services/mailer.service'),
-    _ = require('lodash'),
-    io = require('../../server').io;
+    _ = require('lodash');
 
 
 
@@ -23,76 +22,212 @@ exports.getPublications = function(req,res){
 }
 
 exports.getByTag = function(req,res){
-    if(req.params.tag == 'all'){
-        Project.find().limit(req.query.limit).skip(req.query.skip).sort('-createDate').populate('tags').execQ().then(function(projects){
-
+    function completeQuery(query) {
+        query.limit(req.query.limit)
+            .skip(req.query.skip)
+            .select('_id createDate accessUrl title brief owner tags followers members poster')
+            .sort('-createDate')
+            .populate('tags')
+            .execQ().then(function(projects){
             res.json(projects);
-        }).fail(function(err){
-;
+        }).fail(function (err){
             res.json(400,err);
-        })
-    }else{
-        Tags.findQ({ title : req.params.tag }).then(function(tag){
-            Project.find({ tags : tag[0]._id }).limit(req.query.limit).skip(req.query.skip).populate('tags').sort('-createDate').execQ().then(function(projects){
+        });
+    }
 
-                res.json(projects);
-            }).fail(function(err){
-;
-                res.json(400,err);
-            })
-        }).fail(function(err){
-            res.json(400,err);
-        })
+    if(req.params.tag == 'all'){
+        completeQuery(Project.find());
+    } else {
+        Tags.findQ({ title : req.params.tag }).then(function (tag) {
+            completeQuery(Project.find({ tags : tag[0]._id }));
+        });
     }
 };
 
-exports.getUrls = function(req,res){
-    Url.findQ({ project : req.params.id }).then(function(urls){
+
+// URLS
+
+exports.listUrls = function(req,res){
+    Url.find({ project : req.params.projectId }).populate("owner").execQ().then(function(urls){
         res.json(urls)
     }).fail(function(err){
         res.json(400,err)
     })
 };
 
-exports.getFiles = function(req,res){
-    Files.findQ({ project : req.params.id }).then(function(files){
-        res.json(files);
+exports.createUrl = function(req,res){
+    // TODO: Check that the current user can write URLs in this project or challenge (is owner or contributor)
+
+    // Note will be owned by the current user
+    req.body.owner = req.user._id; 
+    req.body.project = req.params.projectId; 
+
+    var myUrl = new Url(req.body);
+
+    myUrl.saveQ().then(function(data){
+        var myNotif =  new Notification({
+            type : 'createUrl',
+            owner : req.user._id,
+            entity : req.params.projectId,
+            entityType : 'project'
+        });
+
+        return myNotif.saveQ().then(function(notif){
+            res.json(data);
+        }).catch(function(err){
+            res.json(500,err);
+        });
     }).fail(function(err){
-        res.json(400,err);
+        res.json(500,err);
     })
 };
 
+exports.fetchUrl = function(req,res){
+    Url.findOneQ({ _id : req.params.urlId }).populate("owner").then(function(note){
+        if(!note) return res.send(400);
+        res.json(note);
+    }).fail(function(err){
+        res.json(500,err);
+    })
+};
+
+exports.removeUrl = function(req,res){
+    Url.findOneQ({ _id : req.params.urlId }).then(function(url){
+        if(!url) return res.send(400);
+        // TODO: check if you are allowed to remove the URL
+
+        url.removeQ().then(function() {
+            var myNotif =  new Notification({
+                type : 'removeUrl',
+                owner : req.user._id,
+                entity : req.params.projectId,
+                entityType : 'project'
+            });
+            return myNotif.saveQ().then(function(){
+                res.send(200);
+            });
+        }).fail(function(err){
+            res.json(500,err);
+        });
+    }).fail(function(err){
+        res.json(500,err);
+    });
+};
+
+
+// FILES
+
+exports.listFiles = function(req,res){
+    File.find({ project : req.params.projectId }).populate("owner").execQ().then(function(files){
+        res.json(files);
+    }).fail(function(err){
+        res.json(400, err);
+    });
+};
+
+exports.uploadFile = function(req,res) {
+    console.log("Files: ", req.files);
+    if (!req.files) return req.json(300, "No message recieved");
+
+    var myFile = new File(req.files.file);
+    myFile.name = req.files.file.name;
+    myFile.type = req.files.file.mimetype;
+    myFile.originalName = req.files.file.originalname;
+    myFile.description = req.body.description;
+    myFile.owner = req.user._id; 
+    myFile.project = req.params.projectId; 
+
+    console.log("File ready to save", myFile);
+
+    myFile.saveQ().then(function(data){
+        var myNotif =  new Notification({
+            type : 'uploadFile',
+            owner : req.user._id,
+            entity : req.params.projectId,
+            entityType : 'project'
+        });
+        return myNotif.saveQ().then(function(notif){
+            res.json(data);
+        }).catch(function(err){
+            res.json(400,err)
+        })
+    }).fail(function(err){
+        res.json(500,err);
+    });
+};
+
+exports.fetchFile = function(req,res){
+    File.findOneQ({ _id : req.params.fileId }).populate("owner").then(function(note){
+        if(!note) return res.send(400);
+        res.json(note);
+    }).fail(function(err){
+        res.json(500,err);
+    })
+};
+
+exports.removeFile = function(req,res){
+    console.log("Removing file", req.params.fileId);
+    File.findOneQ({ _id : req.params.fileId }).then(function(file){
+        if(!file) return res.send(400);
+        // TODO: check if you are allowed to remove the file
+
+        var unlink = q.denodeify(fs.unlink);
+
+        return q.all([unlink(file.path), file.removeQ()]).then(function() {
+            var myNotif =  new Notification({
+                type : 'removeFile',
+                owner : req.user._id,
+                entity : req.params.projectId   ,
+                entityType : 'project'
+            });
+            return myNotif.saveQ().then(function(notif){
+                res.send(200);
+            });
+        });
+    }).fail(function(err){
+        res.json(500,err);
+    });
+};
+
+
 exports.follow = function(req,res){
+    req.body.follower = req.user._id;
 
     Project.findOneAndUpdateQ({ _id : req.body.following },{$push : { followers : req.body.follower }}).then(function(project){
         var myNotif =  new Notification({
-            type : 'followP',
-            owner : project.owner,
-            entity : project._id
+            type : 'follow',
+            owner : req.body.follower,
+            entity : project._id,
+            entityType : 'project'
         });
-        myNotif.saveQ().then(function(){
+        return myNotif.saveQ().then(function(){
             res.json(project)
-        }).fail(function(err){
-
-            res.json(400,err);
         });
     }).fail(function(err){
-
         res.json(400,err)
     })
 };
 
 exports.unfollow = function(req,res){
+    req.body.follower = req.user._id;
+
     Project.findOneAndUpdateQ({ _id : req.body.following },{$pull : { followers : req.body.follower }}).then(function(project){
-        res.json(project)
+        var myNotif = new Notification({
+            type : 'unfollow',
+            owner : req.body.follower,
+            entity : project._id,
+            entityType : 'project'
+        });
+        return myNotif.saveQ().then(function() {
+            res.json(project);
+        });
     }).fail(function(err){
         res.json(500,err)
     })
 };
 
 exports.getByChallenge = function(req,res){
-;
-    Project.find({ container : req.params.challenge }).select('_id title poster tags').populate('tags').execQ().then(function(projects){
+    Project.find({ container : req.params.challenge }).select('_id title poster tags accessUrl brief').populate('tags').execQ().then(function(projects){
         res.json(projects);
     }).fail(function(err){
         res.json(500,err);
@@ -157,7 +292,7 @@ exports.fetch = function(req,res){
         Project
             .find()
             .populate('tags')
-            .select('_id title members')
+            .select('_id title members poster')
             .execQ()
             .then(function(project){
                 res.json(project);
@@ -168,7 +303,6 @@ exports.fetch = function(req,res){
 };
 
 exports.create = function(req,res){
-
     if(req.body.tags){
         var tagsId = [];
         req.body.tags.forEach(function(tag,k){
@@ -178,18 +312,19 @@ exports.create = function(req,res){
         req.body.tags = tagsId;
     }
 
+    req.body.owner = req.user._id;
     var project = new Project(req.body);
+
     project.saveQ().then(function(project){
         if(project.container){
             Challenge.findOneAndUpdateQ({_id : project.container},{ $push : { projects : project._id },$inc : { projectNumber : 1 }}).then(function(challenge){
                 var myNotif =  new Notification({
-                    type : 'project',
+                    type : 'create',
                     owner : project.owner,
-                    entity : project,
-                    container : project.container
+                    entity :  project._id,
+                    entityType : 'project'
                 });
                 myNotif.saveQ().then(function(notif){
-                    io.sockets.in('challenge::'+project.container).emit('newProject',notif);
                     res.json(project)
                 }).fail(function(err){
                     res.json(400,err);
@@ -207,21 +342,45 @@ exports.create = function(req,res){
 };
 
 exports.update = function(req,res){
+    // Remove properties that can't be updated this way
+    req.body = _.omit(req.body, "_id", "_v", "members", "followers");
+
     // Get just the IDs of tags
     if(req.body.tags) {
         req.body.tags = _.pluck(req.body.tags, "_id");
     }
 
-    Project.findOneAndUpdateQ({_id:req.params.id}, req.body, function(data) {
-        res.json(data);
+    // Get just the ID of the owner
+    if(req.body.owner) {
+        req.body.owner = req.body.owner._id;
+    }
+
+    Project.findOneAndUpdateQ({_id:req.params.id}, req.body).then(function(data) {
+        var myNotif = new Notification({
+            type : 'update',
+            owner : req.user._id,
+            entity :  data._id,
+            entityType : 'project'
+        });
+        return myNotif.saveQ().then(function(notif){
+            res.json(data);
+        });
     }).fail(function(err){
         res.json(400,err)
     });
 };
 
 exports.remove = function(req,res){
-    Project.removeQ({_id : req.query.id}).then(function(data){
-        res.json(data);
+    Project.findOneAndRemoveQ({_id : req.params.id}).then(function(data){
+        var myNotif = new Notification({
+            type : 'remove',
+            owner : req.user._id,
+            entity : data._id,
+            entityType : 'project'
+        });
+        return myNotif.saveQ().then(function() {
+            res.json(data);
+        });
     }).fail(function(err){
         res.json(400,err);
     })
@@ -288,14 +447,14 @@ exports.addToTeam = function(req,res){
     var myNotif = new Notification({
         entity : projectId,
         owner : ownerId,
-        type : 'join'
+        type : 'join',
+        entityType : 'project'
     });
 
     q.all([
         Project.findOneAndUpdateQ({ _id : projectId },{ $push : { members : applierId }}),
         myNotif.saveQ()
     ]).then(function(data){
-        io.sockets.in('project::'+projectId).emit('newMember',applierId);
         res.send(200);
     }).fail(function(err){
         res.json(400,err);
@@ -306,13 +465,13 @@ exports.banFromTeam = function(req,res) {
     var myNotif = new Notification({
         entity : req.params.id,
         owner : req.body.member,
-        type : 'join'
+        type : 'ban',
+        entityType : 'project'
     });
     q.all([
         Project.findOneAndUpdateQ({ _id: req.params.id }, {$pull: { members: req.body.member }}),
         myNotif.saveQ()
     ]).then(function(data){
-        io.sockets.in('project::'+req.params.id).emit('banMember',data[1]);
         res.send(200);
     }).fail(function(err){
 

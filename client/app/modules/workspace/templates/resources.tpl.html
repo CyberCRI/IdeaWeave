@@ -1,31 +1,30 @@
-<section layout="vertical">
-    <div layout="horizontal" layout-align="start center">
-        <material-button ng-click="addResourceModal($event)" flex>
-            <span>
-                Add a resource
-            </span>
-            <i class="material-button-icon fa fa-plus fa-2x"></i>
-        </material-button>
+<section layout="column">
+    <md-button ng-click="addResourceModal($event)">
+        <i class="md-button-icon fa fa-plus fa-2x"></i>
+        <span>
+            Add a link
+        </span>
+    </md-button>
 
-        <material-input-group >
-            <label for="urlFilter">Filter by title <i class="fa fa-search fa-2x"></i></label>
-            <material-input type="text" ng-model="urlFilter.title" id="urlFilter"/>
-        </material-input-group>
-    </div>
+    <md-input-container >
+        <label for="urlFilter"><i class="fa fa-search fa-2x"></i> Filter by title</label>
+        <input type="text" ng-model="urlFilter.title" id="urlFilter"/>
+    </md-input-container>
 
-    <material-list class="list-resource">
-        <material-item ng-repeat="url in urls |filter:urlFilter">
-            <div class="material-tile-content" layout="vertical" layout-align="start center">
-                <material-button ng-href="{{ url.text }}" target="_blank" style="width:100%;">
-                        {{ url.title }}
-                </material-button>
+    <md-list class="list-resource">
+        <md-item ng-repeat="url in urls | filter:urlFilter">
+            <div class="md-tile-content" layout="column" layout-align="start center">
                 <p>
-                  {{ url.description }}
+                    <a ng-href="{{ url.text }}" target="_blank" class="url">{{ url.title }}</a>
+                    <md-button ng-click="removeUrl(url)"><i class="fa fa-times"></i></md-button>
+                </p>
+                <p>
+                    {{ url.description }}
                 </p>
             </div>
-            <div class="material-tile-right">
+            <!-- <div class="md-tile-right">
                 <user-block userId="url.owner" height="50px"></user-block>
-            </div>
-        </material-item>
-    </material-list>
+            </div> --> 
+        </md-item>
+    </md-list>
 </section>

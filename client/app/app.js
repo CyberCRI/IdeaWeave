@@ -4,13 +4,12 @@ angular.module('cri', [
     'ngAnimate',
     'ngMaterial',
     'ngMessages',
-    'ui.utils',
     'ui.router',
     'ui.select',
     'ui.tinymce',
     'timer',
     'pascalprecht.translate',
-    'angularFileUpload',
+    'ngFileUpload',
     'angular-carousel',
     'ImageCropper',
     'satellizer',
@@ -18,7 +17,7 @@ angular.module('cri', [
     'yaru22.angular-timeago',
     'cri.admin',
     'cri.d3',
-    'cri.hackpad',
+    'cri.etherpad',
     'cri.files',
     'cri.home',
     'cri.header',
@@ -32,17 +31,17 @@ angular.module('cri', [
     'cri.tag',
     'cri.profile',
     'angulartics', 
-    'angulartics.google.analytics'])
+    'angulartics.google.analytics',
+    'cri.notes',
+    'cri.idea',
+    'ngCookies'])
     .config(['$httpProvider','$locationProvider','$sceProvider',function ($httpProvider,$locationProvider,$sceProvider) {
-//        $httpProvider.defaults.withCredentials=true;
         $locationProvider.html5Mode(true);
         $locationProvider.hashPrefix('!');
 
         $sceProvider.enabled(false);
-//        dev
-
     }])
-    .run(['Profile','mySocket','$rootScope','$auth', function (Profile,mySocket,$rootScope,$auth) {
+    .run(function (Profile,mySocket,$rootScope,$auth) {
         // If there is no user signed in by default, don't grab the profile which will end up redirecting to /login
         if(!$auth.getToken()) return;
 
@@ -58,47 +57,12 @@ angular.module('cri', [
         }).catch(function(err){
             console.log('err',err)
         });
-    }])
+    })
     .controller('ToastCtrl',['$scope','$hideToast',function($scope, $hideToast) {
         $scope.closeToast = function() {
             $hideToast();
         };
-    }]).controller('RightNavCtrl',function($scope,$materialSidenav,$auth,Notification,$rootScope){
-        var rightNav = $materialSidenav('right');
-        $scope.sideNavTemplateUrl = "";
-
-        $scope.$on('toggleRight',function(e,type){
-            switch(type){
-                case 'login':
-                    $scope.sideNavTemplateUrl = 'modules/auth/templates/signin.tpl.html';
-                    rightNav.toggle();
-                    break;
-                case 'menu':
-                    $scope.sideNavTemplateUrl = 'modules/header/templates/menu.tpl.html';
-                    rightNav.toggle();
-                    break;
-            }
-        });
-        $scope.toggleRight = function(){
-            rightNav.toggle();
-        };
-        $scope.$on('showLogin',function(){
-            rightNav.toggle();
-        });
-        $scope.$on('side:close-right',function(){
-            rightNav.toggle();
-        });
-        $scope.signout = function() {
-            $auth.logout();
-            $rootScope.currentUser = null;
-            rightNav.toggle();
-            Notification.display('You have been logged out');
-        }
-
-        $scope.isOpen = function() {
-            return rightNav.isOpen();
-        }
-    }).controller('LeftNavCtrl',function($scope,$materialSidenav,$state,Profile,Tag,Recommendation,$q,Project,Challenge){
+    }]).controller('LeftNavCtrl',function($scope,$mdSidenav,$state,Profile,Tag,Recommendation,$q,Project,Challenge){
         function getRecomendation(id){
             var defered = $q.defer();
             if(!$scope.currentUser) return defered.promise;
@@ -136,11 +100,6 @@ angular.module('cri', [
             });
             return defered.promise;
         }
-
-        function getLeftNav() { 
-            return $materialSidenav('left'); 
-        }
-
 
         $scope.$watch(function(){
             return $state.params.uid;
@@ -186,26 +145,29 @@ angular.module('cri', [
                         $scope.sideNavTemplateUrl = 'modules/common/leftNav/tags-challenges.tpl.html';
                     });
                     break;
-                case 'profileAdmin':
-                    //$scope.sideNavTemplateUrl = 'modules/common/leftNav/admin-profile.tpl.html';
+                case 'ideas':
+                    getTags().then(function(){
+                        $scope.sideNavTemplateUrl = 'modules/idea/templates/tags-ideas.tpl.html';
+                    });
                     break;
                 case 'challengeAdmin':
                     $scope.sideNavTemplateUrl = 'modules/common/leftNav/admin-challenges.tpl.html';
                     break;
+                
                 case 'project.home':
-                    getRecomendation(Project.data._id);
-                    Project.getPublications(Project.data._id).then(function(publications){
-                        $scope.project = Project.data;
-                        $scope.publications = publications;
-                        $scope.sideNavTemplateUrl = 'modules/common/leftNav/publications.tpl.html';
-                    }).catch(function(err){
-                        console.log(err);
-                    });
+                case 'project.trello':
+                case 'project.admin':
+                case 'workspace':
+                case 'workspace.etherpad':
+                case 'workspace.files':
+                case 'workspace.resources':
+                    $scope.project = Project.data;
+
                     if($scope.currentUser){
                         if($scope.currentUser._id == Project.data.owner._id){
                             $scope.isOwner = true;
                             $scope.isMember = true;
-                        }else{
+                        } else{
                             angular.forEach(Project.data.members,function(member){
                                 if(member._id == $scope.currentUser._id){
                                     $scope.isVisitor = false;
@@ -214,30 +176,14 @@ angular.module('cri', [
                             });
                         }
                     }
+                    $scope.sideNavTemplateUrl = 'modules/common/leftNav/admin-project.tpl.html';
+
                     break;
-                case 'project.trello':
-                    $scope.sideNavTemplateUrl = 'modules/common/leftNav/publications.tpl.html';
-                    break;
-                case 'challenge':
-                    getRecomendation(Challenge.data._id).then(function() {
-                        $scope.challenge = Challenge.data;
-                        $scope.sideNavTemplateUrl = 'modules/common/leftNav/chat.tpl.html';
-                    });
-                    break;
+
             }
         });
-
-        $scope.$on('toggleLeft',function(e){
-            getLeftNav().toggle();
-        });
-        $scope.toggle = function(){
-            getLeftNav().toggle();
-        };
-        $scope.$on('side:close-left',function(){
-            getLeftNav().toggle();
-        });
-    }).controller('BodyCtrl', function($scope, $materialSidenav) {
+    }).controller('BodyCtrl', function($scope, $mdSidenav) {
         $scope.rightSidenavIsOpen = function() {
-            return $materialSidenav('right').isOpen();
+            return $mdSidenav('right').isOpen();
         }
     });

@@ -1,21 +1,32 @@
-<material-content layout="vertical" layout-fill>
-    <material-toolbar scroll-shrink class="home-header">
-        <div layout="vertical" class="content">
-            <h1>
-                {{ challenge.title }}
-            </h1>
-            <h3>{{challenge.brief}}</h3>
-        </div>
-    </material-toolbar>
+<md-toolbar scroll-shrink>
+    <div layout="column" class="content">
+        <h1>
+            {{ challenge.title }}
+        </h1>
+    </div>
 
-    <img ng-if="challenge.banner" src="{{ challenge.banner }}" style="margin: auto;">
+    <div ng-if="isFollow">
+        <i class="fa fa-star baseColor"></i> Following
+    </div>
 
-    <div layout="vertical">
-        <material-button ui-sref="challengeAdmin({ cid : challenge._id })" ng-if="isOwner">
+    <md-button class="md-fab md-raised" ng-click="follow()" style="position:absolute; right:20px; z-index: inherit" ng-class="{ 'md-accent' : isFollow }" ng-if="currentUser && !isOwner">
+        <i class="fa fa-thumbs-up"></i>
+    </md-button>
+</md-toolbar>
+
+<md-content layout="column" layout-fill>
+    <h3 class="show-line-breaks">{{ challenge.brief }}</h3>
+
+    <div layout="row" layout-align="center center">
+        <img ng-if="challenge.banner" src="{{ challenge.banner }}" >
+    </div>
+
+    <div layout="column">
+        <md-button ui-sref="challengeAdmin({ cid : challenge._id })" ng-if="isOwner">
             <i class="fa fa-pencil-square-o baseColor"></i> Edit
-        </material-button>
+        </md-button>
 
-        <div layout="horizontal">
+        <div layout="row">
             <div>
                 <span>
                     {{ challenge.followers.length }}
@@ -31,36 +42,35 @@
                 </span>
             </div>
         </div>
-        <span>
-            <i class="fa fa-star baseColor" ng-if="isFollow"></i> Following
-        </span>
-            <!--<span ng-if="challenge.startDate < now && challenge.endDate > now" >-->
-                <!--<timer end-time="challenge.endDate" >End in :{{days}} d, {{hours}} : {{minutes}} : {{seconds}}</timer>-->
-            <!--</span>-->
-            <!--<span ng-if="challenge.startDate > now" >-->
-                <!--<timer end-time="challenge.endDate" >Start in : {{days}} d, {{hours}} : {{minutes}} : {{seconds}}</timer>-->
-            <!--</span>-->
-
-        <material-button class="material-button-fab" ng-click="toggleLeft()" style="bottom:-24px;position:absolute; left:20px;z-index : inherit" hide-md>
-            <i class="fa fa-bars"></i>
-        </material-button>
-        <material-button class="material-button-fab" ng-click="follow()" style="position:absolute; right:20px; z-index: inherit" ng-if="!isOwner">
-            <i class="fa" ng-class="{ 'fa-thumbs-up' : !isFollow, 'fa-thumbs-down' : isFollow }"></i>
-        </material-button>
     </div>
 
     <div flex>
         <showtags entity="challenge"></showtags>
-        <section class="challenge-home" layout="vertical">
+        <section class="challenge-home" layout="column">
             <article class="html-content" flex ng-bind-html="challenge.home"></article>
             <div class="participate-btn">
-                <material-button ng-if="currentUser" ng-click="participate()" class="material-button-raised material-button-colored">
+                <md-button ng-if="currentUser" ng-click="participate()" class="md-raised md-button-colored">
                     Participate in this challenge
-                </material-button>
+                </md-button>
             </div>
         </section>
-        <section >
-            <project-card inline-block project-id="project" ng-repeat="project in challenge.projects"></project-card>
-        </section>
+
+        <list-notes challenge="challenge" current-user="currentUser"></list-notes>
+
+        <h3>Related Projects</h3>
+
+        <md-grid-list md-cols="3" md-row-height="400px">
+            <md-grid-tile ng-repeat="project in challenge.projects">
+                <project-card project-id="project" style="height: 400px;"></project-card>
+            </md-grid-tile>
+        </md-grid-list>
+
+        <h3>Related Ideas</h3>
+
+        <md-grid-list md-cols="3" md-row-height="400px">
+            <md-grid-tile ng-repeat="idea in challenge.ideas">
+                <idea-card idea-id="idea" ng-repeat="idea in challenge.ideas" style="height: 400px;"></idea-card>
+            </md-grid-tile>
+        </md-grid-list>
     </div>
-</material-content>
+</md-content>

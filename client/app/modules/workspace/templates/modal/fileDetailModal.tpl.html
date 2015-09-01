@@ -1,17 +1,23 @@
-<material-dialog>
-    <material-toolbar>
-        <div layout="horizontal">
+<md-dialog>
+    <md-toolbar>
+        <div layout="row">
             <div flex></div>
-            <material-button class="material-button-fab" ng-href="{{ fileDetails.url }}" target="_blank">
+            <md-button class="md-fab" ng-href="{{ fileDetails.url }}" target="_blank">
                 <i class="fa fa-download"></i>
-            </material-button>
-            <material-button class="material-button-fab" ng-click="cancel()">
+            </md-button>
+            <md-button class="md-fab" ng-click="removeFile()">
+                <i class="fa fa-trash"></i>
+            </md-button>
+            <md-button class="md-fab" ng-click="cancel()">
                 <i class="fa fa-times"></i>
-            </material-button>
+            </md-button>
         </div>
-    </material-toolbar>
-    <material-content>
-        <section layout="horizontal">
+    </md-toolbar>
+    <md-content>
+        <section>
+            {{ fileDetails.originalName }}
+        </section>
+        <section layout="row">
             <p ng-bind="fileDetails.description" flex></p>
         </section>
         <section>
@@ -20,5 +26,5 @@
             <pdf-js url="fileDetails.url" width="100%" height="400px" ng-if="isPdf(fileDetails)"></pdf-js>
             <g-doc-preview ng-if="isOfficeDoc(fileDetails)" doc-url="fileDetails.url"></g-doc-preview>
         </section>
-    </material-content>
-</material-dialog>
+    </md-content>
+</md-dialog>

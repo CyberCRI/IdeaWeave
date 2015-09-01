@@ -1,39 +1,49 @@
-<material-content scroller loading-method="loadMoreProjects()" style="overflow-x:hidden;">
-    <material-list>
-        <material-item ng-repeat="project in projects" class="item-list">
-            <material-item-content>
-                <div class="material-tile-left" flex="40" flex-sm="30" flex-md="25" flex-lg="15">
-                    <img ng-src="{{ project.poster || 'http://placehold.it/90x90' }}" class="" width="100%" alt="project's poster" />
-                </div>
-                <article class="material-tile-content">
-                    <h1 ui-sref="project.home({ pid : project.accessUrl })">
-                        {{ project.title }}
-                    </h1>
-                    <showtags entity="project"></showtags>
-                    <div hide block-md>
-                        <p ng-bind-html="project.brief">
-                        </p>
-                        <div layout="horizontal">
-                            <div flex>
-                            <span>
-                            {{ project.followers.length }}
-                            </span>
-                            <span>
-                                Followers
-                            </span>
-                            </div>
-                            <div flex>
-                            <span>
-                            {{ project.members.length }}
-                            </span>
-                            <span>
-                                Members
-                            </span>
-                            </div>
+<md-content scroller loading-method="loadMoreProjects()">
+    <md-list>
+        <md-list-item ng-repeat="project in projects" class="item-list">
+            <md-content flex-gt-sm="60" layout="row" layout-margin>
+                <section class="md-whiteframe-z2 list-card" flex-gt-sm="60" layout="column">
+                    <section layout="column" layout-fill>
+                        <md-content>
+                            <section ui-view="projectsView"></section>
+                        </md-content>
+                        <div flex="40" flex-sm="30" flex-md="25" flex-lg="15">
+                            <a ui-sref="project.home({ pid : project.accessUrl })">
+                                <img ng-src="{{ project.poster || '/images/placeholder90x90.png' }}" class="" width="100%" alt="project's poster" />
+                            </a>
                         </div>
-                    </div>
-                </article>
-            </material-item-content>
-        </material-item>
-    </material-list>
-</material-content>
+                        <div ui-sref="project.home({ pid : project.accessUrl })" class="center">
+                            <h3>{{ project.title }}</h3>
+                        </div>
+                        <div ui-sref="project.home({ pid : project.accessUrl })">{{ project.owner.name }}</div>
+                        <article class="md-tile-content">
+                            <showtags entity="project"></showtags>
+                            <div>
+                                <p ng-bind-html="project.brief">
+                                </p>
+                                <div layout="row">
+                                    <div flex>
+                                    <span>
+                                    {{ project.followers.length }}
+                                    </span>
+                                    <span>
+                                        Followers
+                                    </span>
+                                    </div>
+                                    <div flex>
+                                    <span>
+                                    {{ project.members.length }}
+                                    </span>
+                                    <span>
+                                        Members
+                                    </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    </section>
+                </section>
+            </md-content>
+        </md-list-item>
+    </md-list>
+</md-content>

@@ -6,6 +6,9 @@ angular.module('cri.auth',[
 
         $authProvider.loginUrl = Config.apiServer+'/auth/login';
         $authProvider.signupUrl = Config.apiServer+'/auth/signup';
+        $authProvider.signupRedirect = "/auth/signin";
+        $authProvider.loginOnSignup = false;
+        $authProvider.withCredentials = false;
 
         $authProvider.google({
             url: Config.apiServer+'/auth/google',
@@ -17,27 +20,26 @@ angular.module('cri.auth',[
             clientId: Config.githubClient
         });
     })
-    .controller('LoginCtrl', ['$scope', 'Profile','$state','Notification','$auth','$materialDialog','$rootScope','mySocket', function ($scope, Profile, $state,Notification,$auth,$materialDialog,$rootScope,mySocket) {
+    .controller('LoginCtrl', function ($scope, Profile, $state,Notification,$auth,$mdDialog,$rootScope,mySocket) {
         $scope.loader = {};
         $scope.authenticate = function(provider) {
             console.log('login with', provider);
             $scope.loader[provider] = true;
             $auth.authenticate(provider).then(Profile.getMe).then(function(me) {
                 $rootScope.currentUser = me;
-                $rootScope.$broadcast('side:close-right');
                 if($rootScope.currentUser.email){
                     Notification.display("Welcome you're logged in");
                 }else{
-                    $materialDialog({
+                    $mdDialog.show({
                         templateUrl : 'modules/auth/templates/modal/after-auth.tpl.html',
                         clickOutsideToClose : false,
                         escapeToClose : false,
                         locals : {
                             currentUser : $scope.currentUser
                         },
-                        controller : ['$scope','$hideDialog','Profile','currentUser',function($scope,$hideDialog,Profile,currentUser){
+                        controller : function($scope,Profile,currentUser){
                             $scope.cancel = function(){
-                                $hideDialog();
+                                $mdDialog.hide();
                             };
                             $scope.updateProfile = function(){
                                 $scope.profile = {
@@ -46,13 +48,13 @@ angular.module('cri.auth',[
                                 };
                                 Profile.update($rootScope.currentUser._id,$scope.profile).then(function(user){
                                     $rootScope.currentUser = user;
-                                    $hideDialog();
                                     Notification.display("Welcome, you're logged in");
+                                    $mdDialog.hide();
                                 }).catch(function(err){
                                     Notification.display("Error - you are not logged in");
                                 });
                             };
-                        }]
+                        }
                     });
                 }
 
@@ -70,55 +72,22 @@ angular.module('cri.auth',[
             if(!$scope.signin) return false; // Can occur if the form is empty
 
             $scope.loader.email = true;
-            $auth.login({ email : $scope.signin.email, password : $scope.signin.password }).then(Profile.getMe).then(function (me) {
+            $auth.login({ email : $scope.signin.email, password : $scope.signin.password })
+            .then(Profile.getMe)
+            .then(function (me) {
                 $rootScope.currentUser = me; 
                 
                 Notification.display("Welcome, you're logged in");
-                $scope.signin = {};
-                $state.go('home');
                 mySocket.init($scope.currentUser);
-                $scope.$emit('side:close-right');
+                $state.go('home');
             }).catch(function (err) {
                 Notification.display(err.data && err.data.message || "An unknown error has occured");
             }).finally(function(){
                 $scope.loader.email = false;
             });
         };
-
-        $scope.resetPassForm = false;
-        $scope.forgotPass = function(){
-            $scope.resetPassForm = !$scope.resetPassForm;
-        };
-
-        $scope.resetF = {};
-        $scope.getToken = function (email) {
-            if(!$scope.emailSend){
-                Profile.getResetPassToken(email).then(function(data){
-                    if (data.error) {
-                        Notification.display('Sorry, an error occured.');
-
-                    } else {
-                        $scope.emailSend = true;
-                        Notification.display("Verification code has been sent successfully, please log in to view your mailbox");
-
-                    }
-                });
-            }
-
-        };
-        $scope.reSet = function (resetData) {
-            Profile.resetPassword(resetData).then(function (data) {
-                if (data.error) {
-                    Notification.display('Sorry, an error occured.');
-                } else {
-                    Notification.display('Password reset successfull');
-                }
-            });
-        };
-
-    }])
+    })
     .controller('RegisterCtrl', ['$scope','$state','Notification','Gmap','Files','$auth',  function ($scope, $state, Notification,Gmap,Files,$auth) {
-
         $scope.rgform = {};
 
         $scope.check = {};
@@ -129,28 +98,47 @@ angular.module('cri.auth',[
             });
         };
 
-        $scope.cancel = function(){
-            $state.go('challenges');
-        };
-
         $scope.registerUser = function (user) {
             if ($scope.check.password !== user.password) {
-                $scope.notMatch = true;
+                Notification.display("The passwords do not match");
             } else {
-                $scope.notMatch = false;
                 $auth.signup(user);
                 Notification.display("Welcome, you can login now");
-                $scope.$emit('showLogin');
+                $state.go('signin');
             }
         };
 
     }])
-    .controller('ActivateCtrl',['$scope','Profile','$state','$stateParams','Notification',function($scope,Profile,$state,$stateParams,Notification){
-        $scope.activate = function(){
-            Profile.update($stateParams.uid,{ emailValidated : true }).then(function(){
-                $state.go('home');
-            }).catch(function(err){
+    .controller('ForgotPasswordCtrl', function ($scope, $state, Profile, Notification) {
+        $scope.email = "";
+
+        $scope.send = function() {
+            Profile.sendResetPasswordEmail($scope.email).then(function() {
+                Notification.display("Verification token has been sent");
+                $state.go("resetPassword", { email: $scope.email });
+            }).catch(function(err) {
+                console.error(err);
                 Notification.display(err.message);
             });
-        };
-    }]);
+        }
+    })
+    .controller('ResetPasswordCtrl', function ($scope, $state, $stateParams, Profile, Notification) {
+        // Initialize inputs with URL parameters
+        $scope.email = $stateParams.email || "";
+        $scope.token = $stateParams.token || "";
+
+        $scope.changePassword = function() {
+            if($scope.newPassword !== $scope.newPasswordCheck) {
+                return Notification.display("The passwords do not match");
+            }
+
+            Profile.resetPassword($scope.email, $scope.token, $scope.newPassword).then(function() {
+                Notification.display("Password changed. Please login with your new password");
+                $state.go("signin");
+            }).catch(function(err) {
+                console.error(err);
+                Notification.display(err.message);
+            });
+        }
+
+    });

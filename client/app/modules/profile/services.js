@@ -1,6 +1,6 @@
 angular.module('cri.profile')
 
-    .service('Profile', ['$http', '$q','$upload','Config', function ($http, $q, $upload,Config) {
+    .service('Profile', ['$http', '$q','Upload','Config', function ($http, $q, Upload,Config) {
         var service = {
 
             getMe: function () {
@@ -36,12 +36,12 @@ angular.module('cri.profile')
                 $http.get(url,{
                     params : param
                 })
-                    .success(function(data){
-                        defered.resolve(data);
-                    })
-                    .error(function(err){
-                        defered.reject(err);
-                    });
+                .success(function(data){
+                    defered.resolve(data);
+                })
+                .error(function(err){
+                    defered.reject(err);
+                });
                 return defered.promise;
             },
             getProfile : function(id){
@@ -114,9 +114,9 @@ angular.module('cri.profile')
                 });
                 return defered.promise;
             },
-            getResetPassToken : function(email){
+            sendResetPasswordEmail : function(email){
                 var defered = $q.defer();
-                $http.post(Config.apiServer + '/datas/resetPass/' + email)
+                $http.post(Config.apiServer + '/auth/forgotPassword', { email: email })
                     .success(function(data){
                         defered.resolve(data);
                     })
@@ -125,9 +125,9 @@ angular.module('cri.profile')
                     });
                 return defered.promise;
             },
-            resetPassword : function(passwordInfo){
+            resetPassword : function(email, token, newPassword){
                 var defered = $q.defer();
-                $http.post(Config.apiServer + '/profile/password', passwordInfo)
+                $http.post(Config.apiServer + '/auth/resetPassword', { email: email, token: token, newPassword: newPassword })
                     .success(function(data){
                         defered.resolve(data);
                     })
@@ -144,7 +144,16 @@ angular.module('cri.profile')
                     defered.reject(err);
                 });
                 return defered.promise;
-            }
+            },
+            getFeed: function() {
+                var defered = $q.defer();
+                $http.get(Config.apiServer+'/notifications/me').success(function(data){
+                    defered.resolve(data);
+                }).error(function(err){
+                    defered.reject(err);
+                });
+                return defered.promise;
+            },
         };
         return service;
     }]);

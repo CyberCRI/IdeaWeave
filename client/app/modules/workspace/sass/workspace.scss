@@ -5,13 +5,11 @@ $visitorColor : #fff4f4;
 
 
 .list-resource {
-  max-height:200px;
-  overflow-y:auto;
   padding-right:20px;
   padding-left:20px;
 }
 
-material-tabs{
+md-tabs{
   padding-left : 30px;
 }
 
@@ -37,14 +35,21 @@ material-tabs{
   width : 70%;
   margin: auto;
   border : 1px #828282 solid;
-  -webkit-transition: height 0.5s;
-  -moz-transition: height 0.5s;
-  -ms-transition: height 0.5s;
-  -o-transition: height 0.5s;
-  transition: height 0.5s;
+  background-color: gray;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: 50% 50%;
 }
 
 .dropbox-dragover{
-  border : 1.5px #828282 dashed;
-  height : 300px;
+  border : 3px black dashed;
+  background-color: $baseColor;
+}
+
+.url {
+  font-size: large;
+}
+
+.upload-file-modal {
+  min-width: 500px;
 }

@@ -1,46 +1,68 @@
 'use strict';
 
-var chat = require('../controllers/chat.controller'),
-    noteLab = require('../controllers/noteLab.controller'),
-    mongoose = require('mongoose-q')(),
-    Project = mongoose.model('Project'),
-    Challenge = mongoose.model('Challenge'),
-    q = require('q'),
-    io =require('../../server').io;
-module.exports = function(){
-    io.on('connection', function (socket) {
+var q = require('q'),
+    _ = require('lodash');
+
+// Stores map from user IDs (in DB) to array of socket IDs (defined by socket.io)
+var userIdToSocketIds = {};
+// Stores map from socket ID (defined by socket.io) to user ID (defined by DB)
+var socketIdToUserId = {};
+
+function printConnections() {
+    console.log("Currently", _.size(userIdToSocketIds), "users are connected across", _.size(socketIdToUserId), "sockets");
+}
+
+// Set by init()
+var socketIo;
+
+module.exports.init = function(_socketIo) {
+    socketIo = _socketIo;
+
+    socketIo.on('connection', function(socket) {
         socket.on('init', function(userId){
-            console.log("Detected WS conection for user", userId);    
-            q.all([
-                Project.find( { owner : userId } ).select('_id').execQ(),
-                Project.find( { members : userId }).select('_id').execQ(),
-                Challenge.find({ owner : userId }).select('_id').execQ()
-            ]).then(function(data){
-                var projects = data[0].concat(data[1]),
-                    challenges = data[2];
-                projects.forEach(function(project){
-                    socket.join('project::'+project._id);
-                });
-                challenges.forEach(function(challenge){
-                    socket.join('challenge::'+challenge._id);
-                });
-                socket.emit('rooms::ready');
-            }).catch(function(err){
-                socket.emit('error',err);
-            });
+            console.log("Connected socket", socket.id, "for user", userId);
+
+            socketIdToUserId[socket.id] = userId;
+
+            // Create an array if necessary
+            if(!userIdToSocketIds.hasOwnProperty(userId)) {
+                userIdToSocketIds[userId] = [];
+            }
+            userIdToSocketIds[userId].push(socket.id);
+
+            printConnections();
         });
 
-        socket.on('chat::newMessage', function (message) {
-            console.log("Chat message recieved", message);                
-            chat.create(message).then(function(notif){
-                console.log("Sending chat message", notif);                
-                socket.broadcast.emit('chat_'+message.container+'::newMessage',notif);
-                socket.broadcast.emit('challenge::newMessage',notif);
-                console.log("Done");                
-            }).fail(function(err){
-                socket.emit('error',err);
-            })
-        });
+        socket.on('disconnect', function() {
+            if(!socketIdToUserId.hasOwnProperty(socket.id)) {
+                console.error("Unknown socket disconnecting", socket.id);
+                return;
+            }
 
+            var userId = socketIdToUserId[socket.id];
+            console.log("Disconnected socket", socket.id, "for user", userId);
+
+            delete socketIdToUserId[socket.id];
+
+            // Remove socket ID and clean up empty array if necessary
+            _.pull(userIdToSocketIds[userId], socket.id);
+            if(userIdToSocketIds[userId].length == 0) delete userIdToSocketIds[userId];
+
+            printConnections();
+        });
     });
 };
+
+module.exports.isConnected =  function(userId) {
+    return userIdToSocketIds.hasOwnProperty(userId);
+}
+
+module.exports.sendNotification = function(notification, userId) {
+    if(!userIdToSocketIds.hasOwnProperty(userId)) return;
+
+    var socketIds = userIdToSocketIds[userId];
+    console.log("Sending notification to sockets", socketIds);
+    _.forEach(socketIds, function(socketId) {
+        socketIo.sockets.to(socketId).emit('notification', notification);
+    });
+}

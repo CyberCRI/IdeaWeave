@@ -1,46 +1,6 @@
 angular.module('cri.workspace',[])
-    .controller('NoteHackpadCtrl',function($scope,Notification,NoteLab,$http,Config){
-
-        $scope.myNote = NoteLab.data;
-        console.log($scope.currentUser);
-//        $scope.hackpadUrl = $sce.trustAsResourceUrl('https://hackpad.com/'+NoteLab.data.hackPadId);
-
-        $scope.exportHackPad = function(){
-            NoteLab.exportHackPad($scope.myNote.hackPadId).then(function(data){
-                Notification.display('note successfully saved');
-            }).catch(function(err){
-                console.log('error',err);
-            });
-        };
-    })
-    .controller('NoteCtrl',['$scope','$stateParams','NoteLab','Pdf','Notification',function($scope,$stateParams,NoteLab,Pdf,Notification){
-        $scope.$parent.projectId = $stateParams.pid;
-        $scope.$parent.noteId = $stateParams.tid;
-        $scope.dropBoxHeight = "100px";
-
-        angular.forEach($scope.notes,function(note){
-            if(note._id == $stateParams.tid){
-                $scope.myNote = note;
-                NoteLab.data = $scope.myNote;
-            }
-        });
-
-        $scope.toPdf = function(){
-            Pdf.fromHtml();
-        };
-    }])
-    .controller('WorkspaceCtrl',['$scope','notes','$materialDialog','NoteLab','Challenge','$materialSidenav','project',function($scope,notes,$materialDialog,NoteLab,Challenge,$materialSidenav,project){
-        if(notes.length){
-            $scope.notes = notes;
-        }else{
-            $scope.notes = [];
-        }
-
+    .controller('WorkspaceCtrl',function($scope,NoteLab,Challenge,$mdSidenav,project,$state){
         $scope.project = project[0];
-
-        $scope.$on('newNote',function(e,note){
-            $scope.notes.push(note);
-        });
 
         var leftNav;
         $scope.toggle = function(){
@@ -48,160 +8,106 @@ angular.module('cri.workspace',[])
         };
 
         $scope.$on('showWorkspace',function(){
-            leftNav = $materialSidenav('left');
+            leftNav = $mdSidenav('left');
             leftNav.toggle();
         });
 
-
-        $scope.tf={};
-        $scope.filterTopics = function(value){
-            $scope.search = {
-                type : value
-            };
-            $scope.isActive = value;
+        $scope.toPdf = function(){
+            Pdf.fromHtml();
         };
-        $scope.categories = [
-            {
-                title : "All"
-            },
-            {
-                id: '1',
-                title: 'Discussion'
-            },
-            {
-                id: '2',
-                title: 'Protocole'
-            },
-            {
-                id: '3',
-                title: 'Experiment'
-            },
-            {
-                id: '4',
-                title: 'Result'
-            }
-        ];
 
-        $scope.popUpTopic = function(e) {
+        $scope.dropBoxHeight = "100px";
 
-            $materialDialog({
-                templateUrl: 'modules/workspace/templates/modal/addNoteModal.tpl.html',
-                targetEvent: e,
-                locals : {
-                    currentUser : $scope.currentUser,
-                    project : $scope.project
-                },
-                resolve : {
-                    templates : function(){
-                        return Challenge.getTemplates($scope.project.container);
-                    }
-                },
-                controller: ['$scope', 'NoteLab', 'Notification', '$hideDialog', 'Config','templates','currentUser','project', function ($scope, NoteLab, Notification, $hideDialog, Config,templates,currentUser,project) {
-                    $scope.categories = [
-                        {
-                            title : "All"
-                        },
-                        {
-                            id: '1',
-                            title: 'Discussion'
-                        },
-                        {
-                            id: '2',
-                            title: 'Protocole'
-                        },
-                        {
-                            id: '3',
-                            title: 'Experiment'
-                        },
-                        {
-                            id: '4',
-                            title: 'Result'
-                        }
-                    ];
-
-                    $scope.cancel = function(){
-                        $hideDialog();
-                    };
-
-                    $scope.tinymceOptions = angular.copy(Config.tinymceOptions);
-                    $scope.tinymceOptions.template_replace_values = {
-                        user : currentUser.username
-                    };
-                    $scope.tinymceOptions.templates = templates;
-
-                    $scope.createNote = function (note) {
-                        note.type = note.type.id;
-                        note.project = project._id;
-                        note.owner = currentUser._id;
-                        NoteLab.createNote(note).then(function (result) {
-                            Notification.display('Note created, now you can edit it with your team');
-//                            notes.push(result);
-                        }).catch(function (err) {
-                            Notification.display('error the note is not created');
-                        }).finally(function(){
-                            $hideDialog();
-                        });
-                    };
-                }]
-            });
-        };
-    }])
-    .controller('NoteResourcesCtrl',function($scope,NoteLab,$stateParams,Notification,$materialDialog){
+        // Set initial selected tab
+        if($state.current.name == "workspace.etherpad") $scope.selectedTabIndex = 0;
+        else if($state.current.name == "workspace.file") $scope.selectedTabIndex = 1;
+        else if($state.current.name == "workspace.resources") $scope.selectedTabIndex = 2;
+        else $scope.selectedTabIndex = -1;
+    }).controller('NoteEtherpadCtrl', function($scope) {
+        // Nothing here yet...
+    })
+    .controller('NoteResourcesCtrl',function($scope,NoteLab,$stateParams,Notification,$mdDialog){
         $scope.addResourceModal = function(e) {
-            $materialDialog({
+            $mdDialog.show({
                 templateUrl: 'modules/workspace/templates/modal/addResourceModal.tpl.html',
                 event: e,
                 locals : {
                     urls : $scope.urls,
-                    currentUser : $scope.currentUser
+                    currentUser : $scope.currentUser,
+                    project: $scope.project
                 },
-                controller: ['$scope', 'NoteLab', '$hideDialog','urls', function ($scope, NoteLab, $hideDialog, urls, currentUser) {
+                controller: function ($scope, NoteLab, urls, currentUser, project) {
                     $scope.cancel = function () {
-                        $hideDialog();
+                        $mdDialog.hide();
                     };
                     $scope.addUrl = function(url){
-                        url.project = NoteLab.data._id;
-                        url.container = $stateParams.tid;
-                        url.owner = currentUser._id;
-
-                        NoteLab.addUrl(url).then(function(data){
-                            urls.push(url);
-                            $hideDialog();
+                        NoteLab.addUrl(project._id, url).then(function(data){
+                            urls.push(data);
+                            $mdDialog.hide();
                         }).catch(function(err){
                             Notification.display(err.message);
                         });
                     };
-                }]
+                }
             });
         };
-        NoteLab.fetchUrl($stateParams.tid).then(function(data){
+
+        $scope.removeUrl = function(url) {
+            NoteLab.removeUrl($scope.project._id, url._id).then(function() {
+                // Delete the URL from the list
+                var urlIndex = $scope.urls.indexOf(url);
+                $scope.urls.splice(urlIndex, 1);
+            }).catch(function(err) {
+                Notification.display(err);
+            });
+        };
+
+        NoteLab.listUrls($scope.project._id).then(function(data){
             $scope.urls = data;
         }).catch(function(err){
-            Notification.display(err.message);
+            Notification.display(err);
         });
     })
-    .controller('NoteFilesCtrl',function($scope,Files,NoteLab,$materialDialog,$stateParams,Notification){
+    .controller('NoteFilesCtrl',function($scope,Files,NoteLab,$mdDialog,$stateParams,Notification,Config){
         $scope.files = [];
-        NoteLab.fetchFile($stateParams.tid).then(function(data){
+        NoteLab.listFiles($scope.project._id).then(function(data){
             $scope.files = data || [];
             angular.forEach($scope.files,function(file){
                 Files.getPoster(file);
+                file.url = Config.apiServer + "/files/" + file.name;
 //                file.url = Config.apiServer+'/fileUpload/topic/'+$stateParams.pid+'/'+file.filename;
             });
         }).catch(function(err){
-//            Notification.display(err.message);
+            Notification.display(err.message);
         });
 
 
         $scope.detailsFileModal = function(e,file){
-            $materialDialog({
+            $mdDialog.show({
                 templateUrl: 'modules/workspace/templates/modal/fileDetailModal.tpl.html',
                 event: e,
-                controller: ['$scope','$hideDialog','Files', function ($scope,$hideDialog,Files) {
+                locals : {
+                    currentUser : $scope.currentUser,
+                    files : $scope.files,
+                    project: $scope.project
+                },
+                controller: function ($scope,Files,project,files) {
                     $scope.fileDetails = file;
                     $scope.cancel = function(){
-                        $hideDialog();
+                        $mdDialog.hide();
                     };
+
+                    $scope.removeFile = function() {
+                        NoteLab.removeFile(project._id, file._id).then(function() {
+                            // Delete the file from the list
+                            var fileIndex = files.indexOf(file);
+                            files.splice(fileIndex, 1);
+                            $mdDialog.hide();
+                        }).catch(function(err) {
+                            Notification.display(err);
+                        });
+                    };
+
                     $scope.isImage = function(file){
                         return Files.isImage(file);
                     };
@@ -218,7 +124,7 @@ angular.module('cri.workspace',[])
                         return Files.isOfficeDoc(file);
                     };
 
-                }]
+                }
             });
         };
 
@@ -229,52 +135,57 @@ angular.module('cri.workspace',[])
             Files.getPoster(file);
         });
         $scope.uploadFileModal = function(e){
-            $materialDialog({
+            $mdDialog.show({
                 templateUrl : 'modules/workspace/templates/modal/fileUploadModal.tpl.html',
                 event : e,
                 locals : {
                     currentUser : $scope.currentUser,
-                    files : $scope.files
+                    files : $scope.files,
+                    project: $scope.project
                 },
-                controller : ['$scope','NoteLab','$hideDialog','Notification','Files','currentUser','files',function($scope,NoteLab,$hideDialog,Notification,Files,currentUser,files){
+                controller : function($scope,NoteLab,Notification,Files,currentUser,files,project){
+                    $scope.selectedFiles = null;
+                    $scope.file = null;
+                    $scope.fileUrl = null;
+                    $scope.description = null;
 
-                    $scope.fileSelected = function($files){
-                        $scope.file = $files[0];
+                    $scope.$watch('selectedFiles', function () {
+                        if(!$scope.selectedFiles || $scope.selectedFiles.length == 0) return;
+
+                        $scope.file = $scope.selectedFiles[0];
                         if(Files.isImage($scope.file)){
                             Files.getDataUrl($scope.file).then(function(dataUrl){
                                 $scope.fileUrl = dataUrl;
                             });
-                            $scope.dropBoxHeight = "300px";
                         }
-                    };
+                        $scope.selectedFiles = null;
+                    });
 
                     $scope.cancelUpload = function(){
                         $scope.file = null;
                         $scope.fileUrl = null;
-                        $scope.dropBoxHeight = "100px";
+                        $scope.description = null;
                     };
 
-                    $scope.upload = function(file,description){
+                    $scope.upload = function(){
                         $scope.isUploading = true;
-                        NoteLab.uploadFile(NoteLab.data, file,description,currentUser._id).then(function(file){
-                            Notification.display('your file has been uploaded !!!');
+                        NoteLab.uploadFile(project._id, $scope.description, $scope.file).then(function(file){
+                            Notification.display('Your file has been uploaded');
                             $scope.file = null;
                             $scope.fileUrl = null;
-                            $scope.dropBoxHeight = "100px";
                             Files.getPoster(file);
-//                data[0].url = Config.apiServer+'/fileUpload/topic/'+$stateParams.pid+'/'+data[0].filename;
                             files.push(file);
                         }).catch(function(err){
                             Notification.display(err.message);
                         }).finally(function(){
                             $scope.isUploading = false;
-                            $hideDialog();
+                            $mdDialog.hide();
                         });
                     };
                     $scope.cancel = function(){
-                        $hideDialog();
+                        $mdDialog.hide();
                     };
-                }]
+                }
             });
         };
     });

@@ -1,31 +1,5 @@
 angular.module('cri.profile',[])
-    .controller('ProfileActivityCtrl',['$scope','loggedUser','Profile',function($scope,loggedUser,Profile){
-        Profile.getActivity(loggedUser.profile.id).then(function(data){
-            $scope.activities = data;
-        }).catch(function(err){
-            console.log(err);
-        });
-        $scope.noPage=1;
-        $scope.isEnd=false;
-        $scope.loadMoreActivities=function(num){
-            $scope.noPage=num+1;
-            var skip=10*num;
-            if(!$scope.isEnd){
-                Profile.getActivity(loggedUser.profile.id,skip).then(function(result){
-                    if(result.length>0){
-                        for(var i=0;i<result.length;i++){
-                            $scope.activities.push(result[i]);
-                        }
-                    }else{
-                        $scope.isEnd=true;
-                    }
-                });
-            }
-        };
-    }])
-
-    .controller('ProfileCtrl',['$scope','Notification','profile','Profile','Recommendation','$state','$sce','activities','$rootScope','$q',function ($scope,Notification,profile,Profile,Recommendation,$state,$sce,activities,$rootScope,$q) {
-
+    .controller('ProfileCtrl',function ($scope,$auth,Notification,profile,Profile,Recommendation,$state,$sce,activities,$rootScope,$q) {
         $scope.profile = profile.data;
         $scope.moreData = profile.moreData;
         $scope.activities = [];
@@ -44,7 +18,6 @@ angular.module('cri.profile',[])
         }
 
         $scope.now = new Date().getTime();
-//        $scope.activities = activities;
 
         $scope.isFollowing = false;
         if($scope.currentUser){
@@ -59,41 +32,6 @@ angular.module('cri.profile',[])
                 });
             }
         }
-//        $scope.d3Tags = [];
-//        angular.forEach($scope.profile.tags,function(v,k){
-//            $scope.d3Tags.push({
-//                title : v,
-//                number : 1
-//            })
-//        });
-
-        // caculate profile rule
-        var score=$scope.profile.score;
-        var name='';
-        var next='';
-        if(score<49){
-            name='Level 1';
-            next=200;
-        }else if(score<199){
-            name='Level 2';
-            next=500;
-        }else if(score<499){
-            name='Level 3';
-            next=1000;
-        }else if(score<999){
-            name='Level 4';
-            next=2000;
-        }else if(score<1999){
-            name='Level 5';
-            next=5000;
-        }else{
-            name='Level 6';
-            next=10000;
-        }
-        $scope.profile.rule=name;
-        $scope.profile.next=next;
-        $scope.profile.ugProgress=($scope.profile.score/next*100).toFixed(2);
-
 
         // follow user
         $scope.follow=function(){
@@ -116,4 +54,7 @@ angular.module('cri.profile',[])
                 });
             }
         };
-    }]);
+    })
+    .controller('FeedCtrl', function ($scope, notifications) {
+        $scope.notifications = notifications;
+    });

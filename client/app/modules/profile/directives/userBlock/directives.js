@@ -1,5 +1,5 @@
 angular.module('cri.profile')
-    .directive('userInfo',[function(){
+    .directive('userInfo', function() {
         return {
             restrict:'EA',
             scope : {
@@ -7,7 +7,7 @@ angular.module('cri.profile')
                 myUser : '='
             },
             templateUrl:'modules/profile/directives/userBlock/user-info.tpl.html',
-            controller : ['$scope','Profile',function($scope,Profile){
+            controller : function($scope,Profile){
                 if($scope.userId){
                     Profile.fetch( { _id : $scope.userId, type : 'info' }).then(function(user){
                         $scope.user = user[0];
@@ -17,12 +17,12 @@ angular.module('cri.profile')
                 }else{
                     $scope.user = $scope.myUser;
                 }
-            }],
+            },
             link : function(scope,element,attrs){
             }
         };
-    }])
-    .directive('userBlock',[function(){
+    })
+    .directive('userBlock', function(){
         return {
             restrict:'EA',
             scope : {
@@ -69,18 +69,16 @@ angular.module('cri.profile')
 
             }
         };
-    }])
-    .directive('userCard',[function(){
+    })
+    .directive('userCard', function(){
         return {
             restrict:'EA',
             scope : {
                 userId : '=',
-                myUser : '=',
-                admin : '=',
-                delete : '='
+                myUser : '='
             },
             templateUrl:'modules/profile/directives/userBlock/user-card.tpl.html',
-            controller : ['$scope','Profile',function($scope,Profile){
+            controller : function($scope,Profile) {
                 if($scope.userId){
                     Profile.fetch( { _id : $scope.userId, type : 'card' }).then(function(user){
                         $scope.user = user[0];
@@ -90,19 +88,6 @@ angular.module('cri.profile')
                 }else{
                     $scope.user = $scope.myUser;
                 }
-            }],
-            link : function(scope,element,attrs){
-                scope.banUser = function(user){
-                    return scope.delete(user);
-                };
-                if(scope.admin){
-                    element.bind('mouseenter',function(e){
-                        scope.isHovered = true;
-                    });
-                    element.bind('mouseleave',function(e){
-                        scope.isHovered = false;
-                    });
-                }
             }
         };
-    }]);
+    });

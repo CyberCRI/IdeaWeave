@@ -1,0 +1,60 @@
+<section layout="column" layout-fill>
+    <md-toolbar scroll-shrink class="md-theme-green">
+        <div class="center">Ideas</div>
+        <md-button class="md-fab md-fab-accent" ui-sref="createIdea" ng-if="currentUser" style="color:black;bottom:-24px;position:absolute; right:20px;z-index : inherit">
+            <i class="fa fa-plus" style="font-size: 1.2em; top:3px;position:relative;z-index: 50"></i>
+        </md-button>
+    </md-toolbar>
+    <md-content flex>
+        <div ng-show="ideas.length == 0">
+            Nothing to show yet... 
+        </div>
+        <md-list ng-show="ideas.length > 0">
+            <md-list-item ng-repeat="idea in ideas" class="item-list">
+                <article class="md-tile-content">
+                    <a ui-sref="idea({ iid : idea._id })">
+                        <h1 class="md-headline">{{ idea.title }}</h1>
+                    </a>
+                    <showtags entity="idea"></showtags>
+                    <div>
+                        <p ng-bind-html="idea.brief"></p>
+                        <div layout="row">
+                            <div flex>
+                                <span>
+                                {{ idea.followers.length }}
+                                </span>
+                                <span>
+                                    Followers
+                                </span>
+                            </div>
+                            <div flex>
+                                <span>
+                                {{ idea.challenges.length }}
+                                </span>
+                                <span>
+                                    Challenges
+                                </span>
+                            </div>
+                            <div flex>
+                                <span>
+                                {{ idea.projects.length }}
+                                </span>
+                                <span>
+                                    Projects
+                                </span>
+                            </div>
+                        </div>
+                        <!-- <md-button ng-click="showProjects(idea._id,$index)" >
+                            show related projects
+                        </md-button>
+                        <md-button ng-click="showProjects(idea._id,$index)" >
+                            show related challenges
+                        </md-button> -->
+                    </div>
+
+
+                </article>
+            </md-list-item>
+        </md-list>
+    </md-content>
+</section>

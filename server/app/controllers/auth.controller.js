@@ -4,20 +4,21 @@
  * Module dependencies.
  */
 var mongoose = require('mongoose-q')(),
-	User = mongoose.model('User'),
+    User = mongoose.model('User'),
     Tag = mongoose.model('Tag'),
-	_ = require('lodash'),
+    _ = require('lodash'),
     request = require('request'),
     qs = require('querystring'),
     utils = require('../services/utils.service'),
-    config = require('../../config/config');
+    config = require('../../config/config'),
+    emailer = require('../services/mailer.service');
 
 
 /**
  * Signup
  */
 exports.signup = function(req, res) {
-	// Init Variables
+    // Init Variables
     var tagsId = [];
     if(req.body.tags){
         req.body.tags.forEach(function(tag,k){
@@ -25,9 +26,9 @@ exports.signup = function(req, res) {
         });
         req.body.tags = tagsId;
     }
-	var user = new User(req.body);
-	// Then save the user
-	user.saveQ().then(function(err) {
+    var user = new User(req.body);
+    // Then save the user
+    user.saveQ().then(function(err) {
         if(user.tags){
             user.tags.forEach(function(tagId,k){
                 Tag.updateQ({_id : tagId},{ $inc : {number : 1} }).then(function(data){
@@ -41,7 +42,7 @@ exports.signup = function(req, res) {
             message : 'ok'
         })
 
-	}).fail(function(err){
+    }).fail(function(err){
         return res.json(400, err);
     });
 };
@@ -59,7 +60,7 @@ exports.signin = function(req, res) {
             user = user.toObject();
             delete user.password;
             var token = utils.createJwtToken(user);
-            res.send({ token: token });
+            res.send({ token: token, user_id: user._id });
         });
     });
 
@@ -77,10 +78,11 @@ exports.googleAuth = function(req, res) {
         grant_type: 'authorization_code'
     };
 // Step 1. Exchange authorization code for access token.
+    console.log("Requesting google auth token", accessTokenUrl, params);
     request.post(accessTokenUrl, { json: true, form: params }, function(error, response, token) {
-        if(error) {
-            console.error("Error getting auth token", error);
-            return res.send(400, error);
+        if(error || token.error) {
+            console.error("Error getting auth token", error || token.error);
+            return res.send(400, error || token.error);
         }
 
         console.log("Received google token");
@@ -222,57 +224,113 @@ exports.personnaAuth = function(req,res){
  * Update user details
  */
 exports.update = function(req, res) {
-	// Init Variables
-	var user = req.user;
-	var message = null;
+    // Init Variables
+    var user = req.user;
+    var message = null;
 
-	// For security measurement we remove the roles from the req.body object
-	delete req.body.roles;
+    // For security measurement we remove the roles from the req.body object
+    delete req.body.roles;
 
-	if (user) {
-		// Merge existing user
-		user = _.extend(user, req.body);
-		user.updated = Date.now();
-		user.displayName = user.firstName + ' ' + user.lastName;
+    if (user) {
+        // Merge existing user
+        user = _.extend(user, req.body);
+        user.updated = Date.now();
+        user.displayName = user.firstName + ' ' + user.lastName;
 
-		user.save(function(err) {
-			if (err) {
-				return res.send(400, {
-					message: getErrorMessage(err)
-				});
-			} else {
-				req.login(user, function(err) {
-					if (err) {
-						res.send(400, err);
-					} else {
-						res.jsonp(user);
-					}
-				});
-			}
-		});
-	} else {
-		res.send(400, {
-			message: 'User is not signed in'
-		});
-	}
+        user.save(function(err) {
+            if (err) {
+                return res.send(400, {
+                    message: getErrorMessage(err)
+                });
+            } else {
+                req.login(user, function(err) {
+                    if (err) {
+                        res.send(400, err);
+                    } else {
+                        res.jsonp(user);
+                    }
+                });
+            }
+        });
+    } else {
+        res.send(400, {
+            message: 'User is not signed in'
+        });
+    }
 };
+
+exports.forgotPassword = function(req, res) {
+    // From http://stackoverflow.com/a/1349426/209505
+    function makeToken(length) {
+        var text = "";
+        var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+        for( var i=0; i < length; i++ )
+            text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+        return text;
+    }
+
+    // Make a unique token for the given user and store it in the DB
+    var token = makeToken(5);
+    User.findOneAndUpdateQ({ email : req.body.email }, { passwordResetToken: token })
+    .then(function(user) {
+        if(!user) return res.json(400, { message: "No user with that email found" });
+
+        // Send the token to the user via email
+        var email = {
+            to: user.username + " <" + user.email + ">",
+            subject: "IdeaWeave: Reset your password",
+            text: "In order to change your password on IdeaWeave, please use the token: " + token
+        }; 
+        return emailer(email)
+        .then(function(info) {
+            console.log("Forgot password email sent", info);
+            res.send(200);
+        });
+    }).catch(function(err){
+        res.json(400, err);
+    });
+};
+
+exports.resetPassword = function(req, res) {
+    // Check that the token matches the email provided
+    User.findOneQ({ email: req.body.email })
+    .then(function(user) {
+        if(!user) return res.json(400, { message: "No user that email found" });
+
+        // Check that the token matches the user
+        if(!user.passwordResetToken || user.passwordResetToken !== req.body.token) {
+            return res.json(400, { message: "The token does not match the email provided"});
+        } 
+
+        user.passwordResetToken = null;
+        user.password = req.body.newPassword;
+        user.saveQ().then(function() {
+            return res.send(200);
+        });
+    }).catch(function(err) {
+        return res.json(500, err);
+    });
+};
+
 
 /**
  * Change Password
  */
 exports.changePassword = function(req, res, next) {
-	// Init Variables
-	var passwordDetails = req.body;
-	var message = null;
+    // Init Variables
+    var passwordDetails = req.body;
+    var message = null;
 
-	if (req.user) {
-		User.findOneQ({_id : req.user.id}).then(function(user) {
-			if (user) {
-				if (user.authenticate(passwordDetails.currentPassword)) {
-					if (passwordDetails.newPassword === passwordDetails.verifyPassword) {
-						user.password = passwordDetails.newPassword;
+    if (req.user) {
+        User.findOneQ({_id : req.user.id}).then(function(user) {
+            if (user) {
+                if (user.authenticate(passwordDetails.currentPassword)) {
+                    if (passwordDetails.newPassword === passwordDetails.verifyPassword) {
+                        user.password = passwordDetails.newPassword;
 
-						user.saveQ().then(function(err) {
+                        user.saveQ().then(function(err) {
                             req.login(user, function(err) {
                                 if (err) {
                                     res.send(400, err);
@@ -282,42 +340,34 @@ exports.changePassword = function(req, res, next) {
                                     });
                                 }
                             });
-						}).fail(function(err){
+                        }).fail(function(err){
                             return res.send(400, {
                                 message: getErrorMessage(err)
                             });
                         });
-					} else {
-						res.send(400, {
-							message: 'Passwords do not match'
-						});
-					}
-				} else {
-					res.send(400, {
-						message: 'Current password is incorrect'
-					});
-				}
-			} else {
-				res.send(400, {
-					message: 'User is not found'
-				});
-			}
-		}).fail(function(err){
+                    } else {
+                        res.send(400, {
+                            message: 'Passwords do not match'
+                        });
+                    }
+                } else {
+                    res.send(400, {
+                        message: 'Current password is incorrect'
+                    });
+                }
+            } else {
+                res.send(400, {
+                    message: 'User is not found'
+                });
+            }
+        }).fail(function(err){
 
         });
-	} else {
-		res.send(400, {
-			message: 'User is not signed in'
-		});
-	}
-};
-
-/**
- * Signout
- */
-exports.signout = function(req, res) {
-	req.logout();
-	res.redirect('/');
+    } else {
+        res.send(400, {
+            message: 'User is not signed in'
+        });
+    }
 };
 
 /**

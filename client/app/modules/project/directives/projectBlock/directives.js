@@ -55,7 +55,7 @@ angular.module('cri.project')
             },
             templateUrl:'modules/project/directives/projectBlock/project-info.tpl.html',
             controller : ['$scope','Project',function($scope,Project){
-                if($scope.myProject){
+                if($scope.projectId){
                     Project.fetch( { _id : $scope.projectId, type : 'info' }).then(function(project){
                         $scope.project = project[0];
                     }).catch(function(err){
@@ -71,6 +71,7 @@ angular.module('cri.project')
         return {
             restrict : 'EA',
             templateUrl : 'modules/project/directives/projectBlock/project-card.tpl.html',
+            // replace: true,
             scope : {
                 projectId : '=',
                 myProject : '=',

@@ -1,34 +1,11 @@
-angular.module('cri.challenge', [])
-    .controller('chatCtrl',['$scope','Challenge','mySocket',function($scope,Challenge,mySocket){
-//        mySocket.on('chat_'+$scope.challenge._id+'::created',function(message){
-        if($scope.currentUser){
-            mySocket.socket.on('chat_'+Challenge.data._id+'::newMessage',function(message){
-                $scope.messages.push(message);
-            });
-            $scope.postMessage = function(message){
-                message.container = $scope.challenge._id;
-                message.owner = $scope.currentUser._id;
-                message.createDate = new Date().getTime();
-                mySocket.socket.emit('chat::newMessage',message);
-                $scope.messages.push(message);
-                $scope.message = "";
-            };
-        }
-
-        Challenge.getMessage(Challenge.data._id ).then(function(messages){
-            $scope.messages = messages;
-        }).catch(function(err){
-            console.log(err);
-        });
-    }])
-    .controller('ChallengesCtrl',['$scope','$rootScope',function($scope,$rootScope){
+angular.module('cri.challenge', ['ngSanitize'])
+    .controller('ChallengesCtrl',function($scope,$rootScope){
         $scope.toggleLeft = function(){
             $rootScope.$broadcast('toggleLeft')
         };
-    }])
-    .controller('ChallengesListCtrl',['$scope','challenges','Notification','Challenge','Project','$stateParams','Config','$materialDialog',function($scope,challenges,Notification,Challenge,Project,$stateParams,Config,$materialDialog){
+    })
+    .controller('ChallengesListCtrl',function($scope,challenges,Notification,Challenge,Project,$stateParams,Config,$mdDialog){
         $scope.challenges = challenges;
-
 
         $scope.noPage = 0;
         $scope.isEnd = false;
@@ -55,9 +32,9 @@ angular.module('cri.challenge', [])
 
         $scope.showProjects = function(id,index){
             var challenge = $scope.challenges[index];
-            $materialDialog({
+            $mdDialog.show({
                 templateUrl : 'modules/challenge/templates/modal/listProjects.tpl.html',
-                controller : ['$scope','Project','$hideDialog',function($scope,Project,$hideDialog){
+                controller : function($scope,Project){
                     $scope.challenge = challenge;
                     Project.getByChallenge( id ).then(function(projects){
                         console.log('projects',projects);
@@ -67,9 +44,9 @@ angular.module('cri.challenge', [])
                     });
 
                     $scope.cancel = function(){
-                        $hideDialog();
+                        $mdDialog.hide();
                     };
-                }]
+                }
             });
         };
 
@@ -82,9 +59,8 @@ angular.module('cri.challenge', [])
             });
         };
 
-    }])
-    .controller('ChallengeSuggestCtrl', ['$scope', 'Challenge','$upload','$state','Notification','Gmap','Files','Config', function ($scope, Challenge,$upload,$state,Notification,Gmap,Files,Config) {
-
+    })
+    .controller('ChallengeSuggestCtrl', function ($scope, Challenge,Upload,$state,Notification,Gmap,Files,Config) {
         $scope.hasDuration = false;
         $scope.pform = {};
         $scope.pform.tags = [];
@@ -104,15 +80,16 @@ angular.module('cri.challenge', [])
                 challenge.startDate = challenge.startDate.getTime();
                 challenge.endDate = challenge.endDate.getTime();
             }
-            Challenge.create(challenge).then(function(){
-                $state.go("challenges.list",{tag : 'all'});
+            Challenge.create(challenge).then(function(data){
+                $state.go('challenge', { cid : data.accessUrl });
             }).catch(function(err){
                 Notification.display(err.message);
             });
         };
-    }])
-.controller('ChallengeCtrl',['$scope','Challenge','challenge','Notification','$state','Project','$rootScope',function($scope,Challenge,challenge,Notification,$state,Project,$rootScope){
+    })
+    .controller('ChallengeCtrl', function($scope,Challenge,challenge,Notification,$state,Project,$rootScope,NoteLab,$mdDialog) {
         $scope.challenge = challenge[0];
+
         if($scope.currentUser){
             if($scope.currentUser._id == $scope.challenge.owner._id){
                 $scope.isOwner = true;
@@ -126,7 +103,7 @@ angular.module('cri.challenge', [])
         };
         $scope.toggleLeft = function(){
             $rootScope.$broadcast('toggleLeft');
-        }
+        };
 
         $scope.participate = function(){
             if($scope.currentUser){
@@ -137,18 +114,6 @@ angular.module('cri.challenge', [])
                 $state.go('home');
             }
         };
-
-//        $scope.d3Tags = [];
-//        angular.forEach($scope.challenge.tags,function(v,k){
-//            $scope.d3Tags.push({
-//                title : v,
-//                number : 1
-//            })
-//        });
-//
-//        $scope.showTag = function(e){
-//            $state.go('tag',{title : e.text})
-//        };
 
         $scope.follow = function () {
             if($scope.isFollow){
@@ -171,11 +136,10 @@ angular.module('cri.challenge', [])
             }
 
         };
-    }])
+    })
 
-// TODO: this is NOT USED. Remove it
-.controller('ChallengeSettingsCtrl',['$scope','Challenge','Notification',function($scope,Challenge,Notification){
-
+    // TODO: this is NOT USED. Remove it
+    .controller('ChallengeSettingsCtrl',function($scope,Challenge,Notification){
         $scope.$watch('imageCropResult', function(newVal) {
             if (newVal) {
                 Challenge.update($scope.challenge.id,{ poster : newVal }).then(function(){
@@ -192,4 +156,4 @@ angular.module('cri.challenge', [])
                 Notification.display(err.message);
             });
         };
-    }]);
+    });

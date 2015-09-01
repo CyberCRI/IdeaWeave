@@ -1,44 +1,20 @@
-<material-card style="position:relative;">
-    <img ng-src="{{user.poster || 'http://placehold.it/300x300'}}" alt="..." class="material-card-image">
+<md-card style="position:relative;">
+    <img ng-src="{{user.poster || '/images/placeholder300x300.png'}}" class="md-card-image">
 
-    <material-button class="material-button-fab" style="position:absolute;top : -30px; right: -24px;" ng-click="banUser(user)">
-        <i class="fa fa-times fa-2x" style="width: 24px; height: 24px;"></i>
-    </material-button>
-
-    <material-button ui-sref="profile({ uid : user._id})">
+    <md-button ui-sref="profile({ uid : user._id})">
         {{ user.username }}
-    </material-button>
+    </md-button>
     <p ng-bind-html="user.brief" style="max-height:200px;overflow:hidden;"></p>
     <showtags entity="user"></showtags>
-    <div layout="horizontal">
-        <div flex layout="horizontal" class="text-muted">
-            <span>
-                {{ user.followers.length }}
-            </span>
-            <span>
-                Followers
-            </span>
+    <div layout="column">
+        <div flex class="text-muted">
+            {{ user.followers.length }} Followers
         </div>
-        <div flex layout="horizontal" class="text-muted">
-            <span>
-                {{ user.projects.length || 0}}
-            </span>
-            <span class="text-muted">
-                Projects
-            </span>
+        <div flex class="text-muted">
+            {{ user.projects.length || 0}} Projects
         </div>
-        <div flex layout="horizontal" class="text-muted">
-            <span>
-                {{ user.followings.length }}
-            </span>
-            <span class="text-muted">
-                Following
-            </span>
+        <div flex class="text-muted">
+            {{ user.followings.length }} Following
         </div>
     </div>
-    <div layout="horizontal" layout-align="center center">
-        <div flex>
-            ici le score
-        </div>
-    </div>
-</material-card>
+</md-card>

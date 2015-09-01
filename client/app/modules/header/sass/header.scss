@@ -16,7 +16,7 @@
 }
 
 .profile-menu{
-  material-button{
+  md-button{
     width:100%;
     margin-left : 10px;
     text-align : right;
@@ -36,7 +36,7 @@
 .menu {
   padding: 10px;
   
-  material-button {
+  md-button {
     width: 100%;
     margin-left: 10px;
     text-align: right;
@@ -44,4 +44,9 @@
   }
 
 
+}
+
+#miniProfil img{
+  height: 50px;
+  width: 50px;
 }

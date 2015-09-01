@@ -3,17 +3,21 @@
 /**
  * Module dependencies.
  */
-var users = require('../controllers/auth.controller.js');
+var auth = require('../controllers/auth.controller.js');
 
 module.exports = function(app) {
 
-	// Setting up the auth api
-    app.post('/auth/signup',users.signup)
-	app.route('/auth/login').post(users.signin);
-	app.route('/auth/signout').get(users.signout);
-    app.post('/auth/github',users.githubAuth);
-    app.post('/auth/twitter',users.twitterAuth);
-    app.post('/auth/google',users.googleAuth)
-    app.post('/auth/personna',users.personnaAuth)
+    // Setting up the auth api
+    app.post('/auth/signup', auth.signup)
+    app.post('/auth/login', auth.signin);
 
+    app.post('/auth/forgotPassword', auth.forgotPassword);
+    app.post('/auth/resetPassword', auth.resetPassword);
+
+    app.post('/auth/github', auth.githubAuth);
+    app.post('/auth/google', auth.googleAuth);
+
+
+    //app.post('/auth/twitter',auth.twitterAuth);
+    //app.post('/auth/personna',auth.personnaAuth);
 };

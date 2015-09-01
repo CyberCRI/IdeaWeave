@@ -1,0 +1,15 @@
+<md-toolbar>
+    <div class="md-toolbar-tools">
+        <div>
+            <i class="fa fa-tags"> Tags</i>
+        </div>
+    </div>
+</md-toolbar>
+<md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="true">
+    <md-content>
+        <md-button style="width:100%;text-align:left;" ui-sref="ideas({ tag : 'all' })">ALL</md-button>
+        <div ng-repeat="tag in tags">
+            <md-button style="width:100%;text-align:left;" ui-sref="ideas({ tag : tag.title })">{{tag.title}}</md-button>
+        </div>
+    </md-content>
+</md-sidenav>

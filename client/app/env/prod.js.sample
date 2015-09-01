@@ -1,6 +1,5 @@
 PrivateConfig = {
     env: 'prod',
-    apiServer: 'http://IdeaWeave.io',
-    githubClient: '',
-    googleClient: ''
+    apiServer: 'http://ideaweave.io',
+    githubClient: ''
 };

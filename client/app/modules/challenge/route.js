@@ -39,13 +39,9 @@ angular.module('cri.challenge')
             .state('challenge',{
                 url : '/challenge/:cid',
                 resolve: {
-                    challenge:  ['$stateParams', 'Challenge',function ($stateParams, Challenge) {
-                        var option = {
-                            accessUrl : $stateParams.cid
-                        };
-
-                        return Challenge.fetch(option);
-                    }]
+                    challenge:  function ($stateParams, Challenge) {
+                        return Challenge.fetch({ accessUrl : decodeURIComponent($stateParams.cid) });
+                    }
                 },
                 views :{
                   mainView :{

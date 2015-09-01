@@ -1,21 +1,21 @@
-<material-toolbar>
-    <material-item>
-        <material-item-content>
-            <div class="material-tile-left">
-                <material-button ng-click="toPdf()">
+<md-toolbar>
+    <md-item>
+        <md-item-content>
+            <div class="md-tile-left">
+                <md-button ng-click="toPdf()">
                     <i class="fa fa-file-pdf-o" >Export</i>
-                </material-button>
+                </md-button>
             </div>
-            <div class="material-content" flex>
+            <div class="md-content" flex>
 
             </div>
-            <div class="material-tile-right">
-                <material-switch ng-model="data.cb1" aria-label="Switch 1">
+            <div class="md-tile-right">
+                <md-switch ng-model="data.cb1" aria-label="Switch 1">
                     Switch 1: {{ data.cb1 }}
-                </material-switch>
+                </md-switch>
             </div>
-        </material-item-content>
-    </material-item>
-</material-toolbar>
+        </md-item-content>
+    </md-item>
+</md-toolbar>
 <article ng-bind-html="myNote.text" id="note" style="font-size: 1.2em;width:100%;"></article>
 <ng-include src="'modules/workspace/comments/templates/comments.tpl.html'" ng-controller="CommentsCtrl"></ng-include>
