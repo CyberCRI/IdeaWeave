@@ -17,7 +17,7 @@
         <img ng-if="project.banner" src="{{ project.banner }}" />
     </div>
     
-    <div ng-if="project.progressIsTrue" layout="row" layout-align="center center">
+    <div ng-if="project.showProgress" layout="row" layout-align="center center">
         <div class="c100 p{{ project.progress }} big">
             <span>{{ project.progress }}%</span>
             <div class="slice">

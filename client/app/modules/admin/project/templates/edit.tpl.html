@@ -39,19 +39,19 @@
             <label for="brief">Brief Description</label>
             <textarea  id="brief" rows="5" style="width:100%;" ng-model="project.brief"></textarea>
         </md-input-container>
-        <md-switch ng-model="project.progressIsTrue" aria-label="progress">
+        <md-switch ng-model="project.showProgress" aria-label="progress">
             Progress indicator
         </md-switch>
         <div layout>
             <div flex="20" layout layout-align="center center">
                 <input type="number" ng-model="project.progress" aria-label="red" aria-controls="red-slider">
             </div>
-            <md-slider ng-disabled="!project.progressIsTrue" flex min="0" max="100" ng-model="project.progress" aria-label="red">
+            <md-slider ng-disabled="!project.showProgress" flex min="0" max="100" ng-model="project.progress" aria-label="red">
             </md-slider>
         </div>
         <md-input-container >
             <label for="trello">Trello Id (like <code>U0aBsIQl</code>)</label>
-            <input ng-disabled="!project.progressIsTrue" id="trello" type="text"ng-model="project.trello" />
+            <input ng-disabled="!project.showProgress" id="trello" type="text"ng-model="project.trello" />
         </md-input-container>
         <md-button flex class="md-raised md-button-colored" type="button" ng-click="updateProject($event)" ng-disabled="">Update</md-button>
     </form>

@@ -20,14 +20,14 @@
             <textarea placeholder="A brief description of your project" rows="5" ng-model="challenge.brief" class="pretty-area"></textarea>
         </md-input-container>
 
-        <md-switch ng-model="challenge.progressIsTrue" aria-label="progress">
+        <md-switch ng-model="challenge.showProgress" aria-label="progress">
             Progress indicator
         </md-switch>
         <div layout>
             <div flex="20" layout layout-align="center center">
                 <input type="number" ng-model="challenge.progress" aria-label="red" aria-controls="red-slider">
             </div>
-            <md-slider ng-disabled="!challenge.progressIsTrue" flex min="0" max="100" ng-model="challenge.progress" aria-label="red">
+            <md-slider ng-disabled="!challenge.showProgress" flex min="0" max="100" ng-model="challenge.progress" aria-label="red">
             </md-slider>
         </div>
 

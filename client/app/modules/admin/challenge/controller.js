@@ -175,7 +175,9 @@ angular.module('cri.admin.challenge',[])
             var data = {
                 title: $scope.challenge.title,
                 tags: _.pluck($scope.challenge.tags, "_id"), // Just take the IDs of tags
-                brief: $scope.challenge.brief
+                brief: $scope.challenge.brief,
+                showProgress : $scope.challenge.showProgress,
+                progress : $scope.challenge.progress
             };
             Challenge.update($scope.challenge._id,data).then(function(){
                 Notification.display('Challenge updated');
