@@ -52,6 +52,12 @@
                 </ui-select-choices>
             </ui-select>
         </div>
+        <md-checkbox required ng-model="signup.term" aria-label="Checkbox Term">
+          I have read and agree to IdeaWeave's terms of use.
+        </md-checkbox>
+        <md-button ng-cloak ui-sref="terms" target="_blank" class="md-primary">
+            Terms of service
+        </md-button>
         <div ng-messages="signupForm.read.$error" ng-if="!signupForm.passwordR.$pristine">
         </div>
         <md-button style="width:100%;" class="md-raised" type="submit" ng-disabled="signupForm.$invalid">Register</md-button>

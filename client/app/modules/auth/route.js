@@ -19,6 +19,15 @@ angular.module('cri.auth')
                     }
                 }
             })
+            .state('terms',{
+                url : '/auth/terms',
+                views : {
+                    mainView: {
+                        templateUrl: 'modules/auth/templates/terms.tpl.html',
+                        controller: 'termsCtrl'
+                    }
+                }
+            })
             .state('forgotPassword',{
                 url : '/auth/forgotPassword',
                 views : {

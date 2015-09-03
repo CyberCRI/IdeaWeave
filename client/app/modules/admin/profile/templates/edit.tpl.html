@@ -1,49 +1,59 @@
-<section layout="column" layout-fill>
-    <md-toolbar class="md-theme-green" scroll-shrink>
-        <h2 class="center">Edit your profile</h2>
-    </md-toolbar>
-    <md-content flex class="right-part">
-        <form name="basicForm">
-            <md-input-container>
-                <label for="username">User name</label>
-                <input type="text" id="username" ng-model="profile.username"></input>
-            </md-input-container>
-            <ui-select ng-model="profile.localisation"
-                       theme="selectize"
-                       reset-search-input="false">
-                <ui-select-match placeholder="Enter an address...">{{$select.selected.formatted_address}}</ui-select-match>
-                <ui-select-choices repeat="address in addresses track by $index"
-                                   refresh="refreshAddresses($select.search)"
-                                   refresh-delay="0">
-                    <div ng-bind-html="address.formatted_address | highlight: $select.search"></div>
-                </ui-select-choices>
-            </ui-select>
-            <tag-manager entity='profile' ng-model='profile.tags'></tag-manager>
-            <section layout="column">
-                <md-button ng-click="editPageModal()">
-                    Edit your personal page
-                </md-button>
-                <md-button ng-click="cropPosterModal()">
-                    Change poster
-                </md-button>
-                <md-button ng-click="resetPassModal()">
-                    Reset Password
-                </md-button>
-            </section>
-            <section layout="column">
-                <header>
-                    <h3 class="center">Notifications</h3>
-                </header>
-                <section>
-                    <md-checkbox ng-model="profile.liveNotification">
-                        Live
-                    </md-checkbox>
-                    <md-checkbox ng-model="profile.mailNotification">
-                        Email
-                    </md-checkbox>
-                </section>
-            </section>
-            <md-button style="width:100%;" class="md-raised"  ng-click="updateProfile(profile)">Update Profile</md-button>
-        </form>
+<md-content>
+    <md-content layout="row" layout-align="center" layout-margin>
+        <section class="md-whiteframe-z2" flex-gt-sm="75" layout="column">
+            <md-toolbar class="md-theme-green" scroll-shrink>
+                <h2 class="center">Edit your profile</h2>
+            </md-toolbar>
+            <md-content flex class="right-part" layout-padding>
+                <form name="basicForm">
+                    <header>
+                        <h3 class="center">INFORMATIONS</h3>
+                    </header>
+                    <md-input-container>
+                        <label for="username">User name</label>
+                        <input type="text" id="username" ng-model="profile.username"></input>
+                    </md-input-container>
+                    <ui-select ng-model="profile.localisation"
+                               theme="selectize"
+                               reset-search-input="false">
+                        <ui-select-match placeholder="Enter an address...">{{$select.selected.formatted_address}}</ui-select-match>
+                        <ui-select-choices repeat="address in addresses track by $index"
+                                           refresh="refreshAddresses($select.search)"
+                                           refresh-delay="0">
+                            <div ng-bind-html="address.formatted_address | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                    <tag-manager entity='profile' ng-model='profile.tags'></tag-manager>
+                    <section layout="column">
+                        <md-button class="md-primary md-whiteframe-z2" ng-click="editPageModal()">
+                            Edit your personal page
+                        </md-button>
+                        <md-button class="md-primary md-whiteframe-z2" ng-click="cropPosterModal()">
+                            Change poster
+                        </md-button>
+                        <md-button class="md-primary md-whiteframe-z2" ng-click="resetPassModal()">
+                            Reset Password
+                        </md-button>
+                    </section>
+                    <section layout="column">
+
+                        <md-divider layout-margin></md-divider>
+
+                        <header>
+                            <h3 class="center">NOTIFICATIONS</h3>
+                        </header>
+                        <section>
+                            <md-checkbox ng-model="profile.liveNotification">
+                                Live
+                            </md-checkbox>
+                            <md-checkbox ng-model="profile.mailNotification">
+                                Email
+                            </md-checkbox>
+                        </section>
+                    </section>
+                    <md-button class="md-raised md-primary update-button"  ng-click="updateProfile(profile)">Update Profile</md-button>
+                </form>
+            </md-content>
+        </section>
     </md-content>
-</section>
+</md-content>

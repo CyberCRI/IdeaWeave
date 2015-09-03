@@ -1,5 +1,5 @@
 angular.module('cri.admin.profile',['cri.profile'])
-    .controller('AdminProfileCtrl', function ($scope,$rootScope,Profile,Gmap,Notification,$mdDialog) {
+    .controller('AdminProfileCtrl', function ($scope,$state,$rootScope,Profile,Gmap,Notification,$mdDialog) {
         Profile.getMe().then(function(me) {
             $scope.profile = me;
             delete $scope.profile._id;
@@ -64,6 +64,7 @@ angular.module('cri.admin.profile',['cri.profile'])
                             profile.brief = $scope.brief;
                             Profile.update(currentUser._id, profile).then(function(data){
                                 Notification.display('Updated successfully');
+                                $state.go('profile',{ uid : currentUser._id });
                             }).catch(function(err){
                                 Notification.display(err.message);
                             }).finally(function(){
@@ -110,7 +111,8 @@ angular.module('cri.admin.profile',['cri.profile'])
             $scope.updateProfile=function(){
                 Profile.update($scope.currentUser._id, $scope.profile).then(function(data){
                     Notification.display('Updated successfully');
-                    $rootScope.currentUser = data; // update the current user 
+                    $rootScope.currentUser = data; // update the current user
+                    $state.go('profile',{ uid : $scope.currentUser._id });
                 }).catch(function(err){
                     Notification.display(err.message);
                 });

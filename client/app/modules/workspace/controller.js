@@ -1,6 +1,10 @@
 angular.module('cri.workspace',[])
-    .controller('WorkspaceCtrl',function($scope,NoteLab,Challenge,$mdSidenav,project,$state){
+    .controller('WorkspaceCtrl',function($scope,NoteLab,Challenge,$mdSidenav,project,$state,$mdDialog,Notification,Config,$stateParams,Files){
         $scope.project = project[0];
+
+
+        $scope.etherpadTemplateUrl = '';
+        $scope.etherpadTemplateUrl = 'modules/workspace/templates/etherpad.tpl.html';
 
         var leftNav;
         $scope.toggle = function(){
@@ -23,10 +27,10 @@ angular.module('cri.workspace',[])
         else if($state.current.name == "workspace.file") $scope.selectedTabIndex = 1;
         else if($state.current.name == "workspace.resources") $scope.selectedTabIndex = 2;
         else $scope.selectedTabIndex = -1;
-    }).controller('NoteEtherpadCtrl', function($scope) {
-        // Nothing here yet...
-    })
-    .controller('NoteResourcesCtrl',function($scope,NoteLab,$stateParams,Notification,$mdDialog){
+
+
+
+
         $scope.addResourceModal = function(e) {
             $mdDialog.show({
                 templateUrl: 'modules/workspace/templates/modal/addResourceModal.tpl.html',
@@ -67,8 +71,9 @@ angular.module('cri.workspace',[])
         }).catch(function(err){
             Notification.display(err);
         });
-    })
-    .controller('NoteFilesCtrl',function($scope,Files,NoteLab,$mdDialog,$stateParams,Notification,Config){
+
+
+
         $scope.files = [];
         NoteLab.listFiles($scope.project._id).then(function(data){
             $scope.files = data || [];
@@ -150,7 +155,7 @@ angular.module('cri.workspace',[])
                     $scope.description = null;
 
                     $scope.$watch('selectedFiles', function () {
-                        if(!$scope.selectedFiles || $scope.selectedFiles.length == 0) return;
+                        if(!$scope.selectedFiles || $scope.selectedFiles.length === 0) return;
 
                         $scope.file = $scope.selectedFiles[0];
                         if(Files.isImage($scope.file)){

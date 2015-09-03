@@ -6,7 +6,6 @@ $visitorColor : #fff4f4;
 
 .list-resource {
   padding-right:20px;
-  padding-left:20px;
 }
 
 md-tabs{
@@ -52,4 +51,21 @@ md-tabs{
 
 .upload-file-modal {
   min-width: 500px;
+}
+
+.link-icon {
+  width: 48px;
+  margin: 16px;
+  margin-top: 25px;
+  color: black;
+}
+
+.icon-file {
+  margin-left: 16px;
+}
+
+.remove-url {
+  float: right;
+  vertical-align: middle;
+  margin-top: 25px;
 }

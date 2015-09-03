@@ -1,53 +1,56 @@
-<md-content layout="column" layout-md="horizontal" layout-fill>
-    <md-sidenav class="md-sidenav-left md-whiteframe-z2 left" component-id="left" >
-        <md-content>
-            <md-toolbar layout="row">
-                <div class="md-toolbar-tools">
-                    <i class="fa fa-lightbulb-o"> Challenge us!</i>
-                </div>
-            </md-toolbar>
-            <aside>
-                <p>Describe your challenge to us. Start with a catchy title. Then give us starting and ending dates, an address of where the challenge will take place, and a longer description of what your challenge is about.</p>
-                <p>Don't forget to enter tags for the challenge, and create them if they don't already exist. These tags will draw interested users to your challenge.</p>
-            </aside>
-        </md-content>
-    </md-sidenav>
-    <md-content flex class="right-part">
-        <h2>New Challenge</h2>
-        <md-form name="cform" layout="column" layout-align="">
-            <md-input-container>
-                <label for="title">Title</label>
-                <input id="title" type="text" ng-model="pform.title" ng-change="titleChange(pform.title)"/>
-            </md-input-container>
-            <tag-manager entity="pform"></tag-manager>
-            <ui-select ng-model="pform.localisation"
-                       theme="selectize"
-                       reset-search-input="false"
-                       style="width:100%">
-                <ui-select-match placeholder="Enter an address...">{{$select.selected.formatted_address}}</ui-select-match>
-                <ui-select-choices repeat="address in addresses track by $index"
-                                   refresh="refreshAddresses($select.search)"
-                                   refresh-delay="0">
-                    <div ng-bind-html="address.formatted_address | highlight: $select.search"></div>
-                </ui-select-choices>
-            </ui-select>
-            <md-input-container>
-                <label for="startdate" style="padding-left:100px;">Start date</label>
-                <input type="date" id="startdate" ng-model="pform.startDate"></input>
-            </md-input-container>
-            <md-input-container>
-                <label for="endDate" style="padding-left:100px;">End date</label>
-                <input type="date" id="endDate" ng-model="pform.endDate"></input>
-            </md-input-container>
+<md-content>
+    <md-content layout="row" layout-align="center" layout-margin>
+        <section class="md-whiteframe-z2" flex-gt-sm="75" layout-padding layout="column">
+            <md-sidenav class="md-sidenav-left md-whiteframe-z2 left" component-id="left" >
+                <md-content>
+                    <md-toolbar layout="row">
+                        <div class="md-toolbar-tools">
+                            <i class="fa fa-lightbulb-o"> Challenge us!</i>
+                        </div>
+                    </md-toolbar>
+                    <aside>
+                        <p>Describe your challenge to us. Start with a catchy title. Then give us starting and ending dates, an address of where the challenge will take place, and a longer description of what your challenge is about.</p>
+                        <p>Don't forget to enter tags for the challenge, and create them if they don't already exist. These tags will draw interested users to your challenge.</p>
+                    </aside>
+                </md-content>
+            </md-sidenav>
+            <md-content flex class="right-part">
+                <h2>New Challenge</h2>
+                <md-form name="cform" layout="column" layout-align="">
+                    <md-input-container>
+                        <label for="title">Title</label>
+                        <input id="title" type="text" ng-model="pform.title" ng-change="titleChange(pform.title)"/>
+                    </md-input-container>
+                    <tag-manager entity="pform"></tag-manager>
+                    <ui-select ng-model="pform.localisation"
+                               theme="selectize"
+                               reset-search-input="false">
+                        <ui-select-match placeholder="Enter an address...">{{$select.selected.formatted_address}}</ui-select-match>
+                        <ui-select-choices repeat="address in addresses track by $index"
+                                           refresh="refreshAddresses($select.search)"
+                                           refresh-delay="0">
+                            <div ng-bind-html="address.formatted_address | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                    <md-input-container>
+                        <label for="startdate" style="padding-left:100px;">Start date</label>
+                        <input type="date" id="startdate" ng-model="pform.startDate"></input>
+                    </md-input-container>
+                    <md-input-container>
+                        <label for="endDate" style="padding-left:100px;">End date</label>
+                        <input type="date" id="endDate" ng-model="pform.endDate"></input>
+                    </md-input-container>
 
-            <md-input-container>
-                <label>Short Description</label>
-                <textarea placeholder="A short description of your challenge" ng-model="pform.brief" rows="5" style="width:100%;"></textarea>
-            </md-input-container>
+                    <md-input-container>
+                        <label>Short Description</label>
+                        <textarea placeholder="A short description of your challenge" ng-model="pform.brief" rows="5"></textarea>
+                    </md-input-container>
 
-            <div>
-                <md-button style="width:100%;" ng-click="createChallenge(pform)" class="md-raised">{{'BTN_SUBMIT'|translate}}</md-button>
-            </div>
-        </md-form>
+                    <div>
+                        <md-button style="width:90%; display: block; margin: auto;" ng-click="createChallenge(pform)" class="md-raised">{{'BTN_SUBMIT'|translate}}</md-button>
+                    </div>
+                </md-form>
+            </md-content>
+        </section>
     </md-content>
 </md-content>
