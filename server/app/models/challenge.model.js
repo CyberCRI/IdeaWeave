@@ -71,6 +71,14 @@ var ChallengeSchema = new Schema({
             unique : true
         }
     ],
+    showProgress : {
+        type : Boolean,
+        default : false
+    },
+    progress : {
+        type : Number,
+        default : 0
+    },
     projectNumber : {
         type : Number,
         default : 0

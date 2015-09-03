@@ -21,6 +21,18 @@
         <img ng-if="challenge.banner" src="{{ challenge.banner }}" >
     </div>
 
+    <br>
+
+    <div ng-if="challenge.showProgress" layout="row" layout-align="center center">
+        <div class="c100 p{{ challenge.progress }} big">
+            <span>{{ challenge.progress }}%</span>
+            <div class="slice">
+                <div class="bar"></div>
+                <div class="fill"></div>
+            </div>
+        </div>
+    </div>
+
     <div layout="column">
         <md-button ui-sref="challengeAdmin({ cid : challenge._id })" ng-if="isOwner">
             <i class="fa fa-pencil-square-o baseColor"></i> Edit
