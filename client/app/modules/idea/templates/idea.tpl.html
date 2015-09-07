@@ -23,6 +23,10 @@
                 <i class="fa fa-pencil-square-o baseColor"></i> Edit
             </md-button>
 
+            <md-button ng-click="removeIdea()" class="md-warn" ng-if="isOwner">
+                <i class="fa fa-trash"></i> Remove
+            </md-button>
+
             <div layout="row">
                 <div>
                     <span>

@@ -14,7 +14,7 @@ angular.module('cri.idea', ['ngSanitize'])
             });
         }
     })
-    .controller('IdeaCtrl', function ($scope, Idea, Notification, challenges, projects, idea) {
+    .controller('IdeaCtrl', function ($scope, $state, Idea, Notification, challenges, projects, idea) {
         $scope.idea = idea;
         $scope.isOwner = ($scope.currentUser && $scope.currentUser._id == idea.owner._id);
 
@@ -40,6 +40,8 @@ angular.module('cri.idea', ['ngSanitize'])
                 } else {
                     Notification.display('You are not following this idea anymore');
                 }
+            }).catch(function(err){
+                Notification.display(err.message);
             });
         };
 
@@ -53,6 +55,8 @@ angular.module('cri.idea', ['ngSanitize'])
 
                 // Clear select box
                 $scope.newLink.project = null;
+            }).catch(function(err){
+                Notification.display(err.message);
             });
         };
 
@@ -63,6 +67,8 @@ angular.module('cri.idea', ['ngSanitize'])
 
                 // Refresh idea
                 $scope.idea = newIdea;
+            }).catch(function(err){
+                Notification.display(err.message);
             });
         }; 
 
@@ -77,6 +83,8 @@ angular.module('cri.idea', ['ngSanitize'])
 
                 // Clear select box
                 $scope.newLink.challenge = null;
+            }).catch(function(err){
+                Notification.display(err.message);
             });
         };
 
@@ -87,8 +95,20 @@ angular.module('cri.idea', ['ngSanitize'])
 
                 // Refresh idea
                 $scope.idea = newIdea;
+            }).catch(function(err){
+                Notification.display(err.message);
             });
         }; 
+
+        $scope.removeIdea = function() {
+            Idea.remove(idea._id).then(function() {
+                Notification.display("Removed idea");
+
+                $state.go("home");
+            }).catch(function(err){
+                Notification.display(err.message);
+            });
+        };
     })
     .controller('IdeaEditCtrl', function ($scope, Idea, idea, Notification, $state) {
         $scope.idea = idea;

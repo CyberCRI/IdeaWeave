@@ -108,6 +108,7 @@ exports.update = function(req, res) {
         if(!canModifyIdea(req.user, idea)) {
             return res.json(403, "You are not allowed to modify this idea");
         };
+        idea.title = req.body.title;
         idea.brief = req.body.brief;
         idea.language = req.body.language;
         idea.tags = req.body.tags;
@@ -129,15 +130,32 @@ exports.update = function(req, res) {
 };
 
 exports.remove = function(req, res) {
-    Idea.findOneAndRemoveQ({_id : req.params.id}).then(function(idea) {
-        var myNotif = new Notification({
-            type : 'remove',
-            owner : req.user._id,
-            entity : idea._id,
-            entityType : 'idea'
+    // TODO : check that you can remove ideas
+    Idea.findOneQ({_id : req.params.id}).then(function(idea) {
+        if(!canModifyIdea(req.user, idea)) {
+            return res.json(403, "You are not allowed to remove this idea");
+        };
+
+        var projectUpdates = _.map(idea.projects, function(projectId) {
+            return Project.updateQ({_id: projectId},{$pull: {ideas: req.params.id}});
         });
-        myNotif.saveQ().then(function() {
-            res.json(idea);
+        var challengeUpdates = _.map(idea.projects, function(challengeId) {
+            return Challenge.updateQ({_id: challengeId},{$pull: {ideas: req.params.id}});
+        });
+        var ideaUpdate = Idea.removeQ({_id : req.params.id});
+
+        return q.all(_.flatten([projectUpdates, challengeUpdates, ideaUpdate])).then(function() {
+            var myNotif = new Notification({
+                type : 'remove',
+                owner : req.user._id,
+                entity : req.params.id,
+                entityType : 'idea'
+            });
+            myNotif.saveQ().then(function() {
+                res.json(200);
+            });
+        }).fail(function(err) {
+            res.json(500, err);
         });
     }).fail(function(err) {
         res.json(400, err);
