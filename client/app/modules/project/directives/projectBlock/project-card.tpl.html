@@ -1,40 +1,39 @@
 <a ui-sref="project.home({ pid : project.accessUrl })">
-    <img ng-src="{{project.poster || '/images/placeholder100x100.png'}}" alt="Project poster" class="md-card-image" width="100px">
+    <img ng-src="{{project.poster || '/images/placeholder100x100.png'}}" alt="Project poster" class="md-card-image" width="100%">
 </a>
-<md-button ng-if="admin && isHovered" ui-sref="projectAdmin({ pid : project._id })">
-    <i class="fa fa-gears"></i>
-    Admin
-</md-button>
-<a ui-sref="project.home({ pid : project.accessUrl })">
-    <h4>{{ project.title }}</h4>
-</a>
-<div class="text-muted" layout="row" layout-align="start center">
-    <div>
-        By:
+<md-content layout-padding style="cursor:hand;">
+    <md-button ng-if="admin && isHovered" ui-sref="projectAdmin({ pid : project._id })">
+        <i class="fa fa-gears"></i>
+        Admin
+    </md-button>
+    <a style="text-decoration: none; color: black;" ui-sref="project.home({ pid : project.accessUrl })">
+        <h4 style="margin: 0;font-size:1.3em;">{{ project.title }}</h4>
+    </a>
+    <div font-size="font-size:0.7em;" class="text-muted" layout="row" style="margin:2px;" layout-align="start center">
+            <span style="margin:2px;font-size:0.7em;">By:</span>
+        <user-info ng-if="project.owner" user-id="project.owner" flex></user-info>
     </div>
-    <user-info ng-if="project.owner" user-id="project.owner" flex></user-info>
-</div>
-<p class="text-muted" ng-bind="project.brief"></p>
-<showtags entity="project"></showtags>
-<div layout="row">
-    <div flex layout="row" class="text-muted">
-        <span>
-            {{ project.followers.length }}
-        </span>
+    <p style="margin:2px;font-size:0.7em;" class="text-muted" ng-bind="project.brief"></p>
+    <div layout="row" style="margin-top: 5px;">
+        <div flex layout="row" class="text-muted">
+            <span style="font-size:0.7em;">
+                {{ project.followers.length }}
+            </span>
+            &nbsp;
+            <span style="font-size:0.7em;">
+                Followers
+            </span>
+        </div>
         &nbsp;
-        <span>
-            Followers
-        </span>
-    </div>
-    &nbsp;
-    &nbsp;
-    <div flex layout="row" class="text-muted">
-        <span>
-            {{ project.members.length }}
-        </span>
         &nbsp;
-        <span class="text-muted">
-            Members
-        </span>
+        <div flex layout="row" class="text-muted">
+            <span style="font-size:0.7em;">
+                {{ project.members.length }}
+            </span>
+            &nbsp;
+            <span style="font-size:0.7em;" class="text-muted">
+                Members
+            </span>
+        </div>
     </div>
-</div>
+</md-content>
