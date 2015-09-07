@@ -42,19 +42,14 @@
     </ul>
 
     <article>
-        <h1 class="center" >Popular Projects</h1>
-        <md-grid-list md-cols="3" md-row-height="400px">
+        <h1 style="font-size:3em;" class="center" >Popular Projects</h1>
+        <md-grid-list md-cols="3" md-row-height="500px">
             <md-grid-tile ng-repeat="project in projects">
-                <project-card class="md-whiteframe-z2" my-project="project" style="height: 400px; padding: 20px"></project-card> 
-            </md-grid-tile>            
+                <project-card class="md-whiteframe-z2" my-project="project" style="height: 410px;"></project-card> 
+            </md-grid-tile>
         </md-grid-list>
-
-
     </article>
 
     <br>
     <br>
-
-    <!--<ng-include src="'modules/footer/templates/footer.tpl.html'"></ng-include>-->
-
 </md-content>

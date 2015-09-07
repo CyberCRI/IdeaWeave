@@ -87,7 +87,7 @@ angular.module('cri.challenge', ['ngSanitize'])
             });
         };
     })
-    .controller('ChallengeCtrl', function($scope,Challenge,challenge,Notification,$state,Project,$rootScope,NoteLab,$mdDialog) {
+    .controller('ChallengeCtrl', function($scope,Challenge,challenge,Notification,$state,Project,$rootScope,NoteLab,$mdDialog,$analytics) {
         if(challenge.length == 0) {
             Notification.display('Cannot find the requested challenge');
             $state.go("home");
@@ -127,7 +127,7 @@ angular.module('cri.challenge', ['ngSanitize'])
                     Notification.display('You are not following this challenge anymore');
                     $scope.challenge.followers.splice($scope.challenge.followers.indexOf($scope.currentUser._id), 1);
                     $scope.isFollow = false;
-
+                    $analytics.eventTrack("unfollowChallenge");
                 }).catch(function(err){
                     Notification.display(err.message);
                 });
@@ -136,6 +136,7 @@ angular.module('cri.challenge', ['ngSanitize'])
                     Notification.display('You are now following this challenge');
                     $scope.challenge.followers.push($scope.currentUser._id);
                     $scope.isFollow = true;
+                    $analytics.eventTrack("followChallenge");
                 }).catch(function(err){
                     Notification.display(err.message);
                 });

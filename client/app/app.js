@@ -30,6 +30,8 @@ angular.module('cri', [
     'cri.challenge',
     'cri.tag',
     'cri.profile',
+    'angulartics', 
+    'angulartics.google.analytics',
     'cri.notes',
     'cri.idea',
     'ngCookies'])

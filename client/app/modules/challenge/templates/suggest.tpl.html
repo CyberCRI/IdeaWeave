@@ -45,9 +45,8 @@
                         <label>Short Description</label>
                         <textarea placeholder="A short description of your challenge" ng-model="pform.brief" rows="5"></textarea>
                     </md-input-container>
-
                     <div>
-                        <md-button style="width:90%; display: block; margin: auto;" ng-click="createChallenge(pform)" class="md-raised">{{'BTN_SUBMIT'|translate}}</md-button>
+                        <md-button style="width:90%; display: block; margin: auto;" ng-click="createChallenge(pform)" class="md-raised" analytics-on analytics-event="createChallenge">{{'BTN_SUBMIT'|translate}}</md-button>
                     </div>
                 </md-form>
             </md-content>

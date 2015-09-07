@@ -15,9 +15,8 @@
                         <label>What's your idea?</label>
                         <textarea placeholder="What's your idea?" ng-model="idea.brief" rows="5"></textarea>
                     </md-input-container>
-
                     <div>
-                        <md-button style="display: block; width: 90%; margin: auto;" ng-click="onDone()" class="md-raised">Submit Idea</md-button>
+                        <md-button style="display: block; width: 90%; margin: auto;" ng-click="onDone()" class="md-raised" analytics-on analytics-event="createIdea">Submit Idea</md-button>
                     </div>
                 </md-form>
             </md-content>

@@ -1,5 +1,5 @@
 angular.module('cri.project',[])
-    .controller('ProjectCtrl', function($scope,Project,project, Notification,$mdDialog,$rootScope,$state) {
+    .controller('ProjectCtrl', function($scope,Project,project, Notification,$mdDialog,$rootScope,$state,$analytics) {
         if(project.length == 0) {
             Notification.display('Cannot find the requested project');
             $state.go("home");
@@ -70,6 +70,7 @@ angular.module('cri.project',[])
                     Notification.display('You will no longer be notified about this project');
                     $scope.project.followers.splice($scope.project.followers.indexOf($scope.currentUser._id),1);
                     $scope.isFollow=false;
+                    $analytics.eventTrack("unfollowProject");
                 }).catch(function(err){
                     Notification.display(err.message);
                 });
@@ -82,6 +83,7 @@ angular.module('cri.project',[])
                     Notification.display('You will now be notified about this project');
                     $scope.project.followers.push($scope.currentUser._id);
                     $scope.isFollow=true;
+                    $analytics.eventTrack("followProject");
                 }).catch(function(err){
                     Notification.display(err.message);
                 });
