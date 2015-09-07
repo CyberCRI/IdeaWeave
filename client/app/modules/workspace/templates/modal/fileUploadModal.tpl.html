@@ -6,7 +6,7 @@
         </div>
         
         <div ng-if="file">
-            <md-button class="md-fab" ng-click="upload(file, file.description)">
+            <md-button class="md-fab" ng-click="upload(file, file.description)"  analytics-on analytics-event="updateFile">
                 <i class="fa fa-cloud-upload"></i>
             </md-button>
             <md-button class="md-fab" ng-click="cancelUpload()">

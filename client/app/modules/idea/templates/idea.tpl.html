@@ -12,7 +12,7 @@
                     <i class="fa fa-star baseColor"></i> Following
                 </div>
 
-                <md-button class="md-fab md-raised" ng-click="follow()" style="position:absolute; right:20px; z-index: inherit" ng-class="{ 'md-accent' : isFollowing() }" ng-if="currentUser && !isOwner">
+                <md-button class="md-fab md-raised" ng-click="follow()" style="position:absolute; right:20px; z-index: inherit" ng-class="{ 'md-accent' : isFollowing() }" ng-if="currentUser && !isOwner" analytics-on analytics-event="like">
                     <i class="fa fa-thumbs-up"></i>
                 </md-button>
             </md-toolbar>
@@ -80,7 +80,7 @@
                             </ui-select-choices>
                         </ui-select>
 
-                        <md-button ng-click="addLinkToProject()">
+                        <md-button ng-click="addLinkToProject()" analytics-on analytics-event="linkIdeaToProject">
                             <i class="fa fa-plus baseColor"></i> Add Project
                         </md-button>
 
@@ -107,7 +107,7 @@
                             </ui-select-choices>
                         </ui-select>
 
-                        <md-button ng-click="addLinkToChallenge()">
+                        <md-button ng-click="addLinkToChallenge()" analytics-on analytics-event="linkIdeaToChallenge">
                             <i class="fa fa-plus baseColor"></i> Add Challenge
                         </md-button>
                     </div>

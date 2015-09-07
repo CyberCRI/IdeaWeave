@@ -16,7 +16,7 @@
             <div class="md-tile-content" layout="column" layout-align="start center">
                 <p>
                     <a ng-href="{{ url.text }}" target="_blank" class="url">{{ url.title }}</a>
-                    <md-button ng-click="removeUrl(url)"><i class="fa fa-times"></i></md-button>
+                    <md-button ng-click="removeUrl(url)"><i class="fa fa-times"  analytics-on analytics-event="removeLink"></i></md-button>
                 </p>
                 <p>
                     {{ url.description }}
