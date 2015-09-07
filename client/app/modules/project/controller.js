@@ -1,5 +1,5 @@
 angular.module('cri.project',[])
-    .controller('ProjectCtrl', function($scope,Project,project, Notification,$mdDialog,$rootScope) {
+    .controller('ProjectCtrl', function($scope,Project,project, Notification,$mdDialog,$rootScope,$analytics) {
         $scope.project = project[0];
         
         $scope.isOwner = $scope.currentUser ? $scope.currentUser._id == $scope.project.owner._id : false;
@@ -64,6 +64,7 @@ angular.module('cri.project',[])
                     Notification.display('You will no longer be notified about this project');
                     $scope.project.followers.splice($scope.project.followers.indexOf($scope.currentUser._id),1);
                     $scope.isFollow=false;
+                    $analytics.eventTrack("unfollowProject");
                 }).catch(function(err){
                     Notification.display(err.message);
                 });
@@ -76,6 +77,7 @@ angular.module('cri.project',[])
                     Notification.display('You will now be notified about this project');
                     $scope.project.followers.push($scope.currentUser._id);
                     $scope.isFollow=true;
+                    $analytics.eventTrack("followProject");
                 }).catch(function(err){
                     Notification.display(err.message);
                 });

@@ -14,7 +14,7 @@ angular.module('cri.idea', ['ngSanitize'])
             });
         }
     })
-    .controller('IdeaCtrl', function ($scope, Idea, Notification, challenges, projects, idea) {
+    .controller('IdeaCtrl', function ($scope, $analytics, Idea, Notification, challenges, projects, idea) {
         $scope.idea = idea;
         $scope.isOwner = ($scope.currentUser && $scope.currentUser._id == idea.owner._id);
 
@@ -37,8 +37,10 @@ angular.module('cri.idea', ['ngSanitize'])
                 idea.followers = data.followers;
                 if($scope.isFollowing()) {
                     Notification.display('You are now following this idea');
+                    $analytics.eventTrack("followIdea");
                 } else {
                     Notification.display('You are not following this idea anymore');
+                    $analytics.eventTrack("unfollowIdea");
                 }
             });
         };

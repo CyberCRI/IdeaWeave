@@ -25,14 +25,14 @@
                     Password must contain at least one capital letter
                 </div>
             </div>
-            <md-button class="md-raised md-primary" ng-click="login($event)" ng-disabled="signinForm.$invalid">
+            <md-button class="md-raised md-primary" ng-click="login($event)" ng-disabled="signinForm.$invalid" analytics-on analytics-event="signInEmail">
                 <span class="faa-spin animated" ng-if="loader['email']">
                     <i class="fa fa-2x fa-spinner"></i>
                 </span>
                 <i class="fa fa-sign-in"> Sign In with Email</i>
             </md-button>
             <div>
-                <md-button class="md-raised md-primary" ng-click="authenticate('google')">
+                <md-button class="md-raised md-primary" ng-click="authenticate('google')" analytics-on analytics-event="signInGoogle">
                     <i class="fa fa-google"> Sign in with Google</i>
                 </md-button>
             </div>

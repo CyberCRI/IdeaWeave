@@ -2,10 +2,10 @@
     <md-toolbar>
         <div layout="row">
             <div flex></div>
-            <md-button class="md-fab" ng-href="{{ fileDetails.url }}" target="_blank">
+            <md-button class="md-fab" ng-href="{{ fileDetails.url }}" target="_blank" analytics-on analytics-event="downloadFile">
                 <i class="fa fa-download"></i>
             </md-button>
-            <md-button class="md-fab" ng-click="removeFile()">
+            <md-button class="md-fab" ng-click="removeFile()" analytics-on analytics-event="deleteFile">
                 <i class="fa fa-trash"></i>
             </md-button>
             <md-button class="md-fab" ng-click="cancel()">

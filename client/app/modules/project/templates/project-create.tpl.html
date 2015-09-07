@@ -46,7 +46,7 @@
                         <textarea rows="5" style="width:100%;border:solid 1px darkgray" ng-model="newProject.brief"></textarea>
                     </md-input-container>
 
-                    <md-button  class="md-raised" type="button" ng-click="createProject(newProject)">
+                    <md-button  class="md-raised" type="button" ng-click="createProject(newProject)" analytics-on analytics-event="createProject">
                         <span class="faa-spin animated" ng-if="isLoading">
                             <i class="fa fa-spinner"></i>
                         </span>

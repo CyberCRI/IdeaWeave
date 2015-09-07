@@ -1,4 +1,5 @@
-var q = require('q'),
+var fs = require('fs'),
+    q = require('q'),
     mongoose = require('mongoose-q')(),
     Project = mongoose.model('Project'),
     Challenge = mongoose.model('Challenge'),
