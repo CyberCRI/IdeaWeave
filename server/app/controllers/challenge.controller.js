@@ -1,4 +1,5 @@
 var mongoose = require('mongoose-q')(),
+    Project = mongoose.model('Project'),
     Challenge = mongoose.model('Challenge'),
     Tags = mongoose.model('Tag'),
     Notification = mongoose.model('Notification'),
@@ -7,6 +8,9 @@ var mongoose = require('mongoose-q')(),
     _ = require('lodash'),
     q = require('q');
 
+function canModifyChallenge(user, challenge) {
+    return user._id.toString() == challenge.owner.toString();
+};
 
 exports.createTemplate = function(req,res){
     var myTemplate = req.body;
@@ -154,7 +158,7 @@ exports.create = function(req,res){
     req.body.owner = req.user._id;
     var challenge = new Challenge(req.body);
 
-    challenge.saveQ().then(function(data){
+    return challenge.saveQ().then(function(data){
         var myNotif =  new Notification({
             type : 'create',
             owner : req.user._id,
@@ -162,7 +166,7 @@ exports.create = function(req,res){
             entityType : 'challenge'
         });
         console.log("Saving notification...");
-        myNotif.saveQ().then(function(notif){
+        return myNotif.saveQ().then(function(notif){
             res.json(data);
         }).fail(function(err) {
             res.json(500, err);
@@ -173,15 +177,19 @@ exports.create = function(req,res){
 };
 
 exports.update = function(req,res){
-    Challenge.findOneAndUpdateQ({ _id : req.params.id },req.body).then(function(data){
-        var myNotif = new Notification({
-            type : 'update',
-            owner : req.user._id,
-            entity : data._id,
-            entityType : 'challenge'
-        });
-        myNotif.saveQ().then(function() {
-            res.json(data);
+    Challenge.findOneQ({ _id: req.params.id }).then(function(challenge) {
+        if(!canModifyChallenge(req.user, challenge)) return res.json(403, { message: "You are not allowed to modify this challenge" });
+
+        return Challenge.findOneAndUpdateQ({ _id : req.params.id },req.body).then(function(data){
+            var myNotif = new Notification({
+                type : 'update',
+                owner : req.user._id,
+                entity : data._id,
+                entityType : 'challenge'
+            });
+            return myNotif.saveQ().then(function() {
+                res.json(data);
+            });
         });
     }).fail(function(err){
         res.json(400,err);
@@ -189,15 +197,22 @@ exports.update = function(req,res){
 };
 
 exports.remove = function(req,res){
-    Challenge.findOneAndRemoveQ({_id : req.params.id}).then(function(data){
-        var myNotif = new Notification({
-            type : 'remove',
-            owner : req.user._id,
-            entity : data._id,
-            entityType : 'challenge'
-        });
-        myNotif.saveQ().then(function() {
-            res.json(data);
+    Challenge.findOneQ({ _id: req.params.id }).then(function(challenge) {
+        if(!canModifyChallenge(req.user, challenge)) return res.json(403, { message: "You are not allowed to modify this challenge" });
+
+        var projectUpdateQuery = Project.updateQ({ container: req.params.id }, { container: null });
+        var challengeRemovalQuery = Challenge.findOneAndRemoveQ({_id : req.params.id});
+
+        return q.all([projectUpdateQuery, challengeRemovalQuery]).then(function(data){
+            var myNotif = new Notification({
+                type : 'remove',
+                owner : req.user._id,
+                entity : req.params.id,
+                entityType : 'challenge'
+            });
+            return myNotif.saveQ().then(function() {
+                res.json(data);
+            });
         });
     }).fail(function(err){
         res.json(400,err);

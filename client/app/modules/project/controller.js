@@ -1,5 +1,11 @@
 angular.module('cri.project',[])
-    .controller('ProjectCtrl', function($scope,Project,project, Notification,$mdDialog,$rootScope,$analytics) {
+    .controller('ProjectCtrl', function($scope,Project,project, Notification,$mdDialog,$rootScope,$state,$analytics) {
+        if(project.length == 0) {
+            Notification.display('Cannot find the requested project');
+            $state.go("home");
+            return;
+        }
+
         $scope.project = project[0];
         
         $scope.isOwner = $scope.currentUser ? $scope.currentUser._id == $scope.project.owner._id : false;

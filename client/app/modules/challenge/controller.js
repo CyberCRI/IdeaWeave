@@ -88,6 +88,12 @@ angular.module('cri.challenge', ['ngSanitize'])
         };
     })
     .controller('ChallengeCtrl', function($scope,Challenge,challenge,Notification,$state,Project,$rootScope,NoteLab,$mdDialog,$analytics) {
+        if(challenge.length == 0) {
+            Notification.display('Cannot find the requested challenge');
+            $state.go("home");
+            return;
+        }
+
         $scope.challenge = challenge[0];
 
         if($scope.currentUser){

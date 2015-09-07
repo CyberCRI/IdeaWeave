@@ -13,6 +13,15 @@ var fs = require('fs'),
     _ = require('lodash');
 
 
+function canModifyProject(user, project) {
+    var projectMemberIds = _.map(project.members, function(member) { member.toString(); });
+    return user._id.toString() == project.owner.toString() || _.contains(projectMemberIds, user._id.toString());
+};
+
+function canRemoveProject(user, project) {
+    return user._id.toString() == project.owner.toString();
+};
+
 
 exports.getPublications = function(req,res){
     NoteLab.findQ({ public : true, project  : req.params.id }).then(function(publications){
@@ -56,36 +65,38 @@ exports.listUrls = function(req,res){
     })
 };
 
-exports.createUrl = function(req,res){
-    // TODO: Check that the current user can write URLs in this project or challenge (is owner or contributor)
+exports.createUrl = function(req,res) {
+    Project.findOneQ({ _id: req.params.projectId }).then(function(project) {
+        if(!canModifyProject(req.user, project)) return res.json(403, { message: "You are not allowed to modify this project" });
 
-    // Note will be owned by the current user
-    req.body.owner = req.user._id; 
-    req.body.project = req.params.projectId; 
+        // Note will be owned by the current user
+        req.body.owner = req.user._id; 
+        req.body.project = req.params.projectId; 
 
-    var myUrl = new Url(req.body);
+        var myUrl = new Url(req.body);
 
-    myUrl.saveQ().then(function(data){
-        var myNotif =  new Notification({
-            type : 'createUrl',
-            owner : req.user._id,
-            entity : req.params.projectId,
-            entityType : 'project'
-        });
+        return myUrl.saveQ().then(function(data){
+            var myNotif =  new Notification({
+                type : 'createUrl',
+                owner : req.user._id,
+                entity : req.params.projectId,
+                entityType : 'project'
+            });
 
-        return myNotif.saveQ().then(function(notif){
-            res.json(data);
-        }).catch(function(err){
+            return myNotif.saveQ().then(function(notif){
+                res.json(data);
+            });
+        }).fail(function(err){
             res.json(500,err);
         });
-    }).fail(function(err){
-        res.json(500,err);
-    })
+    }).fail(function(err) {
+        res.status(400).end();
+    });
 };
 
 exports.fetchUrl = function(req,res){
     Url.findOneQ({ _id : req.params.urlId }).populate("owner").then(function(note){
-        if(!note) return res.send(400);
+        if(!note) return res.status(400).send();
         res.json(note);
     }).fail(function(err){
         res.json(500,err);
@@ -93,25 +104,28 @@ exports.fetchUrl = function(req,res){
 };
 
 exports.removeUrl = function(req,res){
-    Url.findOneQ({ _id : req.params.urlId }).then(function(url){
-        if(!url) return res.send(400);
-        // TODO: check if you are allowed to remove the URL
+    Project.findOneQ({ _id: req.params.projectId }).then(function(project) {
+        if(!canModifyProject(req.user, project)) return res.json(403, { message: "You are not allowed to modify this project" });
 
-        url.removeQ().then(function() {
-            var myNotif =  new Notification({
-                type : 'removeUrl',
-                owner : req.user._id,
-                entity : req.params.projectId,
-                entityType : 'project'
-            });
-            return myNotif.saveQ().then(function(){
-                res.send(200);
+        return Url.findOneQ({ _id : req.params.urlId }).then(function(url){
+            if(!url) return res.status(400).send();
+
+            return url.removeQ().then(function() {
+                var myNotif =  new Notification({
+                    type : 'removeUrl',
+                    owner : req.user._id,
+                    entity : req.params.projectId,
+                    entityType : 'project'
+                });
+                return myNotif.saveQ().then(function(){
+                    res.status(200).send();
+                });
             });
         }).fail(function(err){
             res.json(500,err);
         });
-    }).fail(function(err){
-        res.json(500,err);
+    }).fail(function(err) {
+        res.status(400).send();
     });
 };
 
@@ -127,33 +141,37 @@ exports.listFiles = function(req,res){
 };
 
 exports.uploadFile = function(req,res) {
-    console.log("Files: ", req.files);
-    if (!req.files) return req.json(300, "No message recieved");
+    Project.findOneQ({ _id: req.params.projectId }).then(function(project) {
+        if(!canModifyProject(req.user, project)) return res.json(403, "You are not allowed to modify this project");
 
-    var myFile = new File(req.files.file);
-    myFile.name = req.files.file.name;
-    myFile.type = req.files.file.mimetype;
-    myFile.originalName = req.files.file.originalname;
-    myFile.description = req.body.description;
-    myFile.owner = req.user._id; 
-    myFile.project = req.params.projectId; 
+        console.log("Files: ", req.files);
+        if (!req.files) return req.json(300, "No message recieved");
 
-    console.log("File ready to save", myFile);
+        var myFile = new File(req.files.file);
+        myFile.name = req.files.file.name;
+        myFile.type = req.files.file.mimetype;
+        myFile.originalName = req.files.file.originalname;
+        myFile.description = req.body.description;
+        myFile.owner = req.user._id; 
+        myFile.project = req.params.projectId; 
 
-    myFile.saveQ().then(function(data){
-        var myNotif =  new Notification({
-            type : 'uploadFile',
-            owner : req.user._id,
-            entity : req.params.projectId,
-            entityType : 'project'
+        console.log("File ready to save", myFile);
+
+        return myFile.saveQ().then(function(data){
+            var myNotif =  new Notification({
+                type : 'uploadFile',
+                owner : req.user._id,
+                entity : req.params.projectId,
+                entityType : 'project'
+            });
+            return myNotif.saveQ().then(function(notif){
+                res.json(data);
+            });
+        }).fail(function(err){
+            res.json(500,err);
         });
-        return myNotif.saveQ().then(function(notif){
-            res.json(data);
-        }).catch(function(err){
-            res.json(400,err)
-        })
-    }).fail(function(err){
-        res.json(500,err);
+    }).fail(function(err) {
+        res.send(400);
     });
 };
 
@@ -167,26 +185,32 @@ exports.fetchFile = function(req,res){
 };
 
 exports.removeFile = function(req,res){
-    console.log("Removing file", req.params.fileId);
-    File.findOneQ({ _id : req.params.fileId }).then(function(file){
-        if(!file) return res.send(400);
-        // TODO: check if you are allowed to remove the file
+    Project.findOneQ({ _id: req.params.projectId }).then(function(project) {
+        if(!canModifyProject(req.user, project)) return res.json(403, { message: "You are not allowed to modify this project" });
 
-        var unlink = q.denodeify(fs.unlink);
+        console.log("Removing file", req.params.fileId);
+        return File.findOneQ({ _id : req.params.fileId }).then(function(file){
+            if(!file) return res.send(400);
+            // TODO: check if you are allowed to remove the file
 
-        return q.all([unlink(file.path), file.removeQ()]).then(function() {
-            var myNotif =  new Notification({
-                type : 'removeFile',
-                owner : req.user._id,
-                entity : req.params.projectId   ,
-                entityType : 'project'
+            var unlink = q.denodeify(fs.unlink);
+
+            return q.all([unlink(file.path), file.removeQ()]).then(function() {
+                var myNotif =  new Notification({
+                    type : 'removeFile',
+                    owner : req.user._id,
+                    entity : req.params.projectId   ,
+                    entityType : 'project'
+                });
+                return myNotif.saveQ().then(function(notif){
+                    res.send(200);
+                });
             });
-            return myNotif.saveQ().then(function(notif){
-                res.send(200);
-            });
+        }).fail(function(err){
+            res.json(500,err);
         });
-    }).fail(function(err){
-        res.json(500,err);
+    }).fail(function(err) {
+        res.status(400).send();
     });
 };
 
@@ -343,44 +367,57 @@ exports.create = function(req,res){
 };
 
 exports.update = function(req,res){
-    // Remove properties that can't be updated this way
-    req.body = _.omit(req.body, "_id", "_v", "members", "followers");
+    Project.findOneQ({ _id: req.params.id }).then(function(project) {
+        if(!canModifyProject(req.user, project)) return res.json(403, { message: "You are not allowed to modify this project" });
 
-    // Get just the IDs of tags
-    if(req.body.tags) {
-        req.body.tags = _.pluck(req.body.tags, "_id");
-    }
+        // Remove properties that can't be updated this way
+        req.body = _.omit(req.body, "_id", "_v", "members", "followers");
 
-    // Get just the ID of the owner
-    if(req.body.owner) {
-        req.body.owner = req.body.owner._id;
-    }
+        // Get just the IDs of tags
+        if(req.body.tags) {
+            req.body.tags = _.pluck(req.body.tags, "_id");
+        }
 
-    Project.findOneAndUpdateQ({_id:req.params.id}, req.body).then(function(data) {
-        var myNotif = new Notification({
-            type : 'update',
-            owner : req.user._id,
-            entity :  data._id,
-            entityType : 'project'
+        // Get just the ID of the owner
+        if(req.body.owner) {
+            req.body.owner = req.body.owner._id;
+        }
+
+        return Project.findOneAndUpdateQ({_id:req.params.id}, req.body).then(function(data) {
+            var myNotif = new Notification({
+                type : 'update',
+                owner : req.user._id,
+                entity :  data._id,
+                entityType : 'project'
+            });
+            return myNotif.saveQ().then(function(notif){
+                res.json(data);
+            });
+        }).fail(function(err){
+            res.json(400,err)
         });
-        return myNotif.saveQ().then(function(notif){
-            res.json(data);
-        });
-    }).fail(function(err){
-        res.json(400,err)
+    }).fail(function(err) {
+        res.status(400).end();
     });
 };
 
 exports.remove = function(req,res){
-    Project.findOneAndRemoveQ({_id : req.params.id}).then(function(data){
-        var myNotif = new Notification({
-            type : 'remove',
-            owner : req.user._id,
-            entity : data._id,
-            entityType : 'project'
-        });
-        return myNotif.saveQ().then(function() {
-            res.json(data);
+    Project.findOneQ({ _id: req.params.id }).then(function(project) {
+        if(!canRemoveProject(req.user, project)) return res.json(403, { message: "You are not allowed to modify this project" });
+
+        var updateChallengeQuery = Challenge.updateQ({ _id: project.container }, { $pull: { projects: req.params.id }});
+        var projectRemovalQuery = Project.removeQ({_id : req.params.id});
+
+        return q.all([updateChallengeQuery, projectRemovalQuery]).then(function() {
+            var myNotif = new Notification({
+                type : 'remove',
+                owner : req.user._id,
+                entity : req.params.id,
+                entityType : 'project'
+            });
+            return myNotif.saveQ().then(function() {
+                res.status(200).send()
+            });
         });
     }).fail(function(err){
         res.json(400,err);
@@ -388,43 +425,17 @@ exports.remove = function(req,res){
 };
 
 exports.apply = function(req,res){
+    req.body.owner = req.user._id;
 
     var myApply = new Apply(req.body);
     myApply.saveQ().then(function(data){
-
         res.send(200);
     }).fail(function(err){
-
         res.json(err);
     });
-//
-//    var options = {
-//        email: user.email,
-//        pseudo: user.pseudo,
-//        subject: "FDTD reset password",
-//        template: "resetPassword"
-//    };
-//
-//
-//    var data = {
-//        pseudo: user.pseudo,
-//        email: user.email,
-//        token: user.reset_password_token,
-//        domain: Config.public_url
-//
-//    };
-//
-//    var emailer = new Emailer(options, data);
-//    emailer.send(function (err, result) {
-//        console.log(result)
-//        if (err) {
-//            error.emit('mail',new Error('unknow email'));
-//        }
-//    });
 };
 
 exports.fetchApply = function(req,res){
-
     Apply.findQ({ container : req.query.container }).then(function(applies){
         res.json(applies);
     }).fail(function(err){
@@ -437,46 +448,52 @@ exports.finishApply = function(req,res){
         res.send(200);
     }).fail(function(err){
         res.json(500,err);
-    })
+    });
 };
 
 exports.addToTeam = function(req,res){
-    var projectId = req.params.id;
-    var ownerId = req.user._id;
-    var applierId = req.body.userId;
+    Project.findOneQ({ _id: req.params.id }).then(function(project) {
+        if(!canModifyProject(req.user, project)) return res.json(403, { message: "You are not allowed to modify this project" });
 
-    var myNotif = new Notification({
-        entity : projectId,
-        owner : ownerId,
-        type : 'join',
-        entityType : 'project'
-    });
+        var projectId = req.params.id;
+        var ownerId = req.user._id;
+        var applierId = req.body.userId;
 
-    q.all([
-        Project.findOneAndUpdateQ({ _id : projectId },{ $push : { members : applierId }}),
-        myNotif.saveQ()
-    ]).then(function(data){
-        res.send(200);
+        var myNotif = new Notification({
+            entity : projectId,
+            owner : ownerId,
+            type : 'join',
+            entityType : 'project'
+        });
+
+        return q.all([
+            Project.findOneAndUpdateQ({ _id : projectId },{ $push : { members : applierId }}),
+            myNotif.saveQ()
+        ]).then(function(data){
+            res.send(200);
+        });
     }).fail(function(err){
         res.json(400,err);
     });
 };
 
 exports.banFromTeam = function(req,res) {
-    var myNotif = new Notification({
-        entity : req.params.id,
-        owner : req.body.member,
-        type : 'ban',
-        entityType : 'project'
-    });
-    q.all([
-        Project.findOneAndUpdateQ({ _id: req.params.id }, {$pull: { members: req.body.member }}),
-        myNotif.saveQ()
-    ]).then(function(data){
-        res.send(200);
-    }).fail(function(err){
+    Project.findOneQ({ _id: req.params.id }).then(function(project) {
+        if(!canModifyProject(req.user, project)) return res.json(403, { message: "You are not allowed to modify this project" });
 
+        var myNotif = new Notification({
+            entity : req.params.id,
+            owner : req.body.member,
+            type : 'ban',
+            entityType : 'project'
+        });
+        q.all([
+            Project.findOneAndUpdateQ({ _id: req.params.id }, {$pull: { members: req.body.member }}),
+            myNotif.saveQ()
+        ]).then(function(data){
+            res.send(200);
+        });
+    }).fail(function(err){
         res.json(400,err);
     });
-
 };
