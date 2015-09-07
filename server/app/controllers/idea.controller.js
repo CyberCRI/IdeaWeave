@@ -106,7 +106,7 @@ exports.create = function(req, res) {
 exports.update = function(req, res) {
     Idea.findOneQ({_id : req.params.id}).then(function(idea) {
         if(!canModifyIdea(req.user, idea)) {
-            return res.json(403, "You are not allowed to modify this idea");
+            return res.json(403, { message: "You are not allowed to modify this idea" });
         };
         idea.title = req.body.title;
         idea.brief = req.body.brief;
@@ -133,7 +133,7 @@ exports.remove = function(req, res) {
     // TODO : check that you can remove ideas
     Idea.findOneQ({_id : req.params.id}).then(function(idea) {
         if(!canModifyIdea(req.user, idea)) {
-            return res.json(403, "You are not allowed to remove this idea");
+            return res.json(403, { message: "You are not allowed to modify this idea" });
         };
 
         var projectUpdates = _.map(idea.projects, function(projectId) {

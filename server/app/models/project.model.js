@@ -37,7 +37,7 @@ var ProjectSchema = new Schema({
     owner: {
         type: Schema.ObjectId,
         ref: 'User',
-        required : 'a challenge must have an owner'
+        required : 'a project must have an owner'
     },
     localisation : {},
     poster : String,
