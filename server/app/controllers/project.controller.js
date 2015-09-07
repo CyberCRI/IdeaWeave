@@ -281,7 +281,7 @@ exports.fetch = function(req,res){
                 });
                 break;
             default :
-                Project.find({_id : req.query._id}).select('_id title brief accessUrl tags poster followers members owner localisation home trello').populate('tags').execQ().then(function(data){
+                Project.find({_id : req.query._id}).select('_id title brief accessUrl tags poster followers members owner localisation home trello showProgress progress').populate('tags').execQ().then(function(data){
                     res.json(data);
                 }).catch(function(err){
                     res.json(400,err);

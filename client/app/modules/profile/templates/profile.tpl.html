@@ -2,6 +2,7 @@
     <md-content layout="row" layout-align="center" layout-margin>
         <section class="md-whiteframe-z2" flex-gt-sm="75" layout="column">
             <md-toolbar layout-padding class="md-default-theme">
+                <img ng-src="{{ currentUser.poster || 'images/avater.jpg' }}" alt="{{ currentUser.username }}'s photo" class="img-rounded img-profile-page"/>
                 <h3 style="margin-top:0;margin-bottom:0;font-size:50px;">
                    {{ profile.realname || profile.username }}
                     <i style="color:yellow" class="fa" ng-class="{ 'fa-star' : isFollowing }"></i>
@@ -15,7 +16,7 @@
             </md-toolbar>
 
             <md-content flex layout-padding>
-                <md-button ng-if="profile._id == currentUser._id" ui-sref="profileAdmin" flex>
+                <md-button class="md-raised" ng-if="profile._id == currentUser._id" ui-sref="profileAdmin" flex>
                     <i class="fa fa-pencil-square-o baseColor"></i> Edit
                 </md-button>
                 <showtags entity="profile" style="margin-left: 50px;"></showtags>

@@ -1,20 +1,25 @@
-<md-content flex>
-    <h2>{{ title }}</h2>
-    <md-form layout="column">
-        <md-input-container>
-            <label for="title">Title</label>
-            <input id="title" type="text" ng-model="idea.title" />
-        </md-input-container>
+<md-content>
+    <md-content layout="row" layout-align="center" layout-margin>
+        <section class="md-whiteframe-z2" flex-gt-sm="75" layout-padding layout="column">
+            <md-content flex>
+                <h2>{{ title }}</h2>
+                <md-form layout="column">
+                    <md-input-container>
+                        <label for="title">Title</label>
+                        <input id="title" type="text" ng-model="idea.title" />
+                    </md-input-container>
 
-        <tag-manager entity="idea"></tag-manager>
+                    <tag-manager entity="idea"></tag-manager>
 
-        <md-input-container>
-            <label>What's your idea?</label>
-            <textarea placeholder="What's your idea?" ng-model="idea.brief" rows="5"></textarea>
-        </md-input-container>
-
-        <div>
-            <md-button style="width:100%;" ng-click="onDone()" class="md-raised" analytics-on analytics-event="createIdea">Submit Idea</md-button>
-        </div>
-    </md-form>
+                    <md-input-container>
+                        <label>What's your idea?</label>
+                        <textarea placeholder="What's your idea?" ng-model="idea.brief" rows="5"></textarea>
+                    </md-input-container>
+                    <div>
+                        <md-button style="display: block; width: 90%; margin: auto;" ng-click="onDone()" class="md-raised" analytics-on analytics-event="createIdea">Submit Idea</md-button>
+                    </div>
+                </md-form>
+            </md-content>
+        </section>
+    </md-content>
 </md-content>

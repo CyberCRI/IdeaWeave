@@ -7,23 +7,81 @@
 </md-toolbar>
 
 <md-content flex>
-    <md-tabs>
-        <md-tab ui-sref="workspace.etherpad">
-            <md-label>
-                <i class='fa fa-file-text fa-2x'></i> Etherpad
-            </md-label>
-        </md-tab>
-        <md-tab ui-sref="workspace.files">
-            <md-label>
-                <i class='fa fa-paperclip fa-2x'></i> Files
-            </md-label>
-        </md-tab>
-        <md-tab ui-sref="workspace.resources">
-            <md-label>
-                <i class='fa fa-link fa-2x'></i> Links
-            </md-label>
-        </md-tab>
-    </md-tabs>
+    <md-content class="boxContent md-padding" ng-show="etherpadTemplateUrl">
+        <section class="md-whiteframe-z1">
+            <md-toolbar>
+                <div class="md-toolbar-tools">
+                    <h2 class="md-title"><i class='fa fa-file-text fa-2x'></i> Etherpad</h2>
+                </div>
+            </md-toolbar>
+            <ng-include src="etherpadTemplateUrl" flex></ng-include>
+        </section>
+    </md-content>
 
-    <section ui-view="noteDetailsView" flex></section>
+    <md-content class="boxContent md-padding">
+        <section class="md-whiteframe-z1">
+            <md-toolbar>
+                <div class="md-toolbar-tools">
+                    <h2 class="md-title"><i class='fa fa-paperclip fa-2x'></i> File</h2>
+                </div>
+            </md-toolbar>
+
+            <div>
+                <md-button class="md-raised md-primary" ng-click="uploadFileModal($event)" >
+                    <i class="fa fa-upload"></i> Upload
+                </md-button>
+                <md-input-container >
+                    <label for="filter" class="fa fa-search">Filter by name</label>
+                    <input type="text" ng-model="fileFilter.originalName" id="filter"/>
+                </md-input-container>
+            </div>
+
+            <md-list class="list-resource">
+                <md-item ng-repeat="file in files | filter:fileFilter">
+                    <div class="md-tile-content">
+                        <i ng-click="detailsFileModal($event,file)" class="fa {{ file.class }} fa-2x icon-file" ng-class="{ 'file-selected' : file.id == fileDetails.id  }" ng-click="showFileDetails(file)" ></i>
+                        <md-button ng-click="detailsFileModal($event,file)">
+                            {{ file.originalName }}
+                        </md-button>
+                        <span>{{ file.description }}</span>
+                    </div>
+                </md-item>
+            </md-list>
+        </section>
+    </md-content>
+
+    <md-content class="boxContent md-padding">
+        <section class="md-whiteframe-z1">
+            <md-toolbar>
+                <div class="md-toolbar-tools">
+                    <h2 class="md-title"><i class='fa fa-link fa-2x'></i> Links</h2>
+                </div>
+            </md-toolbar>
+
+            <md-button class="md-raised md-primary" ng-click="addResourceModal($event)">
+                <i class="fa fa-plus"></i> Add a link
+            </md-button>
+            <section layout="column">
+
+                <md-input-container >
+                    <label for="urlFilter"><i class="fa fa-search fa-2x"></i> Filter by title</label>
+                    <input type="text" ng-model="urlFilter.title" id="urlFilter"/>
+                </md-input-container>
+
+                <md-list>
+                    <md-list-item class="md-3-line" ng-repeat="url in urls | filter:urlFilter" ng-lin>
+                        <a ng-href="{{ url.text }}" target="_blank" class="list-resource"><i class='fa fa-link fa-2x link-icon'></i></a>
+                        <div class="md-list-item-text">
+                            <h3 class="list-resource"><strong>{{ url.title }}</strong></h3>
+                            <a ng-href="{{ url.text }}" target="_blank" class="list-resource">{{ url.text }}</a>
+                            <p class="list-resource">{{ url.description }}</p>
+                        </div>
+                        <md-button class="remove-url md-raised md-warn" ng-click="removeUrl(url)"><i class="fa fa-times"></i></md-button>
+                        <md-divider md-inset ng-if="!$last" md-margin></md-divider>
+                    </md-list-item>
+                </md-list>
+            </section>
+        </section>
+    </md-content>
+
 </md-content>
