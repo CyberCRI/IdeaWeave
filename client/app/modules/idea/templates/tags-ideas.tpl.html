@@ -8,7 +8,7 @@
 
 <md-content>
     <md-button style="display:block;text-align:left;" ui-sref="ideas({ tag : 'all' })">ALL</md-button>
-    <div ng-repeat="tag in tags | orderBy:'title'">
+    <div ng-repeat="tag in tags | orderBy:'title'" ng-if="tag.number > 0">
         <md-button style="display:block;text-align:left;" ui-sref="ideas({ tag : tag.title })">{{tag.title}}</md-button>
     </div>
 </md-content>
