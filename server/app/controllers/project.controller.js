@@ -10,6 +10,7 @@ var fs = require('fs'),
     Tags = mongoose.model('Tag'),
     Apply = mongoose.model('Apply'),
     Emailer = require('../services/mailer.service'),
+    tagController = require('./tag.controller'),
     _ = require('lodash');
 
 
@@ -328,40 +329,36 @@ exports.fetch = function(req,res){
 };
 
 exports.create = function(req,res){
-    if(req.body.tags){
-        var tagsId = [];
-        req.body.tags.forEach(function(tag,k){
-            tagsId.push(tag._id)
-        });
-
-        req.body.tags = tagsId;
+    if(req.body.tags) {
+        req.body.tags = _.pluck(req.body.tags, "_id");
     }
 
     req.body.owner = req.user._id;
     var project = new Project(req.body);
 
-    project.saveQ().then(function(project){
-        if(project.container){
-            Challenge.findOneAndUpdateQ({_id : project.container},{ $push : { projects : project._id },$inc : { projectNumber : 1 }}).then(function(challenge){
-                var myNotif =  new Notification({
-                    type : 'create',
-                    owner : project.owner,
-                    entity :  project._id,
-                    entityType : 'project'
-                });
-                myNotif.saveQ().then(function(notif){
-                    res.json(project)
+    project.saveQ().then(function(project) {
+        return tagController.updateTagCounts(project.tags, []).then(function() {
+            if(project.container){
+                Challenge.findOneAndUpdateQ({_id : project.container},{ $push : { projects : project._id },$inc : { projectNumber : 1 }}).then(function(challenge){
+                    var myNotif =  new Notification({
+                        type : 'create',
+                        owner : project.owner,
+                        entity :  project._id,
+                        entityType : 'project'
+                    });
+                    myNotif.saveQ().then(function(notif){
+                        res.json(project)
+                    }).fail(function(err){
+                        res.json(400,err);
+                    });
                 }).fail(function(err){
-                    res.json(400,err);
-                })
-            }).fail(function(err){
-                res.json(400,err)
-            })
-        }else{
-            res.json(project)
-        }
+                    res.json(400,err)
+                });
+            } else {
+                res.json(project);
+            }
+        });
     }).fail(function(err){
-
         res.json(400,err)
     });
 };
@@ -390,7 +387,9 @@ exports.update = function(req,res){
                 entity :  data._id,
                 entityType : 'project'
             });
-            return myNotif.saveQ().then(function(notif){
+            return myNotif.saveQ().then(function() { 
+                return tagController.updateTagCounts(data.tags, project.tags);
+            }).then(function(notif) {
                 res.json(data);
             });
         }).fail(function(err){
@@ -407,8 +406,9 @@ exports.remove = function(req,res){
 
         var updateChallengeQuery = Challenge.updateQ({ _id: project.container }, { $pull: { projects: req.params.id }});
         var projectRemovalQuery = Project.removeQ({_id : req.params.id});
+        var updateTagCountsQuery = tagController.updateTagCounts([], project.tags);
 
-        return q.all([updateChallengeQuery, projectRemovalQuery]).then(function() {
+        return q.all([updateChallengeQuery, projectRemovalQuery, updateTagCountsQuery]).then(function() {
             var myNotif = new Notification({
                 type : 'remove',
                 owner : req.user._id,

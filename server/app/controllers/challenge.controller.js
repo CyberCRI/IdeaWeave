@@ -4,6 +4,7 @@ var mongoose = require('mongoose-q')(),
     Tags = mongoose.model('Tag'),
     Notification = mongoose.model('Notification'),
     Template = mongoose.model('Template'),
+    tagController = require('./tag.controller'),
     io = require('../../server').io,
     _ = require('lodash'),
     q = require('q');
@@ -147,12 +148,8 @@ exports.fetch = function(req,res){
 };
 
 exports.create = function(req,res){
-    var tagsId = [];
     if(req.body.tags) {
-        req.body.tags.forEach(function(tag,k){
-            tagsId.push(tag._id)
-        });
-        req.body.tags = tagsId;
+        req.body.tags = _.pluck(req.body.tags, "_id");
     }
 
     req.body.owner = req.user._id;
@@ -165,8 +162,9 @@ exports.create = function(req,res){
             entity : data._id,
             entityType : 'challenge'
         });
-        console.log("Saving notification...");
-        return myNotif.saveQ().then(function(notif){
+        return myNotif.saveQ().then(function() {
+            return tagController.updateTagCounts(challenge.tags, []);
+        }).then(function() {
             res.json(data);
         }).fail(function(err) {
             res.json(500, err);
@@ -180,15 +178,19 @@ exports.update = function(req,res){
     Challenge.findOneQ({ _id: req.params.id }).then(function(challenge) {
         if(!canModifyChallenge(req.user, challenge)) return res.json(403, { message: "You are not allowed to modify this challenge" });
 
-        return Challenge.findOneAndUpdateQ({ _id : req.params.id },req.body).then(function(data){
-            var myNotif = new Notification({
-                type : 'update',
-                owner : req.user._id,
-                entity : data._id,
-                entityType : 'challenge'
-            });
-            return myNotif.saveQ().then(function() {
-                res.json(data);
+        var updateObj = _.pick(req.body, ["brief", "webPage", "startDate", "EndDate", "localisation", "banner", "home", "showProgress", "progress", "tags"]);
+
+        return Challenge.findOneAndUpdateQ({ _id : req.params.id }, updateObj).then(function(data){
+            return tagController.updateTagCounts(data.tags, challenge.tags).then(function() {
+                var myNotif = new Notification({
+                    type : 'update',
+                    owner : req.user._id,
+                    entity : data._id,
+                    entityType : 'challenge'
+                });
+                return myNotif.saveQ().then(function() {
+                    res.json(data);
+                });
             });
         });
     }).fail(function(err){
@@ -202,8 +204,9 @@ exports.remove = function(req,res){
 
         var projectUpdateQuery = Project.updateQ({ container: req.params.id }, { container: null });
         var challengeRemovalQuery = Challenge.findOneAndRemoveQ({_id : req.params.id});
+        var updateTagCountsQuery = tagController.updateTagCounts([], challenge.tags);
 
-        return q.all([projectUpdateQuery, challengeRemovalQuery]).then(function(data){
+        return q.all([projectUpdateQuery, challengeRemovalQuery, updateTagCountsQuery]).then(function(data){
             var myNotif = new Notification({
                 type : 'remove',
                 owner : req.user._id,

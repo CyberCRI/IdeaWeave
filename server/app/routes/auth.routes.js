@@ -16,8 +16,4 @@ module.exports = function(app) {
 
     app.post('/auth/github', auth.githubAuth);
     app.post('/auth/google', auth.googleAuth);
-
-
-    //app.post('/auth/twitter',auth.twitterAuth);
-    //app.post('/auth/personna',auth.personnaAuth);
 };

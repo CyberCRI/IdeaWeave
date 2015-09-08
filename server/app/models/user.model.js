@@ -16,10 +16,6 @@ var UserSchema = new Schema({
     email: {
         type: String
     },
-    status : {
-        type : String,
-        default : 0
-    },
     brief : {
         type : String,
         default : ''
@@ -28,7 +24,6 @@ var UserSchema = new Schema({
         type : Boolean,
         default : false
     },
-    score : Number,
     sex : Number,
     tags : [{
         type : Schema.ObjectId,
@@ -57,9 +52,6 @@ var UserSchema = new Schema({
     password: {
         type: String
     },
-    salt: {
-        type: String
-    },
     createDate: {
         type: Date,
         default: Date.now
@@ -74,8 +66,6 @@ var UserSchema = new Schema({
     },
     google: String,
     github: String,
-    linkedin: String,
-    twitter: String,
     passwordResetToken: String
 });
 

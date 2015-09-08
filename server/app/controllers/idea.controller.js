@@ -9,6 +9,7 @@ var mongoose = require('mongoose-q')(),
     Tags = mongoose.model('Tag'),
     Notification = mongoose.model('Notification'),
     NoteLab = mongoose.model('NoteLab'),
+    tagController = require('./tag.controller'),
     io = require('../../server').io,
     _ = require('lodash'),
     q = require('q');
@@ -64,13 +65,9 @@ exports.getByTag = function(req,res){
 };
 
 exports.create = function(req, res) {
-    if(req.body.tags) {
-        var tagsId = [];
-        req.body.tags.forEach(function(tag, k) {
-            tagsId.push(tag._id);
-        });
-        req.body.tags = tagsId;
-    };
+    if(req.body.tags){
+        req.body.tags = _.pluck(req.body.tags, "_id");
+    }
 
     // Idea will be owned by the current user
     req.body.owner = req.user._id; 
@@ -86,7 +83,6 @@ exports.create = function(req, res) {
             entity : idea._id,
             entityType : 'idea'
         });
-        console.log("Saving notification...");
         return myNotif.saveQ().then(function(notif) {
             res.json(idea);
         }).then(function() {
@@ -97,6 +93,10 @@ exports.create = function(req, res) {
                 text: idea.title
             });
             return newNote.saveQ();;
+        }).then(function() {
+            return tagController.updateTagCounts(idea.tags, []);
+        }).then(function() {
+            res.json(200, idea);
         });
     }).fail(function(err) {
         res.json(400, err);
@@ -108,11 +108,16 @@ exports.update = function(req, res) {
         if(!canModifyIdea(req.user, idea)) {
             return res.json(403, { message: "You are not allowed to modify this idea" });
         };
+
         idea.title = req.body.title;
         idea.brief = req.body.brief;
         idea.language = req.body.language;
+
+        var oldTags = _.map(idea.tags, function(tagId) { return tagId.toString(); });
         idea.tags = req.body.tags;
+        
         idea.modifiedDate = new Date();
+
         idea.saveQ().then(function(modifiedIdea) {
             var myNotif = new Notification({
                 type : 'update',
@@ -120,7 +125,11 @@ exports.update = function(req, res) {
                 entity : modifiedIdea._id,
                 entityType : 'idea'
             });
-            myNotif.saveQ().then(function() {
+            
+            return myNotif.saveQ()
+            .then(function() {
+                return tagController.updateTagCounts(modifiedIdea.tags, oldTags);
+            }).then(function() {
                 res.json(200, modifiedIdea);
             });
         }).fail(function(err) {
@@ -151,7 +160,10 @@ exports.remove = function(req, res) {
                 entity : req.params.id,
                 entityType : 'idea'
             });
-            myNotif.saveQ().then(function() {
+            myNotif.saveQ()
+            .then(function() {
+                return tagController.updateTagCounts([], idea.tags);
+            }).then(function() {
                 res.json(200);
             });
         }).fail(function(err) {
