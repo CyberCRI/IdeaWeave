@@ -21,27 +21,13 @@ exports.fetchOne = function(req,res){
 };
 
 exports.create = function(req,res){
-    var tag = new Tag(req.body);
-;
+    var tag = new Tag({ 
+        title: req.body.title
+    });
+
     tag.saveQ().then(function(data){
         res.json(data);
     }).fail(function(err){
-        res.json(500,err);
-    })
-};
-
-exports.update = function(req,res){
-    Tag.updateQ().then(function(data){
-        res.json(data);
-    }).fail(function(err){
-        res.json(500,err);
-    })
-};
-
-exports.remove = function(req,res){
-    Tag.removeQ({_id : req.query.id}).then(function(data){
-        res.json(data);
-    }).fail(function(err){
-        res.json(500,err);
-    })
+        res.json(403,err);
+    });
 };
