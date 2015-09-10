@@ -2,7 +2,8 @@ var mongoose = require('mongoose-q')(),
     User = mongoose.model('User'),
     config = require('../../config/config'),
     jwt = require('jwt-simple'),
-    moment = require('moment');
+    moment = require('moment'),
+    _ = require('lodash');
 
 
 module.exports.ensureAuthenticated = function(req, res, next) {

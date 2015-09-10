@@ -21,27 +21,34 @@ exports.fetchOne = function(req,res){
 };
 
 exports.create = function(req,res){
-    var tag = new Tag(req.body);
-;
+    var tag = new Tag({ 
+        title: req.body.title
+    });
+
     tag.saveQ().then(function(data){
         res.json(data);
     }).fail(function(err){
-        res.json(500,err);
-    })
+        res.json(403,err);
+    });
 };
 
-exports.update = function(req,res){
-    Tag.updateQ().then(function(data){
-        res.json(data);
-    }).fail(function(err){
-        res.json(500,err);
-    })
-};
+// Returns promise to update tags 
+exports.updateTagCounts = function(newTagIds, oldTagIds) {
+    // Convert IDs to strings
+    newTagIds = _.map(newTagIds, function(tagId) { return tagId.toString(); });
+    oldTagIds = _.map(oldTagIds, function(tagId) { return tagId.toString(); });
 
-exports.remove = function(req,res){
-    Tag.removeQ({_id : req.query.id}).then(function(data){
-        res.json(data);
-    }).fail(function(err){
-        res.json(500,err);
-    })
+    var tagsToAdd = _.difference(newTagIds, oldTagIds);
+    var tagsToRemove = _.difference(oldTagIds, newTagIds);
+
+    console.log("Adding tags", tagsToAdd, "and removing", tagsToRemove);
+
+    var incrementQueries = _.map(tagsToAdd, function(tagId) {
+        return Tag.updateQ({ _id : tagId },{ $inc : {number : 1} });
+    });
+    var decrementQueries = _.map(tagsToRemove, function(tagId) {
+        return Tag.updateQ({ _id : tagId },{ $inc : {number : -1} });
+    });
+    
+    return q.all(_.flatten([incrementQueries, decrementQueries]));
 };

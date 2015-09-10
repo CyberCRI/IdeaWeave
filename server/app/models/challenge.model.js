@@ -16,7 +16,8 @@ var ChallengeSchema = new Schema({
         default: Date.now
     },
     accessUrl : {
-        type : String,
+        type: String,
+        unique: true,
         required : true
     },
     title: {

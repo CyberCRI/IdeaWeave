@@ -7,6 +7,7 @@ var mongoose = require('mongoose-q')(),
     User = mongoose.model('User'),
     Tag = mongoose.model('Tag'),
     _ = require('lodash'),
+    q = require('q'),
     request = require('request'),
     qs = require('querystring'),
     utils = require('../services/utils.service'),
@@ -28,20 +29,10 @@ exports.signup = function(req, res) {
     }
     var user = new User(req.body);
     // Then save the user
-    user.saveQ().then(function(err) {
-        if(user.tags){
-            user.tags.forEach(function(tagId,k){
-                Tag.updateQ({_id : tagId},{ $inc : {number : 1} }).then(function(data){
-
-                }).fail(function(err){
-                    res.send(400, err);
-                });
-            });
-        }
-        res.json({
-            message : 'ok'
-        })
-
+    user.saveQ().then(function() {
+        return tagController.updateTagCounts(user.tags || [], []);
+    }).then(function() {
+        res.status(200).send();
     }).fail(function(err){
         return res.json(400, err);
     });
@@ -212,49 +203,6 @@ exports.twitterAuth = function(req,res){
                     });
                 });
             }
-        });
-    }
-};
-
-exports.personnaAuth = function(req,res){
-
-};
-
-/**
- * Update user details
- */
-exports.update = function(req, res) {
-    // Init Variables
-    var user = req.user;
-    var message = null;
-
-    // For security measurement we remove the roles from the req.body object
-    delete req.body.roles;
-
-    if (user) {
-        // Merge existing user
-        user = _.extend(user, req.body);
-        user.updated = Date.now();
-        user.displayName = user.firstName + ' ' + user.lastName;
-
-        user.save(function(err) {
-            if (err) {
-                return res.send(400, {
-                    message: getErrorMessage(err)
-                });
-            } else {
-                req.login(user, function(err) {
-                    if (err) {
-                        res.send(400, err);
-                    } else {
-                        res.jsonp(user);
-                    }
-                });
-            }
-        });
-    } else {
-        res.send(400, {
-            message: 'User is not signed in'
         });
     }
 };

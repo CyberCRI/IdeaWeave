@@ -10,6 +10,7 @@ var mongoose = require('mongoose-q')(),
     Idea = mongoose.model('Idea'),
     Notification = mongoose.model('Notification'),
     Tags = mongoose.model('Tag'),
+    tagController = require('./tag.controller'),
     q = require('q'),
     _ = require('lodash');
 
@@ -75,26 +76,29 @@ exports.unfollow = function(req,res){
  */
 exports.update = function(req, res) {
     if(req.body.tags){
-        req.body.tags.forEach(function(tag,k){
-            req.body.tags[k] = tag._id
-        });
+        req.body.tags = _.pluck(req.body.tags, "_id");
     }
-    if(req.body.followers){
-        req.body.followers = _.pluck(req.body.followers, "_id");
-    }
-    User.findOneAndUpdateQ({ _id : req.params.id },req.body).then(function(user){
-        var myNotif = new Notification({
-            type : 'update',
-            owner : user._id,
-            entity : user._id,
-            entityType : 'profile'
+
+    // Certain properties can't be updated
+    var updateObj = _.omit(req.body, ["emailValidated", "followers", "followings", "createDate", "google", "github", "passwordResetToken"]);
+
+    User.findOneAndUpdateQ({ _id : req.params.id }, updateObj)
+    .then(function(newUser) {
+        return tagController.updateTagCounts(newUser.tags, req.user.tags)
+        .then(function() {
+            var myNotif = new Notification({
+                type : 'update',
+                owner : req.user._id,
+                entity : req.user._id,
+                entityType : 'profile'
+            });
+            return myNotif.saveQ();
+        }).then(function() {
+            res.json(newUser);
         });
-        return myNotif.saveQ().then(function() {
-            res.json(user);
-        });
-    }).catch(function(err){
-        res.json(400,err);
-    })
+    }).catch(function(err) {
+        res.json(400, err);
+    });
 };
 
 /**
