@@ -1,89 +1,47 @@
 angular.module('cri.tag')
-    .directive('tagManager',[function(){
+    .directive('tagManager', function(){
         return {
             restrict:'EA',
             scope:{entity:'='},
             replace:true,
             templateUrl:'modules/tag/directives/tags.tpl.html',
-            controller : ['$scope','Tag','Notification',function($scope,Tag,Notification){
-                function inArray(value,array){
-                    if(typeof value=="string"){
-                        var len=array.length;
-                        for(var i=0;i<len;i++){
-                            if(value===array[i]){
-                                return true;
-                            }
-                        }
-                    }
-                    return false;
-                }
-
-
+            controller : function($scope,Tag,Notification){
+                var allTags = [];
                 Tag.fetch().then(function(result){
-                    $scope.tags=result;
+                    allTags = result;
                 }).catch(function(err){
                     console.log(err);
                 });
 
-                $scope.add = function(tag){
-                    // fix dulplicate
-                    if(!inArray(tag,$scope.entity.tags)){
-                        $scope.entity.tags.push( tag );
-                    }
-                    $scope.tags.splice( $scope.tags.indexOf(tag), 1 );
+                $scope.matchedTags = allTags;
+                $scope.updateMatchedTags = function(userText) {
+                    var searchText = userText.toLowerCase();
+                    $scope.matchedTags = _.filter(allTags, function(tag) { 
+                        return tag.title.toLowerCase().indexOf(searchText) != -1;
+                    });
                 };
 
-                $scope.remove = function(idx){
-                    $scope.tags.push($scope.entity.tags[idx]);
-                    $scope.entity.tags.splice( idx, 1 );
+                $scope.pickedItem = function(selectedItem) {
+                    console.log("Chose", selectedItem);
+
+                    // selectedItem could be an existing tag (an object) or a new tag (a string)
+                    if(_.isObject(selectedItem)) return selectedItem;
+
+                    Tag.create(selectedItem).then(function(newTag) {
+                        allTags.push(newTag);
+
+                        // Replace the temporary tag object with the new one
+                        var tagIndex = _.findIndex($scope.entity.tags, function(tag) { return tag.title == selectedItem });
+                        $scope.entity.tags[tagIndex] = newTag; 
+                    }).catch(function(err){
+                        console.log("Error creating tag", err);
+                    });
+
+                    return { title: selectedItem, _id: "TEMPORARY" };
                 };
-
-                $scope.addNew = function(tag){
-                    var exist = false;
-                    for(var i in $scope.tags){
-                        if($scope.tags[i] == tag){
-                            exist = true;
-                            break;
-                        }
-                    }
-                    if(!exist){
-                        Tag.create(tag).then(function(newTag) {
-                            $scope.entity.tags.push(newTag);
-                        }).catch(function(err){
-                            console.log(err);
-                        });
-                    }else{
-                        Notification.display('this tag already exist');
-                    }
-                };
-            }],
-            link: function(scope,element){
-
-                scope.formTag = false;
-                scope.addTag = function(){
-                    scope.formTag = !scope.formTag;
-                };
-
-                if(scope.entity === undefined){
-                    scope.entity = {
-                        tags : []
-                    };
-                }else if(scope.entity.tags===undefined){
-                    scope.entity.tags=[];
-                }
-
-                 var input= element.find('input');
-                 input.bind('keypress',function (event){
-                    if(event.charCode===13){
-                        scope.$apply(scope.add(scope.myTag));
-                        event.stopPropagation();
-                        event.preventDefault();
-                    }
-                 });
-
             }
         };
-    }])
+    })
     .directive('showtags',function(){
         return {
             restrict: 'EA',

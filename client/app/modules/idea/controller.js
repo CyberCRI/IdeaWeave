@@ -3,9 +3,13 @@ angular.module('cri.idea', ['ngSanitize'])
         $scope.ideas = ideas;
     })
     .controller('IdeaCreateCtrl', function ($scope, Idea, Notification, $state) {
-        $scope.idea = {};
+        $scope.idea = {
+            title: "",
+            brief: "",
+            tags: []
+        };
         $scope.title = "Create a New Idea";
- 
+
         $scope.onDone = function () {
             Idea.create($scope.idea).then(function(data){
                 $state.go('idea', { iid : data._id });
