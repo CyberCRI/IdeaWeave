@@ -137,7 +137,9 @@ angular.module('cri.project',[])
 
         $scope.tinymceOption = Config.tinymceOptions;
         $scope.challenges = challenges;
-        $scope.newProject = {};
+        $scope.newProject = {
+            tags: []
+        };
 
         if(Project.challengeSelected){
            $scope.newProject.container = Project.challengeSelected;

@@ -30,7 +30,7 @@
     "pdfjs": "https://github.com/mozilla/pdf.js.git",
     "satellizer": "~0.11.2",
     "socket.io-client": "~1.3.6",
-    "underscore": "~1.7.0"
+    "underscore": "~1.8.3"
   },
   "devDependencies": {}
 }
