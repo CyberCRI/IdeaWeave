@@ -34,16 +34,16 @@ module.exports = function(app) {
     app.get('/project/publications/:id',project.getPublications);
 
     app.route('/project/:projectId/url')
-        .get(utils.ensureAuthenticated,project.listUrls)
+        .get(project.listUrls)
         .post(utils.ensureAuthenticated,project.createUrl);
     app.route('/project/:projectId/url/:urlId')
-        .get(utils.ensureAuthenticated,project.fetchUrl)
+        .get(project.fetchUrl)
         .delete(utils.ensureAuthenticated,project.removeUrl);
 
     app.route('/project/:projectId/file')
-        .get(utils.ensureAuthenticated,project.listFiles)
+        .get(project.listFiles)
         .post(utils.ensureAuthenticated,project.uploadFile);
     app.route('/project/:projectId/file/:fileId')
-        .get(utils.ensureAuthenticated,project.fetchFile)
+        .get(project.fetchFile)
         .delete(utils.ensureAuthenticated,project.removeFile);  
 };
