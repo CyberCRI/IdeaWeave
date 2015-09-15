@@ -27,8 +27,13 @@ angular.module('cri.idea')
             .state('idea',{
                 url : '/idea/:iid',
                 resolve: {
-                    idea: function ($stateParams, Idea) {
-                        return Idea.fetch($stateParams.iid);
+                    idea: function ($stateParams, $state, Notification, Idea) {
+                        return Idea.fetch($stateParams.iid)
+                        .catch(function(error) {
+                            Notification.display('Cannot find the requested idea');
+                            $state.go("home");
+                            return;
+                        });
                     },
                     challenges: function(Challenge) { return Challenge.fetch() },
                     projects: function(Project) { return Project.fetch(); }
