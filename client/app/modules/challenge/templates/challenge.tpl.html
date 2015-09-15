@@ -18,7 +18,6 @@
             </md-toolbar>
 
             <md-content layout="column" layout-fill layout-padding>
-                <h3 class="show-line-breaks">{{ challenge.brief }}</h3>
 
                 <div layout="row" layout-align="center center">
                     <img ng-if="challenge.banner" src="{{ challenge.banner }}" >
@@ -26,8 +25,19 @@
 
                 <br>
 
+                <section class="challenge-home" layout="column">
+                    <article class="html-content" flex ng-bind-html="challenge.home"></article>
+                    <div class="participate-btn">
+                        <md-button ng-if="currentUser" ng-click="participate()" class="md-raised md-button-colored">
+                            Create Project
+                        </md-button>
+                    </div>
+                </section>
+
+                <br>
+
                 <div ng-if="challenge.showProgress" layout="row" layout-align="center center">
-                    <div class="c100 p{{ challenge.progress }} big">
+                    <div class="c100 p{{ challenge.progress }} small">
                         <span>{{ challenge.progress }}%</span>
                         <div class="slice">
                             <div class="bar"></div>
@@ -61,14 +71,6 @@
 
                 <div flex>
                     <showtags entity="challenge"></showtags>
-                    <section class="challenge-home" layout="column">
-                        <article class="html-content" flex ng-bind-html="challenge.home"></article>
-                        <div class="participate-btn">
-                            <md-button ng-if="currentUser" ng-click="participate()" class="md-raised md-button-colored">
-                                Create Project
-                            </md-button>
-                        </div>
-                    </section>
 
                     <list-notes challenge="challenge" current-user="currentUser"></list-notes>
 
