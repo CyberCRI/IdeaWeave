@@ -15,7 +15,7 @@ var fs = require('fs'),
 
 
 function canModifyProject(user, project) {
-    var projectMemberIds = _.map(project.members, function(member) { member.toString(); });
+    var projectMemberIds = _.map(project.members, function(member) { return member.toString(); });
     return user._id.toString() == project.owner.toString() || _.contains(projectMemberIds, user._id.toString());
 };
 
