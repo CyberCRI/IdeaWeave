@@ -2,8 +2,6 @@ angular.module('cri.workspace',[])
     .controller('WorkspaceCtrl',function($scope,NoteLab,Challenge,$mdSidenav,project,$state,$mdDialog,Notification,Config,$stateParams,Files){
         $scope.project = project[0];
 
-
-        $scope.etherpadTemplateUrl = '';
         $scope.etherpadTemplateUrl = 'modules/workspace/templates/etherpad.tpl.html';
 
         var leftNav;
@@ -27,9 +25,6 @@ angular.module('cri.workspace',[])
         else if($state.current.name == "workspace.file") $scope.selectedTabIndex = 1;
         else if($state.current.name == "workspace.resources") $scope.selectedTabIndex = 2;
         else $scope.selectedTabIndex = -1;
-
-
-
 
         $scope.addResourceModal = function(e) {
             $mdDialog.show({
@@ -94,10 +89,15 @@ angular.module('cri.workspace',[])
                 locals : {
                     currentUser : $scope.currentUser,
                     files : $scope.files,
-                    project: $scope.project
+                    project: $scope.project,
+                    isMember: $scope.isMember,
+                    isOwner: $scope.isOwner
                 },
-                controller: function ($scope,Files,project,files) {
+                controller: function ($scope,Files,project,files,isMember,isOwner) {
                     $scope.fileDetails = file;
+                    $scope.isMember = isMember;
+                    $scope.isOwner = isOwner;
+                    
                     $scope.cancel = function(){
                         $mdDialog.hide();
                     };

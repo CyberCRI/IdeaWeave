@@ -5,7 +5,7 @@
             <md-button class="md-fab" ng-href="{{ fileDetails.url }}" target="_blank" analytics-on analytics-event="downloadFile">
                 <i class="fa fa-download"></i>
             </md-button>
-            <md-button class="md-fab" ng-click="removeFile()" analytics-on analytics-event="deleteFile">
+            <md-button class="md-fab" ng-click="removeFile()" analytics-on analytics-event="deleteFile" ng-if="isMember || isOwner">
                 <i class="fa fa-trash"></i>
             </md-button>
             <md-button class="md-fab" ng-click="cancel()">
