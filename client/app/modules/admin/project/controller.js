@@ -2,7 +2,7 @@ angular.module('cri.admin.project',[])
     .controller('AdminProjectCtrl', function($scope,project,Project,$q){
         $scope.project = project[0];
     })
-    .controller('ProjectEditCtrl', function ($scope,$stateParams,Project,$state,Notification,Config,$mdDialog,$mdSidenav,Gmap) {
+    .controller('ProjectEditCtrl', function ($scope,$stateParams,Project,Challenge,$state,Notification,Config,$mdDialog,$mdSidenav,Gmap) {
         var leftNav;
         $scope.toggle = function(){
             leftNav.toggle();
@@ -91,12 +91,17 @@ angular.module('cri.admin.project',[])
             $mdDialog.show({
                 templateUrl : 'modules/admin/project/templates/modal/homePageModal.tpl.html',
                 locals : {
-                    project : $scope.project
+                    project : $scope.project,
+                    templates: Challenge.getTemplates($scope.project.container)
                 },
-                controller : function($scope,project,Config){
-                    $scope.tinymceOption = Config.tinymceOptions;
+                controller : function($scope,project,Config,templates){
                     $scope.newProject = {};
                     $scope.newProject.home = project.home;
+
+                    $scope.tinymceOption = _.extend({}, Config.tinymceOptions, {
+                        templates: templates
+                    });
+
                     $scope.update = function(newProject){
                         $scope.isLoading = true;
                         Project.update(project._id,newProject).then(function(data){
