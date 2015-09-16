@@ -6,7 +6,8 @@ angular.module('cri.notes', ['ngSanitize'])
             challenge: "=",
             project: "=",
             idea: "=",
-            currentUser: "="
+            currentUser: "=",
+            templates: "="
         },
         templateUrl: "modules/notes/templates/show-notes.tpl.html",
         controller: function($scope, Notification, Notes, $mdDialog) {
@@ -61,14 +62,18 @@ angular.module('cri.notes', ['ngSanitize'])
 
             $scope.popUpNewNote = function(){
                 var notesInScope = $scope.notes;
+
                 $mdDialog.show({
                     templateUrl : 'modules/notes/templates/add-note-modal.tpl.html',
                     locals : {
                         container: $scope.container,
-                        containerType: $scope.containerType
+                        containerType: $scope.containerType,
+                        templates: $scope.templates
                     },
-                    controller : function($scope, container, containerType, Config){
-                        $scope.tinymceOption = Config.tinymceOptions;
+                    controller : function($scope, container, containerType, templates, Config){
+                        $scope.tinymceOption = _.extend({}, Config.tinymceOptions, {
+                            templates: templates
+                        });
 
                         $scope.noteText = "";
                         $scope.addNote = function(noteText){

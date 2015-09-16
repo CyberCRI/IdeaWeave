@@ -2,11 +2,11 @@
     <form name="templateForm">
         <md-toolbar layout="row" layout-align="">
             <div layout layout-align="start center">
-                <span flex>Note templates</span>
+                <span flex>{{title}}</span>
                 <span class="faa-spin animated" ng-if="isLoading">
                         <i class="fa fa-spinner"></i>
                     </span>
-                <md-button class="md-fab" ng-click="createTemplate(newTemplate)" ng-disabled="templateForm.$invalid">
+                <md-button class="md-fab" ng-click="save(newTemplate)" ng-disabled="templateForm.$invalid">
                     <i class="fa fa-save"></i>
                 </md-button>
                 <md-button class="md-fab" ng-click="cancel()">
@@ -16,15 +16,21 @@
         </md-toolbar>
         <md-content>
                 <md-input-container>
-                    <!--<label for="title">Template's title</label>-->
+                    <label>Title</label>
                     <input type="text" id="title" name="title" ng-model="newTemplate.title" required></input>
                 </md-input-container>
+                
                 <div ng-messages = "templateForm.title.$error" ng-if="!templateForm.title.$pristine">
                     <div ng-message="required">
                         title is required
                     </div>
                 </div>
-                <textarea name="description" ng-model="newTemplate.description" placeholder="Description" name="description" style="width:100%" rows="5"></textarea>
+
+                <md-input-container>
+                    <label>Description</label>
+                    <input name="description" ng-model="newTemplate.description"  name="description"></input>
+                </md-input-container>
+
                 <textarea ui-tinymce="tinymceOption" name='brief'  ng-model="newTemplate.content"/></textarea>
                 <div ng-messages="templateForm.description.$error" ng-if="!templateForm.$pristine">
                     <div ng-message="required">

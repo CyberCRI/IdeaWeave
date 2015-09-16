@@ -14,12 +14,17 @@ function canModifyChallenge(user, challenge) {
 };
 
 exports.createTemplate = function(req,res){
-    var myTemplate = req.body;
-    new Template(myTemplate).saveQ().then(function(template){
-        res.json(template);
+    Challenge.findOneQ({ _id: req.params.id }).then(function(challenge) {
+        if(!canModifyChallenge(req.user, challenge)) return res.json(403, { message: "You are not allowed to modify this challenge" });
+
+        req.body.challenge = req.params.id;
+        var template = new Template(req.body);
+        return template.saveQ().then(function(data){
+            res.json(data);
+        });
     }).fail(function(err){
         res.json(400,err);
-    })
+    });
 };
 
 exports.getTemplates = function(req,res){
@@ -28,6 +33,43 @@ exports.getTemplates = function(req,res){
     }).fail(function(err){
         res.json(400,err);
     })
+};
+
+exports.getTemplate = function(req,res){
+    Template.findOneQ({template : req.params.templateId}).then(function(data){
+        res.json(data);
+    }).fail(function(err){
+        res.json(400,err);
+    })
+};
+
+exports.replaceTemplate = function(req,res){
+    Template.findOneQ({ _id: req.params.templateId }).then(function(template) {
+        return Challenge.findOneQ({ _id: template.challenge }).then(function(challenge) {
+            if(!canModifyChallenge(req.user, challenge)) return res.json(403, { message: "You are not allowed to modify this challenge" });
+
+            _.extend(template, _.omit(req.body, ["createDate", "challenge"]));
+            return template.saveQ();
+        });
+    }).then(function(data){
+        res.json(data);
+    }).fail(function(err){
+        res.json(400,err);
+    });
+};
+
+exports.deleteTemplate = function(req,res){
+    Template.findOneQ({ _id: req.params.templateId }).then(function(template) {
+        return Challenge.findOneQ({ _id: template.challenge }).then(function(challenge) {
+            if(!canModifyChallenge(req.user, challenge)) return res.json(403, { message: "You are not allowed to modify this challenge" });
+
+            return Template.removeQ({ _id: req.params.templateId });
+        });
+    }).then(function(data){
+        res.status(200).send();
+    }).fail(function(err){
+        res.json(400,err);
+    });
 };
 
 exports.getByTag = function(req,res){
