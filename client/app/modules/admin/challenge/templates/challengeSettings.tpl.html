@@ -46,9 +46,10 @@
         <md-list-item ng-repeat="template in templates">
             <h3>{{ template.title }}</h3>
             <p>: {{ template.description }}</p>
+            <md-button class="md-raised" ng-click="popUpEditTemplate(template)" analytics-on analytics-event="removeTemplate"><i class="fa fa-pencil"></i></md-button>
             <md-button class="md-raised md-warn" ng-click="removeTemplate(template)" analytics-on analytics-event="removeTemplate"><i class="fa fa-times"></i></md-button>
         </md-list-item>
     </md-list>
 
-    <md-button ng-click="popUpTemplate()"><i class="fa fa-plus"></i> Add a template</md-button>
+    <md-button ng-click="popUpCreateTemplate()"><i class="fa fa-plus"></i> Add a template</md-button>
 </md-content>
