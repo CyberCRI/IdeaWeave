@@ -34,12 +34,14 @@
                     </ui-select>
                     <md-input-container>
                         <label for="startdate" style="padding-left:100px;">Start date</label>
-                        <input type="date" id="startdate" ng-model="pform.startDate"></input>
+                        <md-datepicker ng-model="pform.startDate" md-placeholder="Enter date"></md-datepicker>
                     </md-input-container>
                     <md-input-container>
                         <label for="endDate" style="padding-left:100px;">End date</label>
-                        <input type="date" id="endDate" ng-model="pform.endDate"></input>
+                        <md-datepicker ng-model="pform.endDate" placeholder="Enter date" md-min-date="pform.startDate"></md-datepicker>
                     </md-input-container>
+                    
+                    
 
                     <md-input-container>
                         <label>Short Description</label>
