@@ -55,7 +55,12 @@ md-dialog {
   margin: 0 140px 0 140px;
 }
 
-project-card{
+project-card {
+  min-width: 250px;
+  max-width: 250px;
+}
+
+challenge-card {
   min-width: 250px;
   max-width: 250px;
 }
