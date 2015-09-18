@@ -99,6 +99,12 @@
         </span>
         <project-info project-id="notification.entity"></project-info>
     </div>
+    <div class="md-tile-content" ng-if="notification.entityType == 'project' && notification.type == 'apply'" layout="row" layout-align="center center">
+        <span>
+            Applied to the project
+        </span>
+        <project-info project-id="notification.entity"></project-info>
+    </div>
     <div class="md-tile-content" ng-if="notification.entityType == 'project' && notification.type == 'uploadFile'" layout="row" layout-align="center center">
         <span>
             Uploaded a file to the project

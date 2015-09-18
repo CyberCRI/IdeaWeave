@@ -429,6 +429,14 @@ exports.apply = function(req,res){
 
     var myApply = new Apply(req.body);
     myApply.saveQ().then(function(data){
+        var myNotif = new Notification({
+            entity : myApply.container,
+            owner : req.user._id,
+            type : 'apply',
+            entityType : 'project'
+        });
+        return myNotif.saveQ();
+    }).then(function() {
         res.send(200);
     }).fail(function(err){
         res.json(err);
@@ -461,7 +469,7 @@ exports.addToTeam = function(req,res){
 
         var myNotif = new Notification({
             entity : projectId,
-            owner : ownerId,
+            owner : applierId,
             type : 'join',
             entityType : 'project'
         });
