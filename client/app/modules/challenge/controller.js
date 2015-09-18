@@ -7,28 +7,28 @@ angular.module('cri.challenge', ['ngSanitize'])
     .controller('ChallengesListCtrl',function($scope,challenges,Notification,Challenge,Project,$stateParams,Config,$mdDialog){
         $scope.challenges = challenges;
 
-        $scope.noPage = 0;
-        $scope.isEnd = false;
-        $scope.now = new Date().getTime();
-        var option = { limit : Config.paginateChallenge };
-        $scope.loadMoreChallenges = function () {
-            $scope.noPage++;
-            option.skip = Config.paginateChallenge * $scope.noPage;
-            if (!$scope.isEnd) {
-                Challenge.getByTag($stateParams.tag,option).then(function (result) {
-                    if (result.length > 0) {
-                        angular.forEach(result,function(challenge){
-                            $scope.challenges.push(challenge);
-                        });
-                    } else {
-                        $scope.isEnd = true;
-                        Notification.display('there is no more challenges');
-                    }
-                }).catch(function(err){
-                    Notification.display(err.message);
-                });
+        $scope.sortBy = "newest";
+        $scope.sortOptions = ["newest", "most followed"];
+
+        $scope.$watch("sortBy", function() {
+            var sortFunction = null;
+            switch($scope.sortBy) {
+                case "newest":
+                    sortFunction = function(challenge) {
+                        return -1 * Date.parse(challenge.createDate); 
+                    };
+                    break
+                case "most followed":
+                    sortFunction = function(challenge) {
+                        return -1 * challenge.followers.length; 
+                    };
+                    break;
             }
-        };
+
+            if(sortFunction) {
+                $scope.challenges = _.sortBy($scope.challenges, sortFunction);
+            }
+        });
 
         $scope.showProjects = function(id,index){
             var challenge = $scope.challenges[index];

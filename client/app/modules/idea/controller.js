@@ -1,6 +1,34 @@
 angular.module('cri.idea', ['ngSanitize'])
     .controller('IdeasCtrl', function ($scope, ideas) {
         $scope.ideas = ideas;
+
+        $scope.sortBy = "newest";
+        $scope.sortOptions = ["newest", "most followed", "most liked"];
+
+        $scope.$watch("sortBy", function() {
+            var sortFunction = null;
+            switch($scope.sortBy) {
+                case "newest":
+                    sortFunction = function(idea) {
+                        return -1 * Date.parse(idea.createDate); 
+                    };
+                    break
+                case "most followed":
+                    sortFunction = function(idea) {
+                        return -1 * idea.followers.length; 
+                    };
+                    break;
+                case "most liked":
+                    sortFunction = function(idea) {
+                        return -1 * idea.likerIds.length; 
+                    };
+                    break;
+            }
+
+            if(sortFunction) {
+                $scope.ideas = _.sortBy($scope.ideas, sortFunction);
+            }
+        });
     })
     .controller('IdeaCreateCtrl', function ($scope, Idea, Notification, $state) {
         $scope.idea = {

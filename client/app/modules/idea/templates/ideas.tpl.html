@@ -6,6 +6,12 @@
         </md-button>
     </md-toolbar>
     <md-content flex>
+        <md-input-container>
+            <md-select ng-model="sortBy">
+              <md-option ng-repeat="sortOption in sortOptions" value="{{sortOption}}" placeholder="Order by ...">Order by {{sortOption}}</md-option>
+            </md-select>
+        </md-input-container>
+
         <div ng-show="ideas.length == 0">
             Nothing to show yet... 
         </div>

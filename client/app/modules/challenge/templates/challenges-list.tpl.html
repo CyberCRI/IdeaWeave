@@ -1,4 +1,10 @@
-<md-content layout="column" scroller loading-method="loadMoreChallenges()" style="overflow-x:hidden;">
+<md-content layout="column">
+    <md-input-container>
+        <md-select ng-model="sortBy">
+          <md-option ng-repeat="sortOption in sortOptions" value="{{sortOption}}" placeholder="Order by ...">Order by {{sortOption}}</md-option>
+        </md-select>
+    </md-input-container>
+
     <div ng-show="challenges.length == 0">
         Nothing to show yet... 
     </div>
