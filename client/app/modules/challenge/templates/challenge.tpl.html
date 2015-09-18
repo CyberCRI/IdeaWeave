@@ -76,17 +76,17 @@
 
                     <h3>Related Projects</h3>
 
-                    <md-grid-list md-cols="3" md-row-height="400px">
+                    <md-grid-list md-cols="3" md-row-height="500px">
                         <md-grid-tile ng-repeat="project in challenge.projects">
-                            <project-card project-id="project" style="height: 400px;"></project-card>
+                            <project-card project-id="project" class="md-whiteframe-z2" style="height: 410px;"></project-card>
                         </md-grid-tile>
                     </md-grid-list>
 
                     <h3>Related Ideas</h3>
 
-                    <md-grid-list md-cols="3" md-row-height="400px">
+                    <md-grid-list md-cols="3" md-row-height="500px">
                         <md-grid-tile ng-repeat="idea in challenge.ideas">
-                            <idea-card idea-id="idea" ng-repeat="idea in challenge.ideas" style="height: 400px;"></idea-card>
+                            <idea-card idea-id="idea" class="md-whiteframe-z2" ng-repeat="idea in challenge.ideas" style="height: 410px;"></idea-card>
                         </md-grid-tile>
                     </md-grid-list>
                 </div>

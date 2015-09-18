@@ -73,6 +73,36 @@ angular.module('cri.challenge')
             }
         };
     }])
+    .directive('challengeMoreCard',[function(){
+        return {
+            restrict:'EA',
+            scope : {
+                challengeId : '=',
+                myChallenge : '=',
+                admin : '='
+            },
+            templateUrl:'modules/challenge/directives/challengeBlock/challenge-more-card.tpl.html',
+            controller : ['$scope','Challenge',function($scope,Challenge){
+                if($scope.challengeId){
+                    Challenge.fetch( { _id : $scope.challengeId, type : 'card' }).then(function(challenge){
+                        $scope.challenge = challenge[0];
+                    }).catch(function(err){
+                        console.log('error',err);
+                    });
+                }else{
+                    $scope.challenge = $scope.myChallenge;
+                }
+            }],
+            link : function(scope,element,attrs){
+                element.bind('mouseenter',function(e){
+                    scope.isHovered = true;
+                });
+                element.bind('mouseleave',function(e){
+                    scope.isHovered = false;
+                });
+            }
+        };
+    }])
     .directive('challengeCard',[function(){
         return {
             restrict:'EA',

@@ -2,10 +2,15 @@
     <img ng-src="{{challenge.poster || '/images/placeholder100x100.png'}}" alt="Challenge poster" class="md-card-image" width="100%">
 </a>
 <md-content layout-padding style="cursor:hand;">
-    <md-button ng-if="admin && isHovered" ui-sref="challengeAdmin({ cid : challenge._id })">
-        <i class="fa fa-gears"></i>
-        Admin
-    </md-button>
+    <div style="margin:0;padding:0;">
+        <md-button class="md-raised" style="font-size:0.6em;display:inline;" ng-if="admin" ui-sref="challengeAdmin({ cid : challenge._id })">
+            <i class="fa fa-gears"></i>
+            Admin
+        </md-button>
+        <md-button class="md-raised" style="font-size:0.6em;display:inline-block;" ng-click="showProjects(challenge._id,$index)" >
+            show related projects
+        </md-button>
+    </div>
     <a style="text-decoration: none; color: black;" ui-sref="challenge.home({ pid : challenge.accessUrl })">
         <h4 style="margin: 0;font-size:1.3em;">{{ challenge.title }}</h4>
     </a>
@@ -34,5 +39,13 @@
                 Members
             </span>
         </div>
+    </div>
+    <div flex>
+        <p ng-if="challenge.startDate < now && challenge.endDate > now" >
+            <timer end-time="challenge.endDate" >End in :{{days}} d, {{hours}} : {{minutes}} : {{seconds}}</timer>
+        </p>
+        <p ng-if="challenge.startDate > now" >
+            <timer end-time="challenge.endDate" >Start in : {{days}} d, {{hours}} : {{minutes}} : {{seconds}}</timer>
+        </p>
     </div>
 </md-content>
