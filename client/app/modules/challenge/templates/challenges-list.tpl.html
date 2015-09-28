@@ -4,7 +4,7 @@
     </div>
     <md-grid-list md-cols="3" ng-show="challenges.length > 0" md-row-height="500px">
         <md-grid-tile ng-repeat="challenge in challenges">
-            <challenge-more-card class="md-whiteframe-z2" admin="true" challenge-id="challenge._id" style="height: 410px;"></challenge-more-card> 
+            <challenge-more-card class="md-whiteframe-z2" challenge-id="challenge._id" style="height: 410px;" current-user="currentUser"></challenge-more-card> 
         </md-grid-tile>
     </md-grid-list>
 </md-content>

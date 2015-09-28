@@ -73,13 +73,13 @@ angular.module('cri.challenge')
             }
         };
     }])
-    .directive('challengeMoreCard',[function(){
+    .directive('challengeMoreCard', function() {
         return {
             restrict:'EA',
             scope : {
                 challengeId : '=',
                 myChallenge : '=',
-                admin : '='
+                currentUser: '='
             },
             templateUrl:'modules/challenge/directives/challengeBlock/challenge-more-card.tpl.html',
             controller : ['$scope','Challenge',function($scope,Challenge){
@@ -92,17 +92,15 @@ angular.module('cri.challenge')
                 }else{
                     $scope.challenge = $scope.myChallenge;
                 }
-            }],
-            link : function(scope,element,attrs){
-                element.bind('mouseenter',function(e){
-                    scope.isHovered = true;
-                });
-                element.bind('mouseleave',function(e){
-                    scope.isHovered = false;
-                });
-            }
+
+                $scope.isAdmin = function() {
+                    if(!$scope.challenge || !$scope.currentUser) return false;
+
+                    return $scope.challenge.owner == $scope.currentUser._id;
+                }; 
+            }]
         };
-    }])
+    })
     .directive('challengeCard',[function(){
         return {
             restrict:'EA',
