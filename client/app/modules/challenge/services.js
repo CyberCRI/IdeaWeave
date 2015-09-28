@@ -4,7 +4,7 @@ angular.module('cri.challenge')
         var service  = {
             getTemplates :function(id){
                 var defered = $q.defer();
-                $http.get(Config.apiServer+'/challenge/template/'+id).success(function(data){
+                $http.get(Config.apiServer+'/challenges/'+id+'/templates').success(function(data){
                     defered.resolve(data);
                 }).error(function(err){
                     defered.reject(err);
@@ -13,8 +13,35 @@ angular.module('cri.challenge')
             },
             createTemplate : function(id,template){
                 var defered = $q.defer();
-                $http.post(Config.apiServer+'/challenge/template/'+id,template).success(function(data){
+                $http.post(Config.apiServer+'/challenges/'+id+'/templates',template).success(function(data){
                     defered.resolve(data);
+                }).error(function(err){
+                    defered.reject(err);
+                });
+                return defered.promise;
+            },
+            getTemplate :function(challengeId, templateId){
+                var defered = $q.defer();
+                $http.get(Config.apiServer+'/challenges/'+challengeId+'/templates/'+templateId).success(function(data){
+                    defered.resolve(data);
+                }).error(function(err){
+                    defered.reject(err);
+                });
+                return defered.promise;
+            },
+            updateTemplate :function(challengeId, templateId, template){
+                var defered = $q.defer();
+                $http.put(Config.apiServer+'/challenges/'+challengeId+'/templates/'+templateId, template).success(function(data){
+                    defered.resolve(data);
+                }).error(function(err){
+                    defered.reject(err);
+                });
+                return defered.promise;
+            },
+            removeTemplate :function(challengeId, templateId){
+                var defered = $q.defer();
+                $http.delete(Config.apiServer+'/challenges/'+challengeId+'/templates/'+templateId).success(function(data){
+                    defered.resolve();
                 }).error(function(err){
                     defered.reject(err);
                 });

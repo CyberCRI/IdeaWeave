@@ -1,5 +1,5 @@
 angular.module('cri.project',[])
-    .controller('ProjectCtrl', function($scope,Project,project, Notification,$mdDialog,$rootScope,$state,$analytics) {
+    .controller('ProjectCtrl', function($scope,Project,project, Notification, Challenge,$mdDialog,$rootScope,$state,$analytics) {
         if(project.length == 0) {
             Notification.display('Cannot find the requested project');
             $state.go("home");
@@ -7,7 +7,13 @@ angular.module('cri.project',[])
         }
 
         $scope.project = project[0];
-        
+
+        // Load templates        
+        $scope.templates = [];
+        Challenge.getTemplates($scope.project.container).then(function(templates) {
+            $scope.templates = templates;
+        });
+
         $scope.isOwner = $scope.currentUser ? $scope.currentUser._id == $scope.project.owner._id : false;
         $scope.isMember = $scope.currentUser ?  _.chain($scope.project.members).pluck("_id").contains($scope.currentUser._id).value() : false;
         $scope.isFollow = $scope.currentUser ?  _.chain($scope.project.followers).pluck("_id").contains($scope.currentUser._id).value() : false;

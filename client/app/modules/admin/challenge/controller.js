@@ -141,7 +141,7 @@ angular.module('cri.admin.challenge',[])
             console.log(err);
         });
 
-        $scope.popUpTemplate = function($event){
+        $scope.popUpCreateTemplate = function(){
             $mdDialog.show({
                 templateUrl : 'modules/admin/challenge/templates/modal/challenge-template-modal.tpl.html',
                 escapeToClose : false,
@@ -151,14 +151,15 @@ angular.module('cri.admin.challenge',[])
                     templates : $scope.templates
                 },
                 controller : function($scope,challenge,templates,Config){
+                    $scope.title = "Create Template";
                     $scope.tinymceOption = Config.tinymceOptions;
-                    $scope.createTemplate = function(newTemplate){
+                    $scope.save = function(newTemplate){
                         newTemplate.challenge = challenge._id;
                         Challenge.createTemplate(challenge._id,newTemplate).then(function(data){
                            templates.push(data);
                            Notification.display('Template created');
                         }).catch(function(err){
-                            Notification.display('error template');
+                            Notification.display('Error creating template');
                         }).finally(function(){
                            $mdDialog.hide();
                         });
@@ -169,6 +170,51 @@ angular.module('cri.admin.challenge',[])
                 }
             });
         };
+
+        $scope.popUpEditTemplate = function(template){
+            $mdDialog.show({
+                templateUrl : 'modules/admin/challenge/templates/modal/challenge-template-modal.tpl.html',
+                escapeToClose : false,
+                clickOutsideToClose : false,
+                locals : {
+                    challenge : $scope.challenge,
+                    templates : $scope.templates
+                },
+                controller : function($scope,challenge,templates,Config){
+                    $scope.title = "Edit Template";
+
+                    $scope.newTemplate = angular.copy(template);
+
+                    $scope.tinymceOption = Config.tinymceOptions;
+                    $scope.save = function(newTemplate){
+                        newTemplate.challenge = challenge._id;
+                        Challenge.updateTemplate(challenge._id,template._id, newTemplate).then(function(data){
+                            var index = templates.indexOf(template);
+                            templates[index] = data;
+                           Notification.display('Template updated');
+                        }).catch(function(err){
+                            Notification.display('Error updating template');
+                        }).finally(function(){
+                           $mdDialog.hide();
+                        });
+                    };
+                    $scope.cancel = function(){
+                        $mdDialog.hide();
+                    };
+                }
+            });
+        };
+
+        $scope.removeTemplate = function(template) {
+            Challenge.removeTemplate($scope.challenge._id,template._id).then(function(data){
+                // Delete the template from the list
+                var index = $scope.templates.indexOf(template);
+                $scope.templates.splice(index, 1);
+                Notification.display('Template removed');
+            }).catch(function(err){
+                Notification.display('Error removing template');
+            });
+        }
 
         $scope.updateChallenge=function(){
             $scope.isBasicLoading = true;
