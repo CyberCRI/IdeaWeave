@@ -1,7 +1,7 @@
 <md-content scroller loading-method="loadMoreProjects()">
     <md-grid-list md-cols="3" md-row-height="500px">
             <md-grid-tile ng-repeat="project in projects">
-                <project-card class="md-whiteframe-z2" my-project="project" style="height: 410px;"></project-card> 
+                <project-card class="md-whiteframe-z2" my-project="project" style="height: 410px;" current-user="currentUser"></project-card> 
             </md-grid-tile>
         </md-grid-list>
 </md-content>

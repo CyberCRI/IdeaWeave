@@ -18,7 +18,6 @@
             </md-toolbar>
 
             <md-content layout="column" layout-fill layout-padding>
-                <h3 class="show-line-breaks">{{ challenge.brief }}</h3>
 
                 <div layout="row" layout-align="center center">
                     <img ng-if="challenge.banner" src="{{ challenge.banner }}" >
@@ -26,8 +25,19 @@
 
                 <br>
 
+                <section class="challenge-home" layout="column">
+                    <article class="html-content" flex ng-bind-html="challenge.home"></article>
+                    <div class="participate-btn">
+                        <md-button ng-if="currentUser" ng-click="participate()" class="md-raised md-button-colored">
+                            Create Project
+                        </md-button>
+                    </div>
+                </section>
+
+                <br>
+
                 <div ng-if="challenge.showProgress" layout="row" layout-align="center center">
-                    <div class="c100 p{{ challenge.progress }} big">
+                    <div class="c100 p{{ challenge.progress }} small">
                         <span>{{ challenge.progress }}%</span>
                         <div class="slice">
                             <div class="bar"></div>
@@ -61,30 +71,22 @@
 
                 <div flex>
                     <showtags entity="challenge"></showtags>
-                    <section class="challenge-home" layout="column">
-                        <article class="html-content" flex ng-bind-html="challenge.home"></article>
-                        <div class="participate-btn">
-                            <md-button ng-if="currentUser" ng-click="participate()" class="md-raised md-button-colored">
-                                Create Project
-                            </md-button>
-                        </div>
-                    </section>
 
                     <list-notes challenge="challenge" current-user="currentUser"></list-notes>
 
                     <h3>Related Projects</h3>
 
-                    <md-grid-list md-cols="3" md-row-height="400px">
+                    <md-grid-list md-cols="3" md-row-height="500px">
                         <md-grid-tile ng-repeat="project in challenge.projects">
-                            <project-card project-id="project" style="height: 400px;"></project-card>
+                            <project-card project-id="project" class="md-whiteframe-z2" style="height: 410px;"></project-card>
                         </md-grid-tile>
                     </md-grid-list>
 
                     <h3>Related Ideas</h3>
 
-                    <md-grid-list md-cols="3" md-row-height="400px">
+                    <md-grid-list md-cols="3" md-row-height="500px">
                         <md-grid-tile ng-repeat="idea in challenge.ideas">
-                            <idea-card idea-id="idea" ng-repeat="idea in challenge.ideas" style="height: 400px;"></idea-card>
+                            <idea-card idea-id="idea" class="md-whiteframe-z2" ng-repeat="idea in challenge.ideas" style="height: 410px;"></idea-card>
                         </md-grid-tile>
                     </md-grid-list>
                 </div>
