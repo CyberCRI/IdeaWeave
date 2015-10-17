@@ -162,7 +162,7 @@ angular.module('cri.project',[])
         $scope.createProject = function(newProject){
             $scope.isloading = true;
             newProject.owner = $scope.currentUser._id;
-            newProject.container = $scope.newProject.container._id;
+            if($scope.newProject.container) newProject.container = $scope.newProject.container._id;
             Project.create($scope.newProject).then(function(data){
                 $state.go('project.home',{ pid : data.accessUrl });
             }).catch(function(err){

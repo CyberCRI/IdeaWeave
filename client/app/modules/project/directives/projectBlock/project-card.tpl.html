@@ -2,7 +2,7 @@
     <img ng-src="{{project.poster || '/images/placeholder100x100.png'}}" alt="Project poster" class="md-card-image" width="100%">
 </a>
 <md-content layout-padding style="cursor:hand;">
-    <md-button ng-if="admin && isHovered" ui-sref="projectAdmin({ pid : project._id })">
+    <md-button ng-if="isAdmin()" class="md-raised" ui-sref="project.admin({ pid : project.accessUrl })" style="font-size:0.6em; display:inline;">
         <i class="fa fa-gears"></i>
         Admin
     </md-button>
@@ -13,7 +13,6 @@
             <span style="margin:2px;font-size:0.7em;">By:</span>
         <user-info ng-if="project.owner" user-id="project.owner" flex></user-info>
     </div>
-    <!-- <p style="margin:2px;font-size:0.7em;" class="text-muted" ng-bind="project.brief"></p> -->
     <div layout="row" style="margin-top: 5px;">
         <div flex layout="row" class="text-muted">
             <span style="font-size:0.7em;">
