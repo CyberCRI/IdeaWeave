@@ -1,6 +1,5 @@
-<section layout="column">
-    <p>Tags</p>
-    <md-chips ng-model="entity.tags" md-on-select="pickedItem()" md-on-append="pickedItem($chip)"> 
+<div>
+    <md-chips ng-model="model" md-on-select="pickedItem()" md-on-append="pickedItem($chip)"> 
         <md-autocomplete md-items="tag in matchedTags" md-search-text="searchText" md-search-text-change="updateMatchedTags(searchText)" md-selected-item-change="" placeholder="Pick some tags or create a new one">
             <span md-highlight-text="searchText">{{ tag.title }}</span>
         </md-autocomplete>
@@ -8,4 +7,4 @@
             <span>{{ $chip.title }}</span>
       </md-chip-template>
     </md-chips>
-</section>
+</div>

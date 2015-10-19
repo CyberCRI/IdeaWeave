@@ -337,26 +337,24 @@ exports.create = function(req,res){
     var project = new Project(req.body);
 
     project.saveQ().then(function(project) {
-        return tagController.updateTagCounts(project.tags, []).then(function() {
+        var myNotif =  new Notification({
+            type : 'create',
+            owner : project.owner,
+            entity :  project._id,
+            entityType : 'project'
+        });
+
+        return myNotif.saveQ().then(function() {
+            return tagController.updateTagCounts(project.tags, []);
+        }).then(function() {
             if(project.container){
-                Challenge.findOneAndUpdateQ({_id : project.container},{ $push : { projects : project._id },$inc : { projectNumber : 1 }}).then(function(challenge){
-                    var myNotif =  new Notification({
-                        type : 'create',
-                        owner : project.owner,
-                        entity :  project._id,
-                        entityType : 'project'
-                    });
-                    myNotif.saveQ().then(function(notif){
-                        res.json(project)
-                    }).fail(function(err){
-                        res.json(400,err);
-                    });
-                }).fail(function(err){
-                    res.json(400,err)
-                });
+                return Challenge.findOneAndUpdateQ({_id : project.container},{ $push : { projects : project._id },$inc : { projectNumber : 1 }});
             } else {
-                res.json(project);
+                // Return dummy promise
+                return Q.fulfill(true);
             }
+        }).then(function() {
+            res.json(project);
         });
     }).fail(function(err){
         res.json(400,err)

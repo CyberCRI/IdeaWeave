@@ -22,7 +22,12 @@ var TagSchema = new Schema({
     number: {
         type: Number,
         default: 0
-    }
+    },    
+    followers: [{
+        type: Schema.ObjectId,
+        ref: 'User',
+        unique: true
+    }]
 });
 
 // Put tags into lowercase, and trim

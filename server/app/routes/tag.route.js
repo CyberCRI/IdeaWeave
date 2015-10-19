@@ -4,12 +4,19 @@
  * Module dependencies.
  */
 var utils = require('../services/utils.service');
+var tag = require('../controllers/tag.controller.js');
 
 module.exports = function(app) {
-    var Tag = require('../controllers/tag.controller.js');
 
     app.route('/tags')
-        .get(Tag.fetchAll)
-        .post(Tag.create);
-    app.get('/tags/:id', Tag.fetchOne);
+        .get(tag.fetchAll)
+        .post(tag.create);
+
+    app.get('/tags/following', utils.ensureAuthenticated, tag.listFollowing);
+
+    app.get('/tags/:id', tag.fetchOne);
+
+    app.post('/tags/:id/follow', utils.ensureAuthenticated, tag.follow);
+    app.post('/tags/:id/unfollow', utils.ensureAuthenticated, tag.unfollow);
+
 };

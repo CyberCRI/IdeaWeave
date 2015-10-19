@@ -2,6 +2,7 @@
 var mongoose = require('mongoose-q')();
 var Tag = mongoose.model('Tag'),
     User = mongoose.model('User'),
+    Notification = mongoose.model('Notification'),
     _ = require('lodash');
 
 exports.fetchAll = function(req,res){
@@ -51,4 +52,50 @@ exports.updateTagCounts = function(newTagIds, oldTagIds) {
     });
     
     return q.all(_.flatten([incrementQueries, decrementQueries]));
+};
+
+exports.follow = function(req,res){
+    Tag.findOneAndUpdateQ({ _id : req.params.id }, { $push : { followers : req.user._id }}).then(function(tag){
+        var myNotif =  new Notification({
+            type : 'follow',
+            owner : req.params.id,
+            entity : tag._id,
+            entityType : 'tag'
+        });
+        return myNotif.saveQ().then(function(){
+            res.json(tag)
+        });
+    }).fail(function(err){
+        console.error("can't follow", err);
+        res.json(400,err)
+    });
+};
+
+exports.unfollow = function(req,res){
+    Tag.findOneAndUpdateQ({ _id : req.params.id }, { $pull : { followers : req.user._id }}).then(function(tag){
+        var myNotif =  new Notification({
+            type : 'unfollow',
+            owner : req.params.id,
+            entity : tag._id,
+            entityType : 'tag'
+        });
+        return myNotif.saveQ().then(function(){
+            res.json(tag)
+        });
+    }).fail(function(err){
+        res.json(400,err)
+    });
+};
+
+exports.listFollowing = function(req,res){
+    Tag.find({ followers: req.user._id }, "_id createDate title number")
+    .sort("title")
+    .execQ()
+    .then(function(tags){
+        console.log("found tags", tags.length);
+        res.json(tags);
+    }).fail(function(err){
+        console.error("found tag error", err);
+        res.json(400, err)
+    });
 };

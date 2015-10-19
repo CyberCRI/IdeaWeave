@@ -53,6 +53,11 @@ function getUserIdsToNotify(notification) {
                     var commentOwners = _.map(note.comments, function(comment) { return comment.owner.toString() });
                     return notificationOwnerFollowers.concat(note.owner.toString(), commentOwners);
                 });
+            case "tag": 
+                return Tag.findOneQ({ _id: notification.entity })
+                .then(function(tag) {
+                    return notificationOwnerFollowers.concat(toStringArray(tag.followers));
+                });
             default:
                 console.error("Unknown notification type");
                 return notificationOwnerFollowers;
