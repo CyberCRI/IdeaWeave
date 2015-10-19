@@ -7,6 +7,7 @@ var mongoose = require('mongoose-q')(),
     Note = mongoose.model('NoteLab'),
     User = mongoose.model('User'),
     Idea = mongoose.model('Idea'),
+    Tag = mongoose.model('Tag'),
     socket = require('../socket/main.socket.js'),
     emailer = require('../services/mailer.service'),
     config = require('../../config/config'),
@@ -28,19 +29,29 @@ function getUserIdsToNotify(notification) {
                         return [notification.owner.toString()].concat(project.owner.toString(), toStringArray(project.members));
                     }
                     else {
-                        // Alert everyone who might be interested
-                        return notificationOwnerFollowers.concat(project.owner.toString(), toStringArray(project.members), toStringArray(project.followers));
+                        // Find users interested in project tags
+                        return getTagFollowerIds(project.tags)
+                        .then(function(tagFollowerIds) {
+                            // Alert everyone who might be interested
+                            return notificationOwnerFollowers.concat(project.owner.toString(), toStringArray(project.members), toStringArray(project.followers), tagFollowerIds);
+                        });
                     }
                 });
             case "challenge": 
                 return Challenge.findOneQ({ _id: notification.entity })
                 .then(function(challenge) {
-                    return notificationOwnerFollowers.concat(challenge.owner.toString(), toStringArray(challenge.followers));
+                    return getTagFollowerIds(challenge.tags)
+                    .then(function(tagFollowerIds) {
+                        return notificationOwnerFollowers.concat(challenge.owner.toString(), toStringArray(challenge.followers), tagFollowerIds);
+                    });
                 });
             case "idea": 
                 return Idea.findOneQ({ _id: notification.entity })
                 .then(function(idea) {
-                    return notificationOwnerFollowers.concat(idea.owner.toString(), toStringArray(idea.followers));
+                    return getTagFollowerIds(idea.tags)
+                    .then(function(tagFollowerIds) {
+                        return notificationOwnerFollowers.concat(idea.owner.toString(), toStringArray(idea.followers), tagFollowerIds);
+                    });
                 });
             case "profile": 
                 return User.findOneQ({ _id: notification.entity })
@@ -52,11 +63,6 @@ function getUserIdsToNotify(notification) {
                 .then(function(note) {
                     var commentOwners = _.map(note.comments, function(comment) { return comment.owner.toString() });
                     return notificationOwnerFollowers.concat(note.owner.toString(), commentOwners);
-                });
-            case "tag": 
-                return Tag.findOneQ({ _id: notification.entity })
-                .then(function(tag) {
-                    return notificationOwnerFollowers.concat(toStringArray(tag.followers));
                 });
             default:
                 console.error("Unknown notification type");
@@ -71,6 +77,14 @@ function toStringArray(documentArray) {
 
 function cleanUpUserIds(userIds) {
     return _.chain(userIds).sortBy().uniq(true).value();
+}
+
+function getTagFollowerIds(tags) {
+    // Find users interested in the given tags
+    return Tag.findQ({ _id: { $in: tags } }, "followers")
+    .then(function(tagFollowers) {
+        return  toStringArray(_.chain(tagFollowers).pluck("followers").flatten(true).value());
+    });
 }
 
 function onNotificationPosted(notification) {
