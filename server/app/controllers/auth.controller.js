@@ -19,17 +19,18 @@ var mongoose = require('mongoose-q')(),
  * Signup
  */
 exports.signup = function(req, res) {
-    // Init Variables
-    var tagsId = [];
-    if(req.body.tags){
-        req.body.tags.forEach(function(tag,k){
-            tagsId.push(tag._id)
-        });
-        req.body.tags = tagsId;
-    }
+    if(req.body.tags) req.body.tags = _.pluck(req.body.tags, "_id");
+    else req.body.tags = [];
+
     var user = new User(req.body);
     // Then save the user
-    user.saveQ().then(function() {
+    user.saveQ().then(function(user) {
+        // Follow chosen tags
+        var tagUpdateRequests = _.map(req.body.tags, function(tagId) {
+            return Tag.findOneAndUpdateQ({ _id: tagId }, { $push: { followers: user._id }});
+        });
+        return q.all(tagUpdateRequests);
+    }).then(function() {
         return tagController.updateTagCounts(user.tags || [], []);
     }).then(function() {
         res.status(200).send();

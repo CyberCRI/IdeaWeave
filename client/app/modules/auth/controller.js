@@ -92,6 +92,10 @@ angular.module('cri.auth',[
 
         $scope.check = {};
 
+        $scope.signup = {
+            tags: []
+        };
+
         $scope.refreshAddresses = function(address) {
             Gmap.getAdress(address).then(function(adresses){
                 $scope.addresses = adresses;
@@ -107,7 +111,6 @@ angular.module('cri.auth',[
                 $state.go('signin');
             }
         };
-
     }])
     .controller('ForgotPasswordCtrl', function ($scope, $state, Profile, Notification) {
         $scope.email = "";
