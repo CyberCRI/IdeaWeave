@@ -12,26 +12,33 @@ var mongoose = require('mongoose-q')(),
     qs = require('querystring'),
     utils = require('../services/utils.service'),
     config = require('../../config/config'),
-    emailer = require('../services/mailer.service');
+    emailer = require('../services/mailer.service'),
+    tagController = require('../controllers/tag.controller');
 
 
 /**
  * Signup
  */
 exports.signup = function(req, res) {
-    if(req.body.tags) req.body.tags = _.pluck(req.body.tags, "_id");
-    else req.body.tags = [];
+    // Check that no user already has that email
+    User.findOneQ({ email: req.body.email })
+    .then(function(existingUser) {
+        if(existingUser) throw new Error("A user already has that email");
 
-    var user = new User(req.body);
-    // Then save the user
-    user.saveQ().then(function(user) {
-        // Follow chosen tags
-        var tagUpdateRequests = _.map(req.body.tags, function(tagId) {
-            return Tag.findOneAndUpdateQ({ _id: tagId }, { $push: { followers: user._id }});
+        if(req.body.tags) req.body.tags = _.pluck(req.body.tags, "_id");
+        else req.body.tags = [];
+
+        var user = new User(req.body);
+        // Then save the user
+        user.saveQ().then(function(user) {
+            // Follow chosen tags
+            var tagUpdateRequests = _.map(req.body.tags, function(tagId) {
+                return Tag.findOneAndUpdateQ({ _id: tagId }, { $push: { followers: user._id }});
+            });
+            return q.all(tagUpdateRequests);
+        }).then(function() {
+            return tagController.updateTagCounts(user.tags || [], []);
         });
-        return q.all(tagUpdateRequests);
-    }).then(function() {
-        return tagController.updateTagCounts(user.tags || [], []);
     }).then(function() {
         res.status(200).send();
     }).fail(function(err){
