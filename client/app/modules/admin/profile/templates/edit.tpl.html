@@ -7,7 +7,7 @@
             <md-content flex class="right-part" layout-padding>
                 <form name="basicForm">
                     <header>
-                        <h3 class="center">INFORMATIONS</h3>
+                        <h3 class="center">INFORMATION</h3>
                     </header>
                     <md-input-container>
                         <label for="username">User name</label>
@@ -23,8 +23,14 @@
                             <div ng-bind-html="address.formatted_address | highlight: $select.search"></div>
                         </ui-select-choices>
                     </ui-select>
-                    <tag-manager entity='profile' ng-model='profile.tags'></tag-manager>
-                    <section layout="column">
+
+                    <p>Own tags</p>
+                    <tag-manager model="profile.tags"></tag-manager>
+
+                    <p>Following tags</p>
+                    <tag-manager model="followingTags"></tag-manager>
+
+                     <section layout="column">
                         <md-button class="md-primary md-whiteframe-z2" ng-click="editPageModal()">
                             Edit your personal page
                         </md-button>
