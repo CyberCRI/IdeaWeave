@@ -1,7 +1,7 @@
 <div>
     <md-chips ng-model="model" md-on-select="pickedItem()" md-on-append="pickedItem($chip)"> 
         <md-autocomplete md-items="tag in matchedTags" md-search-text="searchText" md-search-text-change="updateMatchedTags(searchText)" md-selected-item-change="" placeholder="Pick some tags or create a new one">
-            <span md-highlight-text="searchText">{{ tag.title }} ({{ tag.number || 0 }})</span>
+            <span md-highlight-text="searchText">{{ tag.title }} ({{ tag.entityCount || 0 }})</span>
         </md-autocomplete>
         <md-chip-template>
             <span>{{ $chip.title }}</span>

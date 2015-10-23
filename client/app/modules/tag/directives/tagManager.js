@@ -23,7 +23,7 @@ angular.module('cri.tag')
 
                     // Find approximate matches
                     $scope.matchedTags = _.filter(allTags, function(tag) { 
-                        return tag.number > 0 && tag.title.toLowerCase().indexOf(searchText) != -1;
+                        return tag.entityCount > 0 && tag.title.toLowerCase().indexOf(searchText) != -1;
                     });
 
                     // If there's not an exact match, propose the user's text first

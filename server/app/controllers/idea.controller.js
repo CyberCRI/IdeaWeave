@@ -94,7 +94,7 @@ exports.create = function(req, res) {
             });
             return newNote.saveQ();;
         }).then(function() {
-            return tagController.updateTagCounts(idea.tags, []);
+            return tagController.updateTagCounts("idea", idea.tags, []);
         }).then(function() {
             res.json(200, idea);
         });
@@ -113,7 +113,7 @@ exports.update = function(req, res) {
         idea.brief = req.body.brief;
         idea.language = req.body.language;
 
-        var oldTags = _.map(idea.tags, function(tagId) { return tagId.toString(); });
+        var oldTags = idea.tags;
         idea.tags = req.body.tags;
         
         idea.modifiedDate = new Date();
@@ -128,7 +128,7 @@ exports.update = function(req, res) {
             
             return myNotif.saveQ()
             .then(function() {
-                return tagController.updateTagCounts(modifiedIdea.tags, oldTags);
+                return tagController.updateTagCounts("idea", modifiedIdea.tags, oldTags);
             }).then(function() {
                 res.json(200, modifiedIdea);
             });
@@ -162,7 +162,7 @@ exports.remove = function(req, res) {
             });
             myNotif.saveQ()
             .then(function() {
-                return tagController.updateTagCounts([], idea.tags);
+                return tagController.updateTagCounts("idea", [], idea.tags);
             }).then(function() {
                 res.json(200);
             });

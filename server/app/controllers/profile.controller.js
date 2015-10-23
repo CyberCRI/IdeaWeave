@@ -75,26 +75,29 @@ exports.unfollow = function(req,res){
  * Update user details
  */
 exports.update = function(req, res) {
-    if(req.body.tags){
-        req.body.tags = _.pluck(req.body.tags, "_id");
-    }
+    User.findOneQ({ _id : req.params.id })
+    .then(function(oldUser) {
+        if(req.body.tags){
+            req.body.tags = _.pluck(req.body.tags, "_id");
+        }
 
-    // Certain properties can't be updated
-    var updateObj = _.omit(req.body, ["emailValidated", "followers", "followings", "createDate", "google", "github", "passwordResetToken"]);
+        // Certain properties can't be updated
+        var updateObj = _.omit(req.body, ["emailValidated", "followers", "followings", "createDate", "google", "github", "passwordResetToken"]);
 
-    User.findOneAndUpdateQ({ _id : req.params.id }, updateObj)
-    .then(function(newUser) {
-        return tagController.updateTagCounts(newUser.tags, req.user.tags)
-        .then(function() {
-            var myNotif = new Notification({
-                type : 'update',
-                owner : req.user._id,
-                entity : req.user._id,
-                entityType : 'profile'
+        return User.findOneAndUpdateQ({ _id : req.params.id }, updateObj)
+        .then(function(newUser) {
+            return tagController.updateTagCounts("user", newUser.tags, oldUser.tags)
+            .then(function() {
+                var myNotif = new Notification({
+                    type : 'update',
+                    owner : req.user._id,
+                    entity : req.user._id,
+                    entityType : 'profile'
+                });
+                return myNotif.saveQ();
+            }).then(function() {
+                res.json(newUser);
             });
-            return myNotif.saveQ();
-        }).then(function() {
-            res.json(newUser);
         });
     }).catch(function(err) {
         res.json(400, err);
