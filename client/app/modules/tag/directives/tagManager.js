@@ -23,7 +23,7 @@ angular.module('cri.tag')
 
                     // Find approximate matches
                     $scope.matchedTags = _.filter(allTags, function(tag) { 
-                        return tag.title.toLowerCase().indexOf(searchText) != -1;
+                        return tag.number > 0 && tag.title.toLowerCase().indexOf(searchText) != -1;
                     });
 
                     // If there's not an exact match, propose the user's text first
@@ -35,9 +35,15 @@ angular.module('cri.tag')
 
                 $scope.pickedItem = function(selectedItem) {
                     // selectedItem could be an existing tag or a new tag (_id == "TEMPORARY")
+
+                    // If the tag already exists, just use it
                     if(selectedItem._id != "TEMPORARY") return selectedItem;
 
-                    // Create the new tag
+                    // Otherwise the tag may exist but not displayed (number == 0)
+                    var existingTag = _.find(allTags, function(tag) { return tag.title == selectedItem.title; });
+                    if(existingTag) return existingTag;
+
+                    // No existing tag. Time to create a new one
                     Tag.create(selectedItem.title).then(function(newTag) {
                         allTags.push(newTag);
 
