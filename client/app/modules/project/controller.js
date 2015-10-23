@@ -97,36 +97,39 @@ angular.module('cri.project',[])
         };
     })
     .controller('ProjectsCtrl',['$scope','$rootScope',function($scope,$rootScope){
-        $scope.toggleLeft = function(){
-            $rootScope.$broadcast('toggleLeft');
-        };
+        // Nothing
     }])
     .controller('ProjectsListCtrl', function($scope,projects,Notification,Project,$stateParams,Config){
         $scope.projects = projects;
-        $scope.noPage = 0;
-        $scope.isEnd = false;
-        $scope.now = new Date().getTime();
-        var option = { limit : Config.paginateChallenge };
-        $scope.loadMoreProjects = function () {
-            $scope.noPage++;
-            option.skip = Config.paginateChallenge * $scope.noPage;
-            if (!$scope.isEnd) {
-                Project.getByTag($stateParams.tag,option).then(function (result) {
-                    if (result.length > 0) {
-                        angular.forEach(result,function(project){
-                            $scope.projects.push(project);
-                        });
-                    } else {
-                        $scope.isEnd = true;
-                        Notification.display('there is no more projects');
-                    }
-                }).catch(function(err){
-                    Notification.display(err.message);
-                });
-            }
-        };
-    })
 
+        $scope.sortBy = "newest";
+        $scope.sortOptions = ["newest", "most followed", "most members"];
+
+        $scope.$watch("sortBy", function() {
+            var sortFunction = null;
+            switch($scope.sortBy) {
+                case "newest":
+                    sortFunction = function(project) {
+                        return -1 * Date.parse(project.createDate); 
+                    };
+                    break
+                case "most followed":
+                    sortFunction = function(project) {
+                        return -1 * project.followers.length; 
+                    };
+                    break;
+                case "most members":
+                    sortFunction = function(project) {
+                        return -1 * project.members.length; 
+                    };
+                    break;
+            }
+
+            if(sortFunction) {
+                $scope.projects = _.sortBy($scope.projects, sortFunction);
+            }
+        });
+    })
     .controller('ProjectJoinCtrl',['$scope','Profile','Config','Project','$state','Notification','$stateParams','project',function ($scope,Profile,Config,Project,$state,Notification,$stateParams,project) {
         Project.data = project;
 //        $scope.ref='/project/setting/'+$stateParams.pid+'/join/'+$stateParams.jid;
