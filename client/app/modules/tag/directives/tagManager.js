@@ -17,29 +17,39 @@ angular.module('cri.tag')
 
                 $scope.matchedTags = allTags;
                 $scope.updateMatchedTags = function(userText) {
+                    if(userText == "") return;
+
                     var searchText = userText.toLowerCase();
+
+                    // Find approximate matches
                     $scope.matchedTags = _.filter(allTags, function(tag) { 
                         return tag.title.toLowerCase().indexOf(searchText) != -1;
                     });
+
+                    // If there's not an exact match, propose the user's text first
+                    if(!_.find($scope.matchedTags.matchedTags, function(tag) { tag.title == searchText }))
+                    {
+                        $scope.matchedTags.unshift({ title: userText, _id: "TEMPORARY" });
+                    }
                 };
 
                 $scope.pickedItem = function(selectedItem) {
-                    console.log("Chose", selectedItem);
+                    // selectedItem could be an existing tag or a new tag (_id == "TEMPORARY")
+                    if(selectedItem._id != "TEMPORARY") return selectedItem;
 
-                    // selectedItem could be an existing tag (an object) or a new tag (a string)
-                    if(_.isObject(selectedItem)) return selectedItem;
-
-                    Tag.create(selectedItem).then(function(newTag) {
+                    // Create the new tag
+                    Tag.create(selectedItem.title).then(function(newTag) {
                         allTags.push(newTag);
 
                         // Replace the temporary tag object with the new one
-                        var tagIndex = _.findIndex($scope.model, function(tag) { return tag.title == selectedItem });
+                        var tagIndex = _.findIndex($scope.model, function(tag) { return tag.title == selectedItem.title });
                         $scope.model[tagIndex] = newTag; 
                     }).catch(function(err){
                         console.log("Error creating tag", err);
+                        Notification.display("Error creating tag");
                     });
 
-                    return { title: selectedItem, _id: "TEMPORARY" };
+                    return selectedItem;
                 };
             }
         };
