@@ -37,7 +37,7 @@ exports.signup = function(req, res) {
             });
             return q.all(tagUpdateRequests);
         }).then(function() {
-            return tagController.updateTagCounts(user.tags || [], []);
+            return tagController.updateTagCounts("user", user.tags || [], []);
         });
     }).then(function() {
         res.status(200).send();

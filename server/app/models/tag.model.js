@@ -19,10 +19,27 @@ var TagSchema = new Schema({
         required: 'Title cannot be blank',
         unique: true
     },
-    number: {
+    userCount: {
         type: Number,
         default: 0
     },    
+    challengeCount: {
+        type: Number,
+        default: 0
+    },    
+    projectCount: {
+        type: Number,
+        default: 0
+    },    
+    ideaCount: {
+        type: Number,
+        default: 0
+    },
+    // This is automatically calculated as the sum of the other "*Count" properties
+    entityCount: {
+        type: Number,
+        default: 0
+    },
     followers: [{
         type: Schema.ObjectId,
         ref: 'User',
@@ -33,6 +50,7 @@ var TagSchema = new Schema({
 // Put tags into lowercase, and trim
 TagSchema.pre('save', function(next) {
     this.title = this.title.trim().toLowerCase();
+    this.ideaCount = this.userCount + this.challengeCount + this.projectCount + this.ideaCount;
     next();
 });
 

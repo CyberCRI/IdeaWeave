@@ -34,7 +34,8 @@ exports.create = function(req,res){
 };
 
 // Returns promise to update tags 
-exports.updateTagCounts = function(newTagIds, oldTagIds) {
+// entityType should be "challenge", "user", "project", or "idea"
+exports.updateTagCounts = function(entityType, newTagIds, oldTagIds) {
     // Convert IDs to strings
     newTagIds = _.map(newTagIds, function(tagId) { return tagId.toString(); });
     oldTagIds = _.map(oldTagIds, function(tagId) { return tagId.toString(); });
@@ -42,13 +43,17 @@ exports.updateTagCounts = function(newTagIds, oldTagIds) {
     var tagsToAdd = _.difference(newTagIds, oldTagIds);
     var tagsToRemove = _.difference(oldTagIds, newTagIds);
 
-    console.log("Adding tags", tagsToAdd, "and removing", tagsToRemove);
+    console.log("For entityType", entityType, "adding tags", tagsToAdd, "and removing", tagsToRemove);
 
     var incrementQueries = _.map(tagsToAdd, function(tagId) {
-        return Tag.updateQ({ _id : tagId },{ $inc : {number : 1} });
+        var updateQuery = {};
+        updateQuery[entityType + "Count"] = 1;
+        return Tag.updateQ({ _id : tagId }, { $inc: updateQuery });
     });
     var decrementQueries = _.map(tagsToRemove, function(tagId) {
-        return Tag.updateQ({ _id : tagId },{ $inc : {number : -1} });
+        var updateQuery = {};
+        updateQuery[entityType + "Count"] = -1;
+        return Tag.updateQ({ _id : tagId }, { $inc: updateQuery });
     });
     
     return q.all(_.flatten([incrementQueries, decrementQueries]));

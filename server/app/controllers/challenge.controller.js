@@ -205,7 +205,7 @@ exports.create = function(req,res){
             entityType : 'challenge'
         });
         return myNotif.saveQ().then(function() {
-            return tagController.updateTagCounts(challenge.tags, []);
+            return tagController.updateTagCounts("challenge", challenge.tags, []);
         }).then(function() {
             res.json(data);
         }).fail(function(err) {
@@ -223,7 +223,7 @@ exports.update = function(req,res){
         var updateObj = _.pick(req.body, ["brief", "webPage", "startDate", "EndDate", "localisation", "banner", "home", "showProgress", "progress", "tags"]);
 
         return Challenge.findOneAndUpdateQ({ _id : req.params.id }, updateObj).then(function(data){
-            return tagController.updateTagCounts(data.tags, challenge.tags).then(function() {
+            return tagController.updateTagCounts("challenge", data.tags, challenge.tags).then(function() {
                 var myNotif = new Notification({
                     type : 'update',
                     owner : req.user._id,
@@ -246,7 +246,7 @@ exports.remove = function(req,res){
 
         var projectUpdateQuery = Project.updateQ({ container: req.params.id }, { container: null });
         var challengeRemovalQuery = Challenge.findOneAndRemoveQ({_id : req.params.id});
-        var updateTagCountsQuery = tagController.updateTagCounts([], challenge.tags);
+        var updateTagCountsQuery = tagController.updateTagCounts("challenge", [], challenge.tags);
 
         return q.all([projectUpdateQuery, challengeRemovalQuery, updateTagCountsQuery]).then(function(data){
             var myNotif = new Notification({
