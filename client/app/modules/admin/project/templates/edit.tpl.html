@@ -25,7 +25,10 @@
                 <div ng-bind-html="address.formatted_address | highlight: $select.search"></div>
             </ui-select-choices>
         </ui-select>
-        <tag-manager entity="project" ng-model="project.tags"></tag-manager>
+
+        <p>Tags</p>
+        <tag-manager model="project.tags"></tag-manager>
+
         <md-input-container>
             <label for="title">Title</label>
             <input id="title" type="text" ng-model="project.title" name="title" required/>

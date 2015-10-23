@@ -21,7 +21,7 @@
                     <a ui-sref="idea({ iid : idea._id })">
                         <h1 class="md-headline">{{ idea.title }}</h1>
                     </a>
-                    <showtags entity="idea"></showtags>
+                    <show-tags model="idea.tags"></show-tags>
                     <div>
                         <p ng-bind-html="idea.brief"></p>
                         <div layout="row">

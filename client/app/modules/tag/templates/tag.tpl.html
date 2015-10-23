@@ -1,127 +1,134 @@
-<md-content layout="column" layout-fill>
-    <md-toolbar scroll-shrink class="md-accent" layout="column" style="position:relative;z-index:10;">
-        <h1 class="center">
-            Results for tag #{{ tag }}
-        </h1>
-    </md-toolbar>
-
-    <div ng-if="isLoading">
-        Loading...
-        <md-linear-progress mode="indeterminate"></md-linear-progress>
-    </div>
-
-    <tabset ng-if="!isLoading">
-        <tab heading="List">
-            <!-- list users-->
-            <h3 class="solid pbm">{{ 'TAG_USER' | translate }}</h3>
-            <div ng-hide="tagData.users">
-                <div class="alert alert-info">{{ 'TAG_NOT_MATCH' | translate }}</div>
-            </div>
-            <div ng-show="tagData.users.length == 0">No users</div>
-            <div ng-show="tagData.users">
-                <ul class="list-unstyled">
-                    <li ng-repeat="user in tagData.users" >
-                        <div class="media">
-                            <div owner-block="user.id" class="pull-left" ></div>
-                            <div class="media-body">
-                                <blockquote class="pam">
-                                    <div>
-                                        <a ui-sref="profile({ uid : user._id })">{{user.username}}</a>
-                                    </div>
-                                    <div class="text-muted" ng-bind-html="user.brief" collapse="isCollapsed" ></div>
-                                </blockquote>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-
-            <!-- list Challenge-->
-            <h3 class="solid pbm">{{ 'TAG_CHALLENGE' | translate }}</h3>
-            <div ng-hide="tagData.challenges">
-                <div class="alert alert-info">{{ 'TAG_NOT_MATCH' | translate }}</div>
-            </div>
-            <div ng-show="tagData.challenges.length == 0">No challenges</div>
-            <div ng-show="tagData.challenges">
-                <ul class="list-unstyled">
-                    <li ng-repeat="challenge in tagData.challenges">
-                        <div class="media">
-                            <div owner-block="challenge.owner" class="pull-left" ></div>
-                            <div class="media-body">
-                                <blockquote class="pam">
-                                    <div>
-                                        <a ui-sref="challenge({ cid : challenge.accessUrl })">{{challenge.title}}</a>
-                                    </div>
-                                    <div class="text-muted" ng-bind-html="challenge.brief" ng-show="isCollapsed" ></div>
-                                </blockquote>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-                <div class="clearfix"></div>
-            </div>
-
-            <!-- list projects-->
-            <h3 class="solid pbm">{{ 'TAG_PROJECT' | translate }}</h3>
-            <div ng-hide="tagData.projects">
-                <div class="alert alert-info">
-                    {{ 'TAG_NOT_MATCH' | translate }}
+<md-content>
+    <md-content layout="row" layout-align="center" layout-margin>
+        <section class="md-whiteframe-z1" flex-gt-sm="75" layout="column">
+            <md-toolbar class="md-theme-green md-default-theme md-accent">
+                <div class="md-toolbar-tools">
+                    <h1>Results for tag #{{ tag }}</h1>
                 </div>
-            </div>
-            <div ng-show="tagData.projects.length == 0">No projects</div>
-            <div ng-show="tagData.projects">
-                <ul class="list-unstyled">
-                    <li ng-repeat="project in tagData.projects">
-                        <div class="media">
-                            <div owner-block="project.owner" class="pull-left" ></div>
-                            <div class="media-body">
-                                <blockquote class="pam">
-                                    <div>
-                                        <a ui-sref="project.home({ pid : project.accessUrl })">{{project.title}}</a>
-                                    </div>
-                                    <div class="text-muted" ng-bind-html="project.brief" collapse="isCollapsed"></div>
-                                </blockquote>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
+            </md-toolbar>
+
+            <div ng-if="isLoading">
+                Loading...
+                <md-linear-progress mode="indeterminate"></md-linear-progress>
             </div>
 
-            <!-- list ideas-->
-            <h3 class="solid pbm">{{ 'TAG_IDEA' | translate }}</h3>
-            <div ng-hide="tagData.projects">
-                <div class="alert alert-info">
-                    {{ 'TAG_NOT_MATCH' | translate }}
-                </div>
-            </div>
-            <div ng-show="tagData.ideas.length == 0">No ideas</div>
-            <div ng-show="tagData.ideas">
-                <ul class="list-unstyled">
-                    <li ng-repeat="idea in tagData.ideas">
-                        <div class="media">
-                            <div owner-block="idea.owner" class="pull-left" ></div>
-                            <div class="media-body">
-                                <blockquote class="pam">
-                                    <div>
-                                        <a ui-sref="idea({ iid : idea._id })">{{ idea.title }}</a>
+            <tabset ng-if="!isLoading" layout-padding>
+                <tab heading="List">
+                    <!-- list users-->
+                    <h3 class="solid pbm">{{ 'TAG_USER' | translate }}</h3>
+                    <div ng-hide="tagData.users">
+                        <div class="alert alert-info">{{ 'TAG_NOT_MATCH' | translate }}</div>
+                    </div>
+                    <div ng-show="tagData.users.length == 0">No users</div>
+                    <div ng-show="tagData.users">
+                        <ul class="list-unstyled">
+                            <li ng-repeat="user in tagData.users" >
+                                <div class="media">
+                                    <div owner-block="user.id" class="pull-left" ></div>
+                                    <div class="media-body">
+                                        <blockquote class="pam">
+                                            <div>
+                                                <a ui-sref="profile({ uid : user._id })">{{user.username}}</a>
+                                            </div>
+                                            <div class="text-muted" ng-bind-html="user.brief" collapse="isCollapsed" ></div>
+                                        </blockquote>
                                     </div>
-                                    <div class="text-muted" ng-bind-html="idea.brief" collapse="isCollapsed"></div>
-                                </blockquote>
-                            </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <md-divider></md-divider>
+
+                    <!-- list Challenge-->
+                    <h3 class="solid pbm">{{ 'TAG_CHALLENGE' | translate }}</h3>
+                    <div ng-hide="tagData.challenges">
+                        <div class="alert alert-info">{{ 'TAG_NOT_MATCH' | translate }}</div>
+                    </div>
+                    <div ng-show="tagData.challenges.length == 0">No challenges</div>
+                    <div ng-show="tagData.challenges">
+                        <ul class="list-unstyled">
+                            <li ng-repeat="challenge in tagData.challenges">
+                                <div class="media">
+                                    <div owner-block="challenge.owner" class="pull-left" ></div>
+                                    <div class="media-body">
+                                        <blockquote class="pam">
+                                            <div>
+                                                <a ui-sref="challenge({ cid : challenge.accessUrl })">{{challenge.title}}</a>
+                                            </div>
+                                            <div class="text-muted" ng-bind-html="challenge.brief" ng-show="isCollapsed" ></div>
+                                        </blockquote>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <md-divider ng-if="!$last"></md-divider>
+
+                    <!-- list projects-->
+                    <h3 class="solid pbm">{{ 'TAG_PROJECT' | translate }}</h3>
+                    <div ng-hide="tagData.projects">
+                        <div class="alert alert-info">
+                            {{ 'TAG_NOT_MATCH' | translate }}
                         </div>
-                    </li>
-                </ul>
-            </div>
-        </tab>
-        <tab heading="graf">
-            <section class="col-md-6">
-                <cri-d3-tag d3-tag-data="d3tagData" on-click="d3OnClick(item)" options="{}"></cri-d3-tag>
-            </section>
-            <section class="col-md-6 tag-detail" ng-if="showDetailPanel">
-                <h3 ng-bind="detailItem.name"></h3>
-                <img ng-src="{{ detailItem.poster }}" alt="" class="pull-left" style="width:30%"/>
-                <p ng-bind-html="detailItem.secureBrief"></p>
-            </section>
-        </tab>
-    </tabset>
+                    </div>
+                    <div ng-show="tagData.projects.length == 0">No projects</div>
+                    <div ng-show="tagData.projects">
+                        <ul class="list-unstyled">
+                            <li ng-repeat="project in tagData.projects">
+                                <div class="media">
+                                    <div owner-block="project.owner" class="pull-left" ></div>
+                                    <div class="media-body">
+                                        <blockquote class="pam">
+                                            <div>
+                                                <a ui-sref="project.home({ pid : project.accessUrl })">{{project.title}}</a>
+                                            </div>
+                                            <div class="text-muted" ng-bind-html="project.brief" collapse="isCollapsed"></div>
+                                        </blockquote>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <md-divider ng-if="!$last"></md-divider>
+
+                    <!-- list ideas-->
+                    <h3 class="solid pbm">{{ 'TAG_IDEA' | translate }}</h3>
+                    <div ng-hide="tagData.projects">
+                        <div class="alert alert-info">
+                            {{ 'TAG_NOT_MATCH' | translate }}
+                        </div>
+                    </div>
+                    <div ng-show="tagData.ideas.length == 0">No ideas</div>
+                    <div ng-show="tagData.ideas">
+                        <ul class="list-unstyled">
+                            <li ng-repeat="idea in tagData.ideas">
+                                <div class="media">
+                                    <div owner-block="idea.owner" class="pull-left" ></div>
+                                    <div class="media-body">
+                                        <blockquote class="pam">
+                                            <div>
+                                                <a ui-sref="idea({ iid : idea._id })">{{ idea.title }}</a>
+                                            </div>
+                                            <div class="text-muted" ng-bind-html="idea.brief" collapse="isCollapsed"></div>
+                                        </blockquote>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </tab>
+                <tab heading="graf">
+                    <section class="col-md-6">
+                        <cri-d3-tag d3-tag-data="d3tagData" on-click="d3OnClick(item)" options="{}"></cri-d3-tag>
+                    </section>
+                    <section class="col-md-6 tag-detail" ng-if="showDetailPanel">
+                        <h3 ng-bind="detailItem.name"></h3>
+                        <img ng-src="{{ detailItem.poster }}" alt="" class="pull-left" style="width:30%"/>
+                        <p ng-bind-html="detailItem.secureBrief"></p>
+                    </section>
+                </tab>
+            </tabset>
+        </section>
+    </md-content>
 </md-content>

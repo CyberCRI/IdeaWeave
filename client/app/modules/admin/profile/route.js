@@ -8,6 +8,11 @@ angular.module('cri.admin.profile')
                     templateUrl: 'modules/admin/profile/templates/edit.tpl.html',
                     controller: 'AdminProfileCtrl'
                 }
+            },
+            resolve: { 
+                followingTags: function(Profile) {
+                    return Profile.listFollowingTags();
+                }
             }
         });
     });

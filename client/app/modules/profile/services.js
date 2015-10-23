@@ -154,6 +154,48 @@ angular.module('cri.profile')
                 });
                 return defered.promise;
             },
+            listFollowingTags: function() {
+                var defered = $q.defer();
+                $http.get(Config.apiServer+'/tags/following').success(function(data){
+                    defered.resolve(data);
+                }).error(function(err){
+                    defered.reject(err);
+                });
+                return defered.promise;
+            },
+            followTag: function(tagId) {
+                var defered = $q.defer();
+                $http.post(Config.apiServer+'/tags/' + tagId + '/follow').success(function(data){
+                    defered.resolve(data);
+                }).error(function(err){
+                    defered.reject(err);
+                });
+                return defered.promise;
+            },
+            unfollowTag: function(tagId) {
+                var defered = $q.defer();
+                $http.post(Config.apiServer+'/tags/' + tagId + '/unfollow').success(function(data){
+                    defered.resolve(data);
+                }).error(function(err){
+                    defered.reject(err);
+                });
+                return defered.promise;
+            },
+
+            // Utility function to follow and unfollow so that only new tags are followed 
+            updateTagFollowing: function(newTagIds) {
+                return service.listFollowingTags().then(function(currentlyFollowingTags) {
+                    var oldTagIds = _.pluck(currentlyFollowingTags, "_id");
+
+                    var tagsToFollow = _.difference(newTagIds, oldTagIds);
+                    var tagsToUnfollow = _.difference(oldTagIds, newTagIds);
+
+                    var followTagRequests = _.map(tagsToFollow, service.followTag);
+                    var unfollowTagRequests = _.map(tagsToUnfollow, service.unfollowTag);
+
+                    return $q.all(_.flatten([followTagRequests, unfollowTagRequests], true));
+                });
+            }
         };
         return service;
     }]);

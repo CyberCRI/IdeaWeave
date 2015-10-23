@@ -1,10 +1,12 @@
 angular.module('cri.tag')
     .directive('tagManager', function(){
         return {
-            restrict:'EA',
-            scope:{entity:'='},
-            replace:true,
-            templateUrl:'modules/tag/directives/tags.tpl.html',
+            restrict: 'EA',
+            scope: {
+                model: '='
+            },
+            replace: true,
+            templateUrl: 'modules/tag/directives/tags.tpl.html',
             controller : function($scope,Tag,Notification){
                 var allTags = [];
                 Tag.fetch().then(function(result){
@@ -31,8 +33,8 @@ angular.module('cri.tag')
                         allTags.push(newTag);
 
                         // Replace the temporary tag object with the new one
-                        var tagIndex = _.findIndex($scope.entity.tags, function(tag) { return tag.title == selectedItem });
-                        $scope.entity.tags[tagIndex] = newTag; 
+                        var tagIndex = _.findIndex($scope.model, function(tag) { return tag.title == selectedItem });
+                        $scope.model[tagIndex] = newTag; 
                     }).catch(function(err){
                         console.log("Error creating tag", err);
                     });
@@ -42,10 +44,10 @@ angular.module('cri.tag')
             }
         };
     })
-    .directive('showtags',function(){
+    .directive('showTags',function(){
         return {
             restrict: 'EA',
-            scope: { entity: '=' },
+            scope: { model: '=' },
             templateUrl:'modules/tag/directives/show-tags.tpl.html'
         };
     });

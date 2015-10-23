@@ -8,6 +8,7 @@ var q = require('q'),
     Challenge= mongoose.model('Challenge'),
     Idea = mongoose.model('Idea'),
     Note = mongoose.model('NoteLab'),
+    Tag = mongoose.model('Tag'),
     _ = require('lodash');
 
 exports.create = function(owner,type,entity, entityType){
@@ -27,22 +28,25 @@ exports.create = function(owner,type,entity, entityType){
 };
 
 exports.listForUser = function(req, res) {
-    console.log("user id", req.user._id);
+    // Start by finding tags that we follow
+    Tag.findQ({ followers: req.user._id }, "_id")
+    .then(function(followedTags) {
+        var followedTagIds = _.pluck(followedTags, "_id");
+        var requests = [ 
+            // Find users that we are following
+            User.findQ({ followers: req.user._id },'_id'), 
+            // Find challenges that we follow, own, or that have our followed tags
+            Challenge.findQ({ $or: [ { followers: req.user._id }, { owner: req.user._id }, { tags: { $in: followedTagIds } } ] }, '_id'),
+            // Find projects that we follow, are a member of, own, or that have our followed tags
+            Project.findQ({ $or: [ { followers: req.user._id }, { members: req.user._id }, { owner: req.user._id}, { tags: { $in: followedTagIds } } ] }, '_id'),
+            // Find ideas that we follow, own, or that have our followed tags
+            Idea.findQ({ $or: [ { owner: req.user._id }, { followers: req.user._id }, { tags: { $in: followedTagIds } } ] }, '_id'),
+            // Find notes that we own or have comments that we own
+            Note.findQ({ $or: [ { owner: req.user._id }, { "comment.owner": req.user._id } ] }, '_id')
+        ];
 
-    var requests = [ 
-        User.findQ({ followers:  req.user._id },'_id'), 
-        Challenge.findQ({ followers: req.user._id },'_id'),
-        Challenge.findQ({ owner: req.user._id},'_id'),
-        Project.findQ({ followers:  req.user._id }, '_id'),
-        Project.findQ({ members:  req.user._id }, '_id'),
-        Project.findQ({ owner : req.user._id}, '_id'),
-        Idea.findQ({ owner: req.user._id}, '_id'),
-        Idea.findQ({ followers: req.user._id}, '_id'),
-        Note.findQ({ owner: req.user._id}, '_id'),
-        Note.findQ({ "comment.owner": req.user._id}, '_id'),
-    ];
-
-    q.all(requests)
+        return q.all(requests);
+    })
     .then(function(requestedIds) {
         // Merge the list
         var entityIds = _.pluck(_.flatten(requestedIds), "_id");

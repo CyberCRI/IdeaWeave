@@ -19,7 +19,7 @@
                 <md-button class="md-raised" ng-if="profile._id == currentUser._id" ui-sref="profileAdmin" flex>
                     <i class="fa fa-pencil-square-o baseColor"></i> Edit
                 </md-button>
-                <showtags entity="profile" style="margin-left: 50px;"></showtags>
+                <show-tags model="profile.tags" style="margin-left: 50px;"></show-tags>
 
                 <md-divider></md-divider>
                 <h3>Presentation</h3>
@@ -33,7 +33,11 @@
                     </div>
 
                     <div>
-                        <challenge-card ng-repeat="challenge in moreData.challenges" admin="true" challenge-id="challenge._id"></challenge-card>
+                        <md-grid-list md-cols="3" md-row-height="500px">
+                            <md-grid-tile ng-repeat="challenge in moreData.challenges">
+                                <challenge-more-card class="md-whiteframe-z2" admin="true" challenge-id="challenge._id" style="height: 410px;"></challenge-more-card> 
+                            </md-grid-tile>
+                        </md-grid-list>
                     </div>
                 </div>
 
@@ -45,7 +49,11 @@
                     </div>
 
                     <div>
-                        <challenge-card ng-repeat="challenge in moreData.followedChallenges" challenge-id="challenge._id"></challenge-card>
+                        <md-grid-list md-cols="3" md-row-height="500px">
+                            <md-grid-tile ng-repeat="challenge in moreData.challenges">
+                                <challenge-more-card class="md-whiteframe-z2" admin="true" challenge-id="challenge._id" style="height: 410px;"></challenge-more-card> 
+                            </md-grid-tile>
+                        </md-grid-list>
                     </div>
                 </div>
 
@@ -57,7 +65,11 @@
                     </div>
 
                     <div>
-                        <project-card ng-repeat="project in moreData.projects" admin="true" project-id="project._id"></project-card>
+                        <md-grid-list md-cols="3" md-row-height="500px">
+                            <md-grid-tile ng-repeat="project in moreData.projects">
+                                <project-card class="md-whiteframe-z2" admin="true" project-id="project._id" style="height: 410px;"></project-card> 
+                            </md-grid-tile>
+                        </md-grid-list>
                     </div>
                 </div>
 
@@ -69,7 +81,11 @@
                     </div>
 
                     <div>
-                        <project-card ng-repeat="project in moreData.memberProjects" project-id="project._id"></project-card>
+                        <md-grid-list md-cols="3" md-row-height="500px">
+                            <md-grid-tile ng-repeat="project in moreData.memberProjects">
+                                <project-card class="md-whiteframe-z2" project-id="project._id"style="height: 410px;"></project-card> 
+                            </md-grid-tile>
+                        </md-grid-list>
                     </div>
                 </div>
 

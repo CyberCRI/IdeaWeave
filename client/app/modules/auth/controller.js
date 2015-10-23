@@ -92,6 +92,10 @@ angular.module('cri.auth',[
 
         $scope.check = {};
 
+        $scope.signup = {
+            tags: []
+        };
+
         $scope.refreshAddresses = function(address) {
             Gmap.getAdress(address).then(function(adresses){
                 $scope.addresses = adresses;
@@ -102,12 +106,15 @@ angular.module('cri.auth',[
             if ($scope.check.password !== user.password) {
                 Notification.display("The passwords do not match");
             } else {
-                $auth.signup(user);
-                Notification.display("Welcome, you can login now");
-                $state.go('signin');
+                $auth.signup(user)
+                .then(function() { 
+                    Notification.display("Welcome, you can login now");
+                    $state.go('signin');
+                }).catch(function (err) {
+                    Notification.display(err.data && err.data.message || "An unknown error has occured");
+                });
             }
         };
-
     }])
     .controller('ForgotPasswordCtrl', function ($scope, $state, Profile, Notification) {
         $scope.email = "";

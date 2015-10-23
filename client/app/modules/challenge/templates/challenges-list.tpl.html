@@ -8,51 +8,9 @@
     <div ng-show="challenges.length == 0">
         Nothing to show yet... 
     </div>
-    <md-list ng-show="challenges.length > 0">
-        <md-list-item ng-repeat="challenge in challenges" class="item-list">
-            <div class="md-tile-left" flex="40" flex-sm="30" flex-md="25" flex-lg="15">
-                <a ui-sref="challenge({ cid : challenge.accessUrl })">
-                    <img ng-src="{{ challenge.poster || '/images/placeholder90x90.png' }}" class="" width="100%" alt="challenge's poster" />
-                </a>
-            </div>
-            <article class="md-tile-content">
-                <a ui-sref="challenge({ cid : challenge.accessUrl })">
-                    <h1 class="md-headline">{{ challenge.title }}</h1>
-                </a>
-                <showtags entity="challenge"></showtags>
-                <div>
-                    <p ng-bind-html="challenge.brief"></p>
-                    <div layout="row">
-                        <div flex>
-                            <span>
-                            {{ challenge.followers.length }}
-                            </span>
-                            <span>
-                                Followers
-                            </span>
-                                    </div>
-                                    <div flex>
-                            <span>
-                            {{ challenge.projects.length }}
-                            </span>
-                            <span>
-                                Projects
-                            </span>
-                        </div>
-                        <div flex>
-                            <p ng-if="challenge.startDate < now && challenge.endDate > now" >
-                                <timer end-time="challenge.endDate" >End in :{{days}} d, {{hours}} : {{minutes}} : {{seconds}}</timer>
-                            </p>
-                            <p ng-if="challenge.startDate > now" >
-                                <timer end-time="challenge.endDate" >Start in : {{days}} d, {{hours}} : {{minutes}} : {{seconds}}</timer>
-                            </p>
-                        </div>
-                    </div>
-                    <md-button ng-click="showProjects(challenge._id,$index)" >
-                        show related projects
-                    </md-button>
-                </div>
-            </article>
-        </md-list-item>
-    </md-list>
+    <md-grid-list md-cols="3" ng-show="challenges.length > 0" md-row-height="500px">
+        <md-grid-tile ng-repeat="challenge in challenges">
+            <challenge-more-card class="md-whiteframe-z2" challenge-id="challenge._id" style="height: 410px;" current-user="currentUser"></challenge-more-card> 
+        </md-grid-tile>
+    </md-grid-list>
 </md-content>

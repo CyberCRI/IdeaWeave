@@ -1,5 +1,5 @@
 angular.module('cri.admin.profile',['cri.profile'])
-    .controller('AdminProfileCtrl', function ($scope,$state,$rootScope,Profile,Gmap,Notification,$mdDialog) {
+    .controller('AdminProfileCtrl', function ($scope,$state,$rootScope,Profile,Gmap,Notification,$mdDialog,followingTags) {
         Profile.getMe().then(function(me) {
             $scope.profile = me;
             delete $scope.profile._id;
@@ -8,6 +8,9 @@ angular.module('cri.admin.profile',['cri.profile'])
                 tags: [],
                 localisation: []
             });
+
+            // Get list of followed tags
+            $scope.followingTags = followingTags;
 
             $scope.refreshAddresses = function(address) {
                 Gmap.getAdress(address).then(function(adresses){
@@ -109,9 +112,14 @@ angular.module('cri.admin.profile',['cri.profile'])
             };
 
             $scope.updateProfile=function(){
-                Profile.update($scope.currentUser._id, $scope.profile).then(function(data){
+                var newTagIds = _.pluck($scope.followingTags, "_id");
+
+                return Profile.updateTagFollowing(newTagIds)
+                .then(function() {
+                    return Profile.update($scope.currentUser._id, $scope.profile);
+                }).then(function(newProfile){
                     Notification.display('Updated successfully');
-                    $rootScope.currentUser = data; // update the current user
+                    $rootScope.currentUser = newProfile; // update the current user
                     $state.go('profile',{ uid : $scope.currentUser._id });
                 }).catch(function(err){
                     Notification.display(err.message);

@@ -55,7 +55,7 @@
                     </div>
 
                     <div layout="column">
-                        <showtags entity="idea"></showtags>
+                        <show-tags model="idea.tags"></show-tags>
 
                         <list-notes idea="idea" current-user="currentUser"></list-notes>
                     </div>
@@ -93,7 +93,7 @@
                         <md-grid-list md-cols="3" md-row-height="400px">
                             <md-grid-tile ng-repeat="challenge in idea.challenges">
                                 <div layout="column">
-                                    <challenge-card challenge-id="challenge"></challenge-card>
+                                    <challenge-more-card challenge-id="challenge"></challenge-more-card>
                                     <md-button ng-click="removeLinkToChallenge(challenge)">
                                         <i class="fa fa-times baseColor"></i> Remove Challenge
                                     </md-button>
