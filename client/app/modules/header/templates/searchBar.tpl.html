@@ -1,3 +1,15 @@
+<div>
+
+    <md-autocomplete md-items="result in searchResult" md-search-text="searchText" md-search-text-change="refreshSearchBar(searchText)" md-selected-item="selectedItem" md-selected-item-change="goTo(selectedItem)" placeholder="Search...">
+        <span md-highlight-text="searchText">
+            {{ result.title || result.username }}</span>
+        <md-not-found>
+            No matches found.
+        </md-not-found>
+    </md-autocomplete>
+
+
+<!--
 <ui-select ng-model="address.selected"
            reset-search-input="true"
            theme="selectize"
@@ -54,3 +66,6 @@
         </md-item>
     </ui-select-choices>
 </ui-select>
+-->
+</div>
+

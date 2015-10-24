@@ -1,6 +1,8 @@
 angular.module('cri.header',[])
 
 .controller('HeaderCtrl',function($scope,$auth,$state,Notification,SearchBar,$mdSidenav,$rootScope,mySocket){
+    $scope.serachText = "";
+
     $scope.sideNavToggle = function(event){
         $rootScope.$broadcast(event);
     };

@@ -19,34 +19,7 @@ angular.module('cri.header')
                     _.each(searchResult.users, function(element) { element.type = "user"; });
                     _.each(searchResult.tags, function(element) { element.type = "tag"; });
 
-                    // Next, add seperators
-                    if(searchResult.projects.length >0){
-                        searchResult.projects.unshift({
-                            separator : 'Projects'
-                        });
-                     }
-                    if(searchResult.challenges.length >0){
-                        searchResult.challenges.unshift({
-                            separator : 'Challenges'
-                        });
-                    }
-                    if(searchResult.ideas.length >0){
-                        searchResult.ideas.unshift({
-                            separator : 'Ideas'
-                        });
-                    }
-                    if(searchResult.users.length >0){
-                        searchResult.users.unshift({
-                            separator : 'Users'
-                        });
-                    }
-                    if(searchResult.users.length >0){
-                        searchResult.tags.unshift({
-                            separator : 'Tags'
-                        });
-                    }
-
-                    // Finally, combine the elements into a list and return the result
+                    // Vombine the elements into a list and return the result
                     var flatList = searchResult.projects.concat(searchResult.challenges,searchResult.ideas,searchResult.users,searchResult.tags);
                     defered.resolve(flatList);
                 }).error(function(err){
