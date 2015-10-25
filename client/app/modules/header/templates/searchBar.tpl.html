@@ -1,8 +1,16 @@
 <div>
 
     <md-autocomplete md-items="result in lookFor(searchText)" md-search-text="searchText" md-search-text-change="" md-selected-item="selectedItem" md-selected-item-change="goTo(selectedItem)" placeholder="Search...">
-        <span md-highlight-text="searchText">
-            {{ result.title || result.username }}</span>
+        <md-item-template>
+            <!-- Depending on the type of result, show the right icon -->
+            <i ng-if="result.type == 'project'" class="fa fa-rocket baseColor"></i>
+            <md-icon ng-if="result.type == 'challenge'" class="top-bar-icon-svg" md-svg-src="images/svg/challenges.svg"></md-icon>
+            <md-icon ng-if="result.type == 'idea'" class="top-bar-icon-svg" md-svg-src="images/svg/ideas.svg"></md-icon>
+            <i ng-if="result.type == 'tag'" class="fa fa-tag baseColor"></i>
+            <i ng-if="result.type == 'user'" class="fa fa-user baseColor"></i>
+
+            <span md-highlight-text="searchText">{{ result.title || result.username }}</span>
+        </md-item-template>
         <md-not-found>
             No matches found.
         </md-not-found>
