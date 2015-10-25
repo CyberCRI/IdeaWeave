@@ -58,6 +58,13 @@ angular.module('cri', [
             console.log('err',err)
         });
     })
+    // Keep track of the unseen notifications 
+    .run(function($rootScope, Profile) {
+        $rootScope.unseenNotificationCounter = 0;
+        Profile.getUnseenNotificationCounter().then(function(data) {
+            $rootScope.unseenNotificationCounter = data.unseenNotificationCounter;
+        });
+    })
     .controller('ToastCtrl',['$scope','$hideToast',function($scope, $hideToast) {
         $scope.closeToast = function() {
             $hideToast();
