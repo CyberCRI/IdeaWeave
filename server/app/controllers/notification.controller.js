@@ -52,6 +52,8 @@ exports.listForUser = function(req, res) {
         var entityIds = _.pluck(_.flatten(requestedIds), "_id");
         var userIds = _.pluck(requestedIds[0], "_id");
 
+        // OPT: make single request using $or
+        // OPT: limit to a certain number (50?)
         var entityNotificationReq = Notification.findQ({ entity: { $in: entityIds } });
         var ownerNotificationReq = Notification.findQ({ owner: { $in: userIds } });
 
@@ -67,5 +69,27 @@ exports.listForUser = function(req, res) {
     }).fail(function(err){
         console.error(err);
         res.json(500, err);
+    });
+};
+
+exports.getUnseenNotificationCounter = function(req, res) {
+    User.findOneQ({ _id: req.user._id })
+    .then(function(user) {
+        res.json({
+            unseenNotificationCounter: user.unseenNotificationCounter,
+            lastSeenNotificationDate: user.lastSeenNotificationDate
+        });
+    }).fail(function(err) {
+        res.json(500, err);
+    });
+};
+
+exports.resetUnseenNotificationCounter = function(req, res) {
+    User.findOneAndUpdateQ({ _id: req.user._id }, { unseenNotificationCounter: 0, lastSeenNotificationDate: Date.now() })
+    .then(function() {
+        res.send(200);
+    })
+    .fail(function(err) {
+        res.json(400, err);
     });
 };

@@ -195,7 +195,28 @@ angular.module('cri.profile')
 
                     return $q.all(_.flatten([followTagRequests, unfollowTagRequests], true));
                 });
+            },
+
+            getUnseenNotificationCounter: function() {
+                var defered = $q.defer();
+                $http.get(Config.apiServer+'/notifications/me/unseenCounter').success(function(data){
+                    defered.resolve(data);
+                }).error(function(err){
+                    defered.reject(err);
+                });
+                return defered.promise;
+            },
+
+            resetUnseenNotificationCounter: function() {
+                var defered = $q.defer();
+                $http.post(Config.apiServer+'/notifications/me/resetUnseenCounter').success(function(data){
+                    defered.resolve(data);
+                }).error(function(err){
+                    defered.reject(err);
+                });
+                return defered.promise;
             }
+
         };
         return service;
     }]);

@@ -82,7 +82,7 @@ exports.update = function(req, res) {
         }
 
         // Certain properties can't be updated
-        var updateObj = _.omit(req.body, ["emailValidated", "followers", "followings", "createDate", "google", "github", "passwordResetToken"]);
+        var updateObj = _.omit(req.body, ["emailValidated", "followers", "followings", "createDate", "google", "github", "passwordResetToken", "unseenNotificationCounter"]);
 
         return User.findOneAndUpdateQ({ _id : req.params.id }, updateObj)
         .then(function(newUser) {

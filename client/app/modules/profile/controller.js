@@ -55,6 +55,9 @@ angular.module('cri.profile',[])
             }
         };
     })
-    .controller('FeedCtrl', function ($scope, notifications) {
+    .controller('FeedCtrl', function ($scope, Profile, notifications) {
         $scope.notifications = notifications;
+
+        // Reset notification counter
+        Profile.resetUnseenNotificationCounter();
     });

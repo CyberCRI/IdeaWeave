@@ -117,24 +117,28 @@ function sendNotification(notification, userId) {
             console.log("Sending live notification to user", userId);
             socket.sendNotification(notification, userId);
         } else if(user.mailNotification) {
-            return prepareEmail(notification).then(function(mailContents) {
-                if(!mailContents) return;
+            // Record the unseen notification
+            return User.findOneAndUpdateQ({ _id: userId }, { $inc: "unseenNotificationCounter" })
+            .then(function() {
+                return prepareEmail(notification).then(function(mailContents) {
+                    if(!mailContents) return;
 
-                console.log("Sending mail notification to user", userId);
+                    console.log("Sending mail notification to user", userId);
 
-                var mail = {
-                    to: user.username + " <" + user.email + ">",
-                    subject: "IdeaWeave: " + mailContents.title,
-                    text: "Hi " + user.username + ",\n\n"
-                        + mailContents.body + "\n\n" 
-                        + "  " + config.clientBaseUrl + mailContents.link + "\n\n"
-                        + "Your friendly IdeaWeave robot.\n\n"
-                        + "---\n\n" 
-                        + "You are receiving this mail because you signed up for email notifications. " 
-                        + "To unsubscribe, go to your profile settings on " + config.clientBaseUrl + "/admin/myProfile " 
-                        + "and deselect \"email notifications\""
-                };
-                return emailer(mail);
+                    var mail = {
+                        to: user.username + " <" + user.email + ">",
+                        subject: "IdeaWeave: " + mailContents.title,
+                        text: "Hi " + user.username + ",\n\n"
+                            + mailContents.body + "\n\n" 
+                            + "  " + config.clientBaseUrl + mailContents.link + "\n\n"
+                            + "Your friendly IdeaWeave robot.\n\n"
+                            + "---\n\n" 
+                            + "You are receiving this mail because you signed up for email notifications. " 
+                            + "To unsubscribe, go to your profile settings on " + config.clientBaseUrl + "/admin/myProfile " 
+                            + "and deselect \"email notifications\""
+                    };
+                    return emailer(mail);
+                });
             });
         }
     })
