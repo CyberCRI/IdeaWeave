@@ -1,7 +1,7 @@
 angular.module('cri.header')
 .factory('SearchBar',['Config','$http','$q',function(Config,$http,$q){
         var service = {
-            refresh : function(search){
+            lookFor : function(search){
                 var defered = $q.defer();
                 var query = {title:{$regex:search+".*",$options: 'i'},context:'list'};
                 var queryUser = {username:{$regex:search+".*",$options: 'i'},context:'list'};

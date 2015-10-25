@@ -1,6 +1,6 @@
 <div>
 
-    <md-autocomplete md-items="result in searchResult" md-search-text="searchText" md-search-text-change="refreshSearchBar(searchText)" md-selected-item="selectedItem" md-selected-item-change="goTo(selectedItem)" placeholder="Search...">
+    <md-autocomplete md-items="result in lookFor(searchText)" md-search-text="searchText" md-search-text-change="" md-selected-item="selectedItem" md-selected-item-change="goTo(selectedItem)" placeholder="Search...">
         <span md-highlight-text="searchText">
             {{ result.title || result.username }}</span>
         <md-not-found>
