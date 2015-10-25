@@ -58,7 +58,14 @@ angular.module('cri.profile',[])
     .controller('FeedCtrl', function ($scope, Profile, notifications, $rootScope) {
         $scope.notifications = notifications;
 
-        // Reset notification counter
-        Profile.resetUnseenNotificationCounter();
-        $rootScope.unseenNotificationCounter = 0;
+        $scope.lastSeenNotificationDate = new Date();
+
+        Profile.getUnseenNotificationCounter().then(function(data) {
+            $scope.lastSeenNotificationDate = new Date(data.lastSeenNotificationDate);
+        })
+        .then(function() { 
+            // Reset notification counter
+            Profile.resetUnseenNotificationCounter();
+            $rootScope.unseenNotificationCounter = 0;
+        });
     });

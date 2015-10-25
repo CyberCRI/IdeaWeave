@@ -3,22 +3,23 @@ angular.module('cri.common')
     return {
         restrict: 'E',
         scope: {
-            notification: '='
+            notification: '=',
+            highlight: '='
         },
-        templateUrl:'modules/notification/notificationList/notification.tpl.html',
-        line: function(scope, element, attrs) {
-            scope.notification = attrs.notification;
-        }
+        templateUrl:'modules/notification/notificationList/notification.tpl.html'
     };
 }).directive('notificationList', function() {
     return {
         restrict: 'E',
         scope: {
-            notifications: '='
+            notifications: '=',
+            highlightAfterDate: '='
         },
         templateUrl:'modules/notification/notificationList/notification-list.tpl.html',
-        line: function(scope, element, attrs) {
-            scope.notifications = attrs.notifications;
+        controller: function($scope) {
+            _.each($scope.notifications, function(notification) {
+                notification.highlight = (Date.parse(notification.createDate) > $scope.highlightAfterDate.value());
+            });
         }
     };
 });
