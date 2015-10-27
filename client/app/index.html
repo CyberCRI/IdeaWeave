@@ -73,7 +73,7 @@
                 </md-button>
                 <md-button ui-sref="profile({ uid : currentUser._id })" class="cursor-hand md-primary" id="miniProfil" ng-if="currentUser">
                     <div div layout="row" ng-cloak layout-align="center center">
-                        <img ng-src="{{ currentUser.poster || 'images/avater.jpg' }}" alt="{{ currentUser.username }}'s photo" class="img-rounded"/>
+                        <img ng-src="{{ currentUser.poster || 'images/avater.jpg' }}" alt="{{ currentUser.username }}'s photo" class="img-rounded" style="margin-top: -40px;"/>
                         <p>&nbsp;{{ currentUser.realname || currentUser.username }}</p>
                     </div>
                 </md-button>
