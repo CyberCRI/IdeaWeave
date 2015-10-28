@@ -285,7 +285,7 @@ exports.fetch = function(req,res){
     }else if(req.query._id) {
         switch(req.query.type){
             case 'card':
-                Project.find({_id : req.query._id}).select('_id title brief accessUrl tags poster followers members owner').populate('tags').execQ().then(function(data){
+                Project.find({_id : req.query._id}).select('_id title brief accessUrl tags poster followers members owner like dislike').populate('tags').execQ().then(function(data){
                     res.json(data);
                 }).catch(function(err){
                     res.json(400,err);
@@ -306,7 +306,7 @@ exports.fetch = function(req,res){
                 });
                 break;
             default :
-                Project.find({_id : req.query._id}).select('_id title brief accessUrl tags poster followers members owner localisation home trello showProgress progress').populate('tags').execQ().then(function(data){
+                Project.find({_id : req.query._id}).select('_id title brief accessUrl tags poster followers members owner localisation home trello showProgress progress like dislike').populate('tags').execQ().then(function(data){
                     res.json(data);
                 }).catch(function(err){
                     res.json(400,err);

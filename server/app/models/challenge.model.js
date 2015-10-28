@@ -80,6 +80,14 @@ var ChallengeSchema = new Schema({
         type : Number,
         default : 0
     },
+    like : {
+        type : Number,
+        default : 0
+    },
+    dislike : {
+        type : Number,
+        default : 0
+    },
     projectNumber : {
         type : Number,
         default : 0

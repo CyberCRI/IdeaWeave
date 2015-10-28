@@ -72,6 +72,14 @@ var ProjectSchema = new Schema({
         type : Number,
         default : 0
     },
+    like : {
+        type : Number,
+        default : 0
+    },
+    dislike : {
+        type : Number,
+        default : 0
+    },
     noteNumber : {
         type : Number,
         default : 0

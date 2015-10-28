@@ -147,7 +147,7 @@ exports.fetch = function(req,res){
     }else if(req.query._id) {
             switch(req.query.type){
                 case 'card':
-                    Challenge.find({_id : req.query._id}).select('_id title brief accessUrl tags poster followers startDate endDate projects owner').populate('tags').execQ().then(function(data){
+                    Challenge.find({_id : req.query._id}).select('_id title brief accessUrl tags poster followers startDate endDate projects owner like dislike').populate('tags').execQ().then(function(data){
 
                         res.json(data);
                     }).catch(function(err){
@@ -171,7 +171,7 @@ exports.fetch = function(req,res){
                     });
                     break;
                 default:
-                    Challenge.find({_id : req.query._id}).select('_id title brief accessUrl tags poster followers owner home showProgress progress').populate('tags').execQ().then(function(data){
+                    Challenge.find({_id : req.query._id}).select('_id title brief accessUrl tags poster followers owner home showProgress progress like dislike').populate('tags').execQ().then(function(data){
 
                         res.json(data);
                     }).catch(function(err){
