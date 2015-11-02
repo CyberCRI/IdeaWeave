@@ -17,9 +17,13 @@ angular.module('cri.common')
         },
         templateUrl:'modules/notification/notificationList/notification-list.tpl.html',
         controller: function($scope) {
-            _.each($scope.notifications, function(notification) {
-                notification.highlight = (Date.parse(notification.createDate) > $scope.highlightAfterDate.value());
-            });
+            function updateHighlighting() {
+                _.each($scope.notifications, function(notification) {
+                    notification.highlight = (Date.parse(notification.createDate) > Date.parse($scope.highlightAfterDate));
+                });
+            }
+
+            $scope.$watch("highlightAfterDate", updateHighlighting);
         }
     };
 });
