@@ -52,20 +52,10 @@ exports.listForUser = function(req, res) {
         var entityIds = _.pluck(_.flatten(requestedIds), "_id");
         var userIds = _.pluck(requestedIds[0], "_id");
 
-        // OPT: make single request using $or
-        // OPT: limit to a certain number (50?)
-        var entityNotificationReq = Notification.findQ({ entity: { $in: entityIds } });
-        var ownerNotificationReq = Notification.findQ({ owner: { $in: userIds } });
-
-        return q.all([entityNotificationReq, ownerNotificationReq]);
-    }).then(function(requestedNotifications) {
-        // Remove duplicates (based on ID). Reverse sort by date
-        var allNotifications = _.chain(requestedNotifications)
-            .flatten(true)
-            .unique(false, function(notification) { return notification._id; })
-            .sortBy(function(notification) { return new Date(notification.createDate).getTime() * -1; })
-            .value();
-        res.json(allNotifications);
+        // Limit to 50 notifications
+        return Notification.find({ $or: [ { entity: { $in: entityIds } }, { owner: { $in: userIds } } ] }).sort("-createDate").limit(50).execQ();
+    }).then(function(notifications) {
+        res.json(notifications);
     }).fail(function(err){
         console.error(err);
         res.json(500, err);
