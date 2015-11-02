@@ -22,7 +22,7 @@ angular.module('cri', [
     'cri.home',
     'cri.header',
     'cri.footer',
-	'cri.common',
+    'cri.common',
     'cri.message',
     'cri.project',
     'cri.workspace',
