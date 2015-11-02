@@ -41,29 +41,42 @@ angular.module('cri', [
 
         $sceProvider.enabled(false);
     }])
-    .run(function (Profile,mySocket,$rootScope,$auth) {
+    .run(function (Profile,$rootScope,$auth) {
         // If there is no user signed in by default, don't grab the profile which will end up redirecting to /login
         if(!$auth.getToken()) return;
 
         Profile.getMe().then(function(me){
             $rootScope.currentUser = me;
-            mySocket.init(me);
-
-            Profile.getPoster(me._id).then(function(data){
-                $rootScope.currentUser.poster = data.poster;
-            }).catch(function(err){
-                console.log('poster error',err)
-            })
+            $rootScope.$emit("changeLogin", me);
         }).catch(function(err){
             console.log('err',err)
         });
     })
+    .run(function($rootScope, mySocket) {
+        // Update socket when login changes
+        function updateSocket() {
+            if($rootScope.currentUser) {
+                mySocket.init($rootScope.currentUser);
+            } else {
+                mySocket.disconnect();
+            }
+        } 
+
+        $rootScope.$on("changeLogin", updateSocket);
+    })
     // Keep track of the unseen notifications 
     .run(function($rootScope, Profile) {
-        $rootScope.unseenNotificationCounter = 0;
-        Profile.getUnseenNotificationCounter().then(function(data) {
-            $rootScope.unseenNotificationCounter = data.unseenNotificationCounter;
-        });
+        function updateNotificationCounter() {
+            $rootScope.unseenNotificationCounter = 0;
+
+            if($rootScope.currentUser) {
+                Profile.getUnseenNotificationCounter().then(function(data) {
+                    $rootScope.unseenNotificationCounter = data.unseenNotificationCounter;
+                });
+            }
+        }
+
+        $rootScope.$on("changeLogin", updateNotificationCounter);
     })
     .controller('ToastCtrl',['$scope','$hideToast',function($scope, $hideToast) {
         $scope.closeToast = function() {
