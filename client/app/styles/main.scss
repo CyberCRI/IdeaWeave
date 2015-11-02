@@ -116,3 +116,17 @@ header{
   height: 200px;
   margin: auto;
 }
+
+.like {
+  position: absolute;
+  /*top: -32px;*/
+  margin-top: -30px;
+  margin-left: 20px;
+}
+
+.dislike {
+  position: absolute;
+  /*top: -32px;*/
+  margin-top: -30px;
+  margin-left: 190px;
+}

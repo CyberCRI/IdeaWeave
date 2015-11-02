@@ -1,6 +1,12 @@
 <a ui-sref="challenge({ cid : challenge.accessUrl })">
     <img ng-src="{{challenge.poster || '/images/placeholder100x100.png'}}" alt="Challenge poster" class="md-card-image" width="100%">
 </a>
+<md-button class="md-fab md-mini like" onclick="likeButton()">
+    &#x25B2;
+</md-button>
+<md-button class="md-fab md-mini dislike" onclick="disLikeButton()">
+    &#x25BC;
+</md-button>
 <md-content layout-padding style="cursor:hand;">
     <div>
         <md-button class="md-raised" style="font-size:0.6em;display:inline;" ng-if="isAdmin()" ui-sref="challengeAdmin({ cid : challenge._id })">
