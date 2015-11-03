@@ -22,6 +22,15 @@ function getModelName(entityType) {
     }
 }
 
+exports.populateEntities = function(notifications) {
+    return q.all(_.map(notifications, function(notification) {
+        return notification.populateQ({ 
+            path: "entity", 
+            model: getModelName(notification.entityType)
+        });
+    }));
+}
+
 exports.create = function(owner,type,entity, entityType){
     var defered = q.defer(),
         myNotif = new Notification({
@@ -72,13 +81,7 @@ exports.listForUser = function(req, res) {
     }).then(function(notifications) {
         // Populate the notification entity depending on its type
         // This requires iterating over each notification and getting a promise for its completion
-        var promises = _.map(notifications, function(notification) {
-            return notification.populateQ({ 
-                path: "entity", 
-                model: getModelName(notification.entityType)
-            });
-        });
-        return q.all(promises).then(function() {
+        return exports.populateEntities(notifications).then(function() {
             res.json(notifications);
         });
     }).fail(function(err){
