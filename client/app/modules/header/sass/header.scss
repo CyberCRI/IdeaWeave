@@ -42,11 +42,19 @@
     text-align: right;
     padding-right: 15px;
   }
-
-
 }
 
 #miniProfil img{
   height: 50px;
   width: 50px;
+}
+
+.badge {
+  background-color: $baseColor;
+  display: inline-block;
+  width: 50px;
+  height: 25px;
+  border-radius: 25%;
+  text-align: center;
+  color: white;
 }
