@@ -7,6 +7,7 @@ var q = require('q'),
     NoteLab = mongoose.model('NoteLab'),
     Url = mongoose.model('Url'),
     User = mongoose.model('User'),
+    utils = require('../services/utils.service'),
     _ = require('lodash');
 
 
@@ -45,7 +46,7 @@ exports.fetchUsers = function(req,res){
         res.json(users);
     }).fail(function(err){
         console.log(err)
-        res.json(400,err);
+        utils.sendError(res, 400, err);
     });
 };
 
@@ -72,8 +73,7 @@ exports.fetchProjects = function(req,res){
         res.json(projects)
     }).fail(function(err){
         console.log(err)
-
-        res.json(400,err);
+        utils.sendError(res, 400, err);
     });
 };
 
@@ -99,7 +99,7 @@ exports.fetchChallenges = function(req,res){
         });
         res.json(challenges)
     }).fail(function(err){
-        res.json(400,err);
+        utils.sendError(res, 400, err);
     });
 };
 
@@ -115,7 +115,7 @@ exports.popular = function(req,res){
         };
         res.json(response);
     }).catch(function(err){
-        res.json(400,err);
+        utils.sendError(res, 400, err);
     })
 
 };

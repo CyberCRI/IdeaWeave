@@ -33,3 +33,9 @@ module.exports.createJwtToken = function(user) {
     };
     return jwt.encode(payload, config.TOKEN_SECRET);
 }
+
+
+module.exports.sendError = function(res, code, error) {
+    console.error("Sending error", code, error.message, error.stack);
+    return res.status(code).json({ message: error.message, stack: error.stack });
+}
