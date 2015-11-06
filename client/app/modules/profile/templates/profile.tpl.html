@@ -83,7 +83,7 @@
                     <div>
                         <md-grid-list md-cols="3" md-row-height="500px">
                             <md-grid-tile ng-repeat="project in moreData.memberProjects">
-                                <project-card class="md-whiteframe-z2" project-id="project._id"style="height: 410px;"></project-card> 
+                                <project-card class="md-whiteframe-z2" project-id="project._id" style="height: 410px;"></project-card> 
                             </md-grid-tile>
                         </md-grid-list>
                     </div>
@@ -97,7 +97,12 @@
                     </div>
 
                     <div>
-                        <project-card ng-repeat="project in moreData.followedProjects" project-id="project._id"></project-card>
+                        <md-grid-list md-cols="3" md-row-height="500px">
+                            <md-grid-tile ng-repeat="project in moreData.followedProjects">
+                                <project-card class="md-whiteframe-z2" project-id="project._id" style="height: 410px;"></project-card> 
+                            </md-grid-tile>
+                        </md-grid-list>
+
                     </div>
                 </div>
 

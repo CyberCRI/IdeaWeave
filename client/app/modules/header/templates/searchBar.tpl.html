@@ -1,5 +1,4 @@
 <div>
-
     <md-autocomplete md-items="result in lookFor(searchText)" md-search-text="searchText" md-search-text-change="" md-selected-item="selectedItem" md-selected-item-change="goTo(selectedItem)" placeholder="Search...">
         <md-item-template>
             <div layout="row" layout-align="start center">
@@ -21,65 +20,4 @@
             No matches found.
         </md-not-found>
     </md-autocomplete>
-
-
-<!--
-<ui-select ng-model="address.selected"
-           reset-search-input="true"
-           theme="selectize"
-           class="search-bar">
-    <ui-select-match placeholder="Search...">
-        {{$select.selected.title || $select.selected.username}}
-    </ui-select-match>
-    <ui-select-choices repeat="result in searchResult track by $index"
-                       refresh="refreshSearchBar($select.search)"
-                       refresh-delay="0">
-        <md-divider ng-if="result.separator" style="text-align: center;" ng-class="{ 'md-theme-green' : result.separator == 'Users', 'md-accent' : result.separator == 'Challenges', 'md-theme-light' : result.separator == 'Projects' : result.separator == 'Ideas' }">{{ result.separator }}</md-divider>
-        <md-item ng-if="!result.separator" class="result-item" ng-click="goTo(result)">
-            <md-item-content>
-                <div class="md-tile-left">
-                    <img ng-src="{{result.poster || '/images/placeholder50x50.png'}}" class="img-rounded" style="height:50px;max-width: 100%">
-                </div>
-                <div class="md-tile-content">
-                    <div>
-                        <div>{{result.title ||result.username}}</div>
-                        <show-tags model="result.tags" ></show-tags>
-                    </div>
-                </div>
-                <div class="md-tile-right" ng-if="result.tags">
-                    <div ng-if="result.followers">
-                            <span>
-                                {{ result.followers.length }}
-                            </span>
-                        &nbsp;
-                            <span>
-                                followers
-                            </span>
-                    </div>
-                    <div ng-if="result.noteNumber">
-                            <span>
-                                {{ result.noteNumber }}
-                            </span>
-                        &nbsp;
-                            <span>
-                                publication
-                            </span>
-                    </div>
-                    <div ng-if="result.projects">
-                            <span>
-                                {{ result.projects.number }}
-                            </span>
-                        &nbsp;
-                            <span>
-                                projects
-                            </span>
-                    </div>
-                </div>
-            </md-item-content>
-
-        </md-item>
-    </ui-select-choices>
-</ui-select>
--->
 </div>
-
