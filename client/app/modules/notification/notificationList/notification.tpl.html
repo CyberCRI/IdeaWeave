@@ -1,4 +1,8 @@
-<md-item layout="row">
+<md-item layout="row" >
+    <div ng-if="notification.highlight" layout-margin>
+        <i class="fa fa-flag-o baseColor fa-icon-size"></i>
+    </div>
+
     <div class="md-tile-left">
         <span time-ago from-time="{{ notification.createDate }}"></span>
         <user-info user-id="notification.owner"></user-info>

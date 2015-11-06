@@ -26,7 +26,7 @@ angular.module('cri.admin.profile',['cri.profile'])
                     locals : {
                         currentUser : $scope.currentUser
                     },
-                    controller : function($scope,Profile,currentUser){
+                    controller : function($scope,$rootScope,Profile,currentUser){
                         $scope.imageCropResult = null;
                         $scope.$watch('imageCropResult',function(dataUri){
                             if(dataUri){
@@ -35,6 +35,7 @@ angular.module('cri.admin.profile',['cri.profile'])
                                 };
                                 Profile.update(currentUser._id,user).then(function(data){
                                     Notification.display('Updated successfully');
+                                    $rootScope.currentUser.poster = dataUri;
                                 }).catch(function(err){
                                     Notification.display(err.message);
                                 }).finally(function(){

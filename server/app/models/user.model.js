@@ -66,7 +66,15 @@ var UserSchema = new Schema({
     },
     google: String,
     github: String,
-    passwordResetToken: String
+    passwordResetToken: String,
+    unseenNotificationCounter: {
+        type: Number,
+        default: 0
+    },
+    lastSeenNotificationDate: {
+        type: Date,
+        default: Date.now
+    }
 });
 
 UserSchema.statics.random = function() {
