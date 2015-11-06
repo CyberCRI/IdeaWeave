@@ -5,20 +5,20 @@
 
     <div class="md-tile-left">
         <span time-ago from-time="{{ notification.createDate }}"></span>
-        <user-info user-id="notification.owner"></user-info>
+        <user-info my-user="notification.owner"></user-info>
     </div>
 
     <div class="md-tile-content" ng-if="notification.entityType == 'idea' && notification.type == 'create'" layout="row" layout-align="center center">
         <span>
             Created a new idea
         </span>
-        <idea-info idea-id="notification.entity"></idea-info>
+        <idea-info my-idea="notification.entity"></idea-info>
     </div>
     <div class="md-tile-content" ng-if="notification.entityType == 'idea' && notification.type == 'update'" layout="row" layout-align="center center">
         <span>
             Updated the idea
         </span>
-        <idea-info idea-id="notification.entity"></idea-info>
+        <idea-info my-idea="notification.entity"></idea-info>
     </div>
     <div class="md-tile-content" ng-if="notification.entityType == 'idea' && notification.type == 'remove'" layout="row" layout-align="center center">
         <span>
@@ -29,26 +29,26 @@
         <span>
             Followed the idea
         </span>
-        <idea-info idea-id="notification.entity"></idea-info>
+        <idea-info my-idea="notification.entity"></idea-info>
     </div>
     <div class="md-tile-content" ng-if="notification.entityType == 'idea' && notification.type == 'unfollow'" layout="row" layout-align="center center">
         <span>
             Unfollowed the idea
         </span>
-        <idea-info idea-id="notification.entity"></idea-info>
+        <idea-info my-idea="notification.entity"></idea-info>
     </div>
 
     <div class="md-tile-content" ng-if="notification.entityType == 'challenge' && notification.type == 'create'" layout="row" layout-align="center center">
         <span>
             Created a new challenge
         </span>
-        <challenge-info challenge-id="notification.entity"></challenge-info>
+        <challenge-info my-challenge="notification.entity"></challenge-info>
     </div>
     <div class="md-tile-content" ng-if="notification.entityType == 'challenge' && notification.type == 'update'" layout="row" layout-align="center center">
         <span>
             Updated the challenge
         </span>
-        <challenge-info challenge-id="notification.entity"></challenge-info>
+        <challenge-info my-challenge="notification.entity"></challenge-info>
     </div>
     <div class="md-tile-content" ng-if="notification.entityType == 'challenge' && notification.type == 'remove'" layout="row" layout-align="center center">
         <span>
@@ -59,26 +59,26 @@
         <span>
             Followed the challenge
         </span>
-        <challenge-info challenge-id="notification.entity"></challenge-info>
+        <challenge-info my-challenge="notification.entity"></challenge-info>
     </div>
     <div class="md-tile-content" ng-if="notification.entityType == 'challenge' && notification.type == 'unfollow'" layout="row" layout-align="center center">
         <span>
             Unfollowed the challenge
         </span>
-        <challenge-info challenge-id="notification.entity"></challenge-info>
+        <challenge-info my-challenge="notification.entity"></challenge-info>
     </div>
 
     <div class="md-tile-content" ng-if="notification.entityType == 'project' && notification.type == 'create'" layout="row" layout-align="center center">
         <span>
             Created a new project
         </span>
-        <project-info project-id="notification.entity"></project-info>
+        <project-info my-project="notification.entity"></project-info>
     </div>
     <div class="md-tile-content" ng-if="notification.entityType == 'project' && notification.type == 'update'" layout="row" layout-align="center center">
         <span>
             Updated the project
         </span>
-        <project-info project-id="notification.entity"></project-info>
+        <project-info my-project="notification.entity"></project-info>
     </div>
     <div class="md-tile-content" ng-if="notification.entityType == 'project' && notification.type == 'remove'" layout="row" layout-align="center center">
         <span>
@@ -89,91 +89,91 @@
         <span>
             Followed the project
         </span>
-        <project-info project-id="notification.entity"></project-info>
+        <project-info my-project="notification.entity"></project-info>
     </div>
     <div class="md-tile-content" ng-if="notification.entityType == 'project' && notification.type == 'unfollow'" layout="row" layout-align="center center">
         <span>
             Unfollowed the project
         </span>
-        <project-info project-id="notification.entity"></project-info>
+        <project-info my-project="notification.entity"></project-info>
     </div>
     <div class="md-tile-content" ng-if="notification.entityType == 'project' && notification.type == 'join'" layout="row" layout-align="center center">
         <span>
             Joined the project
         </span>
-        <project-info project-id="notification.entity"></project-info>
+        <project-info my-project="notification.entity"></project-info>
     </div>
     <div class="md-tile-content" ng-if="notification.entityType == 'project' && notification.type == 'apply'" layout="row" layout-align="center center">
         <span>
             Applied to the project
         </span>
-        <project-info project-id="notification.entity"></project-info>
+        <project-info my-project="notification.entity"></project-info>
     </div>
     <div class="md-tile-content" ng-if="notification.entityType == 'project' && notification.type == 'uploadFile'" layout="row" layout-align="center center">
         <span>
             Uploaded a file to the project
         </span>
-        <project-info project-id="notification.entity"></project-info>
+        <project-info my-project="notification.entity"></project-info>
     </div>
     <div class="md-tile-content" ng-if="notification.entityType == 'project' && notification.type == 'removeFile'" layout="row" layout-align="center center">
         <span>
             Removed a file from the project
         </span>
-        <project-info project-id="notification.entity"></project-info>
+        <project-info my-project="notification.entity"></project-info>
     </div>
     <div class="md-tile-content" ng-if="notification.entityType == 'project' && notification.type == 'createUrl'" layout="row" layout-align="center center">
         <span>
             Added a URL to the project
         </span>
-        <project-info project-id="notification.entity"></project-info>
+        <project-info my-project="notification.entity"></project-info>
     </div>
     <div class="md-tile-content" ng-if="notification.entityType == 'project' && notification.type == 'removeUrl'" layout="row" layout-align="center center">
         <span>
             Removed a URL from the project
         </span>
-        <project-info project-id="notification.entity"></project-info>
+        <project-info my-project="notification.entity"></project-info>
     </div>
 
     <div class="md-tile-content" ng-if="notification.entityType == 'note' && notification.type == 'createNote'" layout="row" layout-align="center center">
         <span>Added a note</span>
-        <note-info note-id="notification.entity"></note-info>
+        <note-info my-note="notification.entity"></note-info>
     </div>
     <div class="md-tile-content" ng-if="notification.entityType == 'note' && notification.type == 'updateNote'" layout="row" layout-align="center center">
         <span>Updated the note</span>
-        <note-info note-id="notification.entity"></note-info>
+        <note-info my-note="notification.entity"></note-info>
     </div>
     <div class="md-tile-content" ng-if="notification.entityType == 'note' && notification.type == 'removeNote'" layout="row" layout-align="center center">
         <span>Removed a note</span>
     </div>
     <div class="md-tile-content" ng-if="notification.entityType == 'note' && notification.type == 'createComment'" layout="row" layout-align="center center">
         <span>Added a comment on</span>
-        <note-info note-id="notification.entity"></note-info>
+        <note-info my-note="notification.entity"></note-info>
     </div>
     <div class="md-tile-content" ng-if="notification.entityType == 'note' && notification.type == 'updateComment'" layout="row" layout-align="center center">
         <span>Updated the comment on</span>
-        <note-info note-id="notification.entity"></note-info>
+        <note-info my-note="notification.entity"></note-info>
     </div>
     <div class="md-tile-content" ng-if="notification.entityType == 'note' && notification.type == 'removeComment'" layout="row" layout-align="center center">
         <span>Removed a comment on</span>
-        <note-info note-id="notification.entity"></note-info>
+        <note-info my-note="notification.entity"></note-info>
     </div>
 
     <div class="md-tile-content" ng-if="notification.entityType == 'profile' && notification.type == 'follow'" layout="row" layout-align="center center">
         <span>
             Followed the user
         </span>
-        <user-info user-id="notification.entity"></project-info>
+        <user-info my-user="notification.entity"></project-info>
     </div>
     <div class="md-tile-content" ng-if="notification.entityType == 'profile' && notification.type == 'unfollow'" layout="row" layout-align="center center">
         <span>
             Unfollowed the user
         </span>
-        <user-info user-id="notification.entity"></project-info>
+        <user-info my-user="notification.entity"></project-info>
     </div>
     <div class="md-tile-content" ng-if="notification.entityType == 'profile' && notification.type == 'update'" layout="row" layout-align="center center">
         <span>
             Updated their profile 
         </span>
-        <user-info user-id="notification.entity"></project-info>
+        <user-info my-user="notification.entity"></project-info>
     </div>
 </md-item>

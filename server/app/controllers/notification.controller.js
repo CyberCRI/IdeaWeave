@@ -11,6 +11,26 @@ var q = require('q'),
     Tag = mongoose.model('Tag'),
     _ = require('lodash');
 
+function getModelName(entityType) {
+    switch (entityType) {
+        case "challenge": return "Challenge";
+        case "project": return "Project";
+        case "profile": return "User";
+        case "idea": return "Idea";
+        case "note": return "NoteLab";
+        default: throw new Error("No model name for entity type '" + entityType + "'");
+    }
+}
+
+exports.populateEntities = function(notifications) {
+    return q.all(_.map(notifications, function(notification) {
+        return notification.populateQ({ 
+            path: "entity", 
+            model: getModelName(notification.entityType)
+        });
+    }));
+}
+
 exports.create = function(owner,type,entity, entityType){
     var defered = q.defer(),
         myNotif = new Notification({
@@ -53,9 +73,17 @@ exports.listForUser = function(req, res) {
         var userIds = _.pluck(requestedIds[0], "_id");
 
         // Limit to 50 notifications
-        return Notification.find({ $or: [ { entity: { $in: entityIds } }, { owner: { $in: userIds } } ] }).sort("-createDate").limit(50).execQ();
+        return Notification.find({ $or: [ { entity: { $in: entityIds } }, { owner: { $in: userIds } } ] })
+        .sort("-createDate")
+        .limit(50)
+        .populate("owner")
+        .execQ();
     }).then(function(notifications) {
-        res.json(notifications);
+        // Populate the notification entity depending on its type
+        // This requires iterating over each notification and getting a promise for its completion
+        return exports.populateEntities(notifications).then(function() {
+            res.json(notifications);
+        });
     }).fail(function(err){
         console.error(err);
         res.json(500, err);

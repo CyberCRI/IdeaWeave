@@ -11,13 +11,23 @@ var mongoose = require('mongoose-q')(),
     Notification = mongoose.model('Notification'),
     Tags = mongoose.model('Tag'),
     tagController = require('./tag.controller'),
+    notificationController = require('./notification.controller'),
     q = require('q'),
     _ = require('lodash');
 
 
 exports.getActivity = function(req,res){
-    Notification.find({ owner : req.params.id }).limit(req.query.limit).sort({createDate : -1}).execQ().then(function(data){
-        res.json(data);
+    Notification.find({ owner : req.params.id })
+    .limit(req.query.limit || 50)
+    .sort({createDate : -1})
+    // OPT: replace the owner with the same data everywhere
+    .populate("owner")
+    .execQ()
+    .then(function(notifications) {
+        return notificationController.populateEntities(notifications)
+        .then(function() {
+            res.json(notifications);
+        })
     }).catch(function(err){
         res.json(400,err);
     })
