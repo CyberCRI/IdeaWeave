@@ -94,7 +94,7 @@ function onNotificationPosted(notification) {
         var cleanUserIds = cleanUpUserIds(userIds);
 
         // Only the join project notification should be sent to the user herself
-        if(notification.entityType != "project" && notification.type != "join") {
+        if(notification.entityType != "project" || notification.type != "join") {
             cleanUserIds = _.without(cleanUserIds, notification.owner.toString());
         } 
 

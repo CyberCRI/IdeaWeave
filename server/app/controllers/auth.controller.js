@@ -42,7 +42,7 @@ exports.signup = function(req, res) {
     }).then(function() {
         res.status(200).send();
     }).fail(function(err){
-        return res.json(400, err);
+        utils.sendError(res, 400, err);
     });
 };
 
@@ -142,10 +142,10 @@ exports.githubAuth = function(req, res) {
                     var token = utils.createJwtToken(user);
                     res.send({ token: token });
                 }).catch(function(err){
-                    res.json(500,err);
+                    utils.sendError(res, 500, err);
                 });
             }).catch(function(err){
-                res.json(400,err);
+                utils.sendError(res, 400, err);
             })
         });
     });
@@ -231,7 +231,7 @@ exports.forgotPassword = function(req, res) {
     var token = makeToken(5);
     User.findOneAndUpdateQ({ email : req.body.email }, { passwordResetToken: token })
     .then(function(user) {
-        if(!user) return res.json(400, { message: "No user with that email found" });
+        if(!user) return utils.sendErrorMessage(res, 400, "No user with that email found");
 
         // Send the token to the user via email
         var email = {
@@ -245,7 +245,7 @@ exports.forgotPassword = function(req, res) {
             res.send(200);
         });
     }).catch(function(err){
-        res.json(400, err);
+        utils.sendError(res, 400, err);
     });
 };
 
@@ -253,11 +253,11 @@ exports.resetPassword = function(req, res) {
     // Check that the token matches the email provided
     User.findOneQ({ email: req.body.email })
     .then(function(user) {
-        if(!user) return res.json(400, { message: "No user that email found" });
+        if(!user) return utils.sendErrorMessage(res, 400, "No user that email found");
 
         // Check that the token matches the user
         if(!user.passwordResetToken || user.passwordResetToken !== req.body.token) {
-            return res.json(400, { message: "The token does not match the email provided"});
+            return utils.sendErrorMessage(res, 400, "The token does not match the email provided");
         } 
 
         user.passwordResetToken = null;
@@ -266,7 +266,7 @@ exports.resetPassword = function(req, res) {
             return res.send(200);
         });
     }).catch(function(err) {
-        return res.json(500, err);
+        utils.sendError(res, 500, err);
     });
 };
 

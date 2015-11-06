@@ -12,6 +12,7 @@ var mongoose = require('mongoose-q')(),
     Tags = mongoose.model('Tag'),
     tagController = require('./tag.controller'),
     notificationController = require('./notification.controller'),
+    utils = require('../services/utils.service'),
     q = require('q'),
     _ = require('lodash');
 
@@ -29,7 +30,7 @@ exports.getActivity = function(req,res){
             res.json(notifications);
         })
     }).catch(function(err){
-        res.json(400,err);
+        utils.sendError(res, 400, err);
     })
 };
 
@@ -37,7 +38,7 @@ exports.getPoster = function(req,res){
     User.findOne({ _id  : req.params.id}).select('poster').execQ().then(function(data){
         res.json(data)
     }).fail(function(err){
-        res.json(400,err);
+        utils.sendError(res, 400, err);
     })
 };
 
@@ -57,7 +58,7 @@ exports.follow = function(req,res){
             res.send(200);
         });
     }).catch(function(err){
-        res.json(400,err)
+        utils.sendError(res, 400, err);
     })
 };
 
@@ -76,7 +77,7 @@ exports.unfollow = function(req,res){
             res.json(user);
         });
     }).catch(function(err){
-        res.json(500,err)
+        utils.sendError(res, 500, err);
     })
 };
 
@@ -110,7 +111,7 @@ exports.update = function(req, res) {
             });
         });
     }).catch(function(err) {
-        res.json(400, err);
+        utils.sendError(res, 400, err);
     });
 };
 
@@ -148,7 +149,7 @@ exports.forgotPassword = function(req, res) {
     .then(function(user) {
         
     }).catch(function(err){
-        res.json(400, err);
+        utils.sendError(res, 400, err);
     });
 };
 
@@ -164,7 +165,7 @@ exports.me = function(req, res) {
     .then(function(data){
         res.json(data);
     }).catch(function(err){
-        res.json(500, err);
+        utils.sendError(res, 500, err);
     });
 };
 
@@ -187,7 +188,7 @@ exports.fetch = function(req,res){
             query.execQ().then(function(data){
                 res.json(data);
             }).catch(function(err){
-                res.json(400,err);
+                utils.sendError(res, 400, err);
             })
         }
     }else {
@@ -197,7 +198,7 @@ exports.fetch = function(req,res){
             .then(function(user){
                 res.json(user);
             }).catch(function(err){
-                res.json(500,err);
+                utils.sendError(res, 500, err);
             });
     }
 };
@@ -210,7 +211,7 @@ exports.profile = function(req,res){
         .then(function(profile){
             console.log(profile)
             var myProfile = profile[0];
-            q.all([
+            return q.all([
                 User.findQ({'followers':  myProfile._id },'_id'),
                 Challenge.findQ({'followers': myProfile._id },'_id'),
                 Project.findQ({'followers':  myProfile._id },'_id'),
@@ -234,15 +235,10 @@ exports.profile = function(req,res){
                     moreData : moreData
                 };
                 res.json(response);
-            }).fail(function(err){
-                console.log(err);
-                res.json(500,err);
             });
         }).fail(function(err){
-            console.log(err);
-            res.json(500,err);
+            utils.sendError(res, 500, err);
         });
-//    {brief:{$regex:tag+".*"
 };
 
 exports.getByTag = function(req,res){
@@ -250,19 +246,17 @@ exports.getByTag = function(req,res){
         User.find().limit(req.query.limit).skip(req.query.skip).sort('-createDate').populate('tags').sort('-createDate').execQ().then(function(profiles){
             res.json(profiles);
         }).fail(function(err){
-            res.json(400,err);
+            utils.sendError(res, 400, err);
         })
     }else{
         Tags.findQ({ title : req.params.tag }).then(function(tag){
-            User.find({ tags : tag[0]._id }).limit(req.query.limit).skip(req.query.skip).populate('tags').sort('-createDate').execQ().then(function(profiles){
-
+            return User.find({ tags : tag[0]._id }).limit(req.query.limit).skip(req.query.skip).populate('tags').sort('-createDate').execQ()
+            .then(function(profiles){
                 res.json(profiles);
-            }).fail(function(err){
-                res.json(400,err);
-            })
+            });
         }).fail(function(err){
-            res.json(400,err);
-        })
+            utils.sendError(res, 400, err);
+        });
     }
 };
 
@@ -270,7 +264,7 @@ exports.getIdeas = function(req, res) {
     Idea.findQ({owner : req.params.id}).then(function(ideas) {
         res.json(ideas);
     }).fail(function(err) {
-        res.json(400, err);
+        utils.sendError(res, 400, err);
     });
 };
 
@@ -290,8 +284,8 @@ exports.getLikes = function(req, res) {
             };
         };
     }).then(function() {
-            res.json(likes);
+        res.json(likes);
     }).fail(function(err) {
-        res.json(400, err);
+        utils.sendError(res, 400, err);
     });
 };

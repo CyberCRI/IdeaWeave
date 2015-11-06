@@ -7,6 +7,7 @@ var mongoose = require('mongoose-q')(),
     Challenge = mongoose.model('Challenge'),
     Idea = mongoose.model('Idea'),
     Tag = mongoose.model('Tag'),
+    utils = require('../services/utils.service'),
     _ = require('lodash');
 
 exports.all = function(req,res){
@@ -50,6 +51,6 @@ exports.all = function(req,res){
 
         res.json(response);
     }).catch(function(err){
-        res.json(400,err);
+        utils.sendError(res, 400, err);
     })
 };
