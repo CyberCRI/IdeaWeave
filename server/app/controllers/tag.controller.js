@@ -3,13 +3,14 @@ var mongoose = require('mongoose-q')();
 var Tag = mongoose.model('Tag'),
     User = mongoose.model('User'),
     Notification = mongoose.model('Notification'),
+    utils = require('../services/utils.service'),
     _ = require('lodash');
 
 exports.fetchAll = function(req,res){
     Tag.findQ().then(function(data){
         res.json(data);
     }).fail(function(err){
-        res.json(500,err);
+        utils.sendError(res, 500, err);
     })
 };
 
@@ -17,7 +18,7 @@ exports.fetchOne = function(req,res){
     Tag.findOneQ({_id : req.query.id}).then(function(data){
         res.json(data);
     }).fail(function(err){
-        res.json(500,err);
+        utils.sendError(res, 500, err);
     })
 };
 
@@ -29,7 +30,7 @@ exports.create = function(req,res){
     tag.saveQ().then(function(data){
         res.json(data);
     }).fail(function(err){
-        res.json(403,err);
+        utils.sendError(res, 403, err);
     });
 };
 
@@ -72,7 +73,7 @@ exports.follow = function(req,res){
         });
     }).fail(function(err){
         console.error("can't follow", err);
-        res.json(400,err)
+        utils.sendError(res, 400, err);
     });
 };
 
@@ -88,7 +89,7 @@ exports.unfollow = function(req,res){
             res.json(tag)
         });
     }).fail(function(err){
-        res.json(400,err)
+        utils.sendError(res, 400, err);
     });
 };
 
@@ -101,6 +102,6 @@ exports.listFollowing = function(req,res){
         res.json(tags);
     }).fail(function(err){
         console.error("found tag error", err);
-        res.json(400, err)
+        utils.sendError(res, 400, err);
     });
 };

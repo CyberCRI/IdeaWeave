@@ -20,7 +20,7 @@ module.exports.ensureAuthenticated = function(req, res, next) {
         req.user = user;
         next();
     }).fail(function(err){
-        res.json(err);
+        module.exports.sendError(res, 400, err);
     })
 }
 
@@ -38,4 +38,8 @@ module.exports.createJwtToken = function(user) {
 module.exports.sendError = function(res, code, error) {
     console.error("Sending error", code, error.message, error.stack);
     return res.status(code).json({ message: error.message, stack: error.stack });
+}
+
+module.exports.sendErrorMessage = function(res, code, message) {
+    return module.exports.sendError(res, code, { message: messsage });
 }

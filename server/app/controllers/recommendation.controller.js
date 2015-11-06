@@ -45,7 +45,6 @@ exports.fetchUsers = function(req,res){
         });
         res.json(users);
     }).fail(function(err){
-        console.log(err)
         utils.sendError(res, 400, err);
     });
 };
@@ -72,7 +71,6 @@ exports.fetchProjects = function(req,res){
         });
         res.json(projects)
     }).fail(function(err){
-        console.log(err)
         utils.sendError(res, 400, err);
     });
 };

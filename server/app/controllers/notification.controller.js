@@ -9,6 +9,7 @@ var q = require('q'),
     Idea = mongoose.model('Idea'),
     Note = mongoose.model('NoteLab'),
     Tag = mongoose.model('Tag'),
+    utils = require('../services/utils.service'),
     _ = require('lodash');
 
 function getModelName(entityType) {
@@ -85,8 +86,7 @@ exports.listForUser = function(req, res) {
             res.json(notifications);
         });
     }).fail(function(err){
-        console.error(err);
-        res.json(500, err);
+        utils.sendError(res, 500, err);
     });
 };
 
@@ -98,7 +98,7 @@ exports.getUnseenNotificationCounter = function(req, res) {
             lastSeenNotificationDate: user.lastSeenNotificationDate
         });
     }).fail(function(err) {
-        res.json(500, err);
+        utils.sendError(res, 500, err);
     });
 };
 
@@ -108,6 +108,6 @@ exports.resetUnseenNotificationCounter = function(req, res) {
         res.send(200);
     })
     .fail(function(err) {
-        res.json(400, err);
+        utils.sendError(res, 500, err);
     });
 };
