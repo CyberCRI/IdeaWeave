@@ -74,7 +74,7 @@ angular.module('cri.idea')
                 defered.reject(err);
             });
             return defered.promise;
-        }, 
+        },
         addLinkToProject : function(id, projectId){
             var defered = $q.defer();
             $http.post(Config.apiServer+URI+'/'+id+'/link?project='+projectId).success(function(data){

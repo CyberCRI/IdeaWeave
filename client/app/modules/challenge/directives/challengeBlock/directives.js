@@ -97,7 +97,7 @@ angular.module('cri.challenge')
                     if(!$scope.challenge || !$scope.currentUser) return false;
 
                     return $scope.challenge.owner == $scope.currentUser._id;
-                }; 
+                };
             }]
         };
     })
