@@ -6,16 +6,33 @@ angular.module('cri.notes', ['ngSanitize'])
             challenge: "=",
             project: "=",
             idea: "=",
-            currentUser: "="
+            currentUser: "=",
+            templates: "="
         },
         templateUrl: "modules/notes/templates/show-notes.tpl.html",
-        controller: function($scope, Notification, Notes, $materialDialog) {
+        controller: function($scope, Notification, Notes, $mdDialog) {
             $scope.canPostNote = function() {
-                return $scope.currentUser && $scope.currentUser._id == $scope.container.owner._id;
+                if(!$scope.currentUser) return false;
+
+                // The owner can always post notes
+                if($scope.container.owner._id == $scope.currentUser._id) return true;
+
+                // Members can also post notes
+                if($scope.container.members && _.contains(_.pluck($scope.container.members, "_id"), $scope.currentUser._id)) return true;
+
+                return false;
             };
 
             $scope.canDeleteNote = function(note) {
-                return $scope.currentUser && note.owner._id == $scope.currentUser._id;
+                if(!$scope.currentUser) return false;
+
+                // The owner can always remove notes
+                if($scope.container.owner._id == $scope.currentUser._id) return true;
+
+                // The creator of the note can remove it
+                return note.owner._id == $scope.currentUser._id;
+
+                return false;
             };
 
             $scope.canPostComment = function(note) {
@@ -45,14 +62,18 @@ angular.module('cri.notes', ['ngSanitize'])
 
             $scope.popUpNewNote = function(){
                 var notesInScope = $scope.notes;
-                $materialDialog({
+
+                $mdDialog.show({
                     templateUrl : 'modules/notes/templates/add-note-modal.tpl.html',
                     locals : {
                         container: $scope.container,
-                        containerType: $scope.containerType
+                        containerType: $scope.containerType,
+                        templates: $scope.templates
                     },
-                    controller : function($scope, $hideDialog, container, containerType, Config){
-                        $scope.tinymceOption = Config.tinymceOptions;
+                    controller : function($scope, container, containerType, templates, Config){
+                        $scope.tinymceOption = _.extend({}, Config.tinymceOptions, {
+                            templates: templates
+                        });
 
                         $scope.noteText = "";
                         $scope.addNote = function(noteText){
@@ -71,11 +92,11 @@ angular.module('cri.notes', ['ngSanitize'])
                                 Notification.display(err.message);
                             }).finally(function(){
                                 $scope.isLoading = false;
-                                $hideDialog();
+                                $mdDialog.hide();
                             });
                         };
                         $scope.cancel = function(){
-                            $hideDialog();
+                            $mdDialog.hide();
                         };
                     }
                 });
@@ -116,7 +137,7 @@ angular.module('cri.notes', ['ngSanitize'])
             };
 
 
-            // Notes will belong to either a challenge or project
+            // Notes will belong to either a challenge, project, or idea
             if($scope.challenge) {
                 $scope.container = $scope.challenge;
                 $scope.containerType = "challenge";
@@ -137,12 +158,12 @@ angular.module('cri.notes', ['ngSanitize'])
 .directive('noteInfo', function () {
     return {
         restrict:'EA',
-        replace: true,
         scope: {
-            noteId: '='
+            noteId: '=',
+            myNote: '='
         },
         controller: function ($scope, Notes, $state, Project, Challenge) {
-            Notes.fetchNote($scope.noteId).then(function(note) {
+            function updateScope(note) {
                 var MAX_TEXT_LENGTH = 30;
 
                 if(note.text[0] == "<") 
@@ -175,9 +196,16 @@ angular.module('cri.notes', ['ngSanitize'])
                         throw new Error("Note is not attached to project, challenge, or idea");
                     }
                 }
-            }).catch(function(err) {
-                console.log('error', err);
-            });
+            }
+
+            if($scope.noteId) {
+                Notes.fetchNote($scope.noteId).then(updateScope)
+                .catch(function(err) {
+                    console.log('error', err);
+                });
+            } else {
+                updateScope($scope.myNote);
+            }
         },
         templateUrl: 'modules/notes/templates/note-info.tpl.html'
     };

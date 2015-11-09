@@ -1,111 +1,122 @@
-<material-content layout="vertical" layout-fill>
-    <material-toolbar scroll-shrink class="home-header">
-        <div layout="vertical" class="content">
-            <h1>
-                {{ idea.title }}
-            </h1>
-        </div>
-
-        <div ng-if="isFollow">
-            <i class="fa fa-star baseColor"></i> Following
-        </div>
-
-        <material-button class="material-button-fab" ng-click="toggleLeft()" style="bottom:-24px;position:absolute; left:20px;z-index : inherit" hide-md>
-            <i class="fa fa-bars"></i>
-        </material-button>
-        <material-button class="material-button-fab material-button-raised" ng-click="follow()" style="position:absolute; right:20px; z-index: inherit" ng-class="{ 'material-theme-indigo' : isFollowing() }"ng-if="currentUser && !isOwner">
-            <i class="fa fa-thumbs-up"></i>
-        </material-button>
-    </material-toolbar>
-
-    <div flex>
-        <h3 class="show-line-breaks">{{ idea.brief }}</h3>
-
-        <div layout="vertical">
-            <material-button ui-sref="editIdea({ iid : idea._id })" ng-if="isOwner">
-                <i class="fa fa-pencil-square-o baseColor"></i> Edit
-            </material-button>
-
-            <div layout="horizontal">
-                <div>
-                    <span>
-                        {{ idea.followers.length }}
-                    </span>
-                    <span class="text-muted">
-                        &nbsp;followers
-                    </span>
-                    <span>
-                        {{ idea.challenges.length }}
-                    </span>
-                    <span class="text-muted">
-                        &nbsp;challenges
-                    </span>
-                    <span>
-                        {{ idea.projects.length }}
-                    </span>
-                    <span class="text-muted">
-                        &nbsp;projects
-                    </span>
+<md-content>
+    <md-content layout="row" layout-align="center" layout-margin>
+        <section class="md-whiteframe-z2" flex-gt-sm="95" layout="column">
+            <md-toolbar scroll-shrink  layout-padding>
+                <div layout="column" class="content">
+                    <h1>
+                        {{ idea.title }}
+                    </h1>
                 </div>
-            </div>
-        </div>
 
-        <div layout="vertical">
-            <showtags entity="idea"></showtags>
-
-            <list-notes idea="idea" current-user="currentUser"></list-notes>
-        </div>
-
-        <div flex>
-            <h3>Related Projects</h3>
-
-            <div layout="horizontal">
-                <div ng-repeat="project in idea.projects" layout="vertical">
-                    <project-card inline-block project-id="project"></project-card>
-                    <material-button ng-click="removeLinkToProject(project)">
-                        <i class="fa fa-times baseColor"></i> Remove Project
-                    </material-button>
+                <div ng-if="isFollow">
+                    <i class="fa fa-star baseColor"></i> Following
                 </div>
-            </div>
 
-            <ui-select ng-model="newLink.project" theme="selectize">
-                <ui-select-match placeholder="A related project...">{{$select.selected.title}}</ui-select-match>
-                <ui-select-choices repeat="project in projects">
-                    <img ng-src="{{ project.poster || '/images/placeholder25x25.png' }}" class="select-poster-image"/>
-                    <small>
-                        {{project.title}}
-                    </small>
-                </ui-select-choices>
-            </ui-select>
+                <md-button class="md-fab md-raised" ng-click="follow()" style="position:absolute; right:20px; z-index: inherit" ng-class="{ 'md-accent' : isFollowing() }" ng-if="currentUser && !isOwner" analytics-on analytics-event="like">
+                    <i class="fa fa-thumbs-up"></i>
+                </md-button>
+            </md-toolbar>
 
-            <material-button ng-click="addLinkToProject()">
-                <i class="fa fa-plus baseColor"></i> Add Project
-            </material-button>
+            <md-content layout="column" layout-fill layout-padding>
+                <div flex>
+                    <h3 class="show-line-breaks">{{ idea.brief }}</h3>
 
-            <h3>Related Challenges</h3>
+                    <div layout="column">
+                        <md-button ui-sref="editIdea({ iid : idea._id })" ng-if="isOwner">
+                            <i class="fa fa-pencil-square-o baseColor"></i> Edit
+                        </md-button>
 
-            <div layout="horizontal">
-                <div ng-repeat="challenge in idea.challenges" layout="vertical">
-                    <challenge-card inline-block challenge-id="challenge"></challenge-card>
-                    <material-button ng-click="removeLinkToChallenge(challenge)">
-                        <i class="fa fa-times baseColor"></i> Remove Challenge
-                    </material-button>
+                        <md-button ng-click="removeIdea()" class="md-warn" ng-if="isOwner">
+                            <i class="fa fa-trash"></i> Remove
+                        </md-button>
+
+                        <div layout="row">
+                            <div>
+                                <span>
+                                    {{ idea.followers.length }}
+                                </span>
+                                <span class="text-muted">
+                                    &nbsp;followers
+                                </span>
+                                <span>
+                                    {{ idea.challenges.length }}
+                                </span>
+                                <span class="text-muted">
+                                    &nbsp;challenges
+                                </span>
+                                <span>
+                                    {{ idea.projects.length }}
+                                </span>
+                                <span class="text-muted">
+                                    &nbsp;projects
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div layout="column">
+                        <show-tags model="idea.tags"></show-tags>
+
+                        <list-notes idea="idea" current-user="currentUser"></list-notes>
+                    </div>
+
+                    <div flex>
+                        <h3>Related Projects</h3>
+
+                        <md-grid-list md-cols="3" md-row-height="400px">
+                            <md-grid-tile ng-repeat="project in idea.projects">
+                                <div layout="column" style="height: 400px;">
+                                    <project-card project-id="project"></project-card>
+                                    <md-button ng-click="removeLinkToProject(project)">
+                                        <i class="fa fa-times baseColor"></i> Remove Project
+                                    </md-button>
+                                </div>
+                            </md-grid-tile>
+                        </md-grid-list>
+
+                        <ui-select ng-model="newLink.project" theme="selectize">
+                            <ui-select-match placeholder="A related project...">{{$select.selected.title}}</ui-select-match>
+                            <ui-select-choices repeat="project in projects">
+                                <img ng-src="{{ project.poster || '/images/placeholder25x25.png' }}" class="select-poster-image"/>
+                                <small>
+                                    {{project.title}}
+                                </small>
+                            </ui-select-choices>
+                        </ui-select>
+
+                        <md-button ng-click="addLinkToProject()" analytics-on analytics-event="linkIdeaToProject">
+                            <i class="fa fa-plus baseColor"></i> Add Project
+                        </md-button>
+
+                        <h3>Related Challenges</h3>
+
+                        <md-grid-list md-cols="3" md-row-height="400px">
+                            <md-grid-tile ng-repeat="challenge in idea.challenges">
+                                <div layout="column">
+                                    <challenge-more-card challenge-id="challenge"></challenge-more-card>
+                                    <md-button ng-click="removeLinkToChallenge(challenge)">
+                                        <i class="fa fa-times baseColor"></i> Remove Challenge
+                                    </md-button>
+                                </div>
+                            </md-grid-tile>
+                        </md-grid-list>
+
+                        <ui-select ng-model="newLink.challenge" theme="selectize">
+                            <ui-select-match placeholder="A related challenge...">{{$select.selected.title}}</ui-select-match>
+                            <ui-select-choices repeat="challenge in challenges">
+                                <img ng-src="{{ challenge.poster || '/images/placeholder25x25.png' }}" class="select-poster-image"/>
+                                <small>
+                                    {{challenge.title}}
+                                </small>
+                            </ui-select-choices>
+                        </ui-select>
+
+                        <md-button ng-click="addLinkToChallenge()" analytics-on analytics-event="linkIdeaToChallenge">
+                            <i class="fa fa-plus baseColor"></i> Add Challenge
+                        </md-button>
+                    </div>
                 </div>
-            </div>
-
-            <ui-select ng-model="newLink.challenge" theme="selectize">
-                <ui-select-match placeholder="A related challenge...">{{$select.selected.title}}</ui-select-match>
-                <ui-select-choices repeat="challenge in challenges">
-                    <img ng-src="{{ challenge.poster || '/images/placeholder25x25.png' }}" class="select-poster-image"/>
-                    <small>
-                        {{challenge.title}}
-                    </small>
-                </ui-select-choices>
-            </ui-select>
-
-            <material-button ng-click="addLinkToChallenge()">
-                <i class="fa fa-plus baseColor"></i> Add Challenge
-            </material-button>
-        </div>
-    </div>
-</material-content>
+            </md-content>
+        </section>
+    </md-content>
+</md-content>

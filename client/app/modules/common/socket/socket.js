@@ -2,7 +2,7 @@ angular.module('cri.common')
     .factory('mySocket',['socketFactory','Notification','$rootScope','Config', function (socketFactory,Notification,$rootScope,Config) {
 
         var service = {
-            init : function(me){
+            init: function(me){
                 var myIoSocket = io.connect(Config.apiServer);
 
                 service.socket = socketFactory({
@@ -12,7 +12,9 @@ angular.module('cri.common')
                     service.socket.emit('init', me._id);
                     service.socket.on("notification", Notification.displaySocketNotification);
                 });
-
+            },
+            disconnect: function() {
+                service.socket.disconnect();
             }
         };
         return service;

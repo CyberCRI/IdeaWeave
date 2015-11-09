@@ -1,8 +1,14 @@
-<section layout="vertical" layout-fill>
-    <material-toolbar scroll-shrink class="material-theme-green" style="position:relative;">
-        <h1>Notifications</h1>
-    </material-toolbar>
-    <material-content flex>
-        <notification-list notifications="notifications"></notification-list>
-    </material-content>
-</section>
+<md-content>
+    <md-content layout="row" layout-align="center" layout-margin>
+        <section class="md-whiteframe-z1" flex-gt-sm="75" layout="column">
+            <md-toolbar class="md-theme-green md-default-theme">
+                <div class="md-toolbar-tools">
+                    <h3>Notifications</h3>
+                </div>
+            </md-toolbar>
+            <md-content>
+                <notification-list notifications="notifications" highlight-after-date="lastSeenNotificationDate"></notification-list>
+            </md-content>
+        </section>
+    </md-content>
+</md-content>

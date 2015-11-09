@@ -1,42 +1,38 @@
-<material-card class="challenge-card">
-    <a ui-sref="project.home({ pid : project.accessUrl })">
-        <img ng-src="{{project.poster || '/images/placeholder100x100.png'}}" alt="..." class="material-card-image">
-    </a>
-    <material-button ng-if="admin && isHovered" ui-sref="projectAdmin({ pid : project._id })">
+<a ui-sref="project.home({ pid : project.accessUrl })">
+    <img ng-src="{{project.poster || '/images/placeholder100x100.png'}}" alt="Project poster" class="md-card-image" width="100%">
+</a>
+<md-content layout-padding style="cursor:hand;">
+    <md-button ng-if="isAdmin()" class="md-raised" ui-sref="project.admin({ pid : project.accessUrl })" style="font-size:0.6em; display:inline;">
         <i class="fa fa-gears"></i>
         Admin
-    </material-button>
-    <a ui-sref="project.home({ pid : project.accessUrl })">
-        <h4>{{ project.title }}</h4>
+    </md-button>
+    <a style="text-decoration: none; color: black;" ui-sref="project.home({ pid : project.accessUrl })">
+        <h4 style="margin: 0;font-size:1.3em;">{{ project.title }}</h4>
     </a>
-    <div class="text-muted" layout="horizontal">
-        <div>
-            By :
-        </div>
+    <div font-size="font-size:0.7em;" class="text-muted" layout="row" style="margin:2px;" layout-align="start center">
+            <span style="margin:2px;font-size:0.7em;">By:</span>
         <user-info ng-if="project.owner" user-id="project.owner" flex></user-info>
     </div>
-    <p class="text-muted" ng-bind="project.brief" style="max-height:200px;overflow:hidden;" ></p>
-    <showtags entity="project"></showtags>
-    <div layout="horizontal">
-        <div flex layout="horizontal" class="text-muted">
-            <span>
+    <div layout="row" style="margin-top: 5px;">
+        <div flex layout="row" class="text-muted">
+            <span style="font-size:0.7em;">
                 {{ project.followers.length }}
             </span>
             &nbsp;
-            <span>
+            <span style="font-size:0.7em;">
                 Followers
             </span>
         </div>
         &nbsp;
         &nbsp;
-        <div flex layout="horizontal" class="text-muted">
-            <span>
+        <div flex layout="row" class="text-muted">
+            <span style="font-size:0.7em;">
                 {{ project.members.length }}
             </span>
             &nbsp;
-            <span class="text-muted">
+            <span style="font-size:0.7em;" class="text-muted">
                 Members
             </span>
         </div>
     </div>
-</material-card>
+</md-content>

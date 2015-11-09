@@ -1,5 +1,5 @@
 {
-  "name": "IdeaStorm",
+  "name": "IdeaWeave",
   "description": "something",
   "version": "0.0.1",
   "author": "Cri",
@@ -27,7 +27,8 @@
     "mongoose-random": "*",
     "morgan": "~1.1.0",
     "multer": "^0.1.4",
-    "nodemailer": "1.2.1",
+    "nodemailer": "1.4.0",
+    "nodemailer-smtp-pool": "^1.1.1",
     "oauth-client": "~0.3.0",
     "q": "1.0.1",
     "request": "^2.40.0",

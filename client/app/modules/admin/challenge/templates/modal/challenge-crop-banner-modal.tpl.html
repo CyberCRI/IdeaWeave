@@ -1,27 +1,17 @@
-<material-dialog id="edit-banner-dialog">
-    <material-toolbar layout="horizontal" layout-align="">
+<md-dialog id="edit-banner-dialog">
+    <md-toolbar layout="row" layout-align="">
         <div layout layout-align="start center">
             <div flex>Pick a banner</div>
-            <material-button class="material-button-fab" ng-click="cancel()">
+            <md-button class="md-fab" ng-click="cancel()">
                 <i class="fa fa-times" ></i>
-            </material-button>
+            </md-button>
         </div>
-    </material-toolbar>
+    </md-toolbar>
     <image-crop
             data-width="900"
             data-height="300"
             data-shape="square"
             data-step="imageCropStep"
             data-result="imageCropResult"
-            hide
-            block-md
             ></image-crop>
-    <image-crop
-            data-width="240"
-            data-height="80"
-            data-shape="square"
-            data-step="imageCropStep"
-            data-result="imageCropResult"
-            hide-md
-            ></image-crop>
-</material-dialog>
+</md-dialog>

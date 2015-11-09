@@ -14,9 +14,15 @@ module.exports = function(app) {
     app.route('/challenges/:id')
         .put(utils.ensureAuthenticated,challenge.update)
         .delete(utils.ensureAuthenticated,challenge.remove);
-    app.route('/challenge/template/:id')
+
+    app.route('/challenges/:id/templates')
+        .get(challenge.getTemplates)
         .post(utils.ensureAuthenticated,challenge.createTemplate)
-        .get(utils.ensureAuthenticated,challenge.getTemplates);
+    app.route('/challenges/:challengeId/templates/:templateId')
+        .get(challenge.getTemplate)
+        .put(utils.ensureAuthenticated,challenge.replaceTemplate)
+        .delete(utils.ensureAuthenticated,challenge.deleteTemplate)
+
 
     app.get('/challenges/tag/:tag',challenge.getByTag);
 

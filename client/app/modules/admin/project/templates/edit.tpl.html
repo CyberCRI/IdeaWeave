@@ -1,29 +1,20 @@
-<material-content layout="horizontal" layout-fill>
-    <material-sidenav class="material-sidenav-left material-whiteframe-z2 left" component-id="left">
-        <material-content style="padding-left: 20px;" layout="vertical" >
-            <material-toolbar layout="horizontal">
-                <div class="material-toolbar-tools">
-                    <i class="fa fa-caret-left fa-2x my-btn" hide-md style="color:black;" ng-click="toggle()" flex></i>
-                    <div>
-                        <i class="fa fa-user">Edit your project</i>
-                    </div>
-                </div>
-            </material-toolbar>
-            <material-button ng-click="popUpEdit()">
-                Edit Home Page
-            </material-button>
-            <material-button ng-click="popUpPoster()">
-                Edit Poster
-            </material-button>
-            <material-button ng-click="popUpBanner()">
-                Edit Banner
-            </material-button>
-            <material-button class="material-theme-red" ng-click="popUpRemove()">
-                Delete
-            </material-button>
-        </material-content>
-    </material-sidenav>
-    <form name="projectBasic" layout="vertical" flex class="right-part">
+<md-content layout="column" layout-fill>
+    <div>
+        <md-button ng-click="popUpEdit()">
+            Edit Home Page
+        </md-button>
+        <md-button ng-click="popUpPoster()">
+            Edit Poster
+        </md-button>
+        <md-button ng-click="popUpBanner()">
+            Edit Banner
+        </md-button>
+        <md-button class="md-warn" ng-click="popUpRemove()">
+            Delete
+        </md-button>
+    </div>
+
+    <form name="projectBasic" layout="column" flex>
         <ui-select ng-model="project.localisation"
                    theme="selectize"
                    reset-search-input="false">
@@ -34,22 +25,37 @@
                 <div ng-bind-html="address.formatted_address | highlight: $select.search"></div>
             </ui-select-choices>
         </ui-select>
-        <tag-manager entity="project" ng-model="project.tags"></tag-manager>
-        <material-input-group>
+
+        <p>Tags</p>
+        <tag-manager model="project.tags"></tag-manager>
+
+        <md-input-container>
             <label for="title">Title</label>
-            <material-input id="title" type="text" ng-model="project.title" name="title"/>
-        </material-input-group>
+            <input id="title" type="text" ng-model="project.title" name="title" required/>
+        </md-input-container>
         <div ng-messages="projectBasic.title.$error">
             <div ng-message="required">
-                title is required
+                Title is required
             </div>
         </div>
-        <label for="brief"></label>
-        <textarea  id="brief" rows="5" style="width:100%;" ng-model="project.brief"></textarea>
-        <material-input-group >
+        <md-input-container>
+            <label for="brief">Brief Description</label>
+            <textarea  id="brief" rows="5" style="width:100%;" ng-model="project.brief"></textarea>
+        </md-input-container>
+        <md-switch ng-model="project.showProgress" aria-label="progress">
+            Progress indicator
+        </md-switch>
+        <div layout>
+            <div flex="20" layout layout-align="center center">
+                <input type="number" ng-model="project.progress" aria-label="red" aria-controls="red-slider">
+            </div>
+            <md-slider ng-disabled="!project.showProgress" flex min="0" max="100" ng-model="project.progress" aria-label="red">
+            </md-slider>
+        </div>
+        <md-input-container >
             <label for="trello">Trello Id (like <code>U0aBsIQl</code>)</label>
-            <material-input id="trello" type="text"ng-model="project.trello" />
-        </material-input-group>
-        <material-button flex class="material-button-raised material-button-colored" type="button" ng-click="updateProject($event)" ng-disabled="">Update</material-button>
+            <input ng-disabled="!project.showProgress" id="trello" type="text"ng-model="project.trello" />
+        </md-input-container>
+        <md-button flex class="md-raised md-button-colored" type="button" ng-click="updateProject($event)" ng-disabled="">Update</md-button>
     </form>
-</material-content>
+</md-content>

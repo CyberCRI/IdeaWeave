@@ -5,15 +5,20 @@ angular.module('cri.idea')
         replace: true,
         scope: {
             ideaId: '=',
+            myIdea: '=',
             height: '=',
             width: '='
         },
         controller: function ($scope, Idea) {
-            Idea.fetch($scope.ideaId).then(function(idea){
-                $scope.idea = idea;
-            }).catch(function(err){
-                console.log('error',err);
-            });
+            if($scope.myIdea) {
+                $scope.idea = $scope.myIdea;
+            } else {
+                Idea.fetch($scope.ideaId).then(function(idea){
+                    $scope.idea = idea;
+                }).catch(function(err){
+                    console.log('error',err);
+                });
+           }
         },
         templateUrl: 'modules/idea/directives/ideaCard/idea-card.tpl.html',
         link: function(scope,element,attrs){

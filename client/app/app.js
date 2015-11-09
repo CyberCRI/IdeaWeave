@@ -4,13 +4,12 @@ angular.module('cri', [
     'ngAnimate',
     'ngMaterial',
     'ngMessages',
-    'ui.utils',
     'ui.router',
     'ui.select',
     'ui.tinymce',
     'timer',
     'pascalprecht.translate',
-    'angularFileUpload',
+    'ngFileUpload',
     'angular-carousel',
     'ImageCropper',
     'satellizer',
@@ -31,40 +30,59 @@ angular.module('cri', [
     'cri.challenge',
     'cri.tag',
     'cri.profile',
+    'angulartics', 
+    'angulartics.google.analytics',
     'cri.notes',
     'cri.idea',
     'ngCookies'])
     .config(['$httpProvider','$locationProvider','$sceProvider',function ($httpProvider,$locationProvider,$sceProvider) {
-//        $httpProvider.defaults.withCredentials=true;
         $locationProvider.html5Mode(true);
         $locationProvider.hashPrefix('!');
 
         $sceProvider.enabled(false);
-//        dev
-
     }])
-    .run(function (Profile,mySocket,$rootScope,$auth) {
+    .run(function (Profile,$rootScope,$auth) {
         // If there is no user signed in by default, don't grab the profile which will end up redirecting to /login
         if(!$auth.getToken()) return;
 
         Profile.getMe().then(function(me){
             $rootScope.currentUser = me;
-            mySocket.init(me);
-
-            Profile.getPoster(me._id).then(function(data){
-                $rootScope.currentUser.poster = data.poster;
-            }).catch(function(err){
-                console.log('poster error',err)
-            })
+            $rootScope.$emit("changeLogin", me);
         }).catch(function(err){
             console.log('err',err)
         });
+    })
+    .run(function($rootScope, mySocket) {
+        // Update socket when login changes
+        function updateSocket() {
+            if($rootScope.currentUser) {
+                mySocket.init($rootScope.currentUser);
+            } else {
+                mySocket.disconnect();
+            }
+        } 
+
+        $rootScope.$on("changeLogin", updateSocket);
+    })
+    // Keep track of the unseen notifications 
+    .run(function($rootScope, Profile) {
+        function updateNotificationCounter() {
+            $rootScope.unseenNotificationCounter = 0;
+
+            if($rootScope.currentUser) {
+                Profile.getUnseenNotificationCounter().then(function(data) {
+                    $rootScope.unseenNotificationCounter = data.unseenNotificationCounter;
+                });
+            }
+        }
+
+        $rootScope.$on("changeLogin", updateNotificationCounter);
     })
     .controller('ToastCtrl',['$scope','$hideToast',function($scope, $hideToast) {
         $scope.closeToast = function() {
             $hideToast();
         };
-    }]).controller('LeftNavCtrl',function($scope,$materialSidenav,$state,Profile,Tag,Recommendation,$q,Project,Challenge){
+    }]).controller('LeftNavCtrl',function($scope,$mdSidenav,$state,Profile,Tag,Recommendation,$q,Project,Challenge){
         function getRecomendation(id){
             var defered = $q.defer();
             if(!$scope.currentUser) return defered.promise;
@@ -102,11 +120,6 @@ angular.module('cri', [
             });
             return defered.promise;
         }
-
-        function getLeftNav() { 
-            return $materialSidenav('left'); 
-        }
-
 
         $scope.$watch(function(){
             return $state.params.uid;
@@ -157,9 +170,6 @@ angular.module('cri', [
                         $scope.sideNavTemplateUrl = 'modules/idea/templates/tags-ideas.tpl.html';
                     });
                     break;
-                case 'profileAdmin':
-                    //$scope.sideNavTemplateUrl = 'modules/common/leftNav/admin-profile.tpl.html';
-                    break;
                 case 'challengeAdmin':
                     $scope.sideNavTemplateUrl = 'modules/common/leftNav/admin-challenges.tpl.html';
                     break;
@@ -168,9 +178,6 @@ angular.module('cri', [
                 case 'project.trello':
                 case 'project.admin':
                 case 'workspace':
-                case 'workspace.etherpad':
-                case 'workspace.files':
-                case 'workspace.resources':
                     $scope.project = Project.data;
 
                     if($scope.currentUser){
@@ -186,24 +193,14 @@ angular.module('cri', [
                             });
                         }
                     }
-                    $scope.sideNavTemplateUrl = 'modules/common/leftNav/publications.tpl.html';
+                    $scope.sideNavTemplateUrl = 'modules/common/leftNav/admin-project.tpl.html';
 
                     break;
 
             }
         });
-
-        $scope.$on('toggleLeft',function(e){
-            getLeftNav().toggle();
-        });
-        $scope.toggle = function(){
-            getLeftNav().toggle();
-        };
-        $scope.$on('side:close-left',function(){
-            getLeftNav().toggle();
-        });
-    }).controller('BodyCtrl', function($scope, $materialSidenav) {
+    }).controller('BodyCtrl', function($scope, $mdSidenav) {
         $scope.rightSidenavIsOpen = function() {
-            return $materialSidenav('right').isOpen();
+            return $mdSidenav('right').isOpen();
         }
     });

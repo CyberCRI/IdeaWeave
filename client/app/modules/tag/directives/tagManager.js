@@ -1,99 +1,69 @@
 angular.module('cri.tag')
-    .directive('tagManager',[function(){
+    .directive('tagManager', function(){
         return {
-            restrict:'EA',
-            scope:{entity:'='},
-            replace:true,
-            templateUrl:'modules/tag/directives/tags.tpl.html',
-            controller : ['$scope','Tag','Notification',function($scope,Tag,Notification){
-                function inArray(value,array){
-                    if(typeof value=="string"){
-                        var len=array.length;
-                        for(var i=0;i<len;i++){
-                            if(value===array[i]){
-                                return true;
-                            }
-                        }
-                    }
-                    return false;
-                }
-
-
+            restrict: 'EA',
+            scope: {
+                model: '='
+            },
+            replace: true,
+            templateUrl: 'modules/tag/directives/tags.tpl.html',
+            controller : function($scope,Tag,Notification){
+                var allTags = [];
                 Tag.fetch().then(function(result){
-                    $scope.tags=result;
+                    allTags = result;
                 }).catch(function(err){
                     console.log(err);
                 });
 
-                $scope.add = function(tag){
-                    // fix dulplicate
-                    if(!inArray(tag,$scope.entity.tags)){
-                        $scope.entity.tags.push( tag );
-                    }
-                    $scope.tags.splice( $scope.tags.indexOf(tag), 1 );
-                };
+                $scope.matchedTags = allTags;
+                $scope.updateMatchedTags = function(userText) {
+                    if(userText == "") return;
 
-                $scope.remove = function(idx){
-                    $scope.tags.push($scope.entity.tags[idx]);
-                    $scope.entity.tags.splice( idx, 1 );
-                };
+                    var searchText = userText.toLowerCase();
 
-                $scope.addNew = function(tag){
-                    var exist = false;
-                    for(var i in $scope.tags){
-                        if($scope.tags[i] == tag){
-                            exist = true;
-                            break;
-                        }
-                    }
-                    if(!exist){
-                        Tag.create(tag).then(function(newTag) {
-                            $scope.entity.tags.push(newTag);
-                        }).catch(function(err){
-                            console.log(err);
-                        });
-                    }else{
-                        Notification.display('this tag already exist');
+                    // Find approximate matches
+                    $scope.matchedTags = _.filter(allTags, function(tag) { 
+                        return tag.entityCount > 0 && tag.title.toLowerCase().indexOf(searchText) != -1;
+                    });
+
+                    // If there's not an exact match, propose the user's text first
+                    if(!_.find($scope.matchedTags.matchedTags, function(tag) { tag.title == searchText }))
+                    {
+                        $scope.matchedTags.unshift({ title: userText, _id: "TEMPORARY" });
                     }
                 };
-            }],
-            link: function(scope,element){
 
-                scope.formTag = false;
-                scope.addTag = function(){
-                    scope.formTag = !scope.formTag;
+                $scope.pickedItem = function(selectedItem) {
+                    // selectedItem could be an existing tag or a new tag (_id == "TEMPORARY")
+
+                    // If the tag already exists, just use it
+                    if(selectedItem._id != "TEMPORARY") return selectedItem;
+
+                    // Otherwise the tag may exist but not displayed (number == 0)
+                    var existingTag = _.find(allTags, function(tag) { return tag.title == selectedItem.title; });
+                    if(existingTag) return existingTag;
+
+                    // No existing tag. Time to create a new one
+                    Tag.create(selectedItem.title).then(function(newTag) {
+                        allTags.push(newTag);
+
+                        // Replace the temporary tag object with the new one
+                        var tagIndex = _.findIndex($scope.model, function(tag) { return tag.title == selectedItem.title });
+                        $scope.model[tagIndex] = newTag; 
+                    }).catch(function(err){
+                        console.log("Error creating tag", err);
+                        Notification.display("Error creating tag");
+                    });
+
+                    return selectedItem;
                 };
-
-                if(scope.entity === undefined){
-                    scope.entity = {
-                        tags : []
-                    };
-                }else if(scope.entity.tags===undefined){
-                    scope.entity.tags=[];
-                }
-
-                 var input= element.find('input');
-                 input.bind('keypress',function (event){
-                    if(event.charCode===13){
-                        scope.$apply(scope.add(scope.myTag));
-                        event.stopPropagation();
-                        event.preventDefault();
-                    }
-                 });
-
             }
         };
-    }])
-    .directive('showtags',function(){
+    })
+    .directive('showTags',function(){
         return {
             restrict: 'EA',
-            scope: { entity: '=' },
-            template:'<div ng-if="entity.tags.length >0"><i class="fa fa-tags fa-2x" ></i><material-button inline-block ng-repeat="tag in entity.tags" ui-sref="tag({title: tag.title})">#{{tag.title}}</material-button></div>'
-        };
-    })
-    .directive('tagSugestion',function(){
-        return {
-            restrict : 'EA',
-            templateUrl : ''
+            scope: { model: '=' },
+            templateUrl:'modules/tag/directives/show-tags.tpl.html'
         };
     });

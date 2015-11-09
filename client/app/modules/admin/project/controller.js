@@ -2,15 +2,14 @@ angular.module('cri.admin.project',[])
     .controller('AdminProjectCtrl', function($scope,project,Project,$q){
         $scope.project = project[0];
     })
-    .controller('ProjectEditCtrl',['$scope','$stateParams','Project','$state','Notification','Config','$materialDialog','$materialSidenav','Gmap',function ($scope,$stateParams,Project,$state,Notification,Config,$materialDialog,$materialSidenav,Gmap) {
-
+    .controller('ProjectEditCtrl', function ($scope,$stateParams,Project,Challenge,$state,Notification,Config,$mdDialog,$mdSidenav,Gmap) {
         var leftNav;
         $scope.toggle = function(){
             leftNav.toggle();
         };
 
         $scope.$on('showAdmin',function(){
-            leftNav = $materialSidenav('left');
+            leftNav = $mdSidenav('left');
             leftNav.toggle();
         });
 
@@ -26,14 +25,14 @@ angular.module('cri.admin.project',[])
         };
 
         $scope.popUpPoster = function($event){
-            $materialDialog({
+            $mdDialog.show({
                 templateUrl : 'modules/admin/challenge/templates/modal/challenge-crop-poster-modal.tpl.html',
                 escapeToClose : false,
                 clickOutsideToClose : false,
                 locals : {
                     project : $scope.project
                 },
-                controller : ['$scope','$hideDialog','project',function($scope,$hideDialog,project){
+                controller : function($scope,project){
                     $scope.imageCropResult = null;
                     $scope.$watch('imageCropResult',function(dataUri,e){
                         if(dataUri){
@@ -45,28 +44,27 @@ angular.module('cri.admin.project',[])
                             }).catch(function(err){
                                 Notification.display(err.message);
                             }).finally(function(){
-                                $hideDialog();
+                                $mdDialog.hide();
                             });
                         }
                     });
 
                     $scope.cancel = function(){
-                        $hideDialog();
+                        $mdDialog.hide();
                     };
-                }]
-
+                }
             });
         };
 
         $scope.popUpBanner = function(){
-            $materialDialog({
+            $mdDialog.show({
                 templateUrl : 'modules/admin/challenge/templates/modal/challenge-crop-banner-modal.tpl.html',
                 escapeToClose : false,
                 clickOutsideToClose : false,
                 locals : {
                     project : $scope.project
                 },
-                controller : ['$scope','$hideDialog','project',function($scope,$hideDialog,project){
+                controller : function($scope,project){
                     $scope.imageCropResult = null;
                     $scope.$watch('imageCropResult',function(dataUri,e){
                         if(dataUri){
@@ -78,28 +76,32 @@ angular.module('cri.admin.project',[])
                             }).catch(function(err){
                                 Notification.display(err.message);
                             }).finally(function(){
-                                $hideDialog();
+                                $mdDialog.hide();
                             });
                         }
                     });
 
                     $scope.cancel = function(){
-                        $hideDialog();
+                        $mdDialog.hide();
                     };
-                }]
-
+                }
             });
         };
         $scope.popUpEdit = function(){
-            $materialDialog({
+            $mdDialog.show({
                 templateUrl : 'modules/admin/project/templates/modal/homePageModal.tpl.html',
                 locals : {
-                    project : $scope.project
+                    project : $scope.project,
+                    templates: Challenge.getTemplates($scope.project.container)
                 },
-                controller : ['$scope','$hideDialog','project','Config',function($scope,$hideDialog,project,Config){
-                    $scope.tinymceOption = Config.tinymceOptions;
+                controller : function($scope,project,Config,templates){
                     $scope.newProject = {};
                     $scope.newProject.home = project.home;
+
+                    $scope.tinymceOption = _.extend({}, Config.tinymceOptions, {
+                        templates: templates
+                    });
+
                     $scope.update = function(newProject){
                         $scope.isLoading = true;
                         Project.update(project._id,newProject).then(function(data){
@@ -109,23 +111,23 @@ angular.module('cri.admin.project',[])
                             Notification.display(err.message);
                         }).finally(function(){
                             $scope.isLoading = false;
-                            $hideDialog();
+                            $mdDialog.hide();
                         });
                     };
                     $scope.cancel = function(){
-                        $hideDialog();
+                        $mdDialog.hide();
                     };
-                }]
+                }
             });
         };
 
         $scope.popUpRemove = function(){
-            $materialDialog({
+            $mdDialog.show({
                 templateUrl : 'modules/admin/project/templates/modal/project-remove-modal.tpl.html',
                 locals : {
                     project : $scope.project
                 },
-                controller : ['$scope','$hideDialog','project',function($scope,$hideDialog,project){
+                controller : function($scope,project){
                     $scope.projectTitle = project.title
 
                     $scope.delete = function(){
@@ -135,14 +137,13 @@ angular.module('cri.admin.project',[])
                         }).catch(function(err){
                             Notification.display('Error, the project was not removed');
                         }).finally(function(){
-                            $hideDialog();
+                            $mdDialog.hide();
                         });
                     };
                     $scope.cancel = function(){
-                        $hideDialog();
+                        $mdDialog.hide();
                     };
-                }]
-
+                }
             });
         };
 
@@ -153,8 +154,8 @@ angular.module('cri.admin.project',[])
                 Notification.display(err.message);
             });
         };
-    }])
-    .controller('ProjectMediaCtrl',['$scope', 'Notification','Files','Url','Config',function ($scope, Notification,Files,Url,Config) {
+    })
+    .controller('ProjectMediaCtrl', function ($scope, Notification,Files,Url,Config) {
         $scope.removeFile = function(file){
             Files.remove(file.id).then(function(){
                 Notification.display('File removed');
@@ -176,14 +177,12 @@ angular.module('cri.admin.project',[])
                 Notification.display('Update failed');
             });
         };
-    }])
-
-
-    .controller('ProjectTeamCtrl',['$scope','Project','Notification','$materialDialog',function ($scope,Project,Notification,$materialDialog) {   
+    })
+    .controller('ProjectTeamCtrl', function ($scope,Project,Notification,$mdDialog) {   
         /* TEMPORARILY DEACTIVATED: missing server functionality
 
         $scope.inviteModal = function(e){
-            $materialDialog({
+            $mdDialog({
                 templateUrl : 'modules/admin/project/templates/modal/inviteModal.tpl.html',
                 locals : {
                     project : $scope.project
@@ -243,4 +242,4 @@ angular.module('cri.admin.project',[])
                 Notification.display(err.message);
             });
         };
-    }]);
+    });

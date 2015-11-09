@@ -1,5 +1,5 @@
 angular.module('cri.workspace')
-.factory('NoteLab',function($http,$q,Config,$upload,$stateParams,$rootScope){
+.factory('NoteLab',function($http,$q,Config,Upload,$stateParams,$rootScope){
     var service = {
         fetch : function(param){
             var defered = $q.defer();
@@ -44,12 +44,12 @@ angular.module('cri.workspace')
 
         uploadFile : function(projectId, description, file){
             var defered = $q.defer();
-            $upload.upload({
+            Upload.upload({
                 url: Config.apiServer+'/project/'+projectId+'/file',
                 method: 'POST',
                 file: file,
-                data: {
-                    description : description,
+                fields: {
+                    description: description,
                 }
             }).progress(function(evt) {
                 console.log(evt);

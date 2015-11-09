@@ -1,66 +1,65 @@
-<section layout="horizontal" layout-fill>
-    <material-sidenav class="material-sidenav-left material-whiteframe-z2 left" component-id="left">
-        <material-content style="padding-left: 20px;" layout="vertical" layout-fill>
-            <material-toolbar layout="horizontal">
-                <div class="material-toolbar-tools">
-                    <i class="fa fa-caret-left fa-2x my-btn" hide-md style="color:black;" ng-click="toggle()" flex></i>
-                    <div>
-                        <i class="fa fa-trophy">Edit your profile</i>
-                    </div>
-                </div>
-            </material-toolbar>
-            <section layout="vertical">
-                <material-button ng-click="editPageModal()">
-                    Edit your personal page
-                </material-button>
-                <material-button ng-click="cropPosterModal()">
-                    Change poster
-                </material-button>
-                <material-button ng-click="resetPassModal()">
-                    Reset Password
-                </material-button>
-            </section>
-            <section layout="vertical">
-                <header>
-                    <h3 class="center">Notifications</h3>
-                </header>
-                <section>
-                    <material-checkbox ng-model="profile.liveNotification">
-                        Live
-                    </material-checkbox>
-                    <material-checkbox ng-model="profile.mailNotification">
-                        Email
-                    </material-checkbox>
-                    <material-button class="material-button-raised" ng-click="updateProfile()" style="width:100%;">
-                        Save
-                    </material-button>
-                </section>
-            </section>
-        </material-content>
-    </material-sidenav>
-    <section layout="vertical" layout-fill>
-        <material-toolbar class="material-theme-green" scroll-shrink>
-            <h2 class="center">Edit your profile !</h2>
-        </material-toolbar>
-        <material-content flex class="right-part">
-            <form name="basicForm">
-                <material-input-group>
-                    <label for="username">User name</label>
-                    <material-input type="text" id="username" ng-model="profile.username"></material-input>
-                </material-input-group>
-                <ui-select ng-model="profile.localisation"
-                           theme="selectize"
-                           reset-search-input="false">
-                    <ui-select-match placeholder="Enter an address...">{{$select.selected.formatted_address}}</ui-select-match>
-                    <ui-select-choices repeat="address in addresses track by $index"
-                                       refresh="refreshAddresses($select.search)"
-                                       refresh-delay="0">
-                        <div ng-bind-html="address.formatted_address | highlight: $select.search"></div>
-                    </ui-select-choices>
-                </ui-select>
-                <tag-manager entity='profile' ng-model='profile.tags'></tag-manager>
-                <material-button style="width:100%;" class="material-button-raised"  ng-click="updateProfile(profile)">Update Profile</material-button>
-            </form>
-        </material-content>
-    </section>
-</section>
+<md-content>
+    <md-content layout="row" layout-align="center" layout-margin>
+        <section class="md-whiteframe-z2" flex-gt-sm="75" layout="column">
+            <md-toolbar class="md-theme-green" scroll-shrink>
+                <h2 class="center">Edit your profile</h2>
+            </md-toolbar>
+            <md-content flex class="right-part" layout-padding>
+                <form name="basicForm">
+                    <header>
+                        <h3 class="center">INFORMATION</h3>
+                    </header>
+                    <md-input-container>
+                        <label for="username">User name</label>
+                        <input type="text" id="username" ng-model="profile.username"></input>
+                    </md-input-container>
+                    <ui-select ng-model="profile.localisation"
+                               theme="selectize"
+                               reset-search-input="false">
+                        <ui-select-match placeholder="Enter an address...">{{$select.selected.formatted_address}}</ui-select-match>
+                        <ui-select-choices repeat="address in addresses track by $index"
+                                           refresh="refreshAddresses($select.search)"
+                                           refresh-delay="0">
+                            <div ng-bind-html="address.formatted_address | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+
+                    <p>Own tags</p>
+                    <tag-manager model="profile.tags"></tag-manager>
+
+                    <p>Following tags</p>
+                    <tag-manager model="followingTags"></tag-manager>
+
+                     <section layout="column">
+                        <md-button class="md-primary md-whiteframe-z2" ng-click="editPageModal()">
+                            Edit your personal page
+                        </md-button>
+                        <md-button class="md-primary md-whiteframe-z2" ng-click="cropPosterModal()">
+                            Change poster
+                        </md-button>
+                        <md-button class="md-primary md-whiteframe-z2" ng-click="resetPassModal()">
+                            Reset Password
+                        </md-button>
+                    </section>
+                    <section layout="column">
+
+                        <md-divider layout-margin></md-divider>
+
+                        <header>
+                            <h3 class="center">NOTIFICATIONS</h3>
+                        </header>
+                        <section>
+                            <md-checkbox ng-model="profile.liveNotification">
+                                Live
+                            </md-checkbox>
+                            <md-checkbox ng-model="profile.mailNotification">
+                                Email
+                            </md-checkbox>
+                        </section>
+                    </section>
+                    <md-button class="md-raised md-primary update-button"  ng-click="updateProfile(profile)">Update Profile</md-button>
+                </form>
+            </md-content>
+        </section>
+    </md-content>
+</md-content>

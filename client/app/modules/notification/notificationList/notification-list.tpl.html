@@ -1,5 +1,6 @@
-<material-list>
-    <div ng-repeat="notif in notifications">
+<md-list>
+    <md-list-item ng-repeat="notif in notifications">
         <notification notification="notif"></notification>
-    </div>
-</material-list>
+        <md-divider ng-if="!$last"></md-divider>
+    </md-list-item>
+</md-list>

@@ -2,7 +2,8 @@ var mongoose = require('mongoose-q')(),
     User = mongoose.model('User'),
     config = require('../../config/config'),
     jwt = require('jwt-simple'),
-    moment = require('moment');
+    moment = require('moment'),
+    _ = require('lodash');
 
 
 module.exports.ensureAuthenticated = function(req, res, next) {
@@ -19,7 +20,7 @@ module.exports.ensureAuthenticated = function(req, res, next) {
         req.user = user;
         next();
     }).fail(function(err){
-        res.json(err);
+        module.exports.sendError(res, 400, err);
     })
 }
 
@@ -31,4 +32,14 @@ module.exports.createJwtToken = function(user) {
         exp: moment().add(7, 'days').valueOf()
     };
     return jwt.encode(payload, config.TOKEN_SECRET);
+}
+
+
+module.exports.sendError = function(res, code, error) {
+    console.error("Sending error", code, error.message, error.stack);
+    return res.status(code).json({ message: error.message, stack: error.stack });
+}
+
+module.exports.sendErrorMessage = function(res, code, message) {
+    return module.exports.sendError(res, code, { message: messsage });
 }

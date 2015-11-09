@@ -1,5 +1,5 @@
 angular.module('cri.project')
-    .service('Project',['$http','$q','$upload','Config', function($http,$q,$upload,Config){
+    .service('Project',['$http','$q','Upload','Config', function($http,$q,Upload,Config){
 
     var service = {
         getByTag : function(tag,param){

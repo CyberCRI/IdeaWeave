@@ -6,5 +6,6 @@ module.exports = {
 		description: 'Open webservice for research project',
 		keywords: 'collaborative, projects, idea, cri, university, research, symbio4all'
 	},
-	port: 5011
+	port: 5011,
+	email: {}
 };

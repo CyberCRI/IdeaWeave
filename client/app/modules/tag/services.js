@@ -39,7 +39,7 @@ angular.module('cri.tag')
             },
             create : function(tag){
                 var defered = $q.defer();
-                $http.post(Config.apiServer+'/tags',tag)
+                $http.post(Config.apiServer+'/tags', { title: tag })
                     .success(function(data){
                         defered.resolve(data);
                     })

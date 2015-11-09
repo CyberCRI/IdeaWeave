@@ -1,0 +1,9 @@
+<div layout="row" layout-align="start center">
+	<i class="fa fa-tags baseColor"></i>
+	<md-chips ng-model="model" readonly="true" flex ng-if="model.length > 0" >
+		<md-chip-template>
+			<span ui-sref="tag({title: $chip.title})" class="cursor-hand">{{ $chip.title }}</span>
+		</md-chip-template>
+	</md-chips>
+	<p flex ng-if="model.length == 0">No tags</p>
+</div>
