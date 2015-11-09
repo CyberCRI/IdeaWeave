@@ -41,5 +41,9 @@ module.exports.sendError = function(res, code, error) {
 }
 
 module.exports.sendErrorMessage = function(res, code, message) {
-    return module.exports.sendError(res, code, { message: messsage });
+    return module.exports.sendError(res, code, { message: message });
+}
+
+module.exports.sendMissingError = function(res) {
+    return module.exports.sendErrorMessage(res, 404, "No item found with that ID");
 }
