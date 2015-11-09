@@ -352,7 +352,7 @@ exports.create = function(req,res){
                 return Challenge.findOneAndUpdateQ({_id : project.container},{ $push : { projects : project._id },$inc : { projectNumber : 1 }});
             } else {
                 // Return dummy promise
-                return Q.fulfill(true);
+                return q.fulfill(true);
             }
         }).then(function() {
             res.json(project);

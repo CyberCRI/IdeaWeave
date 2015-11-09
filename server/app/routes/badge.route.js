@@ -15,4 +15,11 @@ module.exports = function(app) {
         .get(badge.fetchOne)
         .put(utils.ensureAuthenticated, badge.update)
         .delete(utils.ensureAuthenticated, badge.remove);
+
+    app.route('/badges/:badgeId/earned')
+        .get(badge.listEarned)
+        .post(utils.ensureAuthenticated, badge.addEarned);
+
+    app.route('/badges/:badgeId/earned/:earnedId')
+        .get(badge.fetchOneEarned);
 };

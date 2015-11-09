@@ -16,13 +16,49 @@ var mongoose = require('mongoose-q')(),
     _ = require('lodash'),
     q = require('q');
 
+
+function getModelName(entityType) {
+    switch (entityType) {
+        case "challenge": return "Challenge";
+        case "project": return "Project";
+        case "profile": return "User";
+        case "idea": return "Idea";
+        default: throw new Error("No model name for entity type '" + entityType + "'");
+    }
+}
+
 function canModifyBadge(user, badge) {
     return user._id.toString() == badge.owner.toString();
 };
 
+// Returns promise that will populate the badge earned fields
+function populateBadgeEarned(badgeEarned) {
+    var givenByReq = badgeEarned.populateQ({ 
+        path: "givenByEntity", 
+        model: getModelName(badgeEarned.givenByEntity)
+    });
+    var givenToReq = badgeEarned.populateQ({ 
+        path: "givenToEntity", 
+        model: getModelName(badgeEarned.givenToEntity)
+    });
+    return q.all([givenByReq, givenToReq])
+    .then(function() {
+        return badgeEarned;
+    });
+}
+
+function populateEarned(badge) {
+    return q.all(_.map(badge.earned, populateBadgeEarned))
+    .then(function() {
+        return badge; 
+    });
+}
+
 exports.list = function(req, res) {
     Badge
-    .findQ()
+    .find()
+    .select("-earned")
+    .execQ()
     .then(function(ideas) {
         res.json(badges);
     }).fail(function(err) {
@@ -31,8 +67,11 @@ exports.list = function(req, res) {
 };
 
 exports.fetchOne = function(req, res) {
-    Badge.findOneQ({_id : req.params.id})
-    .execQ().then(function(badge) {
+    Badge
+    .findOne({_id : req.params.id})
+    .select("-earned")
+    .execQ()
+    .then(function(badge) {
         res.json(badge);
     }).fail(function(err) {
         utils.sendError(res, 400, err);
@@ -99,6 +138,50 @@ exports.remove = function(req, res) {
         .then(function() {
             res.json(200);
         });
+    }).fail(function(err) {
+        utils.sendError(res, 400, err);
+    });
+};
+
+
+exports.listEarned = function(req, res) {
+    Badge
+    .findOne({_id : req.params.badgeId})
+    .select("earned")
+    .execQ()
+    .then(populateEarned)
+    .then(function(badge) {
+        res.json(badge.earned);
+    }).fail(function(err) {
+        utils.sendError(res, 400, err);
+    });
+};
+
+exports.addEarned = function(req, res) {
+    Badge
+    .findOne({_id : req.params.badgeId})
+    .execQ()
+    .then(function(badge) {
+        // TODO: check that you can add earned
+        badge.earned.push(req.body);
+        return badge.saveQ();
+    }).then(populateEarned)
+    .then(function(badge) {
+        res.json(badge.earned);
+    }).fail(function(err) {
+        utils.sendError(res, 400, err);
+    });
+};
+
+exports.fetchOneEarned = function(req, res) {
+    Badge
+    .findOne({_id : req.params.badgeId})
+    .select("earned")
+    .execQ()
+    .then(function(badge) {
+        return populateBadgeEarned(badge.earned.id(req.params.earnedId));
+    }).then(function(badgeEarned) {
+        res.json(badge.earned.id(req.params.earnedId));
     }).fail(function(err) {
         utils.sendError(res, 400, err);
     });
