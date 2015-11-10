@@ -206,11 +206,38 @@ exports.addEarned = function(req, res) {
             } else if(req.body.givenByType == "project") {
                 if(projectController.canModifyProject(req.user, referencedEntities))
                     return utils.sendErrorMessage(res, 400, "You cannot give a badge for this project");
+            } else {
+                return utils.sendErrorMessage(res, 400, "This entity cannot give badges");
             }
 
             badge.earned.push(req.body);
 
-            // TODO: give badges to owners and members of projects, challenges, ideas
+            // Give badges to owners and members of projects or ideas
+            if(req.body.givenToType == "project") {
+                // Give badges to owner
+                badge.earned.push(_.extend({}, req.body, {
+                    givenToType: "profile",
+                    givenToEntity: referencedEntities[1].owner
+                }));
+
+                // Give badges to members
+                _.each(referencedEntities[1].members, function(member) { 
+                    badge.earned.push(_.extend({}, req.body, {
+                        givenToType: "profile",
+                        givenToEntity: referencedEntities[1].owner
+                    }));
+                });
+            } else if(req.body.givenToType == "idea") {
+                // Give badges to owner
+                badge.earned.push(_.extend({}, req.body, {
+                    givenToType: "profile",
+                    givenToEntity: referencedEntities[1].owner
+                }));
+            } else if(req.body.givenToType == "profile") {
+                // No extra badges to give
+            } else {
+                return utils.sendErrorMessage(res, 400, "Tou cannot give a badge to this entity");
+            }
 
             return badge.saveQ()
             .then(populateEarned)
