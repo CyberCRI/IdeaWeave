@@ -12,6 +12,8 @@ var mongoose = require('mongoose-q')(),
     NoteLab = mongoose.model('NoteLab'),
     tagController = require('./tag.controller'),
     utils = require('../services/utils.service'),
+    projectController = require('../controllers/project.controller.js'),
+    challengeController = require('../controllers/challenge.controller.js'),
     io = require('../../server').io,
     _ = require('lodash'),
     q = require('q');
@@ -29,13 +31,21 @@ function getModelName(entityType) {
 
 function canModifyBadge(user, badge) {
     return user._id.toString() == badge.owner.toString();
-};
+}
 
 // Like Mongoose populateQ(), but without required a document
 function populateField(parent, fieldName, entityType) {
     var model = mongoose.model(getModelName(entityType));
     return model.findOneQ({ _id: parent[fieldName] }).then(function(entity) {
         parent[fieldName] = entity;
+    });
+}
+
+// Returns promise for an entity for if the given entity exists
+function getEntity(entityId, entityType) {
+    var model = mongoose.model(getModelName(entityType));
+    return model.findOneQ({ _id: entityId }).then(function(entity) {
+        return entity;
     });
 }
 
@@ -164,10 +174,10 @@ exports.listEarned = function(req, res) {
         // Convert badge to a regular JS object, or we can't populate the data correctly
         badge = badge.toObject();
 
-        return populateEarned(badge);
-    })
-    .then(function(badge) {
-        res.json(badge.earned);
+        return populateEarned(badge)
+        .then(function(badge) {
+            res.json(badge.earned);
+        });
     }).fail(function(err) {
         utils.sendError(res, 400, err);
     });
@@ -180,16 +190,34 @@ exports.addEarned = function(req, res) {
     .then(function(badge) {
         if(!badge) return utils.sendMissingError(res);
 
-        // TOOD: check that referenced entities exist
-        // TODO: check that you can add earned (must be owner of project or challenge that is giving)
-        badge.earned.push(req.body);
+        // Check that referenced entity exists
+        var referencedEntityRequests = [
+            getEntity(req.body.givenByEntity, req.body.givenByType),
+            getEntity(req.body.givenToEntity, req.body.givenToType)
+        ];
+        return q.all(referencedEntityRequests)
+        .then(function(referencedEntities) { 
+            if(!referencedEntities[0] || !referencedEntities[1]) return utils.sendMissingError(res);
 
-        // TODO: give badges to owners and members of projects, challenges, ideas
+            // Check that you can add earned (must be owner of project or challenge that is giving)
+            if(req.body.givenByType == "challenge") {
+                if(challengeController.canModifyChallenge(req.user, referencedEntities[0]))
+                    return utils.sendErrorMessage(res, 400, "You cannot give a badge for this challenge");
+            } else if(req.body.givenByType == "project") {
+                if(projectController.canModifyProject(req.user, referencedEntities))
+                    return utils.sendErrorMessage(res, 400, "You cannot give a badge for this project");
+            }
 
-        return badge.saveQ();
-    }).then(populateEarned)
-    .then(function(badge) {
-        res.json(badge.earned);
+            badge.earned.push(req.body);
+
+            // TODO: give badges to owners and members of projects, challenges, ideas
+
+            return badge.saveQ()
+            .then(populateEarned)
+            .then(function(badge) {
+                res.json(badge.earned);
+            });
+        });
     }).fail(function(err) {
         utils.sendError(res, 400, err);
     });
@@ -204,9 +232,10 @@ exports.fetchOneEarned = function(req, res) {
         if(!badge) return utils.sendMissingError(res);
 
         // Convert badge to a regular JS object, or we can't populate the data correctly
-        return populateBadgeEarned(badge.earned.id(req.params.earnedId).toObject());
-    }).then(function(badgeEarned) {
-        res.json(badgeEarned);
+        return populateBadgeEarned(badge.earned.id(req.params.earnedId).toObject())
+        .then(function(badgeEarned) {
+            res.json(badgeEarned);
+        });
     }).fail(function(err) {
         utils.sendError(res, 400, err);
     });

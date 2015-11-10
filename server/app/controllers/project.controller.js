@@ -15,12 +15,12 @@ var fs = require('fs'),
     _ = require('lodash');
 
 
-function canModifyProject(user, project) {
+exports.canModifyProject = function(user, project) {
     var projectMemberIds = _.map(project.members, function(member) { return member.toString(); });
     return user._id.toString() == project.owner.toString() || _.contains(projectMemberIds, user._id.toString());
 };
 
-function canRemoveProject(user, project) {
+exports.canRemoveProject = function(user, project) {
     return user._id.toString() == project.owner.toString();
 };
 
@@ -69,7 +69,7 @@ exports.listUrls = function(req,res){
 
 exports.createUrl = function(req,res) {
     Project.findOneQ({ _id: req.params.projectId }).then(function(project) {
-        if(!canModifyProject(req.user, project)) return res.json(403, { message: "You are not allowed to modify this project" });
+        if(!exports.canModifyProject(req.user, project)) return res.json(403, { message: "You are not allowed to modify this project" });
 
         // Note will be owned by the current user
         req.body.owner = req.user._id; 
@@ -107,7 +107,7 @@ exports.fetchUrl = function(req,res){
 
 exports.removeUrl = function(req,res){
     Project.findOneQ({ _id: req.params.projectId }).then(function(project) {
-        if(!canModifyProject(req.user, project)) return res.json(403, { message: "You are not allowed to modify this project" });
+        if(!exports.canModifyProject(req.user, project)) return res.json(403, { message: "You are not allowed to modify this project" });
 
         return Url.findOneQ({ _id : req.params.urlId }).then(function(url){
             if(!url) return res.status(400).send();
@@ -144,7 +144,7 @@ exports.listFiles = function(req,res){
 
 exports.uploadFile = function(req,res) {
     Project.findOneQ({ _id: req.params.projectId }).then(function(project) {
-        if(!canModifyProject(req.user, project)) return res.json(403, "You are not allowed to modify this project");
+        if(!exports.canModifyProject(req.user, project)) return res.json(403, "You are not allowed to modify this project");
 
         console.log("Files: ", req.files);
         if (!req.files) return req.json(300, "No message recieved");
@@ -188,7 +188,7 @@ exports.fetchFile = function(req,res){
 
 exports.removeFile = function(req,res){
     Project.findOneQ({ _id: req.params.projectId }).then(function(project) {
-        if(!canModifyProject(req.user, project)) return utils.sendErrorMessage(res, 403, "You are not allowed to modify this project"); 
+        if(!exports.canModifyProject(req.user, project)) return utils.sendErrorMessage(res, 403, "You are not allowed to modify this project"); 
 
         console.log("Removing file", req.params.fileId);
         return File.findOneQ({ _id : req.params.fileId }).then(function(file){
@@ -364,7 +364,7 @@ exports.create = function(req,res){
 
 exports.update = function(req,res){
     Project.findOneQ({ _id: req.params.id }).then(function(project) {
-        if(!canModifyProject(req.user, project)) return utils.sendErrorMessage(res, 403, "You are not allowed to modify this project"); 
+        if(!exports.canModifyProject(req.user, project)) return utils.sendErrorMessage(res, 403, "You are not allowed to modify this project"); 
 
         // Remove properties that can't be updated this way
         req.body = _.omit(req.body, "_id", "_v", "members", "followers");
@@ -401,7 +401,7 @@ exports.update = function(req,res){
 
 exports.remove = function(req,res){
     Project.findOneQ({ _id: req.params.id }).then(function(project) {
-        if(!canRemoveProject(req.user, project)) return utils.sendErrorMessage(res, 403, "You are not allowed to modify this project"); 
+        if(!exports.canRemoveProject(req.user, project)) return utils.sendErrorMessage(res, 403, "You are not allowed to modify this project"); 
 
         var updateChallengeQuery = Challenge.updateQ({ _id: project.container }, { $pull: { projects: req.params.id }});
         var projectRemovalQuery = Project.removeQ({_id : req.params.id});
@@ -460,7 +460,7 @@ exports.finishApply = function(req,res){
 
 exports.addToTeam = function(req,res){
     Project.findOneQ({ _id: req.params.id }).then(function(project) {
-        if(!canModifyProject(req.user, project)) return utils.sendErrorMessage(res, 403, "You are not allowed to modify this project"); 
+        if(!exports.canModifyProject(req.user, project)) return utils.sendErrorMessage(res, 403, "You are not allowed to modify this project"); 
 
         var projectId = req.params.id;
         var ownerId = req.user._id;
@@ -486,7 +486,7 @@ exports.addToTeam = function(req,res){
 
 exports.banFromTeam = function(req,res) {
     Project.findOneQ({ _id: req.params.id }).then(function(project) {
-        if(!canModifyProject(req.user, project)) return utils.sendErrorMessage(res, 403, "You are not allowed to modify this project"); 
+        if(!exports.canModifyProject(req.user, project)) return utils.sendErrorMessage(res, 403, "You are not allowed to modify this project"); 
 
         var myNotif = new Notification({
             entity : req.params.id,
