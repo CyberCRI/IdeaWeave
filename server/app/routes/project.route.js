@@ -46,4 +46,7 @@ module.exports = function(app) {
     app.route('/project/:projectId/file/:fileId')
         .get(project.fetchFile)
         .delete(utils.ensureAuthenticated,project.removeFile);  
+
+    app.post('/projects/:projectId/like',utils.ensureAuthenticated,project.like);
+    app.post('/projects/:projectId/unlike',utils.ensureAuthenticated,project.unlike);
 };

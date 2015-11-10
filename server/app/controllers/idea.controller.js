@@ -217,7 +217,7 @@ exports.like = function(req, res) {
     Idea.findOneQ({_id : req.params.id}).then(function(idea) {
         if(idea.owner != req.user._id && idea.likerIds.indexOf(req.user._id) < 0) {
             Idea.findOneAndUpdateQ({_id : req.params.id}, 
-            {$push : {likerIds : req.user._id}, 
+            {$addToSet : {likerIds : req.user._id}, 
             $pull : {dislikerIds : req.user._id}}).then(function(updated) {
                 var myNotif = new Notification({
                     type : 'like',
@@ -261,7 +261,7 @@ exports.dislike = function(req, res) {
     Idea.findOneQ({_id : req.params.id}).then(function(idea) {
         if(idea.owner != req.query.disliker && idea.dislikerIds.indexOf(req.query.disliker) < 0) {
             Idea.findOneAndUpdateQ({_id : req.params.id}, 
-                {$push : {dislikerIds : req.query.disliker}, 
+                {$addToSet : {dislikerIds : req.query.disliker}, 
                 $pull : {likerIds : req.query.disliker}}).then(function(updated) {
                     var myNotif = new Notification({
                         type : 'dislike',

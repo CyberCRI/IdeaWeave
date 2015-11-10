@@ -220,7 +220,7 @@ exports.removeFile = function(req,res){
 exports.follow = function(req,res){
     req.body.follower = req.user._id;
 
-    Project.findOneAndUpdateQ({ _id : req.body.following },{$push : { followers : req.body.follower }}).then(function(project){
+    Project.findOneAndUpdateQ({ _id : req.body.following },{$addToSet : { followers : req.body.follower }}).then(function(project){
         var myNotif =  new Notification({
             type : 'follow',
             owner : req.body.follower,
@@ -349,7 +349,7 @@ exports.create = function(req,res){
             return tagController.updateTagCounts("project", project.tags, []);
         }).then(function() {
             if(project.container){
-                return Challenge.findOneAndUpdateQ({_id : project.container},{ $push : { projects : project._id },$inc : { projectNumber : 1 }});
+                return Challenge.findOneAndUpdateQ({_id : project.container},{ $addToSet : { projects : project._id },$inc : { projectNumber : 1 }});
             } else {
                 // Return dummy promise
                 return Q.fulfill(true);
@@ -367,7 +367,7 @@ exports.update = function(req,res){
         if(!canModifyProject(req.user, project)) return utils.sendErrorMessage(res, 403, "You are not allowed to modify this project"); 
 
         // Remove properties that can't be updated this way
-        req.body = _.omit(req.body, "_id", "_v", "members", "followers");
+        req.body = _.omit(req.body, "_id", "_v", "members", "followers", "likers");
 
         // Get just the IDs of tags
         if(req.body.tags) {
@@ -474,7 +474,7 @@ exports.addToTeam = function(req,res){
         });
 
         return q.all([
-            Project.findOneAndUpdateQ({ _id : projectId },{ $push : { members : applierId }}),
+            Project.findOneAndUpdateQ({ _id : projectId },{ $addToSet : { members : applierId }}),
             myNotif.saveQ()
         ]).then(function(data){
             res.send(200);
@@ -499,6 +499,38 @@ exports.banFromTeam = function(req,res) {
             myNotif.saveQ()
         ]).then(function(data){
             res.send(200);
+        });
+    }).fail(function(err){
+        utils.sendError(res, 400, err);
+    });
+};
+
+exports.like = function(req, res) {
+    Project.findOneAndUpdateQ({ _id : req.params.projectId },{$addToSet : { likers : req.user._id }}).then(function(project){
+        var myNotif =  new Notification({
+            type : 'like',
+            owner : req.user._id,
+            entity : project._id,
+            entityType : 'project'
+        });
+        return myNotif.saveQ().then(function(){
+            res.json(project)
+        });
+    }).fail(function(err){
+        utils.sendError(res, 400, err);
+    });
+};
+
+exports.unlike = function(req, res) {
+    Project.findOneAndUpdateQ({ _id : req.params.projectId },{$pull : { likers : req.user._id }}).then(function(project){
+        var myNotif =  new Notification({
+            type : 'unlike',
+            owner : req.user._id,
+            entity : project._id,
+            entityType : 'project'
+        });
+        return myNotif.saveQ().then(function(){
+            res.json(project)
         });
     }).fail(function(err){
         utils.sendError(res, 400, err);

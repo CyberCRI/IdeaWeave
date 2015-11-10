@@ -61,7 +61,7 @@ exports.updateTagCounts = function(entityType, newTagIds, oldTagIds) {
 };
 
 exports.follow = function(req,res){
-    Tag.findOneAndUpdateQ({ _id : req.params.id }, { $push : { followers : req.user._id }}).then(function(tag){
+    Tag.findOneAndUpdateQ({ _id : req.params.id }, { $addToSet : { followers : req.user._id }}).then(function(tag){
         var myNotif =  new Notification({
             type : 'follow',
             owner : req.params.id,

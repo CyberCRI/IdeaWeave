@@ -82,6 +82,13 @@ var ProjectSchema = new Schema({
             ref : 'Idea',
             unique : true
         }
+    ],
+    likers: [
+        {
+            type: Schema.ObjectId,
+            ref: 'User',
+            unique: true
+        }
     ]
 });
 

@@ -33,7 +33,7 @@ exports.signup = function(req, res) {
         user.saveQ().then(function(user) {
             // Follow chosen tags
             var tagUpdateRequests = _.map(req.body.tags, function(tagId) {
-                return Tag.findOneAndUpdateQ({ _id: tagId }, { $push: { followers: user._id }});
+                return Tag.findOneAndUpdateQ({ _id: tagId }, { $addToSet: { followers: user._id }});
             });
             return q.all(tagUpdateRequests);
         }).then(function() {
