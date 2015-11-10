@@ -210,26 +210,27 @@ exports.addEarned = function(req, res) {
                 return utils.sendErrorMessage(res, 400, "This entity cannot give badges");
             }
 
-            badge.earned.push(req.body);
+            // Keep track of new badges to earn (needed for notifications later)
+            var newEarned = [req.body];
 
             // Give badges to owners and members of projects or ideas
             if(req.body.givenToType == "project") {
                 // Give badges to owner
-                badge.earned.push(_.extend({}, req.body, {
+                newEarned.push(_.extend({}, req.body, {
                     givenToType: "profile",
                     givenToEntity: referencedEntities[1].owner
                 }));
 
                 // Give badges to members
                 _.each(referencedEntities[1].members, function(member) { 
-                    badge.earned.push(_.extend({}, req.body, {
+                    newEarned.push(_.extend({}, req.body, {
                         givenToType: "profile",
                         givenToEntity: referencedEntities[1].owner
                     }));
                 });
             } else if(req.body.givenToType == "idea") {
                 // Give badges to owner
-                badge.earned.push(_.extend({}, req.body, {
+                newEarned.push(_.extend({}, req.body, {
                     givenToType: "profile",
                     givenToEntity: referencedEntities[1].owner
                 }));
@@ -239,9 +240,29 @@ exports.addEarned = function(req, res) {
                 return utils.sendErrorMessage(res, 400, "Tou cannot give a badge to this entity");
             }
 
+            // Copy over new badge earnings, then save the badge
+            _.each(newEarned, function(earned) {
+                badge.earned.push(earned);
+            });
+
             return badge.saveQ()
-            .then(populateEarned)
-            .then(function(badge) {
+            .then(function(updatedBadge) {
+                // Create notifications for all badges received by users
+                var notificationPromises = _.chain(newEarned)
+                .where({ givenToType: "profile"})
+                .map(function(earned) {
+                    var myNotif = new Notification({
+                        type: 'receive',
+                        owner: earned.givenToEntity,
+                        entity: badge._id,
+                        entityType: 'badge'
+                    });
+                    
+                    return myNotif.saveQ()                    
+                }).value();
+
+                return q.all(notificationPromises);
+            }).then(function() {
                 res.json(badge.earned);
             });
         });
