@@ -288,3 +288,19 @@ exports.fetchOneEarned = function(req, res) {
         utils.sendError(res, 400, err);
     });
 };
+
+exports.listEarnedBy = function(req, res) {
+    console.log("in listEarnedBy");
+    Badge.findQ({ earned: { givenToEntity: req.params.entityId } })
+    .then(function(badges) {
+        // Take out earned records that don't concern the entity
+        var trimmedBadges = _.map(badges, function(badge) {
+            var badge = badge.toObject();
+            badge.earned = _.where(badge.earned, { givenToEntity: req.params.entityId });
+            return badge; 
+        });
+        res.json(trimmedBadges);
+    }).fail(function(err) {
+        utils.sendError(res, 500, err);
+    });
+};

@@ -22,4 +22,7 @@ module.exports = function(app) {
 
     app.route('/badges/:badgeId/earned/:earnedId')
         .get(badge.fetchOneEarned);
+
+    app.route('/badges/earnedBy/:entityId')
+        .get(badge.listEarnedBy);
 };
