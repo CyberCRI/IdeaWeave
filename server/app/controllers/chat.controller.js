@@ -1,5 +1,6 @@
 var mongoose = require('mongoose-q')(),
     Chat = mongoose.model('Chat'),
+    utils = require('../services/utils.service'),
     Notification = mongoose.model,
     q = require('q');
 
@@ -7,7 +8,7 @@ exports.fetchAll = function(req,res){
     Chat.findQ({ container : req.query.container }).then(function(chat){
         res.json(chat)
     }).fail(function(err){
-        res.json(500,err);
+        utils.sendError(res, 500, err);
     })
 };
 
@@ -30,6 +31,6 @@ exports.remove = function(req,res){
     Chat.removeQ({ _id : req.query.id}).then(function(){
         res.json({})
     }).fail(function(err){
-        res.json(500,err);
+        utils.sendError(res, 500, err);
     })
 };

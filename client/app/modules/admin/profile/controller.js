@@ -1,5 +1,5 @@
 angular.module('cri.admin.profile',['cri.profile'])
-    .controller('AdminProfileCtrl',['$scope','$rootScope','Profile','Gmap','Notification','$materialDialog',function ($scope,$rootScope,Profile,Gmap,Notification,$materialDialog) {
+    .controller('AdminProfileCtrl', function ($scope,$state,$rootScope,Profile,Gmap,Notification,$mdDialog,followingTags) {
         Profile.getMe().then(function(me) {
             $scope.profile = me;
             delete $scope.profile._id;
@@ -9,6 +9,9 @@ angular.module('cri.admin.profile',['cri.profile'])
                 localisation: []
             });
 
+            // Get list of followed tags
+            $scope.followingTags = followingTags;
+
             $scope.refreshAddresses = function(address) {
                 Gmap.getAdress(address).then(function(adresses){
                     $scope.addresses = adresses;
@@ -16,14 +19,14 @@ angular.module('cri.admin.profile',['cri.profile'])
             };
 
             $scope.cropPosterModal = function($event){
-                $materialDialog({
+                $mdDialog.show({
                     templateUrl : 'modules/admin/profile/templates/modal/cropPosterModal.tpl.html',
                     clickOutsideToClose : false,
                     escapeToClose : false,
                     locals : {
                         currentUser : $scope.currentUser
                     },
-                    controller : ['$scope','Profile','$hideDialog','currentUser',function($scope,Profile,$hideDialog,currentUser){
+                    controller : function($scope,$rootScope,Profile,currentUser){
                         $scope.imageCropResult = null;
                         $scope.$watch('imageCropResult',function(dataUri){
                             if(dataUri){
@@ -32,42 +35,44 @@ angular.module('cri.admin.profile',['cri.profile'])
                                 };
                                 Profile.update(currentUser._id,user).then(function(data){
                                     Notification.display('Updated successfully');
+                                    $rootScope.currentUser.poster = dataUri;
                                 }).catch(function(err){
                                     Notification.display(err.message);
                                 }).finally(function(){
-                                    $hideDialog();
+                                    $mdDialog.hide();
                                 });
                             }
                         });
                         $scope.cancel = function(){
-                            $hideDialog();
+                            $mdDialog.hide();
                         };
-                    }]
+                    }
                 });
             };
 
             $scope.editPageModal = function(){
-                $materialDialog({
+                $mdDialog.show({
                     templateUrl : 'modules/admin/profile/templates/modal/editPageModal.tpl.html',
                     locals : {
                         currentUser: $scope.currentUser,
                         profile: $scope.profile
                     },
-                    controller : function($scope,Config,Profile,$hideDialog,currentUser, profile) {
+                    controller : function($scope,Config,Profile,currentUser, profile) {
                         $scope.brief = profile.brief;
 
                         $scope.tinymceOption = Config.tinymceOptions;
                         $scope.cancel = function(){
-                            $hideDialog();
+                            $mdDialog.hide();
                         };
                         $scope.updateProfile=function(){
                             profile.brief = $scope.brief;
                             Profile.update(currentUser._id, profile).then(function(data){
                                 Notification.display('Updated successfully');
+                                $state.go('profile',{ uid : currentUser._id });
                             }).catch(function(err){
                                 Notification.display(err.message);
                             }).finally(function(){
-                                $hideDialog();
+                                $mdDialog.hide();
                             });
                         };
                     }
@@ -75,12 +80,12 @@ angular.module('cri.admin.profile',['cri.profile'])
             };
 
             $scope.resetPassModal = function(){
-                $materialDialog({
+                $mdDialog.show({
                     templateUrl : 'modules/admin/profile/templates/modal/resetPassword.tpl.html',
                     locals : {
                         currentUser : $scope.currentUser
                     },
-                    controller : ['$scope','Profile','$hideDialog','currentUser',function($scope,Profile,$hideDialog,currentUser){
+                    controller : function($scope,Profile,currentUser){
                         $scope.passwordInfo = {
                             currentPassword: "",
                             newPassword: "",
@@ -88,7 +93,7 @@ angular.module('cri.admin.profile',['cri.profile'])
                         };
 
                         $scope.cancel = function(){
-                            $hideDialog();
+                            $mdDialog.hide();
                         };
 
                         $scope.updatePass=function(){
@@ -97,24 +102,29 @@ angular.module('cri.admin.profile',['cri.profile'])
                             }else{
                                 Profile.resetPassword($scope.passwordInfo).then(function(result){
                                     Notification.display('Updated successfully');
-                                    $hideDialog();
+                                    $mdDialog.hide();
                                 }).catch(function(err){
                                     Notification.display(err.message);
                                 });
                             }
                         };
-
-                    }]
+                    }
                 });
             };
 
             $scope.updateProfile=function(){
-                Profile.update($scope.currentUser._id, $scope.profile).then(function(data){
+                var newTagIds = _.pluck($scope.followingTags, "_id");
+
+                return Profile.updateTagFollowing(newTagIds)
+                .then(function() {
+                    return Profile.update($scope.currentUser._id, $scope.profile);
+                }).then(function(newProfile){
                     Notification.display('Updated successfully');
-                    $rootScope.currentUser = data; // update the current user 
+                    $rootScope.currentUser = newProfile; // update the current user
+                    $state.go('profile',{ uid : $scope.currentUser._id });
                 }).catch(function(err){
                     Notification.display(err.message);
                 });
             };
         });
-    }]);
+    });

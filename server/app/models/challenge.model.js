@@ -5,7 +5,7 @@
  */
 var mongoose = require('mongoose-q')(),
     Schema = mongoose.Schema,
-    Q = require('q');
+    q = require('q');
 
 /**
  * Article Schema
@@ -16,7 +16,8 @@ var ChallengeSchema = new Schema({
         default: Date.now
     },
     accessUrl : {
-        type : String,
+        type: String,
+        unique: true,
         required : true
     },
     title: {
@@ -71,6 +72,14 @@ var ChallengeSchema = new Schema({
             unique : true
         }
     ],
+    showProgress : {
+        type : Boolean,
+        default : false
+    },
+    progress : {
+        type : Number,
+        default : 0
+    },
     projectNumber : {
         type : Number,
         default : 0
@@ -94,7 +103,7 @@ var ChallengeSchema = new Schema({
 });
 
 ChallengeSchema.statics.random = function() {
-    var defered = Q.defer()
+    var defered = q.defer()
     this.count(function(err, count) {
         if (err) {
             defered.reject(err);

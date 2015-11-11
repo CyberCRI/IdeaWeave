@@ -1,4 +1,5 @@
 var etherpadApi = require('etherpad-lite-client')
+    utils = require('../services/utils.service'),
     config = require('../../config/config'),
     q = require('q');
 
@@ -56,6 +57,7 @@ exports.getPadInfo = function(req, res) {
     }
 
     function getAuthorId(userId, userName) {
+        // console.log("getAuthorId() userId", userId, "userName", userName);
         return q.ninvoke(etherpad, "createAuthorIfNotExistsFor", { authorMapper: userId, name: userName })
         .then(function(userData) {
             return userData.authorID;
@@ -119,7 +121,7 @@ exports.getPadInfo = function(req, res) {
     } else if(req.query.idea) {
         groupName = "idea-" + req.query.idea;
     } else {
-        return res.json(403, "Please specify a project, challenge, or idea");
+        return utils.sendErrorMessage(res, 403, "Please specify a project, challenge, or idea");
     }
 
     etherpad = etherpadApi.connect({
@@ -129,8 +131,9 @@ exports.getPadInfo = function(req, res) {
         rootPath: config.etherpad.rootPath
     });
 
-    q.spread([getGroupId(groupName), getAuthorId(req.user._id, req.user.username)], function(groupId, authorId) {
+    q.spread([getGroupId(groupName), getAuthorId(req.user._id.toString(), req.user.username)], function(groupId, authorId) {
         return q.spread([getGroupPadId(groupId), getSessionId(groupId, authorId)], function(groupPadId, sessionId) {
+            // console.log("Returning etherpad session info: user", req.user._id, "author", authorId, "group", groupId, "groupPad", groupPadId, "session", sessionId);
             res.json({
                 padId: groupPadId,
                 sessionId: sessionId
@@ -138,7 +141,7 @@ exports.getPadInfo = function(req, res) {
         });
     }).catch(function(err) {
         console.error('Error retrieving group, pad, or session: ', err);
-        res.json(500, err.message);
+        utils.sendError(res, 500, err);
     });
 };
 
@@ -177,7 +180,7 @@ exports.getUserSessionString = function(req, res) {
         rootPath: config.etherpad.rootPath
     });
 
-    getAuthorId(req.user._id, req.user.username)
+    getAuthorId(req.user._id.toString(), req.user.username)
     .then(getSessionString)
     .then(function(sessionString) {
         res.cookie("sessionID", sessionString);
@@ -186,6 +189,6 @@ exports.getUserSessionString = function(req, res) {
         });
     }).catch(function(err) {
         console.error('Error retrieving author or session: ', err);
-        res.json(500, err.message);
+        utils.sendError(res, 500, err);
     });
 };

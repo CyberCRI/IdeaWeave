@@ -1,26 +1,26 @@
-<material-dialog>
-    <material-toolbar layout="horizontal" layout-align="start end">
+<md-dialog>
+    <md-toolbar layout="row" layout-align="start end">
         <div flex>
             Invite some people
         </div>
-        <material-button class="material-button-fab" ng-click="sendInvite()">
+        <md-button class="md-fab" ng-click="sendInvite()">
             <i class="fa fa-check"></i>
-        </material-button>
-        <material-button ng-click="cancel()">
+        </md-button>
+        <md-button ng-click="cancel()">
             <i class="fa fa-times"></i>
-        </material-button>
-    </material-toolbar>
-    <material-content>
+        </md-button>
+    </md-toolbar>
+    <md-content>
         <form name="inviteform">
-            <material-input-group>
+            <md-input-container>
                 <label for="email">Your friend's email</label>
-                <material-input id="email" type="text" ng-model="invite.email"></material-input>
-            </material-input-group>
-            <material-input-group>
+                <input id="email" type="text" ng-model="invite.email"></input>
+            </md-input-container>
+            <md-input-container>
                 <label for="subject">Subject</label>
-                <material-input type="text"  id="subject" ng-model="invite.subject"></material-input>
-            </material-input-group>
+                <input type="text"  id="subject" ng-model="invite.subject"></input>
+            </md-input-container>
             <textarea ui-tinymce  class="form-control" ng-model="invite.message"></textarea>
         </form>
-    </material-content>
-</material-dialog>
+    </md-content>
+</md-dialog>

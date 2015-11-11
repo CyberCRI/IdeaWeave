@@ -4,21 +4,17 @@
  * Module dependencies.
  */
 var mongoose = require('mongoose-q')(),
-	Schema = mongoose.Schema,
+    Schema = mongoose.Schema,
     bcrypt = require('bcryptjs'),
-    Q = require('q');
+    q = require('q');
 
 
 /**
  * User Schema
  */
 var UserSchema = new Schema({
-	email: {
-		type: String
-	},
-    status : {
-        type : String,
-        default : 0
+    email: {
+        type: String
     },
     brief : {
         type : String,
@@ -28,7 +24,6 @@ var UserSchema = new Schema({
         type : Boolean,
         default : false
     },
-    score : Number,
     sex : Number,
     tags : [{
         type : Schema.ObjectId,
@@ -46,24 +41,21 @@ var UserSchema = new Schema({
         unique : true
     }],
     localisation : {},
-	username: {
-		type: String,
-		unique: true,
-		trim: true
-	},
+    username: {
+        type: String,
+        unique: true,
+        trim: true
+    },
     poster : {
       type : String
     },
-	password: {
-		type: String
-	},
-	salt: {
-		type: String
-	},
-	createDate: {
-		type: Date,
-		default: Date.now
-	},
+    password: {
+        type: String
+    },
+    createDate: {
+        type: Date,
+        default: Date.now
+    },
     mailNotification : {
         type : Boolean,
         default : true
@@ -74,12 +66,19 @@ var UserSchema = new Schema({
     },
     google: String,
     github: String,
-    linkedin: String,
-    twitter: String,
+    passwordResetToken: String,
+    unseenNotificationCounter: {
+        type: Number,
+        default: 0
+    },
+    lastSeenNotificationDate: {
+        type: Date,
+        default: Date.now
+    }
 });
 
 UserSchema.statics.random = function() {
-    var defered = Q.defer()
+    var defered = q.defer();
     this.count(function(err, count) {
         if (err) {
             defered.reject(err);
@@ -123,12 +122,12 @@ UserSchema.methods.comparePassword = function(password, done) {
  * Find possible not used username
  */
 UserSchema.statics.findUniqueUsername = function(username, suffix) {
-	var _this = this,
-	    possibleUsername = username + (suffix || ''),
-        defered = Q.defer();
+    var _this = this,
+        possibleUsername = username + (suffix || ''),
+        defered = q.defer();
 
-	_this.findOneQ({
-		username: possibleUsername
+    _this.findOneQ({
+        username: possibleUsername
     }).then(function (user) {
         if (!user) {
             defered.resolve(user);

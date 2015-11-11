@@ -16,15 +16,7 @@ angular.module('cri.common',[])
             paginateChallenge : 100,
             paginateProject : 100,
             paginateIdea : 100,
-            activityLimit : 40,
-            tinyMceOptions : {
-                popUp :{
-
-                },
-                web : {
-
-                }
-            }
+            activityLimit : 40
         };
 
         // Copy in options from config file

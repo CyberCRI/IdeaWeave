@@ -1,7 +1,19 @@
 angular.module('cri.project',[])
-    .controller('ProjectCtrl',['$scope','Project','project', 'Notification','$sce','$materialDialog','$rootScope',function($scope,Project,project, Notification,$sce,$materialDialog,$rootScope){
+    .controller('ProjectCtrl', function($scope,Project,project, Notification, Challenge,$mdDialog,$rootScope,$state,$analytics) {
+        if(project.length == 0) {
+            Notification.display('Cannot find the requested project');
+            $state.go("home");
+            return;
+        }
+
         $scope.project = project[0];
-        
+
+        // Load templates        
+        $scope.templates = [];
+        Challenge.getTemplates($scope.project.container).then(function(templates) {
+            $scope.templates = templates;
+        });
+
         $scope.isOwner = $scope.currentUser ? $scope.currentUser._id == $scope.project.owner._id : false;
         $scope.isMember = $scope.currentUser ?  _.chain($scope.project.members).pluck("_id").contains($scope.currentUser._id).value() : false;
         $scope.isFollow = $scope.currentUser ?  _.chain($scope.project.followers).pluck("_id").contains($scope.currentUser._id).value() : false;
@@ -10,27 +22,15 @@ angular.module('cri.project',[])
             $rootScope.$broadcast('toggleLeft');
         };
 
-//        $scope.d3Tags = [];
-//        angular.forEach($scope.project.tags,function(v,k){
-//            $scope.d3Tags.push({
-//                title : v,
-//                number : 1
-//            })
-//        });
-//
-//        $scope.showTag = function(e){
-//            $state.go('tag',{title : e.text})
-//        }
-
         $scope.openApplyModal = function (e) {
-            $materialDialog({
+            $mdDialog.show({
                 templateUrl: 'modules/project/templates/modal/applyTeamModal.tpl.html',
                 targetEvent: e,
                 locals : {
                     project  : $scope.project,
                     currentUser : $scope.currentUser
                 },
-                controller: ['$scope','$hideDialog','project','currentUser',function($scope,$hideDialog,project,currentUser){
+                controller: function($scope,project,currentUser){
                     $scope.apply={};
                     $scope.applyTeamMsg=function(){
                         $scope.apply.container=project._id;
@@ -45,23 +45,23 @@ angular.module('cri.project',[])
                         });
                     };
                     $scope.cancel = function () {
-                        $hideDialog();
+                        $mdDialog.hide();
                     };
-                }]
+                }
             });
         };
 
         $scope.openShare = function (e) {
-            $materialDialog({
+            $mdDialog.show({
                 templateUrl: 'modules/project/templates/modal/shareModal.tpl.html',
                 targetEvent: e,
-                controller:['$scope','$hideDialog','$stateParams',function($scope,$hideDialog,$stateParams){
+                controller: function($scope,$stateParams){
                     $scope.pid = $stateParams.pid;
                     $scope.cid = $stateParams.cid;
                     $scope.cancel = function () {
-                        $hideDialog();
+                        $mdDialog.hide();
                     };
-                }]
+                }
             });
         };
 
@@ -76,6 +76,7 @@ angular.module('cri.project',[])
                     Notification.display('You will no longer be notified about this project');
                     $scope.project.followers.splice($scope.project.followers.indexOf($scope.currentUser._id),1);
                     $scope.isFollow=false;
+                    $analytics.eventTrack("unfollowProject");
                 }).catch(function(err){
                     Notification.display(err.message);
                 });
@@ -88,43 +89,47 @@ angular.module('cri.project',[])
                     Notification.display('You will now be notified about this project');
                     $scope.project.followers.push($scope.currentUser._id);
                     $scope.isFollow=true;
+                    $analytics.eventTrack("followProject");
                 }).catch(function(err){
                     Notification.display(err.message);
                 });
             }
         };
-    }])
+    })
     .controller('ProjectsCtrl',['$scope','$rootScope',function($scope,$rootScope){
-        $scope.toggleLeft = function(){
-            $rootScope.$broadcast('toggleLeft');
-        };
+        // Nothing
     }])
-    .controller('ProjectsListCtrl',['$scope','projects','Notification','Project','$stateParams','Config','$materialDialog',function($scope,projects,Notification,Project,$stateParams,Config,$materialDialog){
+    .controller('ProjectsListCtrl', function($scope,projects,Notification,Project,$stateParams,Config){
         $scope.projects = projects;
-        $scope.noPage = 0;
-        $scope.isEnd = false;
-        $scope.now = new Date().getTime();
-        var option = { limit : Config.paginateChallenge };
-        $scope.loadMoreProjects = function () {
-            $scope.noPage++;
-            option.skip = Config.paginateChallenge * $scope.noPage;
-            if (!$scope.isEnd) {
-                Project.getByTag($stateParams.tag,option).then(function (result) {
-                    if (result.length > 0) {
-                        angular.forEach(result,function(project){
-                            $scope.projects.push(project);
-                        });
-                    } else {
-                        $scope.isEnd = true;
-                        Notification.display('there is no more projects');
-                    }
-                }).catch(function(err){
-                    Notification.display(err.message);
-                });
-            }
-        };
-    }])
 
+        $scope.sortBy = "newest";
+        $scope.sortOptions = ["newest", "most followed", "most members"];
+
+        $scope.$watch("sortBy", function() {
+            var sortFunction = null;
+            switch($scope.sortBy) {
+                case "newest":
+                    sortFunction = function(project) {
+                        return -1 * Date.parse(project.createDate); 
+                    };
+                    break
+                case "most followed":
+                    sortFunction = function(project) {
+                        return -1 * project.followers.length; 
+                    };
+                    break;
+                case "most members":
+                    sortFunction = function(project) {
+                        return -1 * project.members.length; 
+                    };
+                    break;
+            }
+
+            if(sortFunction) {
+                $scope.projects = _.sortBy($scope.projects, sortFunction);
+            }
+        });
+    })
     .controller('ProjectJoinCtrl',['$scope','Profile','Config','Project','$state','Notification','$stateParams','project',function ($scope,Profile,Config,Project,$state,Notification,$stateParams,project) {
         Project.data = project;
 //        $scope.ref='/project/setting/'+$stateParams.pid+'/join/'+$stateParams.jid;
@@ -141,7 +146,9 @@ angular.module('cri.project',[])
 
         $scope.tinymceOption = Config.tinymceOptions;
         $scope.challenges = challenges;
-        $scope.newProject = {};
+        $scope.newProject = {
+            tags: []
+        };
 
         if(Project.challengeSelected){
            $scope.newProject.container = Project.challengeSelected;
@@ -158,7 +165,7 @@ angular.module('cri.project',[])
         $scope.createProject = function(newProject){
             $scope.isloading = true;
             newProject.owner = $scope.currentUser._id;
-            newProject.container = $scope.newProject.container._id;
+            if($scope.newProject.container) newProject.container = $scope.newProject.container._id;
             Project.create($scope.newProject).then(function(data){
                 $state.go('project.home',{ pid : data.accessUrl });
             }).catch(function(err){

@@ -11,10 +11,6 @@ $headerYellow : rgb(245,230,24);
 
 $baseColor : rgb(0, 51, 102);
 
-@import "../modules/common/sass/common";
-@import "../modules/common/sass/animation";
-@import "../modules/common/sass/material-redesign";
-@import "../modules/common/sass/form";
 @import "../modules/auth/sass/auth";
 @import "../modules/header/sass/header";
 @import "../modules/footer/sass/footer";
@@ -40,7 +36,7 @@ body,html{
   z-index: 15;
   position:relative;
   background-color: white;
-  border-bottom:slategrey solid 1px;
+  border-bottom: none;
 }
 
 header{
@@ -69,6 +65,16 @@ header{
   color: $baseColor;
 }
 
+.fa-icon-size {
+  font-size: 30px;
+}
+
+.rounded-poster {
+  width: 50px;
+  height: 50px;
+  border-radius: 100%;
+}
+
 .top-bar-icon {
   margin-left: 10px;
 }
@@ -76,6 +82,23 @@ header{
 .select-poster-image {
   width: 25px;
   height: 25px;
+}
+
+.cursor-hand {
+  cursor: pointer;
+}
+
+.show-line-breaks {
+  white-space: pre-line;
+}
+
+.top-bar-icon-svg {
+  width: 24px; 
+  height: 31px;
+}
+
+.no-margin {
+  margin: 0px;
 }
 
 .top-bar-icon .tooltip-topbar-icon {
@@ -90,8 +113,20 @@ header{
   display: block;
 }
 
-.cursor-hand {
-  cursor: pointer;
+.boxContent {
+  max-width: 900px;
 }
 
-@import "../modules/common/sass/media-queries";
+.update-button {
+  width: 90%;
+  display: block;
+  margin: auto;
+  margin-bottom: 20px;
+  margin-top: 30px;
+}
+
+.img-profile-page {
+  width: 200px;
+  height: 200px;
+  margin: auto;
+}

@@ -1,42 +1,29 @@
-<material-card layout="vertical"  class="challenge-card">
-    <img ng-src="{{challenge.poster || '/images/placeholder100x100.png'}}" alt="..." class="material-card-image">
-    <material-button ng-if="admin && isHovered" ui-sref="challengeAdmin({ cid : challenge._id })">
+<a ui-sref="challenge({ pid : challenge.accessUrl })">
+    <img ng-src="{{challenge.poster || '/images/placeholder100x100.png'}}" alt="Challenge poster" class="md-card-image" width="100%">
+</a>
+<md-content layout-padding style="cursor:hand;">
+    <md-button ng-if="admin && isHovered" ui-sref="challengeAdmin({ cid : challenge._id })">
         <i class="fa fa-gears"></i>
         Admin
-    </material-button>
-    <h4 ui-sref="challenge({ cid : challenge.accessUrl })">{{ challenge.title }}</h4>
-    <div layout="vertical" >
-        <div class="text-muted" layout="horizontal" >
-            <div>
-                By :
-            </div>
-            <user-info flex ng-if="challenge" user-id="challenge.owner"></user-info>
-        </div>
-        <!--<p class="text-muted" ng-bind-html="challenge.brief" style="max-height:200px;overflow:hidden;" ></p>-->
-        <showtags entity="challenge"></showtags>
-        <div layout="horizontal">
-            <div flex layout="horizontal" class="text-muted">
-                <span>
-                    {{ challenge.followers.length }}
-                </span>
-                &nbsp;
-                <span>
-                    Followers
-                </span>
-            </div>
-            &nbsp;
-            &nbsp;
-            <div layout="horizontal">
-                <div flex layout="horizontal" class="text-muted">
-                    <span>
-                        {{ challenge.projects.length }}
-                    </span>
-                    &nbsp;
-                    <span>
-                        Projects
-                    </span>
-                </div>
-            </div>
-        </div>
+    </md-button>
+    <a style="text-decoration: none; color: black;" ui-sref="challenge.home({ cid : challenge.accessUrl })">
+        <h4 style="margin: 0;font-size:1.3em;">{{ challenge.title }}</h4>
+    </a>
+    <div font-size="font-size:0.7em;" class="text-muted" layout="row" style="margin:2px;" layout-align="start center">
+            <span style="margin:2px;font-size:0.7em;">By:</span>
+        <user-info ng-if="challenge.owner" user-id="challenge.owner" flex></user-info>
     </div>
-</material-card>
+    <div layout="row" style="margin-top: 5px;">
+        <div flex layout="row" class="text-muted">
+            <span style="font-size:0.7em;">
+                {{ challenge.followers.length }}
+            </span>
+            &nbsp;
+            <span style="font-size:0.7em;">
+                Followers
+            </span>
+        </div>
+        &nbsp;
+        &nbsp;
+    </div>
+</md-content>

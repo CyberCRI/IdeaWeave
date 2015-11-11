@@ -5,7 +5,7 @@
  */
 var mongoose = require('mongoose-q')(),
     Schema = mongoose.Schema,
-    Q = require('q');;
+    q = require('q');
 
 /**
  * Project Schema
@@ -37,7 +37,7 @@ var ProjectSchema = new Schema({
     owner: {
         type: Schema.ObjectId,
         ref: 'User',
-        required : 'a challenge must have an owner'
+        required : 'a project must have an owner'
     },
     localisation : {},
     poster : String,
@@ -64,6 +64,14 @@ var ProjectSchema = new Schema({
     trello : {
         type : String
     },
+    showProgress : {
+        type : Boolean,
+        default : false
+    },
+    progress : {
+        type : Number,
+        default : 0
+    },
     noteNumber : {
         type : Number,
         default : 0
@@ -78,7 +86,7 @@ var ProjectSchema = new Schema({
 });
 
 ProjectSchema.statics.random = function() {
-    var defered = Q.defer()
+    var defered = q.defer();
     this.count(function(err, count) {
         if (err) {
             defered.reject(err);

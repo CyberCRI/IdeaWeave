@@ -1,60 +1,55 @@
-<material-content style="overflow-x:hidden;" class="my-carousel">
-    <ul rn-carousel rn-carousel-controls rn-carousel-auto-slide="5" id="homeCarousel">
+<md-content style="overflow-x:hidden;" class="my-carousel">
+    <ul rn-carousel rn-carousel-controls rn-carousel-auto-slide="8" id="homeCarousel">
         <li class="my-carousel" ng-repeat="challenge in challenges" >
             <section class="carousel-home center my-carousel" ng-if="challenge.intro == 1">
                 <img src="images/svg/logocaroussel.svg" alt="ideaWeaveLogo"/>
-                <h1>
+                <h1 class="md-headline">
                     Ideaweave is a platform for exchanging ideas and forming groups around exciting projects and solve problems.
                 </h1>
                 <p>
                     Organizations or individuals post challenges, which are like competitions, and people suggest projects that meet this challenge. Anyone can follow and join a project to help develop it.
                 </p>
                 <div>
-                    <material-button ui-sref="signup" class="material-button-raised material-button-colored">GET INVOLVED</material-button>
+                    <md-button ui-sref="signup" class="md-raised">GET INVOLVED</md-button>
                 </div>
             </section>
             <section class="my-carousel carousel-home  center" ng-if="challenge.intro == 2" >
                 <img src="images/svg/logocaroussel.svg" alt="ideaWeaveLogo"/>
-                <h1>
+                <h1 class="md-headline">
                     You would like to showcase your project to a growing public in order to find supporters, get advice from experts or simply test if you are communicating comprehensively?
                     <br>
                     Ideaweaves provides you with a dedicated space and feedback tools that are easy to use.
                 </h1>
             </section>
-            <section  layout="vertical"  class="my-carousel carousel-home center" ng-if="challenge.intro == 3">
+            <section  layout="column"  class="my-carousel carousel-home center" ng-if="challenge.intro == 3">
                 <img src="images/svg/logocaroussel.svg" alt="ideaWeaveLogo" />
-                <h1 class="center">IdeaWeave provides a simple collaborative working environment, the possibility to organise and archive discussions, a clear visibility on the taks to be performed and the resources needed.</h1>
+                <h1 class="md-headline">IdeaWeave provides a simple collaborative working environment, the possibility to organise and archive discussions, a clear visibility on the tasks to be performed and the resources needed.</h1>
             </section>
             <section ng-if="$index > 2" class="my-carousel carousel-home center">
-                <a ui-sref="challenge({cid : challenge.accessUrl})">
-                    <h1 class="center">{{challenge.title}}</h1>
-                    <img ng-if="challenge.banner" src="{{ challenge.banner }}" ui-sref="challenge({cid : challenge.accessUrl})">
-                </a>
-                <showtags entity="challenge"></showtags>
+                <h1 class="md-headline">{{challenge.title}}</h1>
+                
+                <img ng-if="challenge.banner" src="{{ challenge.banner }}" ui-sref="challenge({cid : challenge.accessUrl})">
+                
+                <show-tags model="challenge.tags"></show-tags>
 
-                <div layout="horizontal" layout-align="center center">
-                    <material-button ui-sref="challenge({cid : challenge.accessUrl})" class="material-button-raised material-button-colored">Take a look</material-button>
+                <div layout="row" layout-align="center center">
+                    <md-button ui-sref="challenge({cid : challenge.accessUrl})" class="md-raised">Take a look</md-button>
                     &nbsp;&nbsp;
-                    <material-button ui-sref="challenges.list({tag : 'all'})" class="material-button-raised material-button-colored">See more challenges</material-button>
+                    <md-button ui-sref="challenges.list({tag : 'all'})" class="md-raised">See more challenges</md-button>
                 </div>
             </section>
         </li>
     </ul>
 
-    <article >
-        <h1 class="center" >Popular Projects</h1>
-        <section style="text-align: center">
-            <project-card ng-repeat="project in projects" my-project="project" inline-block>
-
-            </project-card>
-        </section>
-
-
+    <article>
+        <h1 style="font-size:3em;" class="center" >Popular Projects</h1>
+        <md-grid-list md-cols="3" md-row-height="500px">
+            <md-grid-tile ng-repeat="project in projects">
+                <project-card class="md-whiteframe-z2" my-project="project" style="height: 410px;"></project-card> 
+            </md-grid-tile>
+        </md-grid-list>
     </article>
 
     <br>
     <br>
-
-    <!--<ng-include src="'modules/footer/templates/footer.tpl.html'"></ng-include>-->
-
-</material-content>
+</md-content>

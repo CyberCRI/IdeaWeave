@@ -1,0 +1,22 @@
+<md-toolbar layout="row">
+    <div class="md-toolbar-tools">
+        <div>
+            <i class="fa fa-rocket"> Project Pages</i>
+        </div>
+    </div>
+</md-toolbar>
+
+<div layout="column">
+    <md-button ui-sref="project.home({ pid : project.accessUrl })">
+        <i class='fa fa-home'>&nbsp;Home</i>
+    </md-button>
+    <md-button ui-sref="project.trello({ pid : project.accessUrl })">
+        <i class='fa fa-trello'>&nbsp;Trello</i>
+    </md-button>
+    <md-button ui-sref="workspace({ pid : project.accessUrl })">
+        <i class='fa fa-cogs'>&nbsp;Workspace</i>
+    </md-button>
+    <md-button ui-sref="project.admin({ pid : project.accessUrl })" ng-if="isMember || isOwner">
+        <i class='fa fa-cog'>&nbsp;Admin</i>
+    </md-button>
+</div>

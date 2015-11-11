@@ -1,41 +1,13 @@
-<material-content scroller loading-method="loadMoreProjects()" style="overflow-x:hidden;">
-    <material-list>
-        <material-item ng-repeat="project in projects" class="item-list">
-            <material-item-content>
-                <div class="material-tile-left" flex="40" flex-sm="30" flex-md="25" flex-lg="15">
-                    <a ui-sref="project.home({ pid : project.accessUrl })">
-                        <img ng-src="{{ project.poster || '/images/placeholder90x90.png' }}" class="" width="100%" alt="project's poster" />
-                    </a>
-                </div>
-                <article class="material-tile-content">
-                    <a ui-sref="project.home({ pid : project.accessUrl })">
-                        <h1>{{ project.title }}</h1>
-                    </a>
-                    <showtags entity="project"></showtags>
-                    <div hide block-md>
-                        <p ng-bind-html="project.brief">
-                        </p>
-                        <div layout="horizontal">
-                            <div flex>
-                            <span>
-                            {{ project.followers.length }}
-                            </span>
-                            <span>
-                                Followers
-                            </span>
-                            </div>
-                            <div flex>
-                            <span>
-                            {{ project.members.length }}
-                            </span>
-                            <span>
-                                Members
-                            </span>
-                            </div>
-                        </div>
-                    </div>
-                </article>
-            </material-item-content>
-        </material-item>
-    </material-list>
-</material-content>
+<md-content>
+    <md-input-container>
+        <md-select ng-model="sortBy">
+          <md-option ng-repeat="sortOption in sortOptions" value="{{sortOption}}" placeholder="Order by ...">Order by {{sortOption}}</md-option>
+        </md-select>
+    </md-input-container>
+
+    <md-grid-list md-cols="3" md-row-height="500px">
+            <md-grid-tile ng-repeat="project in projects">
+                <project-card class="md-whiteframe-z2" my-project="project" style="height: 410px;" current-user="currentUser"></project-card> 
+            </md-grid-tile>
+        </md-grid-list>
+</md-content>

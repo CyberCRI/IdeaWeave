@@ -4,37 +4,37 @@ angular.module('cri.challenge', ['ngSanitize'])
             $rootScope.$broadcast('toggleLeft')
         };
     })
-    .controller('ChallengesListCtrl',function($scope,challenges,Notification,Challenge,Project,$stateParams,Config,$materialDialog){
+    .controller('ChallengesListCtrl',function($scope,challenges,Notification,Challenge,Project,$stateParams,Config,$mdDialog){
         $scope.challenges = challenges;
 
-        $scope.noPage = 0;
-        $scope.isEnd = false;
-        $scope.now = new Date().getTime();
-        var option = { limit : Config.paginateChallenge };
-        $scope.loadMoreChallenges = function () {
-            $scope.noPage++;
-            option.skip = Config.paginateChallenge * $scope.noPage;
-            if (!$scope.isEnd) {
-                Challenge.getByTag($stateParams.tag,option).then(function (result) {
-                    if (result.length > 0) {
-                        angular.forEach(result,function(challenge){
-                            $scope.challenges.push(challenge);
-                        });
-                    } else {
-                        $scope.isEnd = true;
-                        Notification.display('there is no more challenges');
-                    }
-                }).catch(function(err){
-                    Notification.display(err.message);
-                });
+        $scope.sortBy = "newest";
+        $scope.sortOptions = ["newest", "most followed"];
+
+        $scope.$watch("sortBy", function() {
+            var sortFunction = null;
+            switch($scope.sortBy) {
+                case "newest":
+                    sortFunction = function(challenge) {
+                        return -1 * Date.parse(challenge.createDate); 
+                    };
+                    break
+                case "most followed":
+                    sortFunction = function(challenge) {
+                        return -1 * challenge.followers.length; 
+                    };
+                    break;
             }
-        };
+
+            if(sortFunction) {
+                $scope.challenges = _.sortBy($scope.challenges, sortFunction);
+            }
+        });
 
         $scope.showProjects = function(id,index){
             var challenge = $scope.challenges[index];
-            $materialDialog({
+            $mdDialog.show({
                 templateUrl : 'modules/challenge/templates/modal/listProjects.tpl.html',
-                controller : function($scope,Project,$hideDialog){
+                controller : function($scope,Project){
                     $scope.challenge = challenge;
                     Project.getByChallenge( id ).then(function(projects){
                         console.log('projects',projects);
@@ -44,7 +44,7 @@ angular.module('cri.challenge', ['ngSanitize'])
                     });
 
                     $scope.cancel = function(){
-                        $hideDialog();
+                        $mdDialog.hide();
                     };
                 }
             });
@@ -60,7 +60,7 @@ angular.module('cri.challenge', ['ngSanitize'])
         };
 
     })
-    .controller('ChallengeSuggestCtrl', function ($scope, Challenge,$upload,$state,Notification,Gmap,Files,Config) {
+    .controller('ChallengeSuggestCtrl', function ($scope, Challenge,Upload,$state,Notification,Gmap,Files,Config) {
         $scope.hasDuration = false;
         $scope.pform = {};
         $scope.pform.tags = [];
@@ -87,7 +87,13 @@ angular.module('cri.challenge', ['ngSanitize'])
             });
         };
     })
-    .controller('ChallengeCtrl', function($scope,Challenge,challenge,Notification,$state,Project,$rootScope,NoteLab,$materialDialog) {
+    .controller('ChallengeCtrl', function($scope,Challenge,challenge,Notification,$state,Project,$rootScope,NoteLab,$mdDialog,$analytics) {
+        if(challenge.length == 0) {
+            Notification.display('Cannot find the requested challenge');
+            $state.go("home");
+            return;
+        }
+
         $scope.challenge = challenge[0];
 
         if($scope.currentUser){
@@ -121,7 +127,7 @@ angular.module('cri.challenge', ['ngSanitize'])
                     Notification.display('You are not following this challenge anymore');
                     $scope.challenge.followers.splice($scope.challenge.followers.indexOf($scope.currentUser._id), 1);
                     $scope.isFollow = false;
-
+                    $analytics.eventTrack("unfollowChallenge");
                 }).catch(function(err){
                     Notification.display(err.message);
                 });
@@ -130,6 +136,7 @@ angular.module('cri.challenge', ['ngSanitize'])
                     Notification.display('You are now following this challenge');
                     $scope.challenge.followers.push($scope.currentUser._id);
                     $scope.isFollow = true;
+                    $analytics.eventTrack("followChallenge");
                 }).catch(function(err){
                     Notification.display(err.message);
                 });

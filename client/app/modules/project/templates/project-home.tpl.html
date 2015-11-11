@@ -1,11 +1,16 @@
-<section layout="vertical">
+<section layout="column">
+    <md-button ui-sref="project.admin({ pid : project.accessUrl })" ng-if="isOwner">
+        <i class="fa fa-pencil-square-o baseColor"></i> Edit
+    </md-button>
+
     <section flex>
         <div ng-bind-html="project.home">
         </div>
     </section>
-    <div class="row center" style="margin-top: 60px;padding-bottom: 30px;">
+    <div class="row center">
+        <md-button class="md-button-colored" ng-click="openApplyModal()" ng-if="!isOwner && !isMember">Join Project</md-button>
+
         <div class="btn-group">
-            <material-button class="material-button-colored" ng-click="openApplyModal()" ng-if="!isOwner && !isMember">Join Project</material-button>
             <span class='st_facebook_large' displayText='Facebook' st_title='project title'></span>
             <span class='st_twitter_large' displayText='Tweet' st_title='project title'></span>
             <span class='st_linkedin_large' displayText='LinkedIn' st_title='project title'></span>
@@ -20,11 +25,11 @@
         </div>
     </div>
 
-    <list-notes project="project" current-user="currentUser"></list-notes>
+    <list-notes project="project" current-user="currentUser" templates="templates"></list-notes>
 
     <h3>Related Ideas</h3>
 
     <section>
-        <idea-card inline-block idea-id="idea" ng-repeat="idea in project.ideas"></idea-card>
+        <idea-card idea-id="idea" ng-repeat="idea in project.ideas"></idea-card>
     </section>
 </section>

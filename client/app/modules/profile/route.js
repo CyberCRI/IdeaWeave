@@ -10,12 +10,17 @@ angular.module('cri.profile')
             }
         },
         resolve : {
-            activities : ['Profile','$stateParams','Config',function(Profile,$stateParams,Config){
-                return Profile.getActivity($stateParams.uid,Config.activityLimit);
-            }],
-            profile : ['Profile','$stateParams',function(Profile,$stateParams){
+            activities : function(Profile,$stateParams,$state,Config,Notification){
+                return Profile.getActivity($stateParams.uid,Config.activityLimit)
+                .catch(function(error) {
+                    Notification.display('Cannot find the requested user');
+                    $state.go("home");
+                    return;
+                });
+            },
+            profile : function(Profile,$stateParams){
                 return Profile.getProfile($stateParams.uid);
-            }]
+            }
         }
     })
     .state('feed',{

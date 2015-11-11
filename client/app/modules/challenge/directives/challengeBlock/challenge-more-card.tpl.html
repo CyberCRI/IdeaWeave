@@ -1,0 +1,39 @@
+<a ui-sref="challenge({ cid : challenge.accessUrl })">
+    <img ng-src="{{challenge.poster || '/images/placeholder100x100.png'}}" alt="Challenge poster" class="md-card-image" width="100%">
+</a>
+<md-content layout-padding style="cursor:hand;">
+    <div>
+        <md-button class="md-raised" style="font-size:0.6em;display:inline;" ng-if="isAdmin()" ui-sref="challengeAdmin({ cid : challenge._id })">
+            <i class="fa fa-gears"></i>
+            Admin
+        </md-button>
+    </div>
+    <a style="text-decoration: none; color: black;" ui-sref="challenge({ cid : challenge.accessUrl })">
+        <h4 style="margin: 0;font-size:1.3em;">{{ challenge.title }}</h4>
+    </a>
+    <div font-size="font-size:0.7em;" class="text-muted" layout="row" style="margin:2px;" layout-align="start center">
+            <span style="margin:2px;font-size:0.7em;">By:</span>
+        <user-info ng-if="challenge.owner" user-id="challenge.owner" flex></user-info>
+    </div>
+    <div layout="row" style="margin-top: 5px;">
+        <div flex layout="row" class="text-muted">
+            <span style="font-size:0.7em;">
+                {{ challenge.followers.length }}
+            </span>
+            &nbsp;
+            <span style="font-size:0.7em;">
+                Followers
+            </span>
+        </div>
+        &nbsp;
+        &nbsp;
+    </div>
+    <div flex>
+        <p ng-if="challenge.startDate < now && challenge.endDate > now" >
+            <timer end-time="challenge.endDate" >End in :{{days}} d, {{hours}} : {{minutes}} : {{seconds}}</timer>
+        </p>
+        <p ng-if="challenge.startDate > now" >
+            <timer end-time="challenge.endDate" >Start in : {{days}} d, {{hours}} : {{minutes}} : {{seconds}}</timer>
+        </p>
+    </div>
+</md-content>

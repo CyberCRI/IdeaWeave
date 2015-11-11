@@ -1,6 +1,8 @@
 angular.module('cri.workspace',[])
-    .controller('WorkspaceCtrl',function($scope,$materialDialog,NoteLab,Challenge,$materialSidenav,project,$state){
+    .controller('WorkspaceCtrl',function($scope,NoteLab,Challenge,$mdSidenav,project,$state,$mdDialog,Notification,Config,$stateParams,Files){
         $scope.project = project[0];
+
+        $scope.etherpadTemplateUrl = 'modules/workspace/templates/etherpad.tpl.html';
 
         var leftNav;
         $scope.toggle = function(){
@@ -8,7 +10,7 @@ angular.module('cri.workspace',[])
         };
 
         $scope.$on('showWorkspace',function(){
-            leftNav = $materialSidenav('left');
+            leftNav = $mdSidenav('left');
             leftNav.toggle();
         });
 
@@ -23,12 +25,9 @@ angular.module('cri.workspace',[])
         else if($state.current.name == "workspace.file") $scope.selectedTabIndex = 1;
         else if($state.current.name == "workspace.resources") $scope.selectedTabIndex = 2;
         else $scope.selectedTabIndex = -1;
-    }).controller('NoteEtherpadCtrl', function($scope) {
-        // Nothing here yet...
-    })
-    .controller('NoteResourcesCtrl',function($scope,NoteLab,$stateParams,Notification,$materialDialog){
+
         $scope.addResourceModal = function(e) {
-            $materialDialog({
+            $mdDialog.show({
                 templateUrl: 'modules/workspace/templates/modal/addResourceModal.tpl.html',
                 event: e,
                 locals : {
@@ -36,14 +35,14 @@ angular.module('cri.workspace',[])
                     currentUser : $scope.currentUser,
                     project: $scope.project
                 },
-                controller: function ($scope, NoteLab, $hideDialog, urls, currentUser, project) {
+                controller: function ($scope, NoteLab, urls, currentUser, project) {
                     $scope.cancel = function () {
-                        $hideDialog();
+                        $mdDialog.hide();
                     };
                     $scope.addUrl = function(url){
                         NoteLab.addUrl(project._id, url).then(function(data){
                             urls.push(data);
-                            $hideDialog();
+                            $mdDialog.hide();
                         }).catch(function(err){
                             Notification.display(err.message);
                         });
@@ -67,8 +66,9 @@ angular.module('cri.workspace',[])
         }).catch(function(err){
             Notification.display(err);
         });
-    })
-    .controller('NoteFilesCtrl',function($scope,Files,NoteLab,$materialDialog,$stateParams,Notification,Config){
+
+
+
         $scope.files = [];
         NoteLab.listFiles($scope.project._id).then(function(data){
             $scope.files = data || [];
@@ -83,18 +83,23 @@ angular.module('cri.workspace',[])
 
 
         $scope.detailsFileModal = function(e,file){
-            $materialDialog({
+            $mdDialog.show({
                 templateUrl: 'modules/workspace/templates/modal/fileDetailModal.tpl.html',
                 event: e,
                 locals : {
                     currentUser : $scope.currentUser,
                     files : $scope.files,
-                    project: $scope.project
+                    project: $scope.project,
+                    isMember: $scope.isMember,
+                    isOwner: $scope.isOwner
                 },
-                controller: function ($scope,$hideDialog,Files,project,files) {
+                controller: function ($scope,Files,project,files,isMember,isOwner) {
                     $scope.fileDetails = file;
+                    $scope.isMember = isMember;
+                    $scope.isOwner = isOwner;
+                    
                     $scope.cancel = function(){
-                        $hideDialog();
+                        $mdDialog.hide();
                     };
 
                     $scope.removeFile = function() {
@@ -102,7 +107,7 @@ angular.module('cri.workspace',[])
                             // Delete the file from the list
                             var fileIndex = files.indexOf(file);
                             files.splice(fileIndex, 1);
-                            $hideDialog();
+                            $mdDialog.hide();
                         }).catch(function(err) {
                             Notification.display(err);
                         });
@@ -135,7 +140,7 @@ angular.module('cri.workspace',[])
             Files.getPoster(file);
         });
         $scope.uploadFileModal = function(e){
-            $materialDialog({
+            $mdDialog.show({
                 templateUrl : 'modules/workspace/templates/modal/fileUploadModal.tpl.html',
                 event : e,
                 locals : {
@@ -143,43 +148,47 @@ angular.module('cri.workspace',[])
                     files : $scope.files,
                     project: $scope.project
                 },
-                controller : function($scope,NoteLab,$hideDialog,Notification,Files,currentUser,files,project){
+                controller : function($scope,NoteLab,Notification,Files,currentUser,files,project){
+                    $scope.selectedFiles = null;
+                    $scope.file = null;
+                    $scope.fileUrl = null;
+                    $scope.description = null;
 
-                    $scope.fileSelected = function($files){
-                        $scope.file = $files[0];
+                    $scope.$watch('selectedFiles', function () {
+                        if(!$scope.selectedFiles || $scope.selectedFiles.length === 0) return;
+
+                        $scope.file = $scope.selectedFiles[0];
                         if(Files.isImage($scope.file)){
                             Files.getDataUrl($scope.file).then(function(dataUrl){
                                 $scope.fileUrl = dataUrl;
                             });
-                            $scope.dropBoxHeight = "300px";
                         }
-                    };
+                        $scope.selectedFiles = null;
+                    });
 
                     $scope.cancelUpload = function(){
                         $scope.file = null;
                         $scope.fileUrl = null;
-                        $scope.dropBoxHeight = "100px";
+                        $scope.description = null;
                     };
 
-                    $scope.upload = function(file,description){
+                    $scope.upload = function(){
                         $scope.isUploading = true;
-                        NoteLab.uploadFile(project._id, description, file).then(function(file){
-                            Notification.display('your file has been uploaded');
+                        NoteLab.uploadFile(project._id, $scope.description, $scope.file).then(function(file){
+                            Notification.display('Your file has been uploaded');
                             $scope.file = null;
                             $scope.fileUrl = null;
-                            $scope.dropBoxHeight = "100px";
                             Files.getPoster(file);
-//                data[0].url = Config.apiServer+'/fileUpload/topic/'+$stateParams.pid+'/'+data[0].filename;
                             files.push(file);
                         }).catch(function(err){
                             Notification.display(err.message);
                         }).finally(function(){
                             $scope.isUploading = false;
-                            $hideDialog();
+                            $mdDialog.hide();
                         });
                     };
                     $scope.cancel = function(){
-                        $hideDialog();
+                        $mdDialog.hide();
                     };
                 }
             });

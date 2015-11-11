@@ -3,7 +3,7 @@
  */
  var mongoose = require('mongoose-q')(),
      Schema = mongoose.Schema,
-     Q = require('q');
+     q = require('q');
 
 /**
  * Article Schema
@@ -84,7 +84,7 @@ var IdeaSchema = new Schema({
 });
 
 IdeaSchema.statics.random = function() {
-    var defered = Q.defer()
+    var defered = q.defer();
     this.count(function(err, count) {
         if(err) {
             defered.reject(err);

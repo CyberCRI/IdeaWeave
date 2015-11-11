@@ -71,12 +71,13 @@ angular.module('cri.project')
         return {
             restrict : 'EA',
             templateUrl : 'modules/project/directives/projectBlock/project-card.tpl.html',
+            // replace: true,
             scope : {
                 projectId : '=',
                 myProject : '=',
-                admin : '='
+                currentUser : '='
             },
-            controller : ['$scope','Project',function($scope,Project){
+            controller : function($scope,Project){
                 if($scope.projectId){
                     Project.fetch( { _id : $scope.projectId, type : 'card' }).then(function(project){
                         $scope.project = project[0];
@@ -86,14 +87,12 @@ angular.module('cri.project')
                 }else{
                     $scope.project = $scope.myProject;
                 }
-            }],
-            link:function(scope,element,attrs){
-                element.bind('mouseenter',function(e){
-                    scope.isHovered = true;
-                });
-                element.bind('mouseleave',function(e){
-                    scope.isHovered = false;
-                });
+
+                $scope.isAdmin = function() {
+                    if(!$scope.project || !$scope.currentUser) return false;
+
+                    return $scope.project.owner == $scope.currentUser._id || _.contains($scope.project.members, $scope.currentUser._id);
+                }; 
             }
         };
     }]);

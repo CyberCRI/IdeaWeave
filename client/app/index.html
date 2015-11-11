@@ -28,7 +28,7 @@
     <script type="text/javascript">stLight.options({publisher: "a0063f66-4da0-4218-ba21-08b5cb95253e", doNotHash: false, doNotCopy: false, hashAddressBar: false});</script>
     <!-- endbuild -->
 </head>
-<body layout="horizontal" layout-fill ng-controller="BodyCtrl">
+<body layout="row" layout-fill ng-controller="BodyCtrl">
 <!--[if lt IE 10]>
       <p class="alert alert-warning">For better user experience,please use one of these browers :
     <a href="http://www.google.com/chrome/" target="_blank">Google Chrome</a>
@@ -37,17 +37,16 @@
       </p>
 <![endif]-->
 
-    <div layout="vertical" layout-fill>
-        <material-toolbar ng-controller="HeaderCtrl" class="main-header">
-            <div class="material-toolbar-tools">
-                <div hide block-md>
-                    <a style="cursor : pointer;padding-top: 0px;"  ui-sref="home">
-                        <img src="images/svg/logoheader.svg" height="50px" alt="IdeaWeaves"/>
-                    </a>
-                </div>
-                <div layout="horizontal" layout-align="start end" >
+    <div layout="column" layout-fill>
+        <md-toolbar ng-controller="HeaderCtrl" class="md-whiteframe-z1 main-header">
+            <div class="md-toolbar-tools">
+                <a ui-sref="home">
+                    <img src="images/svg/logoheader.svg" height="50px" alt="IdeaWeaves"/>
+                </a>
+                <div layout="row" layout-align="start end" >
                     <a ui-sref="ideas({ tag :'all' })" class="top-bar-icon">
-                        <material-icon icon="images/svg/ideas.svg"></material-icon>
+                        <md-icon class="top-bar-icon-svg" md-svg-src="images/svg/ideas.svg">
+                        </md-icon>
                         <div class="tooltip-topbar-icon">ideas</div>
                     </a>
                     <a ui-sref="createIdea" ng-if="currentUser._id">
@@ -55,7 +54,7 @@
                     </a>
 
                     <a ui-sref="challenges.list({ tag :'all' })" class="top-bar-icon">
-                        <material-icon icon="images/svg/challenges.svg"></material-icon>
+                        <md-icon class="top-bar-icon-svg" md-svg-src="images/svg/challenges.svg"></md-icon>
                         <div class="tooltip-topbar-icon">challenges</div>
                     </a>
                     <a ui-sref="challengeSuggest" ng-if="currentUser._id">
@@ -69,41 +68,35 @@
                     <a ui-sref="projectCreation" ng-if="currentUser._id">
                         <img src="images/add.png" class="add-icon"/>
                     </a>
+                    &nbsp;
                 </div>
-               <search-bar hide block-md flex></search-bar>
-               <material-button ui-sref="signin" class="material-button-raised" ng-if="!currentUser">
+                <search-bar flex></search-bar>
+                <md-button ng-cloak ui-sref="signin" class="md-raised md-primary" ng-if="!currentUser">
                     <i class="fa fa-sign-in"> Sign In</i>
-                </material-button>
-                <material-button ui-sref="profile({ uid : currentUser._id })" class="cursor-hand" id="miniProfil" ng-if="currentUser">
-                    <div div layout="horizontal" layout-align="center center">
+                </md-button>
+                <md-button ui-sref="profile({ uid : currentUser._id })" class="cursor-hand md-primary" id="miniProfil" ng-if="currentUser">
+                    <div div layout="row" ng-cloak layout-align="center center">
                         <img ng-src="{{ currentUser.poster || 'images/avater.jpg' }}" alt="{{ currentUser.username }}'s photo" class="img-rounded"/>
-                        <p> {{ currentUser.realname || currentUser.username }}</p>
+                        <p>&nbsp;{{ currentUser.realname || currentUser.username }}</p>
                     </div>
-                </material-button>
-                <material-button ui-sref="feed" ng-if="currentUser">
-                    <i class="fa fa-flag"></i>
-                </material-button>
-                <material-button ng-if="currentUser" id="signout" class="material-button-raised material-theme-red" ng-click="signout()" >
+                </md-button>
+                <a ng-cloak ui-sref="feed" ng-if="currentUser" style="color: #036;" class="top-bar-icon">
+                    <i class="fa fa-flag fa-2x"></i>
+                    <span ng-if="unseenNotificationCounter > 0" class="badge">{{ unseenNotificationCounter > 99 ? "99+" : unseenNotificationCounter}}</span>
+                    <div class="tooltip-topbar-icon">notifications</div>
+                </a>
+                <md-button ng-cloak ng-if="currentUser" id="signout" class="md-raised md-warn" ng-click="signout()" >
                     <i class="fa fa-sign-out">Signout</i>
-                </material-button>
-                <div hide-md flex style="text-align: center">
-                    <a style="cursor : pointer;padding-top: 0px;"  ui-sref="home">
-                        <img src="images/svg/logoheader.svg" height="50px" alt="IdeaWeaves"/>
-                    </a>
-                </div>
+                </md-button>
             </div>
-        </material-toolbar>
+        </md-toolbar>
 
-        <section layout="horizontal" layout-fill ng-controller="LeftNavCtrl" style="padding-bottom:63px;">
-            <div ng-show="sideNavTemplateUrl" style="height:100%;" class="sidenav-container">
-                <material-sidenav class="material-sidenav-left material-whiteframe-z2" component-id="left" style="height:100%;">
-                    <div style="height:100%;">
-                        <ng-include src="sideNavTemplateUrl" flex layout="vertical" layout-fill style="padding-left: 15px;">
-                        </ng-include>
-                    </div>
-                </material-sidenav>
-            </div>
-            <section ui-view="mainView" layout="vertical" layout-fill class="right-part"></section>
+        <section layout="row" layout-fill ng-controller="LeftNavCtrl">
+            <md-sidenav ng-cloak ng-show="sideNavTemplateUrl" class="md-sidenav-left md-whiteframe-z2" md-is-locked-open="true">
+                <ng-include src="sideNavTemplateUrl" flex layout="column" layout-fill>
+                </ng-include>
+            </md-sidenav>
+            <section ui-view="mainView" layout="column" layout-fill class="right-part"></section>
         </section>
     </div>
 
@@ -118,18 +111,19 @@
     <script src="vendors/socket.io-client/socket.io.js"></script>
     <script src="vendors/pdfjs/src/pdf.js"></script>
     <script src="vendors/underscore/underscore.js"></script>
-    <script src="vendors/ng-file-upload/angular-file-upload-shim.js"></script>
+    <script src="vendors/ng-file-upload/ng-file-upload-shim.js"></script>
     <script src="vendors/angular/angular.js"></script>
+    <script src="vendors/angular-aria/angular-aria.js"></script>
     <script src="vendors/ng-messages/angular-messages.js"></script>
     <script src="vendors/angular-touch/angular-touch.js"></script>
     <script src="vendors/angular-carousel/dist/angular-carousel.js"></script>
     <script src="vendors/angular-animate/angular-animate.js"></script>
     <script src="vendors/angular-sanitize/angular-sanitize.js"></script>
     <script src="vendors/angular-ui-router/release/angular-ui-router.js"></script>
-    <script src="vendors/ng-file-upload/angular-file-upload.js"></script>
+    <script src="vendors/ng-file-upload/ng-file-upload.js"></script>
     <script src="vendors/angular-socket-io/socket.js"></script>
     <script src="vendors/angular-translate/angular-translate.js"></script>
-    <script src="vendors/angular-ui-utils/ui-utils.js"></script>
+    <!-- <script src="vendors/angular-ui-utils/ui-utils.js"></script> -->
     <script src="vendors/angular-ui-tinymce/src/tinymce.js"></script>
     <script src="vendors/angular-ui-select/dist/select.js"></script>
     <script src="vendors/angular-image-crop/image-crop.js"></script>
@@ -138,6 +132,8 @@
     <script src="vendors/satellizer/satellizer.js"></script>
     <script src="vendors/angular-timeago/src/timeAgo.js"></script>
     <script src="vendors/underscore/underscore.js"></script>
+    <script src="vendors/angulartics/src/angulartics.js"></script>
+    <script src="vendors/angulartics-google-analytics/lib/angulartics-google-analytics.js"></script>
     <script src="vendors/angular-cookies/angular-cookies.js"></script>
 
     <script src="env/config.js"></script>
@@ -230,20 +226,16 @@
     <script src="modules/idea/route.js"></script>
     <script src="modules/idea/services.js"></script>
     <script src="modules/idea/directives/ideaCard/directives.js"></script>
+    <script src="modules/idea/directives/ideaInfo/directives.js"></script>
     <!-- endbuild -->
 
     <script type="text/javascript">
-        // google analystic
-        var _gaq = _gaq || [];
-        /* // only for production
-         _gaq.push(['_setAccount', 'UA-41577560-1']);
-         _gaq.push(['_trackPageview']);
-         (function() {
-         var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-         ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-         })();
-         */
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-36688753-3', 'none');
     </script>
 </body>
 </html>

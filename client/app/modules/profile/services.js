@@ -1,6 +1,6 @@
 angular.module('cri.profile')
 
-    .service('Profile', ['$http', '$q','$upload','Config', function ($http, $q, $upload,Config) {
+    .service('Profile', ['$http', '$q','Upload','Config', function ($http, $q, Upload,Config) {
         var service = {
 
             getMe: function () {
@@ -114,9 +114,9 @@ angular.module('cri.profile')
                 });
                 return defered.promise;
             },
-            getResetPassToken : function(email){
+            sendResetPasswordEmail : function(email){
                 var defered = $q.defer();
-                $http.post(Config.apiServer + '/datas/resetPass/' + email)
+                $http.post(Config.apiServer + '/auth/forgotPassword', { email: email })
                     .success(function(data){
                         defered.resolve(data);
                     })
@@ -125,9 +125,9 @@ angular.module('cri.profile')
                     });
                 return defered.promise;
             },
-            resetPassword : function(passwordInfo){
+            resetPassword : function(email, token, newPassword){
                 var defered = $q.defer();
-                $http.post(Config.apiServer + '/profile/password', passwordInfo)
+                $http.post(Config.apiServer + '/auth/resetPassword', { email: email, token: token, newPassword: newPassword })
                     .success(function(data){
                         defered.resolve(data);
                     })
@@ -154,6 +154,69 @@ angular.module('cri.profile')
                 });
                 return defered.promise;
             },
+            listFollowingTags: function() {
+                var defered = $q.defer();
+                $http.get(Config.apiServer+'/tags/following').success(function(data){
+                    defered.resolve(data);
+                }).error(function(err){
+                    defered.reject(err);
+                });
+                return defered.promise;
+            },
+            followTag: function(tagId) {
+                var defered = $q.defer();
+                $http.post(Config.apiServer+'/tags/' + tagId + '/follow').success(function(data){
+                    defered.resolve(data);
+                }).error(function(err){
+                    defered.reject(err);
+                });
+                return defered.promise;
+            },
+            unfollowTag: function(tagId) {
+                var defered = $q.defer();
+                $http.post(Config.apiServer+'/tags/' + tagId + '/unfollow').success(function(data){
+                    defered.resolve(data);
+                }).error(function(err){
+                    defered.reject(err);
+                });
+                return defered.promise;
+            },
+
+            // Utility function to follow and unfollow so that only new tags are followed 
+            updateTagFollowing: function(newTagIds) {
+                return service.listFollowingTags().then(function(currentlyFollowingTags) {
+                    var oldTagIds = _.pluck(currentlyFollowingTags, "_id");
+
+                    var tagsToFollow = _.difference(newTagIds, oldTagIds);
+                    var tagsToUnfollow = _.difference(oldTagIds, newTagIds);
+
+                    var followTagRequests = _.map(tagsToFollow, service.followTag);
+                    var unfollowTagRequests = _.map(tagsToUnfollow, service.unfollowTag);
+
+                    return $q.all(_.flatten([followTagRequests, unfollowTagRequests], true));
+                });
+            },
+
+            getUnseenNotificationCounter: function() {
+                var defered = $q.defer();
+                $http.get(Config.apiServer+'/notifications/me/unseenCounter').success(function(data){
+                    defered.resolve(data);
+                }).error(function(err){
+                    defered.reject(err);
+                });
+                return defered.promise;
+            },
+
+            resetUnseenNotificationCounter: function() {
+                var defered = $q.defer();
+                $http.post(Config.apiServer+'/notifications/me/resetUnseenCounter').success(function(data){
+                    defered.resolve(data);
+                }).error(function(err){
+                    defered.reject(err);
+                });
+                return defered.promise;
+            }
+
         };
         return service;
     }]);

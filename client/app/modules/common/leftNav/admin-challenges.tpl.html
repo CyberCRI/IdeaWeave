@@ -1,29 +1,28 @@
 <div ng-controller="ChallengeAdminLeftCtrl">
-    <material-toolbar layout="horizontal">
-        <div class="material-toolbar-tools">
-            <i class="fa fa-caret-left fa-2x my-btn" hide-md style="color:black;" ng-click="toggle()" flex></i>
+    <md-toolbar layout="row">
+        <div class="md-toolbar-tools">
             <div>
                 <i class="fa fa-trophy"> Settings</i>
             </div>
         </div>
-    </material-toolbar>
-    <material-content>
-        <section layout="vertical" flex-md>
-            <material-button ui-sref="challenge({ cid : challenge.accessUrl })" class="material-theme-indigo">
+    </md-toolbar>
+    <md-content>
+        <section layout="column">
+            <md-button ui-sref="challenge({ cid : challenge.accessUrl })" class="md-raised md-accent" style="width:100%;">
                 View Challenge
-            </material-button>
-            <material-button ng-click="popUpPoster($event)" class="material-button-raised">
+            </md-button>
+            <md-button ng-click="popUpPoster($event)" class="md-raised">
                 Edit Poster
-            </material-button>
-            <material-button class="material-button-raised" style="width:100%;" ng-click="popUpBanner()">
+            </md-button>
+            <md-button class="md-raised" style="width:100%;" ng-click="popUpBanner()">
                 Edit Banner
-            </material-button>
-            <material-button class="material-button-raised"  style="width:100%;" ng-click="popUpEdit()">
+            </md-button>
+            <md-button class="md-raised"  style="width:100%;" ng-click="popUpEdit()">
                 Edit Home Page
-            </material-button>
-            <material-button class="material-button-colored material-theme-red" style="width:100%;" ng-click="popUpRemove()">
+            </md-button>
+            <md-button class="md-raised md-warn" style="width:100%;" ng-click="popUpRemove()">
                 Delete Challenge
-            </material-button>
+            </md-button>
         </section>
-    </material-content>
+    </md-content>
 </div>
