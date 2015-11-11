@@ -1,6 +1,8 @@
 angular.module('cri.header',[])
 
-.controller('HeaderCtrl',function($scope,$auth,$state,Notification,SearchBar,$mdSidenav,$rootScope,mySocket){
+.controller('HeaderCtrl',function($scope,$auth,$state,Notification,SearchBar,$mdSidenav,$rootScope){
+    $scope.searchText = "";
+
     $scope.sideNavToggle = function(event){
         $rootScope.$broadcast(event);
     };
@@ -9,20 +11,18 @@ angular.module('cri.header',[])
         $rootScope.$broadcast('toggleRight',param);
     };
 
-    $scope.refreshSearchBar = function(search) {
-        if(search.length >=  1 ){
-            SearchBar.refresh(search).then(function(result){
-                $scope.searchResult = result;
-            }).catch(function(err){
-                Notification.display(err.message);
-            });
-        }
+    $scope.lookFor = function(search) {
+        if(search.length == 0) return [];
+
+        return SearchBar.lookFor(search).catch(function(err){
+            Notification.display(err.message);
+        });
     };
 
     $scope.signout = function() {
         $auth.logout();
         $rootScope.currentUser = null;
-        mySocket.disconnect();
+        $rootScope.$emit("changeLogin", null);
         Notification.display('You have been logged out');
     }
 

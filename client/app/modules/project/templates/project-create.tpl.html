@@ -15,7 +15,7 @@
                                 <small>
                                     {{challenge.title}}
                                 </small>
-                                <div showtags entity="challenge"></div>
+                                <show-tags model="challenge.tags"></show-tags>
                             </ui-select-choices>
                         </ui-select>
                     </input-container>
@@ -25,7 +25,8 @@
                         <input id="title" type="text" ng-model="newProject.title" required="" ng-change="titleChange(newProject.title)" />
                     </md-input-container>
                     
-                    <tag-manager entity="newProject"></tag-manager>
+                    <p>Tags</p>
+                    <tag-manager model="newProject.tags"></tag-manager>
 
                     <input-container>
                         <label>Where your project is based</label>

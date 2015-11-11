@@ -30,7 +30,7 @@
                 
                 <img ng-if="challenge.banner" src="{{ challenge.banner }}" ui-sref="challenge({cid : challenge.accessUrl})">
                 
-                <showtags entity="challenge"></showtags>
+                <show-tags model="challenge.tags"></show-tags>
 
                 <div layout="row" layout-align="center center">
                     <md-button ui-sref="challenge({cid : challenge.accessUrl})" class="md-raised">Take a look</md-button>

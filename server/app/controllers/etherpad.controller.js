@@ -1,4 +1,5 @@
 var etherpadApi = require('etherpad-lite-client')
+    utils = require('../services/utils.service'),
     config = require('../../config/config'),
     q = require('q');
 
@@ -120,7 +121,7 @@ exports.getPadInfo = function(req, res) {
     } else if(req.query.idea) {
         groupName = "idea-" + req.query.idea;
     } else {
-        return res.json(403, "Please specify a project, challenge, or idea");
+        return utils.sendErrorMessage(res, 403, "Please specify a project, challenge, or idea");
     }
 
     etherpad = etherpadApi.connect({
@@ -140,7 +141,7 @@ exports.getPadInfo = function(req, res) {
         });
     }).catch(function(err) {
         console.error('Error retrieving group, pad, or session: ', err);
-        res.json(500, err.message);
+        utils.sendError(res, 500, err);
     });
 };
 
@@ -188,6 +189,6 @@ exports.getUserSessionString = function(req, res) {
         });
     }).catch(function(err) {
         console.error('Error retrieving author or session: ', err);
-        res.json(500, err.message);
+        utils.sendError(res, 500, err);
     });
 };

@@ -6,7 +6,7 @@
 var mongoose = require('mongoose-q')(),
     Schema = mongoose.Schema,
     bcrypt = require('bcryptjs'),
-    Q = require('q');
+    q = require('q');
 
 
 /**
@@ -66,11 +66,19 @@ var UserSchema = new Schema({
     },
     google: String,
     github: String,
-    passwordResetToken: String
+    passwordResetToken: String,
+    unseenNotificationCounter: {
+        type: Number,
+        default: 0
+    },
+    lastSeenNotificationDate: {
+        type: Date,
+        default: Date.now
+    }
 });
 
 UserSchema.statics.random = function() {
-    var defered = Q.defer()
+    var defered = q.defer();
     this.count(function(err, count) {
         if (err) {
             defered.reject(err);
@@ -116,7 +124,7 @@ UserSchema.methods.comparePassword = function(password, done) {
 UserSchema.statics.findUniqueUsername = function(username, suffix) {
     var _this = this,
         possibleUsername = username + (suffix || ''),
-        defered = Q.defer();
+        defered = q.defer();
 
     _this.findOneQ({
         username: possibleUsername

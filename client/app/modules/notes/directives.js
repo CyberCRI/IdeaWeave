@@ -159,10 +159,11 @@ angular.module('cri.notes', ['ngSanitize'])
     return {
         restrict:'EA',
         scope: {
-            noteId: '='
+            noteId: '=',
+            myNote: '='
         },
         controller: function ($scope, Notes, $state, Project, Challenge) {
-            Notes.fetchNote($scope.noteId).then(function(note) {
+            function updateScope(note) {
                 var MAX_TEXT_LENGTH = 30;
 
                 if(note.text[0] == "<") 
@@ -195,9 +196,16 @@ angular.module('cri.notes', ['ngSanitize'])
                         throw new Error("Note is not attached to project, challenge, or idea");
                     }
                 }
-            }).catch(function(err) {
-                console.log('error', err);
-            });
+            }
+
+            if($scope.noteId) {
+                Notes.fetchNote($scope.noteId).then(updateScope)
+                .catch(function(err) {
+                    console.log('error', err);
+                });
+            } else {
+                updateScope($scope.myNote);
+            }
         },
         templateUrl: 'modules/notes/templates/note-info.tpl.html'
     };
