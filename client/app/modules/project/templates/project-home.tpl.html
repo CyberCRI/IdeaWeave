@@ -11,11 +11,12 @@
         <md-button class="md-button-colored" ng-click="openApplyModal()" ng-if="!isOwner && !isMember">Join Project</md-button>
 
         <div class="btn-group">
-            <span class='st_facebook_large' displayText='Facebook' st_title='project title'></span>
-            <span class='st_twitter_large' displayText='Tweet' st_title='project title'></span>
-            <span class='st_linkedin_large' displayText='LinkedIn' st_title='project title'></span>
-            <span class='st_googleplus_large' displayText='Google +' st_title='project title'></span>
-            <span class='st_email_large' displayText='Email' st_title='project title'></span>
+            <!-- <span class='st_facebook_large' displayText='Facebook' st_title='{{ project.title }} on IdeaWeave'></span> -->
+            <span class='st_twitter_large' displayText='Tweet' st_title='{{ project.title }} on IdeaWeave'></span>
+            <span class='st_linkedin_large' displayText='LinkedIn' st_title='{{ project.title }} on IdeaWeave'></span>
+            <!-- <span class='st_googleplus_large' displayText='Google +' st_title='{{ project.title }} on IdeaWeave'></span> -->
+            <span class='st_email_large' displayText='Email' st_title='{{ project.title }} on IdeaWeave'></span>
+
             <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
             <script type="text/javascript">
                 stLight.options({
