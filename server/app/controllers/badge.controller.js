@@ -3,6 +3,7 @@
  */
 var mongoose = require('mongoose-q')(),
     Badge = mongoose.model('Badge'),
+    Credit = mongoose.model('Credit'),
     Idea = mongoose.model('Idea'),
     User = mongoose.model('User'),
     Challenge = mongoose.model('Challenge'),
@@ -33,14 +34,6 @@ function canModifyBadge(user, badge) {
     return user._id.toString() == badge.owner.toString();
 }
 
-// Like Mongoose populateQ(), but without required a document
-function populateField(parent, fieldName, entityType) {
-    var model = mongoose.model(getModelName(entityType));
-    return model.findOneQ({ _id: parent[fieldName] }).then(function(entity) {
-        parent[fieldName] = entity;
-    });
-}
-
 // Returns promise for an entity for if the given entity exists
 function getEntity(entityId, entityType) {
     var model = mongoose.model(getModelName(entityType));
@@ -50,28 +43,25 @@ function getEntity(entityId, entityType) {
 }
 
 // Returns promise that will populate the badge earned fields
-function populateBadgeEarned(badgeEarned) {
-    var givenByReq = populateField(badgeEarned, "givenByEntity", badgeEarned.givenByType);
-    var givenToReq = populateField(badgeEarned, "givenToEntity", badgeEarned.givenToType);
+function populateCredit(credit) {
+    var givenByReq = credit.populateQ({ path: "givenByEntity", model: getModelName(credit.givenByType) });
+    var givenToReq = credit.populateQ({ path: "givenToEntity", model: getModelName(credit.givenToType) });
 
     return q.all([givenByReq, givenToReq])
     .then(function() {
-        return badgeEarned;
+        return credit;
     });
 }
 
-function populateEarned(badge) {
-    return q.all(_.map(badge.earned, populateBadgeEarned))
+function populateCredits(credits) {
+    return q.all(_.map(credits, populateCredit))
     .then(function() {
-        return badge; 
+        return credits; 
     });
 }
 
 exports.list = function(req, res) {
-    Badge
-    .find()
-    .select("-earned")
-    .execQ()
+    Badge.findQ()
     .then(function(badges) {
         res.json(badges);
     }).fail(function(err) {
@@ -80,10 +70,7 @@ exports.list = function(req, res) {
 };
 
 exports.fetchOne = function(req, res) {
-    Badge
-    .findOne({_id : req.params.id})
-    .select("-earned")
-    .execQ()
+    Badge.findOneQ({_id : req.params.id})
     .then(function(badge) {
         if(!badge) return utils.sendMissingError(res);
 
@@ -96,8 +83,6 @@ exports.fetchOne = function(req, res) {
 exports.create = function(req, res) {
     // Idea will be owned by the current user
     req.body.owner = req.user._id; 
-
-    req.body.earned = []; // Empty out this field
 
     var badge = new Badge(req.body);
     badge.saveQ().then(function(badge) {
@@ -153,6 +138,8 @@ exports.remove = function(req, res) {
              return utils.sendErrorMessage(res, 403, "You are not allowed to modify this badge");
         };
 
+        // TODO: Can only remove badges that don't have credit attached
+
         return Badge.removeQ({_id : req.params.id})
         .then(function() {
             res.json(200);
@@ -162,33 +149,26 @@ exports.remove = function(req, res) {
     });
 };
 
+exports.listCredits = function(req, res) {
+    var filter = {};
+    if(req.query.badge) filter.badge = req.query.badge;
+    if(req.query.givenByEntity) filter.givenByEntity = req.query.givenByEntity;
+    if(req.query.givenToEntity) filter.givenToEntity = req.query.givenToEntity;
 
-exports.listEarned = function(req, res) {
-    Badge
-    .findOne({_id : req.params.badgeId})
-    .select("earned")
-    .execQ()
-    .then(function(badge) { 
-        if(!badge) return utils.sendMissingError(res);
-
-        // Convert badge to a regular JS object, or we can't populate the data correctly
-        badge = badge.toObject();
-
-        return populateEarned(badge)
-        .then(function(badge) {
-            res.json(badge.earned);
-        });
+    Credit
+    .findQ(filter)
+    .then(populateCredits) 
+    .then(function(credits) {
+        res.json(credits);
     }).fail(function(err) {
         utils.sendError(res, 400, err);
     });
 };
 
-exports.addEarned = function(req, res) {
-    Badge
-    .findOne({_id : req.params.badgeId})
-    .execQ()
+exports.createCredit = function(req, res) {
+    Badge.findOneQ({_id : req.body.badge})
     .then(function(badge) {
-        if(!badge) return utils.sendMissingError(res);
+        if(!badge) return utils.sendErrorMessage(res, 400, "This badge does not exist");
 
         // Check that referenced entity exists
         var referencedEntityRequests = [
@@ -211,59 +191,59 @@ exports.addEarned = function(req, res) {
             }
 
             // Keep track of new badges to earn (needed for notifications later)
-            var newEarned = [req.body];
+            var newCredits = [new Credit(req.body)];
 
             // Give badges to owners and members of projects or ideas
             if(req.body.givenToType == "project") {
                 // Give badges to owner
-                newEarned.push(_.extend({}, req.body, {
+                newCredits.push(new Credit(_.extend({}, req.body, {
                     givenToType: "profile",
                     givenToEntity: referencedEntities[1].owner
-                }));
+                })));
 
                 // Give badges to members
                 _.each(referencedEntities[1].members, function(member) { 
-                    newEarned.push(_.extend({}, req.body, {
+                    newCredits.push(new Credit(_.extend({}, req.body, {
                         givenToType: "profile",
                         givenToEntity: referencedEntities[1].owner
-                    }));
+                    })));
                 });
             } else if(req.body.givenToType == "idea") {
                 // Give badges to owner
-                newEarned.push(_.extend({}, req.body, {
+                newCredits.push(new Credit(_.extend({}, req.body, {
                     givenToType: "profile",
                     givenToEntity: referencedEntities[1].owner
-                }));
+                })));
             } else if(req.body.givenToType == "profile") {
                 // No extra badges to give
             } else {
                 return utils.sendErrorMessage(res, 400, "Tou cannot give a badge to this entity");
             }
 
-            // Copy over new badge earnings, then save the badge
-            _.each(newEarned, function(earned) {
-                badge.earned.push(earned);
+            // Save the new credit 
+            var createCreditRequests = _.map(newCredits, function(credit) {
+                return credit.saveQ();
             });
 
-            return badge.saveQ()
-            .then(function(updatedBadge) {
+            return q.all(createCreditRequests)
+            .then(function() {
                 // Create notifications for all badges received by users
-                var notificationPromises = _.chain(newEarned)
+                var notificationPromises = _.chain(newCredits)
                 .where({ givenToType: "profile"})
-                .map(function(earned) {
+                .map(function(credit) {
                     var myNotif = new Notification({
                         type: 'receive',
-                        owner: earned.givenToEntity,
-                        entity: badge._id,
-                        entityType: 'badge'
+                        owner: credit.givenToEntity,
+                        entity: credit._id,
+                        entityType: 'credit'
                     });
                     
-                    return myNotif.saveQ()                    
+                    return myNotif.saveQ();
                 }).value();
 
                 return q.all(notificationPromises);
             }).then(function() {
-                res.json(badge.earned);
+                res.json(newCredits);
             });
         });
     }).fail(function(err) {
@@ -271,36 +251,13 @@ exports.addEarned = function(req, res) {
     });
 };
 
-exports.fetchOneEarned = function(req, res) {
-    Badge
-    .findOne({_id : req.params.badgeId})
-    .select("earned")
-    .execQ()
-    .then(function(badge) {
-        if(!badge) return utils.sendMissingError(res);
-
-        // Convert badge to a regular JS object, or we can't populate the data correctly
-        return populateBadgeEarned(badge.earned.id(req.params.earnedId).toObject())
-        .then(function(badgeEarned) {
-            res.json(badgeEarned);
-        });
+exports.fetchOneCredit = function(req, res) {
+    Credit.findOneQ({_id : req.params.id})
+    .then(populateCredit)
+    .then(function(credit) {
+        res.json(credit);
     }).fail(function(err) {
         utils.sendError(res, 400, err);
     });
 };
 
-exports.listEarnedBy = function(req, res) {
-    console.log("in listEarnedBy");
-    Badge.findQ({ earned: { givenToEntity: req.params.entityId } })
-    .then(function(badges) {
-        // Take out earned records that don't concern the entity
-        var trimmedBadges = _.map(badges, function(badge) {
-            var badge = badge.toObject();
-            badge.earned = _.where(badge.earned, { givenToEntity: req.params.entityId });
-            return badge; 
-        });
-        res.json(trimmedBadges);
-    }).fail(function(err) {
-        utils.sendError(res, 500, err);
-    });
-};

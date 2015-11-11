@@ -16,13 +16,10 @@ module.exports = function(app) {
         .put(utils.ensureAuthenticated, badge.update)
         .delete(utils.ensureAuthenticated, badge.remove);
 
-    app.route('/badges/:badgeId/earned')
-        .get(badge.listEarned)
-        .post(utils.ensureAuthenticated, badge.addEarned);
+    app.route('/credit')
+        .get(badge.listCredits) // filter query parameters: badge, givenByEntity, or givenToEntity
+        .post(utils.ensureAuthenticated, badge.createCredit);
 
-    app.route('/badges/:badgeId/earned/:earnedId')
-        .get(badge.fetchOneEarned);
-
-    app.route('/badges/earnedBy/:entityId')
-        .get(badge.listEarnedBy);
+    app.route('/credit/:id')
+        .get(badge.fetchOneCredit);
 };
