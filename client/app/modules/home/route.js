@@ -17,5 +17,13 @@ angular.module('cri.home')
                         return $http.get(Config.apiServer+'/popular');
                     }]
                 }
-            });
+            })
+            .state('contactPage',{
+                url : '/contactPage',
+                views : {
+                    mainView: {
+                        templateUrl: 'modules/home/templates/contact.tpl.html'
+                    }
+                }
+            })
     }]);
