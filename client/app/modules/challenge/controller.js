@@ -64,10 +64,17 @@ angular.module('cri.challenge', ['ngSanitize'])
         $scope.hasDuration = false;
         $scope.pform = {};
         $scope.pform.tags = [];
-        $scope.pform.startDate = new Date();
-        $scope.pform.endDate = new Date();
+        $scope.pform.myDate = new Date();
+        $scope.pform.minDate = new Date(
+            $scope.pform.myDate.getFullYear(),
+            $scope.pform.myDate.getMonth() - 2,
+            $scope.pform.myDate.getDate());
+        $scope.pform.maxDate = new Date(
+            $scope.pform.myDate.getFullYear(),
+            $scope.pform.myDate.getMonth() + 2,
+            $scope.pform.myDate.getDate());
+        console.log($scope.pform.myDate,$scope.pform.minDate,$scope.pform.maxDate);
         $scope.tinymceOption = Config.tinymceOptions;
-        // $scope.pform.startDate = 
         $scope.refreshAddresses = function(address) {
             Gmap.getAdress(address).then(function(adresses){
                 $scope.addresses = adresses;

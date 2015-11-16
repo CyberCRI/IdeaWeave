@@ -16,7 +16,7 @@
             </md-sidenav>
             <md-content flex class="right-part">
                 <h2>New Challenge</h2>
-                <md-form name="cform" layout="column" layout-align="">
+                <md-form name="pform" layout="column" layout-align="">
                     <md-input-container>
                         <label for="title">Title</label>
                         <input id="title" type="text" ng-model="pform.title" ng-change="titleChange(pform.title)"/>
@@ -32,16 +32,18 @@
                             <div ng-bind-html="address.formatted_address | highlight: $select.search"></div>
                         </ui-select-choices>
                     </ui-select>
-                    <md-input-container>
-                        <label for="startdate" style="padding-left:100px;">Start date</label>
-                        <md-datepicker ng-model="pform.startDate" md-placeholder="Enter date"></md-datepicker>
+                    <label style="padding-left:100px;">Start date</label>
+                    <md-datepicker ng-model="pform.myDate" md-placeholder="Enter date"></md-datepicker>
+                    <label style="padding-left:100px;">End date</label>
+                    <md-datepicker ng-model="pform.myDate" placeholder="Enter date" md-min-date="minDate"></md-datepicker>
+                    <md-input-container style="width:30%;">
+                      <label>Start Date</label>
+                      <input type="date" ng-model="pform.minDate">
                     </md-input-container>
-                    <md-input-container>
-                        <label for="endDate" style="padding-left:100px;">End date</label>
-                        <md-datepicker ng-model="pform.endDate" placeholder="Enter date" md-min-date="pform.startDate"></md-datepicker>
+                    <md-input-container style="width:30%;">
+                      <label>End Date</label>
+                      <input type="date" min="2015-10-09" ng-model="pform.maxDate">
                     </md-input-container>
-                    
-                    
 
                     <md-input-container>
                         <label>Short Description</label>
