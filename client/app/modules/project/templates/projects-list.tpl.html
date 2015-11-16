@@ -1,4 +1,10 @@
-<md-content scroller loading-method="loadMoreProjects()">
+<md-content>
+    <md-input-container>
+        <md-select ng-model="sortBy">
+          <md-option ng-repeat="sortOption in sortOptions" value="{{sortOption}}" placeholder="Order by ...">Order by {{sortOption}}</md-option>
+        </md-select>
+    </md-input-container>
+
     <md-grid-list md-cols="3" md-row-height="500px">
             <md-grid-tile ng-repeat="project in projects">
                 <project-card class="md-whiteframe-z2" my-project="project" style="height: 410px;" current-user="currentUser"></project-card> 

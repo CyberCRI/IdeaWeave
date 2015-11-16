@@ -20,7 +20,7 @@ angular.module('cri.auth',[
             clientId: Config.githubClient
         });
     })
-    .controller('LoginCtrl', function ($scope, Profile, $state,Notification,$auth,$mdDialog,$rootScope,mySocket) {
+    .controller('LoginCtrl', function ($scope, Profile, $state,Notification,$auth,$mdDialog,$rootScope) {
         $scope.loader = {};
         $scope.authenticate = function(provider) {
             console.log('login with', provider);
@@ -48,6 +48,7 @@ angular.module('cri.auth',[
                                 };
                                 Profile.update($rootScope.currentUser._id,$scope.profile).then(function(user){
                                     $rootScope.currentUser = user;
+                                    $rootScope.$emit("changeLogin", user);
                                     Notification.display("Welcome, you're logged in");
                                     $mdDialog.hide();
                                 }).catch(function(err){
@@ -76,9 +77,9 @@ angular.module('cri.auth',[
             .then(Profile.getMe)
             .then(function (me) {
                 $rootScope.currentUser = me; 
+                $rootScope.$emit("changeLogin", me);
                 
                 Notification.display("Welcome, you're logged in");
-                mySocket.init($scope.currentUser);
                 $state.go('home');
             }).catch(function (err) {
                 Notification.display(err.data && err.data.message || "An unknown error has occured");
@@ -92,6 +93,10 @@ angular.module('cri.auth',[
 
         $scope.check = {};
 
+        $scope.signup = {
+            tags: []
+        };
+
         $scope.refreshAddresses = function(address) {
             Gmap.getAdress(address).then(function(adresses){
                 $scope.addresses = adresses;
@@ -102,12 +107,15 @@ angular.module('cri.auth',[
             if ($scope.check.password !== user.password) {
                 Notification.display("The passwords do not match");
             } else {
-                $auth.signup(user);
-                Notification.display("Welcome, you can login now");
-                $state.go('signin');
+                $auth.signup(user)
+                .then(function() { 
+                    Notification.display("Welcome, you can login now");
+                    $state.go('signin');
+                }).catch(function (err) {
+                    Notification.display(err.data && err.data.message || "An unknown error has occured");
+                });
             }
         };
-
     }])
     .controller('ForgotPasswordCtrl', function ($scope, $state, Profile, Notification) {
         $scope.email = "";

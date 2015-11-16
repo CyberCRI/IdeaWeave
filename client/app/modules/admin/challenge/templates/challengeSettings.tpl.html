@@ -31,7 +31,9 @@
             </md-slider>
         </div>
 
-        <tag-manager entity="challenge" ng-model="challenge.tags"></tag-manager>
+        <p>Tags</p>
+        <tag-manager model="challenge.tags"></tag-manager>
+
         <md-button class="md-accent"  ng-click="updateChallenge()" style="margin:auto;" ng-disabled="projectBasic.title.$invalid">
             <span class="faa-spin animated" ng-if="isBasicLoading">
                 <i class="fa fa-spin"></i>

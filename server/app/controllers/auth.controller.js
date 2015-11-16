@@ -12,29 +12,37 @@ var mongoose = require('mongoose-q')(),
     qs = require('querystring'),
     utils = require('../services/utils.service'),
     config = require('../../config/config'),
-    emailer = require('../services/mailer.service');
+    emailer = require('../services/mailer.service'),
+    tagController = require('../controllers/tag.controller');
 
 
 /**
  * Signup
  */
 exports.signup = function(req, res) {
-    // Init Variables
-    var tagsId = [];
-    if(req.body.tags){
-        req.body.tags.forEach(function(tag,k){
-            tagsId.push(tag._id)
+    // Check that no user already has that email
+    User.findOneQ({ email: req.body.email })
+    .then(function(existingUser) {
+        if(existingUser) throw new Error("A user already has that email");
+
+        if(req.body.tags) req.body.tags = _.pluck(req.body.tags, "_id");
+        else req.body.tags = [];
+
+        var user = new User(req.body);
+        // Then save the user
+        user.saveQ().then(function(user) {
+            // Follow chosen tags
+            var tagUpdateRequests = _.map(req.body.tags, function(tagId) {
+                return Tag.findOneAndUpdateQ({ _id: tagId }, { $addToSet: { followers: user._id }});
+            });
+            return q.all(tagUpdateRequests);
+        }).then(function() {
+            return tagController.updateTagCounts("user", user.tags || [], []);
         });
-        req.body.tags = tagsId;
-    }
-    var user = new User(req.body);
-    // Then save the user
-    user.saveQ().then(function() {
-        return tagController.updateTagCounts(user.tags || [], []);
     }).then(function() {
         res.status(200).send();
     }).fail(function(err){
-        return res.json(400, err);
+        utils.sendError(res, 400, err);
     });
 };
 
@@ -134,10 +142,10 @@ exports.githubAuth = function(req, res) {
                     var token = utils.createJwtToken(user);
                     res.send({ token: token });
                 }).catch(function(err){
-                    res.json(500,err);
+                    utils.sendError(res, 500, err);
                 });
             }).catch(function(err){
-                res.json(400,err);
+                utils.sendError(res, 400, err);
             })
         });
     });
@@ -223,7 +231,7 @@ exports.forgotPassword = function(req, res) {
     var token = makeToken(5);
     User.findOneAndUpdateQ({ email : req.body.email }, { passwordResetToken: token })
     .then(function(user) {
-        if(!user) return res.json(400, { message: "No user with that email found" });
+        if(!user) return utils.sendErrorMessage(res, 400, "No user with that email found");
 
         // Send the token to the user via email
         var email = {
@@ -237,7 +245,7 @@ exports.forgotPassword = function(req, res) {
             res.send(200);
         });
     }).catch(function(err){
-        res.json(400, err);
+        utils.sendError(res, 400, err);
     });
 };
 
@@ -245,11 +253,11 @@ exports.resetPassword = function(req, res) {
     // Check that the token matches the email provided
     User.findOneQ({ email: req.body.email })
     .then(function(user) {
-        if(!user) return res.json(400, { message: "No user that email found" });
+        if(!user) return utils.sendErrorMessage(res, 400, "No user that email found");
 
         // Check that the token matches the user
         if(!user.passwordResetToken || user.passwordResetToken !== req.body.token) {
-            return res.json(400, { message: "The token does not match the email provided"});
+            return utils.sendErrorMessage(res, 400, "The token does not match the email provided");
         } 
 
         user.passwordResetToken = null;
@@ -258,7 +266,7 @@ exports.resetPassword = function(req, res) {
             return res.send(200);
         });
     }).catch(function(err) {
-        return res.json(500, err);
+        utils.sendError(res, 500, err);
     });
 };
 

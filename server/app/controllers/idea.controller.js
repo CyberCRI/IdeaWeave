@@ -10,6 +10,7 @@ var mongoose = require('mongoose-q')(),
     Notification = mongoose.model('Notification'),
     NoteLab = mongoose.model('NoteLab'),
     tagController = require('./tag.controller'),
+    utils = require('../services/utils.service'),
     io = require('../../server').io,
     _ = require('lodash'),
     q = require('q');
@@ -26,7 +27,7 @@ exports.fetchOne = function(req, res) {
         .execQ().then(function(idea) {
             res.json(idea);
         }).fail(function(err) {
-            res.json(400, err);
+            utils.sendError(res, 400, err);
         });
 };
 
@@ -40,7 +41,7 @@ exports.fetch = function(req, res) {
         .then(function(idea) {
             res.json(idea);
         }).fail(function(err) {
-            res.json(500, err);
+            utils.sendError(res, 500, err);
         });
 };
 
@@ -49,17 +50,17 @@ exports.getByTag = function(req,res){
         Idea.find().limit(req.query.limit).skip(req.query.skip).sort('-createDate').populate('tags').sort('-createDate').execQ().then(function(ideas){
             res.json(ideas);
         }).fail(function(err){
-            res.json(400,err);
+            utils.sendError(res, 400, err);
         })
     }else{
         Tags.findQ({ title : req.params.tag }).then(function(tag){
             Idea.find({ tags : tag[0]._id }).limit(req.query.limit).skip(req.query.skip).populate('tags').sort('-createDate').execQ().then(function(ideas){
                 res.json(ideas);
             }).fail(function(err){
-                res.json(400,err);
+                utils.sendError(res, 400, err);
             })
         }).fail(function(err){
-            res.json(400,err);
+            utils.sendError(res, 400, err);
         })
     }
 };
@@ -94,26 +95,26 @@ exports.create = function(req, res) {
             });
             return newNote.saveQ();;
         }).then(function() {
-            return tagController.updateTagCounts(idea.tags, []);
+            return tagController.updateTagCounts("idea", idea.tags, []);
         }).then(function() {
             res.json(200, idea);
         });
     }).fail(function(err) {
-        res.json(400, err);
+        utils.sendError(res, 400, err);
     });
 };
 
 exports.update = function(req, res) {
     Idea.findOneQ({_id : req.params.id}).then(function(idea) {
         if(!canModifyIdea(req.user, idea)) {
-            return res.json(403, { message: "You are not allowed to modify this idea" });
+            return utils.sendErrorMessage(res, 403, "You are not allowed to modify this idea");
         };
 
         idea.title = req.body.title;
         idea.brief = req.body.brief;
         idea.language = req.body.language;
 
-        var oldTags = _.map(idea.tags, function(tagId) { return tagId.toString(); });
+        var oldTags = idea.tags;
         idea.tags = req.body.tags;
         
         idea.modifiedDate = new Date();
@@ -128,12 +129,12 @@ exports.update = function(req, res) {
             
             return myNotif.saveQ()
             .then(function() {
-                return tagController.updateTagCounts(modifiedIdea.tags, oldTags);
+                return tagController.updateTagCounts("idea", modifiedIdea.tags, oldTags);
             }).then(function() {
                 res.json(200, modifiedIdea);
             });
         }).fail(function(err) {
-            res.json(400, err);
+            utils.sendError(res, 400, err);
         });
     });
 };
@@ -142,7 +143,7 @@ exports.remove = function(req, res) {
     // TODO : check that you can remove ideas
     Idea.findOneQ({_id : req.params.id}).then(function(idea) {
         if(!canModifyIdea(req.user, idea)) {
-            return res.json(403, { message: "You are not allowed to modify this idea" });
+             return utils.sendErrorMessage(res, 403, "You are not allowed to modify this idea");
         };
 
         var projectUpdates = _.map(idea.projects, function(projectId) {
@@ -160,17 +161,17 @@ exports.remove = function(req, res) {
                 entity : req.params.id,
                 entityType : 'idea'
             });
-            myNotif.saveQ()
+            return myNotif.saveQ()
             .then(function() {
-                return tagController.updateTagCounts([], idea.tags);
+                return tagController.updateTagCounts("idea", [], idea.tags);
             }).then(function() {
                 res.json(200);
             });
         }).fail(function(err) {
-            res.json(500, err);
+            utils.sendError(res, 400, err);
         });
     }).fail(function(err) {
-        res.json(400, err);
+        utils.sendError(res, 400, err);
     });
 };
 
@@ -185,13 +186,11 @@ exports.follow = function(req, res) {
                 entity : idea._id,
                 entityType : 'idea'
             });
-            myNotif.saveQ().then(function() {
+            return myNotif.saveQ().then(function() {
                 res.json(idea);
-            }).fail(function(err) {
-                res.json(400, err);
             });
         }).fail(function(err) {
-            res.json(400, err);
+            utils.sendError(res, 400, err);
         });
 };
 
@@ -206,11 +205,11 @@ exports.unfollow = function(req, res) {
                 entity : idea._id,
                 entityType : 'idea'
             });
-            myNotif.saveQ().then(function() {
+            return myNotif.saveQ().then(function() {
                 res.json(idea);
             });
         }).fail(function(err) {
-            res.json(400, err);
+            utils.sendError(res, 400, err);
         });
 };
 
@@ -218,7 +217,7 @@ exports.like = function(req, res) {
     Idea.findOneQ({_id : req.params.id}).then(function(idea) {
         if(idea.owner != req.user._id && idea.likerIds.indexOf(req.user._id) < 0) {
             Idea.findOneAndUpdateQ({_id : req.params.id}, 
-            {$push : {likerIds : req.user._id}, 
+            {$addToSet : {likerIds : req.user._id}, 
             $pull : {dislikerIds : req.user._id}}).then(function(updated) {
                 var myNotif = new Notification({
                     type : 'like',
@@ -230,7 +229,7 @@ exports.like = function(req, res) {
                     res.json(updated);
                 });
             }).fail(function(err) {
-                res.json(400, err);
+                utils.sendError(res, 400, err);
             });
         }
         else {
@@ -244,7 +243,7 @@ exports.deleteLike = function(req, res) {
         {$pull : {likerIds : req.user._id}}).then(function(updated) {
             res.json(updated);
         }).fail(function(err) {
-            res.json(400, err);
+            utils.sendError(res, 400, err);
         });
 };
 
@@ -262,7 +261,7 @@ exports.dislike = function(req, res) {
     Idea.findOneQ({_id : req.params.id}).then(function(idea) {
         if(idea.owner != req.query.disliker && idea.dislikerIds.indexOf(req.query.disliker) < 0) {
             Idea.findOneAndUpdateQ({_id : req.params.id}, 
-                {$push : {dislikerIds : req.query.disliker}, 
+                {$addToSet : {dislikerIds : req.query.disliker}, 
                 $pull : {likerIds : req.query.disliker}}).then(function(updated) {
                     var myNotif = new Notification({
                         type : 'dislike',
@@ -274,7 +273,7 @@ exports.dislike = function(req, res) {
                         res.json(updated);
                     });
                 }).fail(function(err) {
-                    res.json(400, err);
+                    utils.sendError(res, 400, err);
                 });
         }
         else {
@@ -305,7 +304,7 @@ exports.getRatings = function(req, res) {
         };
         res.json([countLike, countDislike]);
     }).fail(function(err) {
-        res.json(400, err);
+        utils.sendError(res, 400, err);
     });
 };
 
@@ -318,7 +317,7 @@ exports.createLink = function(req, res) {
         ideaUpdateQuery = Idea.findOneAndUpdateQ({_id : req.params.id}, { $addToSet : {challenges: req.query.challenge }});
         containerUpdateQuery = Challenge.findOneAndUpdateQ({_id:req.query.challenge},{$addToSet : {ideas: req.params.id}});
     } else {
-        return res.json(403, "Please specify a project or challenge");
+        return utils.sendErrorMessage(res, 403, "Please specify a project or challenge");
     }
 
     q.all([ideaUpdateQuery, containerUpdateQuery])
@@ -331,7 +330,7 @@ exports.createLink = function(req, res) {
     }).then(function(idea) {
         res.json(idea);
     }).fail(function(err) {
-        res.json(400, err);
+        utils.sendError(res, 400, err);
     });
 };
 
@@ -344,7 +343,7 @@ exports.removeLink = function(req, res) {
         ideaUpdateQuery = Idea.findOneAndUpdateQ({_id : req.params.id}, { $pull : {challenges: req.query.challenge }});
         containerUpdateQuery = Challenge.findOneAndUpdateQ({_id:req.query.challenge},{$pull : {ideas: req.params.id}});
     } else {
-        return res.json(403, "Please specify a project or challenge");
+        return utils.sendErrorMessage(res, 403, "Please specify a project or challenge");
     }
 
     q.all([ideaUpdateQuery, containerUpdateQuery])
@@ -380,7 +379,7 @@ exports.popularIdeas = function(req, res) {
         }
     })
     .fail(function(err) {
-        res.json(500, err);
+        utils.sendError(res, 500, err);
     });
 };
 
@@ -395,7 +394,6 @@ exports.tagList = function(req, res) {
         }
         res.json(result);
     }).fail(function(err) {
-        res.json(400, err);
+        utils.sendError(res, 400, err);
     });
-
 };

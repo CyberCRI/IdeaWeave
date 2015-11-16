@@ -21,7 +21,10 @@
                         <label for="title">Title</label>
                         <input id="title" type="text" ng-model="pform.title" ng-change="titleChange(pform.title)"/>
                     </md-input-container>
-                    <tag-manager entity="pform"></tag-manager>
+
+                    <p>Tags</p>
+                    <tag-manager model="pform.tags"></tag-manager>
+
                     <ui-select ng-model="pform.localisation"
                                theme="selectize"
                                reset-search-input="false">
