@@ -21,7 +21,10 @@
                 Email is required
             </div>
         </div>
-        <tag-manager entity="signup"></tag-manager>
+
+        <p>Tags</p>
+        <tag-manager model="signup.tags"></tag-manager>
+
         <md-input-container>
             <label for="passwordR">Password</label>
             <input id="passwordR" type="password" ng-model="signup.password" required name="password"/>

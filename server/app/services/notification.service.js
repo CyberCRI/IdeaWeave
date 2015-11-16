@@ -7,6 +7,7 @@ var mongoose = require('mongoose-q')(),
     Note = mongoose.model('NoteLab'),
     User = mongoose.model('User'),
     Idea = mongoose.model('Idea'),
+    Tag = mongoose.model('Tag'),
     socket = require('../socket/main.socket.js'),
     emailer = require('../services/mailer.service'),
     config = require('../../config/config'),
@@ -15,54 +16,89 @@ var mongoose = require('mongoose-q')(),
 
 // Returns a promise
 function getUserIdsToNotify(notification) {
-    switch(notification.entityType) {
-        case "project":
-            return Project.findOneQ({ _id: notification.entity })
-            .then(function(project) {
-                return [project.owner.toString()].concat(toStringArray(project.members)).concat(toStringArray(project.followers));
-            });
-        case "challenge": 
-            return Challenge.findOneQ({ _id: notification.entity })
-            .then(function(challenge) {
-                return [challenge.owner.toString()].concat(toStringArray(challenge.followers));
-            });
-        case "idea": 
-            return Idea.findOneQ({ _id: notification.entity })
-            .then(function(idea) {
-                return [idea.owner.toString()].concat(toStringArray(idea.followers));
-            });
-        case "profile": 
-            return User.findOneQ({ _id: notification.entity })
-            .then(function(user) {
-                return [user.id.toString()].concat(toStringArray(user.followers));
-            });
-        case "note": 
-            return Note.findOneQ({ _id: notification.entity })
-            .then(function(note) {
-                var commentOwners = _.map(note.comments, function(comment) { return comment.owner.toString() });
-                return [note.owner.toString()].concat(commentOwners);
-            });
-        default:
-            throw new Error("Unknown notification type");
-    }
+    return User.findOneQ({ _id: notification.owner })
+    .then(function(user) {
+        return toStringArray(user.followers).concat(notification.owner.toString());
+    }).then(function(notificationOwnerFollowers) {
+        switch(notification.entityType) {
+            case "project":
+                return Project.findOneQ({ _id: notification.entity })
+                .then(function(project) {
+                    if(notification.type == "apply") {
+                        // Only the user and the project admins are interested
+                        return [notification.owner.toString()].concat(project.owner.toString(), toStringArray(project.members));
+                    }
+                    else {
+                        // Find users interested in project tags
+                        return getTagFollowerIds(project.tags)
+                        .then(function(tagFollowerIds) {
+                            // Alert everyone who might be interested
+                            return notificationOwnerFollowers.concat(project.owner.toString(), toStringArray(project.members), toStringArray(project.followers), tagFollowerIds);
+                        });
+                    }
+                });
+            case "challenge": 
+                return Challenge.findOneQ({ _id: notification.entity })
+                .then(function(challenge) {
+                    return getTagFollowerIds(challenge.tags)
+                    .then(function(tagFollowerIds) {
+                        return notificationOwnerFollowers.concat(challenge.owner.toString(), toStringArray(challenge.followers), tagFollowerIds);
+                    });
+                });
+            case "idea": 
+                return Idea.findOneQ({ _id: notification.entity })
+                .then(function(idea) {
+                    return getTagFollowerIds(idea.tags)
+                    .then(function(tagFollowerIds) {
+                        return notificationOwnerFollowers.concat(idea.owner.toString(), toStringArray(idea.followers), tagFollowerIds);
+                    });
+                });
+            case "profile": 
+                return User.findOneQ({ _id: notification.entity })
+                .then(function(user) {
+                    return notificationOwnerFollowers.concat(user.id.toString(), toStringArray(user.followers));
+                });
+            case "note": 
+                return Note.findOneQ({ _id: notification.entity })
+                .then(function(note) {
+                    var commentOwners = _.map(note.comments, function(comment) { return comment.owner.toString() });
+                    return notificationOwnerFollowers.concat(note.owner.toString(), commentOwners);
+                });
+            default:
+                console.error("Unknown notification type");
+                return notificationOwnerFollowers;
+        }
+    });
 }
 
 function toStringArray(documentArray) {
     return _.map(documentArray, function(doc) { return doc.toString() });
 }
 
-function cleanUpUserIds(notificationOwnerId, userIds) {
-    return _.chain(userIds).sortBy().uniq(true).without(notificationOwnerId).value();
+function cleanUpUserIds(userIds) {
+    return _.chain(userIds).sortBy().uniq(true).value();
+}
+
+function getTagFollowerIds(tags) {
+    // Find users interested in the given tags
+    return Tag.findQ({ _id: { $in: tags } }, "followers")
+    .then(function(tagFollowers) {
+        return  toStringArray(_.chain(tagFollowers).pluck("followers").flatten(true).value());
+    });
 }
 
 function onNotificationPosted(notification) {
     // Send around to only those interested
     getUserIdsToNotify(notification)
     .then(function(userIds) {
-        console.log("User IDs", userIds, "owner", notification.owner);
-        var cleanUserIds = cleanUpUserIds(notification.owner.toString(), userIds);
-        console.log("Sending notification to users", cleanUserIds);
+        var cleanUserIds = cleanUpUserIds(userIds);
 
+        // Only the join project notification should be sent to the user herself
+        if(notification.entityType != "project" || notification.type != "join") {
+            cleanUserIds = _.without(cleanUserIds, notification.owner.toString());
+        } 
+
+        console.log("Sending notification", notification.type, notification.entityType, "to users", cleanUserIds);
         _.forEach(cleanUserIds, function(userId) {
             sendNotification(notification, userId);
         });
@@ -80,25 +116,31 @@ function sendNotification(notification, userId) {
         if(socket.isConnected(userId) && user.liveNotification) {
             console.log("Sending live notification to user", userId);
             socket.sendNotification(notification, userId);
-        } else if(user.mailNotification) {
-            return prepareEmail(notification).then(function(mailContents) {
-                if(!mailContents) return;
+        } else {
+            // Record the unseen notification
+            return User.findOneAndUpdateQ({ _id: userId }, { $inc: { unseenNotificationCounter: 1 } }).then(function() {
+                // Send the mail notification if desired
+                if(user.mailNotification) {
+                    return prepareEmail(notification).then(function(mailContents) {
+                        if(!mailContents) return;
 
-                console.log("Sending mail notification to user", userId);
+                        console.log("Sending mail notification to user", userId);
 
-                var mail = {
-                    to: user.username + " <" + user.email + ">",
-                    subject: "IdeaWeave: " + mailContents.title,
-                    text: "Hi " + user.username + ",\n\n"
-                        + mailContents.body + "\n\n" 
-                        + "  " + config.clientBaseUrl + mailContents.link + "\n\n"
-                        + "Your friendly IdeaWeave robot.\n\n"
-                        + "---\n\n" 
-                        + "You are receiving this mail because you signed up for email notifications. " 
-                        + "To unsubscribe, go to your profile settings on " + config.clientBaseUrl + "/admin/myProfile " 
-                        + "and deselect \"email notifications\""
-                };
-                return emailer(mail);
+                        var mail = {
+                            to: user.username + " <" + user.email + ">",
+                            subject: "IdeaWeave: " + mailContents.title,
+                            text: "Hi " + user.username + ",\n\n"
+                                + mailContents.body + "\n\n" 
+                                + "  " + config.clientBaseUrl + mailContents.link + "\n\n"
+                                + "Your friendly IdeaWeave robot.\n\n"
+                                + "---\n\n" 
+                                + "You are receiving this mail because you signed up for email notifications. " 
+                                + "To unsubscribe, go to your profile settings on " + config.clientBaseUrl + "/admin/myProfile " 
+                                + "and deselect \"email notifications\""
+                        };
+                        return emailer(mail);
+                    });
+                }
             });
         }
     })
@@ -187,6 +229,18 @@ function prepareEmail(notification) {
                             return {
                                 title: "Project '" + project.title + "' has new links", 
                                 body: owner.username + " just added links to the project: " + project.title,
+                                link: "/project/" + project.accessUrl + "/home"
+                            };
+                        case "join":
+                            return {
+                                title: owner.username + " has joined project '" + project.title + "'", 
+                                body: owner.username + " just joined the project: " + project.title,
+                                link: "/project/" + project.accessUrl + "/home"
+                            };
+                        case "apply":
+                            return {
+                                title: owner.username + " would like to join your project '" + project.title + "'", 
+                                body: owner.username + " has applied to join your project: " + project.title + ". You can accept or decline the application on the project admin page.",
                                 link: "/project/" + project.accessUrl + "/home"
                             };
                     }

@@ -10,6 +10,7 @@ var fs = require('fs'),
     Challenge = mongoose.model('Challenge'),
     Idea = mongoose.model('Idea'),
     Notification = mongoose.model('Notification');
+    utils = require('../services/utils.service');
 
 // NOTES
 
@@ -29,14 +30,14 @@ exports.listNotes = function(req,res){
     } else if(req.query.idea) {
         query = NoteLab.find({ idea : req.query.idea });
     } else {
-        return res.json(403, "Please specify a project, challenge, or idea");
+        return utils.sendErrorMessage(res, 403, "Please specify a project, challenge, or idea");
     }
 
     query.sort("-createDate").populate("owner", "username").populate("comments.owner", "username").execQ().then(function(notes){
         res.json(notes);
     }).fail(function(err){
-        res.json(500, err);
-    });        
+        utils.sendError(res, 500, err);
+    });
 
 };
 
@@ -45,7 +46,7 @@ exports.fetchNote = function(req,res){
         if(!note) return res.send(400);
         res.json(note);
     }).fail(function(err){
-        res.json(500,err);
+        utils.sendError(res, 500, err);
     })
 };
 
@@ -59,7 +60,7 @@ exports.createNote = function(req,res){
     } else if(req.body.idea) {
         containerUpdateQuery = Idea.findOneAndUpdateQ({_id:req.body.idea},{$inc:{noteNumber : 1}});
     } else {
-        res.json(403, "Please specify a project, challenge, or idea");
+        return utils.sendErrorMessage(res, 403, "Please specify a project, challenge, or idea");
     }
 
     // TODO: Check that the current user can write notes in this project or challenge (is owner or contributor)
@@ -80,7 +81,7 @@ exports.createNote = function(req,res){
             res.json(200, data[0]);
         });
     }).fail(function(err) {
-        res.json(400,err);
+        utils.sendError(res, 400, err);
     });
 };
 
@@ -88,7 +89,7 @@ exports.updateNote = function(req,res){
     // Get the current note
     NoteLab.findOneQ({ _id : req.params.id }).then(function(note){
         if(!note) return res.send(400);
-        if(!canModifyNote(req.user, note)) return res.json(403, "You are not allowed to modify this note");
+        if(!canModifyNote(req.user, note)) return utils.sendErrorMessage(res, 403, "You are not allowed to modify this note");
 
         // Update the text and modification date
         note.text = req.body.text;
@@ -108,7 +109,7 @@ exports.updateNote = function(req,res){
             });
         });
     }).fail(function(err){
-        res.json(500,err);
+        utils.sendError(res, 500, err);
     });
 };
 
@@ -116,7 +117,7 @@ exports.removeNote = function(req,res){
     // Get the current note
     NoteLab.findOneQ({ _id : req.params.id }).then(function(note){
         if(!note) return res.send(400);
-        if(!canModifyNote(req.user, note)) return res.json(403, "You are not allowed to modify this note");
+        if(!canModifyNote(req.user, note)) return utils.sendErrorMessage(res, 403, "You are not allowed to modify this note");
 
         // Notes are attached to projects or challenges
         var containerUpdateQuery;
@@ -127,7 +128,7 @@ exports.removeNote = function(req,res){
         } else if(note.idea) {
             ideaUpdateQuery = Idea.findOneAndUpdateQ({_id:req.body.challenge},{$dec:{noteNumber : 1}});
         } else {
-            res.json(500, "Note does not specify a project, challenge, or idea");
+            return utils.sendErrorMessage(res, 400, "Note does not specify a project, challenge, or idea");
         }
 
         return q.all([note.removeQ(), containerUpdateQuery]).then(function() {
@@ -143,7 +144,7 @@ exports.removeNote = function(req,res){
             });
         });
     }).fail(function(err){
-        res.json(500,err);
+        utils.sendError(res, 500, err);
     });
 };
 
@@ -163,7 +164,7 @@ exports.listComments = function(req,res){
 
         res.json(note.comments);
     }).fail(function(err){
-        res.json(500,err);
+        utils.sendError(res, 500, err);
     });
 };
 
@@ -176,7 +177,7 @@ exports.fetchComment = function(req,res){
 
         res.json(comment);
     }).fail(function(err){
-        res.json(500,err);
+        utils.sendError(res, 500, err);
     });
 };
 
@@ -209,7 +210,7 @@ exports.createComment = function(req,res){
             });
         });
     }).fail(function(err){
-        res.json(500,err);
+        utils.sendError(res, 500, err);
     });
 };
 
@@ -219,7 +220,7 @@ exports.updateComment = function(req,res){
 
         var comment = note.comments.id(req.params.commentId);
         if(!comment) return res.send(400);
-        if(!canModifyComment(req.user, comment)) return res.json(403, "You are not allowed to modify this comment");
+        if(!canModifyComment(req.user, comment)) return utils.sendErrorMessage(res, 403, "You are not allowed to modify this comment");
 
         // Update the text and modification date
         comment.text = req.body.text;
@@ -241,7 +242,7 @@ exports.updateComment = function(req,res){
             });
         });
     }).fail(function(err){
-        res.json(500,err);
+        utils.sendError(res, 500, err);
     });
 };
 
@@ -251,7 +252,7 @@ exports.removeComment = function(req,res){
 
         var comment = note.comments.id(req.params.commentId);
         if(!comment) return res.send(400);
-        if(!canModifyComment(req.user, comment)) return res.json(403, "You are not allowed to modify this comment");
+        if(!canModifyComment(req.user, comment)) return utils.sendErrorMessage(res, 403, "You are not allowed to modify this comment");
 
         comment.remove();
 
@@ -268,7 +269,7 @@ exports.removeComment = function(req,res){
             });
         });
     }).fail(function(err){
-        res.json(500,err);
+        utils.sendError(res, 500, err);
     });
 };
 

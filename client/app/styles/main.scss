@@ -65,6 +65,16 @@ header{
   color: $baseColor;
 }
 
+.fa-icon-size {
+  font-size: 30px;
+}
+
+.rounded-poster {
+  width: 50px;
+  height: 50px;
+  border-radius: 100%;
+}
+
 .top-bar-icon {
   margin-left: 10px;
 }
@@ -85,6 +95,10 @@ header{
 .top-bar-icon-svg {
   width: 24px; 
   height: 31px;
+}
+
+.no-margin {
+  margin: 0px;
 }
 
 .top-bar-icon .tooltip-topbar-icon {
