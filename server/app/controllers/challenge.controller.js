@@ -148,7 +148,7 @@ exports.fetch = function(req,res){
     }else if(req.query._id) {
             switch(req.query.type){
                 case 'card':
-                    Challenge.find({_id : req.query._id}).select('_id title brief accessUrl tags poster followers startDate endDate projects owner like dislike').populate('tags').execQ().then(function(data){
+                    Challenge.find({_id : req.query._id}).select('_id title brief accessUrl tags poster followers startDate endDate projects owner likers').populate('tags').execQ().then(function(data){
 
                         res.json(data);
                     }).catch(function(err){

@@ -1,11 +1,11 @@
 <a ui-sref="project.home({ pid : project.accessUrl })">
     <img ng-src="{{project.poster || '/images/placeholder100x100.png'}}" alt="Project poster" class="md-card-image" width="100%">
 </a>
-<md-button class="md-fab md-mini like" onclick="likeButton()">
-    &#x25B2;
+<md-button class="md-fab md-mini follow md-raised" ng-click="follow()" ng-class="{ 'md-accent' : isFollow }" ng-if="currentUser && !isOwner">
+    <i class="fa fa-eye"></i>
 </md-button>
-<md-button class="md-fab md-mini dislike" onclick="disLikeButton()">
-    &#x25BC;
+<md-button class="md-fab md-mini like md-raised" ng-click="like()" ng-class="{ 'md-accent' : isLike }" ng-if="currentUser && !isOwner">
+    <i class="fa fa-thumbs-up"></i>
 </md-button>
 <md-content layout-padding style="cursor:hand;">
     <md-button ng-if="isAdmin()" class="md-raised" ui-sref="project.admin({ pid : project.accessUrl })" style="font-size:0.6em; display:inline;">
@@ -30,19 +30,11 @@
             </span>
             &nbsp;&nbsp;&nbsp;
             <span style="font-size:0.7em;">
-                {{ project.like }}
+                {{ project.likers.length }}
             </span>
             &nbsp;
             <span style="font-size:0.7em;">
                 Like
-            </span>
-            &nbsp;&nbsp;&nbsp;
-            <span style="font-size:0.7em;">
-                {{ project.dislike }}
-            </span>
-            &nbsp;
-            <span style="font-size:0.7em;">
-                Dislike
             </span>
         </div>
         <br>

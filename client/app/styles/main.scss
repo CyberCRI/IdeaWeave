@@ -135,12 +135,14 @@ header{
   position: absolute;
   /*top: -32px;*/
   margin-top: -30px;
-  margin-left: 20px;
+  margin-left: 100px;
+  z-index: 100;
 }
 
-.dislike {
+.follow {
   position: absolute;
   /*top: -32px;*/
   margin-top: -30px;
-  margin-left: 190px;
+  margin-left: 200px;
+  z-index: 100;
 }

@@ -37,7 +37,7 @@ exports.getByTag = function(req,res){
     function completeQuery(query) {
         query.limit(req.query.limit)
             .skip(req.query.skip)
-            .select('_id createDate accessUrl title brief owner tags followers members poster')
+            .select('_id createDate accessUrl title brief owner tags likers followers members poster')
             .sort('-createDate')
             .populate('tags')
             .execQ().then(function(projects){

@@ -128,7 +128,7 @@ angular.module('cri.admin.project',[])
                     project : $scope.project
                 },
                 controller : function($scope,project){
-                    $scope.projectTitle = project.title
+                    $scope.projectTitle = project.title;
 
                     $scope.delete = function(){
                         Project.delete(project._id).then(function(){
