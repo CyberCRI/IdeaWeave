@@ -82,7 +82,7 @@ angular.module('cri.challenge')
                 currentUser: '='
             },
             templateUrl:'modules/challenge/directives/challengeBlock/challenge-more-card.tpl.html',
-            controller : ['$scope','Challenge','Notification','$rootScope','$analytics',function($scope,Challenge,Notification,$rootScope,$analytics){
+            controller : function($scope,Challenge,Notification,$rootScope,$analytics){
                 if($scope.challengeId){
                     Challenge.fetch( { _id : $scope.challengeId, type : 'card' }).then(function(challenge){
                         $scope.challenge = challenge[0];
@@ -94,21 +94,15 @@ angular.module('cri.challenge')
                 }
 
                 var updateChallenge = function() {
-                    $scope.isFollow = $scope.currentUser ?  _.chain($scope.challenge.followers).pluck("_id").contains($scope.currentUser._id).value() : false;
-                    $scope.isLike = $scope.currentUser ?  _.contains($scope.challenge.likers,$scope.currentUser._id) : false;
+                    $scope.isFollow = $scope.currentUser ? _.chain($scope.challenge.followers).pluck("_id").contains($scope.currentUser._id).value() : false;
+                    $scope.isLike = $scope.currentUser ? _.contains($scope.challenge.likers,$scope.currentUser._id) : false;
                 };
 
-                $scope.$watch('challenge',updateChallenge);
+                $scope.$watch('challenge', updateChallenge);
 
-                $scope.follow=function(){
-                    console.log("follow");
-                    var param;
+                $scope.follow = function() {
                     if($scope.isFollow){
-                        param = {
-                            follower : $scope.currentUser._id,
-                            following : $scope.challenge._id
-                        };
-                        Challenge.unfollow(param).then(function(result){
+                        Challenge.unfollow($scope.currentUser._id, $scope.challenge._id).then(function(result){
                             Notification.display('You will no longer be notified about this challenge');
                             $scope.challenge.followers.splice($scope.challenge.followers.indexOf($scope.currentUser._id),1);
                             $scope.isFollow=false;
@@ -117,11 +111,7 @@ angular.module('cri.challenge')
                             Notification.display(err.message);
                         });
                     }else{
-                        param = {
-                            follower : $scope.currentUser._id,
-                            following : $scope.challenge._id
-                        };
-                        Challenge.follow(param).then(function(result){
+                        Challenge.follow($scope.currentUser._id, $scope.challenge._id).then(function(result){
                             Notification.display('You will now be notified about this challenge');
                             $scope.challenge.followers.push($scope.currentUser._id);
                             $scope.isFollow=true;
@@ -133,8 +123,6 @@ angular.module('cri.challenge')
                 };
 
                 $scope.like=function(){
-                    console.log("like");
-                    console.log($scope.isLike);
                     if($scope.isLike){
                         Challenge.dislike($scope.challenge._id).then(function(result){
                             Notification.display('You no longer like this challenge');
@@ -161,7 +149,7 @@ angular.module('cri.challenge')
 
                     return $scope.challenge.owner == $scope.currentUser._id;
                 };
-            }]
+            }
         };
     })
     .directive('challengeCard',[function(){
@@ -193,14 +181,8 @@ angular.module('cri.challenge')
                 $scope.$watch('challenge',updateChallenge);
 
                 $scope.follow=function(){
-                    console.log("follow");
-                    var param;
                     if($scope.isFollow){
-                        param = {
-                            follower : $scope.currentUser._id,
-                            following : $scope.challenge._id
-                        };
-                        Challenge.unfollow(param).then(function(result){
+                        Challenge.unfollow($scope.currentUser._id, $scope.challenge._id).then(function(result){
                             Notification.display('You will no longer be notified about this challenge');
                             $scope.challenge.followers.splice($scope.challenge.followers.indexOf($scope.currentUser._id),1);
                             $scope.isFollow=false;
@@ -209,11 +191,7 @@ angular.module('cri.challenge')
                             Notification.display(err.message);
                         });
                     }else{
-                        param = {
-                            follower : $scope.currentUser._id,
-                            following : $scope.challenge._id
-                        };
-                        Challenge.follow(param).then(function(result){
+                        Challenge.follow($scope.currentUser._id, $scope.challenge._id).then(function(result){
                             Notification.display('You will now be notified about this challenge');
                             $scope.challenge.followers.push($scope.currentUser._id);
                             $scope.isFollow=true;
@@ -225,8 +203,6 @@ angular.module('cri.challenge')
                 };
 
                 $scope.like=function(){
-                    console.log("like");
-                    console.log($scope.isLike);
                     if($scope.isLike){
                         Challenge.dislike($scope.challenge._id).then(function(result){
                             Notification.display('You no longer like this challenge');

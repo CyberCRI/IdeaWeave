@@ -22,6 +22,11 @@
                 <show-tags model="profile.tags" style="margin-left: 50px;"></show-tags>
 
                 <md-divider></md-divider>
+                <h3>Badges</h3>
+                <badge-card ng-repeat="credit.badge for credit in badges">
+                </badge-card>
+
+                <md-divider></md-divider>
                 <h3>Presentation</h3>
                 <div ng-bind-html="profile.secureBrief"></div>
 
