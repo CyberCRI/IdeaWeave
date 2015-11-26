@@ -74,7 +74,11 @@ var UserSchema = new Schema({
     lastSeenNotificationDate: {
         type: Date,
         default: Date.now
-    }
+    },
+    twitterId: String,
+    facebookId: String,
+    googlePlusId: String,
+    websiteUrl: String
 });
 
 UserSchema.statics.random = function() {
