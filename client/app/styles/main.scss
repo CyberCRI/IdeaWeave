@@ -146,3 +146,16 @@ header{
   margin-left: 200px;
   z-index: 100;
 }
+
+.link-no-decoration {
+  text-decoration: none;
+  color: black;
+}
+
+.contact-card {
+  min-width: 280px;
+  max-width: 280px;
+  display: inline-block;
+  margin: 40px;
+  padding: 10px;
+}

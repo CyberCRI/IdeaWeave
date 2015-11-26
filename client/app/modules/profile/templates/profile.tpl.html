@@ -30,6 +30,25 @@
                 <h3>Presentation</h3>
                 <div ng-bind-html="profile.secureBrief"></div>
 
+                <div layout="row" layout-align="space-between center">
+                    <div ng-if="profile.twitterId">
+                        <i class="fa fa-twitter-square baseColor"></i>
+                        <a ng-href="https://twitter.com/{{profile.twitterId}}" target="_blank">@{{ profile.twitterId }}</a>
+                    </div>
+                    <div ng-if="profile.facebookId">
+                        <i class="fa fa-facebook-square baseColor"></i>
+                        <a ng-href="https://facebook.com/{{profile.facebookId}}"  target="_blank">{{ profile.facebookId }}</a>
+                    </div>
+                    <div ng-if="profile.googlePlusId">
+                        <i class="fa fa-google-plus-square baseColor"></i>
+                        <a ng-href="https://plus.google.com/+{{profile.googlePlusId}}"  target="_blank">+{{ profile.googlePlusId }}</a>
+                    </div>
+                    <div ng-if="profile.websiteUrl">
+                        <i class="fa fa-external-link-square baseColor"></i>
+                        <a ng-href="{{profile.websiteUrl}}" target="_blank">{{ profile.websiteUrl }}</a>
+                    </div>
+                </div>
+
                 <md-divider></md-divider>
                 <h3>Contributions</h3>
                 <div ng-if="moreData.challenges.length > 0">

@@ -221,7 +221,7 @@ exports.update = function(req,res){
     Challenge.findOneQ({ _id: req.params.id }).then(function(challenge) {
         if(!canModifyChallenge(req.user, challenge)) return utils.sendErrorMessage(res, 403, "You are not allowed to modify this challenge");
 
-        var updateObj = _.pick(req.body, ["brief", "webPage", "startDate", "EndDate", "localisation", "banner", "home", "showProgress", "progress", "tags"]);
+        var updateObj = _.pick(req.body, ["brief", "webPage", "startDate", "EndDate", "localisation", "banner", "poster", "home", "showProgress", "progress", "tags"]);
 
         return Challenge.findOneAndUpdateQ({ _id : req.params.id }, updateObj).then(function(data){
             return tagController.updateTagCounts("challenge", data.tags, challenge.tags).then(function() {

@@ -23,6 +23,9 @@
     <link rel="stylesheet" href="vendors/angular-carousel/dist/angular-carousel.css">
     <link rel="stylesheet" href="vendors/angular-material/angular-material.css"/>
     <link rel="stylesheet" href="styles/main.css">
+    <script type="text/javascript">var switchTo5x=true;</script>
+    <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
+    <script type="text/javascript">stLight.options({publisher: "a0063f66-4da0-4218-ba21-08b5cb95253e", doNotHash: false, doNotCopy: false, hashAddressBar: false});</script>
     <!-- endbuild -->
 </head>
 <body layout="row" layout-fill ng-controller="BodyCtrl">
@@ -68,6 +71,10 @@
                     &nbsp;
                 </div>
                 <search-bar flex></search-bar>
+                <a ng-cloak ui-sref="feed" ng-if="currentUser" style="color: #036;" class="top-bar-icon">
+                    <i class="fa fa-flag fa-2x"></i>
+                    <div class="tooltip-topbar-icon">notifications</div>
+                </a>
                 <md-button ng-cloak ui-sref="signin" class="md-raised md-primary" ng-if="!currentUser">
                     <i class="fa fa-sign-in"> Sign In</i>
                 </md-button>
@@ -77,11 +84,18 @@
                         <p>&nbsp;{{ currentUser.realname || currentUser.username }}</p>
                     </div>
                 </md-button>
+
+                <a ng-cloak ui-sref="contactPage" style="color: #036;margin-left:0px;" class="top-bar-icon">
+                    <i class="fa fa-question fa-2x"></i>
+                    <div class="tooltip-topbar-icon">contact</div>
+                </a>
+
                 <a ng-cloak ui-sref="feed" ng-if="currentUser" style="color: #036;" class="top-bar-icon">
                     <i class="fa fa-flag fa-2x"></i>
                     <span ng-if="unseenNotificationCounter > 0" class="badge">{{ unseenNotificationCounter > 99 ? "99+" : unseenNotificationCounter}}</span>
                     <div class="tooltip-topbar-icon">notifications</div>
                 </a>
+
                 <md-button ng-cloak ng-if="currentUser" id="signout" class="md-raised md-warn" ng-click="signout()" >
                     <i class="fa fa-sign-out">Signout</i>
                 </md-button>
