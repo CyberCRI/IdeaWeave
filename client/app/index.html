@@ -70,30 +70,28 @@
                     </a>
                     &nbsp;
                 </div>
+
                 <search-bar flex></search-bar>
-                <a ng-cloak ui-sref="feed" ng-if="currentUser" style="color: #036;" class="top-bar-icon">
-                    <i class="fa fa-flag fa-2x"></i>
-                    <div class="tooltip-topbar-icon">notifications</div>
-                </a>
+
                 <md-button ng-cloak ui-sref="signin" class="md-raised md-primary" ng-if="!currentUser">
                     <i class="fa fa-sign-in"> Sign In</i>
                 </md-button>
                 <md-button ui-sref="profile({ uid : currentUser._id })" class="cursor-hand md-primary" id="miniProfil" ng-if="currentUser">
                     <div div layout="row" ng-cloak layout-align="center center">
-                        <img ng-src="{{ currentUser.poster || 'images/avater.jpg' }}" alt="{{ currentUser.username }}'s photo" class="img-rounded"/>
+                        <img ng-src="{{ currentUser.poster || 'images/avater.jpg' }}" alt="{{ currentUser.username }}'s photo" class="img-rounded-top-bar" style="margin-top: -40px;border-radius : 100%;"/>
                         <p>&nbsp;{{ currentUser.realname || currentUser.username }}</p>
                     </div>
                 </md-button>
-
-                <a ng-cloak ui-sref="contactPage" style="color: #036;margin-left:0px;" class="top-bar-icon">
-                    <i class="fa fa-question fa-2x"></i>
-                    <div class="tooltip-topbar-icon">contact</div>
-                </a>
 
                 <a ng-cloak ui-sref="feed" ng-if="currentUser" style="color: #036;" class="top-bar-icon">
                     <i class="fa fa-flag fa-2x"></i>
                     <span ng-if="unseenNotificationCounter > 0" class="badge">{{ unseenNotificationCounter > 99 ? "99+" : unseenNotificationCounter}}</span>
                     <div class="tooltip-topbar-icon">notifications</div>
+                </a>
+
+                <a ng-cloak ui-sref="contactPage" style="color: #036" class="top-bar-icon">
+                    <i class="fa fa-question fa-2x"></i>
+                    <div class="tooltip-topbar-icon">contact</div>
                 </a>
 
                 <md-button ng-cloak ng-if="currentUser" id="signout" class="md-raised md-warn" ng-click="signout()" >

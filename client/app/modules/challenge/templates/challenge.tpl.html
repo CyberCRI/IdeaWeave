@@ -8,11 +8,10 @@
                     </h1>
                 </div>
 
-                <div ng-if="isFollow">
-                    <i class="fa fa-star baseColor"></i> Following
-                </div>
-
-                <md-button class="md-fab md-raised" ng-click="follow()" style="position:absolute; right:20px; z-index: inherit" ng-class="{ 'md-accent' : isFollow }" ng-if="currentUser && !isOwner">
+                <md-button class="md-fab md-raised" ng-click="follow()" style="bottom:-24px;position:absolute; right:20px;z-index : inherit" ng-class="{ 'md-accent' : isFollow }" ng-if="currentUser">
+                    <i class="fa fa-eye"></i>
+                </md-button>
+                <md-button class="md-fab md-raised" ng-click="like()" style="bottom:-24px;position:absolute; right:90px;z-index : inherit" ng-class="{ 'md-accent' : isLike }" ng-if="currentUser">
                     <i class="fa fa-thumbs-up"></i>
                 </md-button>
             </md-toolbar>
@@ -64,6 +63,12 @@
                             </span>
                             <span class="text-muted">
                                 &nbsp;projects
+                            </span>
+                            <span>
+                                {{ challenge.likers.length }}
+                            </span>
+                            <span class="text-muted">
+                                &nbsp;likes
                             </span>
                         </div>
                     </div>

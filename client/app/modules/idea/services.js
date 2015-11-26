@@ -74,7 +74,25 @@ angular.module('cri.idea')
                 defered.reject(err);
             });
             return defered.promise;
-        }, 
+        },
+        like : function(id){
+            var defered = $q.defer();
+            $http.put(Config.apiServer+URI+'/'+id+'/like').success(function(data){
+                defered.resolve(data);
+            }).error(function(err){
+                defered.reject(err);
+            });
+            return defered.promise;
+        },
+        dislike : function(id){
+            var defered = $q.defer();
+            $http.put(Config.apiServer+URI+'/'+id+'/dislike').success(function(data){
+                defered.resolve(data);
+            }).error(function(err){
+                defered.reject(err);
+            });
+            return defered.promise;
+        },
         addLinkToProject : function(id, projectId){
             var defered = $q.defer();
             $http.post(Config.apiServer+URI+'/'+id+'/link?project='+projectId).success(function(data){

@@ -131,6 +131,22 @@ header{
   margin: auto;
 }
 
+.like {
+  position: absolute;
+  /*top: -32px;*/
+  margin-top: -30px;
+  margin-left: 100px;
+  z-index: 100;
+}
+
+.follow {
+  position: absolute;
+  /*top: -32px;*/
+  margin-top: -30px;
+  margin-left: 200px;
+  z-index: 100;
+}
+
 .link-no-decoration {
   text-decoration: none;
   color: black;

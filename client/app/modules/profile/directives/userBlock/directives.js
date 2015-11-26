@@ -9,7 +9,7 @@ angular.module('cri.profile')
             templateUrl:'modules/profile/directives/userBlock/user-info.tpl.html',
             controller : function($scope,Profile){
                 if($scope.userId){
-                    Profile.fetch( { _id : $scope.userId, type : 'info' }).then(function(user){
+                    Profile.fetch( { _id : $scope.userId, type : 'card' }).then(function(user){
                         $scope.user = user[0];
                     }).catch(function(err){
                         console.log('error',err);
@@ -79,9 +79,11 @@ angular.module('cri.profile')
             },
             templateUrl:'modules/profile/directives/userBlock/user-card.tpl.html',
             controller : function($scope,Profile) {
+                console.log('ici le controller');
                 if($scope.userId){
                     Profile.fetch( { _id : $scope.userId, type : 'card' }).then(function(user){
                         $scope.user = user[0];
+                        console.log(user[0]);
                     }).catch(function(err){
                         console.log('error',err);
                     });

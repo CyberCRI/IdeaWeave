@@ -99,6 +99,7 @@ function onNotificationPosted(notification) {
         } 
 
         console.log("Sending notification", notification.type, notification.entityType, "to users", cleanUserIds);
+
         _.forEach(cleanUserIds, function(userId) {
             sendNotification(notification, userId);
         });

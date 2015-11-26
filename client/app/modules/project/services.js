@@ -155,6 +155,24 @@ angular.module('cri.project')
                 defered.reject(err);
             });
             return defered.promise;
+        },
+        like: function(projectId){
+            var defered = $q.defer();
+            $http.post(Config.apiServer+'/projects/'+projectId+'/like').success(function(data){
+                defered.resolve(data);
+            }).error(function(err){
+                defered.reject(err);
+            });
+            return defered.promise;
+        },
+        dislike: function(projectId){
+            var defered = $q.defer();
+            $http.post(Config.apiServer+'/projects/'+projectId+'/unlike').success(function(data){
+                defered.resolve(data);
+            }).error(function(err){
+                defered.reject(err);
+            });
+            return defered.promise;
         }
     };
     return service;
