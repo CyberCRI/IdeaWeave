@@ -25,24 +25,31 @@
 }
 
 
-.hidden{
+.hidden {
   display: none;
 }
 
-.img-rounded{
+.img-rounded {
   border-radius : 100%;
 }
 
-.img-rounded{
+.img-rounded {
   border-radius : 100%;
   width: 40px;
-  top: 20px;
   position: relative;
+}
+
+.img-rounded-top-bar {
+  border-radius : 100%;
+  width: 40px;
+  position: relative;
+  top: 20px;
 }
 
 .username-info-card{
   color: black;
   text-decoration: none;
+  top: 5px;
 }
 
 .menu {
