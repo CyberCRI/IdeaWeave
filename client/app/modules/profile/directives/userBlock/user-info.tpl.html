@@ -1,6 +1,6 @@
-<a style="margin-left:20px;font-size:0.7em;color:#3e50b4;" ui-sref="profile({ uid : user._id })">
+<div layout="row" layout-align="start center" layout-margin ui-sref="profile({ uid : user._id })" class="cursor-hand">
     <img ng-src="{{user.poster || '/images/placeholder300x300.png'}}" class="img-rounded">
     <md-button class="username-info-card" ui-sref="profile({ uid : user._id})">
         {{ user.username }}
     </md-button>
-</a>
+</div>
