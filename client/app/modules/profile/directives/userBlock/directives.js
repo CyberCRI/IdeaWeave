@@ -11,7 +11,6 @@ angular.module('cri.profile')
                 if($scope.userId){
                     Profile.fetch( { _id : $scope.userId, type : 'card' }).then(function(user){
                         $scope.user = user[0];
-                        console.log(user[0]);
                     }).catch(function(err){
                         console.log('error',err);
                     });
