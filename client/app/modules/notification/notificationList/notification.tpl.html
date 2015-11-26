@@ -35,6 +35,18 @@
         </span>
         <idea-info my-idea="notification.entity"></idea-info>
     </div>
+    <div ng-if="notification.entityType == 'idea' && notification.type == 'like'" layout="row" layout-align="center center">
+        <span>
+            Liked the idea
+        </span>
+        <idea-info my-idea="notification.entity"></idea-info>
+    </div>
+    <div ng-if="notification.entityType == 'idea' && notification.type == 'dislike'" layout="row" layout-align="center center">
+        <span>
+            Dislikes the idea
+        </span>
+        <idea-info my-idea="notification.entity"></idea-info>
+    </div>
 
     <div ng-if="notification.entityType == 'challenge' && notification.type == 'create'" layout="row" layout-align="center center">
         <span>
@@ -65,6 +77,18 @@
         </span>
         <challenge-info my-challenge="notification.entity"></challenge-info>
     </div>
+    <div ng-if="notification.entityType == 'challenge' && notification.type == 'like'" layout="row" layout-align="center center">
+        <span>
+            Likes the challenge
+        </span>
+        <challenge-info my-challenge="notification.entity"></challenge-info>
+    </div>
+    <div ng-if="notification.entityType == 'challenge' && notification.type == 'unlike'" layout="row" layout-align="center center">
+        <span>
+            No longer likes the challenge
+        </span>
+        <challenge-info my-challenge="notification.entity"></challenge-info>
+    </div>
 
     <div ng-if="notification.entityType == 'project' && notification.type == 'create'" layout="row" layout-align="center center">
         <span>
@@ -92,6 +116,18 @@
     <div ng-if="notification.entityType == 'project' && notification.type == 'unfollow'" layout="row" layout-align="center center">
         <span>
             Unfollowed the project
+        </span>
+        <project-info my-project="notification.entity"></project-info>
+    </div>
+    <div ng-if="notification.entityType == 'project' && notification.type == 'like'" layout="row" layout-align="center center">
+        <span>
+            Likes the project
+        </span>
+        <project-info my-project="notification.entity"></project-info>
+    </div>
+    <div ng-if="notification.entityType == 'project' && notification.type == 'unlike'" layout="row" layout-align="center center">
+        <span>
+            No longer likes the project
         </span>
         <project-info my-project="notification.entity"></project-info>
     </div>
