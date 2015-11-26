@@ -21,7 +21,7 @@
     "gulp-minify-html": "*",
     "gulp-ng-annotate": "*",
     "gulp-rev": "*",
-    "gulp-sass": "0.7.3",
+    "gulp-sass": "^2.1.0",
     "gulp-uglify": "*",
     "gulp-usemin": "*",
     "gulp-util": "^3.0.0",
