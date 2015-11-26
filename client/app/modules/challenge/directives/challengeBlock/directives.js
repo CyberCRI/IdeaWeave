@@ -94,6 +94,8 @@ angular.module('cri.challenge')
                 }
 
                 var updateChallenge = function() {
+                    if(!$scope.challenge) return;
+
                     $scope.isFollow = $scope.currentUser ? _.chain($scope.challenge.followers).pluck("_id").contains($scope.currentUser._id).value() : false;
                     $scope.isLike = $scope.currentUser ? _.contains($scope.challenge.likers,$scope.currentUser._id) : false;
                 };

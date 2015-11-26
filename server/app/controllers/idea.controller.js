@@ -216,7 +216,7 @@ exports.unfollow = function(req, res) {
 exports.like = function(req, res) {
     Idea.findOneQ({_id : req.params.id}).then(function(idea) {
         if(idea.owner != req.user._id && idea.likerIds.indexOf(req.user._id) < 0) {
-            Idea.findOneAndUpdateQ({_id : req.params.id}, 
+            return Idea.findOneAndUpdateQ({_id : req.params.id}, 
             {$addToSet : {likerIds : req.user._id}, 
             $pull : {dislikerIds : req.user._id}}).then(function(updated) {
                 var myNotif = new Notification({
@@ -225,7 +225,7 @@ exports.like = function(req, res) {
                     entity : idea._id,
                     entityType : 'idea'
                 });
-                myNotif.saveQ().then(function() {
+                return myNotif.saveQ().then(function() {
                     res.json(updated);
                 });
             }).fail(function(err) {
@@ -259,17 +259,17 @@ exports.getLikes = function(req, res) {
 
 exports.dislike = function(req, res) {
     Idea.findOneQ({_id : req.params.id}).then(function(idea) {
-        if(idea.owner != req.query.disliker && idea.dislikerIds.indexOf(req.query.disliker) < 0) {
-            Idea.findOneAndUpdateQ({_id : req.params.id}, 
-                {$addToSet : {dislikerIds : req.query.disliker}, 
-                $pull : {likerIds : req.query.disliker}}).then(function(updated) {
+        if(idea.owner != req.user._id && idea.dislikerIds.indexOf(req.user._id) < 0) {
+            return Idea.findOneAndUpdateQ({_id : req.params.id}, 
+                {$addToSet : {dislikerIds : req.user._id}, 
+                $pull : {likerIds : req.user._id}}).then(function(updated) {
                     var myNotif = new Notification({
                         type : 'dislike',
-                        owner : req.query.disliker,
+                        owner : req.user._id,
                         entity : idea._id,
                         entityType : 'idea'
                     });
-                    myNotif.saveQ().then(function() {
+                    return myNotif.saveQ().then(function() {
                         res.json(updated);
                     });
                 }).fail(function(err) {

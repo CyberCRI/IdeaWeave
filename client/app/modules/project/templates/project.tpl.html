@@ -8,10 +8,10 @@
                     </h1>
                 </div>
 
-                <md-button class="md-fab md-raised" ng-click="follow()" style="bottom:-24px;position:absolute; right:20px;z-index : inherit" ng-class="{ 'md-accent' : isFollow }" ng-if="currentUser && !isOwner">
+                <md-button class="md-fab md-raised" ng-click="follow()" style="bottom:-24px;position:absolute; right:20px;z-index : inherit" ng-class="{ 'md-accent' : isFollow }" ng-if="currentUser">
                     <i class="fa fa-eye"></i>
                 </md-button>
-                <md-button class="md-fab md-raised" ng-click="like()" style="bottom:-24px;position:absolute; right:90px;z-index : inherit" ng-class="{ 'md-accent' : isLike }" ng-if="currentUser && !isOwner">
+                <md-button class="md-fab md-raised" ng-click="like()" style="bottom:-24px;position:absolute; right:90px;z-index : inherit" ng-class="{ 'md-accent' : isLike }" ng-if="currentUser">
                     <i class="fa fa-thumbs-up"></i>
                 </md-button>
             </md-toolbar>
@@ -49,7 +49,7 @@
                         </span>
                             &nbsp;
                         <span class="text-muted">
-                            like
+                            likes
                         </span>
                             &nbsp;
                         <span>
