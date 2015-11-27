@@ -8,46 +8,16 @@
     <i class="fa fa-thumbs-up"></i>
 </md-button>
 <md-content layout-padding style="cursor:hand;">
-    <md-button ng-if="isAdmin()" class="md-raised" ui-sref="project.admin({ pid : project.accessUrl })" style="font-size:0.6em; display:inline;">
-        <i class="fa fa-gears"></i>
-        Admin
-    </md-button>
     <a style="text-decoration: none; color: black;" ui-sref="project.home({ pid : project.accessUrl })">
-        <h4 style="margin: 0;font-size:1.3em;">{{ project.title }}</h4>
+        <h4 class="md-title" style="margin: 0">{{ project.title }}</h4>
     </a>
     <div font-size="font-size:0.7em;" class="text-muted" layout="row" style="margin:2px;" layout-align="start center">
             <span style="margin:2px;font-size:0.7em;">By:</span>
         <user-info ng-if="project.owner" user-id="project.owner" flex></user-info>
     </div>
-    <div layout="row" style="margin-top: 5px;">
-        <div flex layout="row" class="text-muted">
-            <span style="font-size:0.7em;">
-                {{ project.followers.length }}
-            </span>
-            &nbsp;
-            <span style="font-size:0.7em;">
-                Followers
-            </span>
-            &nbsp;&nbsp;&nbsp;
-            <span style="font-size:0.7em;">
-                {{ project.likers.length }}
-            </span>
-            &nbsp;
-            <span style="font-size:0.7em;">
-                Like
-            </span>
-        </div>
-        <br>
-        &nbsp;
-        &nbsp;
-        <div flex layout="row" class="text-muted">
-            <span style="font-size:0.7em;">
-                {{ project.members.length }}
-            </span>
-            &nbsp;
-            <span style="font-size:0.7em;" class="text-muted">
-                Members
-            </span>
-        </div>
+    <div layout="row" layout-align="space-between center" style="margin-top: 5px;" >
+        <span class="md-caption">{{ project.members.length }} members</span>
+        <span class="md-caption">{{ project.followers.length }} followers</span>
+        <span class="md-caption">{{ project.likers.length }} likes</span>
     </div>
 </md-content>

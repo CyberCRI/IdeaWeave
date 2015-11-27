@@ -8,47 +8,17 @@
     <i class="fa fa-thumbs-up"></i>
 </md-button>
 <md-content layout-padding style="cursor:hand;">
-    <div>
-        <md-button class="md-raised" style="font-size:0.6em;display:inline;" ng-if="isAdmin()" ui-sref="challengeAdmin({ cid : challenge._id })">
-            <i class="fa fa-gears"></i>
-            Admin
-        </md-button>
-    </div>
     <a style="text-decoration: none; color: black;" ui-sref="challenge({ cid : challenge.accessUrl })">
-        <h4 style="margin: 0;font-size:1.3em;">{{ challenge.title }}</h4>
+        <h4 class="md-title" style="margin: 0px">{{ challenge.title }}</h4>
     </a>
-    <div font-size="font-size:0.7em;" class="text-muted" layout="row" style="margin:2px;" layout-align="start center">
-        <span style="margin:2px;font-size:0.7em;">By:</span>
-        <user-info ng-if="challenge.owner" user-id="challenge.owner" flex></user-info>
+    <div class="text-muted" layout="row" style="margin:2px;" layout-align="space-around center">
+        <span style="margin:2px;font-size:0.7em;">Created by</span>
+        <user-block ng-if="challenge.owner" user-id="challenge.owner" flex="33"></user-block>
     </div>
-    <div layout="row" style="margin-top: 5px;">
-        <div flex layout="row" class="text-muted">
-            <span style="font-size:0.7em;">
-                {{ challenge.followers.length }}
-            </span>
-            &nbsp;
-            <span style="font-size:0.7em;">
-                Followers
-            </span>
-            &nbsp;&nbsp;&nbsp;
-            <span style="font-size:0.7em;">
-                {{ challenge.like }}
-            </span>
-            &nbsp;
-            <span style="font-size:0.7em;">
-                Like
-            </span>
-            &nbsp;&nbsp;&nbsp;
-            <span style="font-size:0.7em;">
-                {{ challenge.dislike }}
-            </span>
-            &nbsp;
-            <span style="font-size:0.7em;">
-                Dislike
-            </span>
-        </div>
-        &nbsp;
-        &nbsp;
+    <div layout="row" layout-align="space-between center" style="margin-top: 5px;" class="text-muted">
+        <span class="md-caption">{{ challenge.followers.length }} followers</span>
+        <span class="md-caption">{{ challenge.likers.length }} likes</span>
+        <span class="md-caption">{{ challenge.projects.length }} projects</span>
     </div>
     <div flex>
         <p ng-if="challenge.startDate < now && challenge.endDate > now" >

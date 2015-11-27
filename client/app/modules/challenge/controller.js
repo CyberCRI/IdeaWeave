@@ -108,7 +108,6 @@ angular.module('cri.challenge', ['ngSanitize'])
             });
             angular.forEach($scope.challenge.likers,function(user){
                 if(user == $scope.currentUser._id){
-                    console.log("ISLIKECHALLENGE: ",user);
                     $scope.isLike = true;
                 }
             });

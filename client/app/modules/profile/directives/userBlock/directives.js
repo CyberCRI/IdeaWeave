@@ -79,7 +79,6 @@ angular.module('cri.profile')
             },
             templateUrl:'modules/profile/directives/userBlock/user-card.tpl.html',
             controller : function($scope,Profile) {
-                console.log('ici le controller');
                 if($scope.userId){
                     Profile.fetch( { _id : $scope.userId, type : 'card' }).then(function(user){
                         $scope.user = user[0];

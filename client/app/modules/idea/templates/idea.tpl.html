@@ -63,6 +63,18 @@
                         </div>
                     </div>
 
+                    <div layout="row" layout-align="start center">
+                        <div>Created by</div>
+                        <user-info my-user="idea.owner"></user-info>
+                    </div>
+
+                    <div layout="row" layout-align="start center">
+                        <div>Followed by</div>
+                        <div layout="row" layout-wrap>
+                            <user-info my-user="follower" ng-repeat="follower in idea.followers"></user-info>
+                        </div>
+                    </div>
+
                     <div layout="column">
                         <show-tags model="idea.tags"></show-tags>
 

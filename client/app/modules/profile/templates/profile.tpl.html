@@ -5,13 +5,12 @@
                 <img ng-src="{{ profile.poster || 'images/avater.jpg' }}" alt="{{ profile.username }}'s photo" class="img-rounded img-profile-page"/>
                 <h3 style="margin-top:0;margin-bottom:0;font-size:50px;">
                    {{ profile.realname || profile.username }}
-                    <i style="color:yellow" class="fa" ng-class="{ 'fa-star' : isFollowing }"></i>
                 </h3>
-                <p style="text-align:right;">
+                <p>
                     {{ profile.followers.length }} followers . {{ profile.followings.length }} following
                 </p>
-                <md-button class="md-fab md-accent" ng-click="follow()" style="bottom:-24px;position:absolute; right:20px;z-index : inherit" ng-if="!isOwner">
-                    <i class="fa" ng-class="{ 'fa-thumbs-up' : !isFollowing, 'fa-thumbs-down' : isFollowing }"></i>
+                <md-button class="md-fab md-raised" ng-click="follow()" style="bottom:-24px;position:absolute; right:20px;z-index : inherit" ng-class="{ 'md-accent' : isFollowing }" ng-if="!isOwner">
+                    <i class="fa fa-thumbs-up"></i>
                 </md-button>
             </md-toolbar>
 
@@ -20,11 +19,6 @@
                     <i class="fa fa-pencil-square-o baseColor"></i> Edit
                 </md-button>
                 <show-tags model="profile.tags" style="margin-left: 50px;"></show-tags>
-
-                <md-divider></md-divider>
-                <h3>Badges</h3>
-                <badge-card ng-repeat="credit.badge for credit in badges">
-                </badge-card>
 
                 <md-divider></md-divider>
                 <h3>Presentation</h3>
@@ -46,6 +40,13 @@
                     <div ng-if="profile.websiteUrl">
                         <i class="fa fa-external-link-square baseColor"></i>
                         <a ng-href="{{profile.websiteUrl}}" target="_blank">{{ profile.websiteUrl }}</a>
+                    </div>
+                </div>
+
+                <div layout="row" layout-align="start center">
+                    <div>Followed by</div>
+                    <div layout="row" layout-wrap>
+                        <user-info my-user="follower" ng-repeat="follower in profile.followers"></user-info>
                     </div>
                 </div>
 

@@ -64,6 +64,25 @@
 
                 <show-tags model="project.tags"></show-tags>
 
+                <div layout="row" layout-align="start center">
+                    <div>Created by</div>
+                    <user-info my-user="project.owner"></user-info>
+                </div>
+
+                <div layout="row" layout-align="start center">
+                    <div>Members</div>
+                    <div layout="row" layout-wrap>
+                        <user-info my-user="member" ng-repeat="member in project.members"></user-info>
+                    </div>
+                </div>
+
+                <div layout="row" layout-align="start center">
+                    <div>Followed by</div>
+                    <div layout="row" layout-wrap>
+                        <user-info my-user="follower" ng-repeat="follower in project.followers"></user-info>
+                    </div>
+                </div>
+
                 <section flex ui-view="projectView"></section>
             </md-content>
         </section>
