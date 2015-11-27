@@ -77,7 +77,7 @@ angular.module('cri.project')
                 myProject : '=',
                 currentUser : '='
             },
-            controller : function($scope,Project){
+            controller : function($scope,Project,Notification,$rootScope,$analytics){
                 if($scope.projectId){
                     Project.fetch( { _id : $scope.projectId, type : 'card' }).then(function(project){
                         $scope.project = project[0];
@@ -88,11 +88,73 @@ angular.module('cri.project')
                     $scope.project = $scope.myProject;
                 }
 
+                var updateProject = function() {
+                    $scope.isFollow = $scope.currentUser ?  _.chain($scope.project.followers).pluck("_id").contains($scope.currentUser._id).value() : false;
+                    $scope.isLike = $scope.currentUser ?  _.contains($scope.project.likers,$scope.currentUser._id) : false;
+                };
+
+                $scope.$watch('project',updateProject);
+
                 $scope.isAdmin = function() {
                     if(!$scope.project || !$scope.currentUser) return false;
 
                     return $scope.project.owner == $scope.currentUser._id || _.contains($scope.project.members, $scope.currentUser._id);
                 }; 
+                $scope.follow=function(){
+                    console.log("follow");
+                    var param;
+                    if($scope.isFollow){
+                        param = {
+                            follower : $scope.currentUser._id,
+                            following : $scope.project._id
+                        };
+                        Project.unfollow(param).then(function(result){
+                            Notification.display('You will no longer be notified about this project');
+                            $scope.project.followers.splice($scope.project.followers.indexOf($scope.currentUser._id),1);
+                            $scope.isFollow=false;
+                            $analytics.eventTrack("unfollowProject");
+                        }).catch(function(err){
+                            Notification.display(err.message);
+                        });
+                    }else{
+                        param = {
+                            follower : $scope.currentUser._id,
+                            following : $scope.project._id
+                        };
+                        Project.follow(param).then(function(result){
+                            Notification.display('You will now be notified about this project');
+                            $scope.project.followers.push($scope.currentUser._id);
+                            $scope.isFollow=true;
+                            $analytics.eventTrack("followProject");
+                        }).catch(function(err){
+                            Notification.display(err.message);
+                        });
+                    }
+                };
+
+                $scope.like=function(){
+                    console.log("like");
+                    console.log($scope.isLike);
+                    if($scope.isLike){
+                        Project.dislike($scope.project._id).then(function(result){
+                            Notification.display('You no longer like this project');
+                            $scope.project.likers.splice($scope.project.likers.indexOf($scope.currentUser._id),1);
+                            $scope.isLike=false;
+                            $analytics.eventTrack("dislikeProject");
+                        }).catch(function(err){
+                            Notification.display(err.message);
+                        });
+                    }else{
+                        Project.like($scope.project._id).then(function(result){
+                            Notification.display('You like this project');
+                            $scope.project.likers.push($scope.currentUser._id);
+                            $scope.isLike=true;
+                            $analytics.eventTrack("likeProject");
+                        }).catch(function(err){
+                            Notification.display(err.message);
+                        });
+                    }
+                };
             }
         };
     }]);

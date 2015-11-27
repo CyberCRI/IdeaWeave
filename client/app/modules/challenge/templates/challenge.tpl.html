@@ -8,17 +8,15 @@
                     </h1>
                 </div>
 
-                <div ng-if="isFollow">
-                    <i class="fa fa-star baseColor"></i> Following
-                </div>
-
-                <md-button class="md-fab md-raised" ng-click="follow()" style="position:absolute; right:20px; z-index: inherit" ng-class="{ 'md-accent' : isFollow }" ng-if="currentUser && !isOwner">
+                <md-button class="md-fab md-raised" ng-click="follow()" style="bottom:-24px;position:absolute; right:20px;z-index : inherit" ng-class="{ 'md-accent' : isFollow }" ng-if="currentUser">
+                    <i class="fa fa-eye"></i>
+                </md-button>
+                <md-button class="md-fab md-raised" ng-click="like()" style="bottom:-24px;position:absolute; right:90px;z-index : inherit" ng-class="{ 'md-accent' : isLike }" ng-if="currentUser">
                     <i class="fa fa-thumbs-up"></i>
                 </md-button>
             </md-toolbar>
 
             <md-content layout="column" layout-fill layout-padding>
-
                 <div layout="row" layout-align="center center">
                     <img ng-if="challenge.banner" src="{{ challenge.banner }}" >
                 </div>
@@ -65,13 +63,31 @@
                             <span class="text-muted">
                                 &nbsp;projects
                             </span>
+                            <span>
+                                {{ challenge.likers.length }}
+                            </span>
+                            <span class="text-muted">
+                                &nbsp;likes
+                            </span>
                         </div>
                     </div>
                 </div>
 
-                <div flex>
-                    <show-tags model="challenge.tags"></show-tags>
+                <show-tags model="challenge.tags"></show-tags>
 
+                <div layout="row" layout-align="start center">
+                    <div>Created by</div>
+                    <user-info my-user="challenge.owner"></user-info>
+                </div>
+
+                <div layout="row" layout-align="start center">
+                    <div>Followed by</div>
+                    <div layout="row" layout-wrap>
+                        <user-info my-user="follower" ng-repeat="follower in challenge.followers"></user-info>
+                    </div>
+                </div>
+
+                <div flex>
                     <list-notes challenge="challenge" current-user="currentUser"></list-notes>
 
                     <h3>Related Projects</h3>

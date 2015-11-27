@@ -1,11 +1,6 @@
-<div class="item-block-container" ng-mouseenter="hoverEnter($event)" ng-mouseleave="hoverLeave($event)" ui-sref="profile({ uid : user._id })" style="margin:0px!important">
-    <img ng-src="{{ user.poster || '/images/placeholder100x100.png' }}" ng-style="{}" width="100%" alt="" style="border-radius: 50%;"/>
+<div class="item-block-container cursor-hand" ng-mouseenter="hoverEnter($event)" ng-mouseleave="hoverLeave($event)" ui-sref="profile({ uid : user._id })" style="margin:0px!important">
+    <img ng-src="{{ user.poster || '/images/placeholder100x100.png' }}" width="100%" alt="" style="border-radius: 50%;"/>
     <div ng-if="block.isHovered" style="text-align: center;">
         {{user.realname || user.username}}
     </div>
-    <!--<div class="item-block center" ng-if="block.isHovered" ng-style="{ height : blockHeight}" style="border-radius: 50%; font-size:1em;" layout="column" layout-align="center center">-->
-        <!--<span style="font-size:1em;" class="center" >-->
-            <!--{{user.realname || user.username}}-->
-        <!--</span>-->
-    <!--</div>-->
 </div>

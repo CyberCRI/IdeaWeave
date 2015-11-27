@@ -45,8 +45,8 @@ exports.getPoster = function(req,res){
 
 exports.follow = function(req,res){
     q.all([
-        User.findOneAndUpdateQ({ _id : req.body.following },{$push : { followers : req.user._id }}),
-        User.findOneAndUpdateQ({ _id : req.user._id },{$push : { followings : req.body.following }})
+        User.findOneAndUpdateQ({ _id : req.body.following },{$addToSet : { followers : req.user._id }}),
+        User.findOneAndUpdateQ({ _id : req.user._id },{$addToSet : { followings : req.body.following }})
     ]).then(function(data){
         var myNotif =  new Notification({
             type : 'follow',

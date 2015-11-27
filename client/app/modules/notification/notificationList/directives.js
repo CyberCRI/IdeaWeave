@@ -4,7 +4,8 @@ angular.module('cri.common')
         restrict: 'E',
         scope: {
             notification: '=',
-            highlight: '='
+            highlight: '=',
+            brief: '=?' // If true, shows less info
         },
         templateUrl:'modules/notification/notificationList/notification.tpl.html'
     };

@@ -23,9 +23,11 @@ module.exports = function(app) {
         .put(utils.ensureAuthenticated,challenge.replaceTemplate)
         .delete(utils.ensureAuthenticated,challenge.deleteTemplate)
 
-
     app.get('/challenges/tag/:tag',challenge.getByTag);
 
     app.post('/challenges/follow',utils.ensureAuthenticated,challenge.follow);
     app.post('/challenges/unfollow',utils.ensureAuthenticated,challenge.unfollow);
+
+    app.post('/challenges/:challengeId/like',utils.ensureAuthenticated,challenge.like);
+    app.post('/challenges/:challengeId/unlike',utils.ensureAuthenticated,challenge.unlike);
 };
