@@ -73,9 +73,6 @@
 
                 <search-bar flex></search-bar>
 
-                <md-button ng-cloak ui-sref="signin" class="md-raised md-primary" ng-if="!currentUser">
-                    <i class="fa fa-sign-in"> Sign In</i>
-                </md-button>
                 <md-button ui-sref="profile({ uid : currentUser._id })" class="cursor-hand md-primary" id="miniProfil" ng-if="currentUser">
                     <div div layout="row" ng-cloak layout-align="center center">
                         <img ng-src="{{ currentUser.poster || 'images/avater.jpg' }}" alt="{{ currentUser.username }}'s photo" class="img-rounded-top-bar" style="margin-top: -40px;border-radius : 100%;"/>
@@ -93,6 +90,10 @@
                     <i class="fa fa-question fa-2x"></i>
                     <div class="tooltip-topbar-icon">contact</div>
                 </a>
+
+                <md-button ng-cloak ui-sref="signin" class="md-raised md-primary" ng-if="!currentUser">
+                    <i class="fa fa-sign-in"> Sign In</i>
+                </md-button>
 
                 <md-button ng-cloak ng-if="currentUser" id="signout" class="md-raised md-warn" ng-click="signout()" >
                     <i class="fa fa-sign-out">Signout</i>
