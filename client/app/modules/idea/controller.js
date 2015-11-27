@@ -50,10 +50,6 @@ angular.module('cri.idea', ['ngSanitize'])
         $scope.idea = idea;
         $scope.isOwner = ($scope.currentUser && $scope.currentUser._id == idea.owner._id);
         $scope.isLike = $scope.currentUser ? _.contains($scope.idea.likerIds,$scope.currentUser._id) : false;
-        console.log()
-        console.log("currentUser: ",$scope.currentUser._id);
-        console.log("likerIds: ",$scope.idea.likerIds);
-        console.log("isLike: ",$scope.isLike);
 
         $scope.challenges = challenges;
         $scope.projects = projects;
@@ -69,7 +65,6 @@ angular.module('cri.idea', ['ngSanitize'])
         }
 
         $scope.follow = function () {
-            console.log(Idea,idea);
             var promise = $scope.isFollowing() ? Idea.unfollow(idea._id) : Idea.follow(idea._id);
             promise.then(function(data) {
                 idea.followers = data.followers;
@@ -88,7 +83,6 @@ angular.module('cri.idea', ['ngSanitize'])
         $scope.like=function(){
             if($scope.isLike){
                 Idea.dislike($scope.idea._id).then(function(result){
-                    console.log($scope.idea);
                     Notification.display('You no longer like this idea');
                     $scope.idea.likerIds.splice($scope.idea.likerIds.indexOf($scope.currentUser._id),1);
                     $scope.isLike=false;
@@ -98,7 +92,6 @@ angular.module('cri.idea', ['ngSanitize'])
                 });
             }else{
                 Idea.like($scope.idea._id).then(function(result){
-                    console.log($scope.idea);
                     Notification.display('You like this idea');
                     idea.likerIds.push($scope.currentUser._id);
                     $scope.isLike=true;

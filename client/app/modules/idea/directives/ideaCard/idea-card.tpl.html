@@ -2,7 +2,13 @@
     <a ui-sref="idea({ iid : idea._id })">
         <h4>{{ idea.title }}</h4>
     </a>
+        <i class="fa fa-eye"></i>
+    </md-button>
+    <md-button class="md-fab md-mini like md-raised" ng-click="like()" ng-class="{ 'md-accent' : isLike }" ng-if="currentUser">
+        <i class="fa fa-thumbs-up"></i>
+    </md-button>
     <div class="text-muted" layout="row">
+    <md-button class="md-fab md-mini follow md-raised" ng-click="follow()" ng-class="{ 'md-accent' : isFollow }" ng-if="currentUser">
         <div>
             By:
         </div>
