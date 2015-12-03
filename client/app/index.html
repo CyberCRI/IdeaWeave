@@ -23,12 +23,13 @@
     <link rel="stylesheet" href="vendors/angular-carousel/dist/angular-carousel.css">
     <link rel="stylesheet" href="vendors/angular-material/angular-material.css"/>
     <link rel="stylesheet" href="styles/main.css">
+
     <script type="text/javascript">var switchTo5x=true;</script>
     <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
     <script type="text/javascript">stLight.options({publisher: "a0063f66-4da0-4218-ba21-08b5cb95253e", doNotHash: false, doNotCopy: false, hashAddressBar: false});</script>
     <!-- endbuild -->
 </head>
-<body layout="row" layout-fill ng-controller="BodyCtrl">
+<body layout="column" layout-fill ng-controller="BodyCtrl">
 <!--[if lt IE 10]>
       <p class="alert alert-warning">For better user experience,please use one of these browers :
     <a href="http://www.google.com/chrome/" target="_blank">Google Chrome</a>
@@ -36,80 +37,80 @@
         <a href="http://www.opera.com/" target="_blank">Opera</a></li>
       </p>
 <![endif]-->
-
-    <div layout="column" layout-fill>
-        <md-toolbar ng-controller="HeaderCtrl" class="md-whiteframe-z1 main-header">
-            <div class="md-toolbar-tools">
-                <a ui-sref="home">
-                    <img src="images/svg/logoheader.svg" height="50px" alt="IdeaWeaves"/>
-                </a>
-                <div layout="row" layout-align="start end" >
-                    <a ui-sref="ideas({ tag :'all' })" class="top-bar-icon">
-                        <md-icon class="top-bar-icon-svg" md-svg-src="images/svg/ideas.svg">
-                        </md-icon>
-                        <div class="tooltip-topbar-icon">ideas</div>
-                    </a>
-                    <a ui-sref="createIdea" ng-if="currentUser._id">
-                        <img src="images/add.png" class="add-icon"/>
-                    </a>
-
-                    <a ui-sref="challenges.list({ tag :'all' })" class="top-bar-icon">
-                        <md-icon class="top-bar-icon-svg" md-svg-src="images/svg/challenges.svg"></md-icon>
-                        <div class="tooltip-topbar-icon">challenges</div>
-                    </a>
-                    <a ui-sref="challengeSuggest" ng-if="currentUser._id">
-                        <img src="images/add.png" class="add-icon"/>
-                    </a>
-
-                    <a ui-sref="projects.list({ tag :'all' })" class="top-bar-icon">
-                        <i class="fa fa-rocket idea-icon"></i>
-                        <div class="tooltip-topbar-icon">projects</div>
-                    </a>
-                    <a ui-sref="projectCreation" ng-if="currentUser._id">
-                        <img src="images/add.png" class="add-icon"/>
-                    </a>
-                    &nbsp;
-                </div>
-
-                <search-bar flex></search-bar>
-
-                <md-button ui-sref="profile({ uid : currentUser._id })" class="cursor-hand md-primary" id="miniProfil" ng-if="currentUser">
-                    <div div layout="row" ng-cloak layout-align="center center">
-                        <img ng-src="{{ currentUser.poster || 'images/avater.jpg' }}" alt="{{ currentUser.username }}'s photo" class="img-rounded-top-bar" style="margin-top: -40px;border-radius : 100%;"/>
-                        <p>&nbsp;{{ currentUser.realname || currentUser.username }}</p>
-                    </div>
-                </md-button>
-
-                <a ng-cloak ui-sref="feed" ng-if="currentUser" style="color: #036;" class="top-bar-icon">
-                    <i class="fa fa-flag fa-2x"></i>
-                    <span ng-if="unseenNotificationCounter > 0" class="badge">{{ unseenNotificationCounter > 99 ? "99+" : unseenNotificationCounter}}</span>
-                    <div class="tooltip-topbar-icon">notifications</div>
-                </a>
-
-                <a ng-cloak ui-sref="contactPage" style="color: #036" class="top-bar-icon">
-                    <i class="fa fa-question fa-2x"></i>
-                    <div class="tooltip-topbar-icon">contact</div>
-                </a>
-
-                <md-button ng-cloak ui-sref="signin" class="md-raised md-primary" ng-if="!currentUser">
-                    <i class="fa fa-sign-in"> Sign In</i>
-                </md-button>
-
-                <md-button ng-cloak ng-if="currentUser" id="signout" class="md-raised md-warn" ng-click="signout()" >
-                    <i class="fa fa-sign-out">Signout</i>
-                </md-button>
-            </div>
-        </md-toolbar>
-
-        <section layout="row" layout-fill ng-controller="LeftNavCtrl">
-            <md-sidenav ng-cloak ng-show="sideNavTemplateUrl" class="md-sidenav-left md-whiteframe-z2" md-is-locked-open="true">
-                <ng-include src="sideNavTemplateUrl" flex layout="column" layout-fill>
-                </ng-include>
-            </md-sidenav>
-            <section ui-view="mainView" layout="column" layout-fill class="right-part"></section>
-        </section>
+    <div id="loading-screen" ng-show="isLoading">
+        <md-progress-circular md-mode="indeterminate" id="loading-progress-bar"></md-progress-circular> 
     </div>
 
+    <md-toolbar ng-controller="HeaderCtrl" class="md-whiteframe-z1 main-header">
+        <div class="md-toolbar-tools">
+            <a ui-sref="home">
+                <img src="images/svg/logoheader.svg" height="50px" alt="IdeaWeave"/>
+            </a>
+            <div layout="row" layout-align="start end" >
+                <a ui-sref="ideas({ tag :'all' })" class="top-bar-icon">
+                    <md-icon class="top-bar-icon-svg" md-svg-src="images/svg/ideas.svg">
+                    </md-icon>
+                    <div class="tooltip-topbar-icon">ideas</div>
+                </a>
+                <a ui-sref="createIdea" ng-if="currentUser._id">
+                    <img src="images/add.png" class="add-icon"/>
+                </a>
+
+                <a ui-sref="challenges.list({ tag :'all' })" class="top-bar-icon">
+                    <md-icon class="top-bar-icon-svg" md-svg-src="images/svg/challenges.svg"></md-icon>
+                    <div class="tooltip-topbar-icon">challenges</div>
+                </a>
+                <a ui-sref="challengeSuggest" ng-if="currentUser._id">
+                    <img src="images/add.png" class="add-icon"/>
+                </a>
+
+                <a ui-sref="projects.list({ tag :'all' })" class="top-bar-icon">
+                    <i class="fa fa-rocket idea-icon"></i>
+                    <div class="tooltip-topbar-icon">projects</div>
+                </a>
+                <a ui-sref="projectCreation" ng-if="currentUser._id">
+                    <img src="images/add.png" class="add-icon"/>
+                </a>
+                &nbsp;
+            </div>
+
+            <search-bar flex></search-bar>
+
+            <md-button ui-sref="profile({ uid : currentUser._id })" class="cursor-hand md-primary" id="miniProfil" ng-if="currentUser">
+                <div div layout="row" ng-cloak layout-align="center center">
+                    <img ng-src="{{ currentUser.poster || 'images/avater.jpg' }}" alt="{{ currentUser.username }}'s photo" class="img-rounded-top-bar" style="margin-top: -40px;border-radius : 100%;"/>
+                    <p>&nbsp;{{ currentUser.realname || currentUser.username }}</p>
+                </div>
+            </md-button>
+
+            <a ng-cloak ui-sref="feed" ng-if="currentUser" style="color: #036;" class="top-bar-icon">
+                <i class="fa fa-flag fa-2x"></i>
+                <span ng-if="unseenNotificationCounter > 0" class="badge">{{ unseenNotificationCounter > 99 ? "99+" : unseenNotificationCounter}}</span>
+                <div class="tooltip-topbar-icon">notifications</div>
+            </a>
+
+            <a ng-cloak ui-sref="contactPage" style="color: #036" class="top-bar-icon">
+                <i class="fa fa-question fa-2x"></i>
+                <div class="tooltip-topbar-icon">contact</div>
+            </a>
+
+            <md-button ng-cloak ui-sref="signin" class="md-raised md-primary" ng-if="!currentUser">
+                <i class="fa fa-sign-in"> Sign In</i>
+            </md-button>
+
+            <md-button ng-cloak ng-if="currentUser" id="signout" class="md-raised md-warn" ng-click="signout()" >
+                <i class="fa fa-sign-out">Signout</i>
+            </md-button>
+        </div>
+    </md-toolbar>
+
+    <section layout="row" layout-fill ng-controller="LeftNavCtrl">
+        <md-sidenav ng-cloak ng-show="sideNavTemplateUrl" class="md-sidenav-left md-whiteframe-z2" md-is-locked-open="true">
+            <ng-include src="sideNavTemplateUrl" flex layout="column" layout-fill>
+            </ng-include>
+        </md-sidenav>
+        <section ui-view="mainView" layout="column" layout-fill class="right-part"></section>
+    </section>
 
     <script src="vendors/tinymce-dist/tinymce.min.js"></script>
     <script src="vendors/tinymce-dist/themes/modern/theme.min.js"></script>
