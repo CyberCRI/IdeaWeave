@@ -142,11 +142,14 @@ angular.module('cri.admin.challenge',[])
         });
 
         $scope.badges = [];
-        Badge.listBadges().then(function(badges) { 
-            $scope.badges = badges;
-        }).catch(function(err) { 
-            console.error(err); 
-        });
+        function updateBadges() {
+            Badge.listBadges().then(function(badges) { 
+                $scope.badges = badges;
+            }).catch(function(err) { 
+                console.error(err); 
+            });
+        }
+        updateBadges();
 
         $scope.popUpGiveBadge = function(badge) {
             $mdDialog.show({
@@ -154,7 +157,7 @@ angular.module('cri.admin.challenge',[])
                 escapeToClose: true,
                 clickOutsideToClose: true,
                 locals: { 
-                    challenge: $scope.challenge
+                    challenge: $scope.challenge,
                 },
                 controller: function($scope, challenge) {
                     $scope.badge = badge;
@@ -188,6 +191,47 @@ angular.module('cri.admin.challenge',[])
                            $mdDialog.hide();
                         }).catch(function(err) {
                             Notification.display('Error giving badge');
+                        });
+                    };
+                    $scope.cancel = function(){
+                        $mdDialog.hide();
+                    };
+                }
+            });
+        };
+
+        $scope.popUpCreateBadge = function() {
+            $mdDialog.show({
+                templateUrl: 'modules/badge/templates/create-badge-modal.tpl.html',
+                escapeToClose: true,
+                clickOutsideToClose: true,
+                locals: { 
+                    challenge: $scope.challenge
+                },
+                controller: function($scope, challenge, Files, Notification) {
+                    $scope.badge = {};
+
+                    $scope.$watch('selectedFiles', function () {
+                        if(!$scope.selectedFiles) return;
+
+                        var file = $scope.selectedFiles[0];
+                        if(Files.isImage(file)){
+                            Files.getDataUrl(file).then(function(dataUrl){
+                                $scope.badge.image = dataUrl;
+                            });
+                        } else {
+                            Notification.display('Not an image');
+                        }
+                        $scope.selectedFiles = null;
+                    });
+
+                    $scope.create = function() {
+                        return Badge.createBadge($scope.badge).then(function(data) {
+                           updateBadges();
+                           Notification.display('Badge created');
+                           $mdDialog.hide();
+                        }).catch(function(err) {
+                            Notification.display('Error creating badge');
                         });
                     };
                     $scope.cancel = function(){

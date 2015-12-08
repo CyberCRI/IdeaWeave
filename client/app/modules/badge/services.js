@@ -11,6 +11,9 @@ angular.module('cri.badge', [])
     }
 
     var service = {
+        createBadge: function(badge) {
+            return makeQPromiseForRequest($http.post(Config.apiServer + "/badges", badge));
+        },
         listBadges: function() {
             return makeQPromiseForRequest($http.get(Config.apiServer + "/badges"));
         },

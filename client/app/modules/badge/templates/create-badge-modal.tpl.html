@@ -1,0 +1,31 @@
+<md-dialog>
+    <md-toolbar layout="row" layout-align="">
+        <div layout layout-align="start center">
+            <span flex>Create Badge</span>
+            <md-button class="md-fab" ng-click="create()" ng-disabled="createBadgeForm.$invalid">
+                <i class="fa fa-share"></i>
+            </md-button>
+            <md-button class="md-fab" ng-click="cancel()">
+                <i class="fa fa-times"></i>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-content flex>
+        <p class="center">Create Badge</p>
+
+        <form name="createBadgeForm">
+            <md-input-container>
+                <label>Title</label>
+                <input type="text" ng-model="badge.title" required>
+            </md-input-container>
+            <md-input-container>
+                <label>Description</label>
+                <textarea ng-model="badge.description" required></textarea>
+            </md-input-container>
+        
+            <div class="dropbox" ngf-drop ng-model="selectedFiles" ngf-drag-over-class="dropbox-dragover" style="background-image:url({{ badge.image }})" flex></div>
+            <md-button ngf-select ng-model="selectedFiles">Pick file or drop above</md-button>
+
+        </form>
+    </md-content>
+</md-dialog>
