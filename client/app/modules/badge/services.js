@@ -14,8 +14,11 @@ angular.module('cri.badge', [])
         createBadge: function(badge) {
             return makeQPromiseForRequest($http.post(Config.apiServer + "/badges", badge));
         },
-        listBadges: function() {
-            return makeQPromiseForRequest($http.get(Config.apiServer + "/badges"));
+        updateBadge: function(badge) {
+            return makeQPromiseForRequest($http.put(Config.apiServer + "/badges/" + badgeId, badge));
+        },
+        listBadges: function(filter) {
+            return makeQPromiseForRequest($http.get(Config.apiServer + "/badges", { params: filter }));
         },
         getBadge: function(badgeId) {
             return makeQPromiseForRequest($http.get(Config.apiServer + "/badges/" + badgeId));

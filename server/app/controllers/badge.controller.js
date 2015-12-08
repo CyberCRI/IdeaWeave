@@ -63,7 +63,9 @@ function populateCredits(credits) {
 }
 
 exports.list = function(req, res) {
-    Badge.findQ()
+    var filter = _.pick(req.query, ["owner", "title"]);
+
+    Badge.findQ(filter)
     .then(function(badges) {
         res.json(badges);
     }).fail(function(err) {

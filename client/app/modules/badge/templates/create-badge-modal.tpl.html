@@ -1,8 +1,8 @@
 <md-dialog>
     <md-toolbar layout="row" layout-align="">
         <div layout layout-align="start center">
-            <span flex>Create Badge</span>
-            <md-button class="md-fab" ng-click="create()" ng-disabled="createBadgeForm.$invalid">
+            <span flex>{{ title }}</span>
+            <md-button class="md-fab" ng-click="done()" ng-disabled="createBadgeForm.$invalid">
                 <i class="fa fa-share"></i>
             </md-button>
             <md-button class="md-fab" ng-click="cancel()">

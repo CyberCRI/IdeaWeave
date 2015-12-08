@@ -151,6 +151,10 @@ angular.module('cri.admin.challenge',[])
         }
         updateBadges();
 
+        $scope.canModifyBadge = function(badge) {
+            return badge.owner == $rootScope.currentUser._id;
+        }
+
         $scope.popUpGiveBadge = function(badge) {
             $mdDialog.show({
                 templateUrl: 'modules/badge/templates/give-badge-modal.tpl.html',
@@ -209,6 +213,7 @@ angular.module('cri.admin.challenge',[])
                     challenge: $scope.challenge
                 },
                 controller: function($scope, challenge, Files, Notification) {
+                    $scope.title = "Create Badge";
                     $scope.badge = {};
 
                     $scope.$watch('selectedFiles', function () {
@@ -225,13 +230,55 @@ angular.module('cri.admin.challenge',[])
                         $scope.selectedFiles = null;
                     });
 
-                    $scope.create = function() {
+                    $scope.done = function() {
                         return Badge.createBadge($scope.badge).then(function(data) {
                            updateBadges();
                            Notification.display('Badge created');
                            $mdDialog.hide();
                         }).catch(function(err) {
                             Notification.display('Error creating badge');
+                        });
+                    };
+                    $scope.cancel = function(){
+                        $mdDialog.hide();
+                    };
+                }
+            });
+        };
+
+        $scope.popUpModifyBadge = function(badge) {
+            $mdDialog.show({
+                templateUrl: 'modules/badge/templates/create-badge-modal.tpl.html',
+                escapeToClose: true,
+                clickOutsideToClose: true,
+                locals: { 
+                    challenge: $scope.challenge
+                },
+                controller: function($scope, challenge, Files, Notification) {
+                    $scope.title = "Modify Badge";
+                    $scope.badge = badge;
+
+                    $scope.$watch('selectedFiles', function () {
+                        if(!$scope.selectedFiles) return;
+
+                        var file = $scope.selectedFiles[0];
+                        if(Files.isImage(file)){
+                            Files.getDataUrl(file).then(function(dataUrl){
+                                $scope.badge.image = dataUrl;
+                            });
+                        } else {
+                            Notification.display('Not an image');
+                        }
+                        $scope.selectedFiles = null;
+                    });
+
+                    $scope.done = function() {
+                        return Badge.updateBadge($scope.badge).then(function(data) {
+                           updateBadges();
+                           Notification.display('Badge updated');
+                           $mdDialog.hide();
+                        }).catch(function(err) {
+                            Notification.display('Error updating badge');
                         });
                     };
                     $scope.cancel = function(){
