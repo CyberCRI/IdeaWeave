@@ -1,5 +1,5 @@
 angular.module('cri.project',[])
-    .controller('ProjectCtrl', function($scope,Project,project, Notification, Challenge,$mdDialog,$rootScope,$state,$analytics) {
+    .controller('ProjectCtrl', function($scope,Project,project, Notification, Challenge,$mdDialog,$rootScope,$state,$analytics, Badge) {
         if(project.length == 0) {
             Notification.display('Cannot find the requested project');
             $state.go("home");
@@ -13,6 +13,13 @@ angular.module('cri.project',[])
         Challenge.getTemplates($scope.project.container).then(function(templates) {
             $scope.templates = templates;
         });
+
+        // Load badges
+        $scope.credits = [];
+        Badge.listCredits({ givenToEntity: $scope.project._id })
+        .then(function(credits) {
+            $scope.credits = credits;
+        });        
 
         $scope.isOwner = $scope.currentUser ? $scope.currentUser._id == $scope.project.owner._id : false;
         $scope.isMember = $scope.currentUser ?  _.chain($scope.project.members).pluck("_id").contains($scope.currentUser._id).value() : false;

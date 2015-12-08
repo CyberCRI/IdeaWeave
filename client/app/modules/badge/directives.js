@@ -19,4 +19,32 @@ angular.module('cri.badge')
             }
         }
     };
+})
+.directive('creditCard', function(){
+    return {
+        restrict:'E',
+        scope : {
+            creditId : '=',
+            myCredit : '=',
+            showGivenBy: "=?",
+            showGivenTo: "=?"
+        },
+        templateUrl:'modules/badge/templates/credit-card.tpl.html',
+        controller : function($scope, Badge){
+            _.defaults($scope, {
+                showGivenBy: true,
+                showGivenTo: true
+            });
+
+            if($scope.creditId){
+                Badge.getCredit($scope.creditId).then(function(credit){
+                    $scope.credit = credit;
+                }).catch(function(err){
+                    console.log('error',err);
+                });
+            } else {
+                $scope.credit = $scope.myCredit;
+            }
+        }
+    };
 });

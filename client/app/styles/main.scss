@@ -12,6 +12,7 @@ $headerYellow : rgb(245,230,24);
 $baseColor : rgb(0, 51, 102);
 
 @import "../modules/auth/sass/auth";
+@import "../modules/badge/badge";
 @import "../modules/header/sass/header";
 @import "../modules/footer/sass/footer";
 @import "../modules/challenge/sass/challenge";

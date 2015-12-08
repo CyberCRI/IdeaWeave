@@ -153,25 +153,42 @@ angular.module('cri.admin.challenge',[])
                 templateUrl: 'modules/badge/templates/give-badge-modal.tpl.html',
                 escapeToClose: true,
                 clickOutsideToClose: true,
-                locals: { },
-                controller: function($scope) {
-                    $scope.project = null;
+                locals: { 
+                    challenge: $scope.challenge
+                },
+                controller: function($scope, challenge) {
+                    $scope.badge = badge;
 
-                    // TODO: filter based on owner of project owner
+                    $scope.project = null;
+                    $scope.testimonial = "";
+
+                    // Only include projects for this challenge
+                    $scope.filter = function(item) {
+                        return item.container == challenge._id;
+                    }
 
                     $scope.onSelection = function(selection) {
                         $scope.project = selection;
                     }
 
                     $scope.give = function() {
-                        /*Challenge.createTemplate(challenge._id,newTemplate).then(function(data){
-                           templates.push(data);
-                           Notification.display('Template created');
-                        }).catch(function(err){
-                            Notification.display('Error creating template');
-                        }).finally(function(){
+                        if(!$scope.project) return;
+
+                        var credit = {
+                            badge: badge._id,
+                            givenByEntity: challenge._id,
+                            givenByType: "challenge",
+                            givenToEntity: $scope.project._id,
+                            givenToType: "project",
+                            testimonial: $scope.testimonial
+                        };
+
+                        return Badge.giveCredit(credit).then(function(data) {
+                           Notification.display('Badge given');
                            $mdDialog.hide();
-                        });*/
+                        }).catch(function(err) {
+                            Notification.display('Error giving badge');
+                        });
                     };
                     $scope.cancel = function(){
                         $mdDialog.hide();

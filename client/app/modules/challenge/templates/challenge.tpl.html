@@ -72,6 +72,13 @@
                 <div flex>
                     <show-tags model="challenge.tags"></show-tags>
 
+                    <md-divider></md-divider>
+                    <h3>Badges</h3>
+                    <div layout="row" layout-wrap>
+                        <credit-card ng-repeat="credit in credits" my-credit="credit" show-given-by="false"></credit-card>
+                    </div>
+                    <p ng-if="!credits">No given badges so far.</p>
+
                     <list-notes challenge="challenge" current-user="currentUser"></list-notes>
 
                     <h3>Related Projects</h3>

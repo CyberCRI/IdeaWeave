@@ -27,10 +27,10 @@
 
                 <md-divider></md-divider>
                 <h3>Badges</h3>
-                <div layout="row">
-                    <badge-card ng-repeat="badge in profile.badges" badge-id="badge"></badge-card>
+                <div layout="row" layout-wrap>
+                    <credit-card ng-repeat="credit in credits" my-credit="credit" show-given-to="false"></credit-card>
                 </div>
-                <p ng-if="!profile.badges">No badges so far.</p>
+                <p ng-if="!credits">No badges so far.</p>
 
                 <md-divider></md-divider>
                 <h3>Contributions</h3>

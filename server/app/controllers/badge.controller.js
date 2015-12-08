@@ -47,8 +47,10 @@ function populateCredit(credit) {
     var givenByReq = credit.populateQ({ path: "givenByEntity", model: getModelName(credit.givenByType) });
     var givenToReq = credit.populateQ({ path: "givenToEntity", model: getModelName(credit.givenToType) });
 
-    return q.all([givenByReq, givenToReq])
-    .then(function() {
+    return credit.populateQ("badge")
+    .then(function() { 
+        return q.all([givenByReq, givenToReq]);
+    }).then(function() {
         return credit;
     });
 }
@@ -150,10 +152,7 @@ exports.remove = function(req, res) {
 };
 
 exports.listCredits = function(req, res) {
-    var filter = {};
-    if(req.query.badge) filter.badge = req.query.badge;
-    if(req.query.givenByEntity) filter.givenByEntity = req.query.givenByEntity;
-    if(req.query.givenToEntity) filter.givenToEntity = req.query.givenToEntity;
+    var filter = _.pick(req.query, ["badge", "givenByEntity", "givenByType", "givenToEntity", "givenToType"]);
 
     Credit
     .findQ(filter)
@@ -181,10 +180,10 @@ exports.createCredit = function(req, res) {
 
             // Check that you can add earned (must be owner of project or challenge that is giving)
             if(req.body.givenByType == "challenge") {
-                if(challengeController.canModifyChallenge(req.user, referencedEntities[0]))
+                if(!challengeController.canModifyChallenge(req.user, referencedEntities[0]))
                     return utils.sendErrorMessage(res, 400, "You cannot give a badge for this challenge");
             } else if(req.body.givenByType == "project") {
-                if(projectController.canModifyProject(req.user, referencedEntities))
+                if(!projectController.canModifyProject(req.user, referencedEntities))
                     return utils.sendErrorMessage(res, 400, "You cannot give a badge for this project");
             } else {
                 return utils.sendErrorMessage(res, 400, "This entity cannot give badges");

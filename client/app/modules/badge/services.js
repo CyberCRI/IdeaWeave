@@ -19,7 +19,7 @@ angular.module('cri.badge', [])
         },
         // filter is an object with parameters: badge, givenByEntity, or givenToEntity
         listCredits: function(filter) {
-            return makeQPromiseForRequest($http.get(Config.apiServer + "/credit"), { params: filter });
+            return makeQPromiseForRequest($http.get(Config.apiServer + "/credit", { params: filter }));
         },
         getCredit: function(creditId) {
             return makeQPromiseForRequest($http.get(Config.apiServer + "/credit/" + creditId));

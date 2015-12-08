@@ -29,22 +29,18 @@ exports.all = function(req,res) {
         switch(item) {
             case "users":
                 return User.find({ $or: [ { realname: regExp }, { username: regExp } ] })
-                .select('_id poster username realname tags followers')
                 .populate('tags')
                 .execQ();
             case "projects":
                 return Project.find({ 'title': regExp })
-                .select('_id poster title tags noteNumber accessUrl')
                 .populate('tags')
                 .execQ();
             case "challenges":
                 return Challenge.find({ 'title': regExp })
-                .select('_id poster title tags projects accessUrl')
                 .populate('tags')
                 .execQ();
             case "ideas":
                 return Idea.find({ 'title': regExp })
-                .select('_id title tags projects challenges accessUrl')
                 .populate('tags')
                 .execQ();
             case "tags":

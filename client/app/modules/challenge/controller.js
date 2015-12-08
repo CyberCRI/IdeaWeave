@@ -87,7 +87,7 @@ angular.module('cri.challenge', ['ngSanitize'])
             });
         };
     })
-    .controller('ChallengeCtrl', function($scope,Challenge,challenge,Notification,$state,Project,$rootScope,NoteLab,$mdDialog,$analytics) {
+    .controller('ChallengeCtrl', function($scope,Challenge,challenge,Notification,$state,Project,$rootScope,NoteLab,$mdDialog,$analytics, Badge) {
         if(challenge.length == 0) {
             Notification.display('Cannot find the requested challenge');
             $state.go("home");
@@ -95,6 +95,12 @@ angular.module('cri.challenge', ['ngSanitize'])
         }
 
         $scope.challenge = challenge[0];
+
+        $scope.credits = [];
+        Badge.listCredits({ givenByEntity: $scope.challenge._id, givenToType: "project" })
+        .then(function(credits) {
+            $scope.credits = credits;
+        });
 
         if($scope.currentUser){
             if($scope.currentUser._id == $scope.challenge.owner._id){

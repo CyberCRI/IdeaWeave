@@ -30,13 +30,20 @@ angular.module('cri.search', [])
         templateUrl : 'modules/common/search/searchBar.tpl.html',
         scope: {
             onSelection: "=",
-            include: "=?"
+            include: "=?",
+            filter: "=?"
         },
         controller: function($scope, SearchBar) {
             $scope.lookUp = function(search) { 
                 if(search.length == 0) return [];
 
-                return SearchBar.lookFor(search, $scope.include).catch(function(err){
+                return SearchBar.lookFor(search, $scope.include)
+                .then(function(results) {
+                    if(!$scope.filter) return results;
+
+                    return _.filter(results, $scope.filter);
+                })
+                .catch(function(err) {
                     Notification.display(err.message);
                 });
             }

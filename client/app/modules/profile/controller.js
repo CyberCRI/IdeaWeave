@@ -1,5 +1,5 @@
 angular.module('cri.profile',[])
-    .controller('ProfileCtrl',function ($scope,$auth,Notification,profile,Profile,Recommendation,$state,$sce,activities,$rootScope,$q) {
+    .controller('ProfileCtrl',function ($scope,$auth,Notification,profile,Profile,Recommendation,$state,$sce,activities,$rootScope,$q,Badge) {
         $scope.profile = profile.data;
         $scope.moreData = profile.moreData;
         $scope.activities = [];
@@ -32,6 +32,12 @@ angular.module('cri.profile',[])
                 });
             }
         }
+
+        $scope.credits = [];
+        Badge.listCredits({ givenToEntity: $scope.profile._id })
+        .then(function(credits) {
+            $scope.credits = credits;
+        });
 
         // follow user
         $scope.follow=function(){
