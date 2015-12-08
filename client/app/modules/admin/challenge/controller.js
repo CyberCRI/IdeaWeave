@@ -122,7 +122,7 @@ angular.module('cri.admin.challenge',[])
             });
         };
     })
-    .controller('AdminChallengeCtrl', function($scope,challenge,Challenge,Notification,$mdDialog,Project,$rootScope){
+    .controller('AdminChallengeCtrl', function($scope,challenge,Challenge,Notification,$mdDialog,Project,$rootScope,Badge){
         $scope.challenge = challenge[0];
         $scope.templates = [];
         $scope.toggleLeft = function(){
@@ -140,6 +140,45 @@ angular.module('cri.admin.challenge',[])
         }).catch(function(err){
             console.log(err);
         });
+
+        $scope.badges = [];
+        Badge.listBadges().then(function(badges) { 
+            $scope.badges = badges;
+        }).catch(function(err) { 
+            console.error(err); 
+        });
+
+        $scope.popUpGiveBadge = function(badge) {
+            $mdDialog.show({
+                templateUrl: 'modules/badge/templates/give-badge-modal.tpl.html',
+                escapeToClose: true,
+                clickOutsideToClose: true,
+                locals: { },
+                controller: function($scope) {
+                    $scope.project = null;
+
+                    // TODO: filter based on owner of project owner
+
+                    $scope.onSelection = function(selection) {
+                        $scope.project = selection;
+                    }
+
+                    $scope.give = function() {
+                        /*Challenge.createTemplate(challenge._id,newTemplate).then(function(data){
+                           templates.push(data);
+                           Notification.display('Template created');
+                        }).catch(function(err){
+                            Notification.display('Error creating template');
+                        }).finally(function(){
+                           $mdDialog.hide();
+                        });*/
+                    };
+                    $scope.cancel = function(){
+                        $mdDialog.hide();
+                    };
+                }
+            });
+        };
 
         $scope.popUpCreateTemplate = function(){
             $mdDialog.show({

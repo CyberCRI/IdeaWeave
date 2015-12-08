@@ -67,7 +67,7 @@
                     </a>
                     &nbsp;
                 </div>
-                <search-bar flex></search-bar>
+                <search-bar on-selection="goTo" flex></search-bar>
                 <md-button ng-cloak ui-sref="signin" class="md-raised md-primary" ng-if="!currentUser">
                     <i class="fa fa-sign-in"> Sign In</i>
                 </md-button>
@@ -144,6 +144,7 @@
     <script src="modules/common/scroller/scroller.js"></script>
     <script src="modules/common/pdf/pdf.js"></script>
     <script src="modules/common/recommendation/recommendation.js"></script>
+    <script src="modules/common/search/search.js"></script>
 
     <script src="modules/common/lang.js"></script>
 
@@ -163,7 +164,6 @@
     <script src="modules/home/route.js"></script>
 
     <script src="modules/header/controller.js"></script>
-    <script src="modules/header/service.js"></script>
 
     <script src="modules/footer/controller.js"></script>
     <script src="modules/footer/route.js"></script>
@@ -226,6 +226,7 @@
     <script src="modules/idea/directives/ideaInfo/directives.js"></script>
 
     <script src="modules/badge/services.js"></script>
+    <script src="modules/badge/directives.js"></script>
     <!-- endbuild -->
 
     <script type="text/javascript">

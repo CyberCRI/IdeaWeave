@@ -47,3 +47,8 @@ module.exports.sendErrorMessage = function(res, code, message) {
 module.exports.sendMissingError = function(res) {
     return module.exports.sendErrorMessage(res, 404, "No item found with that ID");
 }
+
+// From http://stackoverflow.com/questions/3446170/escape-string-for-use-in-javascript-regex
+module.exports.escapeRegExp = function(str) { 
+    return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&"); 
+}

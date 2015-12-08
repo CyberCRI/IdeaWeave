@@ -35,6 +35,7 @@ angular.module('cri', [
     'angulartics.google.analytics',
     'cri.notes',
     'cri.idea',
+    'cri.search',
     'ngCookies'])
     .config(['$httpProvider','$locationProvider','$sceProvider',function ($httpProvider,$locationProvider,$sceProvider) {
         $locationProvider.html5Mode(true);
