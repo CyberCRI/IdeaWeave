@@ -5,13 +5,12 @@
                 <img ng-src="{{ profile.poster || 'images/avater.jpg' }}" alt="{{ profile.username }}'s photo" class="img-rounded img-profile-page"/>
                 <h3 style="margin-top:0;margin-bottom:0;font-size:50px;">
                    {{ profile.realname || profile.username }}
-                    <i style="color:yellow" class="fa" ng-class="{ 'fa-star' : isFollowing }"></i>
                 </h3>
-                <p style="text-align:right;">
+                <p>
                     {{ profile.followers.length }} followers . {{ profile.followings.length }} following
                 </p>
-                <md-button class="md-fab md-accent" ng-click="follow()" style="bottom:-24px;position:absolute; right:20px;z-index : inherit" ng-if="!isOwner">
-                    <i class="fa" ng-class="{ 'fa-thumbs-up' : !isFollowing, 'fa-thumbs-down' : isFollowing }"></i>
+                <md-button class="md-fab md-raised" ng-click="follow()" style="bottom:-24px;position:absolute; right:20px;z-index : inherit" ng-class="{ 'md-accent' : isFollowing }" ng-if="!isOwner">
+                    <i class="fa fa-thumbs-up"></i>
                 </md-button>
             </md-toolbar>
 
@@ -24,6 +23,32 @@
                 <md-divider></md-divider>
                 <h3>Presentation</h3>
                 <div ng-bind-html="profile.secureBrief"></div>
+
+                <div layout="row" layout-align="space-between center">
+                    <div ng-if="profile.twitterId">
+                        <i class="fa fa-twitter-square baseColor"></i>
+                        <a ng-href="https://twitter.com/{{profile.twitterId}}" target="_blank">@{{ profile.twitterId }}</a>
+                    </div>
+                    <div ng-if="profile.facebookId">
+                        <i class="fa fa-facebook-square baseColor"></i>
+                        <a ng-href="https://facebook.com/{{profile.facebookId}}"  target="_blank">{{ profile.facebookId }}</a>
+                    </div>
+                    <div ng-if="profile.googlePlusId">
+                        <i class="fa fa-google-plus-square baseColor"></i>
+                        <a ng-href="https://plus.google.com/+{{profile.googlePlusId}}"  target="_blank">+{{ profile.googlePlusId }}</a>
+                    </div>
+                    <div ng-if="profile.websiteUrl">
+                        <i class="fa fa-external-link-square baseColor"></i>
+                        <a ng-href="{{profile.websiteUrl}}" target="_blank">{{ profile.websiteUrl }}</a>
+                    </div>
+                </div>
+
+                <div layout="row" layout-align="start center">
+                    <div>Followed by</div>
+                    <div layout="row" layout-wrap>
+                        <user-info my-user="follower" ng-repeat="follower in profile.followers"></user-info>
+                    </div>
+                </div>
 
                 <md-divider></md-divider>
                 <h3>Badges</h3>
@@ -120,9 +145,13 @@
                         <h3><img src="images/svg/ideas.svg"> Created Ideas</h3>
                     </div>
 
-                    <div>
-                        <idea-card ng-repeat="idea in moreData.ideas" idea-id="idea._id"></idea-card>
-                    </div>
+                    <md-grid-list md-cols="3" md-row-height="500px">
+                        <md-grid-tile ng-repeat="idea in moreData.ideas">
+                            <!-- <project-card class="md-whiteframe-z2" my-project="project" style="height: 410px;" current-user="currentUser"></project-card>  -->
+                            <idea-card idea-id="idea._id" class="md-whiteframe-z2"></idea-card>
+                        </md-grid-tile>
+                    </md-grid-list>
+                        <!-- <idea-card ng-repeat="idea in moreData.ideas" idea-id="idea._id"></idea-card> -->
                 </div>
 
                 <md-divider ng-if="moreData.followedIdeas.length > 0"></md-divider>
@@ -132,9 +161,12 @@
                         <h3><img src="images/svg/ideas.svg"> Following Ideas</h3>
                     </div>
 
-                    <div>
-                        <idea-card ng-repeat="idea in moreData.followedIdeas" idea-id="idea._id"></idea-card>
-                    </div>
+                    <md-grid-list md-cols="3" md-row-height="500px">
+                        <md-grid-tile ng-repeat="idea in moreData.ideas">
+                            <!-- <project-card class="md-whiteframe-z2" my-project="project" style="height: 410px;" current-user="currentUser"></project-card>  -->
+                            <idea-card idea-id="idea._id" class="md-whiteframe-z2"></idea-card>
+                        </md-grid-tile>
+                    </md-grid-list>
                 </div>
                 <md-divider></md-divider>
                 <h3>Activity</h3>

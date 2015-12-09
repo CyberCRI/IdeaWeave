@@ -164,7 +164,25 @@ angular.module('cri.challenge')
                     defered.reject(err);
                 });
                 return defered.promise;
-            }
+            },
+            like: function(challengeId){
+                var defered = $q.defer();
+                $http.post(Config.apiServer+'/challenges/'+challengeId+'/like').success(function(data){
+                    defered.resolve(data);
+                }).error(function(err){
+                    defered.reject(err);
+                });
+                return defered.promise;
+            },
+            dislike: function(challengeId){
+                var defered = $q.defer();
+                $http.post(Config.apiServer+'/challenges/'+challengeId+'/unlike').success(function(data){
+                    defered.resolve(data);
+                }).error(function(err){
+                    defered.reject(err);
+                });
+                return defered.promise;
+            } 
         };
         return service;
     }]);

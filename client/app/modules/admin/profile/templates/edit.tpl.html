@@ -24,6 +24,24 @@
                         </ui-select-choices>
                     </ui-select>
 
+                    <p>Links</p>
+                    <md-input-container>
+                        <label><i class="fa fa-twitter-square"></i> Twitter ID (without the @ sign}</label>
+                        <input type="text" ng-model="profile.twitterId">
+                    </md-input-container>
+                    <md-input-container>
+                        <label><i class="fa fa-facebook-square"></i> Facebook Name </label>
+                        <input type="text" ng-model="profile.facebookId">
+                    </md-input-container>
+                    <md-input-container>
+                        <label><i class="fa fa-google-plus-square"></i> Google Plus ID (without the + sign)</label>
+                        <input type="text" ng-model="profile.googlePlusId">
+                    </md-input-container>
+                    <md-input-container>
+                        <label><i class="fa fa-external-link-square"></i> Website (including http://)</label>
+                        <input type="text" ng-model="profile.websiteUrl">
+                    </md-input-container>
+
                     <p>Own tags</p>
                     <tag-manager model="profile.tags"></tag-manager>
 

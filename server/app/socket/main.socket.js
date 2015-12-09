@@ -1,7 +1,8 @@
 'use strict';
 
 var q = require('q'),
-    _ = require('lodash');
+    _ = require('lodash'),
+    notificationController = require('../controllers/notification.controller');
 
 // Stores map from user IDs (in DB) to array of socket IDs (defined by socket.io)
 var userIdToSocketIds = {};
@@ -62,7 +63,15 @@ module.exports.sendNotification = function(notification, userId) {
 
     var socketIds = userIdToSocketIds[userId];
     console.log("Sending notification to sockets", socketIds);
-    _.forEach(socketIds, function(socketId) {
-        socketIo.sockets.to(socketId).emit('notification', notification);
+
+    // Fill in the owner and entity fields
+    // OPT: populate the notification upstream
+    notification.populateQ("owner")
+    .then(function() { 
+        return notificationController.populateEntity(notification);
+    }).then(function() {
+        _.forEach(socketIds, function(socketId) {
+            socketIo.sockets.to(socketId).emit('notification', notification);
+        });
     });
 }

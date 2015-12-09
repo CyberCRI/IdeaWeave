@@ -98,7 +98,7 @@ exports.getByTag = function(req,res){
 };
 
 exports.follow = function(req,res){
-    Challenge.findOneAndUpdateQ({ _id : req.body.following },{$push : { followers : req.body.follower }}).then(function(challenge){
+    Challenge.findOneAndUpdateQ({ _id : req.body.following },{$addToSet : { followers : req.body.follower }}).then(function(challenge){
         var myNotif =  new Notification({
             type : 'follow',
             owner : req.body.follower,
@@ -148,7 +148,7 @@ exports.fetch = function(req,res){
     }else if(req.query._id) {
             switch(req.query.type){
                 case 'card':
-                    Challenge.find({_id : req.query._id}).select('_id title brief accessUrl tags poster followers startDate endDate projects owner').populate('tags').execQ().then(function(data){
+                    Challenge.find({_id : req.query._id}).select('_id title brief accessUrl tags poster followers startDate endDate projects owner likers').populate('tags').execQ().then(function(data){
 
                         res.json(data);
                     }).catch(function(err){
@@ -172,7 +172,7 @@ exports.fetch = function(req,res){
                     });
                     break;
                 default:
-                    Challenge.find({_id : req.query._id}).select('_id title brief accessUrl tags poster followers owner home showProgress progress').populate('tags').execQ().then(function(data){
+                    Challenge.find({_id : req.query._id}).select('_id title brief accessUrl tags poster followers owner home showProgress progress like dislike').populate('tags').execQ().then(function(data){
 
                         res.json(data);
                     }).catch(function(err){
@@ -221,7 +221,7 @@ exports.update = function(req,res){
     Challenge.findOneQ({ _id: req.params.id }).then(function(challenge) {
         if(!exports.canModifyChallenge(req.user, challenge)) return utils.sendErrorMessage(res, 403, "You are not allowed to modify this challenge");
 
-        var updateObj = _.pick(req.body, ["brief", "webPage", "startDate", "EndDate", "localisation", "banner", "home", "showProgress", "progress", "tags"]);
+        var updateObj = _.pick(req.body, ["brief", "webPage", "startDate", "EndDate", "localisation", "banner", "poster", "home", "showProgress", "progress", "tags"]);
 
         return Challenge.findOneAndUpdateQ({ _id : req.params.id }, updateObj).then(function(data){
             return tagController.updateTagCounts("challenge", data.tags, challenge.tags).then(function() {
@@ -264,3 +264,35 @@ exports.remove = function(req,res){
         utils.sendError(res, 400, err);
     })
 };
+
+exports.like = function(req, res) {
+    Challenge.findOneAndUpdateQ({ _id : req.params.challengeId },{$addToSet : { likers : req.user._id }}).then(function(challenge){
+        var myNotif =  new Notification({
+            type : 'like',
+            owner : req.user._id,
+            entity : challenge._id,
+            entityType : 'challenge'
+        });
+        return myNotif.saveQ().then(function(){
+            res.json(challenge)
+        });
+    }).fail(function(err){
+        utils.sendError(res, 400, err);
+    });
+}
+
+exports.unlike = function(req, res) {
+    Challenge.findOneAndUpdateQ({ _id : req.params.challengeId },{$pull : { likers : req.user._id }}).then(function(challenge){
+        var myNotif =  new Notification({
+            type : 'unlike',
+            owner : req.user._id,
+            entity : challenge._id,
+            entityType : 'challenge'
+        });
+        return myNotif.saveQ().then(function(){
+            res.json(challenge)
+        });
+    }).fail(function(err){
+        utils.sendError(res, 400, err);
+    });
+}

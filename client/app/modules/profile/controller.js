@@ -43,7 +43,7 @@ angular.module('cri.profile',[])
         $scope.follow=function(){
             if($scope.isFollowing){
                 Profile.unfollow($scope.currentUser._id,$scope.profile._id).then(function(result){
-                    Notification.display('you don\'t follow '+$scope.profile.username+' anymore');
+                    Notification.display('You don\'t follow '+$scope.profile.username+' anymore');
 
                     $scope.profile.followers.splice($scope.profile.followers.indexOf($scope.currentUser._id));
                     $scope.isFollowing=false;
@@ -54,7 +54,7 @@ angular.module('cri.profile',[])
                 Profile.follow($scope.currentUser._id,$scope.profile._id).then(function(result){
                     $scope.isFollowing=true;
                     $scope.profile.followers.push($scope.currentUser._id);
-                    Notification.display('you now follow '+$scope.profile.username);
+                    Notification.display('You now follow '+$scope.profile.username);
                 }).catch(function(err){
                     Notification.display(err.message);
                 });

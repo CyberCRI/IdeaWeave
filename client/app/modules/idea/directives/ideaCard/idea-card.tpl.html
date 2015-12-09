@@ -1,9 +1,12 @@
 <div class="idea-card">
     <a ui-sref="idea({ iid : idea._id })">
-        <h4>{{ idea.title }}</h4>
+        <img class="idea-card-icon" src="images/svg/ideas.svg">
+    </a>
+    <a ui-sref="idea({ iid : idea._id })" style="text-decoration:none;color:black;">
+        <h4 class="idea-card-title-cut" style="margin: 0;font-size:1.3em;">{{ idea.title }}</h4>
     </a>
     <div class="text-muted" layout="row">
-        <div>
+        <div style="margin: 12px 8px;padding: 0 6px;">
             By:
         </div>
         <md-button ui-sref="profile({ uid : idea.owner._id})">

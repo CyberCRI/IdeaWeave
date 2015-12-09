@@ -112,6 +112,11 @@ angular.module('cri.challenge', ['ngSanitize'])
                     $scope.isFollow = true;
                 }
             });
+            angular.forEach($scope.challenge.likers,function(user){
+                if(user == $scope.currentUser._id){
+                    $scope.isLike = true;
+                }
+            });
         };
         $scope.toggleLeft = function(){
             $rootScope.$broadcast('toggleLeft');
@@ -147,7 +152,30 @@ angular.module('cri.challenge', ['ngSanitize'])
                     Notification.display(err.message);
                 });
             }
+        };
 
+        $scope.like=function(){
+            console.log("like");
+            console.log($scope.isLike);
+            if($scope.isLike){
+                Challenge.dislike($scope.challenge._id).then(function(result){
+                    Notification.display('You no longer like this challenge');
+                    $scope.challenge.likers.splice($scope.challenge.likers.indexOf($scope.currentUser._id),1);
+                    $scope.isLike=false;
+                    $analytics.eventTrack("dislikeChallenge");
+                }).catch(function(err){
+                    Notification.display(err.message);
+                });
+            }else{
+                Challenge.like($scope.challenge._id).then(function(result){
+                    Notification.display('You like this challenge');
+                    $scope.challenge.likers.push($scope.currentUser._id);
+                    $scope.isLike=true;
+                    $analytics.eventTrack("likeChallenge");
+                }).catch(function(err){
+                    Notification.display(err.message);
+                });
+            }
         };
     })
 

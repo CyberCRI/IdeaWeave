@@ -80,6 +80,14 @@ var ChallengeSchema = new Schema({
         type : Number,
         default : 0
     },
+    like : {
+        type : Number,
+        default : 0
+    },
+    dislike : {
+        type : Number,
+        default : 0
+    },
     projectNumber : {
         type : Number,
         default : 0
@@ -99,8 +107,14 @@ var ChallengeSchema = new Schema({
             ref : 'Idea',
             unique : true
         }
-    ]
-});
+    ],
+    likers : [
+        {
+            type: Schema.ObjectId,
+            ref: 'User',
+            unique: true
+        }
+    ]});
 
 ChallengeSchema.statics.random = function() {
     var defered = q.defer()

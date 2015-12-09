@@ -6,8 +6,7 @@
 var init = require('./config/init')(),
     config = require('./config/config'),
     mongoose = require('mongoose-q')(),
-    path = require('path'),
-    socket = require('./app/socket/main.socket');
+    path = require('path');
 
 
 // Bootstrap db connection
@@ -17,6 +16,7 @@ var db = mongoose.connect(config.db);
 var app = require('./config/express')(db);
 
 // Init socket.io
+var socket = require('./app/socket/main.socket')
 var server = require('http').Server(app);
 var socketIo = require('socket.io')(server);
 socket.init(socketIo);
@@ -28,7 +28,6 @@ require('./app/services/notification.service')
 config.getGlobbedFiles('./app/routes/**/*.js').forEach(function(routePath) {
     require(path.resolve(routePath))(app);
 });
-
 
 // Start the app by listening on <port>
 server.listen(config.port);

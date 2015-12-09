@@ -25,13 +25,15 @@ function getModelName(entityType) {
     }
 }
 
+exports.populateEntity = function(notification) {
+    return notification.populateQ({ 
+        path: "entity", 
+        model: getModelName(notification.entityType)
+    });
+}
+
 exports.populateEntities = function(notifications) {
-    return q.all(_.map(notifications, function(notification) {
-        return notification.populateQ({ 
-            path: "entity", 
-            model: getModelName(notification.entityType)
-        });
-    }));
+    return q.all(_.map(notifications, exports.populateEntity));
 }
 
 exports.create = function(owner,type,entity, entityType){
