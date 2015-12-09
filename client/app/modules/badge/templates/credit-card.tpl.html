@@ -1,0 +1,20 @@
+<div layout-padding layout-align="start center">
+    <badge-card my-badge="credit.badge"></badge-card>
+    <p>{{ credit.testimonial }}</p>
+    <p>Given <span time-ago from-time="{{ credit.createDate }}"></span></p>
+    <div ng-if="showGivenBy">
+        by 
+        <div ng-switch="credit.givenByType">
+            <challenge-info ng-switch-when="challenge" my-challenge="credit.givenByEntity"></challenge-info>
+            <project-info ng-switch-when="project" my-project="credit.givenByEntity"></project-info>
+        </div>
+    </div>
+    <div ng-if="showGivenTo">
+        to 
+        <div ng-switch="credit.givenToType">
+            <project-info ng-switch-when="project" my-project="credit.givenToEntity"></project-info>
+            <idea-info ng-switch-when="idea" my-idea="credit.givenToEntity"></idea-info>
+            <user-info ng-switch-when="profile" my-user="credit.givenToEntity"></user-info>
+        </div>
+    </div>
+</div>

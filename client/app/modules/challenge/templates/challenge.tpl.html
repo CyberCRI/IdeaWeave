@@ -80,6 +80,13 @@
                     <user-info my-user="challenge.owner"></user-info>
                 </div>
 
+                <md-divider></md-divider>
+                <h3>Badges Given</h3>
+                <div layout="row" layout-wrap>
+                    <credit-card ng-repeat="credit in credits" my-credit="credit" show-given-by="false"></credit-card>
+                </div>
+                <p ng-if="!credits">No given badges so far.</p>
+
                 <div layout="row" layout-align="start center">
                     <div>Followed by</div>
                     <div layout="row" layout-wrap>
@@ -102,7 +109,7 @@
 
                     <md-grid-list md-cols="3" md-row-height="500px">
                         <md-grid-tile ng-repeat="idea in challenge.ideas">
-                            <idea-card idea-id="idea" class="md-whiteframe-z2" ng-repeat="idea in challenge.ideas" style="height: 410px;"></idea-card>
+                            <idea-card idea-id="idea" class="md-whiteframe-z2" ng-repeat="idea in challenge.ideas"></idea-card>
                         </md-grid-tile>
                     </md-grid-list>
                 </div>

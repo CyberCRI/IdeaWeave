@@ -26,6 +26,13 @@
         </div>
     </div>
 
+    <md-divider></md-divider>
+    <h3>Badges</h3>
+    <div layout="row" layout-wrap>
+        <credit-card ng-repeat="credit in credits" my-credit="credit" show-given-to="false"></credit-card>
+    </div>
+    <p ng-if="!credits">No badges so far.</p>
+
     <list-notes project="project" current-user="currentUser" templates="templates"></list-notes>
 
     <h3>Related Ideas</h3>

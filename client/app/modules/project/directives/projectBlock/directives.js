@@ -101,7 +101,6 @@ angular.module('cri.project')
                     return $scope.project.owner == $scope.currentUser._id || _.contains($scope.project.members, $scope.currentUser._id);
                 }; 
                 $scope.follow=function(){
-                    console.log("follow");
                     var param;
                     if($scope.isFollow){
                         param = {
@@ -133,8 +132,6 @@ angular.module('cri.project')
                 };
 
                 $scope.like=function(){
-                    console.log("like");
-                    console.log($scope.isLike);
                     if($scope.isLike){
                         Project.dislike($scope.project._id).then(function(result){
                             Notification.display('You no longer like this project');
