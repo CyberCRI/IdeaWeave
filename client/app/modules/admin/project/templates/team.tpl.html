@@ -1,8 +1,8 @@
 <section layout="column" layout-md="horizontal" layout-md="space-between">
     <section layout="column" flex-md="60">
-        <h2 class="center">
+        <h3 class="center">
             Current Team
-        </h2>
+        </h3>
         <div ng-if="project.members.length == 0 || !project.members" class="center">
             You're alone in your project. But don't despair, just get some friends to join!
         </div>
@@ -14,22 +14,19 @@
         </div>
     </section>
     <section layout="column" flex-md="40">
-        <h2 class="center">
-            Applications
-        </h2>
+        <h3 class="center">
+            Team Applications
+        </h3>
         <div class="apply-table" layout="column">
             <div layout="row" class="tr" layout-align="center center">
                 <div flex="15" class="th">
-                    Applier
+                    User
                 </div>
                 <div flex="30" class="th">
-                    Content
+                    Message
                 </div>
                 <div flex="20" class="th">
-                    Times
-                </div>
-                <div flex="15" class="th">
-                    Status
+                    Time
                 </div>
                 <div flex="20" class="th">
                     Action
@@ -40,20 +37,15 @@
                     <div style="width:100px;">
                         <user-block user-id="applyteam.owner"></user-block>
                     </div>
-
                 </div>
                 <div flex="30" class="td" ng-bind-html="applyteam.message" layout layout-align="center center"></div>
-                <div flex="20" class="td" layout layout-align="center center">{{applyteam.createDate}}</div>
-                <div flex="15" class="td" layout layout-align="center center">
-                    <div ng-show="applyteam.status" ><i class="fa fa-thumbs-up fa-2x"></i></div>
-                    <div ng-hide="applyteam.status"  ><i class="fa fa-thumbs-down fa-2x"></i></div>
-                </div>
+                <div flex="20" class="td" layout layout-align="center center"><span time-ago from-time="{{ applyteam.createDate }}"></span></div>
                 <div layout="column" flex="20" class="td">
-                    <md-button ng-hide="applyteam.status" ng-click="addToTeam(applyteam.owner,$index)" flex>
-                        <i class="fa fa-2x fa-check"></i>
+                    <md-button ng-click="addToTeam(applyteam.owner,$index)" flex>
+                        <i class="fa fa-thumbs-up"></i> Accept
                     </md-button>
-                    <md-button ng-hide="applyteam.status" flex>
-                        <i class="fa fa-2x fa-ban"></i>
+                    <md-button ng-click="reject($index)" flex>
+                        <i class="fa fa-thumbs-down"></i> Deny
                     </md-button>
                 </div>
             </div>

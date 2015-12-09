@@ -215,31 +215,37 @@ angular.module('cri.admin.project',[])
             });
         };
 
-        Project.getApply({container:$scope.project._id}).then(function(applyteams){
-            $scope.applyteams=applyteams;
-        }).catch(function(err){
-            console.log(err);
-        });
+        $scope.applyteams = [];
+        function getApplications() { 
+            return Project.getApply({container:$scope.project._id}).then(function(applyteams){
+                $scope.applyteams = _.filter(applyteams, { status: false });
+            }).catch(function(err){
+                console.log(err);
+            });
+        }
+        getApplications();
 
         $scope.finish=function($index,accepted){
-            Project.finishApply({status:true,accepted : accepted},  $scope.applyteams[$index]._id).then(function(data){
-                $scope.applyteams[$index].status=true;
+            return Project.finishApply({status:true,accepted : accepted},  $scope.applyteams[$index]._id).then(function(data){
+                return getApplications();
             }).catch(function(err){
                 Notification.display(err.message);
             });
         };
 
-        $scope.fail = function($index){
-            $scope.finish($index,false);
+        $scope.reject = function($index){
+            $scope.finish($index,false)
+            .then(function() {
+                Notification.display("Rejected application");
+            });
         };
 
         $scope.addToTeam=function(userId,$index){
             Project.addToTeam($scope.project._id,{userId : userId}).then(function(member){
+                return $scope.finish($index,true);
+            }).then(function() {
                 $scope.project.members.push(member);
-                $scope.finish($index,true);
-                Notification.display('Successfully added');
-            }).catch(function(err){
-                Notification.display(err.message);
+                Notification.display("Accepted application");
             });
         };
     });
