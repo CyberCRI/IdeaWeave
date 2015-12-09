@@ -1,21 +1,8 @@
 <md-content layout="column" >
     <h2 class="center">{{ project.title }} Administration</h2>
-    <md-tabs>
-        <md-tab>
-            <md-label>
-                <i class='fa fa-list'>Edit</i>
-            </md-label>
-            <md-tab-body>
-                <ng-include src="'modules/admin/project/templates/edit.tpl.html'" ng-controller="ProjectEditCtrl"></ng-include>
-            </md-tab-body>
-        </md-tab>
-        <md-tab>
-            <md-label>
-                <i class='fa fa-users'>Team</i>
-            </md-label>
-            <md-tab-body>
-                <ng-include src="'modules/admin/project/templates/team.tpl.html'" ng-controller="ProjectTeamCtrl"></ng-include>
-            </md-tab-body>
-        </md-tab>
-    </md-tabs>
+
+    <ng-include src="'modules/admin/project/templates/team.tpl.html'" ng-controller="ProjectTeamCtrl"></ng-include>
+
+    <md-divider></md-divider>
+    <ng-include src="'modules/admin/project/templates/edit.tpl.html'" ng-controller="ProjectEditCtrl"></ng-include>
 </md-content>
