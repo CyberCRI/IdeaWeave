@@ -15,7 +15,13 @@
         <div ng-show="ideas.length == 0">
             Nothing to show yet... 
         </div>
-        <md-list ng-show="ideas.length > 0">
+        <md-grid-list md-cols="3" md-row-height="500px">
+            <md-grid-tile ng-repeat="idea in ideas">
+                <!-- <project-card class="md-whiteframe-z2" my-project="project" style="height: 410px;" current-user="currentUser"></project-card>  -->
+                <idea-card idea-id="idea._id"  ng-show="ideas.length > 0" class="md-whiteframe-z2"></idea-card>
+            </md-grid-tile>
+        </md-grid-list>
+        <!-- <md-list ng-show="ideas.length > 0">
             <md-list-item ng-repeat="idea in ideas" class="item-list">
                 <article class="md-tile-content">
                     <a ui-sref="idea({ iid : idea._id })">
@@ -50,17 +56,11 @@
                                 </span>
                             </div>
                         </div>
-                        <!-- <md-button ng-click="showProjects(idea._id,$index)" >
-                            show related projects
-                        </md-button>
-                        <md-button ng-click="showProjects(idea._id,$index)" >
-                            show related challenges
-                        </md-button> -->
                     </div>
 
 
                 </article>
             </md-list-item>
-        </md-list>
+        </md-list> -->
     </md-content>
 </section>
