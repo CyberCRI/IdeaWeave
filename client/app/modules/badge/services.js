@@ -11,17 +11,20 @@ angular.module('cri.badge', [])
     }
 
     var service = {
-        createBadge: function(badge) {
-            return makeQPromiseForRequest($http.post(Config.apiServer + "/badges", badge));
-        },
-        updateBadge: function(badge) {
-            return makeQPromiseForRequest($http.put(Config.apiServer + "/badges/" + badgeId, badge));
-        },
         listBadges: function(filter) {
             return makeQPromiseForRequest($http.get(Config.apiServer + "/badges", { params: filter }));
         },
         getBadge: function(badgeId) {
             return makeQPromiseForRequest($http.get(Config.apiServer + "/badges/" + badgeId));
+        },
+        createBadge: function(badge) {
+            return makeQPromiseForRequest($http.post(Config.apiServer + "/badges", badge));
+        },
+        updateBadge: function(badge) {
+            return makeQPromiseForRequest($http.put(Config.apiServer + "/badges/" + badge._id, badge));
+        },
+        removeBadge: function(badgeId) {
+            return makeQPromiseForRequest($http.delete(Config.apiServer + "/badges/" + badgeId));
         },
         // filter is an object with parameters: badge, givenByEntity, or givenToEntity
         listCredits: function(filter) {

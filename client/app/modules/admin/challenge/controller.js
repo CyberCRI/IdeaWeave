@@ -288,6 +288,23 @@ angular.module('cri.admin.challenge',[])
             });
         };
 
+        $scope.popUpRemoveBadge = function(badge) {
+            var dialog = $mdDialog.confirm({
+                title: "Remove Badge",
+                content: "Are you sure you want to remove this badge?",
+                ok: "ok",
+                cancel: "cancel"
+            });
+
+            return $mdDialog.show(dialog)
+            .then(function() {
+                return Badge.removeBadge(badge._id);
+            }).then(function() {
+                updateBadges();
+                Notification.display('Badge removed');
+            });
+        };
+
         $scope.popUpCreateTemplate = function(){
             $mdDialog.show({
                 templateUrl : 'modules/admin/challenge/templates/modal/challenge-template-modal.tpl.html',

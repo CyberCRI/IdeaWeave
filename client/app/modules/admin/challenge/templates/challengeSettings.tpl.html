@@ -64,6 +64,7 @@
             <badge-card my-badge="badge"></badge-card>
             <md-button ng-click="popUpGiveBadge(badge)"><i class="fa fa-share"></i> Give Badge</md-button>
             <md-button ng-if="canModifyBadge(badge)" ng-click="popUpModifyBadge(badge)"><i class="fa fa-pencil-square-o"></i> Modify Badge</md-button>
+            <md-button ng-if="canModifyBadge(badge)" ng-click="popUpRemoveBadge(badge)" class="md-warn"><i class="fa fa-trash"></i> Remove Badge</md-button>
         </div>
     </div>
     <p ng-if="!badges">No badges so far.</p>
