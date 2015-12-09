@@ -33,7 +33,7 @@ body,html{
 }
 
 .main-header{
-  z-index: 15;
+  z-index: 70;
   position:relative;
   background-color: white;
   border-bottom: none;
@@ -107,6 +107,7 @@ header{
   color: white;
   background-color: #152661;
   border: 1px black solid;
+  z-index: 100;
 }
 
 .top-bar-icon:hover .tooltip-topbar-icon {
@@ -175,3 +176,28 @@ header{
     left: 50%;
   }
 }
+
+.idea-card {
+  height: 340px;
+  padding: 10px;
+  min-width: 280px;
+  max-width: 280px;
+  text-align: center;
+}
+
+.idea-card-icon {
+  margin: auto;
+  width: 50px;
+}
+
+.idea-card-title-cut {
+  text-overflow: ellipsis;
+  white-space:nowrap;
+  overflow:hidden;
+  max-width: 260px;
+}
+
+.idea-card-brief-cut {
+
+}
+

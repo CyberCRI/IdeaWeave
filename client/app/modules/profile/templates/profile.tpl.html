@@ -138,9 +138,13 @@
                         <h3><img src="images/svg/ideas.svg"> Created Ideas</h3>
                     </div>
 
-                    <div>
-                        <idea-card ng-repeat="idea in moreData.ideas" idea-id="idea._id"></idea-card>
-                    </div>
+                    <md-grid-list md-cols="3" md-row-height="500px">
+                        <md-grid-tile ng-repeat="idea in moreData.ideas">
+                            <!-- <project-card class="md-whiteframe-z2" my-project="project" style="height: 410px;" current-user="currentUser"></project-card>  -->
+                            <idea-card idea-id="idea._id" class="md-whiteframe-z2"></idea-card>
+                        </md-grid-tile>
+                    </md-grid-list>
+                        <!-- <idea-card ng-repeat="idea in moreData.ideas" idea-id="idea._id"></idea-card> -->
                 </div>
 
                 <md-divider ng-if="moreData.followedIdeas.length > 0"></md-divider>
@@ -150,9 +154,12 @@
                         <h3><img src="images/svg/ideas.svg"> Following Ideas</h3>
                     </div>
 
-                    <div>
-                        <idea-card ng-repeat="idea in moreData.followedIdeas" idea-id="idea._id"></idea-card>
-                    </div>
+                    <md-grid-list md-cols="3" md-row-height="500px">
+                        <md-grid-tile ng-repeat="idea in moreData.ideas">
+                            <!-- <project-card class="md-whiteframe-z2" my-project="project" style="height: 410px;" current-user="currentUser"></project-card>  -->
+                            <idea-card idea-id="idea._id" class="md-whiteframe-z2"></idea-card>
+                        </md-grid-tile>
+                    </md-grid-list>
                 </div>
                 <md-divider></md-divider>
                 <h3>Activity</h3>
