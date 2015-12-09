@@ -122,7 +122,7 @@ angular.module('cri.admin.challenge',[])
             });
         };
     })
-    .controller('AdminChallengeCtrl', function($scope,challenge,Challenge,Notification,$mdDialog,Project,$rootScope){
+    .controller('AdminChallengeCtrl', function($scope,challenge,Challenge,Notification,$mdDialog,Project,$rootScope,Badge){
         $scope.challenge = challenge[0];
         $scope.templates = [];
         $scope.toggleLeft = function(){
@@ -140,6 +140,170 @@ angular.module('cri.admin.challenge',[])
         }).catch(function(err){
             console.log(err);
         });
+
+        $scope.badges = [];
+        function updateBadges() {
+            Badge.listBadges().then(function(badges) { 
+                $scope.badges = badges;
+            }).catch(function(err) { 
+                console.error(err); 
+            });
+        }
+        updateBadges();
+
+        $scope.canModifyBadge = function(badge) {
+            return badge.owner == $rootScope.currentUser._id;
+        }
+
+        $scope.popUpGiveBadge = function(badge) {
+            $mdDialog.show({
+                templateUrl: 'modules/badge/templates/give-badge-modal.tpl.html',
+                escapeToClose: true,
+                clickOutsideToClose: true,
+                locals: { 
+                    challenge: $scope.challenge,
+                },
+                controller: function($scope, challenge) {
+                    $scope.badge = badge;
+
+                    $scope.project = null;
+                    $scope.testimonial = "";
+
+                    // Only include projects for this challenge
+                    $scope.filter = function(item) {
+                        return item.container == challenge._id;
+                    }
+
+                    $scope.onSelection = function(selection) {
+                        $scope.project = selection;
+                    }
+
+                    $scope.give = function() {
+                        if(!$scope.project) return;
+
+                        var credit = {
+                            badge: badge._id,
+                            givenByEntity: challenge._id,
+                            givenByType: "challenge",
+                            givenToEntity: $scope.project._id,
+                            givenToType: "project",
+                            testimonial: $scope.testimonial
+                        };
+
+                        return Badge.giveCredit(credit).then(function(data) {
+                           Notification.display('Badge given');
+                           $mdDialog.hide();
+                        }).catch(function(err) {
+                            Notification.display('Error giving badge');
+                        });
+                    };
+                    $scope.cancel = function(){
+                        $mdDialog.hide();
+                    };
+                }
+            });
+        };
+
+        $scope.popUpCreateBadge = function() {
+            $mdDialog.show({
+                templateUrl: 'modules/badge/templates/create-badge-modal.tpl.html',
+                escapeToClose: true,
+                clickOutsideToClose: true,
+                locals: { 
+                    challenge: $scope.challenge
+                },
+                controller: function($scope, challenge, Files, Notification) {
+                    $scope.title = "Create Badge";
+                    $scope.badge = {};
+
+                    $scope.$watch('selectedFiles', function () {
+                        if(!$scope.selectedFiles) return;
+
+                        var file = $scope.selectedFiles[0];
+                        if(Files.isImage(file)){
+                            Files.getDataUrl(file).then(function(dataUrl){
+                                $scope.badge.image = dataUrl;
+                            });
+                        } else {
+                            Notification.display('Not an image');
+                        }
+                        $scope.selectedFiles = null;
+                    });
+
+                    $scope.done = function() {
+                        return Badge.createBadge($scope.badge).then(function(data) {
+                           updateBadges();
+                           Notification.display('Badge created');
+                           $mdDialog.hide();
+                        }).catch(function(err) {
+                            Notification.display('Error creating badge');
+                        });
+                    };
+                    $scope.cancel = function(){
+                        $mdDialog.hide();
+                    };
+                }
+            });
+        };
+
+        $scope.popUpModifyBadge = function(badge) {
+            $mdDialog.show({
+                templateUrl: 'modules/badge/templates/create-badge-modal.tpl.html',
+                escapeToClose: true,
+                clickOutsideToClose: true,
+                locals: { 
+                    challenge: $scope.challenge
+                },
+                controller: function($scope, challenge, Files, Notification) {
+                    $scope.title = "Modify Badge";
+                    $scope.badge = badge;
+
+                    $scope.$watch('selectedFiles', function () {
+                        if(!$scope.selectedFiles) return;
+
+                        var file = $scope.selectedFiles[0];
+                        if(Files.isImage(file)){
+                            Files.getDataUrl(file).then(function(dataUrl){
+                                $scope.badge.image = dataUrl;
+                            });
+                        } else {
+                            Notification.display('Not an image');
+                        }
+                        $scope.selectedFiles = null;
+                    });
+
+                    $scope.done = function() {
+                        return Badge.updateBadge($scope.badge).then(function(data) {
+                           updateBadges();
+                           Notification.display('Badge updated');
+                           $mdDialog.hide();
+                        }).catch(function(err) {
+                            Notification.display('Error updating badge');
+                        });
+                    };
+                    $scope.cancel = function(){
+                        $mdDialog.hide();
+                    };
+                }
+            });
+        };
+
+        $scope.popUpRemoveBadge = function(badge) {
+            var dialog = $mdDialog.confirm({
+                title: "Remove Badge",
+                content: "Are you sure you want to remove this badge?",
+                ok: "ok",
+                cancel: "cancel"
+            });
+
+            return $mdDialog.show(dialog)
+            .then(function() {
+                return Badge.removeBadge(badge._id);
+            }).then(function() {
+                updateBadges();
+                Notification.display('Badge removed');
+            });
+        };
 
         $scope.popUpCreateTemplate = function(){
             $mdDialog.show({

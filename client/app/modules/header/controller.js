@@ -11,14 +11,6 @@ angular.module('cri.header',[])
         $rootScope.$broadcast('toggleRight',param);
     };
 
-    $scope.lookFor = function(search) {
-        if(search.length == 0) return [];
-
-        return SearchBar.lookFor(search).catch(function(err){
-            Notification.display(err.message);
-        });
-    };
-
     $scope.signout = function() {
         $auth.logout();
         $rootScope.currentUser = null;

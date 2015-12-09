@@ -19,6 +19,8 @@ function getModelName(entityType) {
         case "profile": return "User";
         case "idea": return "Idea";
         case "note": return "NoteLab";
+        case "badge": return "Badge";
+        case "credit": return "Credit";
         default: throw new Error("No model name for entity type '" + entityType + "'");
     }
 }

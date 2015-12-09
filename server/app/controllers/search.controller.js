@@ -10,43 +10,64 @@ var mongoose = require('mongoose-q')(),
     utils = require('../services/utils.service'),
     _ = require('lodash');
 
-exports.all = function(req,res){
 
-    var a = req.query.search
-    q.all([
-        User.find().select('_id poster username realname tags followers')
-            .populate('tags')
-            .regex('username', new RegExp(req.query.search,"i"))
-            .execQ(),
-        User.find().select('_id poster username realname tags followers')
-            .populate('tags')
-            .regex('realname', new RegExp(req.query.search,"i"))
-            .execQ(),
-        Project.find()
-            .select('_id poster title tags noteNumber accessUrl')
-            .populate('tags')
-            .regex('title', new RegExp(req.query.search,"i"))
-            .execQ(),
-        Challenge.find()
-            .select('_id poster title tags projects accessUrl')
-            .populate('tags')
-            .regex('title', new RegExp(req.query.search,"i"))
-            .execQ(),
-        Idea.find()
-            .select('_id title tags projects challenges accessUrl')
-            .populate('tags')
-            .regex('title', new RegExp(req.query.search,"i"))
-            .execQ(),
-        Tag.find()
-            .regex('title', new RegExp(req.query.search,"i"))
-            .execQ()
-    ]).then(function(data){
+exports.all = function(req,res) {
+    var shouldSearch = {   
+        users: false,
+        projects: false,
+        challenges: false,
+        ideas: false,
+        tags: false
+    };
+
+    function maybeSearch(item) {
+        // If we don't need to search it, just return an empty array
+        if(!shouldSearch[item]) return q.fulfill([]);
+
+        var regExp = new RegExp(utils.escapeRegExp(req.query.search), "i");
+
+        switch(item) {
+            case "users":
+                return User.find({ $or: [ { realname: regExp }, { username: regExp } ] })
+                .populate('tags')
+                .execQ();
+            case "projects":
+                return Project.find({ 'title': regExp })
+                .populate('tags')
+                .execQ();
+            case "challenges":
+                return Challenge.find({ 'title': regExp })
+                .populate('tags')
+                .execQ();
+            case "ideas":
+                return Idea.find({ 'title': regExp })
+                .populate('tags')
+                .execQ();
+            case "tags":
+                return Tag.findQ({ 'title': regExp });
+            default: 
+                throw new Error("Unknown search item '" + item + "'");
+        }
+    }
+
+    if(req.query.include) {
+        // Include only what is searched
+        // Convert include to array if it isn't
+        if(!_.isArray(req.query.include)) req.query.include = [req.query.include];
+        _.each(req.query.include, function(key) { shouldSearch[key] = true; });
+    } else {
+        // Include everything
+        _.each(_.keys(shouldSearch), function(key) { shouldSearch[key] = true; });
+    }
+
+    q.all(_.map(["users", "projects", "challenges", "ideas", "tags"], maybeSearch))
+    .then(function(data){
         var response = {
-            projects: data[2],
-            challenges: data[3],
-            ideas: data[4],
-            users: _.uniq(data[0].concat(data[1])),
-            tags: data[5]
+            users: data[0],
+            projects: data[1],
+            challenges: data[2],
+            ideas: data[3],
+            tags: data[4]
         };
 
         res.json(response);
