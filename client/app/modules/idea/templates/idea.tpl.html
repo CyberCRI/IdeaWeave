@@ -84,7 +84,7 @@
                     <div flex>
                         <h3>Related Projects</h3>
 
-                        <md-grid-list md-cols="3" md-row-height="400px">
+                        <md-grid-list md-cols="3" md-row-height="500px">
                             <md-grid-tile ng-repeat="project in idea.projects">
                                 <div layout="column" style="height: 400px;">
                                     <project-card project-id="project"></project-card>
@@ -95,24 +95,10 @@
                             </md-grid-tile>
                         </md-grid-list>
 
-                        <ui-select ng-model="newLink.project" theme="selectize">
-                            <ui-select-match placeholder="A related project...">{{$select.selected.title}}</ui-select-match>
-                            <ui-select-choices repeat="project in projects">
-                                <img ng-src="{{ project.poster || '/images/placeholder25x25.png' }}" class="select-poster-image"/>
-                                <small>
-                                    {{project.title}}
-                                </small>
-                            </ui-select-choices>
-                        </ui-select>
-
-                        <md-button ng-click="addLinkToProject()" analytics-on analytics-event="linkIdeaToProject">
-                            <i class="fa fa-plus baseColor"></i> Add Project
-                        </md-button>
-
                         <h3>Related Challenges</h3>
 
-                        <md-grid-list md-cols="3" md-row-height="400px">
-                            <md-grid-tile ng-repeat="challenge in idea.challenges">
+                        <md-grid-list md-cols="3" md-row-height="500px">
+                            <md-grid-tile ng-repeat="challenge in idea.challenges" style="height: 400px">
                                 <div layout="column">
                                     <challenge-more-card challenge-id="challenge"></challenge-more-card>
                                     <md-button ng-click="removeLinkToChallenge(challenge)">
@@ -122,19 +108,9 @@
                             </md-grid-tile>
                         </md-grid-list>
 
-                        <ui-select ng-model="newLink.challenge" theme="selectize">
-                            <ui-select-match placeholder="A related challenge...">{{$select.selected.title}}</ui-select-match>
-                            <ui-select-choices repeat="challenge in challenges">
-                                <img ng-src="{{ challenge.poster || '/images/placeholder25x25.png' }}" class="select-poster-image"/>
-                                <small>
-                                    {{challenge.title}}
-                                </small>
-                            </ui-select-choices>
-                        </ui-select>
+                        <h3>Add related project or challenge</h3>
 
-                        <md-button ng-click="addLinkToChallenge()" analytics-on analytics-event="linkIdeaToChallenge">
-                            <i class="fa fa-plus baseColor"></i> Add Challenge
-                        </md-button>
+                        <search-bar include="['challenges', 'projects']" filter="filterNewRelation" on-selection="addNewRelation"></search-bar>
                     </div>
                 </div>
             </md-content>

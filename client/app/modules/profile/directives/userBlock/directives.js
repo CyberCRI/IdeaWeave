@@ -58,7 +58,6 @@ angular.module('cri.profile')
                 };
                 scope.hoverEnter = function($event){
                     scope.block.isHovered = true;
-                    scope.blockHeight =  element.find('div').height()+'px';
                 };
                 scope.hoverLeave= function($event){
                     scope.block.isHovered = false;

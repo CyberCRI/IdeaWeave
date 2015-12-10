@@ -47,6 +47,15 @@ angular.module('cri.search', [])
                     Notification.display(err.message);
                 });
             }
+
+            $scope.selectedItem = null;
+
+            $scope.selectedItemChange = function() {
+                if($scope.selectedItem == null) return;
+
+                $scope.onSelection($scope.selectedItem);
+                $scope.selectedItem = null;
+            }
         }
     };
 });

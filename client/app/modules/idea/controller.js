@@ -46,18 +46,10 @@ angular.module('cri.idea', ['ngSanitize'])
             });
         }
     })
-    .controller('IdeaCtrl', function ($scope, $state, $analytics, Idea, Notification, challenges, projects, idea) {
+    .controller('IdeaCtrl', function ($scope, $state, $analytics, Idea, Notification, idea) {
         $scope.idea = idea;
         $scope.isOwner = ($scope.currentUser && $scope.currentUser._id == idea.owner._id);
         $scope.isLike = $scope.currentUser ? _.contains($scope.idea.likerIds,$scope.currentUser._id) : false;
-
-        $scope.challenges = challenges;
-        $scope.projects = projects;
-
-        $scope.newLink = {
-            project: null,
-            challenge: null
-        };
 
         $scope.isFollowing = function() {
             if(!$scope.currentUser) return false;
@@ -102,16 +94,26 @@ angular.module('cri.idea', ['ngSanitize'])
             }
         };
 
-        $scope.addLinkToProject = function() {
+        $scope.filterNewRelation = function(entity) {
+            return !_.contains($scope.idea.projects, entity._id) && !_.contains($scope.idea.challenges, entity._id);
+        };
+
+        $scope.addNewRelation = function(entity) {
+            switch(entity.type) {
+                case "project":
+                    return $scope.addLinkToProject(entity._id);
+                case "challenge":
+                    return $scope.addLinkToChallenge(entity._id);
+            }
+        }
+
+        $scope.addLinkToProject = function(projectId) {
             // TODO: enable/disable button during operation
-            Idea.addLinkToProject(idea._id, $scope.newLink.project._id).then(function(newIdea) {
+            Idea.addLinkToProject(idea._id, projectId).then(function(newIdea) {
                 Notification.display("Added link to project");
 
                 // Refresh idea
                 $scope.idea = newIdea;
-
-                // Clear select box
-                $scope.newLink.project = null;
             }).catch(function(err){
                 Notification.display(err.message);
             });
@@ -130,16 +132,13 @@ angular.module('cri.idea', ['ngSanitize'])
         }; 
 
         
-        $scope.addLinkToChallenge = function() {
+        $scope.addLinkToChallenge = function(challengeId) {
             // TODO: enable/disable button during operation
-            Idea.addLinkToChallenge(idea._id, $scope.newLink.challenge._id).then(function(newIdea) {
+            Idea.addLinkToChallenge(idea._id, challengeId).then(function(newIdea) {
                 Notification.display("Added link to challenge");
 
                 // Refresh idea
                 $scope.idea = newIdea;
-
-                // Clear select box
-                $scope.newLink.challenge = null;
             }).catch(function(err){
                 Notification.display(err.message);
             });

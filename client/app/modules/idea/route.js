@@ -34,9 +34,7 @@ angular.module('cri.idea')
                             $state.go("home");
                             return;
                         });
-                    },
-                    challenges: function(Challenge) { return Challenge.fetch() },
-                    projects: function(Project) { return Project.fetch(); }
+                    }
                 },
                 views :{
                   mainView :{
