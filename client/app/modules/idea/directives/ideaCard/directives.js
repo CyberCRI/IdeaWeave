@@ -7,7 +7,8 @@ angular.module('cri.idea')
             ideaId: '=',
             myIdea: '=',
             height: '=',
-            width: '='
+            width: '=',
+            currentUser: '='
         },
         controller: function ($scope, Idea, Notification, $rootScope, $analytics) {
             if($scope.myIdea) {
@@ -16,13 +17,13 @@ angular.module('cri.idea')
                 Idea.fetch($scope.ideaId).then(function(idea){
                     $scope.idea = idea;
                     $scope.idea.brief = cutText($scope.idea.brief,90);
-                    // $scope.idea.title = cutText($scope.idea.title,21);
                 }).catch(function(err){
                     console.log('error',err);
                 });
             }
 
             var updateIdea = function() {
+                console.log($scope);
                 $scope.isFollow = $scope.currentUser ?  _.chain($scope.idea.followers).pluck("_id").contains($scope.currentUser._id).value() : false;
                 $scope.isLike = $scope.currentUser ?  _.contains($scope.idea.likers,$scope.currentUser._id) : false;
             };
@@ -32,7 +33,6 @@ angular.module('cri.idea')
             var cutText = function(text,maxSize) {
                 if(text.length > maxSize){
                     res = text.substring(0,maxSize) + '...';
-                    console.log(res);
                     return res;
                 }
                 else{
