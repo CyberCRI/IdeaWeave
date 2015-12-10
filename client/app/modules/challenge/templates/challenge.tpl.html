@@ -80,6 +80,13 @@
                     <user-info my-user="challenge.owner"></user-info>
                 </div>
 
+                <md-divider></md-divider>
+                <h3>Badges Given</h3>
+                <div layout="row" layout-wrap>
+                    <credit-card ng-repeat="credit in credits" my-credit="credit" show-given-by="false"></credit-card>
+                </div>
+                <p ng-if="!credits">No given badges so far.</p>
+
                 <div layout="row" layout-align="start center">
                     <div>Followed by</div>
                     <div layout="row" layout-wrap>

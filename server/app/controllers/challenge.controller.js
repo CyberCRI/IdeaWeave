@@ -10,13 +10,13 @@ var mongoose = require('mongoose-q')(),
     _ = require('lodash'),
     q = require('q');
 
-function canModifyChallenge(user, challenge) {
+exports.canModifyChallenge = function(user, challenge) {
     return user._id.toString() == challenge.owner.toString();
 };
 
 exports.createTemplate = function(req,res){
     Challenge.findOneQ({ _id: req.params.id }).then(function(challenge) {
-        if(!canModifyChallenge(req.user, challenge)) return utils.sendErrorMessage(res, 403, "You are not allowed to modify this challenge");
+        if(!exports.canModifyChallenge(req.user, challenge)) return utils.sendErrorMessage(res, 403, "You are not allowed to modify this challenge");
 
         req.body.challenge = req.params.id;
         var template = new Template(req.body);
@@ -47,7 +47,7 @@ exports.getTemplate = function(req,res){
 exports.replaceTemplate = function(req,res){
     Template.findOneQ({ _id: req.params.templateId }).then(function(template) {
         return Challenge.findOneQ({ _id: template.challenge }).then(function(challenge) {
-            if(!canModifyChallenge(req.user, challenge)) return utils.sendErrorMessage(res, 403, "You are not allowed to modify this challenge");
+            if(!exports.canModifyChallenge(req.user, challenge)) return utils.sendErrorMessage(res, 403, "You are not allowed to modify this challenge");
 
             _.extend(template, _.omit(req.body, ["createDate", "challenge"]));
             return template.saveQ();
@@ -62,7 +62,7 @@ exports.replaceTemplate = function(req,res){
 exports.deleteTemplate = function(req,res){
     Template.findOneQ({ _id: req.params.templateId }).then(function(template) {
         return Challenge.findOneQ({ _id: template.challenge }).then(function(challenge) {
-            if(!canModifyChallenge(req.user, challenge)) return utils.sendErrorMessage(res, 403, "You are not allowed to modify this challenge");
+            if(!exports.canModifyChallenge(req.user, challenge)) return utils.sendErrorMessage(res, 403, "You are not allowed to modify this challenge");
 
             return Template.removeQ({ _id: req.params.templateId });
         });
@@ -219,7 +219,7 @@ exports.create = function(req,res){
 
 exports.update = function(req,res){
     Challenge.findOneQ({ _id: req.params.id }).then(function(challenge) {
-        if(!canModifyChallenge(req.user, challenge)) return utils.sendErrorMessage(res, 403, "You are not allowed to modify this challenge");
+        if(!exports.canModifyChallenge(req.user, challenge)) return utils.sendErrorMessage(res, 403, "You are not allowed to modify this challenge");
 
         var updateObj = _.pick(req.body, ["brief", "webPage", "startDate", "EndDate", "localisation", "banner", "poster", "home", "showProgress", "progress", "tags"]);
 
@@ -243,7 +243,7 @@ exports.update = function(req,res){
 
 exports.remove = function(req,res){
     Challenge.findOneQ({ _id: req.params.id }).then(function(challenge) {
-        if(!canModifyChallenge(req.user, challenge)) return utils.sendErrorMessage(res, 403, "You are not allowed to modify this challenge");
+        if(!exports.canModifyChallenge(req.user, challenge)) return utils.sendErrorMessage(res, 403, "You are not allowed to modify this challenge");
 
         var projectUpdateQuery = Project.updateQ({ container: req.params.id }, { container: null });
         var challengeRemovalQuery = Challenge.findOneAndRemoveQ({_id : req.params.id});

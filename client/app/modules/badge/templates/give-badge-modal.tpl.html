@@ -1,0 +1,27 @@
+<md-dialog>
+    <md-toolbar layout="row" layout-align="">
+        <div layout layout-align="start center">
+            <span flex>Give Badge</span>
+            <md-button class="md-fab" ng-click="give()" ng-disabled="!project">
+                <i class="fa fa-share"></i>
+            </md-button>
+            <md-button class="md-fab" ng-click="cancel()">
+                <i class="fa fa-times"></i>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-content flex>
+        <p class="center">Give badge</p>
+        <badge-card my-badge="badge"></badge-card>
+        <p class="center">to</p>
+        <search-bar ng-if="!project" include="['projects']" on-selection="onSelection" filter="filter" flex></search-bar>
+
+        <div ng-if="project">
+            <project-card my-project="project" class="md-whiteframe-z2" style="height: 410px;"></project-card>
+            <md-input-container>
+                <label>Testimonial</label>
+                <textarea rows="3" ng-model="testimonial"></textarea>
+            </md-input-container>
+        </div>
+    </md-content>
+</md-dialog>

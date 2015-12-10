@@ -16,6 +16,7 @@ angular.module('cri', [
     'btford.socket-io',
     'yaru22.angular-timeago',
     'cri.admin',
+    'cri.badge',
     'cri.d3',
     'cri.etherpad',
     'cri.files',
@@ -34,6 +35,7 @@ angular.module('cri', [
     'angulartics.google.analytics',
     'cri.notes',
     'cri.idea',
+    'cri.search',
     'ngCookies'])
     .config(['$httpProvider','$locationProvider','$sceProvider',function ($httpProvider,$locationProvider,$sceProvider) {
         $locationProvider.html5Mode(true);
@@ -203,4 +205,17 @@ angular.module('cri', [
         $scope.rightSidenavIsOpen = function() {
             return $mdSidenav('right').isOpen();
         }
+
+        $scope.isLoading = false;
+        $scope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
+            $scope.isLoading = true;
+        });
+
+        $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
+            $scope.isLoading = false;
+        });
+
+        $scope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams) {
+            $scope.isLoading = false;
+        });
     });
