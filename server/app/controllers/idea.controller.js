@@ -47,14 +47,14 @@ exports.fetch = function(req, res) {
 
 exports.getByTag = function(req,res){
     if(req.params.tag == 'all'){
-        Idea.find().limit(req.query.limit).skip(req.query.skip).sort('-createDate').populate('tags').sort('-createDate').execQ().then(function(ideas){
+        Idea.find().limit(req.query.limit).skip(req.query.skip).sort('-createDate').populate('tags owner').sort('-createDate').execQ().then(function(ideas){
             res.json(ideas);
         }).fail(function(err){
             utils.sendError(res, 400, err);
         })
     }else{
         Tags.findQ({ title : req.params.tag }).then(function(tag){
-            Idea.find({ tags : tag[0]._id }).limit(req.query.limit).skip(req.query.skip).populate('tags').sort('-createDate').execQ().then(function(ideas){
+            Idea.find({ tags : tag[0]._id }).limit(req.query.limit).skip(req.query.skip).populate('tags owner').sort('-createDate').execQ().then(function(ideas){
                 res.json(ideas);
             }).fail(function(err){
                 utils.sendError(res, 400, err);

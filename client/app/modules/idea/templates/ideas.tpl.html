@@ -17,50 +17,8 @@
         </div>
         <md-grid-list md-cols="3" md-row-height="500px">
             <md-grid-tile ng-repeat="idea in ideas">
-                <!-- <project-card class="md-whiteframe-z2" my-project="project" style="height: 410px;" current-user="currentUser"></project-card>  -->
-                <idea-card idea-id="idea._id"  ng-show="ideas.length > 0" class="md-whiteframe-z2"></idea-card>
+                <idea-card my-idea="idea" class="md-whiteframe-z2"></idea-card>
             </md-grid-tile>
         </md-grid-list>
-        <!-- <md-list ng-show="ideas.length > 0">
-            <md-list-item ng-repeat="idea in ideas" class="item-list">
-                <article class="md-tile-content">
-                    <a ui-sref="idea({ iid : idea._id })">
-                        <h1 class="md-headline">{{ idea.title }}</h1>
-                    </a>
-                    <show-tags model="idea.tags"></show-tags>
-                    <div>
-                        <p ng-bind-html="idea.brief"></p>
-                        <div layout="row">
-                            <div flex>
-                                <span>
-                                {{ idea.followers.length }}
-                                </span>
-                                <span>
-                                    Followers
-                                </span>
-                            </div>
-                            <div flex>
-                                <span>
-                                {{ idea.challenges.length }}
-                                </span>
-                                <span>
-                                    Challenges
-                                </span>
-                            </div>
-                            <div flex>
-                                <span>
-                                {{ idea.projects.length }}
-                                </span>
-                                <span>
-                                    Projects
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-
-
-                </article>
-            </md-list-item>
-        </md-list> -->
     </md-content>
 </section>
