@@ -85,15 +85,13 @@ exports.create = function(req, res) {
             entityType : 'idea'
         });
         return myNotif.saveQ().then(function(notif) {
-            res.json(idea);
-        }).then(function() {
             // Create 1st discussion
             var newNote = new NoteLab({
                 owner: req.user._id,
                 idea: idea._id,
                 text: idea.title
             });
-            return newNote.saveQ();;
+            return newNote.saveQ();
         }).then(function() {
             return tagController.updateTagCounts("idea", idea.tags, []);
         }).then(function() {
