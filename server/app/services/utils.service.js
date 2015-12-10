@@ -52,3 +52,7 @@ module.exports.sendMissingError = function(res) {
 module.exports.escapeRegExp = function(str) { 
     return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&"); 
 }
+
+module.exports.toStringArray = function(documentArray) {
+    return _.map(documentArray, function(doc) { return doc.toString() });
+};

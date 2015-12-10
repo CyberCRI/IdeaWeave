@@ -424,17 +424,26 @@ exports.remove = function(req,res){
 };
 
 exports.apply = function(req,res){
-    req.body.owner = req.user._id;
+    Apply.findQ({ owner: req.user._id, status: false })
+    .then(function(openApplications) {
+        if(openApplications.length) throw new Error("You have already applied to join the project");
 
-    var myApply = new Apply(req.body);
-    myApply.saveQ().then(function(data){
-        var myNotif = new Notification({
-            entity : myApply.container,
-            owner : req.user._id,
-            type : 'apply',
-            entityType : 'project'
+        return Project.findOneQ({ _id: req.body.container });
+    }).then(function(project) {
+        if(!project) throw new Error("The project does not exist");
+        if(_.contains(utils.toStringArray(project.members), req.user._id.toString())) throw new Error("You are already part of this project");
+
+        req.body.owner = req.user._id;
+        var myApply = new Apply(req.body);
+        return myApply.saveQ().then(function(data){
+            var myNotif = new Notification({
+                entity : myApply.container,
+                owner : req.user._id,
+                type : 'apply',
+                entityType : 'project'
+            });
+            return myNotif.saveQ();
         });
-        return myNotif.saveQ();
     }).then(function() {
         res.send(200);
     }).fail(function(err){
