@@ -74,7 +74,7 @@
                 &nbsp;
             </div>
 
-            <search-bar flex></search-bar>
+            <search-bar on-selection="goTo" flex></search-bar>
 
             <md-button ui-sref="profile({ uid : currentUser._id })" class="cursor-hand md-primary" id="miniProfil" ng-if="currentUser">
                 <div div layout="row" ng-cloak layout-align="center center">
