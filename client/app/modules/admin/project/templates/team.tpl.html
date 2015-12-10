@@ -6,12 +6,16 @@
         <div ng-if="project.members.length == 0 || !project.members" class="center">
             You're alone in your project. But don't despair, just get some friends to join!
         </div>
-        <div layout="row">
+        <div layout="row" layout-wrap>
             <div ng-repeat="member in project.members" layout="column" style="width:250px;">
                 <user-card user-id="member._id"></user-card>
                 <md-button ng-click="ban(member._id)"><i class="fa fa-2x fa-ban"></i> Ban</md-button>
             </div>
         </div>
+    </section>
+    <section>
+        <h3 class="center">Add Team Members</h3>
+        <search-bar include="['users']" filter="filterNewTeamMembers" on-selection="addTeamMember"></search-bar>
     </section>
     <section layout="column" flex-md="40">
         <h3 class="center">
@@ -41,10 +45,10 @@
                 <div flex="30" class="td" ng-bind-html="applyteam.message" layout layout-align="center center"></div>
                 <div flex="20" class="td" layout layout-align="center center"><span time-ago from-time="{{ applyteam.createDate }}"></span></div>
                 <div layout="column" flex="20" class="td">
-                    <md-button ng-click="addToTeam(applyteam.owner,$index)" flex>
+                    <md-button ng-click="acceptApplication(applyteam.owner,$index)" flex>
                         <i class="fa fa-thumbs-up"></i> Accept
                     </md-button>
-                    <md-button ng-click="reject($index)" flex>
+                    <md-button ng-click="rejectApplication($index)" flex>
                         <i class="fa fa-thumbs-down"></i> Deny
                     </md-button>
                 </div>
