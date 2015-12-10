@@ -36,7 +36,13 @@ angular.module('cri.idea', ['ngSanitize'])
             brief: "",
             tags: []
         };
+
+        if(Idea.challengeSelected){
+           console.log(Idea.challengeSelected);
+        }
+
         $scope.title = "Create a New Idea";
+        console.log($scope);
 
         $scope.onDone = function () {
             Idea.create($scope.idea).then(function(data){

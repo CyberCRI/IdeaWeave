@@ -87,7 +87,7 @@ angular.module('cri.challenge', ['ngSanitize'])
             });
         };
     })
-    .controller('ChallengeCtrl', function($scope,Challenge,challenge,Notification,$state,Project,$rootScope,NoteLab,$mdDialog,$analytics, Badge) {
+    .controller('ChallengeCtrl', function($scope,Challenge,challenge,Notification,$state,Project,Idea,$rootScope,NoteLab,$mdDialog,$analytics, Badge) {
         if(challenge.length == 0) {
             Notification.display('Cannot find the requested challenge');
             $state.go("home");
@@ -130,6 +130,19 @@ angular.module('cri.challenge', ['ngSanitize'])
                 Notification.display('Please fill the signup form');
                 $state.go('home');
             }
+        };
+
+        $scope.ideaFromChallenge = function(){
+            if($scope.currentUser){
+                console.log($scope);
+                Idea.challengeSelected = $scope.challenge;
+                console.log($scope);
+                $state.go('ideaCreation');
+            }else{
+                Notification.display('Please fill the signup form');
+                $state.go('home');
+            }
+
         };
 
         $scope.follow = function () {
