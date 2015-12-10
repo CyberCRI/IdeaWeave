@@ -178,34 +178,7 @@ angular.module('cri.admin.project',[])
             });
         };
     })
-    .controller('ProjectTeamCtrl', function ($scope,Project,Notification,$mdDialog) {   
-        /* TEMPORARILY DEACTIVATED: missing server functionality
-
-        $scope.inviteModal = function(e){
-            $mdDialog({
-                templateUrl : 'modules/admin/project/templates/modal/inviteModal.tpl.html',
-                locals : {
-                    project : $scope.project
-                },
-                controller : function($scope,$hideDialog,project){
-                    $scope.invite = {};
-                    $scope.sendInvite = function(){
-                        $scope.invite.pid = project._id;
-                        Project.sendInvite($scope.invite).then(function(result){
-                            Notification.display('Invitation sent successfully');
-                            $scope.invite.email="";
-                        }).catch(function(err){
-                            Notification.display('Failed, please try again later.');
-                        });
-                    };
-                    $scope.cancel = function(){
-                        $hideDialog();
-                    };
-                }
-            });
-        };
-        */
-
+    .controller('ProjectTeamCtrl', function ($scope,Project,Notification,$mdDialog, Profile) {   
         $scope.ban=function(userId){
             Project.banMember($scope.project._id, { member : userId }).then(function(result){
                 Notification.display('Successfully removed');
@@ -215,31 +188,52 @@ angular.module('cri.admin.project',[])
             });
         };
 
-        Project.getApply({container:$scope.project._id}).then(function(applyteams){
-            $scope.applyteams=applyteams;
-        }).catch(function(err){
-            console.log(err);
-        });
+        $scope.applyteams = [];
+        function getApplications() { 
+            return Project.getApply({container:$scope.project._id}).then(function(applyteams){
+                $scope.applyteams = _.filter(applyteams, { status: false });
+            }).catch(function(err){
+                console.log(err);
+            });
+        }
+        getApplications();
 
         $scope.finish=function($index,accepted){
-            Project.finishApply({status:true,accepted : accepted},  $scope.applyteams[$index]._id).then(function(data){
-                $scope.applyteams[$index].status=true;
+            return Project.finishApply({status:true,accepted : accepted},  $scope.applyteams[$index]._id).then(function(data){
+                return getApplications();
             }).catch(function(err){
                 Notification.display(err.message);
             });
         };
 
-        $scope.fail = function($index){
-            $scope.finish($index,false);
+        $scope.rejectApplication = function($index){
+            $scope.finish($index,false)
+            .then(function() {
+                Notification.display("Rejected application");
+            });
         };
 
-        $scope.addToTeam=function(userId,$index){
-            Project.addToTeam($scope.project._id,{userId : userId}).then(function(member){
-                $scope.project.members.push(member);
-                $scope.finish($index,true);
-                Notification.display('Successfully added');
-            }).catch(function(err){
-                Notification.display(err.message);
+        $scope.acceptApplication=function(userId,$index){
+            Project.addToTeam($scope.project._id,{userId : userId})
+            .then(function(){
+                return $scope.finish($index,true);
+            }).then(function() {
+                return Profile.getProfile(userId);
+            }).then(function(profile) {
+                $scope.project.members.push(profile.data);
+                Notification.display("Accepted application");
             });
+        };
+
+        $scope.addTeamMember = function(user) {
+            Project.addToTeam($scope.project._id,{userId : user._id})
+            .then(function() {
+                $scope.project.members.push(user);
+                Notification.display("Accepted application");
+            });
+        };
+
+        $scope.filterNewTeamMembers = function(user) {
+            return user._id != $scope.project.owner._id && !_.chain($scope.project.members).pluck("_id").contains(user._id).value();
         };
     });

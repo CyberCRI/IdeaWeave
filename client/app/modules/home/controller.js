@@ -1,6 +1,6 @@
 angular.module('cri.home',[])
-.controller('HomeCtrl',['$scope','$state','popularThings','tags','$location','$anchorScroll',
-    function($scope,$state,popularThings,tags,$location, $anchorScroll){
+.controller('HomeCtrl',['$scope','$state','popularThings','tags','$location',
+    function($scope,$state,popularThings,tags,$location){
         var maximumCharBrief = 70;
         $scope.challenges = popularThings.data.challenges || [];
         $scope.challenges.unshift({intro : 3});
@@ -16,9 +16,4 @@ angular.module('cri.home',[])
         }
 
         $scope.tags = tags;
-
-        $scope.toSignUp = function(){
-            $location.hash('signup');
-            $anchorScroll();
-        };
     }]);
