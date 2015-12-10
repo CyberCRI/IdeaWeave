@@ -149,6 +149,22 @@ header{
   z-index: 100;
 }
 
+.idea-card-button-like {
+  position: absolute;
+  /*top: -32px;*/
+  margin-top: 40px;
+  margin-left: -85px;
+  z-index: 100;
+}
+
+.idea-card-button-follow {
+  position: absolute;
+  /*top: -32px;*/
+  margin-top: 40px;
+  margin-left: 100px;
+  z-index: 100;
+}
+
 .link-no-decoration {
   text-decoration: none;
   color: black;

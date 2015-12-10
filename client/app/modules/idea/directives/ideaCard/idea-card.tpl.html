@@ -1,4 +1,10 @@
 <div class="idea-card">
+    <md-button class="md-fab md-mini idea-button-follow md-raised" ng-click="follow()" ng-class="{ 'md-accent' : isFollow }" ng-if="currentUser">
+        <i class="fa fa-eye"></i>
+    </md-button>
+    <md-button class="md-fab md-mini idea-button-like md-raised" ng-click="like()" ng-class="{ 'md-accent' : isLike }" ng-if="currentUser">
+        <i class="fa fa-thumbs-up"></i>
+    </md-button>
     <a ui-sref="idea({ iid : idea._id })">
         <img class="idea-card-icon" src="images/svg/ideas.svg">
     </a>
