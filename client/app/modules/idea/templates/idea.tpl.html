@@ -94,6 +94,7 @@
                                 </div>
                             </md-grid-tile>
                         </md-grid-list>
+                        <p ng-if="idea.projects.length == 0">There are no related projects yet.</p>
 
                         <h3>Related Challenges</h3>
 
@@ -107,9 +108,10 @@
                                 </div>
                             </md-grid-tile>
                         </md-grid-list>
+                        <p ng-if="idea.challenges.length == 0">There are no related challenges yet.</p>
 
                         <h3>Add related project or challenge</h3>
-
+                        <p>Start typing below to select a project or challenge. Click or use the arrow and enter keys to select the one you want to link to.</p>
                         <search-bar include="['challenges', 'projects']" filter="filterNewRelation" on-selection="addNewRelation"></search-bar>
                     </div>
                 </div>

@@ -13,7 +13,7 @@
     </a>
     <div class="text-muted" layout="row" style="margin:2px;" layout-align="space-around center">
         <span style="margin:2px;font-size:0.7em;">Created by</span>
-        <user-block ng-if="challenge.owner" user-id="challenge.owner" flex="33"></user-block>
+        <user-info ng-if="challenge.owner" user-id="challenge.owner"></user-info>
     </div>
     <div layout="row" layout-align="space-between center" style="margin-top: 5px;" class="text-muted">
         <span class="md-caption">{{ challenge.followers.length }} followers</span>
