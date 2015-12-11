@@ -16,7 +16,7 @@ angular.module('cri.idea')
                 }
             })
             .state('createIdea',{
-                url : '/createIdea',
+                url : '/createIdea?relatedProject&relatedChallenge',
                 views :{
                     mainView :{
                         templateUrl: 'modules/idea/templates/idea-create.tpl.html',

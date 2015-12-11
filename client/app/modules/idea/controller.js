@@ -30,7 +30,7 @@ angular.module('cri.idea', ['ngSanitize'])
             }
         });
     })
-    .controller('IdeaCreateCtrl', function ($scope, Idea, Notification, $state) {
+    .controller('IdeaCreateCtrl', function ($scope, Idea, Notification, $state, $stateParams) {
         $scope.idea = {
             title: "",
             brief: "",
@@ -39,8 +39,20 @@ angular.module('cri.idea', ['ngSanitize'])
         $scope.title = "Create a New Idea";
 
         $scope.onDone = function () {
-            Idea.create($scope.idea).then(function(data){
-                $state.go('idea', { iid : data._id });
+            Idea.create($scope.idea).then(function(idea){
+                var promise;
+                if($stateParams.relatedProject) 
+                    promise = Idea.addLinkToProject(idea._id, $stateParams.relatedProject);
+                else if($stateParams.relatedChallenge) 
+                    promise = Idea.addLinkToChallenge(idea._id, $stateParams.relatedChallenge);
+
+                if(promise) {
+                    promise.then(function() {
+                        $state.go('idea', { iid : idea._id });
+                    });
+                } else {
+                    $state.go('idea', { iid : idea._id });
+                }
             }).catch(function(err){
                 Notification.display(err.message);
             });
