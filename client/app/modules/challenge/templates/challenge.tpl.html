@@ -85,7 +85,7 @@
                 <div layout="row" layout-wrap>
                     <credit-card ng-repeat="credit in credits" my-credit="credit" show-given-by="false"></credit-card>
                 </div>
-                <p ng-if="!credits">No given badges so far.</p>
+                <p ng-if="credits.length == 0">No given badges so far.</p>
 
                 <div layout="row" layout-align="start center">
                     <div>Followed by</div>
@@ -104,6 +104,7 @@
                             <project-card project-id="project" class="md-whiteframe-z2" style="height: 410px;"></project-card>
                         </md-grid-tile>
                     </md-grid-list>
+                    <p ng-if="challenge.projects.length == 0">There are no related projects yet.</p>
 
                     <h3>Related Ideas</h3>
 
@@ -112,6 +113,7 @@
                             <idea-card idea-id="idea" class="md-whiteframe-z2"></idea-card>
                         </md-grid-tile>
                     </md-grid-list>
+                    <p ng-if="challenge.ideas.length == 0">There are no related ideas yet.</p>
                 </div>
             </md-content>
         </section>

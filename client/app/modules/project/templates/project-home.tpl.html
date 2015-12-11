@@ -31,13 +31,17 @@
     <div layout="row" layout-wrap>
         <credit-card ng-repeat="credit in credits" my-credit="credit" show-given-to="false"></credit-card>
     </div>
-    <p ng-if="!credits">No badges so far.</p>
+    <p ng-if="credits.length == 0">No badges so far.</p>
 
     <list-notes project="project" current-user="currentUser" templates="templates"></list-notes>
 
     <h3>Related Ideas</h3>
 
-    <section>
-        <idea-card idea-id="idea" ng-repeat="idea in project.ideas"></idea-card>
-    </section>
+    <md-grid-list md-cols="3" md-row-height="500px">
+        <md-grid-tile ng-repeat="idea in project.ideas">
+            <idea-card idea-id="idea" class="md-whiteframe-z2"></idea-card>
+        </md-grid-tile>
+    </md-grid-list>
+    <p ng-if="project.ideas.length == 0">There are no related ideas yet.</p>
+
 </section>
