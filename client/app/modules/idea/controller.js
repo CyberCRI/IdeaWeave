@@ -36,7 +36,6 @@ angular.module('cri.idea', ['ngSanitize'])
             brief: "",
             tags: []
         };
-
         $scope.title = "Create a New Idea";
 
         $scope.onDone = function () {
