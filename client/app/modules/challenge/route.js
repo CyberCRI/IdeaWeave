@@ -58,14 +58,5 @@ angular.module('cri.challenge')
                         controller : 'ProjectCreateCtrl'
                     }
                 }
-            })
-            .state('challenge.ideaCreation',{
-                url : '/ideaCreation',
-                views : {
-                    challengeView : {
-                        templateUrl:'modules/idea/templates/idea-create.tpl.html',
-                        controller : 'IdeaCreateCtrl'
-                    }
-                }
             });
     }]);

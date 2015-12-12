@@ -26,15 +26,11 @@
                 <section class="challenge-home" layout="column">
                     <article class="html-content" flex ng-bind-html="challenge.home"></article>
                     <div class="participate-btn">
-                        <md-button ng-if="currentUser" ng-click="ideaFromChallenge()" class="md-raised md-button-colored">
-                            Create Idea
-                        </md-button>
                         <md-button ng-if="currentUser" ng-click="participate()" class="md-raised md-button-colored">
                             Create Project
                         </md-button>
                     </div>
                 </section>
-
 
                 <br>
 
