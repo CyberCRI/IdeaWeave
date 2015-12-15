@@ -1,5 +1,10 @@
 #crop-poster-modal {
 	max-height: inherit;
+	height: 470px;
 
-	height: 550px;
+	#image-container {
+		width: 500px; 
+		height: 350px; 
+		margin-top: 8px;
+	}
 }

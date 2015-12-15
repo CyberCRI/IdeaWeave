@@ -28,21 +28,20 @@ angular.module('cri.admin.profile',['cri.profile'])
                     },
                     controller : function($scope,$rootScope,Profile,currentUser){
                         $scope.imageCropResult = null;
-                        $scope.$watch('imageCropResult',function(dataUri){
-                            if(dataUri){
-                                var user = {
-                                    poster : dataUri
-                                };
-                                Profile.update(currentUser._id,user).then(function(data){
-                                    Notification.display('Updated successfully');
-                                    $rootScope.currentUser.poster = dataUri;
-                                }).catch(function(err){
-                                    Notification.display(err.message);
-                                }).finally(function(){
-                                    $mdDialog.hide();
-                                });
-                            }
-                        });
+                        $scope.isImageChosen = false;
+                        $scope.save = function() {
+                            var user = {
+                                poster: $scope.imageCropResult
+                            };
+                            Profile.update(currentUser._id,user).then(function(data){
+                                Notification.display('Updated successfully');
+                                $rootScope.currentUser.poster = $scope.imageCropResult;
+                                $mdDialog.hide();
+                            }).catch(function(err){
+                                Notification.display(err.message);
+                            });
+                        };
+
                         $scope.cancel = function(){
                             $mdDialog.hide();
                         };
