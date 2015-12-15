@@ -7,11 +7,17 @@
             </md-button>
         </div>
     </md-toolbar>
-    <image-crop
+
+    <div id="image-container">
+        <image-chooser final-image="imageCropResult" is-image-chosen="isImageChosen" shape="square"></image-chooser>
+    </div>
+
+    <!--<image-crop
             data-width="900"
             data-height="300"
             data-shape="square"
             data-step="imageCropStep"
             data-result="imageCropResult"
-            ></image-crop>
+            ></image-crop>-->
+
 </md-dialog>
