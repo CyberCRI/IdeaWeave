@@ -8,7 +8,6 @@
     "angular-animate": "~1.4.3",
     "angular-carousel": "~0.3.12",
     "angular-cookies": "~1.4.3",
-    "angular-image-crop": "*",
     "angular-material": "~0.10.0",
     "angular-sanitize": "~1.4.4",
     "angular-socket-io": "0.7.0",

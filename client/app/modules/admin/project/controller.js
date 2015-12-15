@@ -2,7 +2,7 @@ angular.module('cri.admin.project',[])
     .controller('AdminProjectCtrl', function($scope,project,Project,$q){
         $scope.project = project[0];
     })
-    .controller('ProjectEditCtrl', function ($scope,$stateParams,Project,Challenge,$state,Notification,Config,$mdDialog,$mdSidenav,Gmap) {
+    .controller('ProjectEditCtrl', function ($scope,$stateParams,Project,Challenge,$state,Notification,Config,$mdDialog,$mdSidenav,Gmap,imageChooserModal) {
         var leftNav;
         $scope.toggle = function(){
             leftNav.toggle();
@@ -24,75 +24,32 @@ angular.module('cri.admin.project',[])
             });
         };
 
-        $scope.popUpPoster = function($event){
-            $mdDialog.show({
-                templateUrl : 'modules/admin/challenge/templates/modal/challenge-crop-poster-modal.tpl.html',
-                escapeToClose : false,
-                clickOutsideToClose : false,
-                locals : {
-                    project : $scope.project
-                },
-                controller : function($scope,project){
-                    $scope.imageCropResult = null;
-                    $scope.$watch('imageCropResult',function(dataUri,e){
-                        if(dataUri){
-                            var newProject= {
-                                poster : dataUri
-                            };
-                            Project.update(project._id,newProject).then(function(data){
-                                Notification.display('Updated successfully');
-                            }).catch(function(err){
-                                Notification.display(err.message);
-                            }).finally(function(){
-                                $mdDialog.hide();
-                            });
-                        }
-                    });
-
-                    $scope.cancel = function(){
-                        $mdDialog.hide();
-                    };
-                }
+        $scope.popUpPoster = function() {
+            imageChooserModal().then(function(image) {
+                var newProject = {
+                    poster: image
+                };
+                Project.update($scope.project._id, newProject);
             });
         };
 
-        $scope.popUpBanner = function(){
-            $mdDialog.show({
-                templateUrl : 'modules/admin/challenge/templates/modal/challenge-crop-banner-modal.tpl.html',
-                escapeToClose : false,
-                clickOutsideToClose : false,
-                locals : {
-                    project : $scope.project
-                },
-                controller : function($scope,project){
-                    $scope.imageCropResult = null;
-                    $scope.$watch('imageCropResult',function(dataUri,e){
-                        if(dataUri){
-                            var newProject = {
-                                banner : dataUri
-                            };
-                            Project.update(project._id,newProject).then(function(data){
-                                Notification.display('Updated successfully');
-                            }).catch(function(err){
-                                Notification.display(err.message);
-                            }).finally(function(){
-                                $mdDialog.hide();
-                            });
-                        }
-                    });
-
-                    $scope.cancel = function(){
-                        $mdDialog.hide();
-                    };
-                }
+        $scope.popUpBanner = function() {
+            imageChooserModal({ shape: "square" }).then(function(image) {
+                var newProject = {
+                    banner: image
+                };
+                Project.update($scope.project._id, newProject).then(function() {
+                    $scope.project.banner = image;
+                });
             });
         };
+
         $scope.popUpEdit = function(){
             $mdDialog.show({
                 templateUrl : 'modules/admin/project/templates/modal/homePageModal.tpl.html',
                 locals : {
                     project : $scope.project,
-                    templates: Challenge.getTemplates($scope.project.container)
+                    templates: $scope.project.container && Challenge.getTemplates($scope.project.container) || []
                 },
                 controller : function($scope,project,Config,templates){
                     $scope.newProject = {};

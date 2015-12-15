@@ -11,7 +11,6 @@ angular.module('cri', [
     'pascalprecht.translate',
     'ngFileUpload',
     'angular-carousel',
-    'ImageCropper',
     'ngImgCrop',
     'satellizer',
     'btford.socket-io',

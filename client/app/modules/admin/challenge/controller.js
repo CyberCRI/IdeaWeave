@@ -1,6 +1,5 @@
 angular.module('cri.admin.challenge',[])
     .controller('ChallengeAdminLeftCtrl',function($scope,$mdDialog,$state,Challenge,Notification,NoteLab,imageChooserModal){
-
         $scope.popUpPoster = function() {
             imageChooserModal().then(function(image) {
                 var newChallenge = {
@@ -166,21 +165,9 @@ angular.module('cri.admin.challenge',[])
                 },
                 controller: function($scope, challenge, Files, Notification) {
                     $scope.title = "Create Badge";
-                    $scope.badge = {};
-
-                    $scope.$watch('selectedFiles', function () {
-                        if(!$scope.selectedFiles) return;
-
-                        var file = $scope.selectedFiles[0];
-                        if(Files.isImage(file)){
-                            Files.getDataUrl(file).then(function(dataUrl){
-                                $scope.badge.image = dataUrl;
-                            });
-                        } else {
-                            Notification.display('Not an image');
-                        }
-                        $scope.selectedFiles = null;
-                    });
+                    $scope.badge = {
+                        image: null
+                    };
 
                     $scope.done = function() {
                         return Badge.createBadge($scope.badge).then(function(data) {
@@ -209,20 +196,6 @@ angular.module('cri.admin.challenge',[])
                 controller: function($scope, challenge, Files, Notification) {
                     $scope.title = "Modify Badge";
                     $scope.badge = badge;
-
-                    $scope.$watch('selectedFiles', function () {
-                        if(!$scope.selectedFiles) return;
-
-                        var file = $scope.selectedFiles[0];
-                        if(Files.isImage(file)){
-                            Files.getDataUrl(file).then(function(dataUrl){
-                                $scope.badge.image = dataUrl;
-                            });
-                        } else {
-                            Notification.display('Not an image');
-                        }
-                        $scope.selectedFiles = null;
-                    });
 
                     $scope.done = function() {
                         return Badge.updateBadge($scope.badge).then(function(data) {
