@@ -3,17 +3,15 @@ angular.module("cri.imageChooser", ["ngImgCrop"])
     return function(options) {
         if(!options) options = {};
 
-        _.defaults(options, { 
-            shape: "circle"
-        });
-
         var deferred = $q.defer();
 
         $mdDialog.show({
             templateUrl : 'modules/common/image-chooser/image-chooser-modal.tpl.html',
             controller : function($scope){
                 $scope.shape = options.shape;
-                
+                $scope.aspectRatio = options.aspectRatio;
+                $scope.finalImageSize = options.finalImageSize;
+
                 $scope.imageCropResult = null;
                 $scope.isImageChosen = false;
 
@@ -40,7 +38,9 @@ angular.module("cri.imageChooser", ["ngImgCrop"])
             inputImage: "=?",
             finalImage: "=",
             isImageChosen: "=?",
-            shape: "=?"
+            shape: "=?",
+            aspectRatio: "=?",
+            finalImageSize: "=?"
         },
         controller: function($scope) {
             $scope.selectedFiles = null;

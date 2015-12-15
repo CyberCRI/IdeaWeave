@@ -24,7 +24,7 @@
     "font-awesome-animation": "*",
     "jspdf": "1.0.x",
     "ng-file-upload": "~5.0.9",
-    "ng-img-crop": "~0.3.2",
+    "ng-img-crop-full-extended": "ngImgCropFullExtended#~0.4.7",
     "ng-messages": "*",
     "opentip": "2.4.6",
     "pdfjs": "https://github.com/mozilla/pdf.js.git",

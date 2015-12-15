@@ -25,7 +25,7 @@ angular.module('cri.admin.project',[])
         };
 
         $scope.popUpPoster = function() {
-            imageChooserModal().then(function(image) {
+            imageChooserModal({ shape: "square" }).then(function(image) {
                 var newProject = {
                     poster: image
                 };
@@ -34,7 +34,11 @@ angular.module('cri.admin.project',[])
         };
 
         $scope.popUpBanner = function() {
-            imageChooserModal({ shape: "square" }).then(function(image) {
+            imageChooserModal({ 
+                shape: "rectangle", 
+                aspectRatio: 3, 
+                finalImageSize: {w: 900, h: 300} 
+            }).then(function(image) {
                 var newProject = {
                     banner: image
                 };
