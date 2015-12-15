@@ -1,69 +1,21 @@
 angular.module('cri.admin.challenge',[])
-    .controller('ChallengeAdminLeftCtrl',function($scope,$mdDialog,$state,Challenge,Notification,NoteLab){
+    .controller('ChallengeAdminLeftCtrl',function($scope,$mdDialog,$state,Challenge,Notification,NoteLab,imageChooserModal){
 
-        $scope.popUpPoster = function($event){
-            $mdDialog.show({
-                templateUrl : 'modules/admin/challenge/templates/modal/challenge-crop-poster-modal.tpl.html',
-                escapeToClose : true,
-                clickOutsideToClose : true,
-                locals : {
-                    challenge : Challenge.data
-                },
-                controller : function($scope,challenge){
-                    $scope.imageCropResult = null;
-                    $scope.$watch('imageCropResult',function(dataUri,e){
-                        if(dataUri){
-                            var newChallenge = {
-                                poster : dataUri
-                            };
-
-                            Challenge.update(challenge._id,newChallenge).then(function(data){
-                                Notification.display('Updated successfully');
-                            }).catch(function(err){
-                                Notification.display(err.message);
-                            }).finally(function(){
-                                $mdDialog.hide();
-                            });
-                        }
-                    });
-
-                    $scope.cancel = function(){
-                        $mdDialog.hide();
-                    };
-                }
+        $scope.popUpPoster = function() {
+            imageChooserModal().then(function(image) {
+                var newChallenge = {
+                    poster: image
+                };
+                Challenge.update(Challenge.data._id, newChallenge);
             });
         };
 
-        $scope.popUpBanner = function(){
-            $mdDialog.show({
-                templateUrl : 'modules/admin/challenge/templates/modal/challenge-crop-banner-modal.tpl.html',
-                escapeToClose : true,
-                clickOutsideToClose : true,
-                locals : {
-                    challenge : Challenge.data
-                },
-                controller : function($scope,challenge){
-                    $scope.imageCropResult = null;
-                    $scope.$watch('imageCropResult',function(dataUri,e){
-                        if(dataUri){
-                            var newChallenge = {
-                                banner : dataUri
-                            };
-                            Challenge.update(challenge._id,newChallenge).then(function(data){
-                                Notification.display('Updated successfully');
-                            }).catch(function(err){
-                                Notification.display(err.message);
-                            }).finally(function(){
-                                $mdDialog.hide();
-                            });
-                        }
-                    });
-
-                    $scope.cancel = function(){
-                        $mdDialog.hide();
-                    };
-                }
-
+        $scope.popUpBanner = function() {
+            imageChooserModal({ shape: "square" }).then(function(image) {
+                var newChallenge = {
+                    banner: image
+                };
+                Challenge.update(Challenge.data._id, newChallenge);
             });
         };
 

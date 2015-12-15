@@ -1,5 +1,5 @@
 angular.module('cri.admin.profile',['cri.profile'])
-    .controller('AdminProfileCtrl', function ($scope,$state,$rootScope,Profile,Gmap,Notification,$mdDialog,followingTags) {
+    .controller('AdminProfileCtrl', function ($scope,$state,$rootScope,Profile,Gmap,Notification,$mdDialog,followingTags, imageChooserModal) {
         Profile.getMe().then(function(me) {
             $scope.profile = me;
             delete $scope.profile._id;
@@ -18,34 +18,14 @@ angular.module('cri.admin.profile',['cri.profile'])
                 });
             };
 
-            $scope.cropPosterModal = function($event){
-                $mdDialog.show({
-                    templateUrl : 'modules/admin/profile/templates/modal/cropPosterModal.tpl.html',
-                    clickOutsideToClose : false,
-                    escapeToClose : false,
-                    locals : {
-                        currentUser : $scope.currentUser
-                    },
-                    controller : function($scope,$rootScope,Profile,currentUser){
-                        $scope.imageCropResult = null;
-                        $scope.isImageChosen = false;
-                        $scope.save = function() {
-                            var user = {
-                                poster: $scope.imageCropResult
-                            };
-                            Profile.update(currentUser._id,user).then(function(data){
-                                Notification.display('Updated successfully');
-                                $rootScope.currentUser.poster = $scope.imageCropResult;
-                                $mdDialog.hide();
-                            }).catch(function(err){
-                                Notification.display(err.message);
-                            });
-                        };
-
-                        $scope.cancel = function(){
-                            $mdDialog.hide();
-                        };
-                    }
+            $scope.cropPosterModal = function() {
+                imageChooserModal().then(function(image) {
+                    var user = {
+                        poster: image
+                    };
+                    Profile.update($rootScope.currentUser._id,user).then(function(data){
+                        $rootScope.currentUser.poster = image;
+                    });
                 });
             };
 

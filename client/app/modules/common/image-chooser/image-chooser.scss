@@ -18,3 +18,8 @@ image-chooser {
 	  background-color: $baseColor;
 	}
 }
+
+#image-chooser-modal {
+	max-height: inherit;
+	height: 470px;
+}
