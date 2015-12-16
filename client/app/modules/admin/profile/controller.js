@@ -1,5 +1,5 @@
 angular.module('cri.admin.profile',['cri.profile'])
-    .controller('AdminProfileCtrl', function ($scope,$state,$rootScope,Profile,Gmap,Notification,$mdDialog,followingTags) {
+    .controller('AdminProfileCtrl', function ($scope,$state,$rootScope,Profile,Gmap,Notification,$mdDialog,followingTags, imageChooserModal) {
         Profile.getMe().then(function(me) {
             $scope.profile = me;
             delete $scope.profile._id;
@@ -18,35 +18,14 @@ angular.module('cri.admin.profile',['cri.profile'])
                 });
             };
 
-            $scope.cropPosterModal = function($event){
-                $mdDialog.show({
-                    templateUrl : 'modules/admin/profile/templates/modal/cropPosterModal.tpl.html',
-                    clickOutsideToClose : false,
-                    escapeToClose : false,
-                    locals : {
-                        currentUser : $scope.currentUser
-                    },
-                    controller : function($scope,$rootScope,Profile,currentUser){
-                        $scope.imageCropResult = null;
-                        $scope.$watch('imageCropResult',function(dataUri){
-                            if(dataUri){
-                                var user = {
-                                    poster : dataUri
-                                };
-                                Profile.update(currentUser._id,user).then(function(data){
-                                    Notification.display('Updated successfully');
-                                    $rootScope.currentUser.poster = dataUri;
-                                }).catch(function(err){
-                                    Notification.display(err.message);
-                                }).finally(function(){
-                                    $mdDialog.hide();
-                                });
-                            }
-                        });
-                        $scope.cancel = function(){
-                            $mdDialog.hide();
-                        };
-                    }
+            $scope.cropPosterModal = function() {
+                imageChooserModal().then(function(image) {
+                    var user = {
+                        poster: image
+                    };
+                    Profile.update($rootScope.currentUser._id,user).then(function(data){
+                        $rootScope.currentUser.poster = image;
+                    });
                 });
             };
 

@@ -11,7 +11,7 @@ angular.module('cri', [
     'pascalprecht.translate',
     'ngFileUpload',
     'angular-carousel',
-    'ImageCropper',
+    'ngImgCrop',
     'satellizer',
     'btford.socket-io',
     'yaru22.angular-timeago',
@@ -36,7 +36,8 @@ angular.module('cri', [
     'cri.notes',
     'cri.idea',
     'cri.search',
-    'ngCookies'])
+    'ngCookies',
+    'cri.imageChooser'])
     .config(['$httpProvider','$locationProvider','$sceProvider',function ($httpProvider,$locationProvider,$sceProvider) {
         $locationProvider.html5Mode(true);
         $locationProvider.hashPrefix('!');

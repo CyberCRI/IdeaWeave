@@ -1,0 +1,14 @@
+<md-dialog id="image-chooser-modal">
+    <md-toolbar layout="row" layout-align="start center">
+        <p>Choose Image</p>
+        <div flex></div>
+        <md-button class="md-fab" ng-click="save()" ng-disabled="!isImageChosen" analytics-on analytics-event="choosePoster">
+            <i class="fa fa-save"></i>
+        </md-button>
+        <md-button class="md-fab" ng-click="cancel()">
+            <i class="fa fa-times" ></i>
+        </md-button>
+    </md-toolbar>
+
+    <image-chooser final-image="imageCropResult" is-image-chosen="isImageChosen" shape="shape" aspect-ratio="aspectRatio" final-image-size="finalImageSize"></image-chooser>
+</md-dialog>
