@@ -142,10 +142,10 @@ exports.remove = function(req, res) {
              return utils.sendErrorMessage(res, 403, "You are not allowed to modify this badge");
         };
 
-        // TODO: Can only remove badges that don't have credit attached
-
-        return Badge.removeQ({_id : req.params.id})
+        return Credit.removeQ({ badge: req.params.id })
         .then(function() {
+            return Badge.removeQ({ _id : req.params.id });
+        }).then(function() {
             res.json(200);
         });
     }).fail(function(err) {
