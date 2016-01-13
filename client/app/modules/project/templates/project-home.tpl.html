@@ -11,19 +11,11 @@
         <md-button class="md-button-colored" ng-click="openApplyModal()" ng-if="!isOwner && !isMember">Join Project</md-button>
 
         <div class="btn-group">
-            <!-- <span class='st_facebook_large' displayText='Facebook' st_title='{{ project.title }} on IdeaWeave'></span> -->
-            <span class='st_twitter_large' displayText='Tweet' st_title='{{ project.title }} on IdeaWeave'></span>
-            <a target="_blank" class="twitter-share-button" href="https://twitter.com/intent/tweet?text=https://ideaweave.io/project/{{ project.title }}/home%20on%20IdeaWeave">Tweet</a>
-            <span class='st_linkedin_large' displayText='LinkedIn' st_title='{{ project.title }} on IdeaWeave'></span>
-            <!-- <span class='st_googleplus_large' displayText='Google +' st_title='{{ project.title }} on IdeaWeave'></span> -->
-            <span class='st_email_large' displayText='Email' st_title='{{ project.title }} on IdeaWeave'></span>
-
-            <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
-            <script type="text/javascript">
-                stLight.options({
-                        publisher:'a0063f66-4da0-4218-ba21-08b5cb95253e',
-                });
-            </script>
+            <a target="_blank" class="twitter-share-button" href="https://twitter.com/intent/tweet?text=https://ideaweave.io/project/{{ project.title }}/home%20on%20IdeaWeave">
+                <img ng-src="images/twitter-mini.png">
+            </a>
+            <!-- <script src="//platform.linkedin.com/in.js" type="text/javascript"> lang: en_US</script>
+            <script type="IN/Share" data-url="http://ideaweave.io/project/{{ project.title }}/home" data-counter="top"></script> -->
         </div>
     </div>
 
