@@ -424,7 +424,7 @@ exports.remove = function(req,res){
 };
 
 exports.apply = function(req,res){
-    Apply.findQ({ owner: req.user._id, status: false })
+    Apply.findQ({ owner: req.user._id, container: req.body.container, status: false })
     .then(function(openApplications) {
         if(openApplications.length) throw new Error("You have already applied to join the project");
 
