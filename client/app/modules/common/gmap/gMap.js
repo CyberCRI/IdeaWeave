@@ -4,7 +4,7 @@ angular.module('cri.common')
             getAdress : function(address){
                 var defered = $q.defer();
                 var xhr = new XMLHttpRequest();
-                xhr.open('GET','http://maps.googleapis.com/maps/api/geocode/json?address='+address+"&sensor=false");
+                xhr.open('GET','https://maps.googleapis.com/maps/api/geocode/json?address='+address+"&sensor=false");
                 xhr.send();
                 xhr.onreadystatechange = function(){
                     if(xhr.status == 200 && xhr.readyState == 4){
