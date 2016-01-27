@@ -158,6 +158,8 @@ exports.forgotPassword = function(req, res) {
  * Send User
  */
 exports.me = function(req, res) {
+    if(!req.user) return utils.sendErrorMessage(res, 400, "You are not logged in");
+
     User.findOne({ _id : req.user._id })
     .populate('followers')
     .populate('tags')
