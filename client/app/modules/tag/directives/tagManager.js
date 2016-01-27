@@ -26,8 +26,11 @@ angular.module('cri.tag')
                         return tag.entityCount > 0 && tag.title.toLowerCase().indexOf(searchText) != -1;
                     });
 
+                    // Sort tags by popularity
+                    $scope.matchedTags = _.sortBy($scope.matchedTags, function(tag) { return -1 * tag.entityCount; });
+
                     // If there's not an exact match, propose the user's text first
-                    if(!_.find($scope.matchedTags.matchedTags, function(tag) { tag.title.toLowerCase() == searchText }))
+                    if(!_.find($scope.matchedTags, function(tag) { return tag.title.toLowerCase() == searchText }))
                     {
                         $scope.matchedTags.unshift({ title: userText, _id: "TEMPORARY" });
                     }
