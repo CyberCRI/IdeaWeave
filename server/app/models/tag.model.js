@@ -35,11 +35,6 @@ var TagSchema = new Schema({
         type: Number,
         default: 0
     },
-    // This is automatically calculated as the sum of the other "*Count" properties
-    entityCount: {
-        type: Number,
-        default: 0
-    },
     followers: [{
         type: Schema.ObjectId,
         ref: 'User',
@@ -47,11 +42,11 @@ var TagSchema = new Schema({
     }]
 });
 
-// Put tags into lowercase, and trim
-TagSchema.pre('save', function(next) {
-    this.title = this.title.trim().toLowerCase();
-    this.ideaCount = this.userCount + this.challengeCount + this.projectCount + this.ideaCount;
-    next();
+// Automatically count total number of tag uses
+TagSchema.virtual("entityCount").get(function() { 
+    return this.userCount + this.challengeCount + this.projectCount + this.ideaCount;
 });
+
+TagSchema.set('toJSON', { virtuals: true });
 
 mongoose.model('Tag', TagSchema);

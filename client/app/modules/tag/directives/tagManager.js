@@ -27,7 +27,7 @@ angular.module('cri.tag')
                     });
 
                     // If there's not an exact match, propose the user's text first
-                    if(!_.find($scope.matchedTags.matchedTags, function(tag) { tag.title == searchText }))
+                    if(!_.find($scope.matchedTags.matchedTags, function(tag) { tag.title.toLowerCase() == searchText }))
                     {
                         $scope.matchedTags.unshift({ title: userText, _id: "TEMPORARY" });
                     }
