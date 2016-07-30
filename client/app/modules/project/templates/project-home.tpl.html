@@ -11,18 +11,17 @@
         <md-button class="md-button-colored" ng-click="openApplyModal()" ng-if="!isOwner && !isMember">Join Project</md-button>
 
         <div class="btn-group">
-            <!-- <span class='st_facebook_large' displayText='Facebook' st_title='{{ project.title }} on IdeaWeave'></span> -->
-            <span class='st_twitter_large' displayText='Tweet' st_title='{{ project.title }} on IdeaWeave'></span>
-            <span class='st_linkedin_large' displayText='LinkedIn' st_title='{{ project.title }} on IdeaWeave'></span>
-            <!-- <span class='st_googleplus_large' displayText='Google +' st_title='{{ project.title }} on IdeaWeave'></span> -->
-            <span class='st_email_large' displayText='Email' st_title='{{ project.title }} on IdeaWeave'></span>
-
-            <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
-            <script type="text/javascript">
-                stLight.options({
-                        publisher:'a0063f66-4da0-4218-ba21-08b5cb95253e',
-                });
-            </script>
+            <a target="_blank" title="Share by Twitter" class="twitter-share-button" href="https://twitter.com/intent/tweet?text=https://ideaweave.io/project/{{ project.title }}/home%20on%20IdeaWeave">
+                <img ng-src="images/twitter-mini.png">
+            </a>
+            <div class="fb-share-button" data-href="https://ideaweave.io/project/{{ project.title }}/home" data-layout="button_count">
+            </div>
+            <a href="mailto:?subject=See the project {{ project.title }} on IdeaWeave&amp;body=Check out this https://ideaweave.io/project/{{ project.title }}/home." target="_blank" title="Share by Email">
+              <img src="images/email-mini.png">
+            </a>
+            <!-- <a target="_blank" title="Share this page" href="http://www.sharethis.com/share?url=https://ideaweave.io/project/{{ project.title }}/home&amp;title={{ project.title }} on IdeaWeave&amp;summary={{ project.brief }}&amp;img=https://ideaweave.io/images/svg/logoheader.svg&amp;pageInfo=%7B%22hostname%22%3A%22[www.ideaweave.io]%22%2C%22publisher%22%3A%22[INSERT PUBLISHERID]%22%7D"><img width="86" height="25" alt="Share this page" src="http://w.sharethis.com/images/share-classic.gif"></a> -->
+            <!-- <script src="//platform.linkedin.com/in.js" type="text/javascript"> lang: en_US</script>
+            <script type="IN/Share" data-url="http://ideaweave.io/project/{{ project.title }}/home" data-counter="top"></script> -->
         </div>
     </div>
 

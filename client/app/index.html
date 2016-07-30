@@ -30,6 +30,14 @@
     <!-- endbuild -->
 </head>
 <body layout="column" layout-fill ng-controller="BodyCtrl">
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v2.5";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
 <!--[if lt IE 10]>
       <p class="alert alert-warning">For better user experience,please use one of these browers :
     <a href="http://www.google.com/chrome/" target="_blank">Google Chrome</a>
